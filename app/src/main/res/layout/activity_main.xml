@@ -13,11 +13,13 @@
          (e.g. if one widget's weight is 10 and another is 30, then
           the first will take up 1/4 of the space and the second 3/4). -->
     <EditText
+        android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="top"
-        android:hint="Enter your text here." />
+        android:hint="Enter your text here."
+        android:maxLength="400" />
 
     <Button
         android:id="@+id/save"
