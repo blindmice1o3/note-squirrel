@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <!-- was RelativeLayout, now it's LinearLayout (this specifies
+         whether to lay out widgets vertically or horizontally) -->
+    <!-- dp == device-independent pixel -->
+    <!-- weight how much space a widget should take up proportionally
+         (e.g. if one widget's weight is 10 and another is 30, then
+          the first will take up 1/4 of the space and the second 3/4). -->
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="top" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="top"
+        android:hint="Enter your text here." />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save" />
+
+</LinearLayout>
