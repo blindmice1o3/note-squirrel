@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -80,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
                 String text = editText.getText().toString();
 
                 try {
+                    //commented out the following to TEST the Toast's functionality.
+                    /*
                     FileOutputStream fos = openFileOutput(TEXT_FILE, Context.MODE_PRIVATE);
                     fos.write(text.getBytes());
                     fos.close();
@@ -100,6 +103,14 @@ public class MainActivity extends AppCompatActivity {
                     editor.putBoolean(FILE_SAVED, true);
                     //HAVE TO tell editor to actually save the values we'd put into it.
                     editor.commit();
+                    */
+
+                    //WILL BE MOVED TO catch BLOCKS LATER (intended to inform user about errors).
+                    //not using "this" because we're in an anonymous class rather than MainActivity.
+                    //"getString()" is a method of the Activity, you can pass it the int id of the String.
+                    Toast toastCantSave = Toast.makeText(MainActivity.this, getString(R.string.toast_cant_save), Toast.LENGTH_LONG);
+                    //to display the Toast object, we have to call show().
+                    toastCantSave.show();
                 } catch (Exception e) {
                     e.printStackTrace();
                     Log.d(DEBUG_TAG, "Unable to save file to internal storage.");
