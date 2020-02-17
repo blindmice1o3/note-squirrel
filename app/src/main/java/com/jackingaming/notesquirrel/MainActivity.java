@@ -3,6 +3,7 @@ package com.jackingaming.notesquirrel;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String DEBUG_TAG = "JJG";
     public static final String TEXT_FILE = "note_squirrel.txt";
+    public static final String FILE_SAVED = "FileSaved";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +30,16 @@ public class MainActivity extends AppCompatActivity {
 
         addSaveButtonListener();
 
-        loadSavedFile();
+        //retrieving PERSISTENT data (values stored between "runs").
+        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+        //checking if the key-value pair exists,
+        //if does NOT exist (haven't done a put() and commit())...
+        //it uses the default value (the second argument).
+        boolean fileSaved = prefs.getBoolean(FILE_SAVED, false);
+
+        if (fileSaved) {
+            loadSavedFile();
+        }
     }
 
     private void loadSavedFile() {
@@ -74,6 +85,21 @@ public class MainActivity extends AppCompatActivity {
                     fos.close();
 
                     Log.d(DEBUG_TAG, "Saved file to internal storage.");
+
+                    //the following uses PERSISTENT data (it's kept in between "runs" of our app).
+
+                    //this is to DISTINGUISH BETWEEN user never actually pressing "save" button
+                    //(e.g. they're using the app for the very first time) VERSUS the app had tried
+                    //to save but there was a hiccup and ended up in the catch block.
+                    //getPreferences(int) will get the preference file with lots of different
+                    //values that we want to persist in between app "runs".
+                    //only THIS activity can get access to THIS preference file.
+                    SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+                    //Editor is an inner-class of the SharedPreferences class.
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putBoolean(FILE_SAVED, true);
+                    //HAVE TO tell editor to actually save the values we'd put into it.
+                    editor.commit();
                 } catch (Exception e) {
                     e.printStackTrace();
                     Log.d(DEBUG_TAG, "Unable to save file to internal storage.");
