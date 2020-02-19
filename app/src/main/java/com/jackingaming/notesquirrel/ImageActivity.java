@@ -15,6 +15,7 @@ import java.util.List;
 public class ImageActivity extends AppCompatActivity implements IPointCollectorListener {
 
     private PointCollector pointCollector = new PointCollector();
+    private Database database = new Database(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
