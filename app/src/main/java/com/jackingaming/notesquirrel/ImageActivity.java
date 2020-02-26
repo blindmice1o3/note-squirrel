@@ -65,6 +65,14 @@ public class ImageActivity extends AppCompatActivity implements IPointCollectorL
     public void pointsCollected(List<Point> points) {
         Log.d(MainActivity.DEBUG_TAG, "Collected points: " + points.size());
 
+        //USING THE NEW Database.storePoints(List<Point>) METHOD TO ADD ENTRIES TO OUR DATABASE'S TABLE.
+        database.storePoints(points);
+
+
+
+
+
+        //TODO: remove this developer_helper.
         String message = String.format("Collection of coordinates: (%d, %d), (%d, %d), (%d, %d), (%d, %d)",
                 points.get(0).x, points.get(0).y,
                 points.get(1).x, points.get(1).y,
