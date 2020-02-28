@@ -13,10 +13,10 @@ import java.util.List;
 //SQLiteOpenHelper is an abstract class.
 public class Database extends SQLiteOpenHelper {
 
-    private static final String POINTS_TABLE = "POINTS";
-    private static final String COL_ID = "ID";
-    private static final String COL_X = "X";
-    private static final String COL_Y = "Y";
+    private static final String TABLE_NAME = "points";
+    private static final String COL_ID = "id";
+    private static final String COL_X = "x";
+    private static final String COL_Y = "y";
 
     //@param context is the Activity that will create a data (in this case, ImageActivity).
     public Database(@Nullable Context context) {
@@ -28,10 +28,15 @@ public class Database extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         //this is for creating tables within the database (which was created in the constructor).
         //we just have one table for this database.
-        String sql = String.format("create table %s (%s INTEGER PRIMARY KEY, %s INTEGER NOT NULL, %s INTEGER NOT NULL)",
-                POINTS_TABLE, COL_ID, COL_X, COL_Y);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        String sql = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s INTEGER NOT NULL, %s INTEGER NOT NULL)",
+                TABLE_NAME, COL_ID, COL_X, COL_Y);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
         //execute a SQL command (in this case, create a table named POINTS with 3 fields [columns]).
+        ////////////////
         db.execSQL(sql);
+        ////////////////
     }
 
     //won't need this method for creating our database (may use it in later tutorial).
@@ -45,7 +50,9 @@ public class Database extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
 
         //clears all the values from the database.
-        db.delete(POINTS_TABLE, null, null);
+        ////////////////////////////////////////////////////////
+        db.delete(TABLE_NAME, null, null);
+        ////////////////////////////////////////////////////////
 
         int i = 0;
         //loop through each of the Point object passed in.
@@ -55,19 +62,25 @@ public class Database extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
 
             //key is the column name.
+            //@@@@@@@@@@@@@@@@@@@@@@@@@
             values.put(COL_ID, i);
             values.put(COL_X, point.x);
             values.put(COL_Y, point.y);
+            //@@@@@@@@@@@@@@@@@@@@@@@@@
 
-            //INSERT AN ENTRY INTO A TABLE (i.e. POINTS_TABLE) OF OUR DATABASE.
-            db.insert(POINTS_TABLE, null, values);
+            //INSERT AN ENTRY INTO A TABLE (i.e. TABLE_NAME) OF OUR DATABASE.
+            //////////////////////////////////////////////////
+            db.insert(TABLE_NAME, null, values);
+            //////////////////////////////////////////////////
 
             //increment the primary key (ID column).
             i++;
         }
 
         //MUST close the database.
+        ///////////
         db.close();
+        ///////////
     }
 
 }
