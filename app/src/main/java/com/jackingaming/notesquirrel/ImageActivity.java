@@ -4,14 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class ImageActivity extends AppCompatActivity {
+import java.util.List;
+
+public class ImageActivity extends AppCompatActivity implements IPointCollectorListener {
+
+    private PointCollector pointCollector = new PointCollector();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +25,9 @@ public class ImageActivity extends AppCompatActivity {
         addTouchListener();
         //displays a Dialog message to the device's screen.
         showPrompt();
+
+        //REGISTER self to the SUBJECT as an interested SUBSCRIBER.
+        pointCollector.setListener(this);
     }
 
     private void showPrompt() {
@@ -49,26 +55,34 @@ public class ImageActivity extends AppCompatActivity {
     private void addTouchListener() {
         ImageView image = (ImageView) findViewById(R.id.touch_image);
 
-        image.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                float x = event.getX();
-                float y = event.getY();
+        image.setOnTouchListener(pointCollector);
+    }
 
-                String message = String.format("Coordinates: (%.2f, %.2f)", x, y);
+    //implementation of the method which PUSHED data from the SUBJECT.
+    //this SUBSCRIBER class can now PULL relevant data from what the SUBJECT PUSHED.
+    @Override
+    public void pointsCollected(List<Point> points) {
+        Log.d(MainActivity.DEBUG_TAG, "Collected points: " + points.size());
 
-                //display message to Logcat monitor.
-                Log.d(MainActivity.DEBUG_TAG, message);
+        String message = String.format("Collection of coordinates: (%d, %d), (%d, %d), (%d, %d), (%d, %d)",
+                points.get(0).x, points.get(0).y,
+                points.get(1).x, points.get(1).y,
+                points.get(2).x, points.get(2).y,
+                points.get(3).x, points.get(3).y);
+        //display message to device's screen via a Toast pop-up.
+        //(discovered that Toast is slow, and it continues to show back-logged Toasts even after app shut down.)
+        //TODO: remove this Toast-developer_helper.
+        Toast toastCantSave = Toast.makeText(this, message, Toast.LENGTH_LONG);
+        toastCantSave.show();
+    }
 
-                //display message to device's screen via a Toast pop-up.
-                //(discovered that Toast is slow, and it continues to show back-logged Toasts even after app shut down.)
-                //TODO: remove this Toast-developer_helper.
-                Toast toastCantSave = Toast.makeText(ImageActivity.this, message, Toast.LENGTH_SHORT);
-                toastCantSave.show();
-
-                return false;
-            }
-        });
+    @Override
+    public void singlePointCollected(Point point) {
+        String message = String.format("Single coordinate: (%d, %d)", point.x, point.y);
+        //display message to device's screen via a Toast pop-up.
+        //TODO: remove this Toast-developer_helper.
+        Toast toastCantSave = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+        toastCantSave.show();
     }
 
 }
