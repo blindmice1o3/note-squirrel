@@ -30,6 +30,14 @@ public class PointCollector implements View.OnTouchListener {
 
         //calling the PUSH method to pass data to interested/registered SUBSCRIBERS.
         if (listener != null) {
+            if (points.size() == 4) {
+                //when we've collected 4 Point objects, use the OBSERVER_PATTERN (subject/subscribers)
+                //to call the subject's PUSH method.
+                listener.pointsCollected(points);
+                points.clear();
+            }
+
+            /*
             if (points.size() < 4) {
                 //PUSH single Point-data to interested/registered SUBSCRIBERS.
                 listener.singlePointCollected(point);
@@ -39,6 +47,7 @@ public class PointCollector implements View.OnTouchListener {
                 listener.pointsCollected(points);
                 points.clear();
             }
+            */
         }
 
         return false;
