@@ -68,6 +68,13 @@ public class ImageActivity extends AppCompatActivity implements IPointCollectorL
         //USING THE NEW Database.storePoints(List<Point>) METHOD TO ADD ENTRIES TO OUR DATABASE'S TABLE.
         database.storePoints(points);
 
+        //TODO: remove this test/verification code later (verification using Logcat's monitor).
+        //TESTING THE NEW Database.getPoints() METHOD TO READ VALUES FROM OUR DATABASE'S TABLE.
+        List<Point> testReadFromDatabase = database.getPoints();
+        for (Point point : testReadFromDatabase) {
+            Log.d(MainActivity.DEBUG_TAG, String.format("Got point: (%d, %d)", point.x, point.y));
+        }
+
 
 
 

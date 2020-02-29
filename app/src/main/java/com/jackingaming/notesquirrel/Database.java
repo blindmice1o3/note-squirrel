@@ -2,12 +2,14 @@ package com.jackingaming.notesquirrel;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Point;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //SQLiteOpenHelper is an abstract class.
@@ -81,6 +83,39 @@ public class Database extends SQLiteOpenHelper {
         ///////////
         db.close();
         ///////////
+    }
+
+    public List<Point> getPoints() {
+        //returner object (data values from a table within the database).
+        List<Point> points = new ArrayList<Point>();
+
+        //need a handle to the database so we can read from the database.
+        SQLiteDatabase db = getReadableDatabase();
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        String sql = String.format("SELECT %s, %s FROM %s ORDER BY %s", COL_X, COL_Y, TABLE_NAME, COL_ID);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+        //A POINTER TO THE RETURNED RESULT (pointing to just-prior to the first result).
+        ///////////////////////////////////////////////////
+        Cursor cursor = db.rawQuery(sql, null);
+        ///////////////////////////////////////////////////
+
+        while (cursor.moveToNext()) {
+            //first column of our QUERY (NOT first column of the table).
+            int x = cursor.getInt(0);
+            //second column of our QUERY (NOT second column of the table).
+            int y = cursor.getInt(1);
+
+            points.add(new Point(x, y));
+        }
+
+        //MUST close the database.
+        ///////////
+        db.close();
+        ///////////
+
+        return points;
     }
 
 }
