@@ -45,8 +45,8 @@ public class ImageActivity extends AppCompatActivity implements IPointCollectorL
             }
         });
 
-        builder.setTitle("Create Your Passpoint Sequence");
-        builder.setMessage("Touch four points on the image to set the passpoint sequence. You must click the same points in future to gain access to your notes.");
+        builder.setTitle("Create your passpoint sequence");
+        builder.setMessage("Touch four points to set pass sequence");
 
         //use the Builder to create the dialog (set various options on the builder and then call create()).
         //this will return an AlertDialog object (it can have an "Ok" and/or "Cancel" button[s]).
@@ -96,7 +96,7 @@ public class ImageActivity extends AppCompatActivity implements IPointCollectorL
 
                 //USING THE NEW Database.storePoints(List<Point>) METHOD TO ADD ENTRIES TO OUR DATABASE'S TABLE.
                 database.storePoints(points);
-                Log.d(MainActivity.DEBUG_TAG, "points saved");
+                Log.d(MainActivity.DEBUG_TAG, "Points saved: " + points.size());
 
                 return null;
             }
@@ -104,6 +104,8 @@ public class ImageActivity extends AppCompatActivity implements IPointCollectorL
             //runs after your task finish executing).
             @Override
             protected void onPostExecute(Void aVoid) {
+                //clears the ArrayList<Point> of present log-in attempt, so will be ready for next attempt.
+                pointCollector.clear();
                 dlg.dismiss();
             }
         };

@@ -34,7 +34,15 @@ public class PointCollector implements View.OnTouchListener {
                 //when we've collected 4 Point objects, use the OBSERVER_PATTERN (subject/subscribers)
                 //to call the subject's PUSH method.
                 listener.pointsCollected(points);
-                points.clear();
+
+                //points.clear();
+                //John from caveofprogramming.com said this was a bug...
+                //he said we've collected the points then CLEAR them immediately...
+                //but I'm not sure it is a bug... I think we USED the collected
+                //points and have to clear them before each successive attempt to log-in.
+
+                //Actually, we just moved this clearing-function to another place and call
+                //it from the ImageActivity.pointsColected()'s thread-worker's onPostExecute().
             }
 
             /*
@@ -51,6 +59,12 @@ public class PointCollector implements View.OnTouchListener {
         }
 
         return false;
+    }
+
+    //only call this AFTER we save the 4 points to our database (in ImageActvity.pointsCollected()'s
+    //thread-worker's onPostExecute() method).
+    public void clear() {
+        points.clear();
     }
 
     //method to REGISTER interested subscribers.
