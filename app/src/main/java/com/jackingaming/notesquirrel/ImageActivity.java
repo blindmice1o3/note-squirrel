@@ -4,12 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -129,7 +131,55 @@ public class ImageActivity extends AppCompatActivity implements IPointCollectorL
     }
 
     private void verifyPasspoints(final List<Point> points) {
-        //TODO:
+        ////////////////////////////////////////////////////////////////////
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Checking passpoints...");
+        final AlertDialog dlg = builder.create();
+        dlg.show();
+        ////////////////////////////////////////////////////////////////////
+
+        //Ferocious looking parameterized-class (AsyncTask<Params, Progress, Result>),
+        //this class lets you pass in parameters into your class, post values to
+        //indicate progress (which you can get to update your GUI), and
+        //you can get results as well.
+        //Cannot use void with lower-case 'V' because void is a primitive-type,
+        //must use the class Void.
+        //DEFINING the abstract class... using anonymous-class-type-of syntax.
+        AsyncTask<Void, Void, Boolean> task = new AsyncTask<Void, Void, Boolean>() {
+            //Needed to provide implementation code to this abstract method.
+            @Override
+            protected Boolean doInBackground(Void... voids) {
+                //TODO: actual verification of the 4 point values compared to stored passcode.
+
+                return true;
+            }
+            //Actual overriding of the original method (this method
+            //runs after your task finish executing).
+                //The "Boolean pass" parameter is actually what gets returned by the
+                //doInBackground(Void...) method call (the thread's main workload).
+            @Override
+            protected void onPostExecute(Boolean pass) {
+                //clears the ArrayList<Point> of present log-in attempt, so will be ready for next attempt.
+                pointCollector.clear();
+                //automatically have the AlertDialog message ("Checking passpoints...") go-away
+                //without user having to click an "OK button".
+                dlg.dismiss();
+
+                //"pass" is what gets returned by doInBackground(Void...).
+                //If pass is true, change the context to MainActivity.
+                if (pass) {
+                    //If we used just "this" instead of "ImageActivity.this"... it would've referred
+                    //to this anonymous class instead of ImageActivity. And MainActivity.class (not
+                    //MainActivity.java) is the class we want to launch.
+                    Intent i = new Intent(ImageActivity.this, MainActivity.class);
+                    startActivity(i);
+                } else {
+                    Toast.makeText(ImageActivity.this, "Access Denied", Toast.LENGTH_LONG).show();
+                }
+            }
+        };
+        //ACTUALLY RUNNING what we defined.
+        task.execute();
     }
 
     //implementation of the method which PUSHED data from the SUBJECT.
