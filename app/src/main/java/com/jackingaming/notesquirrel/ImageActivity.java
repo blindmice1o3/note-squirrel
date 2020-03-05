@@ -17,7 +17,10 @@ import java.util.List;
 
 public class ImageActivity extends AppCompatActivity implements IPointCollectorListener {
 
+    //reference (key) to put/get boolean from SharedPreferences (persistent data).
     private static final String PASSWORD_SET = "PASSWORD_SET";
+    //value representing the acceptable "off-ness" from the passcode's targeted point.
+    private static final int POINT_CLOSENESS = 100;
     private PointCollector pointCollector = new PointCollector();
     private Database database = new Database(this);
 
@@ -106,6 +109,7 @@ public class ImageActivity extends AppCompatActivity implements IPointCollectorL
 
                 return null;
             }
+
             //Actual overriding of the original method (this method
             //runs after your task finish executing).
             @Override
@@ -130,7 +134,7 @@ public class ImageActivity extends AppCompatActivity implements IPointCollectorL
         task.execute();
     }
 
-    private void verifyPasspoints(final List<Point> points) {
+    private void verifyPasspoints(final List<Point> touchedPoints) {
         ////////////////////////////////////////////////////////////////////
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Checking passpoints...");
@@ -149,14 +153,48 @@ public class ImageActivity extends AppCompatActivity implements IPointCollectorL
             //Needed to provide implementation code to this abstract method.
             @Override
             protected Boolean doInBackground(Void... voids) {
-                //TODO: actual verification of the 4 point values compared to stored passcode.
+                List<Point> savedPoints = database.getPoints();
+
+                Log.d(MainActivity.DEBUG_TAG, "Loaded saved points: " + savedPoints.size());
+
+                //return false if the stored passcode or the collection-of-points-just-touched
+                //are not the expected size (PointCollector.NUM_POINTS).
+                if ((savedPoints.size() != PointCollector.NUM_POINTS) ||
+                        (touchedPoints.size() != PointCollector.NUM_POINTS)) {
+                    return false;
+                }
+
+                for (int i = 0; i < PointCollector.NUM_POINTS; i++) {
+                    Point savedPoint = savedPoints.get(i);
+                    Point touchedPoint = touchedPoints.get(i);
+
+                    //Horizontal distance away from the current saved point in the passcode sequence.
+                    int xDiff = savedPoint.x - touchedPoint.x;
+                    //Vertical distance away from the current saved point in the passcode sequence.
+                    int yDiff = savedPoint.y - touchedPoint.y;
+
+                    //Next is PYTHAGOREAN THEOREM applied to this problem to get one value for
+                    //the difference between the touched point and the current saved point in
+                    //the passcode sequence.
+                    int distSquared = (xDiff * xDiff) + (yDiff * yDiff);
+
+                    Log.d(MainActivity.DEBUG_TAG, "Distance squared: " + distSquared);
+
+                    //return false if the point-just-touched is too far away from the
+                    //allowable/acceptable "off-ness" from the actual passcode point.
+                    //doing it this way to AVOID WORKING WITH SQUARE-ROOT.
+                    if (distSquared > (POINT_CLOSENESS * POINT_CLOSENESS)) {
+                        return false;
+                    }
+                }
 
                 return true;
             }
+
             //Actual overriding of the original method (this method
             //runs after your task finish executing).
-                //The "Boolean pass" parameter is actually what gets returned by the
-                //doInBackground(Void...) method call (the thread's main workload).
+            //The "Boolean pass" parameter is actually what gets returned by the
+            //doInBackground(Void...) method call (the thread's main workload).
             @Override
             protected void onPostExecute(Boolean pass) {
                 //clears the ArrayList<Point> of present log-in attempt, so will be ready for next attempt.
