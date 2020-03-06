@@ -10,6 +10,8 @@ import java.util.List;
 
 public class PointCollector implements View.OnTouchListener {
 
+    public static final int NUM_POINTS = 4;
+
     //SUBSCRIBERS who are interested in THE SUBJECT'S (this) ArrayList<Point> data.
     private IPointCollectorListener listener;
     private List<Point> points = new ArrayList<Point>();
@@ -30,7 +32,7 @@ public class PointCollector implements View.OnTouchListener {
 
         //calling the PUSH method to pass data to interested/registered SUBSCRIBERS.
         if (listener != null) {
-            if (points.size() == 4) {
+            if (points.size() == NUM_POINTS) {
                 //when we've collected 4 Point objects, use the OBSERVER_PATTERN (subject/subscribers)
                 //to call the subject's PUSH method.
                 listener.pointsCollected(points);
