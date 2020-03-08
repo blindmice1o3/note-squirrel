@@ -72,17 +72,14 @@ public class MainActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Log.d(DEBUG_TAG, "Save button clicked: " + text);
-                //was used to verify the button was actually "doing stuff"
-                //when we clicked it (before we supplied implementation).
-
                 EditText editText = (EditText) findViewById(R.id.text);
-
                 String text = editText.getText().toString();
 
+                //was used to verify the button was actually "doing stuff"
+                //when we clicked it (before we supplied implementation).
+                Log.d(DEBUG_TAG, "Save button clicked: " + text);
+
                 try {
-                    //commented out the following to TEST the Toast's functionality.
-                    /*
                     FileOutputStream fos = openFileOutput(TEXT_FILE, Context.MODE_PRIVATE);
                     fos.write(text.getBytes());
                     fos.close();
@@ -103,19 +100,16 @@ public class MainActivity extends AppCompatActivity {
                     editor.putBoolean(FILE_SAVED, true);
                     //HAVE TO tell editor to actually save the values we'd put into it.
                     editor.commit();
-                    */
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.d(DEBUG_TAG, "Unable to save file to internal storage.");
 
-                    //WILL BE MOVED TO catch BLOCKS LATER (intended to inform user about errors).
                     //not using "this" because we're in an anonymous class rather than MainActivity.
                     //"getString()" is a method of the Activity, you can pass it the int id of the String.
                     Toast toastCantSave = Toast.makeText(MainActivity.this, getString(R.string.toast_cant_save), Toast.LENGTH_LONG);
                     //to display the Toast object, we have to call show().
                     toastCantSave.show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Log.d(DEBUG_TAG, "Unable to save file to internal storage.");
                 }
-
             }
         });
     }
