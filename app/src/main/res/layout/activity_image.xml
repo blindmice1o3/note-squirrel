@@ -8,8 +8,10 @@
         android:id="@+id/touch_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="fitXY"
         android:contentDescription="@string/password_image"
-        android:src="@mipmap/image_default" />
+        android:scaleType="fitXY"
+        android:src="@drawable/rsz_big_trouble_in_little_china" />
+
+        <!-- android:src="@mipmap/image_default" -->
 
 </LinearLayout>
