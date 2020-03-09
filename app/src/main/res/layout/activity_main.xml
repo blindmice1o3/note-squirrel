@@ -8,10 +8,13 @@
 
     <!-- was RelativeLayout, now it's LinearLayout (this specifies
          whether to lay out widgets vertically or horizontally) -->
-    <!-- dp == device-independent pixel -->
-    <!-- weight how much space a widget should take up proportionally
+    <!-- dp == density-independent pixels
+         related: pixel density (aka dots per inch [dpi])
+         https://developer.android.com/guide/practices/screens_support?hl=en -->
+    <!-- weight == how much space a widget should take up proportionally
          (e.g. if one widget's weight is 10 and another is 30, then
-         the first will take up 1/4 of the space and the second 3/4). -->
+         the first will take up 1/4 of the space and the second 3/4) -->
+
     <!-- this weight is relative to the outer-most LinearLayout (ViewGroup),
          the one with orientation="vertical". -->
     <EditText
