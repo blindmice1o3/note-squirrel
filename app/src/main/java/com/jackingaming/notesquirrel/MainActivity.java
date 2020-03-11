@@ -75,8 +75,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d(DEBUG_TAG, "Lock button clicked.");
 
+                /*
+                //TODO: Potential BUG: apparently stacking Activities (back button runs through stack of Activity history).
                 Intent i = new Intent(MainActivity.this, ImageActivity.class);
                 startActivity(i);
+                */
+                finish();
             }
         });
     }
