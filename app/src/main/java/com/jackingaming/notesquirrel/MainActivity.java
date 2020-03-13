@@ -3,6 +3,7 @@ package com.jackingaming.notesquirrel;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,7 +15,6 @@ import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 
@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         addSaveButtonListener();
+        addLockButtonListener();
 
         //retrieving PERSISTENT data (values stored between "runs").
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
@@ -64,6 +65,24 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
             Log.d(DEBUG_TAG, "Unable to read file to internal storage.");
         }
+    }
+
+    private void addLockButtonListener() {
+        Button lockBtn = (Button) findViewById(R.id.lock);
+
+        lockBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(DEBUG_TAG, "Lock button clicked.");
+
+                /*
+                //TODO: Potential BUG: apparently stacking Activities (back button runs through stack of Activity history).
+                Intent i = new Intent(MainActivity.this, ImageActivity.class);
+                startActivity(i);
+                */
+                finish();
+            }
+        });
     }
 
     private void addSaveButtonListener() {
