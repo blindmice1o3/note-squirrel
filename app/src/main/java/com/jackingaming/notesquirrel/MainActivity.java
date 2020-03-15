@@ -1,16 +1,17 @@
 package com.jackingaming.notesquirrel;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Context;
-import android.content.Intent;
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -18,7 +19,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 
-public class MainActivity extends AppCompatActivity {
+import static android.content.Context.MODE_PRIVATE;
+
+public class MainActivity extends Activity {
 
     public static final String DEBUG_TAG = "JJG";
     public static final String TEXT_FILE = "note_squirrel.txt";
@@ -99,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(DEBUG_TAG, "Save button clicked: " + text);
 
                 try {
-                    FileOutputStream fos = openFileOutput(TEXT_FILE, Context.MODE_PRIVATE);
+                    FileOutputStream fos = openFileOutput(TEXT_FILE, MODE_PRIVATE);
                     fos.write(text.getBytes());
                     fos.close();
 
@@ -133,4 +136,20 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onMenuItemSelected(int featureId, @NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_passpoints_reset:
+                Toast.makeText(this, "Hello", Toast.LENGTH_LONG).show();
+                return true;
+            default:
+                return super.onMenuItemSelected(featureId, item);
+        }
+    }
 }
