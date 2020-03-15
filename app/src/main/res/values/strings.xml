@@ -10,6 +10,8 @@
     <!-- MainActivity.java -->
     <string name="toast_cant_save">Unable to save note. Is there sufficient space?</string>
     <string name="menu_passpoints_reset">Reset Passpoints</string>
+    <string name="menu_options">Options</string>
+    <string name="menu_cancel">Cancel</string>
 
     <!-- activity_image.xml -->
     <string name="password_image">Password Image</string>

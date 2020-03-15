@@ -1,6 +1,5 @@
 package com.jackingaming.notesquirrel;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,7 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -19,9 +18,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 
-import static android.content.Context.MODE_PRIVATE;
-
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     public static final String DEBUG_TAG = "JJG";
     public static final String TEXT_FILE = "note_squirrel.txt";
@@ -30,6 +27,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         addSaveButtonListener();
@@ -143,13 +141,24 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    public boolean onMenuItemSelected(int featureId, @NonNull MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_passpoints_reset:
-                Toast.makeText(this, "Hello", Toast.LENGTH_LONG).show();
+                //TODO: implement menu_passpoints_reset
+                Toast.makeText(this, "Passpoints Reset", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.menu_options:
+                //TODO: implement menu_options
+                Toast.makeText(this, "Options", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.menu_cancel:
+                //TODO: implement menu_cancel
+                Toast.makeText(this, "Cancel", Toast.LENGTH_LONG).show();
                 return true;
             default:
-                return super.onMenuItemSelected(featureId, item);
+                Toast.makeText(this, "MainActivity.onOptionsItemSelected(MenuItem) switch's default", Toast.LENGTH_LONG).show();
+                return super.onOptionsItemSelected(item);
         }
     }
+
 }
