@@ -1,7 +1,10 @@
 package com.jackingaming.notesquirrel;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -136,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;
     }
@@ -146,6 +150,18 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menu_passpoints_reset:
                 //TODO: implement menu_passpoints_reset
                 Toast.makeText(this, "Passpoints Reset", Toast.LENGTH_LONG).show();
+
+
+
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean(ImageActivity.PASSWORD_SET, false);
+                editor.commit();
+
+
+
+                finish();
+
                 return true;
             case R.id.menu_options:
                 //TODO: implement menu_options

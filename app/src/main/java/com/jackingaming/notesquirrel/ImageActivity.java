@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -18,7 +19,7 @@ import java.util.List;
 public class ImageActivity extends AppCompatActivity implements IPointCollectorListener {
 
     //reference (key) to put/get boolean from SharedPreferences (persistent data).
-    private static final String PASSWORD_SET = "PASSWORD_SET";
+    public static final String PASSWORD_SET = "PASSWORD_SET";
     //value representing the acceptable "off-ness" from the passcode's targeted point.
     private static final int POINT_CLOSENESS = 100;
     private PointCollector pointCollector = new PointCollector();
@@ -32,8 +33,16 @@ public class ImageActivity extends AppCompatActivity implements IPointCollectorL
         //MUST come after setContentView(int).
         addTouchListener();
 
+        //REGISTER self to the SUBJECT as an interested SUBSCRIBER.
+        pointCollector.setListener(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         //reference to persistent data (first time using OR pw was set during a prior run).
-        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         //true if pw was set during a prior run, otherwise defaults to false.
         boolean passpointsSet = prefs.getBoolean(PASSWORD_SET, false);
         //if false (pw undefined by user), show prompt.
@@ -41,9 +50,6 @@ public class ImageActivity extends AppCompatActivity implements IPointCollectorL
             //displays a Dialog message to the device's screen.
             showSetPasspointsPrompt();
         }
-
-        //REGISTER self to the SUBJECT as an interested SUBSCRIBER.
-        pointCollector.setListener(this);
     }
 
     private void showSetPasspointsPrompt() {
@@ -118,7 +124,7 @@ public class ImageActivity extends AppCompatActivity implements IPointCollectorL
                 //distinguish between setting pw for first time VS attempts to log in (we started
                 //implementing this feature in MainActivity, but commented it out so we could use
                 //the button's onClickListener to learn how to use Toast).
-                SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putBoolean(PASSWORD_SET, true);
                 editor.commit();
@@ -226,7 +232,7 @@ public class ImageActivity extends AppCompatActivity implements IPointCollectorL
     public void pointsCollected(final List<Point> points) {
         Log.d(MainActivity.DEBUG_TAG, "Collected points: " + points.size());
 
-        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         boolean passpointsSet = prefs.getBoolean(PASSWORD_SET, false);
         //if false (pw undefined by user), store the 4 points that were collected.
         if (!passpointsSet) {
