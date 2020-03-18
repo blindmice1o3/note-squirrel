@@ -3,8 +3,8 @@
         android:id="@+id/menu_passpoints_reset"
         android:title="@string/menu_passpoints_reset" />
     <item
-        android:id="@+id/menu_options"
-        android:title="@string/menu_options" />
+        android:id="@+id/menu_camera"
+        android:title="@string/menu_camera" />
     <item
         android:id="@+id/menu_cancel"
         android:title="@string/menu_cancel" />

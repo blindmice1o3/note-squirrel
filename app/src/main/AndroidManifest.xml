@@ -10,6 +10,11 @@
         android:smallScreens="false"
         android:xlargeScreens="true" />
 
+    <!-- Features (optional): camera -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/rsz_1zturtle_48x48"

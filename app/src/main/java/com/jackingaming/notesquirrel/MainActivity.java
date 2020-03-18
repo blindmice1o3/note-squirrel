@@ -1,10 +1,11 @@
 package com.jackingaming.notesquirrel;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +14,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.BufferedReader;
@@ -26,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
     public static final String DEBUG_TAG = "JJG";
     public static final String TEXT_FILE = "note_squirrel.txt";
     public static final String FILE_SAVED = "FileSaved";
+    //to identify the Intent instance that was invoked (when a result is returned upon the
+    //completion of that requesting intent) (used with "startActivityForResult(Intent, int)").
+    public static final int REQUEST_IMAGE_CAPTURE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,32 +155,48 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menu_passpoints_reset:
                 //TODO: implement menu_passpoints_reset
-                Toast.makeText(this, "Passpoints Reset", Toast.LENGTH_LONG).show();
-
-
+                //Toast.makeText(this, "Passpoints Reset", Toast.LENGTH_LONG).show();
 
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putBoolean(ImageActivity.PASSWORD_SET, false);
                 editor.commit();
 
-
-
                 finish();
 
                 return true;
-            case R.id.menu_options:
-                //TODO: implement menu_options
-                Toast.makeText(this, "Options", Toast.LENGTH_LONG).show();
+            case R.id.menu_camera:
+                //TODO: implement menu_camera
+                //Toast.makeText(this, "Camera", Toast.LENGTH_LONG).show();
+
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(takePictureIntent);
+                    //startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                } else {
+                    Log.d(DEBUG_TAG, "checking for camera app: package manager is null");
+                    Toast.makeText(this, "checking for camera app: package manager is null", Toast.LENGTH_LONG).show();
+                }
+
                 return true;
             case R.id.menu_cancel:
                 //TODO: implement menu_cancel
                 Toast.makeText(this, "Cancel", Toast.LENGTH_LONG).show();
+
+
+
                 return true;
             default:
                 Toast.makeText(this, "MainActivity.onOptionsItemSelected(MenuItem) switch's default", Toast.LENGTH_LONG).show();
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    /*
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+    */
 
 }
