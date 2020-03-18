@@ -3,6 +3,7 @@ package com.jackingaming.notesquirrel;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -171,8 +172,11 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(takePictureIntent);
-                    //startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                    //startActivity(takePictureIntent);
+
+                    // "The Android Camera application encodes the photo in the return Intent delivered to
+                    // onActivityResult() as a small Bitmap in the extras, under the key "data"."
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                 } else {
                     Log.d(DEBUG_TAG, "checking for camera app: package manager is null");
                     Toast.makeText(this, "checking for camera app: package manager is null", Toast.LENGTH_LONG).show();
@@ -192,11 +196,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /*
+    // "The Android Camera application encodes the photo in the return Intent delivered to
+    // onActivityResult() as a small Bitmap in the extras, under the key "data"."
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Intent photoViewerIntent = new Intent(this, PhotoViewerActivity.class);
+            Bundle extras = data.getExtras();
+
+            photoViewerIntent.putExtra("photoTaken", (Bitmap) data.getExtras().get("data"));
+
+            startActivity(photoViewerIntent);
+            //TODO:
+        }
+
+        //super.onActivityResult(requestCode, resultCode, data);
     }
-    */
+
 
 }
