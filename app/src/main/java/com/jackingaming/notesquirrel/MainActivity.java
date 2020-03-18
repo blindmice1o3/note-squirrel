@@ -2,9 +2,11 @@ package com.jackingaming.notesquirrel;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -15,14 +17,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,8 +35,13 @@ public class MainActivity extends AppCompatActivity {
     public static final String TEXT_FILE = "note_squirrel.txt";
     public static final String FILE_SAVED = "FileSaved";
     //to identify the Intent instance that was invoked (when a result is returned upon the
-    //completion of that requesting intent) (used with "startActivityForResult(Intent, int)").
-    public static final int REQUEST_IMAGE_CAPTURE = 1;
+    //completion of that requesting intent), used with "startActivityForResult(Intent, int)"
+    //and "onActivityResult(int, int, Intent)" (which is the call back method of
+    //"startActivityForResult(Intent, int)").
+    private static final int PHOTO_TAKEN = 0;
+
+    private File imageFile;
+    private String imageFilePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,11 +95,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d(DEBUG_TAG, "Lock button clicked.");
 
-                /*
-                //TODO: Potential BUG: apparently stacking Activities (back button runs through stack of Activity history).
-                Intent i = new Intent(MainActivity.this, ImageActivity.class);
-                startActivity(i);
-                */
                 finish();
             }
         });
@@ -155,7 +159,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_passpoints_reset:
-                //TODO: implement menu_passpoints_reset
                 //Toast.makeText(this, "Passpoints Reset", Toast.LENGTH_LONG).show();
 
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -168,15 +171,59 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.menu_camera:
                 //TODO: implement menu_camera
-                //Toast.makeText(this, "Camera", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Camera", Toast.LENGTH_LONG).show();
 
+                //"The Android Camera application saves a full-size photo if you give it
+                //a file to save into. You must provide a FULLY-QUALIFIED FILE NAME
+                //where the camera app should save the photo."
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                    //startActivity(takePictureIntent);
 
-                    // "The Android Camera application encodes the photo in the return Intent delivered to
-                    // onActivityResult() as a small Bitmap in the extras, under the key "data"."
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                //"Ensure that there's a camera activity to handle the intent"
+                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                    //"Create the File where the photo should go"
+                    //get the default directory for where photos are stored onto the device's external storage.
+                    File picturesDirectory = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                    //supplying a directory and name of the new file.
+                    //imageFile = new File(picturesDirectory, "passpoints_image.jpg");
+                    try {
+                        Log.d(DEBUG_TAG, "BEFORE File.createTempFile(String, String, File)");
+                        imageFile = File.createTempFile(
+                                "passpoints_image",     /* prefix */
+                                ".jpg",                 /* suffix */
+                                picturesDirectory             /* directory */
+                        );
+                        Log.d(DEBUG_TAG, "AFTER File.createTempFile(String, String, File)");
+
+                        Log.d(DEBUG_TAG, "BEFORE imageFile.getAbsolutePath()");
+                        imageFilePath = imageFile.getAbsolutePath();
+                        Log.d(DEBUG_TAG, "AFTER imageFile.getAbsolutePath(): " + imageFilePath);
+                    } catch (IOException e) {
+                        //"Error occurred while creating the File"
+                        Log.d(DEBUG_TAG, "MainActivity.onOptionsItemsSelected(), R.id.menu_camera... catch-block... File.createTempFile(String, String, File)");
+                        e.printStackTrace();
+                    }
+                    //"Continue only if the File was successfully created"
+                    if (imageFile != null) {
+                        Log.d(DEBUG_TAG, "MainActivity.onOptionsItemSelected(), R.id.menu_camera... imageFile != null");
+
+                        Log.d(DEBUG_TAG, "BuildConfig.APPLICATION_ID + \".provider\": " + BuildConfig.APPLICATION_ID + ".provider");
+                        //TODO:
+                        Uri photoURI = FileProvider.getUriForFile(this,
+                                BuildConfig.APPLICATION_ID + ".provider", imageFile);
+                        //Uri.fromFile(File) probably gets the FULLY-QUALIFIED FILE NAME of the file passed in.
+                        Log.d(DEBUG_TAG, "MainActivity.onOptionsItemSelected(), R.id.menu_camera... imageFile != null... AFTER FileProvider.getUriForFile(Context, String, File)");
+                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+
+                        //startActivity(takePictureIntent);
+
+                        // "The Android Camera application encodes the photo in the return Intent delivered to
+                        // onActivityResult() as a small Bitmap in the extras, under the key "data"."
+                        Log.d(DEBUG_TAG, "MainActivity.onOptionsItemSelected(), R.id.menu_camera... imageFile != null... PRE startActivityForResult(Intent, int)");
+                        startActivityForResult(takePictureIntent, PHOTO_TAKEN);
+                    } else {
+                        Log.d(DEBUG_TAG, "MainActivity.onOptionsItemSelected(), R.id.menu_camera, else-clause... imageFile == null");
+                    }
+
                 } else {
                     Log.d(DEBUG_TAG, "checking for camera app: package manager is null");
                     Toast.makeText(this, "checking for camera app: package manager is null", Toast.LENGTH_LONG).show();
@@ -186,9 +233,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menu_cancel:
                 //TODO: implement menu_cancel
                 Toast.makeText(this, "Cancel", Toast.LENGTH_LONG).show();
-
-
-
                 return true;
             default:
                 Toast.makeText(this, "MainActivity.onOptionsItemSelected(MenuItem) switch's default", Toast.LENGTH_LONG).show();
@@ -200,18 +244,27 @@ public class MainActivity extends AppCompatActivity {
     // onActivityResult() as a small Bitmap in the extras, under the key "data"."
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Intent photoViewerIntent = new Intent(this, PhotoViewerActivity.class);
-            Bundle extras = data.getExtras();
+        if (requestCode == PHOTO_TAKEN && resultCode == RESULT_OK) {
+            //getting the image captured by the camera app (that was stored in a passed in File
+            //instance), getting its absolute (FULLY-QUALIFIED FILE NAME?) path.
+            Bitmap photo = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+            /*
+                In order to READ (e.g. when we invoke "decodeFile(String)") from the
+                device's external storage, we need to request PERMISSION (this is done
+                within the "AndroidManifest.xml" file).
+             */
 
-            photoViewerIntent.putExtra("photoTaken", (Bitmap) data.getExtras().get("data"));
+            if (photo != null) {
+                Intent photoViewerIntent = new Intent(this, PhotoViewerActivity.class);
+                photoViewerIntent.putExtra("photoTaken", photo);
 
-            startActivity(photoViewerIntent);
-            //TODO:
+                startActivity(photoViewerIntent);
+                //TODO:
+            }
+            else {
+                Toast.makeText(this, R.string.unable_to_save_photo_file, Toast.LENGTH_LONG).show();
+            }
         }
-
-        //super.onActivityResult(requestCode, resultCode, data);
     }
-
 
 }

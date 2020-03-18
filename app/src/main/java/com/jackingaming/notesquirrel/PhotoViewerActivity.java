@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 
 public class PhotoViewerActivity extends AppCompatActivity {
@@ -18,11 +19,18 @@ public class PhotoViewerActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        Log.d(MainActivity.DEBUG_TAG, "PhotoViewerActivity.onStart() BEFORE extraction of passed in photo.");
+
         ImageView imageView = (ImageView) findViewById(R.id.imageView);
         Bundle extrasOfPreviousActivity = getIntent().getExtras();
         Bitmap photoCapturedByCamera = (Bitmap) extrasOfPreviousActivity.get("photoTaken");
 
-        imageView.setImageBitmap(photoCapturedByCamera);
+        Log.d(MainActivity.DEBUG_TAG, "PhotoViewerActivity.onStart() AFTER extraction of passed in photo.");
+
+        if (photoCapturedByCamera != null) {
+            Log.d(MainActivity.DEBUG_TAG, "PhotoViewerActivity.onStart() END (photoCaptured != null).");
+            imageView.setImageBitmap(photoCapturedByCamera);
+        }
     }
 
 }
