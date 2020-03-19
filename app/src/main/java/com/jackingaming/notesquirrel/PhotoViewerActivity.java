@@ -22,8 +22,12 @@ public class PhotoViewerActivity extends AppCompatActivity {
         Log.d(MainActivity.DEBUG_TAG, "PhotoViewerActivity.onStart() BEFORE extraction of passed in photo.");
 
         ImageView imageView = (ImageView) findViewById(R.id.imageView);
+
+        Bitmap photoCapturedByCamera = null;
+        /*
         Bundle extrasOfPreviousActivity = getIntent().getExtras();
-        Bitmap photoCapturedByCamera = (Bitmap) extrasOfPreviousActivity.get("photoTaken");
+        photoCapturedByCamera = (Bitmap) extrasOfPreviousActivity.get("photoTaken");
+        */
 
         Log.d(MainActivity.DEBUG_TAG, "PhotoViewerActivity.onStart() AFTER extraction of passed in photo.");
 

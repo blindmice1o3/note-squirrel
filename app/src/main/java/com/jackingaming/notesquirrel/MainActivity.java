@@ -247,6 +247,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == PHOTO_TAKEN && resultCode == RESULT_OK) {
             //getting the image captured by the camera app (that was stored in a passed in File
             //instance), getting its absolute (FULLY-QUALIFIED FILE NAME?) path.
+            //TODO:
             Bitmap photo = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
             /*
                 In order to READ (e.g. when we invoke "decodeFile(String)") from the
@@ -256,10 +257,10 @@ public class MainActivity extends AppCompatActivity {
 
             if (photo != null) {
                 Intent photoViewerIntent = new Intent(this, PhotoViewerActivity.class);
-                photoViewerIntent.putExtra("photoTaken", photo);
+                //TODO:
+                //photoViewerIntent.putExtra("photoTaken", photo);
 
                 startActivity(photoViewerIntent);
-                //TODO:
             }
             else {
                 Toast.makeText(this, R.string.unable_to_save_photo_file, Toast.LENGTH_LONG).show();
