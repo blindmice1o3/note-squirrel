@@ -194,9 +194,12 @@ public class MainActivity extends AppCompatActivity {
                         );
                         Log.d(DEBUG_TAG, "AFTER File.createTempFile(String, String, File)");
 
-                        Log.d(DEBUG_TAG, "BEFORE imageFile.getAbsolutePath()");
+                        ///////////////////////////////////////////////////////////////////////////
+                        Log.d(DEBUG_TAG, "@@@@@ imageFile: " + picturesDirectory.toString() + " <passpoints_image.jpg>? @@@@@");
+                        ///////////////////////////////////////////////////////////////////////////
+
                         imageFilePath = imageFile.getAbsolutePath();
-                        Log.d(DEBUG_TAG, "AFTER imageFile.getAbsolutePath(): " + imageFilePath);
+                        Log.d(DEBUG_TAG, "imageFile.getAbsolutePath(): " + imageFilePath);
                     } catch (IOException e) {
                         //"Error occurred while creating the File"
                         Log.d(DEBUG_TAG, "MainActivity.onOptionsItemsSelected(), R.id.menu_camera... catch-block... File.createTempFile(String, String, File)");
@@ -209,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(DEBUG_TAG, "BuildConfig.APPLICATION_ID + \".provider\": " + BuildConfig.APPLICATION_ID + ".provider");
                         //TODO:
                         Uri photoURI = FileProvider.getUriForFile(this,
-                                BuildConfig.APPLICATION_ID + ".provider", imageFile);
+                                BuildConfig.APPLICATION_ID + ".fileprovider", imageFile);
                         //Uri.fromFile(File) probably gets the FULLY-QUALIFIED FILE NAME of the file passed in.
                         Log.d(DEBUG_TAG, "MainActivity.onOptionsItemSelected(), R.id.menu_camera... imageFile != null... AFTER FileProvider.getUriForFile(Context, String, File)");
                         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
@@ -248,12 +251,17 @@ public class MainActivity extends AppCompatActivity {
             //getting the image captured by the camera app (that was stored in a passed in File
             //instance), getting its absolute (FULLY-QUALIFIED FILE NAME?) path.
             //TODO:
-            Bitmap photo = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+            Intent photoViewerIntent = new Intent(this, PhotoViewerActivity.class);
+            photoViewerIntent.putExtra("imageAddress", imageFilePath);
+            startActivity(photoViewerIntent);
+
             /*
                 In order to READ (e.g. when we invoke "decodeFile(String)") from the
                 device's external storage, we need to request PERMISSION (this is done
                 within the "AndroidManifest.xml" file).
              */
+            /*
+            Bitmap photo = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
 
             if (photo != null) {
                 Intent photoViewerIntent = new Intent(this, PhotoViewerActivity.class);
@@ -265,6 +273,7 @@ public class MainActivity extends AppCompatActivity {
             else {
                 Toast.makeText(this, R.string.unable_to_save_photo_file, Toast.LENGTH_LONG).show();
             }
+            */
         }
     }
 

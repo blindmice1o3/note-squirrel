@@ -3,6 +3,7 @@ package com.jackingaming.notesquirrel;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -19,22 +20,27 @@ public class PhotoViewerActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        Log.d(MainActivity.DEBUG_TAG, "PhotoViewerActivity.onStart() BEFORE extraction of passed in photo.");
+        Log.d(MainActivity.DEBUG_TAG, "PhotoViewerActivity.onStart() BEFORE extraction of passed in image address.");
 
         ImageView imageView = (ImageView) findViewById(R.id.imageView);
 
-        Bitmap photoCapturedByCamera = null;
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String imageFilePath = extras.getString("imageAddress");
+            if (imageFilePath != null) {
+                Log.d(MainActivity.DEBUG_TAG, "PhotoViewerActivity.onStart() AFTER extraction of passed in image address: " + imageFilePath);
+                Bitmap photoCapturedByCamera = BitmapFactory.decodeFile(imageFilePath);
+                imageView.setImageBitmap(photoCapturedByCamera);
+            }
+        }
+
         /*
-        Bundle extrasOfPreviousActivity = getIntent().getExtras();
-        photoCapturedByCamera = (Bitmap) extrasOfPreviousActivity.get("photoTaken");
-        */
-
-        Log.d(MainActivity.DEBUG_TAG, "PhotoViewerActivity.onStart() AFTER extraction of passed in photo.");
-
         if (photoCapturedByCamera != null) {
             Log.d(MainActivity.DEBUG_TAG, "PhotoViewerActivity.onStart() END (photoCaptured != null).");
             imageView.setImageBitmap(photoCapturedByCamera);
         }
+
+        */
     }
 
 }

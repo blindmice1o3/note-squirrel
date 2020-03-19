@@ -25,7 +25,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.jackingaming.notesquirrel.provider"
+            android:authorities="com.jackingaming.notesquirrel.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
