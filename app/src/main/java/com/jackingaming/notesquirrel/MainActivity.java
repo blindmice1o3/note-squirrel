@@ -237,6 +237,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Gallery", Toast.LENGTH_LONG).show();
 
                 Intent browseGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                //Intent browseGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
                 startActivityForResult(browseGalleryIntent, BROWSE_GALLERY_REQUEST);
 
                 return true;
@@ -247,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // "The Android Camera application encodes the photo in the return Intent delivered to
-    // onActivityResult() as a small Bitmap in the extras, under the key "data"."
+    // onActivityResult() as a small Bitmap in the extras, under the key "data". (thumbnail)"
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
         if (requestCode == PHOTO_TAKEN_REQUEST && resultCode == RESULT_OK) {
@@ -257,23 +258,7 @@ public class MainActivity extends AppCompatActivity {
             Intent photoViewerIntent = new Intent(this, PhotoViewerActivity.class);
             photoViewerIntent.putExtra("imageAddress", imageFilePath);
             startActivity(photoViewerIntent);
-
-            /*
-            Bitmap photo = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-
-            if (photo != null) {
-                Intent photoViewerIntent = new Intent(this, PhotoViewerActivity.class);
-                //TODO:
-                //photoViewerIntent.putExtra("photoTaken", photo);
-
-                startActivity(photoViewerIntent);
-            }
-            else {
-                Toast.makeText(this, R.string.unable_to_save_photo_file, Toast.LENGTH_LONG).show();
-            }
-            */
-        }
-        else if (requestCode == BROWSE_GALLERY_REQUEST) {
+        } else if (requestCode == BROWSE_GALLERY_REQUEST && resultCode == RESULT_OK) {
             Log.d(DEBUG_TAG, "MainActivity.onActivityResult(int, int, Intent): Browse the Gallery");
             Toast.makeText(this, "Gallery result: " + intent.getData(), Toast.LENGTH_LONG).show();
 
