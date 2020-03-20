@@ -2,8 +2,6 @@ package com.jackingaming.notesquirrel;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -38,7 +36,8 @@ public class MainActivity extends AppCompatActivity {
     //completion of that requesting intent), used with "startActivityForResult(Intent, int)"
     //and "onActivityResult(int, int, Intent)" (which is the call back method of
     //"startActivityForResult(Intent, int)").
-    private static final int PHOTO_TAKEN = 0;
+    private static final int PHOTO_TAKEN_REQUEST = 0;
+    private static final int BROWSE_GALLERY_REQUEST = 1;
 
     private File imageFile;
     private String imageFilePath;
@@ -159,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_passpoints_reset:
-                //Toast.makeText(this, "Passpoints Reset", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Passpoints Reset", Toast.LENGTH_LONG).show();
 
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 SharedPreferences.Editor editor = prefs.edit();
@@ -222,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
                         // "The Android Camera application encodes the photo in the return Intent delivered to
                         // onActivityResult() as a small Bitmap in the extras, under the key "data"."
                         Log.d(DEBUG_TAG, "MainActivity.onOptionsItemSelected(), R.id.menu_camera... imageFile != null... PRE startActivityForResult(Intent, int)");
-                        startActivityForResult(takePictureIntent, PHOTO_TAKEN);
+                        startActivityForResult(takePictureIntent, PHOTO_TAKEN_REQUEST);
                     } else {
                         Log.d(DEBUG_TAG, "MainActivity.onOptionsItemSelected(), R.id.menu_camera, else-clause... imageFile == null");
                     }
@@ -233,9 +232,13 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 return true;
-            case R.id.menu_cancel:
-                //TODO: implement menu_cancel
-                Toast.makeText(this, "Cancel", Toast.LENGTH_LONG).show();
+            case R.id.menu_gallery:
+                //TODO: implement menu_gallery
+                Toast.makeText(this, "Gallery", Toast.LENGTH_LONG).show();
+
+                Intent browseGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(browseGalleryIntent, BROWSE_GALLERY_REQUEST);
+
                 return true;
             default:
                 Toast.makeText(this, "MainActivity.onOptionsItemSelected(MenuItem) switch's default", Toast.LENGTH_LONG).show();
@@ -246,8 +249,8 @@ public class MainActivity extends AppCompatActivity {
     // "The Android Camera application encodes the photo in the return Intent delivered to
     // onActivityResult() as a small Bitmap in the extras, under the key "data"."
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == PHOTO_TAKEN && resultCode == RESULT_OK) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
+        if (requestCode == PHOTO_TAKEN_REQUEST && resultCode == RESULT_OK) {
             //getting the image captured by the camera app (that was stored in a passed in File
             //instance), getting its absolute (FULLY-QUALIFIED FILE NAME?) path.
             //TODO:
@@ -269,6 +272,13 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, R.string.unable_to_save_photo_file, Toast.LENGTH_LONG).show();
             }
             */
+        }
+        else if (requestCode == BROWSE_GALLERY_REQUEST) {
+            Log.d(DEBUG_TAG, "MainActivity.onActivityResult(int, int, Intent): Browse the Gallery");
+            Toast.makeText(this, "Gallery result: " + intent.getData(), Toast.LENGTH_LONG).show();
+
+
+            //TODO:
         }
     }
 

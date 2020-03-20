@@ -6,6 +6,6 @@
         android:id="@+id/menu_camera"
         android:title="@string/menu_camera" />
     <item
-        android:id="@+id/menu_cancel"
-        android:title="@string/menu_cancel" />
+        android:id="@+id/menu_gallery"
+        android:title="@string/menu_gallery" />
 </menu>

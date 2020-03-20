@@ -11,7 +11,7 @@
     <string name="toast_cant_save">Unable to save note. Is there sufficient space?</string>
     <string name="menu_passpoints_reset">Reset Passpoints</string>
     <string name="menu_camera">Take a Photo</string>
-    <string name="menu_cancel">Cancel</string>
+    <string name="menu_gallery">Browse the Gallery</string>
     <string name="unable_to_save_photo_file">Unable to save photo file.</string>
 
     <!-- activity_image.xml -->
