@@ -256,11 +256,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(photoViewerIntent);
 
             /*
-                In order to READ (e.g. when we invoke "decodeFile(String)") from the
-                device's external storage, we need to request PERMISSION (this is done
-                within the "AndroidManifest.xml" file).
-             */
-            /*
             Bitmap photo = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
 
             if (photo != null) {
