@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class PhotoViewerActivity extends AppCompatActivity {
 
@@ -36,17 +37,14 @@ public class PhotoViewerActivity extends AppCompatActivity {
                 within the "AndroidManifest.xml" file).
                 */
                 Bitmap photoCapturedByCamera = BitmapFactory.decodeFile(imageFilePath);
-                imageView.setImageBitmap(photoCapturedByCamera);
+
+                if (photoCapturedByCamera != null) {
+                    imageView.setImageBitmap(photoCapturedByCamera);
+                } else {
+                    Toast.makeText(this, "PhotoViewerActivity.onStart()... phtoCapturedByCamera == null", Toast.LENGTH_LONG).show();
+                }
             }
         }
-
-        /*
-        if (photoCapturedByCamera != null) {
-            Log.d(MainActivity.DEBUG_TAG, "PhotoViewerActivity.onStart() END (photoCaptured != null).");
-            imageView.setImageBitmap(photoCapturedByCamera);
-        }
-
-        */
     }
 
 }
