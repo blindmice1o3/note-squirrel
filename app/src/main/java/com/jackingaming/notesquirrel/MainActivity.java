@@ -183,13 +183,16 @@ public class MainActivity extends AppCompatActivity {
                     //get the default directory for where photos are stored onto the device's external storage.
                     File picturesDirectory = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
                     //supplying a directory and name of the new file.
-                    //imageFile = new File(picturesDirectory, "passpoints_image.jpg");
+                    imageFile = new File(picturesDirectory, "passpoints_image");
+                    imageFilePath = imageFile.getAbsolutePath();
+                    Log.d(DEBUG_TAG, "imageFile.getAbsolutePath(): " + imageFilePath);
+                    /*
                     try {
                         Log.d(DEBUG_TAG, "BEFORE File.createTempFile(String, String, File)");
                         imageFile = File.createTempFile(
-                                "passpoints_image",     /* prefix */
-                                ".jpg",                 /* suffix */
-                                picturesDirectory             /* directory */
+                                "passpoints_image",     // prefix
+                                ".jpg",                 // suffix
+                                picturesDirectory             // directory
                         );
                         Log.d(DEBUG_TAG, "AFTER File.createTempFile(String, String, File)");
 
@@ -204,16 +207,23 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(DEBUG_TAG, "MainActivity.onOptionsItemsSelected(), R.id.menu_camera... catch-block... File.createTempFile(String, String, File)");
                         e.printStackTrace();
                     }
+                    */
+
                     //"Continue only if the File was successfully created"
                     if (imageFile != null) {
                         Log.d(DEBUG_TAG, "MainActivity.onOptionsItemSelected(), R.id.menu_camera... imageFile != null");
 
-                        Log.d(DEBUG_TAG, "BuildConfig.APPLICATION_ID + \".provider\": " + BuildConfig.APPLICATION_ID + ".provider");
+                        //Log.d(DEBUG_TAG, "BuildConfig.APPLICATION_ID + \".provider\": " + BuildConfig.APPLICATION_ID + ".provider");
                         //TODO:
+
+                        Uri photoURI = Uri.fromFile(imageFile);
+                        /*
                         Uri photoURI = FileProvider.getUriForFile(this,
                                 BuildConfig.APPLICATION_ID + ".fileprovider", imageFile);
+                        */
                         //Uri.fromFile(File) probably gets the FULLY-QUALIFIED FILE NAME of the file passed in.
-                        Log.d(DEBUG_TAG, "MainActivity.onOptionsItemSelected(), R.id.menu_camera... imageFile != null... AFTER FileProvider.getUriForFile(Context, String, File)");
+                        //Log.d(DEBUG_TAG, "MainActivity.onOptionsItemSelected(), R.id.menu_camera... imageFile != null... AFTER FileProvider.getUriForFile(Context, String, File)");
+                        Log.d(DEBUG_TAG, "MainActivity.onOptionsItemSelected(), R.id.menu_camera... imageFile != null... AFTER Uri.fromFile(File)");
                         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
 
                         //startActivity(takePictureIntent);
