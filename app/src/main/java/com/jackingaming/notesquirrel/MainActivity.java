@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
 
         addSaveButtonListener();
@@ -251,6 +250,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(browseGalleryIntent, BROWSE_GALLERY_REQUEST);
 
                 return true;
+            case R.id.menu_list:
+                //TODO: implement menu_list
+                Toast.makeText(this, "List", Toast.LENGTH_LONG).show();
+
+                Intent viewListIntent = new Intent(this, ListViewerActivity.class);
+                startActivity(viewListIntent);
+
+                return true;
             default:
                 Toast.makeText(this, "MainActivity.onOptionsItemSelected(MenuItem) switch's default", Toast.LENGTH_LONG).show();
                 return super.onOptionsItemSelected(item);
@@ -271,7 +278,6 @@ public class MainActivity extends AppCompatActivity {
         } else if (requestCode == BROWSE_GALLERY_REQUEST && resultCode == RESULT_OK) {
             Log.d(DEBUG_TAG, "MainActivity.onActivityResult(int, int, Intent): Browse the Gallery");
             Toast.makeText(this, "Gallery result: " + intent.getData(), Toast.LENGTH_LONG).show();
-
 
             //TODO:
         }

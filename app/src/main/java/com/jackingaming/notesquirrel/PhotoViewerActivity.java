@@ -28,6 +28,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String imageFilePath = extras.getString("imageAddress");
+
             if (imageFilePath != null) {
                 Log.d(MainActivity.DEBUG_TAG, "PhotoViewerActivity.onStart() AFTER extraction of passed in image address: " + imageFilePath);
 
@@ -41,7 +42,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
                 if (photoCapturedByCamera != null) {
                     imageView.setImageBitmap(photoCapturedByCamera);
                 } else {
-                    Toast.makeText(this, "PhotoViewerActivity.onStart()... phtoCapturedByCamera == null", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Unable to save photo file: PhotoViewerActivity.onStart()... photoCapturedByCamera == null.", Toast.LENGTH_LONG).show();
                 }
             }
         }

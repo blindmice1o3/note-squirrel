@@ -11,9 +11,8 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!-- removed [android:maxSdkVersion="18"] from uses-permission tag. -->
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -22,6 +21,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ListViewerActivity"></activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -30,10 +30,8 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
-        </provider>
-
-        <!-- Below is the default path for the android:icon attribute of the above application tag -->
+                android:resource="@xml/file_paths" />
+        </provider> <!-- Below is the default path for the android:icon attribute of the above application tag -->
         <!-- android:icon="@mipmap/ic_launcher" -->
         <!-- I changed it to an image of a turtle. -->
         <activity
@@ -55,9 +53,7 @@
             </intent-filter>
             -->
         </activity>
-        <activity android:name=".PhotoViewerActivity">
-
-        </activity>
+        <activity android:name=".PhotoViewerActivity"></activity>
     </application>
 
 </manifest>
