@@ -28,10 +28,10 @@ public class ListViewerActivity extends AppCompatActivity {
         //irf: retrieve these from somewhere.
         List<Message> messages = new ArrayList<Message>();
 
-        messages.add(new Message(0, "Bob Smith", "This apple is mine."));
-        messages.add(new Message(1, "Sue Bake", "Special offer!"));
-        messages.add(new Message(2, "Tomas Pint", "Today is not tomorrow."));
-        messages.add(new Message(3, "Buddy Holiday", "Mine for jewels so we can feed the rock-eaters when they arrive."));
+        messages.add(new Message(0, "Bob Smith", "This apple is mine.", true));
+        messages.add(new Message(1, "Sue Bake", "Special offer!", false));
+        messages.add(new Message(2, "Tomas Pint", "Today is not tomorrow.", false));
+        messages.add(new Message(3, "Buddy Holiday", "Mine for jewels so we can feed the rock-eaters when they arrive.", true));
 
         MessageToListItemAdapter adapter = new MessageToListItemAdapter(this, messages);
 
