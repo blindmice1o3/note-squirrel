@@ -267,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
     // "The Android Camera application encodes the photo in the return Intent delivered to
     // onActivityResult() as a small Bitmap in the extras, under the key "data". (thumbnail)"
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == PHOTO_TAKEN_REQUEST && resultCode == RESULT_OK) {
             //getting the image captured by the camera app (that was stored in a passed in File
             //instance), getting its absolute (FULLY-QUALIFIED FILE NAME?) path.
@@ -277,8 +277,13 @@ public class MainActivity extends AppCompatActivity {
             startActivity(photoViewerIntent);
         } else if (requestCode == BROWSE_GALLERY_REQUEST && resultCode == RESULT_OK) {
             Log.d(DEBUG_TAG, "MainActivity.onActivityResult(int, int, Intent): Browse the Gallery");
-            Toast.makeText(this, "Gallery result: " + intent.getData(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Gallery result: " + data.getData(), Toast.LENGTH_LONG).show();
 
+            String pathAddress = data.getData().toString();
+
+            Intent pathViewerIntent = new Intent(this, PathViewerActivity.class);
+            pathViewerIntent.putExtra("pathAddress", pathAddress);
+            startActivity(pathViewerIntent);
             //TODO:
         }
     }
