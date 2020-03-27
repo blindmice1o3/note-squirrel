@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- system will query this list and use the FIRST item that matches (top to bottom) -->
+    <item android:state_pressed="true">
+        <color android:color="#FF8800" />
+    </item>
+
+    <item>
+        <color android:color="#000000" />
+    </item>
+
+</selector>

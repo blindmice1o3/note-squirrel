@@ -11,12 +11,12 @@
         android:layout_height="wrap_content"
         android:contentDescription="Email message"
         android:padding="5dp"
+        android:layout_gravity="center_vertical"
         android:src="@drawable/btn_radio_on_focused_holo_dark" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
         android:orientation="vertical">
 
         <TextView
