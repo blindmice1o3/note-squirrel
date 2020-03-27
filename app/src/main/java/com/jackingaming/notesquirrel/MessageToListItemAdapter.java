@@ -43,7 +43,8 @@ public class MessageToListItemAdapter extends BaseAdapter
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         //the View-component that we're inflating the xml into (e.g. a list item's GUI)
-        View view = inflater.inflate(R.layout.list_item_message, null);
+        //R.layout.list_item_message2 uses RelativeLayout (instead of nested LinearLayout ViewGroups)
+        View view = inflater.inflate(R.layout.list_item_message2, null);
 
         Message message = messages.get(position);
 
