@@ -2,9 +2,13 @@ package com.jackingaming.notesquirrel;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.File;
 
 public class PathViewerActivity extends AppCompatActivity {
 
@@ -19,13 +23,18 @@ public class PathViewerActivity extends AppCompatActivity {
         super.onStart();
 
         TextView textView = (TextView) findViewById(R.id.text_view_file_path);
+        ImageView imageView = (ImageView) findViewById(R.id.image_view_file_path);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String imagePath = extras.getString("pathAddress");
+            Uri pathUri = (Uri) extras.get("pathUri");
 
             if (imagePath != null) {
                 textView.setText(imagePath);
+
+                //Uri imageUri = Uri.fromFile(new File("imagePath"));
+                imageView.setImageURI(pathUri);
             } else {
                 Log.d(MainActivity.DEBUG_TAG, "imagePath is null");
             }

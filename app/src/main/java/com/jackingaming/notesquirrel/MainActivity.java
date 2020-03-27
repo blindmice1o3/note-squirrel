@@ -279,9 +279,11 @@ public class MainActivity extends AppCompatActivity {
             Log.d(DEBUG_TAG, "MainActivity.onActivityResult(int, int, Intent): Browse the Gallery");
             Toast.makeText(this, "Gallery result: " + data.getData(), Toast.LENGTH_LONG).show();
 
-            String pathAddress = data.getData().toString();
+            Uri pathUri = data.getData();
+            String pathAddress = data.getData().getPath();
 
             Intent pathViewerIntent = new Intent(this, PathViewerActivity.class);
+            pathViewerIntent.putExtra("pathUri", pathUri);
             pathViewerIntent.putExtra("pathAddress", pathAddress);
             startActivity(pathViewerIntent);
             //TODO:
