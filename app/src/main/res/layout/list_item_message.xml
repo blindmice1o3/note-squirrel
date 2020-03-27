@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    style="@style/listbackground">
 
     <ImageView
         android:id="@+id/list_message_icon"
@@ -23,15 +23,13 @@
             android:id="@+id/list_message_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#00FF00"
-            android:textSize="16dp" />
+            style="@style/title" />
 
         <TextView
             android:id="@+id/list_message_sender"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#00FF00"
-            android:textSize="14dp" />
+            style="@style/subject" />
 
     </LinearLayout>
 
