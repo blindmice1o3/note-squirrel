@@ -15,8 +15,8 @@ public class Sprite {
     private int screenHeight;
 
     private Bitmap image;
-    private int imageWidth;
-    private int imageHeight;
+
+    private Rect bounds;
 
     public Sprite(int screenWidth, int screenHeight) {
         x = 30;
@@ -31,17 +31,28 @@ public class Sprite {
     public void init(Bitmap image) {
         this.image = image;
 
-        imageWidth = image.getWidth();
-        imageHeight = image.getHeight();
+        bounds = new Rect(0, 0, image.getWidth(), image.getHeight());
     }
 
     public void draw(Canvas canvas) {
-        Rect imageRectSrc = new Rect(0, 0, imageWidth, imageHeight);
-        //Rect imageRectDst = new Rect((int)(0+x), (int)(0+y), (int)(imageWidth+x), (int)(imageHeight+y));
-        Rect imageRectDst = new Rect((int)(x), (int)(y), (int)(x+spriteWidth), (int)(y+spriteHeight));
-
         //canvas.drawBitmap(image, x, y, null);
-        canvas.drawBitmap(image, imageRectSrc, imageRectDst, null);
+        canvas.drawBitmap(image, getBounds(), getScreenRect(), null);
+    }
+
+    public Rect getBounds() {
+        return bounds;
+    }
+
+    public Rect getScreenRect() {
+        return new Rect((int)x, (int)y, (int)(x + spriteWidth), (int)(y + spriteHeight));
+    }
+
+    public int getScreenWidth() {
+        return screenWidth;
+    }
+
+    public int getScreenHeight() {
+        return screenHeight;
     }
 
     public float getX() {
