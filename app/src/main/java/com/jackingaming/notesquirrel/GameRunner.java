@@ -22,10 +22,18 @@ import android.util.Log;
  */
 public class GameRunner extends Thread {
 
+    private Game game;
     private volatile boolean running = true;
+
+    public GameRunner(Game game) {
+        this.game = game;
+    }
 
     @Override
     public void run() {
+
+        long lastTime = System.currentTimeMillis();
+
         //game loop
         while (running) {
             // Draw stuff.
@@ -38,7 +46,15 @@ public class GameRunner extends Thread {
                 e.printStackTrace();
             }
 
+            long now = System.currentTimeMillis();
+            long elapsed = now - lastTime;
 
+            if (elapsed < 100) {
+                game.update(elapsed);
+                game.draw();
+            }
+
+            lastTime = now;
         }
     }
 

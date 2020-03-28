@@ -16,6 +16,7 @@ public class GameView extends SurfaceView
 
     private Bitmap spriteSheetCorgiCrusade;
 
+    private Game game;
     private GameRunner runner;
 
     public GameView(Context context, AttributeSet attrs) {
@@ -66,7 +67,8 @@ public class GameView extends SurfaceView
     public void surfaceCreated(SurfaceHolder holder) {
         Log.d(MainActivity.DEBUG_TAG, "created");
 
-        runner = new GameRunner();
+        game = new Game(holder, getResources());
+        runner = new GameRunner(game);
         // Tell the Thread class to go to the "public void run()" method.
         runner.start();
     }
