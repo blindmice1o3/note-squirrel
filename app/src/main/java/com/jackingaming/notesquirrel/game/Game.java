@@ -10,19 +10,21 @@ import android.view.SurfaceHolder;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.game.sprites.Corgi;
+import com.jackingaming.notesquirrel.game.sprites.Sprite;
 
 public class Game {
 
     private SurfaceHolder holder;
     private Resources resources;
 
-    private Sprite corgi;
+    private Corgi corgi;
 
     public Game(int widthSurfaceView, int heightSurfaceView, SurfaceHolder holder, Resources resources) {
         this.holder = holder;
         this.resources = resources;
 
-        corgi = new Sprite(widthSurfaceView, heightSurfaceView);
+        corgi = new Corgi(widthSurfaceView, heightSurfaceView);
     }
 
     public void init() {
@@ -33,7 +35,7 @@ public class Game {
     }
 
     public void update(long elapsed) {
-
+        corgi.update(elapsed);
     }
 
     public void draw() {
