@@ -34,6 +34,8 @@ public class Game {
 
     public void update(long elapsed) {
 
+
+        
     }
 
     public void draw() {
