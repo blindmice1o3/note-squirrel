@@ -2,6 +2,7 @@ package com.jackingaming.notesquirrel;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -258,18 +259,31 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(viewListIntent);
 
                 return true;
+            case R.id.menu_jack_in:
+                //TODO: implement menu_jack_in
+                Toast.makeText(this, "Jack In", Toast.LENGTH_LONG).show();
+
+                Intent jackInIntent = new Intent(this, JackInActivity.class);
+                startActivity(jackInIntent);
+
+                return true;
             default:
                 Toast.makeText(this, "MainActivity.onOptionsItemSelected(MenuItem) switch's default", Toast.LENGTH_LONG).show();
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    // "The Android Camera application encodes the photo in the return Intent delivered to
-    // onActivityResult() as a small Bitmap in the extras, under the key "data". (thumbnail)"
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    /**
+     * This method is invoked upon returning from an activity invoked by
+     * startActivityForResult. We check the requestCode to see which activity we
+     * returned from.
+     */
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
+        // "The Android Camera application encodes the photo in the return Intent delivered to
+        // onActivityResult() as a small Bitmap in the extras, under the key "data". (thumbnail)"
         if (requestCode == PHOTO_TAKEN_REQUEST && resultCode == RESULT_OK) {
-            //getting the image captured by the camera app (that was stored in a passed in File
+            //getting the image captured by the camera app (that was stored in a passed-in File
             //instance), getting its absolute (FULLY-QUALIFIED FILE NAME?) path.
             //TODO:
             Intent photoViewerIntent = new Intent(this, PhotoViewerActivity.class);
@@ -277,10 +291,37 @@ public class MainActivity extends AppCompatActivity {
             startActivity(photoViewerIntent);
         } else if (requestCode == BROWSE_GALLERY_REQUEST && resultCode == RESULT_OK) {
             Log.d(DEBUG_TAG, "MainActivity.onActivityResult(int, int, Intent): Browse the Gallery");
-            Toast.makeText(this, "Gallery result: " + data.getData(), Toast.LENGTH_LONG).show();
+            Log.d(DEBUG_TAG, "Gallery result: " + intent.getData());
+            Toast.makeText(this, "Gallery result: " + intent.getData(), Toast.LENGTH_LONG).show();
 
-            Uri pathUri = data.getData();
-            String pathAddress = data.getData().getPath();
+            /*
+            ////////////////////////////////////////////////////
+
+            String[] columns = { MediaStore.Images.Media.DATA };
+
+            Uri imageUri = intent.getData();
+
+            Cursor cursor = getContentResolver().query(imageUri, columns, null, null, null);
+            //Initially, cursor is pointing to immediately-BEFORE-the-first
+            //item, SO MUST POINT IT TO THE FIRST ITEM.
+            ////////////////////////////////////////////////////
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(columns[0]);
+            String imagePath = cursor.getString(columnIndex);
+
+            //IMPORTANT: remember to close the cursor.
+            cursor.close();
+
+            //TODO: 2020-03-27
+            imageFilePath = Uri.parse(imagePath);
+            ////////////////////////////////////////////////////
+
+            ////////////////////////////////////////////////////
+            */
+
+            Uri pathUri = intent.getData();
+            String pathAddress = intent.getData().getPath();
 
             Intent pathViewerIntent = new Intent(this, PathViewerActivity.class);
             pathViewerIntent.putExtra("pathUri", pathUri);
