@@ -1,9 +1,11 @@
-package com.jackingaming.notesquirrel;
+package com.jackingaming.notesquirrel.game;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.SurfaceHolder;
+
+import com.jackingaming.notesquirrel.R;
 
 public class JackInActivity extends AppCompatActivity {
 
@@ -12,9 +14,11 @@ public class JackInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jack_in);
 
+        /*
         GameView gameView = (GameView) findViewById(R.id.game);
         SurfaceHolder holder = gameView.getHolder();
         holder.addCallback(gameView);
+         */
     }
 
 }

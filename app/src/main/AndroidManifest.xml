@@ -22,7 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".JackInActivity"
+            android:name=".game.JackInActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".PathViewerActivity" />
         <activity android:name=".ListViewerActivity" />
