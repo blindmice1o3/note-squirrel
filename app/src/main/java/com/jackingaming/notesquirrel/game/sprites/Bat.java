@@ -14,7 +14,7 @@ public class Bat extends Sprite {
     private static final int margin = 20;
 
     private int dirY;
-    private float speed = 0.4f;
+    private float speed = 0.8f;
     private Random random = new Random();
 
     public Bat(int screenWidth, int screenHeight, Position position) {
@@ -74,7 +74,7 @@ public class Bat extends Sprite {
         } else if (decision == 1) {
             //Randomly set dirY to either 1 or -1: 1 out of every 20 times.
             dirY = random.nextInt(2)*2-1;
-        } else if (decision <= 6) {
+        } else if (decision < 6) {
             //Move towards the ball: 4 out of every 20 times.
             //if vertical center of ball is less than vertical center of opponent, move opponent upward.
             if (ball.getScreenRect().centerY() < getScreenRect().centerY()) {
