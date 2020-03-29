@@ -42,13 +42,15 @@ public class Bat extends Sprite {
     }
 
     /**
-     * Triggered by player's touch events.
+     * Set the (vertical) center of the bat to where the user touched.
      *
-     * Set the center of the bat to where the player touched.
+     * Handle touch events triggered by GameView (custom SurfaceView).
+     * Invoked in Game.onTouchEvent(MotionEvent).
      *
-     * @param y - The y-position of the MotionEvent.
+     * @param y - The y-position of the MotionEvent (a.k.a. touch event).
      */
     public void setBatPosition(float y) {
+        ////UPDATE PLAYER'S POSITION
         setY( (y - (getSpriteHeight()/2)) );
     }
 
@@ -58,8 +60,9 @@ public class Bat extends Sprite {
      * @param elapsed - milliseconds elapsed since the previous game loop iteration.
      */
     public void update(long elapsed, Ball ball) {
+        //SIMULATED INTELLIGENCE
         int decision = random.nextInt(20);
-
+        //OPPONENT'S POSSIBLE MOVES (no movement, random movement, towards ball movement)
         if (decision == 0) {
             //Stop movement: 1 out of every 20 times.
             dirY = 0;
@@ -78,19 +81,18 @@ public class Bat extends Sprite {
             }
         }
 
-        //A check to prevent opponent from moving off-screen.
+        //PREVENT MOVING OFF-SCREEN (vertically)
         if (getScreenRect().top <= 0) {
             dirY = 1;
         } else if (getScreenRect().bottom >= getScreenHeight()) {
             dirY = -1;
         }
 
+        //UPDATE OPPONENT'S POSITION
         float y = getY();
-
         ////////////////////////////
         y += dirY * speed * elapsed;
         ////////////////////////////
-
         setY(y);
     }
 

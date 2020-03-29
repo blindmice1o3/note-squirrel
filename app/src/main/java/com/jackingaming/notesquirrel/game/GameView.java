@@ -22,6 +22,12 @@ public class GameView extends SurfaceView
         getHolder().addCallback(this);
     }
 
+    /**
+     * System's callback method when the user triggers a touch event.
+     *
+     * @param event The touch event's meta-data (e.g. x and y position
+     *              of the user triggered touch event)
+     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         game.onTouchEvent(event);

@@ -34,28 +34,37 @@ public class Ball extends Sprite {
     }
 
     public void update(long elapsed) {
-        float x = getX();
-        float y = getY();
-
         Rect screenRect = getScreenRect();
-
+        //PREVENT MOVING OFF-SCREEN (horizontally)
         if (screenRect.left <= 0) {
             dirX = 1;
         } else if (screenRect.right >= getScreenWidth()) {
             dirX = -1;
         }
-
+        //PREVENT MOVING OFF-SCREEN (vertically)
         if (screenRect.top <= 0) {
             dirY = 1;
         } else if (screenRect.bottom >= getScreenHeight()) {
             dirY = -1;
         }
 
+        //UPDATE BALL'S POSITION
+        float x = getX();
+        float y = getY();
+        ///////////////////////////////
         x += (dirX * speedX * elapsed);
         y += (dirY * speedY * elapsed);
-
+        ///////////////////////////////
         setX(x);
         setY(y);
+    }
+
+    public void moveRight() {
+        dirX = 1;
+    }
+
+    public void moveLeft() {
+        dirX = -1;
     }
 
 }
