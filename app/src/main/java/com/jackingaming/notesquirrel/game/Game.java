@@ -44,6 +44,7 @@ public class Game {
 
     public void update(long elapsed) {
         ball.update(elapsed);
+        opponent.update(elapsed, ball);
     }
 
     public void draw() {
@@ -69,6 +70,6 @@ public class Game {
     }
 
     public void onTouchEvent(MotionEvent event) {
-        player.setPosition(event.getY());
+        player.setBatPosition(event.getY());
     }
 }

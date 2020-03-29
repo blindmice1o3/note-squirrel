@@ -21,8 +21,8 @@ public class Ball extends Sprite {
     public void init(Bitmap image) {
         super.init(image);
 
-        setSpriteWidth(600);
-        setSpriteHeight(680);
+        setSpriteWidth(300);
+        setSpriteHeight(340);
         setX( ((getScreenWidth()/2) - (getSpriteWidth()/2)) );
         setY( ((getScreenHeight()/2) - (getSpriteHeight()/2)) );
 
