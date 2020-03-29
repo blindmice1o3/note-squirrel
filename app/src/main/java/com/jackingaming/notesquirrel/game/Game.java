@@ -11,15 +11,14 @@ import android.view.SurfaceHolder;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.game.sprites.Bat;
-import com.jackingaming.notesquirrel.game.sprites.Corgi;
-import com.jackingaming.notesquirrel.game.sprites.Sprite;
+import com.jackingaming.notesquirrel.game.sprites.Ball;
 
 public class Game {
 
     private SurfaceHolder holder;
     private Resources resources;
 
-    private Corgi corgi;
+    private Ball ball;
     private Bat player;
     private Bat opponent;
 
@@ -27,7 +26,7 @@ public class Game {
         this.holder = holder;
         this.resources = resources;
 
-        corgi = new Corgi(widthSurfaceView, heightSurfaceView);
+        ball = new Ball(widthSurfaceView, heightSurfaceView);
         player = new Bat(widthSurfaceView, heightSurfaceView, Bat.Position.LEFT);
         opponent = new Bat(widthSurfaceView, heightSurfaceView, Bat.Position.RIGHT);
     }
@@ -37,13 +36,13 @@ public class Game {
         Bitmap spriteSheetCorgiCrusade = BitmapFactory.decodeResource(resources, R.drawable.corgi_crusade);
         Bitmap spriteSheetYokoTileset = BitmapFactory.decodeResource(resources, R.drawable.pc_computer_yoko_tileset);
 
-        corgi.init(spriteSheetCorgiCrusade);
+        ball.init(spriteSheetCorgiCrusade);
         player.init(spriteSheetYokoTileset);
         opponent.init(spriteSheetYokoTileset);
     }
 
     public void update(long elapsed) {
-        corgi.update(elapsed);
+        ball.update(elapsed);
     }
 
     public void draw() {
@@ -58,7 +57,7 @@ public class Game {
             /////////////////////////////////////////////////////////////////////////
             //draw on the canvas:
             //sprites
-            corgi.draw(canvas);
+            ball.draw(canvas);
             player.draw(canvas);
             opponent.draw(canvas);
             /////////////////////////////////////////////////////////////////////////

@@ -3,15 +3,17 @@ package com.jackingaming.notesquirrel.game.sprites;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 
-public class Corgi extends Sprite {
+import java.util.Random;
+
+public class Ball extends Sprite {
 
     private final float speedX = 0.5f;
     private final float speedY = 0.5f;
 
-    private int dirX = 1;
-    private int dirY = 1;
+    private int dirX;
+    private int dirY;
 
-    public Corgi(int screenWidth, int screenHeight) {
+    public Ball(int screenWidth, int screenHeight) {
         super(screenWidth, screenHeight);
     }
 
@@ -19,10 +21,16 @@ public class Corgi extends Sprite {
     public void init(Bitmap image) {
         super.init(image);
 
-        setX(30);
-        setY(30);
         setSpriteWidth(600);
         setSpriteHeight(680);
+        setX( ((getScreenWidth()/2) - (getSpriteWidth()/2)) );
+        setY( ((getScreenHeight()/2) - (getSpriteHeight()/2)) );
+
+        Random random = new Random();
+
+        //Randomly choose 1 or -1.
+        dirX = random.nextInt(2)*2 - 1;
+        dirY = random.nextInt(2)*2 - 1;
     }
 
     public void update(long elapsed) {
