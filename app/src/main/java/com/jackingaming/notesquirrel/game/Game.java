@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
 import com.jackingaming.notesquirrel.MainActivity;
@@ -67,4 +68,7 @@ public class Game {
         }
     }
 
+    public void onTouchEvent(MotionEvent event) {
+        player.setPosition(event.getY());
+    }
 }

@@ -24,6 +24,8 @@ public class GameView extends SurfaceView
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        game.onTouchEvent(event);
+
         // If you've handled the touch event, return true.
         // If false, will NOT check for drag event (can't drag without touch).
         return true;

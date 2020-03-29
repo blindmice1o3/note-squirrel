@@ -32,4 +32,13 @@ public class Bat extends Sprite {
         }
     }
 
+    /**
+     * Set the center of the bat to where the player touched.
+     *
+     * @param y - The y-position of the MotionEvent.
+     */
+    public void setPosition(float y) {
+        setY( (y - (getSpriteHeight()/2)) );
+    }
+
 }
