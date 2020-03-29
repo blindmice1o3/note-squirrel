@@ -21,8 +21,11 @@ public class Game {
     public enum State {
         PAUSED, RUNNING, WON, LOST;
     }
-
     private State state = State.PAUSED;
+
+    private boolean cantPress = false;
+    private boolean justPressed = false;
+    private boolean pressing = false;
 
     private SurfaceHolder holder;
     private Resources resources;
@@ -69,10 +72,29 @@ public class Game {
      *              of the user triggered touch event)
      */
     public void onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            pressing = true;
+        } else if (event.getAction() == MotionEvent.ACTION_UP) {
+            pressing = false;
+        }
+
+        if (cantPress && !pressing) {
+            cantPress = false;
+        } else if (justPressed) {
+            cantPress = true;
+            justPressed = false;
+        }
+        if (!cantPress && pressing) {
+            justPressed = true;
+        }
+
         if (state == State.RUNNING) {
             player.setBatPosition(event.getY());
         } else {
-            state = State.RUNNING;
+            //FIXING BUG (unreleased touch WAS immediately reinitializing the game).
+            if (justPressed) {
+                state = State.RUNNING;
+            }
         }
     }
 
