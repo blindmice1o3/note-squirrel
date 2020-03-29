@@ -7,8 +7,8 @@ import java.util.Random;
 
 public class Ball extends Sprite {
 
-    private final float speedX = 0.5f;
-    private final float speedY = 0.5f;
+    private final float speedX = 0.8f;
+    private final float speedY = 0.8f;
 
     private int dirX;
     private int dirY;
@@ -21,16 +21,21 @@ public class Ball extends Sprite {
     public void init(Bitmap image) {
         super.init(image);
 
-        setSpriteWidth(300);
-        setSpriteHeight(340);
-        setX( ((getScreenWidth()/2) - (getSpriteWidth()/2)) );
-        setY( ((getScreenHeight()/2) - (getSpriteHeight()/2)) );
+        setSpriteWidth(100);
+        setSpriteHeight(100);
+
+        initPosition();
 
         Random random = new Random();
 
         //Randomly choose 1 or -1.
         dirX = random.nextInt(2)*2 - 1;
         dirY = random.nextInt(2)*2 - 1;
+    }
+
+    public void initPosition() {
+        setX( ((getScreenWidth()/2) - (getSpriteWidth()/2)) );
+        setY( ((getScreenHeight()/2) - (getSpriteHeight()/2)) );
     }
 
     public void update(long elapsed) {

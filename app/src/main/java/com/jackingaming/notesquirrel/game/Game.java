@@ -18,6 +18,12 @@ import com.jackingaming.notesquirrel.game.sprites.Ball;
 
 public class Game {
 
+    public enum State {
+        PAUSED, RUNNING, WON, LOST;
+    }
+
+    private State state = State.PAUSED;
+
     private SurfaceHolder holder;
     private Resources resources;
 
@@ -56,26 +62,46 @@ public class Game {
 
     /**
      * Update the user's bat position.
-     *
+     * <p>
      * Handle touch events triggered by GameView (custom SurfaceView).
      *
      * @param event The touch event's meta-data (e.g. x and y position
      *              of the user triggered touch event)
      */
     public void onTouchEvent(MotionEvent event) {
-        player.setBatPosition(event.getY());
+        if (state == State.RUNNING) {
+            player.setBatPosition(event.getY());
+        } else {
+            state = State.RUNNING;
+        }
     }
 
     public void update(long elapsed) {
+        if (state == State.RUNNING) {
+            updateGame(elapsed);
+        }
+    }
+
+    private void initSpritePositions() {
+        ball.initPosition();
+        player.initPosition();
+        opponent.initPosition();
+    }
+
+    private void updateGame(long elapsed) {
         ///////////////////////////////////////////
         //COLLISION DETECTION (ball bounce off bat)
         ///////////////////////////////////////////
-        //player (rectangle) and ball (point) (x is left side of ball, y is center)
-        if (player.getScreenRect().contains(ball.getScreenRect().left, ball.getScreenRect().centerY())) {
+        //player (rectangle) and ball (point)
+        //(x is left side of ball, y is top of ball) OR (x is left side of ball, y is bottom of ball)
+        if (player.getScreenRect().contains(ball.getScreenRect().left, ball.getScreenRect().top) ||
+                player.getScreenRect().contains(ball.getScreenRect().left, ball.getScreenRect().bottom)) {
             ball.moveRight();
         }
-        //opponent (rectangle) and ball (point) (x is right side of ball, y is center)
-        else if (opponent.getScreenRect().contains(ball.getScreenRect().right, ball.getScreenRect().centerY())) {
+        //opponent (rectangle) and ball (point)
+        //(x is right side of ball, y is top of ball) OR (x is right side of ball, y is bottom of ball)
+        else if (opponent.getScreenRect().contains(ball.getScreenRect().right, ball.getScreenRect().top) ||
+                opponent.getScreenRect().contains(ball.getScreenRect().right, ball.getScreenRect().bottom)) {
             ball.moveLeft();
         }
         ////////////////////////////////////////////////////////////////////////////////////
@@ -84,10 +110,14 @@ public class Game {
         //ball moved left passed player
         else if (ball.getScreenRect().left < player.getScreenRect().right) {
             Log.d(MainActivity.DEBUG_TAG, "LOST");
+            state = State.LOST;
+            initSpritePositions();
         }
         //ball moved right passed opponent
         else if (ball.getScreenRect().right > opponent.getScreenRect().left) {
             Log.d(MainActivity.DEBUG_TAG, "WON");
+            state = State.WON;
+            initSpritePositions();
         }
 
         //////////////////////////////////////////////////
@@ -110,11 +140,23 @@ public class Game {
             //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             //@@@@@@@@@@@@@@@ DRAWING-RELATED-CODE @@@@@@@@@@@@@@@
             //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-            drawText(canvas, "Tap screen to start...");
-
-
-
-            //TODO:
+            switch (state) {
+                case PAUSED:
+                    drawText(canvas, "Tap screen to start...");
+                    break;
+                case RUNNING:
+                    drawGame(canvas);
+                    break;
+                case WON:
+                    drawText(canvas, "You won!");
+                    break;
+                case LOST:
+                    drawText(canvas, "You lost :(");
+                    break;
+                default:
+                    Log.d(MainActivity.DEBUG_TAG, "Game.render() switch construct's default block.");
+                    break;
+            }
             //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
             //unlock it and post our updated drawing to it.
@@ -124,7 +166,7 @@ public class Game {
         }
     }
 
-    public void drawGame(Canvas canvas) {
+    private void drawGame(Canvas canvas) {
         //SPRITES
         //////////////////////
         ball.draw(canvas);
@@ -133,10 +175,10 @@ public class Game {
         //////////////////////
     }
 
-    public void drawText(Canvas canvas, String text) {
+    private void drawText(Canvas canvas, String text) {
         //textPaint's Align is set to Align.CENTER, which means
         //its pivot-point is CENTER-OF-TEXT (not TOP-LEFT corner).
-        canvas.drawText(text, canvas.getWidth()/2, canvas.getHeight()/2, textPaint);
+        canvas.drawText(text, canvas.getWidth() / 2, canvas.getHeight() / 2, textPaint);
     }
 
 }

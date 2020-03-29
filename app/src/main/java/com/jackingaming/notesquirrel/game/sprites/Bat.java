@@ -27,9 +27,10 @@ public class Bat extends Sprite {
     public void init(Bitmap image) {
         super.init(image);
 
-        setSpriteWidth(242);
-        setSpriteHeight(834);
-        setY( ((getScreenHeight()/2) - (getSpriteHeight()/2)) );
+        setSpriteWidth(100);
+        setSpriteHeight(600);
+
+        initPosition();
 
         //set dirY to either 1 or -1 (opponent's simulated intelligence).
         dirY = random.nextInt(2)*2-1;
@@ -37,8 +38,12 @@ public class Bat extends Sprite {
         if (position == Position.LEFT) {
             setX(margin);
         } else if (position == Position.RIGHT) {
-            setX( ((getScreenWidth() - margin) - getSpriteWidth()) );
+            setX( (getScreenWidth() - margin - getSpriteWidth()) );
         }
+    }
+
+    public void initPosition() {
+        setY( ((getScreenHeight()/2) - (getSpriteHeight()/2)) );
     }
 
     /**
@@ -69,8 +74,8 @@ public class Bat extends Sprite {
         } else if (decision == 1) {
             //Randomly set dirY to either 1 or -1: 1 out of every 20 times.
             dirY = random.nextInt(2)*2-1;
-        } else if (decision < 4) {
-            //Move towards the ball: 2 out of every 20 times.
+        } else if (decision <= 6) {
+            //Move towards the ball: 4 out of every 20 times.
             //if vertical center of ball is less than vertical center of opponent, move opponent upward.
             if (ball.getScreenRect().centerY() < getScreenRect().centerY()) {
                 dirY = -1;
