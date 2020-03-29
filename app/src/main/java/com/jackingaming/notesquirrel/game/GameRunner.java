@@ -61,7 +61,7 @@ public class GameRunner extends Thread {
 
                 /////////////////////
                 game.update(elapsed);
-                game.draw();
+                game.render();
                 /////////////////////
 
                 frameCounter++;

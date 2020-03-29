@@ -79,7 +79,7 @@ public class GameView extends SurfaceView
             Want to NOT allow the phone to go to another application until
             this runner has stopped drawing... because if it goes to another
             application, the surface will no longer exist yet the thread will
-            still be try to draw on it which will cause it to CRASH.
+            still be try to renderGame on it which will cause it to CRASH.
              */
             while (runner != null) {
                 // This method waits for the thread to terminate.

@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -23,6 +25,8 @@ public class Game {
     private Bat player;
     private Bat opponent;
 
+    private Paint textPaint;
+
     public Game(int widthSurfaceView, int heightSurfaceView, SurfaceHolder holder, Resources resources) {
         this.holder = holder;
         this.resources = resources;
@@ -30,6 +34,14 @@ public class Game {
         ball = new Ball(widthSurfaceView, heightSurfaceView);
         player = new Bat(widthSurfaceView, heightSurfaceView, Bat.Position.LEFT);
         opponent = new Bat(widthSurfaceView, heightSurfaceView, Bat.Position.RIGHT);
+
+        textPaint = new Paint();
+        //set text's pivot-point to CENTER-OF-TEXT (instead of TOP-LEFT corner).
+        textPaint.setTextAlign(Paint.Align.CENTER);
+        textPaint.setAntiAlias(true);
+        textPaint.setColor(Color.BLUE);
+        textPaint.setTextSize(64);
+        textPaint.setTypeface(Typeface.DEFAULT_BOLD);
     }
 
     public void init() {
@@ -40,6 +52,18 @@ public class Game {
         ball.init(spriteSheetCorgiCrusade);
         player.init(spriteSheetYokoTileset);
         opponent.init(spriteSheetYokoTileset);
+    }
+
+    /**
+     * Update the user's bat position.
+     *
+     * Handle touch events triggered by GameView (custom SurfaceView).
+     *
+     * @param event The touch event's meta-data (e.g. x and y position
+     *              of the user triggered touch event)
+     */
+    public void onTouchEvent(MotionEvent event) {
+        player.setBatPosition(event.getY());
     }
 
     public void update(long elapsed) {
@@ -73,37 +97,46 @@ public class Game {
         opponent.update(elapsed, ball);
     }
 
-    public void draw() {
+    public void render() {
         //synchronize?
+        ////////////////////////////////////
         Canvas canvas = holder.lockCanvas();
+        ////////////////////////////////////
 
         if (canvas != null) {
-            //Log.d(MainActivity.DEBUG_TAG, "Game.draw() canvas is NOT null.");
-            //clear the canvas (by painting the background white).
+            //BACKGROUND (clear the canvas by painting the background white).
             canvas.drawColor(Color.WHITE);
 
-            /////////////////////////////////////////////////////////////////////////
-            //draw on the canvas:
-            //sprites
-            ball.draw(canvas);
-            player.draw(canvas);
-            opponent.draw(canvas);
-            /////////////////////////////////////////////////////////////////////////
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            //@@@@@@@@@@@@@@@ DRAWING-RELATED-CODE @@@@@@@@@@@@@@@
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            drawText(canvas, "Tap screen to start...");
+
+
+
+            //TODO:
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
             //unlock it and post our updated drawing to it.
+            ///////////////////////////////////
             holder.unlockCanvasAndPost(canvas);
+            ///////////////////////////////////
         }
     }
 
-    /**
-     * Update the user's bat position.
-     *
-     * Handle touch events triggered by GameView (custom SurfaceView).
-     *
-     * @param event The touch event's meta-data (e.g. x and y position
-     *              of the user triggered touch event)
-     */
-    public void onTouchEvent(MotionEvent event) {
-        player.setBatPosition(event.getY());
+    public void drawGame(Canvas canvas) {
+        //SPRITES
+        //////////////////////
+        ball.draw(canvas);
+        player.draw(canvas);
+        opponent.draw(canvas);
+        //////////////////////
     }
+
+    public void drawText(Canvas canvas, String text) {
+        //textPaint's Align is set to Align.CENTER, which means
+        //its pivot-point is CENTER-OF-TEXT (not TOP-LEFT corner).
+        canvas.drawText(text, canvas.getWidth()/2, canvas.getHeight()/2, textPaint);
+    }
+
 }
