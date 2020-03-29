@@ -19,11 +19,6 @@ public class Sprite {
     private Rect bounds;
 
     public Sprite(int screenWidth, int screenHeight) {
-        x = 30;
-        y = 30;
-        spriteWidth = 600;
-        spriteHeight = 680;
-
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
     }
@@ -45,6 +40,14 @@ public class Sprite {
 
     public Rect getScreenRect() {
         return new Rect((int)x, (int)y, (int)(x + spriteWidth), (int)(y + spriteHeight));
+    }
+
+    public int getSpriteWidth() {
+        return spriteWidth;
+    }
+
+    public int getSpriteHeight() {
+        return spriteHeight;
     }
 
     public int getScreenWidth() {
@@ -69,6 +72,14 @@ public class Sprite {
 
     public void setY(float y) {
         this.y = y;
+    }
+
+    public void setSpriteWidth(int spriteWidth) {
+        this.spriteWidth = spriteWidth;
+    }
+
+    public void setSpriteHeight(int spriteHeight) {
+        this.spriteHeight = spriteHeight;
     }
 
 }

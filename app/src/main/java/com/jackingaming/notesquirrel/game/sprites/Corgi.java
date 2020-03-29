@@ -1,5 +1,6 @@
 package com.jackingaming.notesquirrel.game.sprites;
 
+import android.graphics.Bitmap;
 import android.graphics.Rect;
 
 public class Corgi extends Sprite {
@@ -12,6 +13,16 @@ public class Corgi extends Sprite {
 
     public Corgi(int screenWidth, int screenHeight) {
         super(screenWidth, screenHeight);
+    }
+
+    @Override
+    public void init(Bitmap image) {
+        super.init(image);
+
+        setX(30);
+        setY(30);
+        setSpriteWidth(600);
+        setSpriteHeight(680);
     }
 
     public void update(long elapsed) {
