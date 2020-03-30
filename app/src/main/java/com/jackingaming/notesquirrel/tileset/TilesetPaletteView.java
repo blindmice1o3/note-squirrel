@@ -21,41 +21,54 @@ import com.jackingaming.notesquirrel.R;
 
 public class TilesetPaletteView extends ImageView {
 
-    private int widthCanvas;
-    private int heightCanvas;
+    private Bitmap tilesetModel;
 
-    private Bitmap tileset;
-
-    private Rect canvasScreenRect;
-    private Rect tilesetRect;
+    private Rect modelRect;
+    private Rect canvasRect;
 
     private int numberOfTilesAcross;
-    private int tileSize;
+    private int modelTileSize;
     private int numberOfTilesDown;
+
+    private int widthCanvas;
+    private int canvasTileSize;
+    private int canvasNumberOfTilesDown;
+    private int heightCanvas;
+
+    private float xConversionFactor;
+    private float yConversionFactor;
 
     private int xSelected;
     private int ySelected;
 
+    //private float aspectRatio;
+    /*
+    public int canvasToModel(int canvasCoordinate) {
+
+    }
+    */
+
     public TilesetPaletteView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        Log.d(MainActivity.DEBUG_TAG, "TilesetPaletteView(Context) PRE-BitmapFactory.decodeResource(Resources, int).");
+        Log.d(MainActivity.DEBUG_TAG, "$$$$$$$$$$$ TilesetPaletteView(Context) constructor $$$$$$$$$$$");
 
         numberOfTilesAcross = 6;
 
-        tileset = BitmapFactory.decodeResource(context.getResources(), R.drawable.pc_computer_yoko_tileset);
-        Log.d(MainActivity.DEBUG_TAG, "TilesetPaletteView(Context) POST-BitmapFactory.decodeResource(Resources, int).");
-        //setImageBitmap(tileset);
-        tilesetRect = new Rect(0, 0, tileset.getWidth(), tileset.getHeight());
+        tilesetModel = BitmapFactory.decodeResource(context.getResources(), R.drawable.pc_computer_yoko_tileset);
+        modelRect = new Rect(0, 0, tilesetModel.getWidth(), tilesetModel.getHeight());
 
-        Log.d(MainActivity.DEBUG_TAG, "tileSize = tilesetRect.right / numberOfTilesAcross: " + tilesetRect.right + " / " + numberOfTilesAcross);
-        tileSize = tilesetRect.right / numberOfTilesAcross;
-        Log.d(MainActivity.DEBUG_TAG, "tileSize: " + tileSize);
+        Log.d(MainActivity.DEBUG_TAG, "modelTileSize = modelRect.right / numberOfTilesAcross: " + modelRect.right + " / " + numberOfTilesAcross);
+        modelTileSize = modelRect.right / numberOfTilesAcross;
+        Log.d(MainActivity.DEBUG_TAG, "modelTileSize: " + modelTileSize);
 
-        Log.d(MainActivity.DEBUG_TAG, "numberOfTilesDown = tilesetRect.bottom / tileSize: " + tilesetRect.bottom + " / " + tileSize);
-        numberOfTilesDown = tilesetRect.bottom / tileSize;
+        Log.d(MainActivity.DEBUG_TAG, "numberOfTilesDown = modelRect.bottom / modelTileSize: " + modelRect.bottom + " / " + modelTileSize);
+        numberOfTilesDown = modelRect.bottom / modelTileSize;
         Log.d(MainActivity.DEBUG_TAG, "numberOfTilesDown: " + numberOfTilesDown);
 
+        ///////////////////////////////////////////////////////////
         setBackgroundResource(R.drawable.pc_computer_yoko_tileset);
+        ///////////////////////////////////////////////////////////
+        //setImageBitmap(tilesetModel);
 
         setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -75,7 +88,7 @@ public class TilesetPaletteView extends ImageView {
             }
         });
 
-        Log.d(MainActivity.DEBUG_TAG, "TilesetPaletteView(Context) POST.setOnTouchListener(...).");
+        Log.d(MainActivity.DEBUG_TAG, "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
     }
 
     @Override
@@ -87,9 +100,26 @@ public class TilesetPaletteView extends ImageView {
         widthCanvas = w;
         heightCanvas = h;
 
-        canvasScreenRect = new Rect(0, 0, w, h);
+        canvasRect = new Rect(0, 0, w, h);
+
+        Log.d(MainActivity.DEBUG_TAG, "canvasTileSize = canvasRect.right / numberOfTilesAcross: " + canvasRect.right + " / " + numberOfTilesAcross);
+        canvasTileSize = canvasRect.right / numberOfTilesAcross;
+        Log.d(MainActivity.DEBUG_TAG, "canvasTileSize: " + canvasTileSize);
+
+        Log.d(MainActivity.DEBUG_TAG, "canvasNumberOfTilesDown = canvasRect.bottom / canvasTileSize: " + canvasRect.bottom + " / " + canvasTileSize);
+        canvasNumberOfTilesDown = canvasRect.bottom / canvasTileSize;
+        Log.d(MainActivity.DEBUG_TAG, "canvasNumberOfTilesDown: " + canvasNumberOfTilesDown);
 
         Log.d(MainActivity.DEBUG_TAG, "(widthCanvas, heightCanvas): " + widthCanvas + ", " + heightCanvas);
+        Log.d(MainActivity.DEBUG_TAG, "###################################################################");
+
+        /////////////////////////////////////////////////////////////////
+        xConversionFactor = (float) modelRect.right / canvasRect.right;
+        yConversionFactor = (float) modelRect.bottom / canvasRect.bottom;
+        /////////////////////////////////////////////////////////////////
+
+        Log.d(MainActivity.DEBUG_TAG, "###################################################################");
+        Log.d(MainActivity.DEBUG_TAG, "(xConversionFactor, yConversionFactor): " + xConversionFactor + ", " + yConversionFactor);
         Log.d(MainActivity.DEBUG_TAG, "###################################################################");
     }
 
@@ -101,26 +131,9 @@ public class TilesetPaletteView extends ImageView {
 
         Paint paint = new Paint();
         paint.setColor(Color.YELLOW);
-        canvas.drawRect(xSelected, ySelected, (xSelected + tileSize), (ySelected + tileSize), paint);
+        canvas.drawRect(xSelected, ySelected, (xSelected + modelTileSize), (ySelected + modelTileSize), paint);
 
         Log.d(MainActivity.DEBUG_TAG, "@@@@@@@@@@@@@@@@@@@@@@@@@@TilesetPaletteView.onDraw(Canvas).@@@@@@@@@@@@@@@@@@@@@@@@@@");
-    }
-
-    public void setSelectedTileCoordinates(int xSelected, int ySelected) {
-        this.xSelected = xSelected;
-        this.ySelected = ySelected;
-    }
-
-    public void setTileSize(int tileSize) {
-        this.tileSize = tileSize;
-    }
-
-    public void setxSelected(int xSelected) {
-        this.xSelected = xSelected;
-    }
-
-    public void setySelected(int ySelected) {
-        this.ySelected = ySelected;
     }
 
 }
