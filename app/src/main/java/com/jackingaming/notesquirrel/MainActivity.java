@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.jackingaming.notesquirrel.game.JackInActivity;
+import com.jackingaming.notesquirrel.tileset.TilesetUtilActivity;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -256,6 +257,14 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent viewListIntent = new Intent(this, ListViewerActivity.class);
                 startActivity(viewListIntent);
+
+                return true;
+            case R.id.menu_tileset_util:
+                //TODO: implement menu_tile_util
+                Toast.makeText(this, "Tileset Util", Toast.LENGTH_LONG).show();
+
+                Intent tilesetUtilIntent = new Intent(this, TilesetUtilActivity.class);
+                startActivity(tilesetUtilIntent);
 
                 return true;
             case R.id.menu_jack_in:

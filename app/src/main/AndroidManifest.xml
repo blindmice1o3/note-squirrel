@@ -22,6 +22,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".tileset.TilesetUtilActivity"
+            android:screenOrientation="landscape" />
+        <activity
             android:name=".game.JackInActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".PathViewerActivity" />

@@ -8,12 +8,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.media.AudioManager;
-import android.media.SoundPool;
+import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
-import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
@@ -22,7 +20,8 @@ import com.jackingaming.notesquirrel.game.sprites.Ball;
 
 public class Game {
 
-    private SoundPool soundPool;
+    //private SoundPool soundPool;
+    private MediaPlayer mediaPlayer;
 
     public enum State {
         PAUSED, RUNNING, WON, LOST;
@@ -48,7 +47,8 @@ public class Game {
         this.holder = holder;
         this.resources = resources;
 
-        soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+        //soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+        mediaPlayer = MediaPlayer.create(context, R.raw.corporate_ukulele);
 
         ball = new Ball(widthSurfaceView, heightSurfaceView);
         player = new Bat(widthSurfaceView, heightSurfaceView, Bat.Position.LEFT);
@@ -67,7 +67,8 @@ public class Game {
         Log.d(MainActivity.DEBUG_TAG, "Game.init()");
 
         //TODO:
-        final int startSoundId = soundPool.load(context, R.raw.corporate_ukulele, 1);
+        /*
+        final int startSoundId = soundPool.load(context, R.raw.avicii_tribute_concert, 1);
         soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
             @Override
             public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
@@ -78,6 +79,8 @@ public class Game {
                 }
             }
         });
+        */
+        mediaPlayer.start();
 
         Bitmap spriteSheetCorgiCrusade = BitmapFactory.decodeResource(resources, R.drawable.corgi_crusade);
         Bitmap spriteSheetYokoTileset = BitmapFactory.decodeResource(resources, R.drawable.pc_computer_yoko_tileset);
