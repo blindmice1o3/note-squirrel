@@ -57,7 +57,7 @@ public class GameView extends SurfaceView
         int widthSurfaceView = getWidth();
         int heightSurfaceView = getHeight();
 
-        game = new Game(widthSurfaceView, heightSurfaceView, holder, getResources());
+        game = new Game(getContext(),  widthSurfaceView, heightSurfaceView, holder, getResources());
         runner = new GameRunner(game);
         // Tell the Thread class to go to the "public void run()" method.
         runner.start();

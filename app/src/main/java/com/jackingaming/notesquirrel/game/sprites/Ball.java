@@ -7,8 +7,8 @@ import java.util.Random;
 
 public class Ball extends Sprite {
 
-    private final float speedX = 0.8f;
-    private final float speedY = 0.8f;
+    private final float speedX = 0.5f;
+    private final float speedY = 0.5f;
 
     private int dirX;
     private int dirY;

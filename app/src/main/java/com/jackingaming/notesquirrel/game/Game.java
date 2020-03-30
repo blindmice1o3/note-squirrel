@@ -1,5 +1,6 @@
 package com.jackingaming.notesquirrel.game;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -7,9 +8,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
+import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
@@ -17,6 +21,8 @@ import com.jackingaming.notesquirrel.game.sprites.Bat;
 import com.jackingaming.notesquirrel.game.sprites.Ball;
 
 public class Game {
+
+    private SoundPool soundPool;
 
     public enum State {
         PAUSED, RUNNING, WON, LOST;
@@ -35,10 +41,14 @@ public class Game {
     private Bat opponent;
 
     private Paint textPaint;
+    private Context context;
 
-    public Game(int widthSurfaceView, int heightSurfaceView, SurfaceHolder holder, Resources resources) {
+    public Game(Context context, int widthSurfaceView, int heightSurfaceView, SurfaceHolder holder, Resources resources) {
+        this.context = context;
         this.holder = holder;
         this.resources = resources;
+
+        soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
 
         ball = new Ball(widthSurfaceView, heightSurfaceView);
         player = new Bat(widthSurfaceView, heightSurfaceView, Bat.Position.LEFT);
@@ -55,6 +65,20 @@ public class Game {
 
     public void init() {
         Log.d(MainActivity.DEBUG_TAG, "Game.init()");
+
+        //TODO:
+        final int startSoundId = soundPool.load(context, R.raw.corporate_ukulele, 1);
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+                if (startSoundId == sampleId) {
+                    soundPool.play(startSoundId, 1, 1, 1, 0, 1f);
+                    Toast.makeText(context, "SoundPool.OnLoadCompleteListener.onLoadComplete(SoundPool, int, int)", Toast.LENGTH_LONG).show();
+                    Log.d(MainActivity.DEBUG_TAG, "@@@@@ SoundPool.OnLoadCompleteListener.onLoadComplete(SoundPool, int, int) @@@@@");
+                }
+            }
+        });
+
         Bitmap spriteSheetCorgiCrusade = BitmapFactory.decodeResource(resources, R.drawable.corgi_crusade);
         Bitmap spriteSheetYokoTileset = BitmapFactory.decodeResource(resources, R.drawable.pc_computer_yoko_tileset);
 
