@@ -34,6 +34,7 @@ public class TilesetPaletteView extends ImageView {
         tileset = BitmapFactory.decodeResource(context.getResources(), R.drawable.pc_computer_yoko_tileset);
         Log.d(MainActivity.DEBUG_TAG, "TilesetPaletteView(Context) POST-BitmapFactory.decodeResource(Resources, int).");
         setImageBitmap(tileset);
+
         setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -44,16 +45,21 @@ public class TilesetPaletteView extends ImageView {
                 xSelected = (int) event.getX();
                 ySelected = (int) event.getY();
 
+                /////////////
+                invalidate();
+                /////////////
+
                 return true;
             }
         });
+
         Log.d(MainActivity.DEBUG_TAG, "TilesetPaletteView(Context) POST.setOnTouchListener(...).");
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        Log.d(MainActivity.DEBUG_TAG, "TilesetPaletteView.onDraw(Canvas).");
+        Log.d(MainActivity.DEBUG_TAG, "@@@@@@@@@@@@@@@@@@@@@@@@@@TilesetPaletteView.onDraw(Canvas).@@@@@@@@@@@@@@@@@@@@@@@@@@");
 
         Paint paint = new Paint();
         paint.setColor(Color.YELLOW);

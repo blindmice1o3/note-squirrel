@@ -42,7 +42,7 @@ public class GameView extends SurfaceView
      */
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        Log.d(MainActivity.DEBUG_TAG, "changed");
+        Log.d(MainActivity.DEBUG_TAG, "GameView.surfaceChanged(SurfaceHolder, int, int, int)");
     }
 
     /**
@@ -52,7 +52,7 @@ public class GameView extends SurfaceView
      */
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        Log.d(MainActivity.DEBUG_TAG, "created");
+        Log.d(MainActivity.DEBUG_TAG, "GameView.surfaceCreated(SurfaceHolder)");
 
         int widthSurfaceView = getWidth();
         int heightSurfaceView = getHeight();
@@ -68,7 +68,7 @@ public class GameView extends SurfaceView
      */
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        Log.d(MainActivity.DEBUG_TAG, "destroyed");
+        Log.d(MainActivity.DEBUG_TAG, "GameView.surfaceDestroyed(SurfaceHolder)");
 
         if (runner != null) {
             runner.shutdown();

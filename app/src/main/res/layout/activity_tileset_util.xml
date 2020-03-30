@@ -13,15 +13,6 @@
         android:layout_weight="50"
         android:background="#00FF00" />
 
-    <!--
-    <ImageView
-        android:id="@+id/tileset_palette"
-        android:src="@drawable/pc_computer_yoko_tileset"
-        android:layout_width="0dp"
-        android:layout_weight="50"
-        android:layout_height="match_parent" />
-        -->
-
     <com.jackingaming.notesquirrel.tileset.TilesetPaletteView
         android:id="@+id/tileset_palatte"
         android:layout_width="0dp"

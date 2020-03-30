@@ -23,6 +23,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".tileset.TilesetUtilActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="landscape" />
         <activity
             android:name=".game.JackInActivity"
