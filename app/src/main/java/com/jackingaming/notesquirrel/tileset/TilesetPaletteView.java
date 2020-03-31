@@ -28,8 +28,17 @@ public class TilesetPaletteView extends ImageView {
 
     private int numberOfTilesAcross;
     private int numberOfTilesDown;
+
+    ////////////////////////////////////////
     private int xModelTileSize;
     private int yModelTileSize;
+    // PRE y pixel 461
+    private int xModelTileSizePreYPixel461;
+    private int yModelTileSizePreYPixel461;
+    // POST y pixel 461
+    private int xModelTileSizePostYPixel461;
+    private int yModelTileSizePostYPixel461;
+    ////////////////////////////////////////
 
     private int widthCanvas;
     private int heightCanvas;
@@ -44,12 +53,26 @@ public class TilesetPaletteView extends ImageView {
     private int xSelected;
     private int ySelected;
 
+    public Bitmap tile00x00;
+
     public int canvasToModel(int canvasCoordinate) {
         //TODO:
 
         return 0;
     }
 
+    private int converterModelToPixel(int modelValue) {
+        int pixel = 0;
+
+
+
+        return pixel;
+    }
+    private float xConversionFactorModelToPixel;
+    private float yConversionFactoryModelToPixel;
+    private int marginSize = 1;
+    private int numberOfPixelAcross;
+    private int numberOfPixelDown;
     public TilesetPaletteView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         Log.d(MainActivity.DEBUG_TAG, "$$$$$$$$$$$ TilesetPaletteView(Context) constructor $$$$$$$$$$$");
@@ -57,9 +80,24 @@ public class TilesetPaletteView extends ImageView {
         numberOfTilesAcross = 6;
         numberOfTilesDown = 20;
 
+        numberOfPixelAcross = 242;
+        numberOfPixelDown = 834;
+        //TODO: THE RETURNED VALUES OF tilesetModel's getWidth() and getHeight() is 3x the actual number of pixel.
+        //TODO: so 40px by 40px tile size will be given as 120 by 120 (for tilesetModel [Bitmap]).
+        //TODO: SOLUTION: moved source image to drawable-nodpi directory to prevent SCALING.
+        ////////////////////////////////////////////////////////////////////////////////////////////
         tilesetModel = BitmapFactory.decodeResource(context.getResources(), R.drawable.pc_computer_yoko_tileset);
+        tile00x00 = tilesetModel.createBitmap(tilesetModel, 1, 1, 200, 200);
+        Log.d(MainActivity.DEBUG_TAG, "tile00x00 (width, height): " + tile00x00.getWidth() + ", " + tile00x00.getHeight());
+        Log.d(MainActivity.DEBUG_TAG, "tilesetModel (width, height): " + tilesetModel.getWidth() + ", " + tilesetModel.getHeight());
         modelRect = new Rect(0, 0, tilesetModel.getWidth(), tilesetModel.getHeight());
+        Log.d(MainActivity.DEBUG_TAG, "modelRect.right, modelRect.bottom: " + modelRect.right + ", " + modelRect.bottom);
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        //xConversionFactorModelToPixel =
 
+
+        xModelTileSizePreYPixel461 = modelRect.right / numberOfTilesAcross;
+        //yModelTileSizePreYPixel461 = (modelRect.bottom - ())
 
         Log.d(MainActivity.DEBUG_TAG, "xModelTileSize = modelRect.right / numberOfTilesAcross: " + modelRect.right + " / " + numberOfTilesAcross);
         Log.d(MainActivity.DEBUG_TAG, "yModelTileSize = modelRect.bottom / numberOfTilesDown: " + modelRect.bottom + " / " + numberOfTilesDown);
@@ -83,17 +121,29 @@ public class TilesetPaletteView extends ImageView {
         setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Toast.makeText(getContext(),
-                        "(x, y): " + event.getX() + ", " + event.getY(),
-                        Toast.LENGTH_SHORT).show();
+                //TODO: SHOULD BE USING SCREEN COORDINATE (converted using the conversion factors)
+                //not pixel of 641.
+                if (event.getY() < 641) {
+                    Log.d(MainActivity.DEBUG_TAG, "event.getX(): " + event.getX());
+                    Log.d(MainActivity.DEBUG_TAG, "event.getY(): " + event.getY());
+                    //move by tile size (not one pixel at a time)
+                    xSelected = (((int) event.getX() / xCanvasTileSize)) * xCanvasTileSize;
+                    ySelected = (((int) event.getY() / yCanvasTileSize)) * yCanvasTileSize;
+                    Log.d(MainActivity.DEBUG_TAG, "xSelected: " + xSelected);
+                    Log.d(MainActivity.DEBUG_TAG, "ySelected: " + ySelected);
+                } else {
+                    xSelected = (((int) event.getX() / xCanvasTileSize)) * xCanvasTileSize;
+                    //TODO: SHOULD BE USING SCREEN COORDINATE (converted using the conversion factors)
+                    //not pixel of 641.
+                    int numberOf48pxTileSprite = ((((int)event.getY() - 640) / (yCanvasTileSize+8) ) * (yCanvasTileSize+8)) / (yCanvasTileSize+8);
+                    Log.d(MainActivity.DEBUG_TAG, "numberOf48pxTileSprite: " + numberOf48pxTileSprite);
+                    ySelected = ((((int) event.getY() / yCanvasTileSize)) * yCanvasTileSize) + numberOf48pxTileSprite;
+                }
 
-                Log.d(MainActivity.DEBUG_TAG, "event.getX(): " + event.getX());
-                Log.d(MainActivity.DEBUG_TAG, "event.getY(): " + event.getY());
-                //move by tile size (not one pixel at a time)
-                xSelected = (((int)event.getX() / xCanvasTileSize)) * xCanvasTileSize;
-                ySelected = (((int)event.getY() / yCanvasTileSize)) * yCanvasTileSize;
-                Log.d(MainActivity.DEBUG_TAG, "xSelected: " + xSelected);
-                Log.d(MainActivity.DEBUG_TAG, "ySelected: " + ySelected);
+                Toast.makeText(getContext(),
+                        "(xSelected, ySelected): " + (xSelected / xCanvasTileSize) +
+                                ", " + (ySelected / yCanvasTileSize),
+                        Toast.LENGTH_SHORT).show();
 
                 /////////////
                 invalidate();
@@ -106,35 +156,36 @@ public class TilesetPaletteView extends ImageView {
         Log.d(MainActivity.DEBUG_TAG, "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
     }
 
+
+
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         Log.d(MainActivity.DEBUG_TAG, "###################################################################");
         Log.d(MainActivity.DEBUG_TAG, "#######TilesetPaletteView.onSizeChanged(int, int, int, int)#######");
-
+        ////////////////////////////////////////////
         widthCanvas = w;
         heightCanvas = h;
         Log.d(MainActivity.DEBUG_TAG, "(widthCanvas, heightCanvas): " + widthCanvas + ", " + heightCanvas);
-
+        canvasRect = new Rect(0, 0, widthCanvas, heightCanvas);
         ////////////////////////////////////////////
-        canvasRect = new Rect(0, 0, w, h);
-        ////////////////////////////////////////////
-
-        Log.d(MainActivity.DEBUG_TAG, "xCanvasTileSize = canvasRect.right / numberOfTilesAcross: " + canvasRect.right + " / " + numberOfTilesAcross);
-        Log.d(MainActivity.DEBUG_TAG, "yCanvasTileSize = canvasRect.bottom / numberOfTilesDown: " + canvasRect.bottom + " / " + numberOfTilesDown);
-        xCanvasTileSize = canvasRect.right / numberOfTilesAcross;
-        yCanvasTileSize = canvasRect.bottom / numberOfTilesDown;
-        Log.d(MainActivity.DEBUG_TAG, "xCanvasTileSize: " + xCanvasTileSize);
-        Log.d(MainActivity.DEBUG_TAG, "yCanvasTileSize: " + yCanvasTileSize);
-
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         xConversionFactor = (float) modelRect.right / canvasRect.right;
         yConversionFactor = (float) modelRect.bottom / canvasRect.bottom;
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
         Log.d(MainActivity.DEBUG_TAG, "###################################################################");
         Log.d(MainActivity.DEBUG_TAG, "(xConversionFactor, yConversionFactor): " + xConversionFactor + ", " + yConversionFactor);
         Log.d(MainActivity.DEBUG_TAG, "###################################################################");
+
+
+
+
+        Log.d(MainActivity.DEBUG_TAG, "xCanvasTileSize = widthCanvas / numberOfTilesAcross: " + widthCanvas + " / " + numberOfTilesAcross);
+        Log.d(MainActivity.DEBUG_TAG, "yCanvasTileSize = heightCanvas / numberOfTilesDown: " + heightCanvas + " / " + numberOfTilesDown);
+        xCanvasTileSize = widthCanvas / numberOfTilesAcross;
+        yCanvasTileSize = heightCanvas / numberOfTilesDown;
+        Log.d(MainActivity.DEBUG_TAG, "xCanvasTileSize: " + xCanvasTileSize);
+        Log.d(MainActivity.DEBUG_TAG, "yCanvasTileSize: " + yCanvasTileSize);
     }
 
     @Override
