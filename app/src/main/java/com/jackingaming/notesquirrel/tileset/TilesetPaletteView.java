@@ -86,7 +86,7 @@ public class TilesetPaletteView extends ImageView {
         //TODO: so 40px by 40px tile size will be given as 120 by 120 (for tilesetModel [Bitmap]).
         //TODO: SOLUTION: moved source image to drawable-nodpi directory to prevent SCALING.
         ////////////////////////////////////////////////////////////////////////////////////////////
-        tilesetModel = BitmapFactory.decodeResource(context.getResources(), R.drawable.pc_computer_yoko_tileset1);
+        tilesetModel = BitmapFactory.decodeResource(context.getResources(), R.drawable.pc_yoko_tileset1);
         tile00x00 = tilesetModel.createBitmap(tilesetModel, 1, 1, 200, 200);
         Log.d(MainActivity.DEBUG_TAG, "tile00x00 (width, height): " + tile00x00.getWidth() + ", " + tile00x00.getHeight());
         Log.d(MainActivity.DEBUG_TAG, "tilesetModel (width, height): " + tilesetModel.getWidth() + ", " + tilesetModel.getHeight());
@@ -114,9 +114,9 @@ public class TilesetPaletteView extends ImageView {
 
         ///////////////////////////////////////////////////////////
         //"setImageResource() automatically scale your image"
-        setBackgroundResource(R.drawable.pc_computer_yoko_tileset1); //drawable-nodpi (NOT re-scaled)
-        //setImageResource(R.drawable.pc_computer_yoko_tileset1);
-        //setBackgroundResource(R.drawable.pc_computer_yoko_tileset0); //drawable (automatically scaled)
+        setBackgroundResource(R.drawable.pc_yoko_tileset1); //drawable-nodpi (NOT re-scaled)
+        //setImageResource(R.drawable.pc_yoko_tileset1);
+        //setBackgroundResource(R.drawable.pc_yoko_tileset0); //drawable (automatically scaled)
         //setImageBitmap(tilesetModel); //does NOT fill the View automatically (see blue background)
         Log.d(MainActivity.DEBUG_TAG, "tilesetModel (width, height): " + tilesetModel.getWidth() + ", " + tilesetModel.getHeight());
         ///////////////////////////////////////////////////////////
@@ -177,6 +177,10 @@ public class TilesetPaletteView extends ImageView {
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         xConversionFactor = (float) modelRect.right / canvasRect.right;
         yConversionFactor = (float) modelRect.bottom / canvasRect.bottom;
+        Log.d(MainActivity.DEBUG_TAG, "modelRect.right / canvasRect.right: " + modelRect.right + " / " + canvasRect.right + " = " + (modelRect.right / canvasRect.right));
+        Log.d(MainActivity.DEBUG_TAG, "yCanvasTileSize: " + yCanvasTileSize);
+        Log.d(MainActivity.DEBUG_TAG, "xCanvasTileSize: " + xCanvasTileSize);
+        Log.d(MainActivity.DEBUG_TAG, "yCanvasTileSize: " + yCanvasTileSize);
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         Log.d(MainActivity.DEBUG_TAG, "###################################################################");
         Log.d(MainActivity.DEBUG_TAG, "(xConversionFactor, yConversionFactor): " + xConversionFactor + ", " + yConversionFactor);
@@ -202,6 +206,7 @@ public class TilesetPaletteView extends ImageView {
 
 
         //TODO:
+        /*
         Bitmap test0 = BitmapFactory.decodeResource(getResources(), R.drawable.arcade_bubble_bobble_general_sprites);
         Log.d(MainActivity.DEBUG_TAG, "test0: " + test0.getWidth() + ", " + test0.getHeight());
         Log.d(MainActivity.DEBUG_TAG, "test0: " + test0.getScaledWidth(canvas) + ", " + test0.getScaledHeight(canvas));
@@ -211,7 +216,7 @@ public class TilesetPaletteView extends ImageView {
         Bitmap test1 = BitmapFactory.decodeResource(getResources(), R.drawable.arcade_bubble_bobble_general_sprites, options);
         Log.d(MainActivity.DEBUG_TAG, "test1: " + test1.getWidth() + ", " + test1.getHeight());
         Log.d(MainActivity.DEBUG_TAG, "test1: " + test1.getScaledWidth(canvas) + ", " + test1.getScaledHeight(canvas));
-
+        */
 
         canvas.drawRect(xSelected, ySelected, (xSelected + xCanvasTileSize), (ySelected + yCanvasTileSize), paintYellowUnfilled);
 

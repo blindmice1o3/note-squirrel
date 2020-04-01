@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.jackingaming.notesquirrel.game.JackInActivity;
+import com.jackingaming.notesquirrel.learn_fragments.FragmentParentActivity;
 import com.jackingaming.notesquirrel.tileset.TilesetUtilActivity;
 
 import java.io.BufferedReader;
@@ -265,6 +266,14 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent tilesetUtilIntent = new Intent(this, TilesetUtilActivity.class);
                 startActivity(tilesetUtilIntent);
+
+                return true;
+            case R.id.menu_fragment_parent:
+                //TODO: implement menu_fragment_parent
+                Toast.makeText(this, "Learn about Fragments", Toast.LENGTH_LONG).show();
+
+                Intent fragmentIntent = new Intent(this, FragmentParentActivity.class);
+                startActivity(fragmentIntent);
 
                 return true;
             case R.id.menu_jack_in:

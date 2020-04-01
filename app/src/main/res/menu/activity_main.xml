@@ -15,6 +15,9 @@
         android:id="@+id/menu_tileset_util"
         android:title="Tileset Util" />
     <item
+        android:id="@+id/menu_fragment_parent"
+        android:title="Learn about Fragments" />
+    <item
         android:id="@+id/menu_jack_in"
         android:title="Jack In" />
 </menu>

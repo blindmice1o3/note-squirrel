@@ -83,7 +83,7 @@ public class Game {
         mediaPlayer.start();
 
         Bitmap spriteSheetCorgiCrusade = BitmapFactory.decodeResource(resources, R.drawable.corgi_crusade);
-        Bitmap spriteSheetYokoTileset = BitmapFactory.decodeResource(resources, R.drawable.pc_computer_yoko_tileset0);
+        Bitmap spriteSheetYokoTileset = BitmapFactory.decodeResource(resources, R.drawable.pc_yoko_tileset0);
 
         ball.init(spriteSheetCorgiCrusade);
         player.init(spriteSheetYokoTileset);
