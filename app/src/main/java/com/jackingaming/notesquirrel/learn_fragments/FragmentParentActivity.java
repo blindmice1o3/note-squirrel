@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -31,20 +32,22 @@ public class FragmentParentActivity extends AppCompatActivity {
         imageSource = BitmapFactory.decodeResource(getResources(), R.drawable.gbc_hm2_spritesheet_items);
         imageView = (ImageView) findViewById(R.id.imageview_fragment);
         imageView.setImageBitmap(imageSource);
-        /*
-        //Bitmap background = BitmapFactory.decodeResource(getResources(), R.drawable.gbc_hm2_spritesheet_items);
-        imageView.setBackgroundResource(R.drawable.gbc_hm2_spritesheet_items);
-        */
 
         Log.d(MainActivity.DEBUG_TAG,
                 "imageView.getWidth(), imageView.getHeight(): " +
                         imageView.getWidth() + ", " + imageView.getHeight());
+        imageView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Log.d(MainActivity.DEBUG_TAG,
+                        "event.getX(), event.getY(): " +
+                                event.getX() + ", " + event.getY());
 
-        /*
-        Log.d(MainActivity.DEBUG_TAG,
-                "imageView.getBackground().getBounds().right, imageView.getBackground().getBounds().bottom: " +
-                        imageView.getBackground().getBounds().right + ", " + imageView.getBackground().getBounds().bottom);
-         */
+                return true;
+            }
+        });
+
+
 
         button = (Button) findViewById(R.id.button_fragment);
         button.setOnClickListener(new View.OnClickListener() {
@@ -57,8 +60,6 @@ public class FragmentParentActivity extends AppCompatActivity {
                 Log.d(MainActivity.DEBUG_TAG,
                         "imageView.getDrawable().getIntrinsicWidth(), imageView.getDrawable().getIntrinsicHeight(): " +
                                 imageView.getDrawable().getIntrinsicWidth() + ", " + imageView.getDrawable().getIntrinsicHeight());
-
-
             }
         });
     }
