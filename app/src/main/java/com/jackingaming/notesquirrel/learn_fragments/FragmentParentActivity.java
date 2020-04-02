@@ -20,43 +20,8 @@ public class FragmentParentActivity extends AppCompatActivity {
     private ImageView imageView;
     private Button button;
 
-    private Bitmap[][] spriteSheet;
-
-    private void initSpriteSheet() {
-        int column = 9;
-        int row = 9;
-        spriteSheet = new Bitmap[row][column];
-
-        int margin = 1;
-        int tileWidth = 16;
-        int tileHeight = 16;
-
-        int xCurrent = margin;
-        int yCurrent = margin;
-
-        for (int y = 0; y < row; y++) {
-            for (int x = 0; x < column; x++) {
-                spriteSheet[y][x] = Bitmap.createBitmap(imageSource, xCurrent, yCurrent, tileWidth, tileHeight);
-                xCurrent += (tileWidth + margin);
-            }
-            xCurrent = margin;
-            yCurrent += (tileHeight + margin);
-        }
-
-        /*
-        int[] animal = {1, 2, 3, 4};
-        int[] booger = {9, 8, 7, 6};
-        int[][] practice = new int[2][4];
-        practice[0] = animal;
-        practice[1] = booger;
-        Log.d(MainActivity.DEBUG_TAG, "practice.length: " + practice.length);
-        Log.d(MainActivity.DEBUG_TAG, "practice[0].length: " + practice[0].length);
-        for (int i = 0; i < practice.length; i++) {
-            Log.d(MainActivity.DEBUG_TAG,
-                    practice[i][0] + " " + practice[i][1] + " " + practice[i][2] + " " + practice[i][3] + " ");
-        }
-        */
-    }
+    private Assets assets;
+    private Bitmap[][] spriteSheetItems;
 
     private int indexButtonX;
     private int indexButtonY;
@@ -65,8 +30,11 @@ public class FragmentParentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment_parent);
 
+        assets = new Assets(getResources());
+        spriteSheetItems = assets.getItems();
+        Log.d(MainActivity.DEBUG_TAG, "FragmentParentActivity.onCreate(Bundle) after \"spriteSheetItems = assets.getItems();\"");
+
         imageSource = BitmapFactory.decodeResource(getResources(), R.drawable.gbc_hm2_spritesheet_items);
-        initSpriteSheet();
         imageView = (ImageView) findViewById(R.id.imageview_fragment);
         imageView.setImageBitmap(imageSource);
 
@@ -98,10 +66,12 @@ public class FragmentParentActivity extends AppCompatActivity {
                 //imageView.setMaxWidth( (spriteSheet[indexButtonY][indexButtonX].getWidth() * 7) );
                 //imageView.setMaxHeight( (spriteSheet[indexButtonY][indexButtonX].getHeight() * 7) );
                 //imageView.setAdjustViewBounds(true);
-                imageView.getLayoutParams().width = (spriteSheet[indexButtonY][indexButtonX].getWidth() * 15);
-                imageView.getLayoutParams().height = (spriteSheet[indexButtonY][indexButtonX].getHeight() * 15);
+                Log.d(MainActivity.DEBUG_TAG, "button's OnClickListener.onClick(View) BEFORE calling spriteSheet's width and height.");
+                imageView.getLayoutParams().width = (spriteSheetItems[indexButtonY][indexButtonX].getWidth() * 15);
+                imageView.getLayoutParams().height = (spriteSheetItems[indexButtonY][indexButtonX].getHeight() * 15);
+                Log.d(MainActivity.DEBUG_TAG, "button's OnClickListener.onClick(View) AFTER calling spriteSheet's width and height.");
 
-                Bitmap newImage = Bitmap.createScaledBitmap(spriteSheet[indexButtonY][indexButtonX], 240, 240, false);
+                Bitmap newImage = Bitmap.createScaledBitmap(spriteSheetItems[indexButtonY][indexButtonX], 240, 240, false);
 
                 imageView.setImageBitmap(newImage);
 
