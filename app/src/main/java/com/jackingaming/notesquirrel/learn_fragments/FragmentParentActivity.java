@@ -1,14 +1,10 @@
 package com.jackingaming.notesquirrel.learn_fragments;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,6 +28,7 @@ public class FragmentParentActivity extends AppCompatActivity {
         imageSource = BitmapFactory.decodeResource(getResources(), R.drawable.gbc_hm2_spritesheet_items);
         imageView = (ImageView) findViewById(R.id.imageview_fragment);
         imageView.setImageBitmap(imageSource);
+
 
         Log.d(MainActivity.DEBUG_TAG,
                 "imageView.getWidth(), imageView.getHeight(): " +
