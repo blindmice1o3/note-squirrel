@@ -93,7 +93,13 @@ public class FragmentParentActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageView.setImageBitmap(spriteSheet[indexButtonY][indexButtonX]);
+                //imageView.setMaxWidth( (spriteSheet[indexButtonY][indexButtonX].getWidth() * 9) );
+                //imageView.setMaxHeight( (spriteSheet[indexButtonY][indexButtonX].getHeight() * 9) );
+                //imageView.setAdjustViewBounds(true);
+
+                Bitmap newImage = Bitmap.createScaledBitmap(spriteSheet[indexButtonY][indexButtonX], 128, 128, false);
+
+                imageView.setImageBitmap(newImage);
 
                 indexButtonX++;
                 if ((indexButtonX%9) == 0) {
