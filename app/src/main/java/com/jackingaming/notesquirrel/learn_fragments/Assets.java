@@ -9,26 +9,35 @@ import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 
 public class Assets {
-    private Bitmap imageSource;
-    private Bitmap[][] items;
 
-    public Assets(Resources resources) {
-        imageSource = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm2_spritesheet_items);
-        if (imageSource != null) {
-            Log.d(MainActivity.DEBUG_TAG, "Assets.init(Resources): imageSource != null");
-        } else {
-            Log.d(MainActivity.DEBUG_TAG, "Assets.init(Resources): imageSource == null");
-        }
-        initItems();
+    public static Bitmap[][] items;
+
+    public static void init(Resources resources) {
+        initItems(resources);
+        //initEntities(resources);
+        //initTiles(resources);
+        //etc
     }
 
-    private void initItems(){
-        //private static Bitmap[][] initItems(Resources resources){
-        //Bitmap[][] returner;
+    private static void initItems(Resources resources){
+        //LOAD SPRITESHEET
+        Bitmap imageSource = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm2_spritesheet_items);
 
+        //CHECK IF IMAGE RESOURCE DID not LOAD PROPERLY
+        if (imageSource == null) {
+            Log.d(MainActivity.DEBUG_TAG, "Assets.init(Resources): imageSource == null");
+
+            Log.d(MainActivity.DEBUG_TAG, "BAILING EARLY!!!!!");
+            return;
+        }
+
+        //IF WE'VE MADE IT THIS FAR, THE IMAGE RESOURCE LOADED AS INTENDED
+        Log.d(MainActivity.DEBUG_TAG, "Assets.init(Resources): imageSource != null");
+
+        //UNPACKING THE SPRITESHEET (logic is specific to each spritesheet's layout)
         int column = 9;
         int row = 9;
-        //Bitmap imageSource = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm2_spritesheet_items);
+
         items = new Bitmap[row][column];
 
         int margin = 1;
@@ -46,15 +55,6 @@ public class Assets {
             xCurrent = margin;
             yCurrent += (tileHeight + margin);
         }
-
-        //return returner;
     }
 
-    public Bitmap[][] getItems() {
-        return items;
-    }
-
-    public Bitmap getImageSource() {
-        return imageSource;
-    }
 }
