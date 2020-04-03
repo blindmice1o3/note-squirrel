@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,23 +36,26 @@ public class FragmentParentActivity extends AppCompatActivity {
         Assets.init(getResources());
         ////////////////////////////
         spriteSheetItems = Assets.items;
-        Log.d(MainActivity.DEBUG_TAG, "FragmentParentActivity.onCreate(Bundle) after \"spriteSheetItems = assets.getItems();\"");
 
         imageSource = BitmapFactory.decodeResource(getResources(), R.drawable.gbc_hm2_spritesheet_items);
         imageView = (ImageView) findViewById(R.id.imageview_fragment);
         imageView.setImageBitmap(imageSource);
+        Log.d(MainActivity.DEBUG_TAG, "imageSource.getWidth(): " + imageSource.getWidth());
+        Log.d(MainActivity.DEBUG_TAG, "imageSource.getHeight(): " + imageSource.getHeight());
+        /*
+        Drawable imageSource = getResources().getDrawable(R.drawable.gbc_hm2_spritesheet_items);
+        imageView = (ImageView) findViewById(R.id.imageview_fragment);
+        imageView.setImageDrawable(imageSource);
+        Log.d(MainActivity.DEBUG_TAG, "imageSource.getInstrinsicWidth(): " + imageSource.getIntrinsicWidth());
+        Log.d(MainActivity.DEBUG_TAG, "imageSource.getIntrinsicHeight(): " + imageSource.getIntrinsicHeight());
+        */
 
 
 
-        Log.d(MainActivity.DEBUG_TAG,
-                "imageView.getWidth(), imageView.getHeight(): " +
-                        imageView.getWidth() + ", " + imageView.getHeight());
         imageView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Log.d(MainActivity.DEBUG_TAG,
-                        "event.getX(), event.getY(): " +
-                                event.getX() + ", " + event.getY());
+                Log.d(MainActivity.DEBUG_TAG, "event.getX(), event.getY(): " + event.getX() + ", " + event.getY());
 
                 return true;
             }
