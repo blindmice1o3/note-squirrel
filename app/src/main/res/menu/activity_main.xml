@@ -16,7 +16,10 @@
         android:title="Tileset Util" />
     <item
         android:id="@+id/menu_fragment_parent"
-        android:title="Learn about Fragments" />
+        android:title="Learn about Fragments (HM items)" />
+    <item
+        android:id="@+id/menu_fragment_parent2"
+        android:title="Learn about Fragments (product fragment)" />
     <item
         android:id="@+id/menu_jack_in"
         android:title="Jack In" />

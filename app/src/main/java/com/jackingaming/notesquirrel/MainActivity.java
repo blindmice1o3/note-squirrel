@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.jackingaming.notesquirrel.game.JackInActivity;
 import com.jackingaming.notesquirrel.learn_fragments.FragmentParentActivity;
+import com.jackingaming.notesquirrel.learn_fragments2.FragmentParent2Activity;
 import com.jackingaming.notesquirrel.tileset.TilesetUtilActivity;
 
 import java.io.BufferedReader;
@@ -270,10 +271,18 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.menu_fragment_parent:
                 //TODO: implement menu_fragment_parent
-                Toast.makeText(this, "Learn about Fragments", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Learn about Fragments (HM items)", Toast.LENGTH_LONG).show();
 
                 Intent fragmentIntent = new Intent(this, FragmentParentActivity.class);
                 startActivity(fragmentIntent);
+
+                return true;
+            case R.id.menu_fragment_parent2:
+                //TODO: implement menu_fragment_parent2
+                Toast.makeText(this, "Learn about Fragments (product fragment)", Toast.LENGTH_LONG).show();
+
+                Intent fragment2Intent = new Intent(this, FragmentParent2Activity.class);
+                startActivity(fragment2Intent);
 
                 return true;
             case R.id.menu_jack_in:

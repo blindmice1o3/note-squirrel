@@ -21,7 +21,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".learn_fragments.FragmentParentActivity"></activity>
+        <activity android:name=".learn_fragments2.FragmentParent2Activity"></activity>
+        <activity android:name=".learn_fragments.FragmentParentActivity" />
         <activity
             android:name=".tileset.TilesetUtilActivity"
             android:screenOrientation="landscape"
