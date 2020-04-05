@@ -37,18 +37,19 @@ public class FragmentParentActivity extends AppCompatActivity {
         Assets.init(getResources());
         ////////////////////////////
         //spriteSheetItems = Assets.items;
+        //spriteSheetItems = Assets.tiles;
         spriteSheetItems = Assets.entities;
 
 
 
         //imageSource = BitmapFactory.decodeResource(getResources(), R.drawable.gbc_hm2_spritesheet_items);
+        //imageSource = BitmapFactory.decodeResource(getResources(), R.drawable.pc_yoko_tileset1);
         Bitmap tooBigClippit = BitmapFactory.decodeResource(getResources(), R.drawable.pc_ms_office_clippit);
         Bitmap justRightClippit = Bitmap.createScaledBitmap(tooBigClippit, 500, 500, false);
         imageSource = justRightClippit;
-        //imageSource = BitmapFactory.decodeResource(getResources(), R.drawable.pc_ms_office_clippit);
         imageView = (ImageView) findViewById(R.id.imageview_fragment);
-        //imageView.setImageBitmap(imageSource);
-        imageView.setImageBitmap(justRightClippit);
+        imageView.setImageBitmap(imageSource);
+
         Log.d(MainActivity.DEBUG_TAG, "imageSource.getWidth(): " + imageSource.getWidth());
         Log.d(MainActivity.DEBUG_TAG, "imageSource.getHeight(): " + imageSource.getHeight());
         /*
