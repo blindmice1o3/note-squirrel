@@ -150,8 +150,16 @@ public class TilesetPaletteView extends ImageView {
                                 ", " + (ySelected / yCanvasTileSize),
                         Toast.LENGTH_SHORT).show();
 
+                //https://stuff.mit.edu/afs/sipb/project/android/docs/guide/topics/graphics/2d-graphics.html
+                //Canvas and Drawables:
+                //Applications such as video games should be drawing to the Canvas on its own.
+                //However, there's more than one way to do this:
+                //-In the same thread as your UI Activity, wherein you create a custom View component
+                //in your layout, call invalidate() and then handle the onDraw() callback.
+                //-Or, in a separate thread, wherein you manage a SurfaceView and perform draws to the
+                //Canvas as fast as your thread is capable (you do not need to request invalidate()).
                 /////////////
-                invalidate();
+                //invalidate();
                 /////////////
 
                 return true;
