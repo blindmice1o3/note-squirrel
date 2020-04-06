@@ -35,7 +35,7 @@ public class ModelFragment extends Fragment {
 
         imageView.setImageDrawable(icon);
         imageView.getLayoutParams().width = (int) (icon.getIntrinsicWidth() * 0.8);
-        imageView.getLayoutParams().height = (int) (icon.getIntrinsicHeight() * 0.8);
+        imageView.getLayoutParams().height = (int) (icon.getIntrinsicHeight() * 0.5);
         imageView.setAdjustViewBounds(true);
 
         textView.setText("They told Jack Burton to go to hell... and that's exactly where he's going!");
