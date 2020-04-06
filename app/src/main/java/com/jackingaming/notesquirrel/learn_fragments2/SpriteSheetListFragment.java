@@ -9,6 +9,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.ListFragment;
 
+import com.jackingaming.notesquirrel.R;
+
 public class SpriteSheetListFragment extends ListFragment {
 
     private SpriteSheetList spriteSheets = new SpriteSheetList();
@@ -19,7 +21,7 @@ public class SpriteSheetListFragment extends ListFragment {
 
         ArrayAdapter<SpriteSheet> adapter = new ArrayAdapter<SpriteSheet>(
                 getActivity(),
-                android.R.layout.simple_list_item_1,
+                R.layout.list_item_sprite_sheet,
                 spriteSheets);
 
         setListAdapter(adapter);
