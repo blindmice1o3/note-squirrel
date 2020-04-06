@@ -34,7 +34,6 @@ public class ModelFragment extends Fragment {
         Drawable icon = getResources().getDrawable(R.drawable.rsz_big_trouble_in_little_china);
 
         imageView.setImageDrawable(icon);
-        imageView.getLayoutParams().width = (int) (icon.getIntrinsicWidth() * 0.8);
         imageView.getLayoutParams().height = (int) (icon.getIntrinsicHeight() * 0.5);
         imageView.setAdjustViewBounds(true);
 
