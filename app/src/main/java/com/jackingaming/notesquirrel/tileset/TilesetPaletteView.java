@@ -150,16 +150,26 @@ public class TilesetPaletteView extends ImageView {
                                 ", " + (ySelected / yCanvasTileSize),
                         Toast.LENGTH_SHORT).show();
 
-                //https://stuff.mit.edu/afs/sipb/project/android/docs/guide/topics/graphics/2d-graphics.html
-                //Canvas and Drawables:
-                //Applications such as video games should be drawing to the Canvas on its own.
-                //However, there's more than one way to do this:
-                //-In the same thread as your UI Activity, wherein you create a custom View component
-                //in your layout, call invalidate() and then handle the onDraw() callback.
-                //-Or, in a separate thread, wherein you manage a SurfaceView and perform draws to the
-                //Canvas as fast as your thread is capable (you do not need to request invalidate()).
+                //https://stackoverflow.com/questions/12062497/drawing-to-canvas-ondraw-works-drawing-ontouchevent-doesnt
+                //
+                //You're supposed to call invalidate() at the end of onTouchEvent() to tell the
+                // system to update the screen. Calling invalidate() will call onDraw().
+                //
+                //Also, what is fundamentally wrong is that you create a canvas in this class you
+                // have. That does absolutely nothing for you. The canvas to draw in is the one
+                // that you get from the onDraw() method. The call to canvas.drawLine() in
+                // onTouchevent isn't doing anything for you and shouldn't be there. That is an
+                // empty canvas and isn't the one that will get "posted."
+                //
+                //In onTouchEvent() you should only gather the touch event data, and also do some
+                // processing on it if you need to. You shouldn't make any calls to drawing methods
+                // there. However, as I said, if you want to trigger a draw from onTouchEvent(),
+                // you call invalidate(). If you want to draw lines based on where you are touching,
+                // you will need to create class variables that are X and Y coordinates. You update
+                // these X and Y variables in onTouchEvent(), and then you use them in onDraw() to
+                // draw whatever you need based on these X and y variables.
                 /////////////
-                //invalidate();
+                invalidate();
                 /////////////
 
                 return true;
