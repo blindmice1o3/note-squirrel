@@ -192,6 +192,11 @@ public class MainActivity extends AppCompatActivity {
                     imageFilePath = imageFile.getAbsolutePath();
                     Log.d(DEBUG_TAG, "imageFile.getAbsolutePath(): " + imageFilePath);
 
+                    Log.d(DEBUG_TAG, "files-path: " + getFilesDir());
+                    Log.d(DEBUG_TAG, "external-files-path: " + getExternalFilesDir(Environment.DIRECTORY_PICTURES));
+                    Log.d(DEBUG_TAG, "cache-path: " + getCacheDir());
+                    Log.d(DEBUG_TAG, "external-cache-path: " + getExternalCacheDir());
+
                     //"Continue only if the File was successfully created"
                     if (imageFile != null) {
                         Log.d(DEBUG_TAG, "MainActivity.onOptionsItemSelected(), R.id.menu_camera... imageFile != null");

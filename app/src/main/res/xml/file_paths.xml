@@ -2,18 +2,18 @@
 <paths>
     <files-path
         name="files"
-        path="." />
+        path="data/user/0/com.jackingaming.notesquirrel/files/" />
     <external-path
         name="external"
-        path="." />
+        path="storage/emulated/0/Android/data/com.jackingaming.notesquirrel/files/Pictures/" />
     <external-files-path
         name="external_files"
-        path="." />
+        path="storage/emulated/0/Android/data/com.jackingaming.notesquirrel/files/Pictures/" />
     <cache-path
         name="cache"
-        path="." />
+        path="data/user/0/com.jackingaming.notesquirrel/cache/" />
     <external-cache-path
         name="external_cache"
-        path="." />
+        path="storage/emulated/0/Android/data/com.jackingaming.notesquirrel/cache/" />
     <!-- "Android/data/com.jackingaming.notesquirrel/files/Pictures" -->
 </paths>
