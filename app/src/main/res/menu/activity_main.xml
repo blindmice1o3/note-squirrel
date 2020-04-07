@@ -21,6 +21,9 @@
         android:id="@+id/menu_fragment_parent2"
         android:title="Learn about Fragments (product fragment)" />
     <item
+        android:id="@+id/menu_file_sandbox"
+        android:title="Learn about File Management" />
+    <item
         android:id="@+id/menu_jack_in"
         android:title="Jack In" />
 </menu>

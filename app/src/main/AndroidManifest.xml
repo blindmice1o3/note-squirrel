@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jackingaming.notesquirrel">
+
     <!-- Supporting different screen resolutions -->
     <supports-screens
         android:largeScreens="true"
         android:normalScreens="true"
         android:resizeable="true"
         android:smallScreens="false"
-        android:xlargeScreens="true" /> <!-- Features (optional): camera -->
+        android:xlargeScreens="true" />
+
+    <!-- Features (optional): camera -->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -21,17 +24,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".learn_fragments2.FragmentParent2Activity" />
-        <activity android:name=".learn_fragments.FragmentParentActivity" />
-        <activity
-            android:name=".tileset.TilesetUtilActivity"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity
-            android:name=".game.JackInActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".PathViewerActivity" />
-        <activity android:name=".ListViewerActivity" />
+
+        <!-- Below is the default path for the android:icon attribute of the above application tag -->
+        <!-- android:icon="@mipmap/ic_launcher" -->
+        <!-- I changed it to an image of a turtle. -->
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -41,9 +37,21 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
-        </provider> <!-- Below is the default path for the android:icon attribute of the above application tag -->
-        <!-- android:icon="@mipmap/ic_launcher" -->
-        <!-- I changed it to an image of a turtle. -->
+        </provider>
+
+        <activity android:name=".file.FileSandboxActivity" />
+        <activity android:name=".learn_fragments2.FragmentParent2Activity" />
+        <activity android:name=".learn_fragments.FragmentParentActivity" />
+        <activity
+            android:name=".tileset.TilesetUtilActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".game.JackInActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".ListViewerActivity" />
+        <activity android:name=".PathViewerActivity" />
+        <activity android:name=".PhotoViewerActivity" />
         <activity
             android:name=".ImageActivity"
             android:screenOrientation="portrait">
@@ -54,7 +62,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity">
-
             <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -63,7 +70,7 @@
             </intent-filter>
             -->
         </activity>
-        <activity android:name=".PhotoViewerActivity" />
+
     </application>
 
 </manifest>
