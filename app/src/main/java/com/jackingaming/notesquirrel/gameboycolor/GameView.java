@@ -9,6 +9,7 @@ import android.view.SurfaceView;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.pong.PongCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.PoohFarmerCartridge;
 
 public class GameView extends SurfaceView
         implements SurfaceHolder.Callback {
@@ -16,8 +17,8 @@ public class GameView extends SurfaceView
     private GameCartridge gameCartridge;
     private GameRunner runner;
 
-    private int widthSurfaceView;
-    private int heightSurfaceView;
+    private int widthScreen;
+    private int heightScreen;
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -57,10 +58,11 @@ public class GameView extends SurfaceView
     public void surfaceCreated(SurfaceHolder holder) {
         Log.d(MainActivity.DEBUG_TAG, "GameView.surfaceCreated(SurfaceHolder)");
 
-        widthSurfaceView = getWidth();
-        heightSurfaceView = getHeight();
+        widthScreen = getWidth();
+        heightScreen = getHeight();
 
-        gameCartridge = new PongCartridge(getContext(),  widthSurfaceView, heightSurfaceView, holder, getResources());
+        gameCartridge = new PoohFarmerCartridge(getContext(), holder, getResources(), widthScreen, heightScreen);
+        //gameCartridge = new PongCartridge(getContext(), holder, getResources(), widthScreen, heightScreen);
         runner = new GameRunner(gameCartridge);
         // Tell the Thread class to go to the "public void run()" method.
         runner.start();
