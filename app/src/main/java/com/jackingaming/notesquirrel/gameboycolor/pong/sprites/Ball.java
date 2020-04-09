@@ -13,16 +13,16 @@ public class Ball extends Sprite {
     private int dirX;
     private int dirY;
 
-    public Ball(int screenWidth, int screenHeight) {
-        super(screenWidth, screenHeight);
+    public Ball(int widthScreen, int heightScreen) {
+        super(widthScreen, heightScreen);
     }
 
     @Override
     public void init(Bitmap image) {
         super.init(image);
 
-        setSpriteWidth(100);
-        setSpriteHeight(100);
+        setWidthSprite(100);
+        setHeightSprite(100);
 
         initPosition();
 
@@ -34,8 +34,8 @@ public class Ball extends Sprite {
     }
 
     public void initPosition() {
-        setX( ((getScreenWidth()/2) - (getSpriteWidth()/2)) );
-        setY( ((getScreenHeight()/2) - (getSpriteHeight()/2)) );
+        setX( ((getWidthScreen()/2) - (getWidthSprite()/2)) );
+        setY( ((getHeightScreen()/2) - (getHeightSprite()/2)) );
     }
 
     public void update(long elapsed) {
@@ -43,13 +43,13 @@ public class Ball extends Sprite {
         //PREVENT MOVING OFF-SCREEN (horizontally)
         if (screenRect.left <= 0) {
             dirX = 1;
-        } else if (screenRect.right >= getScreenWidth()) {
+        } else if (screenRect.right >= getWidthScreen()) {
             dirX = -1;
         }
         //PREVENT MOVING OFF-SCREEN (vertically)
         if (screenRect.top <= 0) {
             dirY = 1;
-        } else if (screenRect.bottom >= getScreenHeight()) {
+        } else if (screenRect.bottom >= getHeightScreen()) {
             dirY = -1;
         }
 

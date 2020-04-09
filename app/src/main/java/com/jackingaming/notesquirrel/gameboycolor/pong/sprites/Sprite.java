@@ -8,19 +8,19 @@ public class Sprite {
 
     private float x;
     private float y;
-    private int spriteWidth;
-    private int spriteHeight;
+    private int widthSprite;
+    private int heightSprite;
 
-    private int screenWidth;
-    private int screenHeight;
+    private int widthScreen;
+    private int heightScreen;
 
     private Bitmap image;
 
     private Rect bounds;
 
-    public Sprite(int screenWidth, int screenHeight) {
-        this.screenWidth = screenWidth;
-        this.screenHeight = screenHeight;
+    public Sprite(int widthScreen, int heightScreen) {
+        this.widthScreen = widthScreen;
+        this.heightScreen = heightScreen;
     }
 
     public void init(Bitmap image) {
@@ -39,23 +39,23 @@ public class Sprite {
     }
 
     public Rect getScreenRect() {
-        return new Rect((int)x, (int)y, (int)(x + spriteWidth), (int)(y + spriteHeight));
+        return new Rect((int)x, (int)y, (int)(x + widthSprite), (int)(y + heightSprite));
     }
 
-    public int getSpriteWidth() {
-        return spriteWidth;
+    public int getWidthSprite() {
+        return widthSprite;
     }
 
-    public int getSpriteHeight() {
-        return spriteHeight;
+    public int getHeightSprite() {
+        return heightSprite;
     }
 
-    public int getScreenWidth() {
-        return screenWidth;
+    public int getWidthScreen() {
+        return widthScreen;
     }
 
-    public int getScreenHeight() {
-        return screenHeight;
+    public int getHeightScreen() {
+        return heightScreen;
     }
 
     public float getX() {
@@ -74,12 +74,12 @@ public class Sprite {
         this.y = y;
     }
 
-    public void setSpriteWidth(int spriteWidth) {
-        this.spriteWidth = spriteWidth;
+    public void setWidthSprite(int widthSprite) {
+        this.widthSprite = widthSprite;
     }
 
-    public void setSpriteHeight(int spriteHeight) {
-        this.spriteHeight = spriteHeight;
+    public void setHeightSprite(int heightSprite) {
+        this.heightSprite = heightSprite;
     }
 
 }

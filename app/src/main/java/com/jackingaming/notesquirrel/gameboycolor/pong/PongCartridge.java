@@ -22,18 +22,12 @@ import com.jackingaming.notesquirrel.gameboycolor.pong.sprites.Ball;
 public class PongCartridge
         implements GameCartridge {
 
-    //private SoundPool soundPool;
-    private MediaPlayer mediaPlayer;
-
     public enum State {
         PAUSED, RUNNING, WON, LOST;
     }
     private State state = State.PAUSED;
 
-    private boolean cantPress = false;
-    private boolean justPressed = false;
-    private boolean pressing = false;
-
+    private Context context;
     private SurfaceHolder holder;
     private Resources resources;
 
@@ -42,9 +36,15 @@ public class PongCartridge
     private Bat opponent;
 
     private Paint textPaint;
-    private Context context;
 
-    public PongCartridge(Context context, int widthSurfaceView, int heightSurfaceView, SurfaceHolder holder, Resources resources) {
+    private boolean cantPress = false;
+    private boolean justPressed = false;
+    private boolean pressing = false;
+
+    //private SoundPool soundPool;
+    private MediaPlayer mediaPlayer;
+
+    public PongCartridge(Context context, SurfaceHolder holder, Resources resources, int widthScreen, int heightScreen) {
         this.context = context;
         this.holder = holder;
         this.resources = resources;
@@ -52,9 +52,9 @@ public class PongCartridge
         //soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
         mediaPlayer = MediaPlayer.create(context, R.raw.corporate_ukulele);
 
-        ball = new Ball(widthSurfaceView, heightSurfaceView);
-        player = new Bat(widthSurfaceView, heightSurfaceView, Bat.Position.LEFT);
-        opponent = new Bat(widthSurfaceView, heightSurfaceView, Bat.Position.RIGHT);
+        ball = new Ball(widthScreen, heightScreen);
+        player = new Bat(widthScreen, heightScreen, Bat.Position.LEFT);
+        opponent = new Bat(widthScreen, heightScreen, Bat.Position.RIGHT);
 
         textPaint = new Paint();
         //set text's pivot-point to CENTER-OF-TEXT (instead of TOP-LEFT corner).

@@ -27,8 +27,8 @@ public class Bat extends Sprite {
     public void init(Bitmap image) {
         super.init(image);
 
-        setSpriteWidth(100);
-        setSpriteHeight(600);
+        setWidthSprite(100);
+        setHeightSprite(600);
 
         initPosition();
 
@@ -38,12 +38,12 @@ public class Bat extends Sprite {
         if (position == Position.LEFT) {
             setX(margin);
         } else if (position == Position.RIGHT) {
-            setX( (getScreenWidth() - margin - getSpriteWidth()) );
+            setX( (getWidthScreen() - margin - getWidthSprite()) );
         }
     }
 
     public void initPosition() {
-        setY( ((getScreenHeight()/2) - (getSpriteHeight()/2)) );
+        setY( ((getHeightScreen()/2) - (getHeightSprite()/2)) );
     }
 
     /**
@@ -56,7 +56,7 @@ public class Bat extends Sprite {
      */
     public void setBatPosition(float y) {
         ////UPDATE PLAYER'S POSITION
-        setY( (y - (getSpriteHeight()/2)) );
+        setY( (y - (getHeightSprite()/2)) );
     }
 
     /**
@@ -89,7 +89,7 @@ public class Bat extends Sprite {
         //PREVENT MOVING OFF-SCREEN (vertically)
         if (getScreenRect().top <= 0) {
             dirY = 1;
-        } else if (getScreenRect().bottom >= getScreenHeight()) {
+        } else if (getScreenRect().bottom >= getHeightScreen()) {
             dirY = -1;
         }
 
