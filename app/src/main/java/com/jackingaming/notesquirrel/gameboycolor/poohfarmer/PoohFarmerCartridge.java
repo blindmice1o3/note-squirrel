@@ -62,16 +62,18 @@ public class PoohFarmerCartridge
         }
         //////////////////////////////////////////////////////////
 
-        /////////
-        xIndex++;
-        /////////
-        if (xIndex == Assets.corgiCrusade[0].length) {
-            xIndex = 0;
+        if (justPressed) {
             /////////
-            yIndex++;
+            xIndex++;
             /////////
-            if (yIndex == Assets.corgiCrusade.length) {
-                yIndex = 0;
+            if (xIndex == Assets.corgiCrusade[0].length) {
+                xIndex = 0;
+                /////////
+                yIndex++;
+                /////////
+                if (yIndex == Assets.corgiCrusade.length) {
+                    yIndex = 0;
+                }
             }
         }
     }
