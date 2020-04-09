@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.game;
+package com.jackingaming.notesquirrel.gameboycolor.pong;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -15,10 +15,12 @@ import android.view.SurfaceHolder;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
-import com.jackingaming.notesquirrel.game.sprites.Bat;
-import com.jackingaming.notesquirrel.game.sprites.Ball;
+import com.jackingaming.notesquirrel.gameboycolor.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.pong.sprites.Bat;
+import com.jackingaming.notesquirrel.gameboycolor.pong.sprites.Ball;
 
-public class Game {
+public class PongCartridge
+        implements GameCartridge {
 
     //private SoundPool soundPool;
     private MediaPlayer mediaPlayer;
@@ -42,7 +44,7 @@ public class Game {
     private Paint textPaint;
     private Context context;
 
-    public Game(Context context, int widthSurfaceView, int heightSurfaceView, SurfaceHolder holder, Resources resources) {
+    public PongCartridge(Context context, int widthSurfaceView, int heightSurfaceView, SurfaceHolder holder, Resources resources) {
         this.context = context;
         this.holder = holder;
         this.resources = resources;
@@ -64,7 +66,7 @@ public class Game {
     }
 
     public void init() {
-        Log.d(MainActivity.DEBUG_TAG, "Game.init()");
+        Log.d(MainActivity.DEBUG_TAG, "PongCartridge.init()");
 
         //TODO:
         /*
@@ -98,7 +100,7 @@ public class Game {
      * @param event The touch event's meta-data (e.g. x and y position
      *              of the user triggered touch event)
      */
-    public void onTouchEvent(MotionEvent event) {
+    public void getInput(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             pressing = true;
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -203,7 +205,7 @@ public class Game {
                     drawText(canvas, "You lost :(");
                     break;
                 default:
-                    Log.d(MainActivity.DEBUG_TAG, "Game.render() switch construct's default block.");
+                    Log.d(MainActivity.DEBUG_TAG, "PongCartridge.render() switch construct's default block.");
                     break;
             }
             //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

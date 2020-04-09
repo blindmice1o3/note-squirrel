@@ -17,10 +17,9 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
 
 import com.jackingaming.notesquirrel.file.FileSandboxActivity;
-import com.jackingaming.notesquirrel.game.JackInActivity;
+import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.learn_fragments.FragmentParentActivity;
 import com.jackingaming.notesquirrel.learn_fragments2.FragmentParent2Activity;
 import com.jackingaming.notesquirrel.tileset.TilesetUtilActivity;

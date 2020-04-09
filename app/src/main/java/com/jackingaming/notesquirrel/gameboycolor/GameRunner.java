@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.game;
+package com.jackingaming.notesquirrel.gameboycolor;
 
 import android.util.Log;
 
@@ -27,17 +27,16 @@ public class GameRunner extends Thread {
     public static final int FRAMES_PER_SEC = 60;
     public static final int TIME_PER_FRAME = 1000 / FRAMES_PER_SEC;
 
-    private Game game;
+    private GameCartridge gameCartridge;
     private volatile boolean running = true;
 
-    public GameRunner(Game game) {
-        this.game = game;
+    public GameRunner(GameCartridge gameCartridge) {
+        this.gameCartridge = gameCartridge;
     }
 
     @Override
     public void run() {
-
-        game.init();
+        gameCartridge.init();
 
         long lastTime = System.currentTimeMillis();
 
@@ -60,8 +59,8 @@ public class GameRunner extends Thread {
                 //Log.d(MainActivity.DEBUG_TAG, "elapsed: " + elapsed + " | timeCounter: " + timeCounter + " [out of " + TIME_PER_FRAME + "].");
 
                 /////////////////////
-                game.update(elapsed);
-                game.render();
+                gameCartridge.update(elapsed);
+                gameCartridge.render();
                 /////////////////////
 
                 frameCounter++;

@@ -1,7 +1,6 @@
-package com.jackingaming.notesquirrel.game;
+package com.jackingaming.notesquirrel.gameboycolor;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -9,12 +8,16 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.jackingaming.notesquirrel.MainActivity;
+import com.jackingaming.notesquirrel.gameboycolor.pong.PongCartridge;
 
 public class GameView extends SurfaceView
         implements SurfaceHolder.Callback {
 
-    private Game game;
+    private GameCartridge gameCartridge;
     private GameRunner runner;
+
+    private int widthSurfaceView;
+    private int heightSurfaceView;
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -30,7 +33,7 @@ public class GameView extends SurfaceView
      */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        game.onTouchEvent(event);
+        gameCartridge.getInput(event);
 
         // If you've handled the touch event, return true.
         // If false, will NOT check for drag event (can't drag without touch).
@@ -54,11 +57,11 @@ public class GameView extends SurfaceView
     public void surfaceCreated(SurfaceHolder holder) {
         Log.d(MainActivity.DEBUG_TAG, "GameView.surfaceCreated(SurfaceHolder)");
 
-        int widthSurfaceView = getWidth();
-        int heightSurfaceView = getHeight();
+        widthSurfaceView = getWidth();
+        heightSurfaceView = getHeight();
 
-        game = new Game(getContext(),  widthSurfaceView, heightSurfaceView, holder, getResources());
-        runner = new GameRunner(game);
+        gameCartridge = new PongCartridge(getContext(),  widthSurfaceView, heightSurfaceView, holder, getResources());
+        runner = new GameRunner(gameCartridge);
         // Tell the Thread class to go to the "public void run()" method.
         runner.start();
     }

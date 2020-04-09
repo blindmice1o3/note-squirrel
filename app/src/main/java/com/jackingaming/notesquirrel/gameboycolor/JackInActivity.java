@@ -1,9 +1,8 @@
-package com.jackingaming.notesquirrel.game;
+package com.jackingaming.notesquirrel.gameboycolor;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.SurfaceHolder;
 
 import com.jackingaming.notesquirrel.R;
 

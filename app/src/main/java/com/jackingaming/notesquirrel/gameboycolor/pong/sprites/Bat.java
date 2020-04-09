@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.game.sprites;
+package com.jackingaming.notesquirrel.gameboycolor.pong.sprites;
 
 import android.graphics.Bitmap;
 
@@ -50,7 +50,7 @@ public class Bat extends Sprite {
      * Set the (vertical) center of the bat to where the user touched.
      *
      * Handle touch events triggered by GameView (custom SurfaceView).
-     * Invoked in Game.onTouchEvent(MotionEvent).
+     * Invoked in PongCartridge.getInput(MotionEvent).
      *
      * @param y - The y-position of the MotionEvent (a.k.a. touch event).
      */
