@@ -50,16 +50,24 @@ public class PoohFarmerCartridge
 
         this.widthScreen = widthScreen;
         this.heightScreen = heightScreen;
+        Log.d(MainActivity.DEBUG_TAG, "@@@@@ POOH FARMER CARTRIDGE @@@@@");
+        Log.d(MainActivity.DEBUG_TAG, "widthScreen: " + widthScreen);
+        Log.d(MainActivity.DEBUG_TAG, "heightScreen: " + heightScreen);
 
         sideSquareScreen = Math.min(widthScreen, heightScreen);
+        Log.d(MainActivity.DEBUG_TAG, "sideSquareScreen: " + sideSquareScreen);
         sizeTileInPixel = 16;
         numberOfTilesGameCamera = 9;
         sideSquareGameCameraInPixel = numberOfTilesGameCamera * sizeTileInPixel;
+        Log.d(MainActivity.DEBUG_TAG, "sideSquareGameCameraInPixel: " + sideSquareGameCameraInPixel);
 
-        conversionFactorPixelToScreen = sideSquareScreen / sideSquareGameCameraInPixel;
+        conversionFactorPixelToScreen = ((float)sideSquareScreen) / sideSquareGameCameraInPixel;
+        Log.d(MainActivity.DEBUG_TAG, "conversionFactorPixelToScreen: " + conversionFactorPixelToScreen);
 
-        spriteWidth = (int) ((1*sizeTileInPixel) * conversionFactorPixelToScreen);
-        spriteHeight = (int) ((1*sizeTileInPixel) * conversionFactorPixelToScreen);
+        spriteWidth = (int) ((1 * sizeTileInPixel) * conversionFactorPixelToScreen);
+        Log.d(MainActivity.DEBUG_TAG, "spriteWidth = (int) ((1*sizeTileInPixel) * conversionFactorPixelToScreen): " + spriteWidth);
+        spriteHeight = (int) ((1 * sizeTileInPixel) * conversionFactorPixelToScreen);
+        Log.d(MainActivity.DEBUG_TAG, "spriteHeight = (int) ((1*sizeTileInPixel) * conversionFactorPixelToScreen): " + spriteHeight);
         x = (2 * sizeTileInPixel) * conversionFactorPixelToScreen;
         y = (6 * sizeTileInPixel) * conversionFactorPixelToScreen;
     }
@@ -140,6 +148,20 @@ public class PoohFarmerCartridge
             //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             canvas.drawBitmap(currentFrame, bounds, screenRect, null);
             //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+            //////////////////////////////
+            ///////////TESTING////////////
+            //////////////////////////////
+            //SECOND CORGI (@@@TESTING@@@)
+            int xSecondCorgi = (int)((3 * sizeTileInPixel) * conversionFactorPixelToScreen);
+            int ySecondCorgi = (int)((5 * sizeTileInPixel) * conversionFactorPixelToScreen);
+            Rect screenSecondCorgi = new Rect(xSecondCorgi, ySecondCorgi, (xSecondCorgi + spriteWidth), (ySecondCorgi + spriteHeight));
+            canvas.drawBitmap(currentFrame, bounds, screenSecondCorgi, null);
+            //////////////////////////////
+            //////////////////////////////
+            //////////////////////////////
+
 
             //unlock it and post our updated drawing to it.
             ///////////////////////////////////
