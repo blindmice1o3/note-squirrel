@@ -4,30 +4,31 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 
 public class FragmentParentActivity extends AppCompatActivity {
 
-    private Bitmap imageSource;
     private ImageView imageView;
-    private Button button;
+    private Button buttonFrame;
+    private Button buttonSet;
 
-    private Bitmap[][] spriteSheetItems;
+    private Bitmap imageSource;
+    private Bitmap[][] spriteSheet;
 
     private int indexButtonX;
     private int indexButtonY;
+
+    private int sheetTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,9 +37,15 @@ public class FragmentParentActivity extends AppCompatActivity {
         ////////////////////////////
         Assets.init(getResources());
         ////////////////////////////
-        //spriteSheetItems = Assets.items;
-        //spriteSheetItems = Assets.tiles;
-        spriteSheetItems = Assets.entities;
+
+        indexButtonX = 0;
+        indexButtonY = 0;
+
+        sheetTracker = 0;
+
+        //spriteSheet = Assets.items;
+        //spriteSheet = Assets.tiles;
+        spriteSheet = Assets.entities;
 
 
 
@@ -72,10 +79,51 @@ public class FragmentParentActivity extends AppCompatActivity {
         });
 
 
-        indexButtonX = 0;
-        indexButtonY = 0;
-        button = (Button) findViewById(R.id.button_fragment);
-        button.setOnClickListener(new View.OnClickListener() {
+        buttonSet = (Button) findViewById(R.id.button_set);
+        buttonSet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sheetTracker++;
+                if (sheetTracker > 3) {
+                    sheetTracker = 0;
+                }
+
+                indexButtonX = 0;
+                indexButtonY = 0;
+
+                switch (sheetTracker) {
+                    case 0:
+                        Bitmap tooBigClippit = BitmapFactory.decodeResource(getResources(), R.drawable.pc_ms_office_clippit);
+                        Bitmap justRightClippit = Bitmap.createScaledBitmap(tooBigClippit, 500, 500, false);
+                        imageSource = justRightClippit;
+                        imageView.setImageBitmap(imageSource);
+
+                        spriteSheet = Assets.entities;
+                        break;
+                    case 1:
+                        imageSource = BitmapFactory.decodeResource(getResources(), R.drawable.corgi_crusade);
+                        imageView.setImageBitmap(imageSource);
+
+                        spriteSheet = Assets.corgiCrusade;
+                        break;
+                    case 2:
+                        imageSource = BitmapFactory.decodeResource(getResources(), R.drawable.gbc_hm2_spritesheet_items);
+                        imageView.setImageBitmap(imageSource);
+
+                        spriteSheet = Assets.items;
+                        break;
+                    case 3:
+                        imageSource = BitmapFactory.decodeResource(getResources(), R.drawable.pc_yoko_tileset1);
+                        imageView.setImageBitmap(imageSource);
+
+                        spriteSheet = Assets.tiles;
+                        break;
+                }
+            }
+        });
+
+        buttonFrame = (Button) findViewById(R.id.button_frame);
+        buttonFrame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //imageView.setMinimumWidth( (spriteSheet[indexButtonY][indexButtonX].getWidth() * 7) );
@@ -83,12 +131,12 @@ public class FragmentParentActivity extends AppCompatActivity {
                 //imageView.setMaxWidth( (spriteSheet[indexButtonY][indexButtonX].getWidth() * 7) );
                 //imageView.setMaxHeight( (spriteSheet[indexButtonY][indexButtonX].getHeight() * 7) );
                 //imageView.setAdjustViewBounds(true);
-                Log.d(MainActivity.DEBUG_TAG, "button's OnClickListener.onClick(View) BEFORE calling spriteSheet's width and height.");
+                Log.d(MainActivity.DEBUG_TAG, "buttonFrame's OnClickListener.onClick(View) BEFORE calling spriteSheet's width and height.");
                 //How to set by pixel:
-                //imageView.getLayoutParams().width = (spriteSheetItems[indexButtonY][indexButtonX].getWidth() * 15);
-                imageView.getLayoutParams().width = (spriteSheetItems[indexButtonY][indexButtonX].getWidth() * 8);
-                //imageView.getLayoutParams().height = (spriteSheetItems[indexButtonY][indexButtonX].getHeight() * 15);
-                imageView.getLayoutParams().height = (spriteSheetItems[indexButtonY][indexButtonX].getHeight() * 8);
+                //imageView.getLayoutParams().width = (spriteSheet[indexButtonY][indexButtonX].getWidth() * 15);
+                imageView.getLayoutParams().width = (spriteSheet[indexButtonY][indexButtonX].getWidth() * 6);
+                //imageView.getLayoutParams().height = (spriteSheet[indexButtonY][indexButtonX].getHeight() * 15);
+                imageView.getLayoutParams().height = (spriteSheet[indexButtonY][indexButtonX].getHeight() * 6);
                 //imageView.setLayoutParams( new ViewGroup.LayoutParams(16*15, 16*15) );
                 //////////////////////////
                 imageView.requestLayout();
@@ -100,18 +148,27 @@ public class FragmentParentActivity extends AppCompatActivity {
                 //////////////////////////
                 //imageView.requestLayout();
                 //////////////////////////
-                Log.d(MainActivity.DEBUG_TAG, "button's OnClickListener.onClick(View) AFTER calling spriteSheet's width and height.");
+                Log.d(MainActivity.DEBUG_TAG, "buttonFrame's OnClickListener.onClick(View) AFTER calling spriteSheet's width and height.");
 
-                Bitmap newImage = Bitmap.createScaledBitmap(spriteSheetItems[indexButtonY][indexButtonX], 240, 240, false);
+                Bitmap newImage = Bitmap.createScaledBitmap(spriteSheet[indexButtonY][indexButtonX], 240, 240, false);
 
                 imageView.setImageBitmap(newImage);
 
+                /////////////////////////////////////////////////////////////////////
+                TextView textView = (TextView) findViewById(R.id.textview_fragment);
+                if (sheetTracker == 0) {
+                    textView.setText("Wintermute (homage to William Gibson)");
+                } else {
+                    textView.setText("");
+                }
+                /////////////////////////////////////////////////////////////////////
+
                 indexButtonX++;
-                if (indexButtonX == spriteSheetItems[indexButtonY].length) {
+                if (indexButtonX == spriteSheet[indexButtonY].length) {
                     indexButtonX = 0;
                     indexButtonY++;
 
-                    if (indexButtonY == spriteSheetItems.length) {
+                    if (indexButtonY == spriteSheet.length) {
                         indexButtonY = 0;
                     }
                 }

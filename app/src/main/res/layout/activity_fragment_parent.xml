@@ -7,22 +7,39 @@
     tools:context=".learn_fragments.FragmentParentActivity">
 
     <Button
-        android:id="@+id/button_fragment"
+        android:id="@+id/button_frame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="button"
+        android:text="Next frame"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next set"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageview_fragment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="#FF0000"
         android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
+        android:background="#FF0000"
         android:cropToPadding="false"
-        app:layout_constraintStart_toStartOf="parent"
+        android:scaleType="fitCenter"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button_frame" />
+
+    <TextView
+        android:id="@+id/textview_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_fragment" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageview_fragment" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
