@@ -12,9 +12,42 @@ import com.jackingaming.notesquirrel.R;
 public class Assets {
 
     public static Bitmap[][] corgiCrusade;
+    public static Bitmap[][] hm3Farm;
 
     public static void init(Resources resources) {
         initCorgiCrusade(resources);
+        initHm3Farm(resources);
+    }
+
+    public static void initHm3Farm(Resources resources) {
+        //LOAD SPRITESHEET
+        Bitmap spriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm3_farm);
+
+        //UNPACKING THE SPRITESHEET (logic is specific to each spritesheet's layout)
+        int column = 3;
+        int row = 4;
+
+        hm3Farm = new Bitmap[row][column];
+
+        //SPRING (farm, flower plot, hot spring)
+        hm3Farm[0][0] = Bitmap.createBitmap(spriteSheet, 14, 39, 384, 400);
+        hm3Farm[0][1] = Bitmap.createBitmap(spriteSheet, 14, 442, 48, 112);
+        hm3Farm[0][2] = Bitmap.createBitmap(spriteSheet, 318, 442, 80, 80);
+
+        //SUMMER (farm, flower plot, hot spring)
+        hm3Farm[1][0] = Bitmap.createBitmap(spriteSheet, 410, 40, 384, 400);
+        hm3Farm[1][1] = Bitmap.createBitmap(spriteSheet, 410, 443, 48, 112);
+        hm3Farm[1][2] = Bitmap.createBitmap(spriteSheet, 714, 443, 80, 80);
+
+        //FALL (farm, flower plot, hot spring)
+        hm3Farm[2][0] = Bitmap.createBitmap(spriteSheet, 806, 40, 384, 400);
+        hm3Farm[2][1] = Bitmap.createBitmap(spriteSheet, 806, 443, 48, 112);
+        hm3Farm[2][2] = Bitmap.createBitmap(spriteSheet, 1100, 443, 80, 80);
+
+        //WINTER (farm, flower plot, hot spring)
+        hm3Farm[3][0] = Bitmap.createBitmap(spriteSheet, 1202, 40, 384, 400);
+        hm3Farm[3][1] = Bitmap.createBitmap(spriteSheet, 1202, 443, 48, 112);
+        hm3Farm[3][2] = Bitmap.createBitmap(spriteSheet, 1506, 443, 80, 80);
     }
 
     public static void initCorgiCrusade(Resources resources) {

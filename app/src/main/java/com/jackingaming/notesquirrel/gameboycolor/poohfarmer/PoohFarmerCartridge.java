@@ -23,6 +23,21 @@ public class PoohFarmerCartridge
 
     private int widthScreen;
     private int heightScreen;
+    private int sideSquareScreen;
+
+    private int sizeTileInPixel;
+    private int numberOfTilesGameCamera;
+    private int sideSquareGameCameraInPixel;
+
+    private float conversionFactorPixelToScreen;
+
+    //SPRITE
+    private int spriteWidth;
+    private int spriteHeight;
+    private float x;
+    private float y;
+    private int yIndex = 0;
+    private int xIndex = 0;
 
     private boolean cantPress = false;
     private boolean justPressed = false;
@@ -35,6 +50,18 @@ public class PoohFarmerCartridge
 
         this.widthScreen = widthScreen;
         this.heightScreen = heightScreen;
+
+        sideSquareScreen = Math.min(widthScreen, heightScreen);
+        sizeTileInPixel = 16;
+        numberOfTilesGameCamera = 9;
+        sideSquareGameCameraInPixel = numberOfTilesGameCamera * sizeTileInPixel;
+
+        conversionFactorPixelToScreen = sideSquareScreen / sideSquareGameCameraInPixel;
+
+        spriteWidth = (int) ((1*sizeTileInPixel) * conversionFactorPixelToScreen);
+        spriteHeight = (int) ((1*sizeTileInPixel) * conversionFactorPixelToScreen);
+        x = (2 * sizeTileInPixel) * conversionFactorPixelToScreen;
+        y = (6 * sizeTileInPixel) * conversionFactorPixelToScreen;
     }
 
     @Override
@@ -83,12 +110,6 @@ public class PoohFarmerCartridge
 
     }
 
-    private float x = 100;
-    private float y = 50;
-    private int spriteWidth = 500;
-    private int spriteHeight = 500;
-    private int yIndex = 0;
-    private int xIndex = 0;
     @Override
     public void render() {
         //synchronize?
@@ -97,9 +118,20 @@ public class PoohFarmerCartridge
         ////////////////////////////////////
 
         if (canvas != null) {
-            //BACKGROUND (clear the canvas by painting the background white).
+            //Clear the canvas by painting the background white.
             canvas.drawColor(Color.WHITE);
 
+            //BACKGROUND
+            Bitmap farmSpring = Assets.hm3Farm[0][0];
+            //TODO: change to GameCamera's 9x9 tiles.
+            //Rect boundsFarm = new Rect(0, 0, farmSpring.getWidth(), farmSpring.getHeight());
+            Rect boundsFarm = new Rect(0, 0, sideSquareGameCameraInPixel, sideSquareGameCameraInPixel);
+            Rect screenFarm = new Rect(0, 0, sideSquareScreen, sideSquareScreen);
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            canvas.drawBitmap(farmSpring, boundsFarm, screenFarm, null);
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+            //ENTITIES
             Bitmap currentFrame = Assets.corgiCrusade[yIndex][xIndex];
             Rect bounds = new Rect(0, 0, currentFrame.getWidth(), currentFrame.getHeight());
             Rect screenRect = new Rect((int)x, (int)y, (int)(x + spriteWidth), (int)(y + spriteHeight));
