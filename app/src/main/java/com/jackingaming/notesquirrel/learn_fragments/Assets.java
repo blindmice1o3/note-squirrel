@@ -13,14 +13,14 @@ public class Assets {
 
     public static Bitmap[][] items;
     public static Bitmap[][] tiles;
-    public static Bitmap[][] entities;  //MS Clippit (aka Wintermute)
+    public static Bitmap[][] wintermute;  //MS Clippit (aka Wintermute)
     public static Bitmap[][] corgiCrusade;
+    public static Bitmap[][] gobi;
 
     public static void init(Resources resources) {
         initItems(resources);
         initTiles(resources);
         initEntities(resources);
-        initCorgiCrusade(resources);
     }
 
     private static void initTiles(Resources resources) {
@@ -68,6 +68,8 @@ public class Assets {
 
     private static void initEntities(Resources resources) {
         loadWintermute(resources);
+        loadGobi(resources);
+        loadCorgiCrusade(resources);
 
         Log.d(MainActivity.DEBUG_TAG, "Assets.initEntities(Resources): FINISHED!!!");
     }
@@ -130,7 +132,7 @@ public class Assets {
         int column = 22;
         int row = 41;
 
-        entities = new Bitmap[row][column];
+        wintermute = new Bitmap[row][column];
 
         //TODO: everything in loadWintermute(Resources) was adapted from initItems(Resources) and has
         //not yet been tailored to this spritesheet (e.g. should NOT have margin at all).
@@ -146,7 +148,7 @@ public class Assets {
 
         for (int y = 0; y < row; y++) {
             for (int x = 0; x < column; x++) {
-                entities[y][x] = Bitmap.createBitmap(imageSource, xCurrent, yCurrent, tileWidth, tileHeight);
+                wintermute[y][x] = Bitmap.createBitmap(imageSource, xCurrent, yCurrent, tileWidth, tileHeight);
                 xCurrent += (tileWidth + margin);
             }
             xCurrent = margin;
@@ -155,7 +157,7 @@ public class Assets {
         Log.d(MainActivity.DEBUG_TAG, "Assets.loadWintermute(Resources): FINISHED!!!");
     }
 
-    private static void initCorgiCrusade(Resources resources) {
+    private static void loadCorgiCrusade(Resources resources) {
         //LOAD SPRITESHEET
         Bitmap spriteSheet = BitmapFactory.decodeResource(resources, R.drawable.corgi_crusade_editted);
 
@@ -193,6 +195,73 @@ public class Assets {
         }
 
         Log.d(MainActivity.DEBUG_TAG, "Assets.initCorgiCrusade(Resources): FINISHED!!!");
+    }
+
+    private static void loadGobi(Resources resources) {
+        //LOAD SPRITESHEET
+        Bitmap spriteSheet = BitmapFactory.decodeResource(resources, R.drawable.snes_breath_of_fire_gobi);
+
+        //UNPACKING THE SPRITESHEET (logic is specific to each spritesheet's layout)
+        int column = 12;
+        int row = 1;
+
+        gobi = new Bitmap[row][column];
+
+        int margin = 5;
+        int xCurrent = margin;
+        int yCurrent = margin;
+        int tileWidth = 19;
+        int tileHeight = 24;
+        int horizontalGap = 8;
+
+        for (int x = 0; x < column; x++) {
+            switch (x) {
+                case 0:
+                    tileWidth = 19;
+                    break;
+                case 1:
+                    tileWidth = 18;
+                    break;
+                case 2:
+                    tileWidth = 19;
+                    break;
+
+                case 3:
+                    tileWidth = 16;
+                    break;
+                case 4:
+                    tileWidth = 20;
+                    break;
+                case 5:
+                    tileWidth = 16;
+                    break;
+
+                case 6:
+                    tileWidth = 19;
+                    break;
+                case 7:
+                    tileWidth = 18;
+                    break;
+                case 8:
+                    tileWidth = 19;
+                    break;
+
+                case 9:
+                    tileWidth = 18;
+                    break;
+                case 10:
+                    tileWidth = 20;
+                    break;
+                case 11:
+                    tileWidth = 18;
+                    break;
+            }
+
+            gobi[0][x] = Bitmap.createBitmap(spriteSheet, xCurrent, yCurrent, tileWidth, tileHeight);
+            xCurrent += (tileWidth + horizontalGap);
+        }
+
+        Log.d(MainActivity.DEBUG_TAG, "Assets.initGobi(Resources): FINISHED!!!");
     }
 
     private static Bitmap flipHorizontally(Bitmap source) {

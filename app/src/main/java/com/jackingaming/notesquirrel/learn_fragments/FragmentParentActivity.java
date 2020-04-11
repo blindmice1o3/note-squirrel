@@ -45,7 +45,7 @@ public class FragmentParentActivity extends AppCompatActivity {
 
         //spriteSheet = Assets.items;
         //spriteSheet = Assets.tiles;
-        spriteSheet = Assets.entities;
+        spriteSheet = Assets.wintermute;
 
 
 
@@ -84,7 +84,7 @@ public class FragmentParentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 sheetTracker++;
-                if (sheetTracker > 3) {
+                if (sheetTracker > 4) {
                     sheetTracker = 0;
                 }
 
@@ -98,7 +98,7 @@ public class FragmentParentActivity extends AppCompatActivity {
                         imageSource = justRightClippit;
                         imageView.setImageBitmap(imageSource);
 
-                        spriteSheet = Assets.entities;
+                        spriteSheet = Assets.wintermute;
                         break;
                     case 1:
                         imageSource = BitmapFactory.decodeResource(getResources(), R.drawable.corgi_crusade);
@@ -107,12 +107,18 @@ public class FragmentParentActivity extends AppCompatActivity {
                         spriteSheet = Assets.corgiCrusade;
                         break;
                     case 2:
+                        imageSource = BitmapFactory.decodeResource(getResources(), R.drawable.snes_breath_of_fire_gobi);
+                        imageView.setImageBitmap(imageSource);
+
+                        spriteSheet = Assets.gobi;
+                        break;
+                    case 3:
                         imageSource = BitmapFactory.decodeResource(getResources(), R.drawable.gbc_hm2_spritesheet_items);
                         imageView.setImageBitmap(imageSource);
 
                         spriteSheet = Assets.items;
                         break;
-                    case 3:
+                    case 4:
                         imageSource = BitmapFactory.decodeResource(getResources(), R.drawable.pc_yoko_tileset1);
                         imageView.setImageBitmap(imageSource);
 
