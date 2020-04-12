@@ -3,6 +3,7 @@ package com.jackingaming.notesquirrel.gameboycolor.poohfarmer.sprites;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.util.Log;
 
@@ -11,10 +12,27 @@ import com.jackingaming.notesquirrel.R;
 
 public class Assets {
 
+    public static Bitmap rgbTileTest;
+
     public static Bitmap[][] corgiCrusade;
     public static Bitmap[][] hm3Farm;
 
     public static void init(Resources resources) {
+        rgbTileTest = BitmapFactory.decodeResource(resources, R.drawable.rgb_tile_test);
+        Log.d(MainActivity.DEBUG_TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        Log.d(MainActivity.DEBUG_TAG, "!!!!! TESTING rgb TO DETERMINE SOLID TILES !!!!!");
+        Log.d(MainActivity.DEBUG_TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
+        for (int y = 0; y < rgbTileTest.getHeight(); y++) {
+            int pixel = rgbTileTest.getPixel(0, y);
+            int red = Color.red(pixel);
+            int green = Color.green(pixel);
+            int blue = Color.blue(pixel);
+            Log.d(MainActivity.DEBUG_TAG, "rgb at y = " + y + ": " + red + ", " + green + ", " + blue);
+        }
+
+
+
         initCorgiCrusade(resources);
         initHm3Farm(resources);
     }
