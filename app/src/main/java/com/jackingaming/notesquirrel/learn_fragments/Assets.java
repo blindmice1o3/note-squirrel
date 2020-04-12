@@ -25,7 +25,7 @@ public class Assets {
 
     private static void initTiles(Resources resources) {
         //LOAD SPRITESHEET
-        Bitmap imageSource = BitmapFactory.decodeResource(resources, R.drawable.pc_yoko_tileset1);
+        Bitmap imageSource = BitmapFactory.decodeResource(resources, R.drawable.pc_yoko_tileset);
 
         //CHECK IF IMAGE RESOURCE DID not LOAD PROPERLY
         if (imageSource == null) {

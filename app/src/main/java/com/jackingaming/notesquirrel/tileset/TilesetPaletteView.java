@@ -86,7 +86,7 @@ public class TilesetPaletteView extends ImageView {
         //TODO: so 40px by 40px tile size will be given as 120 by 120 (for tilesetModel [Bitmap]).
         //TODO: SOLUTION: moved source image to drawable-nodpi directory to prevent SCALING.
         ////////////////////////////////////////////////////////////////////////////////////////////
-        tilesetModel = BitmapFactory.decodeResource(context.getResources(), R.drawable.pc_yoko_tileset1);
+        tilesetModel = BitmapFactory.decodeResource(context.getResources(), R.drawable.pc_yoko_tileset);
         tile00x00 = tilesetModel.createBitmap(tilesetModel, 1, 1, 200, 200);
         Log.d(MainActivity.DEBUG_TAG, "tile00x00 (width, height): " + tile00x00.getWidth() + ", " + tile00x00.getHeight());
         Log.d(MainActivity.DEBUG_TAG, "tilesetModel (width, height): " + tilesetModel.getWidth() + ", " + tilesetModel.getHeight());
@@ -114,7 +114,7 @@ public class TilesetPaletteView extends ImageView {
 
         ///////////////////////////////////////////////////////////
         //"setImageResource() automatically scale your image"
-        setBackgroundResource(R.drawable.pc_yoko_tileset1); //drawable-nodpi (NOT re-scaled)
+        setBackgroundResource(R.drawable.pc_yoko_tileset); //drawable-nodpi (NOT re-scaled)
         //setImageResource(R.drawable.pc_yoko_tileset1);
         //setBackgroundResource(R.drawable.pc_yoko_tileset0); //drawable (automatically scaled)
         //setImageBitmap(tilesetModel); //does NOT fill the View automatically (see blue background)

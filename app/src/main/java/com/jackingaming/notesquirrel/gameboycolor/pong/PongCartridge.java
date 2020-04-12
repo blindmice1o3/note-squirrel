@@ -84,8 +84,8 @@ public class PongCartridge
         */
         mediaPlayer.start();
 
-        Bitmap spriteSheetCorgiCrusade = BitmapFactory.decodeResource(resources, R.drawable.corgi_crusade);
-        Bitmap spriteSheetYokoTileset = BitmapFactory.decodeResource(resources, R.drawable.pc_yoko_tileset1);
+        Bitmap spriteSheetCorgiCrusade = BitmapFactory.decodeResource(resources, R.drawable.corgi_crusade_editted);
+        Bitmap spriteSheetYokoTileset = BitmapFactory.decodeResource(resources, R.drawable.pc_yoko_tileset);
 
         ball.init(spriteSheetCorgiCrusade);
         player.init(spriteSheetYokoTileset);

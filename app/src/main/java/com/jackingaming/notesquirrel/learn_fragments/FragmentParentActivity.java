@@ -101,7 +101,7 @@ public class FragmentParentActivity extends AppCompatActivity {
                         spriteSheet = Assets.wintermute;
                         break;
                     case 1:
-                        imageSource = BitmapFactory.decodeResource(getResources(), R.drawable.corgi_crusade);
+                        imageSource = BitmapFactory.decodeResource(getResources(), R.drawable.corgi_crusade_editted);
                         imageView.setImageBitmap(imageSource);
 
                         spriteSheet = Assets.corgiCrusade;
@@ -119,7 +119,7 @@ public class FragmentParentActivity extends AppCompatActivity {
                         spriteSheet = Assets.items;
                         break;
                     case 4:
-                        imageSource = BitmapFactory.decodeResource(getResources(), R.drawable.pc_yoko_tileset1);
+                        imageSource = BitmapFactory.decodeResource(getResources(), R.drawable.pc_yoko_tileset);
                         imageView.setImageBitmap(imageSource);
 
                         spriteSheet = Assets.tiles;
