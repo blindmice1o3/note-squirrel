@@ -13,12 +13,13 @@ import com.jackingaming.notesquirrel.R;
 public class Assets {
 
     public static Bitmap rgbTileTest;
+    public static Bitmap rgbTileFarm;
 
     public static Bitmap[][] corgiCrusade;
     public static Bitmap[][] hm3Farm;
 
     public static void init(Resources resources) {
-        rgbTileTest = BitmapFactory.decodeResource(resources, R.drawable.rgb_tile_test);
+        rgbTileTest = BitmapFactory.decodeResource(resources, R.drawable.tile_rgb_test);
         Log.d(MainActivity.DEBUG_TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         Log.d(MainActivity.DEBUG_TAG, "!!!!! TESTING rgb TO DETERMINE SOLID TILES !!!!!");
         Log.d(MainActivity.DEBUG_TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -29,9 +30,45 @@ public class Assets {
             int green = Color.green(pixel);
             int blue = Color.blue(pixel);
             Log.d(MainActivity.DEBUG_TAG, "rgb at y = " + y + ": " + red + ", " + green + ", " + blue);
+            if (pixel == Color.BLACK) {
+                Log.d(MainActivity.DEBUG_TAG, "pixel is Color.BLACK");
+            } else if (pixel == Color.RED) {
+                Log.d(MainActivity.DEBUG_TAG, "pixel is Color.RED");
+            } else if (pixel == Color.GREEN) {
+                Log.d(MainActivity.DEBUG_TAG, "pixel is Color.GREEN");
+            } else if (pixel == Color.BLUE) {
+                Log.d(MainActivity.DEBUG_TAG, "pixel is Color.BLUE");
+            }
         }
 
+        ////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////
+        rgbTileFarm = BitmapFactory.decodeResource(resources, R.drawable.tile_map_farm);
+        StringBuilder sb = new StringBuilder();
+        sb.append(" \n");
+        for (int y = 0; y < rgbTileFarm.getHeight(); y++) {
+            for (int x = 0; x < rgbTileFarm.getWidth(); x++) {
+                int pixel = rgbTileFarm.getPixel(x, y);
 
+                if (pixel == Color.BLACK) {
+                    sb.append("XXXXX ");
+                } else if (pixel == Color.RED) {
+                    sb.append("sign- ");
+                } else if (pixel == Color.GREEN) {
+                    sb.append("tp--- ");
+                } else if (pixel == Color.BLUE) {
+                    sb.append("diff- ");
+                } else {
+                    sb.append("OOOOO ");
+                }
+            }
+            sb.append("\n");
+        }
+        Log.d(MainActivity.DEBUG_TAG, sb.toString());
+        ////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////
 
         initCorgiCrusade(resources);
         initHm3Farm(resources);
