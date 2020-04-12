@@ -97,6 +97,7 @@ public class PoohFarmerCartridge
         }
         //////////////////////////////////////////////////////////
 
+        //CHANGE currentFrame (animation) of corgi sprites USED IN render().
         if (justPressed) {
             /////////
             xIndex++;
