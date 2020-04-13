@@ -8,12 +8,24 @@ import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.sprites.Assets;
 
 public class Player extends Entity {
 
-    private float moveSpeed = 3f;
-    private float conversionFactorPixelToScreen;
+    private float pixelToScreenRatio;
 
-    public Player(float xCurrent, float yCurrent, float conversionFactorPixelToScreen) {
-        super(xCurrent, yCurrent);
-        this.conversionFactorPixelToScreen = conversionFactorPixelToScreen;
+    private Bitmap[][] texture;
+    private float moveSpeed = 3f;
+
+    public Player(float pixelToScreenRatio) {
+        super(0f, 0f);
+
+        this.pixelToScreenRatio = pixelToScreenRatio;
+    }
+
+    @Override
+    public void init() {
+        initTexture();
+    }
+
+    private void initTexture() {
+        texture = Assets.corgiCrusade;
     }
 
     public void moveLeft() {
@@ -32,18 +44,18 @@ public class Player extends Entity {
         yCurrent += moveSpeed;
     }
 
+    @Override
     public void render(Canvas canvas) {
-        //ENTITIES
-        Bitmap currentFrame = Assets.corgiCrusade[0][0];
+        Bitmap currentFrame = texture[0][0];
+
         Rect bounds = new Rect(0, 0, currentFrame.getWidth(), currentFrame.getHeight());
         Rect screenRect = new Rect(
-                (int)(xCurrent * conversionFactorPixelToScreen),
-                (int)(yCurrent * conversionFactorPixelToScreen),
-                (int)((xCurrent + width) * conversionFactorPixelToScreen),
-                (int)((yCurrent + height) * conversionFactorPixelToScreen)
+                (int)(xCurrent * pixelToScreenRatio),
+                (int)(yCurrent * pixelToScreenRatio),
+                (int)((xCurrent + width) * pixelToScreenRatio),
+                (int)((yCurrent + height) * pixelToScreenRatio)
         );
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        //@@@@@@@@@@@@@@@ DRAWING-RELATED-CODE @@@@@@@@@@@@@@@
+
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         canvas.drawBitmap(currentFrame, bounds, screenRect, null);
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

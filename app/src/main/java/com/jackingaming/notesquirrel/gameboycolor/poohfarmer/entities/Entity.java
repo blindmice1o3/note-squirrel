@@ -18,6 +18,7 @@ public abstract class Entity {
         height = Scene.TILE_SIZE;
     }
 
+    public abstract void init();
     public abstract void render(Canvas canvas);
 
     public float getxCurrent() {

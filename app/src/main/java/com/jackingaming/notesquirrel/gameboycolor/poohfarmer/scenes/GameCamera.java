@@ -13,15 +13,19 @@ public class GameCamera {
     private int widthSceneMax;
     private int heightSceneMax;
 
-    public GameCamera(Entity entity, int widthSceneMax, int heightSceneMax) {
+    public GameCamera() {
         x = 0f;
         y = 0f;
         widthClip = 9 * Scene.TILE_SIZE;
         heightClip = 9 * Scene.TILE_SIZE;
+    }
 
+    public void init(Entity entity, int widthSceneMax, int heightSceneMax) {
         this.entity = entity;
         this.widthSceneMax = widthSceneMax;
         this.heightSceneMax = heightSceneMax;
+
+        update(0L);
     }
 
     public void update(long elapsed) {
@@ -49,6 +53,22 @@ public class GameCamera {
         if ((y + heightClip) > heightSceneMax) {
             y = (heightSceneMax - heightClip);
         }
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public int getWidthClip() {
+        return widthClip;
+    }
+
+    public int getHeightClip() {
+        return heightClip;
     }
 
 }

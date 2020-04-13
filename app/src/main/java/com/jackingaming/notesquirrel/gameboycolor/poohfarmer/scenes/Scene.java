@@ -3,57 +3,80 @@ package com.jackingaming.notesquirrel.gameboycolor.poohfarmer.scenes;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Rect;
 
 import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.entities.Player;
+import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.sprites.Assets;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Scene {
 
+    public enum SceneId { FARM, HOME; }
+
+    private Bitmap texture;
+    private int sideSquareScreen;
+
     private TileType[][] tiles;
     private List<Entity> entities;
-    //TODO: items will go here
+    private Player player;
     private GameCamera gameCamera;
-
-    //TODO: PoohFarmerCartridge should be in charge of sceneCurrent (and a collection of Scene instances).
-    //TODO: a Scene should be composed of Tile[][] and ArrayList<Entity>
 
     //TODO: refactor to Tile
     public enum TileType { SOLID, WALKABLE, SIGN_POST, TRANSFER_POINT; }
     public static final int TILE_SIZE = 16;
 
     private int xSpawnIndex = 4;
-    private int ySpawnIndex = 4;
+    private int ySpawnIndex = 8;
+    //private int xSpawnIndex = 4;
+    //private int ySpawnIndex = 4;
 
     private int columns;
     private int rows;
     private int widthSceneMax;
     private int heightSceneMax;
 
-    public Scene(Bitmap tileMap, Player player) {
+    public Scene(int sideSquareScreen) {
+        this.sideSquareScreen = sideSquareScreen;
+    }
+
+    public void init(Player player, GameCamera gameCamera) {
+        initTexture();
+        initTiles();
+        initEntities(player);
+        initGameCamera(gameCamera);
+    }
+
+    private void initTexture() {
+        //SPRING
+        texture = Assets.hm3Farm[0][0];
+    }
+
+    private void initEntities(Player player) {
+        this.player = player;
+        player.init();
+        player.setxCurrent((xSpawnIndex * TILE_SIZE));
+        player.setyCurrent((ySpawnIndex * TILE_SIZE));
+
+        entities = new ArrayList<Entity>();
+        entities.add(player);
+    }
+
+    private void initGameCamera(GameCamera gameCamera) {
+        this.gameCamera = gameCamera;
+        gameCamera.init(player, widthSceneMax, heightSceneMax);
+    }
+
+    private void initTiles() {
+        Bitmap tileMap = Assets.rgbTileFarm;
+
         columns = tileMap.getWidth();
         rows = tileMap.getHeight();
         widthSceneMax = columns * TILE_SIZE;
         heightSceneMax = rows * TILE_SIZE;
 
-        player.setxCurrent((xSpawnIndex * TILE_SIZE));
-        player.setyCurrent((ySpawnIndex * TILE_SIZE));
-
-        initTiles(tileMap);
-        initEntities(player);
-
-        gameCamera = new GameCamera(player, widthSceneMax, heightSceneMax);
-        gameCamera.update(0L);
-    }
-
-    private void initEntities(Player player) {
-        entities = new ArrayList<Entity>();
-        entities.add(player);
-    }
-
-    private void initTiles(Bitmap tileMap) {
         tiles = new TileType[rows][columns];
 
         for (int y = 0; y < rows; y++) {
@@ -84,6 +107,19 @@ public class Scene {
     }
 
     public void render(Canvas canvas) {
+        //BACKGROUND
+        Rect boundsFarm = new Rect(
+                (int)gameCamera.getX(),
+                (int)gameCamera.getY(),
+                (int)(gameCamera.getX() + gameCamera.getWidthClip()),
+                (int)(gameCamera.getY() + gameCamera.getHeightClip())
+        );
+        Rect screenFarm = new Rect(0, 0, sideSquareScreen, sideSquareScreen);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        canvas.drawBitmap(texture, boundsFarm, screenFarm, null);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+        //FOREGROUND
         for (Entity entity : entities) {
             entity.render(canvas);
         }

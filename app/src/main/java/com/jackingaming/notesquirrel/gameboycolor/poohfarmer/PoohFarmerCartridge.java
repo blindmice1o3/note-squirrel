@@ -13,6 +13,7 @@ import android.view.SurfaceHolder;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.entities.Player;
+import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.scenes.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.sprites.Assets;
 
@@ -20,7 +21,7 @@ public class PoohFarmerCartridge
         implements GameCartridge {
 
     private Context context;
-    private SurfaceHolder holder;
+    private SurfaceHolder holder;   //used to get Canvas
     private Resources resources;
 
 
@@ -33,6 +34,7 @@ public class PoohFarmerCartridge
     private int yCenterScreen;
 
     private Player player;
+    private GameCamera gameCamera;
     private Scene sceneCurrent;
 
 
@@ -41,7 +43,7 @@ public class PoohFarmerCartridge
     private int numberOfTilesGameCamera;
     private int sideSquareGameCameraInPixel;
 
-    private float conversionFactorPixelToScreen;
+    public float pixelToScreenRatio;
 
     //SPRITE
     private int spriteWidth;
@@ -83,23 +85,25 @@ public class PoohFarmerCartridge
         sideSquareGameCameraInPixel = numberOfTilesGameCamera * sizeTileInPixel;
         Log.d(MainActivity.DEBUG_TAG, "sideSquareGameCameraInPixel: " + sideSquareGameCameraInPixel);
 
-        conversionFactorPixelToScreen = ((float)sideSquareScreen) / sideSquareGameCameraInPixel;
-        Log.d(MainActivity.DEBUG_TAG, "conversionFactorPixelToScreen: " + conversionFactorPixelToScreen);
+        pixelToScreenRatio = ((float)sideSquareScreen) / sideSquareGameCameraInPixel;
+        Log.d(MainActivity.DEBUG_TAG, "pixelToScreenRatio: " + pixelToScreenRatio);
+        player = new Player(pixelToScreenRatio);
+        gameCamera = new GameCamera();
+        sceneCurrent = new Scene(sideSquareScreen);
 
-        spriteWidth = (int) ((1 * sizeTileInPixel) * conversionFactorPixelToScreen);
-        Log.d(MainActivity.DEBUG_TAG, "spriteWidth = (int) ((1*sizeTileInPixel) * conversionFactorPixelToScreen): " + spriteWidth);
-        spriteHeight = (int) ((1 * sizeTileInPixel) * conversionFactorPixelToScreen);
-        Log.d(MainActivity.DEBUG_TAG, "spriteHeight = (int) ((1*sizeTileInPixel) * conversionFactorPixelToScreen): " + spriteHeight);
-        x = (2 * sizeTileInPixel) * conversionFactorPixelToScreen;
-        y = (6 * sizeTileInPixel) * conversionFactorPixelToScreen;
+        spriteWidth = (int) ((1 * sizeTileInPixel) * pixelToScreenRatio);
+        Log.d(MainActivity.DEBUG_TAG, "spriteWidth = (int) ((1*sizeTileInPixel) * pixelToScreenRatio): " + spriteWidth);
+        spriteHeight = (int) ((1 * sizeTileInPixel) * pixelToScreenRatio);
+        Log.d(MainActivity.DEBUG_TAG, "spriteHeight = (int) ((1*sizeTileInPixel) * pixelToScreenRatio): " + spriteHeight);
+        x = (2 * sizeTileInPixel) * pixelToScreenRatio;
+        y = (6 * sizeTileInPixel) * pixelToScreenRatio;
     }
 
     @Override
     public void init() {
         Assets.init(resources);
 
-        player = new Player(0f, 0f, conversionFactorPixelToScreen);
-        sceneCurrent = new Scene(Assets.rgbTileFarm, player);
+        sceneCurrent.init(player, gameCamera);
     }
 
     @Override
@@ -183,15 +187,7 @@ public class PoohFarmerCartridge
             //Clear the canvas by painting the background white.
             canvas.drawColor(Color.WHITE);
 
-            //BACKGROUND
-            Bitmap farmSpring = Assets.hm3Farm[0][0];
-            //TODO: change to GameCamera's 9x9 tiles.
-            //Rect boundsFarm = new Rect(0, 0, farmSpring.getWidth(), farmSpring.getHeight());
-            Rect boundsFarm = new Rect(0, 0, sideSquareGameCameraInPixel, sideSquareGameCameraInPixel);
-            Rect screenFarm = new Rect(0, 0, sideSquareScreen, sideSquareScreen);
-            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-            canvas.drawBitmap(farmSpring, boundsFarm, screenFarm, null);
-            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
 
             //ENTITIES
             Bitmap currentFrame = Assets.corgiCrusade[yIndex][xIndex];
@@ -208,8 +204,8 @@ public class PoohFarmerCartridge
             ///////////TESTING////////////
             //////////////////////////////
             //SECOND CORGI (@@@TESTING@@@)
-            int xSecondCorgi = (int)((3 * sizeTileInPixel) * conversionFactorPixelToScreen);
-            int ySecondCorgi = (int)((5 * sizeTileInPixel) * conversionFactorPixelToScreen);
+            int xSecondCorgi = (int)((3 * sizeTileInPixel) * pixelToScreenRatio);
+            int ySecondCorgi = (int)((5 * sizeTileInPixel) * pixelToScreenRatio);
             Rect screenSecondCorgi = new Rect(xSecondCorgi, ySecondCorgi, (xSecondCorgi + spriteWidth), (ySecondCorgi + spriteHeight));
             canvas.drawBitmap(currentFrame, bounds, screenSecondCorgi, null);
             //////////////////////////////
