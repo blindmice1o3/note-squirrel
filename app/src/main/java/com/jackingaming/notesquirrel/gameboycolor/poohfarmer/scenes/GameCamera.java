@@ -7,6 +7,8 @@ import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.entities.Entity;
 
 public class GameCamera {
 
+    public static final int CLIP_NUMBER_OF_TILES = 9;
+
     private float x;
     private float y;
     private int widthClip;
@@ -19,8 +21,8 @@ public class GameCamera {
     public GameCamera() {
         x = 0f;
         y = 0f;
-        widthClip = 9 * Scene.TILE_SIZE;
-        heightClip = 9 * Scene.TILE_SIZE;
+        widthClip = CLIP_NUMBER_OF_TILES * Scene.TILE_SIZE;
+        heightClip = CLIP_NUMBER_OF_TILES * Scene.TILE_SIZE;
     }
 
     public void init(Entity entity, int widthSceneMax, int heightSceneMax) {
@@ -34,6 +36,19 @@ public class GameCamera {
     public void update(long elapsed) {
         centerOnEntity();
         doNotMoveOffScreen();
+    }
+
+    public void moveLeft() {
+        x -= 4f;
+    }
+    public void moveRight() {
+        x += 4f;
+    }
+    public void moveUp() {
+        y -= 4f;
+    }
+    public void moveDown() {
+        y += 4f;
     }
 
     private void centerOnEntity() {

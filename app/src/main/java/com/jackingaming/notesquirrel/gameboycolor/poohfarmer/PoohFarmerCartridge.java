@@ -2,10 +2,8 @@ package com.jackingaming.notesquirrel.gameboycolor.poohfarmer;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -25,31 +23,23 @@ public class PoohFarmerCartridge
     private Resources resources;
 
 
-
     private int widthScreen;
     private int heightScreen;
     private int sideSquareScreen;
+    private int sideSquareGameCameraInPixel;
+    public float pixelToScreenRatio;
+
+
     //CURRENTLY, USED TO MOVE PLAYER!!!
     private int xCenterScreen;
     private int yCenterScreen;
+
 
     private Player player;
     private GameCamera gameCamera;
     private Scene sceneCurrent;
 
 
-
-    private int sizeTileInPixel;
-    private int numberOfTilesGameCamera;
-    private int sideSquareGameCameraInPixel;
-
-    public float pixelToScreenRatio;
-
-    //SPRITE
-    private int spriteWidth;
-    private int spriteHeight;
-    private float x;
-    private float y;
     private int yIndex = 0;
     private int xIndex = 0;
 
@@ -62,41 +52,26 @@ public class PoohFarmerCartridge
         this.holder = holder;
         this.resources = resources;
 
+
         this.widthScreen = widthScreen;
-        this.heightScreen = heightScreen;
-        Log.d(MainActivity.DEBUG_TAG, "@@@@@ POOH FARMER CARTRIDGE @@@@@");
         Log.d(MainActivity.DEBUG_TAG, "widthScreen: " + widthScreen);
+        this.heightScreen = heightScreen;
         Log.d(MainActivity.DEBUG_TAG, "heightScreen: " + heightScreen);
-
-
-
         sideSquareScreen = Math.min(widthScreen, heightScreen);
         Log.d(MainActivity.DEBUG_TAG, "sideSquareScreen: " + sideSquareScreen);
+        sideSquareGameCameraInPixel = GameCamera.CLIP_NUMBER_OF_TILES * Scene.TILE_SIZE;
+        Log.d(MainActivity.DEBUG_TAG, "sideSquareGameCameraInPixel: " + sideSquareGameCameraInPixel);
+        pixelToScreenRatio = ((float)sideSquareScreen) / sideSquareGameCameraInPixel;
+        Log.d(MainActivity.DEBUG_TAG, "pixelToScreenRatio: " + pixelToScreenRatio);
+
+
         xCenterScreen = sideSquareScreen / 2;
         yCenterScreen = sideSquareScreen / 2;
 
-        //had a null pointer exception... MOVE TO init().
-        //TODO: SEE init() (AFTER Assets.init())
 
-
-
-        sizeTileInPixel = 16;
-        numberOfTilesGameCamera = 9;
-        sideSquareGameCameraInPixel = numberOfTilesGameCamera * sizeTileInPixel;
-        Log.d(MainActivity.DEBUG_TAG, "sideSquareGameCameraInPixel: " + sideSquareGameCameraInPixel);
-
-        pixelToScreenRatio = ((float)sideSquareScreen) / sideSquareGameCameraInPixel;
-        Log.d(MainActivity.DEBUG_TAG, "pixelToScreenRatio: " + pixelToScreenRatio);
-        player = new Player(pixelToScreenRatio);
+        player = new Player(sideSquareScreen, pixelToScreenRatio);
         gameCamera = new GameCamera();
         sceneCurrent = new Scene(sideSquareScreen);
-
-        spriteWidth = (int) ((1 * sizeTileInPixel) * pixelToScreenRatio);
-        Log.d(MainActivity.DEBUG_TAG, "spriteWidth = (int) ((1*sizeTileInPixel) * pixelToScreenRatio): " + spriteWidth);
-        spriteHeight = (int) ((1 * sizeTileInPixel) * pixelToScreenRatio);
-        Log.d(MainActivity.DEBUG_TAG, "spriteHeight = (int) ((1*sizeTileInPixel) * pixelToScreenRatio): " + spriteHeight);
-        x = (2 * sizeTileInPixel) * pixelToScreenRatio;
-        y = (6 * sizeTileInPixel) * pixelToScreenRatio;
     }
 
     @Override
@@ -114,7 +89,9 @@ public class PoohFarmerCartridge
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
             pressing = false;
         }
+        //////////////////////////////////////////////////////////
 
+        //////////////////////////////////////////////////////////
         if (cantPress && !pressing) {
             cantPress = false;
         } else if (justPressed) {
@@ -127,6 +104,14 @@ public class PoohFarmerCartridge
         //////////////////////////////////////////////////////////
 
 
+
+
+
+
+        float xPlayerBefore = player.getxCurrent();
+        float yPlayerBefore = player.getyCurrent();
+        float xGameCameraBefore = gameCamera.getX();
+        float yGameCameraBefore = gameCamera.getY();
         if (justPressed) {
             //HORIZONTAL
             //left
@@ -137,16 +122,20 @@ public class PoohFarmerCartridge
 
                 if (!sceneCurrent.isSolid(xFuture, yFutureTop) && !sceneCurrent.isSolid(xFuture, yFutureBottom)) {
                     player.moveLeft();
+                    gameCamera.moveLeft();
+                    //gameCamera.update(0L);
                 }
             }
             //right
             else if (event.getX() > xCenterScreen && event.getY() > yCenterScreen) {
-                int xFuture = (int) ((player.getxCurrent() + player.getWidth()) + player.getMoveSpeed());
+                int xFuture = (int) ((player.getxCurrent() + player.getWidth()) + player.getMoveSpeed() - 1);
                 int yFutureTop = (int) (player.getyCurrent());
                 int yFutureBottom = (int) (player.getyCurrent() + player.getHeight());
 
                 if (!sceneCurrent.isSolid(xFuture, yFutureTop) && !sceneCurrent.isSolid(xFuture, yFutureBottom)) {
                     player.moveRight();
+                    gameCamera.moveRight();
+                    //gameCamera.update(0L);
                 }
             }
 
@@ -159,30 +148,45 @@ public class PoohFarmerCartridge
 
                 if (!sceneCurrent.isSolid(xFutureLeft, yFuture) && !sceneCurrent.isSolid(xFutureRight, yFuture)) {
                     player.moveUp();
+                    gameCamera.moveUp();
+                    //gameCamera.update(0L);
                 }
             }
             //down
             else if (event.getY() > yCenterScreen && event.getX() < xCenterScreen) {
-                int yFuture = (int) ((player.getyCurrent() + player.getHeight()) + player.getMoveSpeed());
+                int yFuture = (int) ((player.getyCurrent() + player.getHeight()) + player.getMoveSpeed() - 1);
                 int xFutureLeft = (int) (player.getxCurrent());
                 int xFutureRight = (int) (player.getxCurrent() + player.getWidth());
 
                 if (!sceneCurrent.isSolid(xFutureLeft, yFuture) && !sceneCurrent.isSolid(xFutureRight, yFuture)) {
                     player.moveDown();
+                    gameCamera.moveDown();
+                    //gameCamera.update(0L);
                 }
             }
+            float xPlayerAfter = player.getxCurrent();
+            float yPlayerAfter = player.getyCurrent();
+            float xGameCameraAfter = gameCamera.getX();
+            float yGameCameraAfter = gameCamera.getY();
 
             //TODO:
-            Log.d(MainActivity.DEBUG_TAG, "GameCamera.x: " + gameCamera.getX());
-            Log.d(MainActivity.DEBUG_TAG, "GameCamera.y: " + gameCamera.getY());
-            Log.d(MainActivity.DEBUG_TAG, "player.xCurrent: " + player.getxCurrent());
-            Log.d(MainActivity.DEBUG_TAG, "player.yCurrent: " + player.getyCurrent());
+            Log.d(MainActivity.DEBUG_TAG, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+            Log.d(MainActivity.DEBUG_TAG, "xPlayerBefore: " + xPlayerBefore);
+            Log.d(MainActivity.DEBUG_TAG, "yPlayerBefore: " + yPlayerBefore);
+            Log.d(MainActivity.DEBUG_TAG, "xGameCameraBefore: " + xGameCameraBefore);
+            Log.d(MainActivity.DEBUG_TAG, "yGameCameraBefore: " + yGameCameraBefore);
+            Log.d(MainActivity.DEBUG_TAG, "==================================");
+            Log.d(MainActivity.DEBUG_TAG, "xPlayerAfter: " + xPlayerAfter);
+            Log.d(MainActivity.DEBUG_TAG, "yPlayerAfter: " + yPlayerAfter);
+            Log.d(MainActivity.DEBUG_TAG, "xGameCameraAfter: " + xGameCameraAfter);
+            Log.d(MainActivity.DEBUG_TAG, "yGameCameraAfter: " + yGameCameraAfter);
+            Log.d(MainActivity.DEBUG_TAG, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         }
 
 
 
 
-        /*
+        /*  CAN USE IN ANIMATION CLASS
         //CHANGE currentFrame (animation) of corgi sprites USED IN render().
         if (justPressed) {
             /////////
@@ -203,7 +207,7 @@ public class PoohFarmerCartridge
 
     @Override
     public void update(long elapsed) {
-        sceneCurrent.update(elapsed);
+        //sceneCurrent.update(elapsed);
     }
 
     @Override
@@ -218,35 +222,7 @@ public class PoohFarmerCartridge
             canvas.drawColor(Color.WHITE);
 
 
-
-            //ENTITIES
-            Bitmap currentFrame = Assets.corgiCrusade[yIndex][xIndex];
-            Rect bounds = new Rect(0, 0, currentFrame.getWidth(), currentFrame.getHeight());
-            Rect screenRect = new Rect((int)x, (int)y, (int)(x + spriteWidth), (int)(y + spriteHeight));
-            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-            //@@@@@@@@@@@@@@@ DRAWING-RELATED-CODE @@@@@@@@@@@@@@@
-            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-            canvas.drawBitmap(currentFrame, bounds, screenRect, null);
-            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-
-            //////////////////////////////
-            ///////////TESTING////////////
-            //////////////////////////////
-            //SECOND CORGI (@@@TESTING@@@)
-            int xSecondCorgi = (int)((3 * sizeTileInPixel) * pixelToScreenRatio);
-            int ySecondCorgi = (int)((5 * sizeTileInPixel) * pixelToScreenRatio);
-            Rect screenSecondCorgi = new Rect(xSecondCorgi, ySecondCorgi, (xSecondCorgi + spriteWidth), (ySecondCorgi + spriteHeight));
-            canvas.drawBitmap(currentFrame, bounds, screenSecondCorgi, null);
-            //////////////////////////////
-            //////////////////////////////
-            //////////////////////////////
-
-
-
             sceneCurrent.render(canvas);
-
-
 
             //unlock it and post our updated drawing to it.
             ///////////////////////////////////

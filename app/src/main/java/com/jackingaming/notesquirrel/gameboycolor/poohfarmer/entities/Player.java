@@ -8,14 +8,16 @@ import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.sprites.Assets;
 
 public class Player extends Entity {
 
+    private int sideSquareScreen;
     private float pixelToScreenRatio;
 
     private Bitmap[][] texture;
     private float moveSpeed = 4f;
 
-    public Player(float pixelToScreenRatio) {
+    public Player(int sideSquareScreen, float pixelToScreenRatio) {
         super(0f, 0f);
 
+        this.sideSquareScreen = sideSquareScreen;
         this.pixelToScreenRatio = pixelToScreenRatio;
     }
 
@@ -50,10 +52,21 @@ public class Player extends Entity {
 
         Rect bounds = new Rect(0, 0, currentFrame.getWidth(), currentFrame.getHeight());
         Rect screenRect = new Rect(
+
+                (int)(64 * pixelToScreenRatio),
+                (int)(64 * pixelToScreenRatio),
+                (int)((64 + width)* pixelToScreenRatio),
+                (int)((64 + height) * pixelToScreenRatio)
+
+
+/*
                 (int)(xCurrent * pixelToScreenRatio),
                 (int)(yCurrent * pixelToScreenRatio),
                 (int)((xCurrent + width) * pixelToScreenRatio),
                 (int)((yCurrent + height) * pixelToScreenRatio)
+
+ */
+
         );
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
