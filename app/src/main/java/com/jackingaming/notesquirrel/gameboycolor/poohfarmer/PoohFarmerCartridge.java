@@ -12,6 +12,8 @@ import android.view.SurfaceHolder;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.entities.Player;
+import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.sprites.Assets;
 
 public class PoohFarmerCartridge
@@ -21,9 +23,19 @@ public class PoohFarmerCartridge
     private SurfaceHolder holder;
     private Resources resources;
 
+
+
     private int widthScreen;
     private int heightScreen;
     private int sideSquareScreen;
+    //CURRENTLY, USED TO MOVE PLAYER!!!
+    private int xCenterScreen;
+    private int yCenterScreen;
+
+    private Player player;
+    private Scene sceneCurrent;
+
+
 
     private int sizeTileInPixel;
     private int numberOfTilesGameCamera;
@@ -54,8 +66,18 @@ public class PoohFarmerCartridge
         Log.d(MainActivity.DEBUG_TAG, "widthScreen: " + widthScreen);
         Log.d(MainActivity.DEBUG_TAG, "heightScreen: " + heightScreen);
 
+
+
         sideSquareScreen = Math.min(widthScreen, heightScreen);
         Log.d(MainActivity.DEBUG_TAG, "sideSquareScreen: " + sideSquareScreen);
+        xCenterScreen = sideSquareScreen / 2;
+        yCenterScreen = sideSquareScreen / 2;
+
+        //had a null pointer exception... MOVE TO init().
+        //TODO: SEE init() (AFTER Assets.init())
+
+
+
         sizeTileInPixel = 16;
         numberOfTilesGameCamera = 9;
         sideSquareGameCameraInPixel = numberOfTilesGameCamera * sizeTileInPixel;
@@ -75,6 +97,9 @@ public class PoohFarmerCartridge
     @Override
     public void init() {
         Assets.init(resources);
+
+        player = new Player(0f, 0f, conversionFactorPixelToScreen);
+        sceneCurrent = new Scene(Assets.rgbTileFarm, player);
     }
 
     @Override
@@ -97,6 +122,33 @@ public class PoohFarmerCartridge
         }
         //////////////////////////////////////////////////////////
 
+
+        if (justPressed) {
+            //HORIZONTAL
+            //left
+            if (event.getX() < xCenterScreen) {
+                player.moveLeft();
+            }
+            //right
+            else if (event.getX() > xCenterScreen) {
+                player.moveRight();
+            }
+
+            //VERTICAL
+            //up
+            if (event.getY() < yCenterScreen) {
+                player.moveUp();
+            }
+            //down
+            else if (event.getY() > yCenterScreen) {
+                player.moveDown();
+            }
+        }
+
+
+
+
+        /*
         //CHANGE currentFrame (animation) of corgi sprites USED IN render().
         if (justPressed) {
             /////////
@@ -112,11 +164,12 @@ public class PoohFarmerCartridge
                 }
             }
         }
+        */
     }
 
     @Override
     public void update(long elapsed) {
-
+        sceneCurrent.update(elapsed);
     }
 
     @Override
@@ -162,6 +215,11 @@ public class PoohFarmerCartridge
             //////////////////////////////
             //////////////////////////////
             //////////////////////////////
+
+
+
+            sceneCurrent.render(canvas);
+
 
 
             //unlock it and post our updated drawing to it.
