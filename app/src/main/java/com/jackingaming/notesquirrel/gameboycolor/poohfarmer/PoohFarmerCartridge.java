@@ -118,24 +118,22 @@ public class PoohFarmerCartridge
             if (event.getX() < xCenterScreen && event.getY() < yCenterScreen) {
                 int xFuture = (int) (player.getxCurrent() - player.getMoveSpeed());
                 int yFutureTop = (int) (player.getyCurrent());
-                int yFutureBottom = (int) (player.getyCurrent() + player.getHeight());
+                int yFutureBottom = (int) (player.getyCurrent() + player.getHeight() - 1);
 
                 if (!sceneCurrent.isSolid(xFuture, yFutureTop) && !sceneCurrent.isSolid(xFuture, yFutureBottom)) {
                     player.moveLeft();
                     gameCamera.moveLeft();
-                    //gameCamera.update(0L);
                 }
             }
             //right
             else if (event.getX() > xCenterScreen && event.getY() > yCenterScreen) {
                 int xFuture = (int) ((player.getxCurrent() + player.getWidth()) + player.getMoveSpeed() - 1);
                 int yFutureTop = (int) (player.getyCurrent());
-                int yFutureBottom = (int) (player.getyCurrent() + player.getHeight());
+                int yFutureBottom = (int) (player.getyCurrent() + player.getHeight() - 1);
 
                 if (!sceneCurrent.isSolid(xFuture, yFutureTop) && !sceneCurrent.isSolid(xFuture, yFutureBottom)) {
                     player.moveRight();
                     gameCamera.moveRight();
-                    //gameCamera.update(0L);
                 }
             }
 
@@ -144,24 +142,22 @@ public class PoohFarmerCartridge
             if (event.getY() < yCenterScreen && event.getX() > xCenterScreen) {
                 int yFuture = (int) (player.getyCurrent() - player.getMoveSpeed());
                 int xFutureLeft = (int) (player.getxCurrent());
-                int xFutureRight = (int) (player.getxCurrent() + player.getWidth());
+                int xFutureRight = (int) (player.getxCurrent() + player.getWidth() - 1);
 
                 if (!sceneCurrent.isSolid(xFutureLeft, yFuture) && !sceneCurrent.isSolid(xFutureRight, yFuture)) {
                     player.moveUp();
                     gameCamera.moveUp();
-                    //gameCamera.update(0L);
                 }
             }
             //down
             else if (event.getY() > yCenterScreen && event.getX() < xCenterScreen) {
                 int yFuture = (int) ((player.getyCurrent() + player.getHeight()) + player.getMoveSpeed() - 1);
                 int xFutureLeft = (int) (player.getxCurrent());
-                int xFutureRight = (int) (player.getxCurrent() + player.getWidth());
+                int xFutureRight = (int) (player.getxCurrent() + player.getWidth() - 1);
 
                 if (!sceneCurrent.isSolid(xFutureLeft, yFuture) && !sceneCurrent.isSolid(xFutureRight, yFuture)) {
                     player.moveDown();
                     gameCamera.moveDown();
-                    //gameCamera.update(0L);
                 }
             }
             float xPlayerAfter = player.getxCurrent();
@@ -207,7 +203,7 @@ public class PoohFarmerCartridge
 
     @Override
     public void update(long elapsed) {
-        //sceneCurrent.update(elapsed);
+        sceneCurrent.update(elapsed);
     }
 
     @Override

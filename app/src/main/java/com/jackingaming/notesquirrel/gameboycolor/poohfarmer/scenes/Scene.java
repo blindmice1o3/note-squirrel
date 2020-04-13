@@ -102,7 +102,7 @@ public class Scene {
     }
 
     public void update(long elapsed) {
-        gameCamera.update(elapsed);
+        //gameCamera.update(elapsed);
     }
 
     public void render(Canvas canvas) {
