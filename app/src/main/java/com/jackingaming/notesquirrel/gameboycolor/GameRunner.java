@@ -65,7 +65,8 @@ public class GameRunner extends Thread {
 
                 frameCounter++;
                 if (frameCounter >= 60) {
-                    Log.d(MainActivity.DEBUG_TAG, "elapsedMillis: " + elapsedMillis + " | frameCounter: " + frameCounter);
+                    //TODO:
+                    //Log.d(MainActivity.DEBUG_TAG, "elapsedMillis: " + elapsedMillis + " | frameCounter: " + frameCounter);
                     frameCounter = 0;
                 }
 

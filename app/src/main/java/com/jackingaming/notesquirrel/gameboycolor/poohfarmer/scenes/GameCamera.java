@@ -1,5 +1,8 @@
 package com.jackingaming.notesquirrel.gameboycolor.poohfarmer.scenes;
 
+import android.util.Log;
+
+import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.entities.Entity;
 
 public class GameCamera {

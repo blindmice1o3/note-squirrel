@@ -147,6 +147,12 @@ public class PoohFarmerCartridge
             else if (event.getY() > yCenterScreen) {
                 player.moveDown();
             }
+
+            //TODO:
+            Log.d(MainActivity.DEBUG_TAG, "GameCamera.x: " + gameCamera.getX());
+            Log.d(MainActivity.DEBUG_TAG, "GameCamera.y: " + gameCamera.getY());
+            Log.d(MainActivity.DEBUG_TAG, "player.xCurrent: " + player.getxCurrent());
+            Log.d(MainActivity.DEBUG_TAG, "player.yCurrent: " + player.getyCurrent());
         }
 
 

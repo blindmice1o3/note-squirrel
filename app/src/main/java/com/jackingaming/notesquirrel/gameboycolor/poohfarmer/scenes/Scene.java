@@ -29,9 +29,7 @@ public class Scene {
     public static final int TILE_SIZE = 16;
 
     private int xSpawnIndex = 4;
-    private int ySpawnIndex = 8;
-    //private int xSpawnIndex = 4;
-    //private int ySpawnIndex = 4;
+    private int ySpawnIndex = 4;
 
     private int columns;
     private int rows;

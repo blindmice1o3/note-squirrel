@@ -11,7 +11,7 @@ public class Player extends Entity {
     private float pixelToScreenRatio;
 
     private Bitmap[][] texture;
-    private float moveSpeed = 3f;
+    private float moveSpeed = 16f;
 
     public Player(float pixelToScreenRatio) {
         super(0f, 0f);
