@@ -1,13 +1,18 @@
 package com.jackingaming.notesquirrel.gameboycolor;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.jackingaming.notesquirrel.MainActivity;
+import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.pong.PongCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.PoohFarmerCartridge;
 
@@ -57,6 +62,29 @@ public class GameView extends SurfaceView
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         Log.d(MainActivity.DEBUG_TAG, "GameView.surfaceCreated(SurfaceHolder)");
+        ////////////////////////////////////////////////////////////////////////////////
+        final Activity jackInActivity = (Activity)getContext();
+        RelativeLayout relativeLayout = (RelativeLayout) jackInActivity.findViewById(R.id.relativeLayout);
+
+        Button button = new Button(jackInActivity);
+        RelativeLayout.LayoutParams layout = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT
+        );
+        layout.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        layout.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        button.setLayoutParams(layout);
+        button.setText("myButton");
+        button.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(MainActivity.DEBUG_TAG, "kill switch engaged");
+            }
+        });
+
+        relativeLayout.addView(button);
+        ////////////////////////////////////////////////////////////////////////////////
+
 
         widthScreen = getWidth();
         heightScreen = getHeight();
