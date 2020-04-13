@@ -90,8 +90,18 @@ public class GameView extends SurfaceView
 
         widthScreen = getWidth();
         heightScreen = getHeight();
+        int sideSquareScreen = Math.min(widthScreen, heightScreen);
 
-        gameCartridge = new PoohFarmerCartridge(getContext(), holder, getResources(), widthScreen, heightScreen);
+
+        SurfaceView gameView = (SurfaceView) findViewById(R.id.gameView);
+        gameView.getLayoutParams().width = sideSquareScreen;
+        gameView.getLayoutParams().height = sideSquareScreen;
+        /////////////////////////
+        gameView.requestLayout();
+        /////////////////////////
+
+
+        gameCartridge = new PoohFarmerCartridge(getContext(), holder, getResources(), sideSquareScreen);
         //gameCartridge = new PongCartridge(getContext(), holder, getResources(), widthScreen, heightScreen);
         runner = new GameRunner(gameCartridge);
         // Tell the Thread class to go to the "public void run()" method.

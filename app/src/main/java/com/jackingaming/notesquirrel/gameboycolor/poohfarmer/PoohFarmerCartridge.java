@@ -23,16 +23,9 @@ public class PoohFarmerCartridge
     private Resources resources;
 
 
-    private int widthScreen;
-    private int heightScreen;
     private int sideSquareScreen;
     private int sideSquareGameCameraInPixel;
     public float pixelToScreenRatio;
-
-
-    //CURRENTLY, USED TO MOVE PLAYER!!!
-    private int xCenterScreen;
-    private int yCenterScreen;
 
 
     private Player player;
@@ -40,25 +33,21 @@ public class PoohFarmerCartridge
     private Scene sceneCurrent;
 
 
-    private int yIndex = 0;
-    private int xIndex = 0;
-
+    //CURRENTLY, USED TO MOVE PLAYER!!!
+    private int xCenterScreen;
+    private int yCenterScreen;
     private boolean cantPress = false;
     private boolean justPressed = false;
     private boolean pressing = false;
 
-    public PoohFarmerCartridge(Context context, SurfaceHolder holder, Resources resources, int widthScreen, int heightScreen) {
+    public PoohFarmerCartridge(Context context, SurfaceHolder holder, Resources resources, int sideSquareScreen) {
         this.context = context;
         this.holder = holder;
         this.resources = resources;
-
-
-        this.widthScreen = widthScreen;
-        Log.d(MainActivity.DEBUG_TAG, "widthScreen: " + widthScreen);
-        this.heightScreen = heightScreen;
-        Log.d(MainActivity.DEBUG_TAG, "heightScreen: " + heightScreen);
-        sideSquareScreen = Math.min(widthScreen, heightScreen);
+        this.sideSquareScreen = sideSquareScreen;
         Log.d(MainActivity.DEBUG_TAG, "sideSquareScreen: " + sideSquareScreen);
+
+
         sideSquareGameCameraInPixel = GameCamera.CLIP_NUMBER_OF_TILES * Scene.TILE_SIZE;
         Log.d(MainActivity.DEBUG_TAG, "sideSquareGameCameraInPixel: " + sideSquareGameCameraInPixel);
         pixelToScreenRatio = ((float)sideSquareScreen) / sideSquareGameCameraInPixel;

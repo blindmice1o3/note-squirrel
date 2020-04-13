@@ -5,11 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#00FF00"
     tools:context=".gameboycolor.JackInActivity">
 
     <com.jackingaming.notesquirrel.gameboycolor.GameView
         android:id="@+id/gameView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"  />
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>
