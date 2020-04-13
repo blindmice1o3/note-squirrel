@@ -63,6 +63,7 @@ public class GameView extends SurfaceView
     public void surfaceCreated(SurfaceHolder holder) {
         Log.d(MainActivity.DEBUG_TAG, "GameView.surfaceCreated(SurfaceHolder)");
         ////////////////////////////////////////////////////////////////////////////////
+        /*
         final Activity jackInActivity = (Activity)getContext();
         RelativeLayout relativeLayout = (RelativeLayout) jackInActivity.findViewById(R.id.relativeLayout);
 
@@ -83,6 +84,7 @@ public class GameView extends SurfaceView
         });
 
         relativeLayout.addView(button);
+        */
         ////////////////////////////////////////////////////////////////////////////////
 
 

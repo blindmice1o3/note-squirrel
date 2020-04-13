@@ -10,6 +10,9 @@ import android.util.Log;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Assets {
 
     public static Bitmap rgbTileTest;
@@ -17,6 +20,7 @@ public class Assets {
 
     public static Bitmap[][] corgiCrusade;
     public static Bitmap[][] hm3Farm;
+    public static Map<String, Bitmap> dPad;
 
     public static void init(Resources resources) {
         rgbTileTest = BitmapFactory.decodeResource(resources, R.drawable.tile_rgb_test);
@@ -72,9 +76,26 @@ public class Assets {
 
         initCorgiCrusade(resources);
         initHm3Farm(resources);
+        initDPad(resources);
     }
 
-    public static void initHm3Farm(Resources resources) {
+    private static void initDPad(Resources resources) {
+        Bitmap source = BitmapFactory.decodeResource(resources, R.drawable.d_pad);
+
+        dPad = new HashMap<String, Bitmap>();
+
+        dPad.put("up", Bitmap.createBitmap(source, 62, 365, 52, 40));
+        dPad.put("left", Bitmap.createBitmap(source, 22, 405, 40, 52));
+        dPad.put("center", Bitmap.createBitmap(source, 62, 405, 52, 52));
+        dPad.put("right", Bitmap.createBitmap(source, 114, 405, 40, 52));
+        dPad.put("down", Bitmap.createBitmap(source, 62, 457, 52, 40));
+
+        dPad.put("menu", Bitmap.createBitmap(source, 172, 375, 136, 52));
+        dPad.put("a", Bitmap.createBitmap(source, 172, 435, 64, 52));
+        dPad.put("b", Bitmap.createBitmap(source, 244, 435, 64, 52));
+    }
+
+    private static void initHm3Farm(Resources resources) {
         //LOAD SPRITESHEET
         Bitmap spriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm3_farm);
 
@@ -105,7 +126,7 @@ public class Assets {
         hm3Farm[3][2] = Bitmap.createBitmap(spriteSheet, 1506, 443, 80, 80);
     }
 
-    public static void initCorgiCrusade(Resources resources) {
+    private static void initCorgiCrusade(Resources resources) {
         //LOAD SPRITESHEET
         Bitmap spriteSheet = BitmapFactory.decodeResource(resources, R.drawable.corgi_crusade_editted);
 
