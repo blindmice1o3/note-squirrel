@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.view.MotionEvent;
 
 import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.entities.Player;

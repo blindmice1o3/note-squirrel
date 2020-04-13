@@ -130,22 +130,46 @@ public class PoohFarmerCartridge
         if (justPressed) {
             //HORIZONTAL
             //left
-            if (event.getX() < xCenterScreen) {
-                player.moveLeft();
+            if (event.getX() < xCenterScreen && event.getY() < yCenterScreen) {
+                int xFuture = (int) (player.getxCurrent() - player.getMoveSpeed());
+                int yFutureTop = (int) (player.getyCurrent());
+                int yFutureBottom = (int) (player.getyCurrent() + player.getHeight());
+
+                if (!sceneCurrent.isSolid(xFuture, yFutureTop) && !sceneCurrent.isSolid(xFuture, yFutureBottom)) {
+                    player.moveLeft();
+                }
             }
             //right
-            else if (event.getX() > xCenterScreen) {
-                player.moveRight();
+            else if (event.getX() > xCenterScreen && event.getY() > yCenterScreen) {
+                int xFuture = (int) ((player.getxCurrent() + player.getWidth()) + player.getMoveSpeed());
+                int yFutureTop = (int) (player.getyCurrent());
+                int yFutureBottom = (int) (player.getyCurrent() + player.getHeight());
+
+                if (!sceneCurrent.isSolid(xFuture, yFutureTop) && !sceneCurrent.isSolid(xFuture, yFutureBottom)) {
+                    player.moveRight();
+                }
             }
 
             //VERTICAL
             //up
-            if (event.getY() < yCenterScreen) {
-                player.moveUp();
+            if (event.getY() < yCenterScreen && event.getX() > xCenterScreen) {
+                int yFuture = (int) (player.getyCurrent() - player.getMoveSpeed());
+                int xFutureLeft = (int) (player.getxCurrent());
+                int xFutureRight = (int) (player.getxCurrent() + player.getWidth());
+
+                if (!sceneCurrent.isSolid(xFutureLeft, yFuture) && !sceneCurrent.isSolid(xFutureRight, yFuture)) {
+                    player.moveUp();
+                }
             }
             //down
-            else if (event.getY() > yCenterScreen) {
-                player.moveDown();
+            else if (event.getY() > yCenterScreen && event.getX() < xCenterScreen) {
+                int yFuture = (int) ((player.getyCurrent() + player.getHeight()) + player.getMoveSpeed());
+                int xFutureLeft = (int) (player.getxCurrent());
+                int xFutureRight = (int) (player.getxCurrent() + player.getWidth());
+
+                if (!sceneCurrent.isSolid(xFutureLeft, yFuture) && !sceneCurrent.isSolid(xFutureRight, yFuture)) {
+                    player.moveDown();
+                }
             }
 
             //TODO:

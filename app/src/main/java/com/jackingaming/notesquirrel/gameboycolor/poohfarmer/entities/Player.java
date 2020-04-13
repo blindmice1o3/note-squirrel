@@ -11,7 +11,7 @@ public class Player extends Entity {
     private float pixelToScreenRatio;
 
     private Bitmap[][] texture;
-    private float moveSpeed = 16f;
+    private float moveSpeed = 4f;
 
     public Player(float pixelToScreenRatio) {
         super(0f, 0f);
@@ -59,6 +59,10 @@ public class Player extends Entity {
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         canvas.drawBitmap(currentFrame, bounds, screenRect, null);
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    }
+
+    public float getMoveSpeed() {
+        return moveSpeed;
     }
 
 }
