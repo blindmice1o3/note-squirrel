@@ -21,6 +21,7 @@ public class Assets {
     public static Bitmap[][] corgiCrusade;
     public static Bitmap[][] hm3Farm;
     public static Map<String, Bitmap> dPad;
+    public static Bitmap pokemonWorldMap;
 
     public static void init(Resources resources) {
         rgbTileTest = BitmapFactory.decodeResource(resources, R.drawable.tile_rgb_test);
@@ -77,6 +78,11 @@ public class Assets {
         initCorgiCrusade(resources);
         initHm3Farm(resources);
         initDPad(resources);
+        initPokemonWorldMap(resources);
+    }
+
+    private static void initPokemonWorldMap(Resources resources) {
+        pokemonWorldMap = BitmapFactory.decodeResource(resources, R.drawable.pokemon_gsc_kanto);
     }
 
     private static void initDPad(Resources resources) {

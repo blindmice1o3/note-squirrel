@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
-import android.view.MotionEvent;
 
 import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.entities.Player;
@@ -80,7 +79,6 @@ public class Scene {
 
         for (int y = 0; y < rows; y++) {
             for (int x = 0; x < columns; x++) {
-
                 int pixel = tileMap.getPixel(x, y);
 
                 if (pixel == Color.BLACK) {
@@ -96,13 +94,14 @@ public class Scene {
                 else if (pixel == Color.BLUE) {
                     tiles[y][x] = TileType.SOLID;
                 }
-
             }
         }
     }
 
     public void update(long elapsed) {
-        //gameCamera.update(elapsed);
+        for (Entity entity : entities) {
+            entity.update(elapsed);
+        }
     }
 
     public void render(Canvas canvas) {
@@ -114,9 +113,9 @@ public class Scene {
                 (int)(gameCamera.getY() + gameCamera.getHeightClip())
         );
         Rect screenFarm = new Rect(0, 0, sideSquareScreen, sideSquareScreen);
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         canvas.drawBitmap(texture, boundsFarm, screenFarm, null);
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
         //FOREGROUND
         for (Entity entity : entities) {

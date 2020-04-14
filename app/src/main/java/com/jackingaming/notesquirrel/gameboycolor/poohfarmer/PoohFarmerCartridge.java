@@ -92,15 +92,6 @@ public class PoohFarmerCartridge
         }
         //////////////////////////////////////////////////////////
 
-
-
-
-
-
-        float xPlayerBefore = player.getxCurrent();
-        float yPlayerBefore = player.getyCurrent();
-        float xGameCameraBefore = gameCamera.getX();
-        float yGameCameraBefore = gameCamera.getY();
         if (justPressed) {
             //HORIZONTAL
             //left
@@ -149,45 +140,7 @@ public class PoohFarmerCartridge
                     gameCamera.moveDown();
                 }
             }
-            float xPlayerAfter = player.getxCurrent();
-            float yPlayerAfter = player.getyCurrent();
-            float xGameCameraAfter = gameCamera.getX();
-            float yGameCameraAfter = gameCamera.getY();
-
-            //TODO:
-            Log.d(MainActivity.DEBUG_TAG, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-            Log.d(MainActivity.DEBUG_TAG, "xPlayerBefore: " + xPlayerBefore);
-            Log.d(MainActivity.DEBUG_TAG, "yPlayerBefore: " + yPlayerBefore);
-            Log.d(MainActivity.DEBUG_TAG, "xGameCameraBefore: " + xGameCameraBefore);
-            Log.d(MainActivity.DEBUG_TAG, "yGameCameraBefore: " + yGameCameraBefore);
-            Log.d(MainActivity.DEBUG_TAG, "==================================");
-            Log.d(MainActivity.DEBUG_TAG, "xPlayerAfter: " + xPlayerAfter);
-            Log.d(MainActivity.DEBUG_TAG, "yPlayerAfter: " + yPlayerAfter);
-            Log.d(MainActivity.DEBUG_TAG, "xGameCameraAfter: " + xGameCameraAfter);
-            Log.d(MainActivity.DEBUG_TAG, "yGameCameraAfter: " + yGameCameraAfter);
-            Log.d(MainActivity.DEBUG_TAG, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         }
-
-
-
-
-        /*  CAN USE IN ANIMATION CLASS
-        //CHANGE currentFrame (animation) of corgi sprites USED IN render().
-        if (justPressed) {
-            /////////
-            xIndex++;
-            /////////
-            if (xIndex == Assets.corgiCrusade[0].length) {
-                xIndex = 0;
-                /////////
-                yIndex++;
-                /////////
-                if (yIndex == Assets.corgiCrusade.length) {
-                    yIndex = 0;
-                }
-            }
-        }
-        */
     }
 
     @Override
@@ -206,8 +159,9 @@ public class PoohFarmerCartridge
             //Clear the canvas by painting the background white.
             canvas.drawColor(Color.WHITE);
 
-
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@
             sceneCurrent.render(canvas);
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@
 
             //unlock it and post our updated drawing to it.
             ///////////////////////////////////

@@ -19,6 +19,7 @@ public abstract class Entity {
     }
 
     public abstract void init();
+    public abstract void update(long elapsed);
     public abstract void render(Canvas canvas);
 
     public float getxCurrent() {
