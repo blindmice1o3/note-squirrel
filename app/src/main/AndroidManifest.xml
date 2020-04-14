@@ -38,15 +38,16 @@
         </provider>
 
         <activity android:name=".file.FileSandboxActivity" />
-        <activity android:name=".learn_fragments2.FragmentParent2Activity" />
-        <activity android:name=".learn_fragments.FragmentParentActivity" />
+        <activity android:name=".learn_fragment_dvd.FragmentParentDvdActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".learn_fragment.FragmentParentActivity" />
         <activity
             android:name=".tileset.TilesetUtilActivity"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".gameboycolor.JackInActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity android:name=".ListViewerActivity" />
         <activity android:name=".PathViewerActivity" />
         <activity android:name=".PhotoViewerActivity" />
