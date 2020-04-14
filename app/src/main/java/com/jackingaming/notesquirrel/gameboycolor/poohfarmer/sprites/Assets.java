@@ -18,8 +18,12 @@ public class Assets {
     public static Bitmap rgbTileTest;
     public static Bitmap rgbTileFarm;
 
-    public static Bitmap[][] corgiCrusade;
     public static Bitmap[][] hm3Farm;
+    public static Bitmap[][] items;
+    public static Bitmap[][] corgiCrusade;
+    public static Bitmap[][] wintermute;  //MS Clippit (aka Wintermute)
+    public static Bitmap[][] gobi;
+
     public static Map<String, Bitmap> dPad;
     public static Bitmap pokemonWorldMap;
 
@@ -75,10 +79,18 @@ public class Assets {
         ////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////
 
-        initCorgiCrusade(resources);
         initHm3Farm(resources);
+        initItems(resources);
+        initEntities(resources);
+
         initDPad(resources);
         initPokemonWorldMap(resources);
+    }
+
+    private static void initEntities(Resources resources) {
+        loadCorgiCrusade(resources);
+        loadWintermute(resources);
+        loadGobi(resources);
     }
 
     private static void initPokemonWorldMap(Resources resources) {
@@ -132,7 +144,34 @@ public class Assets {
         hm3Farm[3][2] = Bitmap.createBitmap(spriteSheet, 1506, 443, 80, 80);
     }
 
-    private static void initCorgiCrusade(Resources resources) {
+    private static void initItems(Resources resources){
+        //LOAD SPRITESHEET
+        Bitmap imageSource = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm2_spritesheet_items);
+
+        //UNPACKING THE SPRITESHEET (logic is specific to each spritesheet's layout)
+        int column = 9;
+        int row = 9;
+
+        items = new Bitmap[row][column];
+
+        int margin = 1;
+        int tileWidth = 16;
+        int tileHeight = 16;
+
+        int xCurrent = margin;
+        int yCurrent = margin;
+
+        for (int y = 0; y < row; y++) {
+            for (int x = 0; x < column; x++) {
+                items[y][x] = Bitmap.createBitmap(imageSource, xCurrent, yCurrent, tileWidth, tileHeight);
+                xCurrent += (tileWidth + margin);
+            }
+            xCurrent = margin;
+            yCurrent += (tileHeight + margin);
+        }
+    }
+
+    private static void loadCorgiCrusade(Resources resources) {
         //LOAD SPRITESHEET
         Bitmap spriteSheet = BitmapFactory.decodeResource(resources, R.drawable.corgi_crusade_editted);
 
@@ -168,8 +207,103 @@ public class Assets {
         for (int x = 0; x < column; x++) {
             corgiCrusade[3][x] = flipHorizontally(corgiCrusade[2][x]);
         }
+    }
 
-        Log.d(MainActivity.DEBUG_TAG, "Assets.initCorgiCrusade(Resources): FINISHED!!!");
+    private static void loadWintermute(Resources resources) {
+        //LOAD SPRITESHEET
+        Bitmap imageSource = BitmapFactory.decodeResource(resources, R.drawable.pc_ms_office_clippit);
+
+        //UNPACKING THE SPRITESHEET (logic is specific to each spritesheet's layout)
+        int column = 22;
+        int row = 41;
+
+        wintermute = new Bitmap[row][column];
+
+        //TODO: everything in loadWintermute(Resources) was adapted from initItems(Resources) and has
+        //not yet been tailored to this spritesheet (e.g. should NOT have margin at all).
+        //
+        //Which will also be different for the tiles spritesheet (which has margins, but not between
+        //each sprites like the items spritesheet).
+        int margin = 0;
+        int tileWidth = 124;
+        int tileHeight = 93;
+
+        int xCurrent = margin;
+        int yCurrent = margin;
+
+        for (int y = 0; y < row; y++) {
+            for (int x = 0; x < column; x++) {
+                wintermute[y][x] = Bitmap.createBitmap(imageSource, xCurrent, yCurrent, tileWidth, tileHeight);
+                xCurrent += (tileWidth + margin);
+            }
+            xCurrent = margin;
+            yCurrent += (tileHeight + margin);
+        }
+    }
+
+    private static void loadGobi(Resources resources) {
+        //LOAD SPRITESHEET
+        Bitmap spriteSheet = BitmapFactory.decodeResource(resources, R.drawable.snes_breath_of_fire_gobi);
+
+        //UNPACKING THE SPRITESHEET (logic is specific to each spritesheet's layout)
+        int column = 12;
+        int row = 1;
+
+        gobi = new Bitmap[row][column];
+
+        int margin = 5;
+        int xCurrent = margin;
+        int yCurrent = margin;
+        int tileWidth = 19;
+        int tileHeight = 24;
+        int horizontalGap = 8;
+
+        for (int x = 0; x < column; x++) {
+            switch (x) {
+                case 0:
+                    tileWidth = 19;
+                    break;
+                case 1:
+                    tileWidth = 18;
+                    break;
+                case 2:
+                    tileWidth = 19;
+                    break;
+
+                case 3:
+                    tileWidth = 16;
+                    break;
+                case 4:
+                    tileWidth = 20;
+                    break;
+                case 5:
+                    tileWidth = 16;
+                    break;
+
+                case 6:
+                    tileWidth = 19;
+                    break;
+                case 7:
+                    tileWidth = 18;
+                    break;
+                case 8:
+                    tileWidth = 19;
+                    break;
+
+                case 9:
+                    tileWidth = 18;
+                    break;
+                case 10:
+                    tileWidth = 20;
+                    break;
+                case 11:
+                    tileWidth = 18;
+                    break;
+            }
+
+            gobi[0][x] = Bitmap.createBitmap(spriteSheet, xCurrent, yCurrent, tileWidth, tileHeight);
+            xCurrent += (tileWidth + horizontalGap);
+        }
     }
 
     public static Bitmap flipHorizontally(Bitmap source) {
