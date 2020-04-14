@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.learn_fragments;
+package com.jackingaming.notesquirrel.learn_fragment;
 
 
 import android.os.Bundle;

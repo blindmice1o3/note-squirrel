@@ -16,10 +16,10 @@
         android:title="Tileset Util" />
     <item
         android:id="@+id/menu_fragment_parent"
-        android:title="Learn about Fragments (HM items)" />
+        android:title="Learn about Fragment (HM items)" />
     <item
-        android:id="@+id/menu_fragment_parent2"
-        android:title="Learn about Fragments (product fragment)" />
+        android:id="@+id/menu_fragment_parent_dvd"
+        android:title="Learn about Fragment (DVD)" />
     <item
         android:id="@+id/menu_file_sandbox"
         android:title="Learn about File Management" />

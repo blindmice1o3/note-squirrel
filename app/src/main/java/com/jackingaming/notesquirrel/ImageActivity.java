@@ -16,7 +16,8 @@ import android.widget.Toast;
 
 import java.util.List;
 
-public class ImageActivity extends AppCompatActivity implements IPointCollectorListener {
+public class ImageActivity extends AppCompatActivity
+        implements IPointCollectorListener {
 
     //reference (key) to put/get boolean from SharedPreferences (persistent data).
     public static final String PASSWORD_SET = "PASSWORD_SET";
@@ -226,7 +227,6 @@ public class ImageActivity extends AppCompatActivity implements IPointCollectorL
         task.execute();
     }
 
-    //implementation of the method which PUSHED data from the SUBJECT.
     //this SUBSCRIBER class can now PULL relevant data from what the SUBJECT PUSHED.
     @Override
     public void pointsCollected(final List<Point> points) {

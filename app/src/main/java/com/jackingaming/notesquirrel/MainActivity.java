@@ -20,8 +20,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.jackingaming.notesquirrel.file.FileSandboxActivity;
 import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
-import com.jackingaming.notesquirrel.learn_fragments.FragmentParentActivity;
-import com.jackingaming.notesquirrel.learn_fragments2.FragmentParent2Activity;
+import com.jackingaming.notesquirrel.learn_fragment.FragmentParentActivity;
+import com.jackingaming.notesquirrel.learn_fragment_dvd.FragmentParentDvdActivity;
 import com.jackingaming.notesquirrel.tileset.TilesetUtilActivity;
 
 import java.io.BufferedReader;
@@ -272,18 +272,18 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.menu_fragment_parent:
                 //TODO: implement menu_fragment_parent
-                Toast.makeText(this, "Learn about Fragments (HM items)", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Learn about Fragment (HM items)", Toast.LENGTH_LONG).show();
 
                 Intent fragmentIntent = new Intent(this, FragmentParentActivity.class);
                 startActivity(fragmentIntent);
 
                 return true;
-            case R.id.menu_fragment_parent2:
-                //TODO: implement menu_fragment_parent2
-                Toast.makeText(this, "Learn about Fragments (product fragment)", Toast.LENGTH_LONG).show();
+            case R.id.menu_fragment_parent_dvd:
+                //TODO: implement menu_fragment_parent_dvd
+                Toast.makeText(this, "Learn about Fragment (DVD)", Toast.LENGTH_LONG).show();
 
-                Intent fragment2Intent = new Intent(this, FragmentParent2Activity.class);
-                startActivity(fragment2Intent);
+                Intent fragmentDVDIntent = new Intent(this, FragmentParentDvdActivity.class);
+                startActivity(fragmentDVDIntent);
 
                 return true;
             case R.id.menu_file_sandbox:
