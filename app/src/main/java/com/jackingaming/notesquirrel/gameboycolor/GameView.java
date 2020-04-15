@@ -25,6 +25,9 @@ public class GameView extends SurfaceView
     private int widthScreen;
     private int heightScreen;
 
+    private SurfaceHolder surfaceHolder;
+    private int sideSquareScreen;
+
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -90,7 +93,10 @@ public class GameView extends SurfaceView
 
         widthScreen = getWidth();
         heightScreen = getHeight();
-        int sideSquareScreen = Math.min(widthScreen, heightScreen);
+
+
+        surfaceHolder = holder;
+        sideSquareScreen = Math.min(widthScreen, heightScreen);
 
 
         SurfaceView gameView = (SurfaceView) findViewById(R.id.gameView);
@@ -101,7 +107,7 @@ public class GameView extends SurfaceView
         /////////////////////////
 
 
-        gameCartridge = new PoohFarmerCartridge(getContext(), holder, getResources(), sideSquareScreen);
+        gameCartridge = new PoohFarmerCartridge(getContext(), surfaceHolder, getResources(), sideSquareScreen);
         //gameCartridge = new PongCartridge(getContext(), holder, getResources(), widthScreen, heightScreen);
         runner = new GameRunner(gameCartridge);
         // Tell the Thread class to go to the "public void run()" method.
@@ -136,6 +142,37 @@ public class GameView extends SurfaceView
                 }
             }
         }
+    }
+
+    public void switchGame(boolean isPoohFarmer) {
+        Log.d(MainActivity.DEBUG_TAG, "GameView.switchGame(boolean)");
+
+        runner.shutdown();
+        /*
+        NOW: want to wait for the thread to stop drawing.
+        Want to NOT allow the phone to go to another application until
+        this runner has stopped drawing... because if it goes to another
+        application, the surface will no longer exist yet the thread will
+        still be try to renderGame on it which will cause it to CRASH.
+        */
+        while (runner != null) {
+            // This method waits for the thread to terminate.
+            try {
+                runner.join();
+                runner = null;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (isPoohFarmer) {
+            gameCartridge = new PoohFarmerCartridge(getContext(), surfaceHolder, getResources(), sideSquareScreen);
+        } else {
+            gameCartridge = new PongCartridge(getContext(), surfaceHolder, getResources(), sideSquareScreen, sideSquareScreen);;
+        }
+        runner = new GameRunner(gameCartridge);
+        // Tell the Thread class to go to the "public void run()" method.
+        runner.start();
     }
 
 }

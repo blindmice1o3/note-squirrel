@@ -84,7 +84,9 @@ public class Assets {
         initEntities(resources);
 
         initDPad(resources);
-        initPokemonWorldMap(resources);
+
+        //TODO:
+        //initPokemonWorldMap(resources);
     }
 
     private static void initEntities(Resources resources) {
