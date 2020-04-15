@@ -14,6 +14,7 @@ import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.scenes.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.sprites.Assets;
+import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.tiles.TileMap;
 
 public class PoohFarmerCartridge
         implements GameCartridge {
@@ -54,7 +55,7 @@ public class PoohFarmerCartridge
         Log.d(MainActivity.DEBUG_TAG, "sideSquareScreen: " + sideSquareScreen);
 
 
-        sideSquareGameCameraInPixel = GameCamera.CLIP_NUMBER_OF_TILES * Scene.TILE_SIZE;
+        sideSquareGameCameraInPixel = GameCamera.CLIP_NUMBER_OF_TILES * TileMap.TILE_SIZE;
         Log.d(MainActivity.DEBUG_TAG, "sideSquareGameCameraInPixel: " + sideSquareGameCameraInPixel);
         pixelToScreenRatio = ((float)sideSquareScreen) / sideSquareGameCameraInPixel;
         Log.d(MainActivity.DEBUG_TAG, "pixelToScreenRatio: " + pixelToScreenRatio);
@@ -110,7 +111,7 @@ public class PoohFarmerCartridge
                 int yFutureTop = (int) (player.getyCurrent());
                 int yFutureBottom = (int) (player.getyCurrent() + player.getHeight() - 1);
 
-                if (!sceneCurrent.isSolid(xFuture, yFutureTop) && !sceneCurrent.isSolid(xFuture, yFutureBottom)) {
+                if (!sceneCurrent.getTileMap().isSolid(xFuture, yFutureTop) && !sceneCurrent.getTileMap().isSolid(xFuture, yFutureBottom)) {
                     player.moveLeft();
                     gameCamera.moveLeft();
                 }
@@ -121,7 +122,7 @@ public class PoohFarmerCartridge
                 int yFutureTop = (int) (player.getyCurrent());
                 int yFutureBottom = (int) (player.getyCurrent() + player.getHeight() - 1);
 
-                if (!sceneCurrent.isSolid(xFuture, yFutureTop) && !sceneCurrent.isSolid(xFuture, yFutureBottom)) {
+                if (!sceneCurrent.getTileMap().isSolid(xFuture, yFutureTop) && !sceneCurrent.getTileMap().isSolid(xFuture, yFutureBottom)) {
                     player.moveRight();
                     gameCamera.moveRight();
                 }
@@ -134,7 +135,7 @@ public class PoohFarmerCartridge
                 int xFutureLeft = (int) (player.getxCurrent());
                 int xFutureRight = (int) (player.getxCurrent() + player.getWidth() - 1);
 
-                if (!sceneCurrent.isSolid(xFutureLeft, yFuture) && !sceneCurrent.isSolid(xFutureRight, yFuture)) {
+                if (!sceneCurrent.getTileMap().isSolid(xFutureLeft, yFuture) && !sceneCurrent.getTileMap().isSolid(xFutureRight, yFuture)) {
                     player.moveUp();
                     gameCamera.moveUp();
                 }
@@ -145,7 +146,7 @@ public class PoohFarmerCartridge
                 int xFutureLeft = (int) (player.getxCurrent());
                 int xFutureRight = (int) (player.getxCurrent() + player.getWidth() - 1);
 
-                if (!sceneCurrent.isSolid(xFutureLeft, yFuture) && !sceneCurrent.isSolid(xFutureRight, yFuture)) {
+                if (!sceneCurrent.getTileMap().isSolid(xFutureLeft, yFuture) && !sceneCurrent.getTileMap().isSolid(xFutureRight, yFuture)) {
                     player.moveDown();
                     gameCamera.moveDown();
                 }

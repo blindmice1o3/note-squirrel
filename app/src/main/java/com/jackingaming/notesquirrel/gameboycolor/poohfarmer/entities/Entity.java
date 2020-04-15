@@ -2,7 +2,7 @@ package com.jackingaming.notesquirrel.gameboycolor.poohfarmer.entities;
 
 import android.graphics.Canvas;
 
-import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.scenes.Scene;
+import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.tiles.TileMap;
 
 public abstract class Entity {
 
@@ -14,8 +14,8 @@ public abstract class Entity {
     public Entity(float xCurrent, float yCurrent) {
         this.xCurrent = xCurrent;
         this.yCurrent = yCurrent;
-        width = Scene.TILE_SIZE;
-        height = Scene.TILE_SIZE;
+        width = TileMap.TILE_SIZE;
+        height = TileMap.TILE_SIZE;
     }
 
     public abstract void init();

@@ -1,9 +1,7 @@
 package com.jackingaming.notesquirrel.gameboycolor.poohfarmer.scenes;
 
-import android.util.Log;
-
-import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.entities.Entity;
+import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.tiles.TileMap;
 
 public class GameCamera {
 
@@ -21,8 +19,8 @@ public class GameCamera {
     public GameCamera() {
         x = 0f;
         y = 0f;
-        widthClip = CLIP_NUMBER_OF_TILES * Scene.TILE_SIZE;
-        heightClip = CLIP_NUMBER_OF_TILES * Scene.TILE_SIZE;
+        widthClip = CLIP_NUMBER_OF_TILES * TileMap.TILE_SIZE;
+        heightClip = CLIP_NUMBER_OF_TILES * TileMap.TILE_SIZE;
     }
 
     public void init(Entity entity, int widthSceneMax, int heightSceneMax) {
