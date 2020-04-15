@@ -69,22 +69,11 @@ public class DirectionalPadFragment extends Fragment {
         Bitmap downButton = Bitmap.createBitmap(source, 62, 457, 52, 40);
         Bitmap scaledDownButton = Bitmap.createScaledBitmap(downButton, downButton.getWidth() * scaleFactor, downButton.getHeight() * scaleFactor, false);
 
-        Bitmap menuButton = Bitmap.createBitmap(source, 172, 375, 136, 52);
-        Bitmap scaledMenuButton = Bitmap.createScaledBitmap(menuButton, menuButton.getWidth() * scaleFactor, menuButton.getHeight() * scaleFactor, false);
-        Bitmap aButton = Bitmap.createBitmap(source, 172, 435, 64, 52);
-        Bitmap scaledAButton = Bitmap.createScaledBitmap(aButton, aButton.getWidth() * scaleFactor, aButton.getHeight(), false);
-        Bitmap bButton = Bitmap.createBitmap(source, 244, 435, 64, 52);
-        Bitmap scaledBButton = Bitmap.createScaledBitmap(bButton, bButton.getWidth() * scaleFactor, bButton.getHeight() * scaleFactor, false);
-
         dPad.put("up", scaledUpButton);
         dPad.put("left", scaledLeftButton);
         dPad.put("center", scaledCenterButton);
         dPad.put("right", scaledRightButton);
         dPad.put("down", scaledDownButton);
-
-        dPad.put("menu", scaledMenuButton);
-        dPad.put("a", scaledAButton);
-        dPad.put("b", scaledBButton);
 
         ImageView topLeft = (ImageView) view.findViewById(R.id.topLeft);
         ImageView topCenter = (ImageView) view.findViewById(R.id.topCenter);
@@ -134,8 +123,6 @@ public class DirectionalPadFragment extends Fragment {
             }
         });
         ImageView bottomRight = (ImageView) view.findViewById(R.id.bottomRight);
-
-        //do stuff
 
         return view;
     }

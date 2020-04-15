@@ -23,14 +23,22 @@
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="10dp" />
 
+    <fragment
+        android:id="@+id/buttonPadFragment"
+        android:name="com.jackingaming.notesquirrel.gameboycolor.input.ButtonPadFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/swap_game"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp" />
+
     <Button
         android:id="@+id/swap_game"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/gameView"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
         android:text="swap game" />
 
 </RelativeLayout>
