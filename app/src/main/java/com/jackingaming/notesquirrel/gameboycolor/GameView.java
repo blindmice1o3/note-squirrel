@@ -30,6 +30,7 @@ public class GameView extends SurfaceView
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        Log.d(MainActivity.DEBUG_TAG, "GameView(Context, AttributeSet) constructor");
 
         getHolder().addCallback(this);
     }

@@ -1,5 +1,6 @@
 package com.jackingaming.notesquirrel.gameboycolor.input;
 
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -27,23 +28,36 @@ public class DirectionalPadFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(MainActivity.DEBUG_TAG, "DirectionalPadFragment.onCreate(Bundle)");
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        Log.d(MainActivity.DEBUG_TAG, "DirectionalPadFragment.onStart()");
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.d(MainActivity.DEBUG_TAG, "DirectionalPadFragment.onCreateView(LayoutInflater, ViewGroup, Bundle)");
+
         View view = inflater.inflate(R.layout.directional_pad_fragment, container, false);
 
         Bitmap source = BitmapFactory.decodeResource(getResources(), R.drawable.d_pad);
 
         dPad = new HashMap<String, Bitmap>();
 
-        int scaleFactor = 4;
+        ///////////////////////////////////////////////////////////////////////
+        int currentOrientation = getResources().getConfiguration().orientation;
+        int scaleFactor = 1;
+        if (currentOrientation == Configuration.ORIENTATION_PORTRAIT) {
+            scaleFactor = 4;
+        } else if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+            scaleFactor = 2;
+        }
+        ///////////////////////////////////////////////////////////////////////
+
         Bitmap upButton = Bitmap.createBitmap(source, 62, 365, 52, 40);
         Bitmap scaledUpButton = Bitmap.createScaledBitmap(upButton, upButton.getWidth() * scaleFactor, upButton.getHeight() * scaleFactor, false);
         Bitmap leftButton = Bitmap.createBitmap(source, 22, 405, 40, 52);
@@ -129,5 +143,6 @@ public class DirectionalPadFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        Log.d(MainActivity.DEBUG_TAG, "DirectionalPadFragment.onPause()");
     }
 }
