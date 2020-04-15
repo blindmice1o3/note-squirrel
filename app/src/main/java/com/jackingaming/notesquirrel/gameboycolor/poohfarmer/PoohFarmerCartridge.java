@@ -34,8 +34,14 @@ public class PoohFarmerCartridge
 
 
     //CURRENTLY, USED TO MOVE PLAYER!!!
-    private int xCenterScreen;
-    private int yCenterScreen;
+    private int xScreenFirstThird;
+    private int xScreenSecondThird;
+    private int yScreenFirstThird;
+    private int yScreenSecondThird;
+    //private int xCenterScreen;
+    //private int yCenterScreen;
+
+
     private boolean cantPress = false;
     private boolean justPressed = false;
     private boolean pressing = false;
@@ -54,8 +60,12 @@ public class PoohFarmerCartridge
         Log.d(MainActivity.DEBUG_TAG, "pixelToScreenRatio: " + pixelToScreenRatio);
 
 
-        xCenterScreen = sideSquareScreen / 2;
-        yCenterScreen = sideSquareScreen / 2;
+        xScreenFirstThird = (int)((float)sideSquareScreen / 3);
+        xScreenSecondThird = (int)(2 * ((float)sideSquareScreen / 3));
+        yScreenFirstThird = (int)((float)sideSquareScreen / 3);
+        yScreenSecondThird = (int)(2 * ((float)sideSquareScreen / 3));
+        //xCenterScreen = sideSquareScreen / 2;
+        //yCenterScreen = sideSquareScreen / 2;
 
 
         player = new Player(sideSquareScreen, pixelToScreenRatio);
@@ -95,7 +105,7 @@ public class PoohFarmerCartridge
         if (justPressed) {
             //HORIZONTAL
             //left
-            if (event.getX() < xCenterScreen && event.getY() < yCenterScreen) {
+            if (event.getX() < xScreenFirstThird && event.getY() > yScreenFirstThird && event.getY() < yScreenSecondThird) {
                 int xFuture = (int) (player.getxCurrent() - player.getMoveSpeed());
                 int yFutureTop = (int) (player.getyCurrent());
                 int yFutureBottom = (int) (player.getyCurrent() + player.getHeight() - 1);
@@ -106,7 +116,7 @@ public class PoohFarmerCartridge
                 }
             }
             //right
-            else if (event.getX() > xCenterScreen && event.getY() > yCenterScreen) {
+            else if (event.getX() > xScreenSecondThird && event.getY() > yScreenFirstThird && event.getY() < yScreenSecondThird) {
                 int xFuture = (int) ((player.getxCurrent() + player.getWidth()) + player.getMoveSpeed() - 1);
                 int yFutureTop = (int) (player.getyCurrent());
                 int yFutureBottom = (int) (player.getyCurrent() + player.getHeight() - 1);
@@ -119,7 +129,7 @@ public class PoohFarmerCartridge
 
             //VERTICAL
             //up
-            if (event.getY() < yCenterScreen && event.getX() > xCenterScreen) {
+            if (event.getY() < yScreenFirstThird && event.getX() > xScreenFirstThird && event.getX() < xScreenSecondThird) {
                 int yFuture = (int) (player.getyCurrent() - player.getMoveSpeed());
                 int xFutureLeft = (int) (player.getxCurrent());
                 int xFutureRight = (int) (player.getxCurrent() + player.getWidth() - 1);
@@ -130,7 +140,7 @@ public class PoohFarmerCartridge
                 }
             }
             //down
-            else if (event.getY() > yCenterScreen && event.getX() < xCenterScreen) {
+            else if (event.getY() > yScreenSecondThird && event.getX() > xScreenFirstThird && event.getX() < xScreenSecondThird) {
                 int yFuture = (int) ((player.getyCurrent() + player.getHeight()) + player.getMoveSpeed() - 1);
                 int xFutureLeft = (int) (player.getxCurrent());
                 int xFutureRight = (int) (player.getxCurrent() + player.getWidth() - 1);
