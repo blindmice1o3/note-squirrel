@@ -1,5 +1,6 @@
 package com.jackingaming.notesquirrel.learn_fragment_dvd;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,13 +31,26 @@ public class ModelDvdFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.model_dvd_fragment, container, false);
 
+
+
+        return view;
+    }
+
+    public void setDvd(Dvd dvd) {
+        View view = getView();
+
         ImageView imageView = (ImageView) view.findViewById(R.id.image);
         TextView textView = (TextView) view.findViewById(R.id.title);
 
-        Drawable icon = getResources().getDrawable(R.drawable.stoner_movies_on_netflix);
+        Bitmap source = dvd.getImage();
+        Bitmap icon = Bitmap.createScaledBitmap(source,
+                source.getWidth() * 2, source.getHeight() * 2, false);
 
-        imageView.setImageDrawable(icon);
-        //imageView.getLayoutParams().height = (int) (icon.getIntrinsicHeight() * 0.5);
+        imageView.setImageBitmap(icon);
+
+        textView.setText(dvd.getTitle());
+
+        //imageView.getLayoutParams().height = (int) (icon.getHeight() * 0.5);
         //imageView.setAdjustViewBounds(true);
         ///////////////////////////////////////////////////////////////////////
         float scaledDensity = getResources().getDisplayMetrics().scaledDensity;
@@ -45,12 +59,9 @@ public class ModelDvdFragment extends Fragment {
         Log.d(MainActivity.DEBUG_TAG, "scaledDensity: " + scaledDensity);
         Log.d(MainActivity.DEBUG_TAG, "widthPixels: " + widthPixels);
         Log.d(MainActivity.DEBUG_TAG, "heightPixels: " + heightPixels);
-        Log.d(MainActivity.DEBUG_TAG, "icon.getInstrinsicHeight(): " + icon.getIntrinsicHeight());
-        Log.d(MainActivity.DEBUG_TAG, "icon.getIntrinsicHeight() * 0.5: " + (icon.getIntrinsicHeight() * 0.5));
+        Log.d(MainActivity.DEBUG_TAG, "source.getHeight(): " + source.getHeight());
+        Log.d(MainActivity.DEBUG_TAG, "icon.getHeight(): " + icon.getHeight());
         ///////////////////////////////////////////////////////////////////////
-        textView.setText("stoner movies on netflix COMPILATION IMAGE");
-
-        return view;
     }
 
     @Override

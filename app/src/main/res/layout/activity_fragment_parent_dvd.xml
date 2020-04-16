@@ -8,24 +8,24 @@
     tools:context=".learn_fragment_dvd.FragmentParentDvdActivity">
 
     <fragment
-        android:id="@+id/model"
+        android:id="@+id/modelDvd"
         android:name="com.jackingaming.notesquirrel.learn_fragment_dvd.ModelDvdFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        app:layout_constraintBottom_toTopOf="@id/list"
+        app:layout_constraintBottom_toTopOf="@id/listDvd"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <fragment
-        android:id="@+id/list"
+        android:id="@+id/listDvd"
         android:name="com.jackingaming.notesquirrel.learn_fragment_dvd.ListDvdFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/model" />
+        app:layout_constraintTop_toBottomOf="@id/modelDvd" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
