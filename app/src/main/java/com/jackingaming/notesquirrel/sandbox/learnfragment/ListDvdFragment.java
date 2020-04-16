@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.learn_fragment_dvd;
+package com.jackingaming.notesquirrel.sandbox.learnfragment;
 
 import android.os.Bundle;
 import android.util.Log;

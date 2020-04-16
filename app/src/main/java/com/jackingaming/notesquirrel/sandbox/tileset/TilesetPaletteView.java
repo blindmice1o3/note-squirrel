@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.tileset;
+package com.jackingaming.notesquirrel.sandbox.tileset;
 
 import android.content.Context;
 import android.graphics.Bitmap;

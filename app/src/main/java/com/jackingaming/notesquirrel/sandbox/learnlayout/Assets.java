@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.learn_fragment;
+package com.jackingaming.notesquirrel.sandbox.learnlayout;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;

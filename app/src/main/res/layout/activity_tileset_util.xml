@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".tileset.TilesetUtilActivity">
+    tools:context=".sandbox.tileset.TilesetUtilActivity">
 
     <ImageView
         android:id="@+id/tileset_view"
@@ -13,7 +13,7 @@
         android:layout_weight="50"
         android:background="#0000FF" />
 
-    <com.jackingaming.notesquirrel.tileset.TilesetPaletteView
+    <com.jackingaming.notesquirrel.sandbox.tileset.TilesetPaletteView
         android:id="@+id/tileset_palatte"
         android:layout_width="0dp"
         android:layout_weight="50"

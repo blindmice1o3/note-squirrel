@@ -1,7 +1,6 @@
-package com.jackingaming.notesquirrel.learn_fragment_dvd;
+package com.jackingaming.notesquirrel.sandbox.learnfragment;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;

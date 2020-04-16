@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.tileset;
+package com.jackingaming.notesquirrel.sandbox.tileset;
 
 import androidx.appcompat.app.AppCompatActivity;
 

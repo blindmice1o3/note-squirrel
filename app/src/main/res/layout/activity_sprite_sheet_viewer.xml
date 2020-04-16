@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".learn_fragment.FragmentParentActivity">
+    tools:context=".sandbox.learnlayout.SpriteSheetViewerActivity">
 
     <Button
-        android:id="@+id/button_frame"
+        android:id="@+id/button_frame_sprite_sheet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Next frame"
@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button_set"
+        android:id="@+id/button_set_sprite_sheet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Next set"
@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageview_fragment"
+        android:id="@+id/imageview_sprite_sheet"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
@@ -32,14 +32,14 @@
         android:scaleType="fitCenter"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button_frame" />
+        app:layout_constraintTop_toBottomOf="@id/button_frame_sprite_sheet" />
 
     <TextView
-        android:id="@+id/textview_fragment"
+        android:id="@+id/textview_sprite_sheet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageview_fragment" />
+        app:layout_constraintTop_toBottomOf="@id/imageview_sprite_sheet" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

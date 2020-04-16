@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.learn_fragment_dvd;
+package com.jackingaming.notesquirrel.sandbox.learnfragment;
 
 import androidx.appcompat.app.AppCompatActivity;
 

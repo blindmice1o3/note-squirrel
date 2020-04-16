@@ -37,12 +37,11 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".file.FileSandboxActivity" />
-        <activity android:name=".learn_fragment_dvd.FragmentParentDvdActivity"
+        <activity android:name=".sandbox.learnfragment.FragmentParentDvdActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".learn_fragment.FragmentParentActivity" />
+        <activity android:name=".sandbox.learnlayout.SpriteSheetViewerActivity" />
         <activity
-            android:name=".tileset.TilesetUtilActivity"
+            android:name=".sandbox.tileset.TilesetUtilActivity"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity

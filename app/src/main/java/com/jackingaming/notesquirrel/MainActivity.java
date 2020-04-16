@@ -18,11 +18,10 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.jackingaming.notesquirrel.file.FileSandboxActivity;
 import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
-import com.jackingaming.notesquirrel.learn_fragment.FragmentParentActivity;
-import com.jackingaming.notesquirrel.learn_fragment_dvd.FragmentParentDvdActivity;
-import com.jackingaming.notesquirrel.tileset.TilesetUtilActivity;
+import com.jackingaming.notesquirrel.sandbox.learnlayout.SpriteSheetViewerActivity;
+import com.jackingaming.notesquirrel.sandbox.learnfragment.FragmentParentDvdActivity;
+import com.jackingaming.notesquirrel.sandbox.tileset.TilesetUtilActivity;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -270,12 +269,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(tilesetUtilIntent);
 
                 return true;
-            case R.id.menu_fragment_parent:
+            case R.id.menu_sprite_sheet_viewer:
                 //TODO: implement menu_fragment_parent
                 Toast.makeText(this, "Learn about Fragment (HM items)", Toast.LENGTH_LONG).show();
 
-                Intent fragmentIntent = new Intent(this, FragmentParentActivity.class);
-                startActivity(fragmentIntent);
+                Intent spriteSheetViewerIntent = new Intent(this, SpriteSheetViewerActivity.class);
+                startActivity(spriteSheetViewerIntent);
 
                 return true;
             case R.id.menu_fragment_parent_dvd:
@@ -284,14 +283,6 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent fragmentDVDIntent = new Intent(this, FragmentParentDvdActivity.class);
                 startActivity(fragmentDVDIntent);
-
-                return true;
-            case R.id.menu_file_sandbox:
-                //TODO: implement menu_file_sandbox
-                Toast.makeText(this, "File Sandbox", Toast.LENGTH_LONG).show();
-
-                Intent fileSandboxIntent = new Intent(this, FileSandboxActivity.class);
-                startActivity(fileSandboxIntent);
 
                 return true;
             case R.id.menu_jack_in:

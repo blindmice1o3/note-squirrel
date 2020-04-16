@@ -15,14 +15,11 @@
         android:id="@+id/menu_tileset_util"
         android:title="Tileset Util" />
     <item
-        android:id="@+id/menu_fragment_parent"
-        android:title="Learn about Fragment (HM items)" />
+        android:id="@+id/menu_sprite_sheet_viewer"
+        android:title="View Sprite Sheets (MS Clippit)" />
     <item
         android:id="@+id/menu_fragment_parent_dvd"
         android:title="Learn about Fragment (DVD)" />
-    <item
-        android:id="@+id/menu_file_sandbox"
-        android:title="Learn about File Management" />
     <item
         android:id="@+id/menu_jack_in"
         android:title="Jack In" />

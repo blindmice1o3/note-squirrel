@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.learn_fragment;
+package com.jackingaming.notesquirrel.sandbox.learnlayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 
-public class FragmentParentActivity extends AppCompatActivity {
+public class SpriteSheetViewerActivity extends AppCompatActivity {
 
     private ImageView imageView;
     private Button buttonFrame;
@@ -32,7 +32,7 @@ public class FragmentParentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fragment_parent);
+        setContentView(R.layout.activity_sprite_sheet_viewer);
 
         ////////////////////////////
         Assets.init(getResources());
@@ -54,7 +54,7 @@ public class FragmentParentActivity extends AppCompatActivity {
         Bitmap tooBigClippit = BitmapFactory.decodeResource(getResources(), R.drawable.pc_ms_office_clippit);
         Bitmap justRightClippit = Bitmap.createScaledBitmap(tooBigClippit, 500, 500, false);
         imageSource = justRightClippit;
-        imageView = (ImageView) findViewById(R.id.imageview_fragment);
+        imageView = (ImageView) findViewById(R.id.imageview_sprite_sheet);
         imageView.setImageBitmap(imageSource);
 
         Log.d(MainActivity.DEBUG_TAG, "imageSource.getWidth(): " + imageSource.getWidth());
@@ -79,7 +79,7 @@ public class FragmentParentActivity extends AppCompatActivity {
         });
 
 
-        buttonSet = (Button) findViewById(R.id.button_set);
+        buttonSet = (Button) findViewById(R.id.button_set_sprite_sheet);
         buttonSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,7 +128,7 @@ public class FragmentParentActivity extends AppCompatActivity {
             }
         });
 
-        buttonFrame = (Button) findViewById(R.id.button_frame);
+        buttonFrame = (Button) findViewById(R.id.button_frame_sprite_sheet);
         buttonFrame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,7 +161,7 @@ public class FragmentParentActivity extends AppCompatActivity {
                 imageView.setImageBitmap(newImage);
 
                 /////////////////////////////////////////////////////////////////////
-                TextView textView = (TextView) findViewById(R.id.textview_fragment);
+                TextView textView = (TextView) findViewById(R.id.textview_sprite_sheet);
                 if (sheetTracker == 0) {
                     textView.setText("Wintermute (homage to William Gibson)");
                 } else {
