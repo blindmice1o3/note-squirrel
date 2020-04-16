@@ -10,6 +10,7 @@ import android.view.SurfaceHolder;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.scenes.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.scenes.Scene;
@@ -76,13 +77,14 @@ public class PoohFarmerCartridge
 
     @Override
     public void init() {
+        Log.d(MainActivity.DEBUG_TAG, "PoohFarmerCartridge.init()");
         Assets.init(resources);
 
         sceneCurrent.init(player, gameCamera);
     }
 
     @Override
-    public void getInput(MotionEvent event) {
+    public void getScreenInput(MotionEvent event) {
         //////////////////////////////////////////////////////////
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             pressing = true;
@@ -151,6 +153,32 @@ public class PoohFarmerCartridge
                     gameCamera.moveDown();
                 }
             }
+        }
+    }
+
+    @Override
+    public void getDirectionalPadInput(DirectionalPadFragment.Direction direction) {
+        //TODO: refactor to player.move(direction) and gameCamera.move(direction).
+        switch (direction) {
+            case UP:
+                player.moveUp();
+                gameCamera.moveUp();
+                break;
+            case LEFT:
+                player.moveLeft();
+                gameCamera.moveLeft();
+                break;
+            case RIGHT:
+                player.moveRight();
+                gameCamera.moveRight();
+                break;
+            case DOWN:
+                player.moveDown();
+                gameCamera.moveDown();
+                break;
+            default:
+                Log.d(MainActivity.DEBUG_TAG, "PoohFarmerCartridge.getDirectionalPadInput(Direction) switch's default block.");
+                break;
         }
     }
 

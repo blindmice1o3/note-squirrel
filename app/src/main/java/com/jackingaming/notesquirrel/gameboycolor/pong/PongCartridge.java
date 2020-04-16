@@ -16,6 +16,7 @@ import android.view.SurfaceHolder;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.pong.sprites.Bat;
 import com.jackingaming.notesquirrel.gameboycolor.pong.sprites.Ball;
 
@@ -65,6 +66,7 @@ public class PongCartridge
         textPaint.setTypeface(Typeface.DEFAULT_BOLD);
     }
 
+    @Override
     public void init() {
         Log.d(MainActivity.DEBUG_TAG, "PongCartridge.init()");
 
@@ -100,7 +102,8 @@ public class PongCartridge
      * @param event The touch event's meta-data (e.g. x and y position
      *              of the user triggered touch event)
      */
-    public void getInput(MotionEvent event) {
+    @Override
+    public void getScreenInput(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             pressing = true;
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -127,6 +130,13 @@ public class PongCartridge
         }
     }
 
+    @Override
+    public void getDirectionalPadInput(DirectionalPadFragment.Direction direction) {
+        Log.d(MainActivity.DEBUG_TAG, "PongCartridge.getDirectionalPadInput(Direction)");
+        //TODO:
+    }
+
+    @Override
     public void update(long elapsed) {
         if (state == State.RUNNING) {
             updateGame(elapsed);
@@ -178,6 +188,7 @@ public class PongCartridge
         opponent.update(elapsed, ball);
     }
 
+    @Override
     public void render() {
         //synchronize?
         ////////////////////////////////////

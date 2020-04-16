@@ -23,6 +23,17 @@ import java.util.Map;
 
 public class DirectionalPadFragment extends Fragment {
 
+    ///////////////////////////////////////////////////////////////////
+    public enum Direction { UP, LEFT, RIGHT, DOWN; }
+    public interface OnDirectionalPadTouchListener {
+        public void onDirectionalPadTouched(Direction direction);
+    }
+    private OnDirectionalPadTouchListener onDirectionalPadTouchListener;
+    public void setOnDirectionalPadTouchListener(OnDirectionalPadTouchListener onDirectionalPadTouchListener) {
+        this.onDirectionalPadTouchListener = onDirectionalPadTouchListener;
+    }
+    ////////////////////////////////////////////////////////////////////
+
     private Map<String, Bitmap> dPad;
 
     @Override
@@ -82,7 +93,9 @@ public class DirectionalPadFragment extends Fragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Log.d(MainActivity.DEBUG_TAG, "topCenter.onTouch()");
-
+                if (onDirectionalPadTouchListener != null) {
+                    onDirectionalPadTouchListener.onDirectionalPadTouched(Direction.UP);
+                }
                 return true;
             }
         });
@@ -94,7 +107,9 @@ public class DirectionalPadFragment extends Fragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Log.d(MainActivity.DEBUG_TAG, "centerLeft.onTouch()");
-
+                if (onDirectionalPadTouchListener != null) {
+                    onDirectionalPadTouchListener.onDirectionalPadTouched(Direction.LEFT);
+                }
                 return true;
             }
         });
@@ -106,7 +121,9 @@ public class DirectionalPadFragment extends Fragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Log.d(MainActivity.DEBUG_TAG, "centerRight.onTouch()");
-
+                if (onDirectionalPadTouchListener != null) {
+                    onDirectionalPadTouchListener.onDirectionalPadTouched(Direction.RIGHT);
+                }
                 return true;
             }
         });
@@ -118,7 +135,9 @@ public class DirectionalPadFragment extends Fragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Log.d(MainActivity.DEBUG_TAG, "bottomCenter.onTouch()");
-
+                if (onDirectionalPadTouchListener != null) {
+                    onDirectionalPadTouchListener.onDirectionalPadTouched(Direction.DOWN);
+                }
                 return true;
             }
         });

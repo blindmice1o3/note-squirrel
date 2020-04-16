@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.pong.PongCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.PoohFarmerCartridge;
 
@@ -43,11 +44,15 @@ public class GameView extends SurfaceView
      */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        gameCartridge.getInput(event);
+        gameCartridge.getScreenInput(event);
 
         // If you've handled the touch event, return true.
         // If false, will NOT check for drag event (can't drag without touch).
         return true;
+    }
+
+    public void onDirectionalPadTouched(DirectionalPadFragment.Direction direction) {
+        gameCartridge.getDirectionalPadInput(direction);
     }
 
     /**
