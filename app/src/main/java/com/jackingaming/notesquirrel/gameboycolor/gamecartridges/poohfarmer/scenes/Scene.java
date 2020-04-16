@@ -1,11 +1,11 @@
-package com.jackingaming.notesquirrel.gameboycolor.poohfarmer.scenes;
+package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.entities.Entity;
-import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.entities.Player;
-import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.tiles.TileMap;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Entity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles.TileMap;
 
 import java.util.ArrayList;
 import java.util.List;

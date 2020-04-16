@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.gameboycolor.pong.sprites;
+package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pong.sprites;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

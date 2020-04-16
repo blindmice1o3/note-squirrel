@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.gameboycolor.poohfarmer;
+package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -9,13 +9,13 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
 import com.jackingaming.notesquirrel.MainActivity;
-import com.jackingaming.notesquirrel.gameboycolor.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
-import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.entities.Player;
-import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.scenes.GameCamera;
-import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.scenes.Scene;
-import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.sprites.Assets;
-import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.tiles.TileMap;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.Scene;
+import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles.TileMap;
 
 public class PoohFarmerCartridge
         implements GameCartridge {

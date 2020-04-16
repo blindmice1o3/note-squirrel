@@ -1,9 +1,9 @@
-package com.jackingaming.notesquirrel.gameboycolor.poohfarmer.tiles;
+package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
-import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.sprites.Assets;
+import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
 
 public class TileMap {
 

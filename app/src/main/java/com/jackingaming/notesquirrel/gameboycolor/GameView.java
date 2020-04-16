@@ -1,21 +1,18 @@
 package com.jackingaming.notesquirrel.gameboycolor;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
-import android.widget.Button;
-import android.widget.RelativeLayout;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
-import com.jackingaming.notesquirrel.gameboycolor.pong.PongCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.PoohFarmerCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pong.PongCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.PoohFarmerCartridge;
 
 public class GameView extends SurfaceView
         implements SurfaceHolder.Callback {

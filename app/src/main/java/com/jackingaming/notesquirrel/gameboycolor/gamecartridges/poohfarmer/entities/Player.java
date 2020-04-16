@@ -1,11 +1,11 @@
-package com.jackingaming.notesquirrel.gameboycolor.poohfarmer.entities;
+package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.sprites.Animation;
-import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.sprites.Assets;
+import com.jackingaming.notesquirrel.gameboycolor.sprites.Animation;
+import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
 
 import java.util.HashMap;
 import java.util.Map;

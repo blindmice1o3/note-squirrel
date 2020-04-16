@@ -1,8 +1,8 @@
-package com.jackingaming.notesquirrel.gameboycolor.poohfarmer.entities;
+package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities;
 
 import android.graphics.Canvas;
 
-import com.jackingaming.notesquirrel.gameboycolor.poohfarmer.tiles.TileMap;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles.TileMap;
 
 public abstract class Entity {
 

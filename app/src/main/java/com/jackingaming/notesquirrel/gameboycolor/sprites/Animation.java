@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.gameboycolor.poohfarmer.sprites;
+package com.jackingaming.notesquirrel.gameboycolor.sprites;
 
 import android.graphics.Bitmap;
 

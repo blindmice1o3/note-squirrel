@@ -1,8 +1,6 @@
 package com.jackingaming.notesquirrel.gameboycolor;
 
-import android.util.Log;
-
-import com.jackingaming.notesquirrel.MainActivity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 
 /**
  * Thread whose responsibility is to update the surface (frame-by-frame).

@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.gameboycolor;
+package com.jackingaming.notesquirrel.gameboycolor.gamecartridges;
 
 import android.view.MotionEvent;
 

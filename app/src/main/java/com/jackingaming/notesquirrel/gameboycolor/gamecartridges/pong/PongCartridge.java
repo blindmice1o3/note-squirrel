@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.gameboycolor.pong;
+package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pong;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -15,10 +15,10 @@ import android.view.SurfaceHolder;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
-import com.jackingaming.notesquirrel.gameboycolor.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
-import com.jackingaming.notesquirrel.gameboycolor.pong.sprites.Bat;
-import com.jackingaming.notesquirrel.gameboycolor.pong.sprites.Ball;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pong.sprites.Bat;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pong.sprites.Ball;
 
 public class PongCartridge
         implements GameCartridge {
