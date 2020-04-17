@@ -122,7 +122,7 @@ public class GameView extends SurfaceView
         gameView.requestLayout();
         /////////////////////////
 
-
+        //TODO: DON'T INSTANTIATE NEW INSTANCE... OTHERWISE LOSE DATA EVERYTIME SCREEN CREATED!!!
         gameCartridge = new PoohFarmerCartridge(getContext(), surfaceHolder, getResources(), sideSquareScreen);
         //gameCartridge = new PongCartridge(getContext(), holder, getResources(), widthScreen, heightScreen);
         runner = new GameRunner(gameCartridge);

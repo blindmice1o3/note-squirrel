@@ -1,5 +1,6 @@
 package com.jackingaming.notesquirrel.gameboycolor.input;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -37,15 +38,15 @@ public class DirectionalPadFragment extends Fragment {
     private Map<String, Bitmap> dPad;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d(MainActivity.DEBUG_TAG, "DirectionalPadFragment.onCreate(Bundle)");
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Log.d(MainActivity.DEBUG_TAG, "DirectionalPadFragment.onAttach(Context)");
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        Log.d(MainActivity.DEBUG_TAG, "DirectionalPadFragment.onStart()");
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d(MainActivity.DEBUG_TAG, "DirectionalPadFragment.onCreate(Bundle)");
     }
 
     @Nullable
@@ -147,8 +148,51 @@ public class DirectionalPadFragment extends Fragment {
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.d(MainActivity.DEBUG_TAG, "DirectionalPadFragment.onActivityCreated(Bundle)");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d(MainActivity.DEBUG_TAG, "DirectionalPadFragment.onStart()");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(MainActivity.DEBUG_TAG, "DirectionalPadFragment.onResume()");
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
         Log.d(MainActivity.DEBUG_TAG, "DirectionalPadFragment.onPause()");
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d(MainActivity.DEBUG_TAG, "DirectionalPadFragment.onStop()");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d(MainActivity.DEBUG_TAG, "DirectionalPadFragment.onDestroyView()");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(MainActivity.DEBUG_TAG, "DirectionalPadFragment.onDestroy()");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.d(MainActivity.DEBUG_TAG, "DirectionalPadFragment.onDetach()");
+    }
+
 }

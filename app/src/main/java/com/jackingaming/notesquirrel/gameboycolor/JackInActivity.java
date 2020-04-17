@@ -63,4 +63,34 @@ public class JackInActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onStart()");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onResume()");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onPause()");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onStop()");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onDestroy()");
+    }
+
 }

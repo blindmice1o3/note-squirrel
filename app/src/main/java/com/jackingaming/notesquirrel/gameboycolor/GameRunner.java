@@ -1,5 +1,8 @@
 package com.jackingaming.notesquirrel.gameboycolor;
 
+import android.util.Log;
+
+import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 
 /**
@@ -34,6 +37,7 @@ public class GameRunner extends Thread {
 
     @Override
     public void run() {
+        Log.d(MainActivity.DEBUG_TAG, "GameRunner.run()");
         gameCartridge.init();
 
         long lastTime = System.currentTimeMillis();

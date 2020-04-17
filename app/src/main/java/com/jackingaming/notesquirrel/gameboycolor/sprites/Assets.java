@@ -28,10 +28,15 @@ public class Assets {
     public static Bitmap pokemonWorldMap;
 
     public static void init(Resources resources) {
-        rgbTileTest = BitmapFactory.decodeResource(resources, R.drawable.tile_rgb_test);
+        Log.d(MainActivity.DEBUG_TAG, "Assets.init(Resources)");
+
+        ////////////////////////////////////////////////////////////////////////////////
+        /*
         Log.d(MainActivity.DEBUG_TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         Log.d(MainActivity.DEBUG_TAG, "!!!!! TESTING rgb TO DETERMINE SOLID TILES !!!!!");
         Log.d(MainActivity.DEBUG_TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
+        rgbTileTest = BitmapFactory.decodeResource(resources, R.drawable.tile_rgb_test);
 
         for (int y = 0; y < rgbTileTest.getHeight(); y++) {
             int pixel = rgbTileTest.getPixel(0, y);
@@ -49,11 +54,13 @@ public class Assets {
                 Log.d(MainActivity.DEBUG_TAG, "pixel is Color.BLUE");
             }
         }
+        */
+        ////////////////////////////////////////////////////////////////////////////////
+
 
         ////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////
         rgbTileFarm = BitmapFactory.decodeResource(resources, R.drawable.tile_map_farm);
+        /*
         StringBuilder sb = new StringBuilder();
         sb.append(" \n");
         for (int y = 0; y < rgbTileFarm.getHeight(); y++) {
@@ -75,8 +82,7 @@ public class Assets {
             sb.append("\n");
         }
         Log.d(MainActivity.DEBUG_TAG, sb.toString());
-        ////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////
+        */
         ////////////////////////////////////////////////////////////////////////////////
 
         initHm3Farm(resources);
@@ -85,21 +91,24 @@ public class Assets {
 
         initDPad(resources);
 
-        //TODO:
+        //TODO: OutOfMemoryError... Rethink implementation of loading image resources.
         //initPokemonWorldMap(resources);
     }
 
     private static void initEntities(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.initEntities(Resources)");
         loadCorgiCrusade(resources);
         loadWintermute(resources);
         loadGobi(resources);
     }
 
     private static void initPokemonWorldMap(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.initPokemonWorldMap(Resources)");
         pokemonWorldMap = BitmapFactory.decodeResource(resources, R.drawable.pokemon_gsc_kanto);
     }
 
     private static void initDPad(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.initDPad(Resources)");
         Bitmap source = BitmapFactory.decodeResource(resources, R.drawable.d_pad);
 
         dPad = new HashMap<String, Bitmap>();
@@ -116,6 +125,7 @@ public class Assets {
     }
 
     private static void initHm3Farm(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.initHm3Farm(Resources)");
         //LOAD SPRITESHEET
         Bitmap spriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm3_farm);
 
@@ -147,6 +157,7 @@ public class Assets {
     }
 
     private static void initItems(Resources resources){
+        Log.d(MainActivity.DEBUG_TAG, "Assets.initItems(Resources)");
         //LOAD SPRITESHEET
         Bitmap imageSource = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm2_spritesheet_items);
 
@@ -174,6 +185,7 @@ public class Assets {
     }
 
     private static void loadCorgiCrusade(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.loadCorgiCrusade(Resources)");
         //LOAD SPRITESHEET
         Bitmap spriteSheet = BitmapFactory.decodeResource(resources, R.drawable.corgi_crusade_editted);
 
@@ -212,6 +224,7 @@ public class Assets {
     }
 
     private static void loadWintermute(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.loadWintermute(Resources)");
         //LOAD SPRITESHEET
         Bitmap imageSource = BitmapFactory.decodeResource(resources, R.drawable.pc_ms_office_clippit);
 
@@ -244,6 +257,7 @@ public class Assets {
     }
 
     private static void loadGobi(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.loadGobi(Resources)");
         //LOAD SPRITESHEET
         Bitmap spriteSheet = BitmapFactory.decodeResource(resources, R.drawable.snes_breath_of_fire_gobi);
 
@@ -309,6 +323,7 @@ public class Assets {
     }
 
     public static Bitmap flipHorizontally(Bitmap source) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.flipHorizontally(Bitmap)");
         int xCenter = source.getWidth()/2;
         int yCenter = source.getHeight()/2;
 

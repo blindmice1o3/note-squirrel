@@ -1,5 +1,6 @@
 package com.jackingaming.notesquirrel.gameboycolor.input;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -37,15 +38,15 @@ public class ButtonPadFragment extends Fragment {
     private Map<String, Bitmap> buttonPad;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d(MainActivity.DEBUG_TAG, "ButtonPadFragment.onCreate(Bundle)");
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Log.d(MainActivity.DEBUG_TAG, "ButtonPadFragment.onAttach(Context)");
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        Log.d(MainActivity.DEBUG_TAG, "ButtonPadFragment.onStart()");
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d(MainActivity.DEBUG_TAG, "ButtonPadFragment.onCreate(Bundle)");
     }
 
     @Nullable
@@ -123,9 +124,51 @@ public class ButtonPadFragment extends Fragment {
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.d(MainActivity.DEBUG_TAG, "ButtonPadFragment.onActivityCreated(Bundle)");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d(MainActivity.DEBUG_TAG, "ButtonPadFragment.onStart()");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(MainActivity.DEBUG_TAG, "ButtonPadFragment.onResume()");
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
         Log.d(MainActivity.DEBUG_TAG, "ButtonPadFragment.onPause()");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d(MainActivity.DEBUG_TAG, "ButtonPadFragment.onStop()");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d(MainActivity.DEBUG_TAG, "ButtonPadFragment.onDestroyView()");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(MainActivity.DEBUG_TAG, "ButtonPadFragment.onDestroy()");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.d(MainActivity.DEBUG_TAG, "ButtonPadFragment.onDetach()");
     }
 
 }
