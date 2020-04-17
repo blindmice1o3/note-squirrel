@@ -19,8 +19,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
+import com.jackingaming.notesquirrel.passpoints.ImageActivity;
 import com.jackingaming.notesquirrel.sandbox.learnlayout.SpriteSheetViewerActivity;
 import com.jackingaming.notesquirrel.sandbox.learnfragment.FragmentParentDvdActivity;
+import com.jackingaming.notesquirrel.sandbox.learnlistadapter.ListViewerActivity;
 import com.jackingaming.notesquirrel.sandbox.tileset.TilesetUtilActivity;
 
 import java.io.BufferedReader;
@@ -312,9 +314,9 @@ public class MainActivity extends AppCompatActivity {
             //getting the image captured by the camera app (that was stored in a passed-in File
             //instance), getting its absolute (FULLY-QUALIFIED FILE NAME?) path.
             //TODO:
-            Intent photoViewerIntent = new Intent(this, PhotoViewerActivity.class);
-            photoViewerIntent.putExtra("imageAddress", imageFilePath);
-            startActivity(photoViewerIntent);
+            Intent cameraResultIntent = new Intent(this, CameraResultActivity.class);
+            cameraResultIntent.putExtra("imageAddress", imageFilePath);
+            startActivity(cameraResultIntent);
         } else if (requestCode == BROWSE_GALLERY_REQUEST && resultCode == RESULT_OK) {
             Log.d(DEBUG_TAG, "MainActivity.onActivityResult(int, int, Intent): Browse the Gallery");
             Log.d(DEBUG_TAG, "Gallery result: " + intent.getData());
@@ -349,10 +351,10 @@ public class MainActivity extends AppCompatActivity {
             Uri pathUri = intent.getData();
             String pathAddress = intent.getData().getPath();
 
-            Intent pathViewerIntent = new Intent(this, PathViewerActivity.class);
-            pathViewerIntent.putExtra("pathUri", pathUri);
-            pathViewerIntent.putExtra("pathAddress", pathAddress);
-            startActivity(pathViewerIntent);
+            Intent galleryResultIntent = new Intent(this, GalleryResultActivity.class);
+            galleryResultIntent.putExtra("pathUri", pathUri);
+            galleryResultIntent.putExtra("pathAddress", pathAddress);
+            startActivity(galleryResultIntent);
             //TODO:
         }
     }

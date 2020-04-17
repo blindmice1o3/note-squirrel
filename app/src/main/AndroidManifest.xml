@@ -47,11 +47,11 @@
         <activity
             android:name=".gameboycolor.JackInActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-        <activity android:name=".ListViewerActivity" />
-        <activity android:name=".PathViewerActivity" />
-        <activity android:name=".PhotoViewerActivity" />
+        <activity android:name=".sandbox.learnlistadapter.ListViewerActivity" />
+        <activity android:name=".GalleryResultActivity" />
+        <activity android:name=".CameraResultActivity" />
         <activity
-            android:name=".ImageActivity"
+            android:name=".passpoints.ImageActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

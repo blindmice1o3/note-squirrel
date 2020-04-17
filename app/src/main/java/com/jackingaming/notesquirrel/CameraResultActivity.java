@@ -9,19 +9,19 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class PhotoViewerActivity extends AppCompatActivity {
+public class CameraResultActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_photo_viewer);
+        setContentView(R.layout.activity_camera_result);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        Log.d(MainActivity.DEBUG_TAG, "PhotoViewerActivity.onStart() BEFORE extraction of passed in image address.");
+        Log.d(MainActivity.DEBUG_TAG, "CameraResultActivity.onStart() BEFORE extraction of passed in image address.");
 
         ImageView imageView = (ImageView) findViewById(R.id.imageView);
 
@@ -30,7 +30,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
             String imageFilePath = extras.getString("imageAddress");
 
             if (imageFilePath != null) {
-                Log.d(MainActivity.DEBUG_TAG, "PhotoViewerActivity.onStart() AFTER extraction of passed in image address: " + imageFilePath);
+                Log.d(MainActivity.DEBUG_TAG, "CameraResultActivity.onStart() AFTER extraction of passed in image address: " + imageFilePath);
 
                 /*
                 In order to READ (e.g. when we invoke "decodeFile(String)") from the
@@ -42,7 +42,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
                 if (photoCapturedByCamera != null) {
                     imageView.setImageBitmap(photoCapturedByCamera);
                 } else {
-                    Toast.makeText(this, "Unable to save photo file: PhotoViewerActivity.onStart()... photoCapturedByCamera == null.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Unable to save photo file: CameraResultActivity.onStart()... photoCapturedByCamera == null.", Toast.LENGTH_LONG).show();
                 }
             }
         }

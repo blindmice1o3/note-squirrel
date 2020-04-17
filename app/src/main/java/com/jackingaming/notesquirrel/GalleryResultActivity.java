@@ -8,14 +8,12 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.File;
-
-public class PathViewerActivity extends AppCompatActivity {
+public class GalleryResultActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_path_viewer);
+        setContentView(R.layout.activity_gallery_result);
     }
 
     @Override

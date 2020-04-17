@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel;
+package com.jackingaming.notesquirrel.passpoints;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,6 +13,9 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.jackingaming.notesquirrel.MainActivity;
+import com.jackingaming.notesquirrel.R;
 
 import java.util.List;
 

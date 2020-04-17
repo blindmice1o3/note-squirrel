@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel;
+package com.jackingaming.notesquirrel.sandbox.learnlistadapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -9,6 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+
+import com.jackingaming.notesquirrel.R;
 
 import java.util.List;
 

@@ -1,9 +1,11 @@
-package com.jackingaming.notesquirrel;
+package com.jackingaming.notesquirrel.passpoints;
 
 import android.graphics.Point;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.jackingaming.notesquirrel.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;

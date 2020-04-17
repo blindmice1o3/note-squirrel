@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel;
+package com.jackingaming.notesquirrel.passpoints;
 
 import android.graphics.Point;
 

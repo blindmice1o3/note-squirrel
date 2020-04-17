@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel;
+package com.jackingaming.notesquirrel.passpoints;
 
 import android.content.ContentValues;
 import android.content.Context;

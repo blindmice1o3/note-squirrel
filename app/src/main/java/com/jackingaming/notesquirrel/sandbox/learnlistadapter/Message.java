@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel;
+package com.jackingaming.notesquirrel.sandbox.learnlistadapter;
 
 public class Message {
 
