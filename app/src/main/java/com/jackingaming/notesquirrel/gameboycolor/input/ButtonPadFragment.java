@@ -23,6 +23,17 @@ import java.util.Map;
 
 public class ButtonPadFragment extends Fragment {
 
+    ///////////////////////////////////////////////////////////////////
+    public enum InputButton { A_BUTTON, B_BUTTON, MENU_BUTTON; }
+    public interface OnButtonPadTouchListener {
+        public void onButtonPadTouched(InputButton inputButton);
+    }
+    private OnButtonPadTouchListener onButtonPadTouchListener;
+    public void setOnButtonPadTouchListener(OnButtonPadTouchListener onButtonPadTouchListener) {
+        this.onButtonPadTouchListener = onButtonPadTouchListener;
+    }
+    ////////////////////////////////////////////////////////////////////
+
     private Map<String, Bitmap> buttonPad;
 
     @Override
@@ -75,7 +86,9 @@ public class ButtonPadFragment extends Fragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Log.d(MainActivity.DEBUG_TAG, "menuButtonPad.onTouch()");
-
+                if (onButtonPadTouchListener != null) {
+                    onButtonPadTouchListener.onButtonPadTouched(InputButton.MENU_BUTTON);
+                }
                 return true;
             }
         });
@@ -86,7 +99,9 @@ public class ButtonPadFragment extends Fragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Log.d(MainActivity.DEBUG_TAG, "aButtonPad.onTouch()");
-
+                if (onButtonPadTouchListener != null) {
+                    onButtonPadTouchListener.onButtonPadTouched(InputButton.A_BUTTON);
+                }
                 return true;
             }
         });
@@ -97,7 +112,9 @@ public class ButtonPadFragment extends Fragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Log.d(MainActivity.DEBUG_TAG, "bButtonPad.onTouch()");
-
+                if (onButtonPadTouchListener != null) {
+                    onButtonPadTouchListener.onButtonPadTouched(InputButton.B_BUTTON);
+                }
                 return true;
             }
         });

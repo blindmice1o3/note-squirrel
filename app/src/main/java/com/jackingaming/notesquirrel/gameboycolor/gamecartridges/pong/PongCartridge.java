@@ -10,12 +10,14 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.util.Log;
+import android.view.InputDevice;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.input.ButtonPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pong.sprites.Bat;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pong.sprites.Ball;
@@ -103,7 +105,7 @@ public class PongCartridge
      *              of the user triggered touch event)
      */
     @Override
-    public void getScreenInput(MotionEvent event) {
+    public void onScreenInput(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             pressing = true;
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -131,9 +133,14 @@ public class PongCartridge
     }
 
     @Override
-    public void getDirectionalPadInput(DirectionalPadFragment.Direction direction) {
-        Log.d(MainActivity.DEBUG_TAG, "PongCartridge.getDirectionalPadInput(Direction)");
+    public void onDirectionalPadInput(DirectionalPadFragment.Direction direction) {
+        Log.d(MainActivity.DEBUG_TAG, "PongCartridge.onDirectionalPadInput(Direction)");
         //TODO:
+    }
+
+    @Override
+    public void onButtonPadInput(ButtonPadFragment.InputButton inputButton) {
+        Log.d(MainActivity.DEBUG_TAG, "PongCartridge.onButtonPadInput(InputButton)");
     }
 
     @Override

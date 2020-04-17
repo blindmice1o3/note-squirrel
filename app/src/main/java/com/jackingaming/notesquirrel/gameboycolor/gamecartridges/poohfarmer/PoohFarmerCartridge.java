@@ -1,6 +1,7 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -10,12 +11,14 @@ import android.view.SurfaceHolder;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.input.ButtonPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles.TileMap;
+import com.jackingaming.notesquirrel.sandbox.learnfragment.FragmentParentDvdActivity;
 
 public class PoohFarmerCartridge
         implements GameCartridge {
@@ -84,7 +87,7 @@ public class PoohFarmerCartridge
     }
 
     @Override
-    public void getScreenInput(MotionEvent event) {
+    public void onScreenInput(MotionEvent event) {
         //////////////////////////////////////////////////////////
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             pressing = true;
@@ -153,11 +156,18 @@ public class PoohFarmerCartridge
                     gameCamera.moveDown();
                 }
             }
+
+            //bottom-right quadrant on-screen touch event will launch FragmentParentDvdActivity
+            if ((event.getX() > sideSquareScreen/2) && (event.getY() > sideSquareScreen/2)) {
+                Log.d(MainActivity.DEBUG_TAG, "PoohFarmerCartridge.onScreenInput(MotionEvent) launch FragmentParentDvdActivity");
+                Intent fragmentParentDvdIntent = new Intent(context, FragmentParentDvdActivity.class);
+                context.startActivity(fragmentParentDvdIntent);
+            }
         }
     }
 
     @Override
-    public void getDirectionalPadInput(DirectionalPadFragment.Direction direction) {
+    public void onDirectionalPadInput(DirectionalPadFragment.Direction direction) {
         //TODO: refactor to player.move(direction) and gameCamera.move(direction).
         switch (direction) {
             case UP:
@@ -177,8 +187,28 @@ public class PoohFarmerCartridge
                 gameCamera.moveDown();
                 break;
             default:
-                Log.d(MainActivity.DEBUG_TAG, "PoohFarmerCartridge.getDirectionalPadInput(Direction) switch's default block.");
+                Log.d(MainActivity.DEBUG_TAG, "PoohFarmerCartridge.onDirectionalPadInput(Direction) switch's default block.");
                 break;
+        }
+    }
+
+    @Override
+    public void onButtonPadInput(ButtonPadFragment.InputButton inputButton) {
+        switch(inputButton) {
+            //menu button will launch FragmentParentDvdActivity
+            case MENU_BUTTON:
+                Log.d(MainActivity.DEBUG_TAG, "menu-button");
+                Intent fragmentParentDvdIntent = new Intent(context, FragmentParentDvdActivity.class);
+                context.startActivity(fragmentParentDvdIntent);
+                break;
+            case A_BUTTON:
+                Log.d(MainActivity.DEBUG_TAG, "a-button");
+                break;
+            case B_BUTTON:
+                Log.d(MainActivity.DEBUG_TAG, "b-button");
+                break;
+            default:
+                Log.d(MainActivity.DEBUG_TAG, "PoohFarmerCartridge.onButtonPadInput(InputButton) switch's default block.");
         }
     }
 

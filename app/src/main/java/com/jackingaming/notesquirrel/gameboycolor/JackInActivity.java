@@ -2,6 +2,7 @@ package com.jackingaming.notesquirrel.gameboycolor;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +12,7 @@ import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.input.ButtonPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
+import com.jackingaming.notesquirrel.sandbox.learnfragment.FragmentParentDvdActivity;
 
 public class JackInActivity extends AppCompatActivity {
 
@@ -34,12 +36,29 @@ public class JackInActivity extends AppCompatActivity {
             }
         });
 
+        buttonPadFragment.setOnButtonPadTouchListener(new ButtonPadFragment.OnButtonPadTouchListener() {
+            @Override
+            public void onButtonPadTouched(ButtonPadFragment.InputButton inputButton) {
+                gameView.onButtonPadTouched(inputButton);
+            }
+        });
+
         isPoohFarmer = true;
         swapGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 isPoohFarmer = !isPoohFarmer;
                 gameView.switchGame(isPoohFarmer);
+            }
+        });
+
+        //click event will launch FragmentParentDvdActivity
+        Button launchDvdActivityButton = (Button) findViewById(R.id.launch_dvd_activity_button);
+        launchDvdActivityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent fragmentParentDvdIntent = new Intent(JackInActivity.this, FragmentParentDvdActivity.class);
+                startActivity(fragmentParentDvdIntent);
             }
         });
     }

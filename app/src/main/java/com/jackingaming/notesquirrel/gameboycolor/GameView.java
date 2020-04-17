@@ -1,6 +1,7 @@
 package com.jackingaming.notesquirrel.gameboycolor;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -10,9 +11,11 @@ import android.view.SurfaceView;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.input.ButtonPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pong.PongCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.PoohFarmerCartridge;
+import com.jackingaming.notesquirrel.sandbox.learnfragment.FragmentParentDvdActivity;
 
 public class GameView extends SurfaceView
         implements SurfaceHolder.Callback {
@@ -41,7 +44,13 @@ public class GameView extends SurfaceView
      */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        gameCartridge.getScreenInput(event);
+        gameCartridge.onScreenInput(event);
+
+        //bottom-left quadrant on-screen touch event will launch FragmentParentDvdActivity
+        if ((event.getX() < widthScreen/2) && (event.getY() > heightScreen/2)) {
+            Intent fragmentParentDvdIntent = new Intent(getContext(), FragmentParentDvdActivity.class);
+            getContext().startActivity(fragmentParentDvdIntent);
+        }
 
         // If you've handled the touch event, return true.
         // If false, will NOT check for drag event (can't drag without touch).
@@ -49,7 +58,11 @@ public class GameView extends SurfaceView
     }
 
     public void onDirectionalPadTouched(DirectionalPadFragment.Direction direction) {
-        gameCartridge.getDirectionalPadInput(direction);
+        gameCartridge.onDirectionalPadInput(direction);
+    }
+
+    public void onButtonPadTouched(ButtonPadFragment.InputButton inputButton) {
+        gameCartridge.onButtonPadInput(inputButton);
     }
 
     /**
