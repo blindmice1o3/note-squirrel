@@ -158,13 +158,14 @@ public class PoohFarmerCartridge
             }
 
             //bottom-right quadrant on-screen touch event will launch FragmentParentDvdActivity
-            if ((event.getX() > sideSquareScreen/2) && (event.getY() > sideSquareScreen/2)) {
+            if ((event.getX() > xScreenSecondThird) && (event.getY() > yScreenSecondThird)) {
                 Log.d(MainActivity.DEBUG_TAG, "PoohFarmerCartridge.onScreenInput(MotionEvent) launch FragmentParentDvdActivity");
                 Intent fragmentParentDvdIntent = new Intent(context, FragmentParentDvdActivity.class);
                 context.startActivity(fragmentParentDvdIntent);
             }
         }
     }
+
 
     @Override
     public void onDirectionalPadInput(DirectionalPadFragment.Direction direction) {

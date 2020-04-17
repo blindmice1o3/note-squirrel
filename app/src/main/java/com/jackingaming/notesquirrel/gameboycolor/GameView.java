@@ -47,7 +47,7 @@ public class GameView extends SurfaceView
         gameCartridge.onScreenInput(event);
 
         //bottom-left quadrant on-screen touch event will launch FragmentParentDvdActivity
-        if ((event.getX() < widthScreen/2) && (event.getY() > heightScreen/2)) {
+        if ((event.getX() < widthScreen/3) && (event.getY() > 2 * (heightScreen/3))) {
             Intent fragmentParentDvdIntent = new Intent(getContext(), FragmentParentDvdActivity.class);
             getContext().startActivity(fragmentParentDvdIntent);
         }
