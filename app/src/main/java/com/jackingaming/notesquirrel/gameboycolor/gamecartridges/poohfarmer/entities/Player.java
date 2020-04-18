@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class Player extends Entity {
 
-    private enum Direction { UP, DOWN, LEFT, RIGHT; }
+    public enum Direction { UP, DOWN, LEFT, RIGHT; }
 
     private int sideSquareScreen;
     private float pixelToScreenRatio;
@@ -115,4 +115,9 @@ public class Player extends Entity {
         return moveSpeed;
     }
 
+    public Direction getDirection() { return direction; }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
 }

@@ -79,6 +79,14 @@ public class GameCamera {
         return y;
     }
 
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
     public int getWidthClip() {
         return widthClip;
     }

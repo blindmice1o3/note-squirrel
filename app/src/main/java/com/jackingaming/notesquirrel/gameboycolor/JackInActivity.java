@@ -16,6 +16,7 @@ import com.jackingaming.notesquirrel.sandbox.learnfragment.FragmentParentDvdActi
 
 public class JackInActivity extends AppCompatActivity {
 
+    private Bundle savedInstanceState;
     private boolean isPoohFarmer;
 
     @Override
@@ -65,6 +66,10 @@ public class JackInActivity extends AppCompatActivity {
 
 
 
+        /////////////////////////////////////////////
+        this.savedInstanceState = savedInstanceState;
+        /////////////////////////////////////////////
+
         //TODO: this is the solution to a new GameCartridge being instantiated from configuration (orientation or keyboard) changes.
         //Will probably have to move GameCartridge and GameRunner here.
         //https://stackoverflow.com/questions/456211/activity-restart-on-rotation-android?rq=1
@@ -74,14 +79,28 @@ public class JackInActivity extends AppCompatActivity {
             Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreate(Bundle) Bundle savedInstanceState is NOT null: " + savedInstanceState);
         }
 
+    }
 
-
+    public Bundle getSavedInstanceState() {
+        return savedInstanceState;
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onStart()");
+
+        /*
+        if (savedInstanceState == null) {
+            Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onStart() Bundle savedInstanceState is null: " + savedInstanceState);
+        } else {
+            Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onStart() Bundle savedInstanceState is NOT null: " + savedInstanceState);
+
+            GameView gameView = (GameView) findViewById(R.id.gameView);
+            Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onPause() calling gameView.getGameCartridge().loadSavedState()");
+            gameView.getGameCartridge().loadSavedState();
+        }
+        */
     }
 
     @Override
@@ -94,6 +113,12 @@ public class JackInActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onPause()");
+
+        ///////////////////////////////////////////////////////////
+        GameView gameView = (GameView) findViewById(R.id.gameView);
+        Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onPause() calling gameView.getGameCartridge().savePresentState()");
+        gameView.getGameCartridge().savePresentState();
+        ///////////////////////////////////////////////////////////
     }
 
     @Override

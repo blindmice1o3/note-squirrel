@@ -38,7 +38,6 @@ public class GameRunner extends Thread {
     @Override
     public void run() {
         Log.d(MainActivity.DEBUG_TAG, "GameRunner.run()");
-        gameCartridge.init();
 
         long lastTime = System.currentTimeMillis();
 

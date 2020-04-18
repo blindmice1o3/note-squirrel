@@ -7,6 +7,8 @@ import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
 
 public interface GameCartridge {
     public void init();
+    public void savePresentState();
+    public void loadSavedState();
     public void onScreenInput(MotionEvent event);
     public void onDirectionalPadInput(DirectionalPadFragment.Direction direction);
     public void onButtonPadInput(ButtonPadFragment.InputButton inputButton);

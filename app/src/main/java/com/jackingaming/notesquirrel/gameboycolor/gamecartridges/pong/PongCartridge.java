@@ -96,6 +96,16 @@ public class PongCartridge
         opponent.init(spriteSheetYokoTileset);
     }
 
+    @Override
+    public void savePresentState() {
+        Log.d(MainActivity.DEBUG_TAG, "PongCartridge.savePresentState()");
+    }
+
+    @Override
+    public void loadSavedState() {
+        Log.d(MainActivity.DEBUG_TAG, "PongCartridge.loadSavedState()");
+    }
+
     /**
      * Update the user's bat position.
      * <p>

@@ -125,9 +125,24 @@ public class GameView extends SurfaceView
         //TODO: DON'T INSTANTIATE NEW INSTANCE... OTHERWISE LOSE DATA EVERYTIME SCREEN CREATED!!!
         gameCartridge = new PoohFarmerCartridge(getContext(), surfaceHolder, getResources(), sideSquareScreen);
         //gameCartridge = new PongCartridge(getContext(), holder, getResources(), widthScreen, heightScreen);
+
+
+        ///////////////////////////////////////////////////////////////////////
+        gameCartridge.init();
+        if ( ((JackInActivity)getContext()).getSavedInstanceState() != null ) {
+            Log.d(MainActivity.DEBUG_TAG, "GameView.surfaceCreated(SurfaeHolder) calling gameCartridge().loadSavedState()");
+            gameCartridge.loadSavedState();
+        }
+        ///////////////////////////////////////////////////////////////////////
+
+
         runner = new GameRunner(gameCartridge);
         // Tell the Thread class to go to the "public void run()" method.
         runner.start();
+    }
+
+    public GameCartridge getGameCartridge() {
+        return gameCartridge;
     }
 
     /**
@@ -186,6 +201,15 @@ public class GameView extends SurfaceView
         } else {
             gameCartridge = new PongCartridge(getContext(), surfaceHolder, getResources(), sideSquareScreen, sideSquareScreen);;
         }
+
+        ///////////////////////////////////////////////////////////////////////
+        gameCartridge.init();
+        if ( ((JackInActivity)getContext()).getSavedInstanceState() != null ) {
+            Log.d(MainActivity.DEBUG_TAG, "GameView.surfaceCreated(SurfaeHolder) calling gameCartridge().loadSavedState()");
+            gameCartridge.loadSavedState();
+        }
+        ///////////////////////////////////////////////////////////////////////
+
         runner = new GameRunner(gameCartridge);
         // Tell the Thread class to go to the "public void run()" method.
         runner.start();
