@@ -33,6 +33,7 @@ public class PongCartridge
     private Context context;
     private SurfaceHolder holder;
     private Resources resources;
+    private int sideSquareScreen;
 
     private Ball ball;
     private Bat player;
@@ -47,17 +48,19 @@ public class PongCartridge
     //private SoundPool soundPool;
     private MediaPlayer mediaPlayer;
 
-    public PongCartridge(Context context, SurfaceHolder holder, Resources resources, int widthScreen, int heightScreen) {
+    public PongCartridge(Context context, Resources resources) {
         this.context = context;
-        this.holder = holder;
         this.resources = resources;
+    }
 
-        //soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
-        mediaPlayer = MediaPlayer.create(context, R.raw.corporate_ukulele);
+    @Override
+    public void init(SurfaceHolder holder, int sideSquareScreen) {
+        Log.d(MainActivity.DEBUG_TAG, "PongCartridge.init()");
 
-        ball = new Ball(widthScreen, heightScreen);
-        player = new Bat(widthScreen, heightScreen, Bat.Position.LEFT);
-        opponent = new Bat(widthScreen, heightScreen, Bat.Position.RIGHT);
+        this.holder = holder;
+        this.sideSquareScreen = sideSquareScreen;
+
+
 
         textPaint = new Paint();
         //set text's pivot-point to CENTER-OF-TEXT (instead of TOP-LEFT corner).
@@ -66,30 +69,19 @@ public class PongCartridge
         textPaint.setColor(Color.BLUE);
         textPaint.setTextSize(64);
         textPaint.setTypeface(Typeface.DEFAULT_BOLD);
-    }
 
-    @Override
-    public void init() {
-        Log.d(MainActivity.DEBUG_TAG, "PongCartridge.init()");
-
-        //TODO:
-        /*
-        final int startSoundId = soundPool.load(context, R.raw.avicii_tribute_concert, 1);
-        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
-            @Override
-            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
-                if (startSoundId == sampleId) {
-                    soundPool.play(startSoundId, 1, 1, 1, 0, 1f);
-                    Toast.makeText(context, "SoundPool.OnLoadCompleteListener.onLoadComplete(SoundPool, int, int)", Toast.LENGTH_LONG).show();
-                    Log.d(MainActivity.DEBUG_TAG, "@@@@@ SoundPool.OnLoadCompleteListener.onLoadComplete(SoundPool, int, int) @@@@@");
-                }
-            }
-        });
-        */
+        //soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+        mediaPlayer = MediaPlayer.create(context, R.raw.corporate_ukulele);
         mediaPlayer.start();
+
+
 
         Bitmap spriteSheetCorgiCrusade = BitmapFactory.decodeResource(resources, R.drawable.corgi_crusade_editted);
         Bitmap spriteSheetYokoTileset = BitmapFactory.decodeResource(resources, R.drawable.pc_yoko_tileset);
+
+        ball = new Ball(sideSquareScreen, sideSquareScreen);
+        player = new Bat(sideSquareScreen, sideSquareScreen, Bat.Position.LEFT);
+        opponent = new Bat(sideSquareScreen, sideSquareScreen, Bat.Position.RIGHT);
 
         ball.init(spriteSheetCorgiCrusade);
         player.init(spriteSheetYokoTileset);

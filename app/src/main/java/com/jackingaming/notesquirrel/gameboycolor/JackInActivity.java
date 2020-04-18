@@ -10,6 +10,8 @@ import android.widget.Button;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.PoohFarmerCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.input.ButtonPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
 import com.jackingaming.notesquirrel.sandbox.learnfragment.FragmentParentDvdActivity;
@@ -18,6 +20,8 @@ public class JackInActivity extends AppCompatActivity {
 
     private Bundle savedInstanceState;
     private boolean isPoohFarmer;
+
+    private GameCartridge gameCartridge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,14 +37,14 @@ public class JackInActivity extends AppCompatActivity {
         directionalPadFragment.setOnDirectionalPadTouchListener(new DirectionalPadFragment.OnDirectionalPadTouchListener() {
             @Override
             public void onDirectionalPadTouched(DirectionalPadFragment.Direction direction) {
-                gameView.onDirectionalPadTouched(direction);
+                gameCartridge.onDirectionalPadInput(direction);
             }
         });
 
         buttonPadFragment.setOnButtonPadTouchListener(new ButtonPadFragment.OnButtonPadTouchListener() {
             @Override
             public void onButtonPadTouched(ButtonPadFragment.InputButton inputButton) {
-                gameView.onButtonPadTouched(inputButton);
+                gameCartridge.onButtonPadInput(inputButton);
             }
         });
 
@@ -65,6 +69,10 @@ public class JackInActivity extends AppCompatActivity {
 
 
 
+        gameCartridge = new PoohFarmerCartridge(this, getResources());
+        //gameCartridge = new PongCartridge(getContext(), holder, getResources(), widthScreen, heightScreen);
+
+
 
         /////////////////////////////////////////////
         this.savedInstanceState = savedInstanceState;
@@ -81,6 +89,10 @@ public class JackInActivity extends AppCompatActivity {
 
     }
 
+    public GameCartridge getGameCartridge() {
+        return gameCartridge;
+    }
+
     public Bundle getSavedInstanceState() {
         return savedInstanceState;
     }
@@ -89,18 +101,6 @@ public class JackInActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onStart()");
-
-        /*
-        if (savedInstanceState == null) {
-            Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onStart() Bundle savedInstanceState is null: " + savedInstanceState);
-        } else {
-            Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onStart() Bundle savedInstanceState is NOT null: " + savedInstanceState);
-
-            GameView gameView = (GameView) findViewById(R.id.gameView);
-            Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onPause() calling gameView.getGameCartridge().loadSavedState()");
-            gameView.getGameCartridge().loadSavedState();
-        }
-        */
     }
 
     @Override
@@ -115,9 +115,8 @@ public class JackInActivity extends AppCompatActivity {
         Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onPause()");
 
         ///////////////////////////////////////////////////////////
-        GameView gameView = (GameView) findViewById(R.id.gameView);
-        Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onPause() calling gameView.getGameCartridge().savePresentState()");
-        gameView.getGameCartridge().savePresentState();
+        Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onPause() calling gameCartridge.savePresentState()");
+        gameCartridge.savePresentState();
         ///////////////////////////////////////////////////////////
     }
 

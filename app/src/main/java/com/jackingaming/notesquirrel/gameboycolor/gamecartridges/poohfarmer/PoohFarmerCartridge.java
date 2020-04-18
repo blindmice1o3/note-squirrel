@@ -55,10 +55,16 @@ public class PoohFarmerCartridge
     private boolean justPressed = false;
     private boolean pressing = false;
 
-    public PoohFarmerCartridge(Context context, SurfaceHolder holder, Resources resources, int sideSquareScreen) {
+    public PoohFarmerCartridge(Context context, Resources resources) {
         this.context = context;
-        this.holder = holder;
         this.resources = resources;
+    }
+
+    @Override
+    public void init(SurfaceHolder holder, int sideSquareScreen) {
+        Log.d(MainActivity.DEBUG_TAG, "PoohFarmerCartridge.init()");
+
+        this.holder = holder;
         this.sideSquareScreen = sideSquareScreen;
         Log.d(MainActivity.DEBUG_TAG, "sideSquareScreen: " + sideSquareScreen);
 
@@ -68,25 +74,18 @@ public class PoohFarmerCartridge
         pixelToScreenRatio = ((float)sideSquareScreen) / sideSquareGameCameraInPixel;
         Log.d(MainActivity.DEBUG_TAG, "pixelToScreenRatio: " + pixelToScreenRatio);
 
-
         xScreenFirstThird = (int)((float)sideSquareScreen / 3);
         xScreenSecondThird = (int)(2 * ((float)sideSquareScreen / 3));
         yScreenFirstThird = (int)((float)sideSquareScreen / 3);
         yScreenSecondThird = (int)(2 * ((float)sideSquareScreen / 3));
-        //xCenterScreen = sideSquareScreen / 2;
-        //yCenterScreen = sideSquareScreen / 2;
 
 
         player = new Player(sideSquareScreen, pixelToScreenRatio);
         gameCamera = new GameCamera();
         sceneCurrent = new Scene(sideSquareScreen);
-    }
 
-    @Override
-    public void init() {
-        Log.d(MainActivity.DEBUG_TAG, "PoohFarmerCartridge.init()");
+
         Assets.init(resources);
-
         sceneCurrent.init(player, gameCamera);
     }
 

@@ -23,10 +23,10 @@ public class GameView extends SurfaceView
     private GameCartridge gameCartridge;
     private GameRunner runner;
 
+    private SurfaceHolder holder;
+
     private int widthScreen;
     private int heightScreen;
-
-    private SurfaceHolder surfaceHolder;
     private int sideSquareScreen;
 
     public GameView(Context context, AttributeSet attrs) {
@@ -57,14 +57,6 @@ public class GameView extends SurfaceView
         return true;
     }
 
-    public void onDirectionalPadTouched(DirectionalPadFragment.Direction direction) {
-        gameCartridge.onDirectionalPadInput(direction);
-    }
-
-    public void onButtonPadTouched(ButtonPadFragment.InputButton inputButton) {
-        gameCartridge.onButtonPadInput(inputButton);
-    }
-
     /**
      * We don't call this method directly, it's used by the SurfaceHolder.Callback interface.
      */
@@ -81,38 +73,13 @@ public class GameView extends SurfaceView
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         Log.d(MainActivity.DEBUG_TAG, "GameView.surfaceCreated(SurfaceHolder)");
-        ////////////////////////////////////////////////////////////////////////////////
-        /*
-        final Activity jackInActivity = (Activity)getContext();
-        RelativeLayout relativeLayout = (RelativeLayout) jackInActivity.findViewById(R.id.relativeLayout);
 
-        Button button = new Button(jackInActivity);
-        RelativeLayout.LayoutParams layout = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT
-        );
-        layout.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        layout.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        button.setLayoutParams(layout);
-        button.setText("myButton");
-        button.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(MainActivity.DEBUG_TAG, "kill switch engaged");
-            }
-        });
-
-        relativeLayout.addView(button);
-        */
-        ////////////////////////////////////////////////////////////////////////////////
-
+        this.holder = holder;
 
         widthScreen = getWidth();
         heightScreen = getHeight();
-
-
-        surfaceHolder = holder;
         sideSquareScreen = Math.min(widthScreen, heightScreen);
+
 
 
         SurfaceView gameView = (SurfaceView) findViewById(R.id.gameView);
@@ -122,27 +89,34 @@ public class GameView extends SurfaceView
         gameView.requestLayout();
         /////////////////////////
 
-        //TODO: DON'T INSTANTIATE NEW INSTANCE... OTHERWISE LOSE DATA EVERYTIME SCREEN CREATED!!!
-        gameCartridge = new PoohFarmerCartridge(getContext(), surfaceHolder, getResources(), sideSquareScreen);
-        //gameCartridge = new PongCartridge(getContext(), holder, getResources(), widthScreen, heightScreen);
 
-
-        ///////////////////////////////////////////////////////////////////////
-        gameCartridge.init();
-        if ( ((JackInActivity)getContext()).getSavedInstanceState() != null ) {
-            Log.d(MainActivity.DEBUG_TAG, "GameView.surfaceCreated(SurfaeHolder) calling gameCartridge().loadSavedState()");
-            gameCartridge.loadSavedState();
-        }
-        ///////////////////////////////////////////////////////////////////////
-
-
-        runner = new GameRunner(gameCartridge);
-        // Tell the Thread class to go to the "public void run()" method.
-        runner.start();
+        ///////////////////
+        runGameCartridge();
+        ///////////////////
     }
 
-    public GameCartridge getGameCartridge() {
-        return gameCartridge;
+    private void runGameCartridge() {
+        Log.d(MainActivity.DEBUG_TAG, "GameView.runGameCartridge()");
+
+        //////////////////////////////////////////////////////////////////
+        gameCartridge = ((JackInActivity)getContext()).getGameCartridge();
+        //////////////////////////////////////////////////////////////////
+
+        if (gameCartridge != null) {
+            ///////////////////////////////////////////////////////////////////////
+            gameCartridge.init(holder, sideSquareScreen);
+            if (((JackInActivity)getContext()).getSavedInstanceState() != null) {
+                Log.d(MainActivity.DEBUG_TAG, "GameView.runGameCartridge() calling gameCartridge.loadSavedState()");
+                gameCartridge.loadSavedState();
+            }
+            ///////////////////////////////////////////////////////////////////////
+
+            runner = new GameRunner(gameCartridge);
+            // Tell the Thread class to go to the "public void run()" method.
+            runner.start();
+        } else {
+            Log.d(MainActivity.DEBUG_TAG, "ERROR: GameView.gameCartridge is null!!!!!!!!!!");
+        }
     }
 
     /**
@@ -175,6 +149,7 @@ public class GameView extends SurfaceView
         }
     }
 
+    //TODO: move to JackInActivity?
     public void switchGame(boolean isPoohFarmer) {
         Log.d(MainActivity.DEBUG_TAG, "GameView.switchGame(boolean)");
 
@@ -197,15 +172,15 @@ public class GameView extends SurfaceView
         }
 
         if (isPoohFarmer) {
-            gameCartridge = new PoohFarmerCartridge(getContext(), surfaceHolder, getResources(), sideSquareScreen);
+            gameCartridge = new PoohFarmerCartridge(getContext(), getResources());
         } else {
-            gameCartridge = new PongCartridge(getContext(), surfaceHolder, getResources(), sideSquareScreen, sideSquareScreen);;
+            gameCartridge = new PongCartridge(getContext(), getResources());
         }
 
         ///////////////////////////////////////////////////////////////////////
-        gameCartridge.init();
+        gameCartridge.init(holder, sideSquareScreen);
         if ( ((JackInActivity)getContext()).getSavedInstanceState() != null ) {
-            Log.d(MainActivity.DEBUG_TAG, "GameView.surfaceCreated(SurfaeHolder) calling gameCartridge().loadSavedState()");
+            Log.d(MainActivity.DEBUG_TAG, "GameView.sswitchGame(boolean) calling gameCartridge.loadSavedState()");
             gameCartridge.loadSavedState();
         }
         ///////////////////////////////////////////////////////////////////////
