@@ -61,6 +61,21 @@ public class JackInActivity extends AppCompatActivity {
                 startActivity(fragmentParentDvdIntent);
             }
         });
+
+
+
+
+        //TODO: this is the solution to a new GameCartridge being instantiated from configuration (orientation or keyboard) changes.
+        //Will probably have to move GameCartridge and GameRunner here.
+        //https://stackoverflow.com/questions/456211/activity-restart-on-rotation-android?rq=1
+        if (savedInstanceState == null) {
+            Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreate(Bundle) Bundle savedInstanceState is null: " + savedInstanceState);
+        } else {
+            Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreate(Bundle) Bundle savedInstanceState is NOT null: " + savedInstanceState);
+        }
+
+
+
     }
 
     @Override
