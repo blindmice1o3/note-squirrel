@@ -44,16 +44,12 @@ public class GameView extends SurfaceView
      */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        Log.d(MainActivity.DEBUG_TAG, "GameView.onTouchEvent(MotionEvent)");
+
         gameCartridge.onScreenInput(event);
 
-        //bottom-left quadrant on-screen touch event will launch FragmentParentDvdActivity
-        if ((event.getX() < widthScreen/3) && (event.getY() > 2 * (heightScreen/3))) {
-            Intent fragmentParentDvdIntent = new Intent(getContext(), FragmentParentDvdActivity.class);
-            getContext().startActivity(fragmentParentDvdIntent);
-        }
-
-        // If you've handled the touch event, return true.
-        // If false, will NOT check for drag event (can't drag without touch).
+        // Should return true if you've handled the touch event. If false gets returned,
+        // will NOT check for drag event (can't drag without touch).
         return true;
     }
 
@@ -90,17 +86,17 @@ public class GameView extends SurfaceView
         /////////////////////////
 
 
-        ///////////////////
-        runGameCartridge();
-        ///////////////////
+        ////////////////////////////////////////////////////////////////////
+        runGameCartridge(((JackInActivity)getContext()).getGameCartridge());
+        ////////////////////////////////////////////////////////////////////
     }
 
-    private void runGameCartridge() {
+    private void runGameCartridge(GameCartridge gameCartridge) {
         Log.d(MainActivity.DEBUG_TAG, "GameView.runGameCartridge()");
 
-        //////////////////////////////////////////////////////////////////
-        gameCartridge = ((JackInActivity)getContext()).getGameCartridge();
-        //////////////////////////////////////////////////////////////////
+        ///////////////////////////////////
+        this.gameCartridge = gameCartridge;
+        ///////////////////////////////////
 
         if (gameCartridge != null) {
             ///////////////////////////////////////////////////////////////////////
