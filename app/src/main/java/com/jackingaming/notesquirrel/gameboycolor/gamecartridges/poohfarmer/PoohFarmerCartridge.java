@@ -47,8 +47,6 @@ public class PoohFarmerCartridge
     private int xScreenSecondThird;
     private int yScreenFirstThird;
     private int yScreenSecondThird;
-    //private int xCenterScreen;
-    //private int yCenterScreen;
 
 
     private boolean cantPress = false;

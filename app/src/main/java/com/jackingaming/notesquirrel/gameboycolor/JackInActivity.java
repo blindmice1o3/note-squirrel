@@ -11,6 +11,7 @@ import android.widget.Button;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pong.PongCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.PoohFarmerCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.input.ButtonPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
@@ -52,8 +53,11 @@ public class JackInActivity extends AppCompatActivity {
         swapGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /////////////////////////////
                 isPoohFarmer = !isPoohFarmer;
-                gameView.switchGame(isPoohFarmer);
+                /////////////////////////////
+
+                switchGame();
             }
         });
 
@@ -69,8 +73,9 @@ public class JackInActivity extends AppCompatActivity {
 
 
 
+        /////////////////////////////////////////////////////////////////////
         gameCartridge = new PoohFarmerCartridge(this, getResources());
-        //gameCartridge = new PongCartridge(getContext(), holder, getResources(), widthScreen, heightScreen);
+        /////////////////////////////////////////////////////////////////////
 
 
 
@@ -89,11 +94,29 @@ public class JackInActivity extends AppCompatActivity {
 
     }
 
+    public void switchGame() {
+        Log.d(MainActivity.DEBUG_TAG, "JackInActivity.switchGame()");
+
+        GameView gameView = (GameView) findViewById(R.id.gameView);
+
+        gameView.shutDownRunner();
+
+        if (isPoohFarmer) {
+            gameCartridge = new PoohFarmerCartridge(this, getResources());
+        } else {
+            gameCartridge = new PongCartridge(this, getResources());
+        }
+
+        gameView.runGameCartridge(gameCartridge);
+    }
+
     public GameCartridge getGameCartridge() {
+        Log.d(MainActivity.DEBUG_TAG, "JackInActivity.getGameCartridge()");
         return gameCartridge;
     }
 
     public Bundle getSavedInstanceState() {
+        Log.d(MainActivity.DEBUG_TAG, "JackInActivity.getSavedInstanceState()");
         return savedInstanceState;
     }
 

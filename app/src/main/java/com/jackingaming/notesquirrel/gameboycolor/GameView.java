@@ -1,7 +1,6 @@
 package com.jackingaming.notesquirrel.gameboycolor;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -11,11 +10,6 @@ import android.view.SurfaceView;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.input.ButtonPadFragment;
-import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pong.PongCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.PoohFarmerCartridge;
-import com.jackingaming.notesquirrel.sandbox.learnfragment.FragmentParentDvdActivity;
 
 public class GameView extends SurfaceView
         implements SurfaceHolder.Callback {
@@ -86,13 +80,14 @@ public class GameView extends SurfaceView
         /////////////////////////
 
 
+
         ////////////////////////////////////////////////////////////////////
         runGameCartridge(((JackInActivity)getContext()).getGameCartridge());
         ////////////////////////////////////////////////////////////////////
     }
 
-    private void runGameCartridge(GameCartridge gameCartridge) {
-        Log.d(MainActivity.DEBUG_TAG, "GameView.runGameCartridge()");
+    public void runGameCartridge(GameCartridge gameCartridge) {
+        Log.d(MainActivity.DEBUG_TAG, "GameView.runGameCartridge(GameCartridge)");
 
         ///////////////////////////////////
         this.gameCartridge = gameCartridge;
@@ -102,26 +97,23 @@ public class GameView extends SurfaceView
             ///////////////////////////////////////////////////////////////////////
             gameCartridge.init(holder, sideSquareScreen);
             if (((JackInActivity)getContext()).getSavedInstanceState() != null) {
-                Log.d(MainActivity.DEBUG_TAG, "GameView.runGameCartridge() calling gameCartridge.loadSavedState()");
+                Log.d(MainActivity.DEBUG_TAG, "GameView.runGameCartridge(GameCartridge) calling gameCartridge.loadSavedState()");
                 gameCartridge.loadSavedState();
             }
             ///////////////////////////////////////////////////////////////////////
 
+            ///////////////////////////////////////
             runner = new GameRunner(gameCartridge);
             // Tell the Thread class to go to the "public void run()" method.
             runner.start();
+            ///////////////////////////////////////
         } else {
             Log.d(MainActivity.DEBUG_TAG, "ERROR: GameView.gameCartridge is null!!!!!!!!!!");
         }
     }
 
-    /**
-     * We don't call this method directly, it's used by the SurfaceHolder.Callback interface.
-     */
-    @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
-        Log.d(MainActivity.DEBUG_TAG, "GameView.surfaceDestroyed(SurfaceHolder)");
-
+    public void shutDownRunner() {
+        Log.d(MainActivity.DEBUG_TAG, "GameView.shutDownRunner()");
         if (runner != null) {
             runner.shutdown();
 
@@ -145,45 +137,16 @@ public class GameView extends SurfaceView
         }
     }
 
-    //TODO: move to JackInActivity?
-    public void switchGame(boolean isPoohFarmer) {
-        Log.d(MainActivity.DEBUG_TAG, "GameView.switchGame(boolean)");
+    /**
+     * We don't call this method directly, it's used by the SurfaceHolder.Callback interface.
+     */
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        Log.d(MainActivity.DEBUG_TAG, "GameView.surfaceDestroyed(SurfaceHolder)");
 
-        runner.shutdown();
-        /*
-        NOW: want to wait for the thread to stop drawing.
-        Want to NOT allow the phone to go to another application until
-        this runner has stopped drawing... because if it goes to another
-        application, the surface will no longer exist yet the thread will
-        still be try to renderGame on it which will cause it to CRASH.
-        */
-        while (runner != null) {
-            // This method waits for the thread to terminate.
-            try {
-                runner.join();
-                runner = null;
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (isPoohFarmer) {
-            gameCartridge = new PoohFarmerCartridge(getContext(), getResources());
-        } else {
-            gameCartridge = new PongCartridge(getContext(), getResources());
-        }
-
-        ///////////////////////////////////////////////////////////////////////
-        gameCartridge.init(holder, sideSquareScreen);
-        if ( ((JackInActivity)getContext()).getSavedInstanceState() != null ) {
-            Log.d(MainActivity.DEBUG_TAG, "GameView.sswitchGame(boolean) calling gameCartridge.loadSavedState()");
-            gameCartridge.loadSavedState();
-        }
-        ///////////////////////////////////////////////////////////////////////
-
-        runner = new GameRunner(gameCartridge);
-        // Tell the Thread class to go to the "public void run()" method.
-        runner.start();
+        /////////////////
+        shutDownRunner();
+        /////////////////
     }
 
 }
