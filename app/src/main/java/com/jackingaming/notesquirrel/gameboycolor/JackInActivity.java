@@ -19,8 +19,10 @@ import com.jackingaming.notesquirrel.sandbox.learnfragment.FragmentParentDvdActi
 
 public class JackInActivity extends AppCompatActivity {
 
+    public enum CartridgeID { POOH, PONG; }
+
     private Bundle savedInstanceState;
-    private boolean isPoohFarmer;
+    private CartridgeID cartridgeID;
 
     private GameCartridge gameCartridge;
 
@@ -49,15 +51,11 @@ public class JackInActivity extends AppCompatActivity {
             }
         });
 
-        isPoohFarmer = true;
+        cartridgeID = CartridgeID.POOH;
         swapGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /////////////////////////////
-                isPoohFarmer = !isPoohFarmer;
-                /////////////////////////////
-
-                switchGame();
+                swapGame();
             }
         });
 
@@ -94,17 +92,34 @@ public class JackInActivity extends AppCompatActivity {
 
     }
 
-    public void switchGame() {
+    public void swapGame() {
         Log.d(MainActivity.DEBUG_TAG, "JackInActivity.switchGame()");
 
         GameView gameView = (GameView) findViewById(R.id.gameView);
 
         gameView.shutDownRunner();
 
-        if (isPoohFarmer) {
-            gameCartridge = new PoohFarmerCartridge(this, getResources());
-        } else {
-            gameCartridge = new PongCartridge(this, getResources());
+        int index = cartridgeID.ordinal();
+        index++;
+        if (index >= CartridgeID.values().length) {
+            index = 0;
+        }
+
+        ////////////////////////////////////////////
+        cartridgeID = CartridgeID.values()[index];
+        ////////////////////////////////////////////
+
+        switch (cartridgeID) {
+            case POOH:
+                gameCartridge = new PoohFarmerCartridge(this, getResources());
+                break;
+            case PONG:
+                gameCartridge = new PongCartridge(this, getResources());
+                break;
+            default:
+                Log.d(MainActivity.DEBUG_TAG, "JackInActivity.switchGame() switch's default block.");
+                gameCartridge = new PoohFarmerCartridge(this, getResources());
+                break;
         }
 
         gameView.runGameCartridge(gameCartridge);
