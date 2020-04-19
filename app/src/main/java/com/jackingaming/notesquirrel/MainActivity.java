@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.passpoints.ImageActivity;
+import com.jackingaming.notesquirrel.sandbox.learncommunication.CommunicationActivity;
 import com.jackingaming.notesquirrel.sandbox.learnlayout.SpriteSheetViewerActivity;
 import com.jackingaming.notesquirrel.sandbox.learnfragment.FragmentParentDvdActivity;
 import com.jackingaming.notesquirrel.sandbox.learnlistadapter.ListViewerActivity;
@@ -285,6 +286,14 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent fragmentDVDIntent = new Intent(this, FragmentParentDvdActivity.class);
                 startActivity(fragmentDVDIntent);
+
+                return true;
+            case R.id.menu_communication:
+                //TODO: implement menu_communication
+                Toast.makeText(this, "Learn Internet Communication", Toast.LENGTH_LONG).show();
+
+                Intent communicationIntent = new Intent(this, CommunicationActivity.class);
+                startActivity(communicationIntent);
 
                 return true;
             case R.id.menu_jack_in:
