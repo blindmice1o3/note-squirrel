@@ -1,6 +1,8 @@
 package com.jackingaming.notesquirrel.sandbox.learncommunication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -19,9 +22,12 @@ import java.net.URL;
 
 public class CommunicationActivity extends AppCompatActivity {
 
+    Fragment viewFragment;
     TextView textView;
-    Button buttonLeft;
-    Button buttonDisplayWebsite;
+
+    Fragment controllerFragment;
+    Button buttonFragmentSwapper;
+    Button buttonWebsiteDisplayer;
     StringBuilder sb;
 
     @Override
@@ -30,22 +36,37 @@ public class CommunicationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_communication);
         Log.d(MainActivity.DEBUG_TAG, "CommunicationActivity.onCreate(Bundle)");
 
+        viewFragment = (ViewFragment) getSupportFragmentManager().findFragmentById(R.id.viewFragment);
         textView = (TextView) findViewById(R.id.textView_communication);
-        buttonLeft = (Button) findViewById(R.id.button_left_communication);
-        buttonDisplayWebsite = (Button) findViewById(R.id.button_display_website_communication);
+
+        controllerFragment = (ControllerFragment) getSupportFragmentManager().findFragmentById(R.id.controllerFragment);
+        buttonFragmentSwapper = (Button) findViewById(R.id.button_fragment_swapper_communication);
+        buttonWebsiteDisplayer = (Button) findViewById(R.id.button_website_displayer_communication);
+
         sb = new StringBuilder();
 
-        buttonLeft.setOnClickListener(new View.OnClickListener() {
+        buttonFragmentSwapper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(MainActivity.DEBUG_TAG, "CommunicationActivity.buttonLeft.onClick(View)");
+                Log.d(MainActivity.DEBUG_TAG, "CommunicationActivity.buttonFragmentSwapper.onClick(View)");
+
+                DirectionalPadFragment directionalPadFragment = new DirectionalPadFragment();
+
+                ////////////////////////////////////////////////////////////////////////////////////
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+
+                fragmentTransaction.replace(R.id.viewFragment, directionalPadFragment);
+                fragmentTransaction.addToBackStack(null);
+
+                fragmentTransaction.commit();
+                ////////////////////////////////////////////////////////////////////////////////////
             }
         });
 
-        buttonDisplayWebsite.setOnClickListener(new View.OnClickListener() {
+        buttonWebsiteDisplayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(MainActivity.DEBUG_TAG, "CommunicationActivity.buttonDisplayWebsite.onClick(View)");
+                Log.d(MainActivity.DEBUG_TAG, "CommunicationActivity.buttonWebsiteDisplayer.onClick(View)");
 
                 ////////////////////////////////
                 textView.setText(sb.toString());
