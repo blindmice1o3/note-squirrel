@@ -11,6 +11,7 @@ import android.widget.Button;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.PocketCrittersCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pong.PongCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.PoohFarmerCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.input.ButtonPadFragment;
@@ -19,7 +20,7 @@ import com.jackingaming.notesquirrel.sandbox.learnfragment.FragmentParentDvdActi
 
 public class JackInActivity extends AppCompatActivity {
 
-    public enum CartridgeID { POOH, PONG; }
+    public enum CartridgeID { POOH_FARMER, PONG, POCKET_CRITTERS; }
 
     private Bundle savedInstanceState;
     private CartridgeID cartridgeID;
@@ -51,7 +52,7 @@ public class JackInActivity extends AppCompatActivity {
             }
         });
 
-        cartridgeID = CartridgeID.POOH;
+        cartridgeID = CartridgeID.POOH_FARMER;
         swapGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,11 +111,14 @@ public class JackInActivity extends AppCompatActivity {
         ////////////////////////////////////////////
 
         switch (cartridgeID) {
-            case POOH:
+            case POOH_FARMER:
                 gameCartridge = new PoohFarmerCartridge(this, getResources());
                 break;
             case PONG:
                 gameCartridge = new PongCartridge(this, getResources());
+                break;
+            case POCKET_CRITTERS:
+                gameCartridge = new PocketCrittersCartridge(this, getResources());
                 break;
             default:
                 Log.d(MainActivity.DEBUG_TAG, "JackInActivity.switchGame() switch's default block.");

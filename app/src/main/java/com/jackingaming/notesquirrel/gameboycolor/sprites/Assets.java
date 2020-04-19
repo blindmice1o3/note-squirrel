@@ -25,7 +25,8 @@ public class Assets {
     public static Bitmap[][] gobi;
 
     public static Map<String, Bitmap> dPad;
-    public static Bitmap pokemonWorldMap;
+    public static Bitmap pokemonWorldMapFull;
+    public static Bitmap pokemonWorldMapPart1;
 
     public static void init(Resources resources) {
         Log.d(MainActivity.DEBUG_TAG, "Assets.init(Resources)");
@@ -89,10 +90,12 @@ public class Assets {
         initItems(resources);
         initEntities(resources);
 
+        //TODO: Currently loading this within DirectionalPadFragment and ButtonPadFragment (duplicate).
         initDPad(resources);
 
         //TODO: OutOfMemoryError... Rethink implementation of loading image resources.
-        //initPokemonWorldMap(resources);
+        //TODO: Should only call this when JackInActivity.gameCartridge == POCKET_CRITTERS.
+        initPokemonWorldMap(resources);
     }
 
     private static void initEntities(Resources resources) {
@@ -104,7 +107,17 @@ public class Assets {
 
     private static void initPokemonWorldMap(Resources resources) {
         Log.d(MainActivity.DEBUG_TAG, "Assets.initPokemonWorldMap(Resources)");
-        pokemonWorldMap = BitmapFactory.decodeResource(resources, R.drawable.pokemon_gsc_kanto);
+
+        pokemonWorldMapFull = BitmapFactory.decodeResource(resources, R.drawable.pokemon_gsc_kanto);
+        Log.d(MainActivity.DEBUG_TAG, "Assets.initPokemonWorldMap(Resources)... pokemonWorldMapPart1 is null? " + pokemonWorldMapFull);
+        Log.d(MainActivity.DEBUG_TAG, "Assets.initPokemonWorldMap(Resources)... pokemonWorldMapPart1: " + pokemonWorldMapFull.getWidth() + ", " + pokemonWorldMapFull.getHeight());
+        pokemonWorldMapPart1 = Bitmap.createBitmap(pokemonWorldMapFull, 0, 1664, 1280, 1904);
+        Log.d(MainActivity.DEBUG_TAG, "Assets.initPokemonWorldMap(Resources)... pokemonWorldMapPart1: " + pokemonWorldMapPart1.getWidth() + ", " + pokemonWorldMapPart1.getHeight());
+
+        ///////////////////////////
+        pokemonWorldMapFull = null;
+        ///////////////////////////
+        Log.d(MainActivity.DEBUG_TAG, "Assets.initPokemonWorldMap(Resources)... pokemonWorldMapPart1 is null? " + pokemonWorldMapFull);
     }
 
     private static void initDPad(Resources resources) {
