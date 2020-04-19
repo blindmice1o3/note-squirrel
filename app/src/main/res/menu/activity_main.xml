@@ -21,6 +21,9 @@
         android:id="@+id/menu_fragment_parent_dvd"
         android:title="Learn about Fragment (DVD)" />
     <item
+        android:id="@+id/menu_communication"
+        android:title="Learn Internet Communication" />
+    <item
         android:id="@+id/menu_jack_in"
         android:title="Jack In" />
 </menu>
