@@ -28,7 +28,6 @@ public class CommunicationActivity extends AppCompatActivity {
     Fragment controllerFragment;
     Button buttonFragmentSwapper;
     Button buttonWebsiteDisplayer;
-    StringBuilder sb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +41,6 @@ public class CommunicationActivity extends AppCompatActivity {
         controllerFragment = (ControllerFragment) getSupportFragmentManager().findFragmentById(R.id.controllerFragment);
         buttonFragmentSwapper = (Button) findViewById(R.id.button_fragment_swapper_communication);
         buttonWebsiteDisplayer = (Button) findViewById(R.id.button_website_displayer_communication);
-
-        sb = new StringBuilder();
 
         buttonFragmentSwapper.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,33 +65,41 @@ public class CommunicationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d(MainActivity.DEBUG_TAG, "CommunicationActivity.buttonWebsiteDisplayer.onClick(View)");
 
-                ////////////////////////////////
-                textView.setText(sb.toString());
-                ////////////////////////////////
+                //Don't want to access the internet on the main thread (could lock up the main thread/UI)
+                //Android actually prevent you from doing that... so have to do this on a separate thread.
+                new AsyncTask<Void, Void, String>() {
+                    //Ferocious looking parameterized-class (AsyncTask<Params, Progress, Result>),
+                    //this class lets you pass in parameters into your class, post values to
+                    //indicate progress (which you can get to update your GUI), and
+                    //you can get results as well.
+                    //Cannot use void with lower-case 'V' because void is a primitive-type,
+                    //must use the class Void.
+                    @Override
+                    protected String doInBackground(Void... params) {
+                        try {
+                            //////////////////////
+                            return downloadHTML();
+                            //////////////////////
+                        } catch (Exception e) {
+                            Log.d(MainActivity.DEBUG_TAG, e.toString());
+                            e.printStackTrace();
+                        }
+
+                        return "Can't reach server. Is Internet access enabled?";
+                    }
+
+                    @Override
+                    protected void onPostExecute(String result) {
+                        /////////////////////////
+                        textView.setText(result);
+                        /////////////////////////
+                    }
+                }.execute();
             }
         });
-
-        //Don't want to access the internet on the main thread (could lock up the main thread/UI)
-        //Android actually prevent you from doing that... so have to do this on a separate thread.
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... voids) {
-
-                try {
-                    ///////////////
-                    downloadHTML();
-                    ///////////////
-                } catch (Exception e) {
-                    Log.d(MainActivity.DEBUG_TAG, e.toString());
-                    e.printStackTrace();
-                }
-
-                return null;
-            }
-        }.execute();
     }
 
-    private void downloadHTML() throws Exception {
+    private String downloadHTML() throws Exception {
         URL url = new URL("https://objectionable.net/");
 
         InputStream is = url.openStream();
@@ -102,6 +107,7 @@ public class CommunicationActivity extends AppCompatActivity {
         BufferedReader br = new BufferedReader(isr);
 
         String line = null;
+        StringBuilder sb = new StringBuilder();
         while ((line = br.readLine()) != null) {
             //Log.d(MainActivity.DEBUG_TAG, line);
 
@@ -109,6 +115,8 @@ public class CommunicationActivity extends AppCompatActivity {
             sb.append(line);
             ////////////////
         }
+
+        return sb.toString();
     }
 
 }
