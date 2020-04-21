@@ -60,7 +60,7 @@ public class PocketCrittersCartridge
     }
 
     @Override
-    public void getInputDirectionalPad(DirectionalPadFragment.Direction direction) {
+    public void getInputDirectionalPad() {
 
     }
 

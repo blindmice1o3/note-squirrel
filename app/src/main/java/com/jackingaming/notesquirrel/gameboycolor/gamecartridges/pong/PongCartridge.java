@@ -138,7 +138,7 @@ public class PongCartridge
     }
 
     @Override
-    public void getInputDirectionalPad(DirectionalPadFragment.Direction direction) {
+    public void getInputDirectionalPad() {
         Log.d(MainActivity.DEBUG_TAG, "PongCartridge.onDirectionalPadInput(Direction)");
         //TODO:
     }

@@ -27,7 +27,7 @@ public class InputManager
     private boolean bButton;
 
     private MotionEvent event;
-    private DirectionalPadFragment.Direction inputDirection;
+    //private DirectionalPadFragment.Direction inputDirection;
     private ButtonPadFragment.InputButton inputButton;
 
     public InputManager() {
@@ -76,51 +76,28 @@ public class InputManager
     }
 
     @Override
-    public void onDirectionalPadTouched(DirectionalPadFragment.Direction inputDirection, MotionEvent event) {
+    public void onDirectionalPadTouched(DirectionalPadFragment.Direction inputDirection, boolean isPressed) {
         Log.d(MainActivity.DEBUG_TAG, getClass().toString() + ".onDirectionalPadTouched(DirectionalPadFragment.Direction, MotionEvent)");
-        //////////////////////////////////////////////////////////
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                /////////////////////////////////////
-                pressingDirectionalPad = true;
-                this.inputDirection = inputDirection;
-                /////////////////////////////////////
 
-                //VERTICAL
-                if (inputDirection == DirectionalPadFragment.Direction.UP) {
-                    upDirectionalPad = true;
-                } else if (inputDirection == DirectionalPadFragment.Direction.DOWN) {
-                    downDirectionalPad = true;
-                }
-                //HORIZONTAL
-                if (inputDirection == DirectionalPadFragment.Direction.LEFT) {
-                    leftDirectionalPad = true;
-                } else if (inputDirection == DirectionalPadFragment.Direction.RIGHT) {
-                    rightDirectionalPad = true;
-                }
+        ///////////////////////////////////
+        pressingDirectionalPad = isPressed;
+        ///////////////////////////////////
 
-                break;
-            case MotionEvent.ACTION_UP:
-                /////////////////////////////////////
-                pressingDirectionalPad = false;
-                this.inputDirection = null;
-                /////////////////////////////////////
+        ////////////////////////////
+        upDirectionalPad = false;
+        downDirectionalPad = false;
+        leftDirectionalPad = false;
+        rightDirectionalPad = false;
+        ////////////////////////////
 
-                //VERTICAL
-                if (inputDirection == DirectionalPadFragment.Direction.UP) {
-                    upDirectionalPad = false;
-                } else if (inputDirection == DirectionalPadFragment.Direction.DOWN) {
-                    downDirectionalPad = false;
-                }
-
-                //HORIZONTAL
-                if (inputDirection == DirectionalPadFragment.Direction.LEFT) {
-                    leftDirectionalPad = false;
-                } else if (inputDirection == DirectionalPadFragment.Direction.RIGHT) {
-                    rightDirectionalPad = false;
-                }
-
-                break;
+        if (inputDirection == DirectionalPadFragment.Direction.UP) {
+            upDirectionalPad = isPressed;
+        } else if (inputDirection == DirectionalPadFragment.Direction.DOWN) {
+            downDirectionalPad = isPressed;
+        } else if (inputDirection == DirectionalPadFragment.Direction.LEFT) {
+            leftDirectionalPad = isPressed;
+        } else if (inputDirection == DirectionalPadFragment.Direction.RIGHT) {
+            rightDirectionalPad = isPressed;
         }
 
         //TODO:
@@ -154,10 +131,6 @@ public class InputManager
         return cantPressScreen;
     }
 
-    public boolean isPressingDirectionalPad() {
-        return pressingDirectionalPad;
-    }
-
     public boolean isPressingButtonPad() {
         return pressingButtonPad;
     }
@@ -166,8 +139,8 @@ public class InputManager
         return event;
     }
 
-    public DirectionalPadFragment.Direction getInputDirection() {
-        return inputDirection;
+    public boolean isPressingDirectionalPad() {
+        return pressingDirectionalPad;
     }
 
     public ButtonPadFragment.InputButton getInputButton() {

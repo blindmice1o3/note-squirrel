@@ -143,7 +143,6 @@ public class PoohFarmerCartridge
     @Override
     public void getInputScreen(MotionEvent event) {
         if (inputManager.isJustPressedScreen()) {
-            //HORIZONTAL
             //left
             if (event.getX() < xScreenFirstThird && event.getY() > yScreenFirstThird && event.getY() < yScreenSecondThird) {
                 int xFuture = (int) (player.getxCurrent() - player.getMoveSpeed());
@@ -166,10 +165,8 @@ public class PoohFarmerCartridge
                     gameCamera.moveRight();
                 }
             }
-
-            //VERTICAL
             //up
-            if (event.getY() < yScreenFirstThird && event.getX() > xScreenFirstThird && event.getX() < xScreenSecondThird) {
+            else if (event.getY() < yScreenFirstThird && event.getX() > xScreenFirstThird && event.getX() < xScreenSecondThird) {
                 int yFuture = (int) (player.getyCurrent() - player.getMoveSpeed());
                 int xFutureLeft = (int) (player.getxCurrent());
                 int xFutureRight = (int) (player.getxCurrent() + player.getWidth() - 1);
@@ -190,39 +187,33 @@ public class PoohFarmerCartridge
                     gameCamera.moveDown();
                 }
             }
-
-                /*
-                //bottom-right quadrant on-screen touch event will launch FragmentParentDvdActivity
-                if ((event.getX() > xScreenSecondThird) && (event.getY() > yScreenSecondThird)) {
-                    Log.d(MainActivity.DEBUG_TAG, "PoohFarmerCartridge.onScreenInput(MotionEvent) launch FragmentParentDvdActivity");
-                    Intent fragmentParentDvdIntent = new Intent(context, FragmentParentDvdActivity.class);
-                    context.startActivity(fragmentParentDvdIntent);
-                }
-                */
         }
-
     }
 
-
     @Override
-    public void getInputDirectionalPad(DirectionalPadFragment.Direction direction) {
+    public void getInputDirectionalPad() {
         //TODO: refactor to player.move(direction) and gameCamera.move(direction).
-        //VERTICAL
-        if (inputManager.upDirectionalPad) {
-            player.moveUp();
-            gameCamera.moveUp();
-        } else if (inputManager.downDirectionalPad) {
-            player.moveDown();
-            gameCamera.moveDown();
-        }
-
-        //HORIZONTAL
-        if (inputManager.leftDirectionalPad) {
-            player.moveLeft();
-            gameCamera.moveLeft();
-        } else if (inputManager.rightDirectionalPad) {
-            player.moveRight();
-            gameCamera.moveRight();
+        if (inputManager.isPressingDirectionalPad()) {
+            //up
+            if (inputManager.upDirectionalPad) {
+                player.moveUp();
+                gameCamera.moveUp();
+            }
+            //down
+            else if (inputManager.downDirectionalPad) {
+                player.moveDown();
+                gameCamera.moveDown();
+            }
+            //left
+            else if (inputManager.leftDirectionalPad) {
+                player.moveLeft();
+                gameCamera.moveLeft();
+            }
+            //right
+            else if (inputManager.rightDirectionalPad) {
+                player.moveRight();
+                gameCamera.moveRight();
+            }
         }
     }
 
@@ -252,7 +243,7 @@ public class PoohFarmerCartridge
     public void update(long elapsed) {
         ////////////////////////////////////////////////////
         getInputScreen(inputManager.getEvent());
-        getInputDirectionalPad(inputManager.getInputDirection());
+        getInputDirectionalPad();
         getInputButtonPad(inputManager.getInputButton());
         ////////////////////////////////////////////////////
 

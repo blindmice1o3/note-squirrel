@@ -12,7 +12,7 @@ public interface GameCartridge {
     public void savePresentState();
     public void loadSavedState();
     public void getInputScreen(MotionEvent event);
-    public void getInputDirectionalPad(DirectionalPadFragment.Direction direction);
+    public void getInputDirectionalPad();
     public void getInputButtonPad(ButtonPadFragment.InputButton inputButton);
     public void update(long elapsed);
     public void render();
