@@ -10,6 +10,7 @@ import android.view.SurfaceView;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 
 public class GameView extends SurfaceView
         implements SurfaceHolder.Callback {
@@ -30,22 +31,14 @@ public class GameView extends SurfaceView
         getHolder().addCallback(this);
     }
 
-    /**
-     * System's callback method when the user triggers a touch event.
-     *
-     * @param event The touch event's meta-data (e.g. x and y position
-     *              of the user triggered touch event)
-     */
+/*
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        Log.d(MainActivity.DEBUG_TAG, "GameView.onTouchEvent(MotionEvent)");
-
         gameCartridge.onScreenInput(event);
 
-        // Should return true if you've handled the touch event. If false gets returned,
-        // will NOT check for drag event (can't drag without touch).
         return true;
     }
+*/
 
     /**
      * We don't call this method directly, it's used by the SurfaceHolder.Callback interface.
@@ -80,22 +73,22 @@ public class GameView extends SurfaceView
         /////////////////////////
 
 
-
+        JackInActivity jackInActivity = (JackInActivity) getContext();
         ////////////////////////////////////////////////////////////////////
-        runGameCartridge(((JackInActivity)getContext()).getGameCartridge());
+        runGameCartridge(jackInActivity.getGameCartridge(), jackInActivity.getInputManager());
         ////////////////////////////////////////////////////////////////////
     }
 
-    public void runGameCartridge(GameCartridge gameCartridge) {
+    public void runGameCartridge(GameCartridge gameCartridge, InputManager inputManager) {
         Log.d(MainActivity.DEBUG_TAG, "GameView.runGameCartridge(GameCartridge)");
 
         ///////////////////////////////////
-        this.gameCartridge = gameCartridge;
+        //this.gameCartridge = gameCartridge;
         ///////////////////////////////////
 
-        if (gameCartridge != null) {
+        if ( (gameCartridge != null) && (inputManager != null) ) {
             ///////////////////////////////////////////////////////////////////////
-            gameCartridge.init(holder, sideSquareScreen);
+            gameCartridge.init(holder, sideSquareScreen, inputManager);
             if (((JackInActivity)getContext()).getSavedInstanceState() != null) {
                 Log.d(MainActivity.DEBUG_TAG, "GameView.runGameCartridge(GameCartridge) calling gameCartridge.loadSavedState()");
                 gameCartridge.loadSavedState();
@@ -103,7 +96,7 @@ public class GameView extends SurfaceView
             ///////////////////////////////////////////////////////////////////////
 
             ///////////////////////////////////////
-            runner = new GameRunner(gameCartridge);
+            runner = new GameRunner(gameCartridge, inputManager);
             // Tell the Thread class to go to the "public void run()" method.
             runner.start();
             ///////////////////////////////////////

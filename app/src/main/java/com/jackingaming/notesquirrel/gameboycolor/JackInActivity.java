@@ -16,6 +16,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pong.PongCartri
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.PoohFarmerCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.input.ButtonPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
+import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 import com.jackingaming.notesquirrel.sandbox.learnfragment.FragmentParentDvdActivity;
 
 public class JackInActivity extends AppCompatActivity {
@@ -25,6 +26,7 @@ public class JackInActivity extends AppCompatActivity {
     private Bundle savedInstanceState;
     private CartridgeID cartridgeID;
 
+    private InputManager inputManager;
     private GameCartridge gameCartridge;
 
     @Override
@@ -33,24 +35,20 @@ public class JackInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_jack_in);
         Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreate(Bundle)");
 
+        //////////////////////////////////
+        inputManager = new InputManager();
+        //////////////////////////////////
+
         final GameView gameView = (GameView) findViewById(R.id.gameView);
         DirectionalPadFragment directionalPadFragment = (DirectionalPadFragment) getSupportFragmentManager().findFragmentById(R.id.directionalPadFragment);
         ButtonPadFragment buttonPadFragment = (ButtonPadFragment) getSupportFragmentManager().findFragmentById(R.id.buttonPadFragment);
         Button swapGameButton = (Button) findViewById(R.id.swap_game);
 
-        directionalPadFragment.setOnDirectionalPadTouchListener(new DirectionalPadFragment.OnDirectionalPadTouchListener() {
-            @Override
-            public void onDirectionalPadTouched(DirectionalPadFragment.Direction direction) {
-                gameCartridge.onDirectionalPadInput(direction);
-            }
-        });
+        gameView.setOnTouchListener(inputManager);
+        directionalPadFragment.setOnDirectionalPadTouchListener(inputManager);
+        buttonPadFragment.setOnButtonPadTouchListener(inputManager);
 
-        buttonPadFragment.setOnButtonPadTouchListener(new ButtonPadFragment.OnButtonPadTouchListener() {
-            @Override
-            public void onButtonPadTouched(ButtonPadFragment.InputButton inputButton) {
-                gameCartridge.onButtonPadInput(inputButton);
-            }
-        });
+
 
         cartridgeID = CartridgeID.POOH_FARMER;
         swapGameButton.setOnClickListener(new View.OnClickListener() {
@@ -126,12 +124,17 @@ public class JackInActivity extends AppCompatActivity {
                 break;
         }
 
-        gameView.runGameCartridge(gameCartridge);
+        gameView.runGameCartridge(gameCartridge, inputManager);
     }
 
     public GameCartridge getGameCartridge() {
         Log.d(MainActivity.DEBUG_TAG, "JackInActivity.getGameCartridge()");
         return gameCartridge;
+    }
+
+    public InputManager getInputManager() {
+        Log.d(MainActivity.DEBUG_TAG, "JackInActivity.getInputManager()");
+        return inputManager;
     }
 
     public Bundle getSavedInstanceState() {

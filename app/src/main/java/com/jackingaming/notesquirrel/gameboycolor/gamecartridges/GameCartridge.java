@@ -5,14 +5,15 @@ import android.view.SurfaceHolder;
 
 import com.jackingaming.notesquirrel.gameboycolor.input.ButtonPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
+import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 
 public interface GameCartridge {
-    public void init(SurfaceHolder holder, int sideSquareScreen);
+    public void init(SurfaceHolder holder, int sideSquareScreen, InputManager inputManager);
     public void savePresentState();
     public void loadSavedState();
-    public void onScreenInput(MotionEvent event);
-    public void onDirectionalPadInput(DirectionalPadFragment.Direction direction);
-    public void onButtonPadInput(ButtonPadFragment.InputButton inputButton);
+    public void getInputScreen(MotionEvent event);
+    public void getInputDirectionalPad(DirectionalPadFragment.Direction direction);
+    public void getInputButtonPad(ButtonPadFragment.InputButton inputButton);
     public void update(long elapsed);
     public void render();
 }

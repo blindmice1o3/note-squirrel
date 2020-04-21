@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 
 /**
  * Thread whose responsibility is to update the surface (frame-by-frame).
@@ -29,10 +30,12 @@ public class GameRunner extends Thread {
     public static final int TIME_PER_FRAME = 1000 / FRAMES_PER_SEC;
 
     private GameCartridge gameCartridge;
+    private InputManager inputManager;
     private volatile boolean running = true;
 
-    public GameRunner(GameCartridge gameCartridge) {
+    public GameRunner(GameCartridge gameCartridge, InputManager inputManager) {
         this.gameCartridge = gameCartridge;
+        this.inputManager = inputManager;
     }
 
     @Override
@@ -60,6 +63,7 @@ public class GameRunner extends Thread {
                 //Log.d(MainActivity.DEBUG_TAG, "elapsed: " + elapsed + " | timeCounter: " + timeCounter + " [out of " + TIME_PER_FRAME + "].");
 
                 /////////////////////
+                inputManager.update();
                 gameCartridge.update(elapsed);
                 gameCartridge.render();
                 /////////////////////

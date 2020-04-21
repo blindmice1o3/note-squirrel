@@ -27,7 +27,7 @@ public class ButtonPadFragment extends Fragment {
     ///////////////////////////////////////////////////////////////////
     public enum InputButton { A_BUTTON, B_BUTTON, MENU_BUTTON; }
     public interface OnButtonPadTouchListener {
-        public void onButtonPadTouched(InputButton inputButton);
+        public void onButtonPadTouched(InputButton inputButton, MotionEvent event);
     }
     private OnButtonPadTouchListener onButtonPadTouchListener;
     public void setOnButtonPadTouchListener(OnButtonPadTouchListener onButtonPadTouchListener) {
@@ -88,7 +88,9 @@ public class ButtonPadFragment extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 Log.d(MainActivity.DEBUG_TAG, "menuButtonPad.onTouch()");
                 if (onButtonPadTouchListener != null) {
-                    onButtonPadTouchListener.onButtonPadTouched(InputButton.MENU_BUTTON);
+                    //TODO: Instead of GameCartridge... goto JackInActivity (compose w KeyManager).
+                    //TODO: Pass MotionEvent in as a second parameter.
+                    onButtonPadTouchListener.onButtonPadTouched(InputButton.MENU_BUTTON, event);
                 }
                 return true;
             }
@@ -101,7 +103,7 @@ public class ButtonPadFragment extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 Log.d(MainActivity.DEBUG_TAG, "aButtonPad.onTouch()");
                 if (onButtonPadTouchListener != null) {
-                    onButtonPadTouchListener.onButtonPadTouched(InputButton.A_BUTTON);
+                    onButtonPadTouchListener.onButtonPadTouched(InputButton.A_BUTTON, event);
                 }
                 return true;
             }
@@ -114,7 +116,7 @@ public class ButtonPadFragment extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 Log.d(MainActivity.DEBUG_TAG, "bButtonPad.onTouch()");
                 if (onButtonPadTouchListener != null) {
-                    onButtonPadTouchListener.onButtonPadTouched(InputButton.B_BUTTON);
+                    onButtonPadTouchListener.onButtonPadTouched(InputButton.B_BUTTON, event);
                 }
                 return true;
             }

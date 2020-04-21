@@ -21,6 +21,7 @@ import com.jackingaming.notesquirrel.gameboycolor.input.ButtonPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pong.sprites.Bat;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pong.sprites.Ball;
+import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 
 public class PongCartridge
         implements GameCartridge {
@@ -33,6 +34,8 @@ public class PongCartridge
     private Context context;
     private SurfaceHolder holder;
     private Resources resources;
+    private InputManager inputManager;
+
     private int sideSquareScreen;
 
     private Ball ball;
@@ -54,12 +57,12 @@ public class PongCartridge
     }
 
     @Override
-    public void init(SurfaceHolder holder, int sideSquareScreen) {
+    public void init(SurfaceHolder holder, int sideSquareScreen, InputManager inputManager) {
         Log.d(MainActivity.DEBUG_TAG, "PongCartridge.init()");
 
         this.holder = holder;
         this.sideSquareScreen = sideSquareScreen;
-
+        this.inputManager = inputManager;
 
 
         textPaint = new Paint();
@@ -107,7 +110,7 @@ public class PongCartridge
      *              of the user triggered touch event)
      */
     @Override
-    public void onScreenInput(MotionEvent event) {
+    public void getInputScreen(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             pressing = true;
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -135,13 +138,13 @@ public class PongCartridge
     }
 
     @Override
-    public void onDirectionalPadInput(DirectionalPadFragment.Direction direction) {
+    public void getInputDirectionalPad(DirectionalPadFragment.Direction direction) {
         Log.d(MainActivity.DEBUG_TAG, "PongCartridge.onDirectionalPadInput(Direction)");
         //TODO:
     }
 
     @Override
-    public void onButtonPadInput(ButtonPadFragment.InputButton inputButton) {
+    public void getInputButtonPad(ButtonPadFragment.InputButton inputButton) {
         Log.d(MainActivity.DEBUG_TAG, "PongCartridge.onButtonPadInput(InputButton)");
     }
 

@@ -27,7 +27,7 @@ public class DirectionalPadFragment extends Fragment {
     ///////////////////////////////////////////////////////////////////
     public enum Direction { UP, LEFT, RIGHT, DOWN; }
     public interface OnDirectionalPadTouchListener {
-        public void onDirectionalPadTouched(Direction direction);
+        public void onDirectionalPadTouched(Direction direction, MotionEvent event);
     }
     private OnDirectionalPadTouchListener onDirectionalPadTouchListener;
     public void setOnDirectionalPadTouchListener(OnDirectionalPadTouchListener onDirectionalPadTouchListener) {
@@ -95,7 +95,9 @@ public class DirectionalPadFragment extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 Log.d(MainActivity.DEBUG_TAG, "topCenter.onTouch()");
                 if (onDirectionalPadTouchListener != null) {
-                    onDirectionalPadTouchListener.onDirectionalPadTouched(Direction.UP);
+                    //TODO: Instead of GameCartridge... goto JackInActivity (compose w KeyManager).
+                    //TODO: Pass MotionEvent in as a second parameter.
+                    onDirectionalPadTouchListener.onDirectionalPadTouched(Direction.UP, event);
                 }
                 return true;
             }
@@ -109,7 +111,7 @@ public class DirectionalPadFragment extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 Log.d(MainActivity.DEBUG_TAG, "centerLeft.onTouch()");
                 if (onDirectionalPadTouchListener != null) {
-                    onDirectionalPadTouchListener.onDirectionalPadTouched(Direction.LEFT);
+                    onDirectionalPadTouchListener.onDirectionalPadTouched(Direction.LEFT, event);
                 }
                 return true;
             }
@@ -123,7 +125,7 @@ public class DirectionalPadFragment extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 Log.d(MainActivity.DEBUG_TAG, "centerRight.onTouch()");
                 if (onDirectionalPadTouchListener != null) {
-                    onDirectionalPadTouchListener.onDirectionalPadTouched(Direction.RIGHT);
+                    onDirectionalPadTouchListener.onDirectionalPadTouched(Direction.RIGHT, event);
                 }
                 return true;
             }
@@ -137,7 +139,7 @@ public class DirectionalPadFragment extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 Log.d(MainActivity.DEBUG_TAG, "bottomCenter.onTouch()");
                 if (onDirectionalPadTouchListener != null) {
-                    onDirectionalPadTouchListener.onDirectionalPadTouched(Direction.DOWN);
+                    onDirectionalPadTouchListener.onDirectionalPadTouched(Direction.DOWN, event);
                 }
                 return true;
             }

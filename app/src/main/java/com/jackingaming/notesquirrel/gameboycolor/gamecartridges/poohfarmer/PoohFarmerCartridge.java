@@ -18,6 +18,7 @@ import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.Scene;
+import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles.TileMap;
 import com.jackingaming.notesquirrel.sandbox.learnfragment.FragmentParentDvdActivity;
@@ -30,6 +31,7 @@ public class PoohFarmerCartridge
     private Context context;
     private SurfaceHolder holder;   //used to get Canvas
     private Resources resources;
+    private InputManager inputManager;
 
 
     private int sideSquareScreen;
@@ -59,11 +61,12 @@ public class PoohFarmerCartridge
     }
 
     @Override
-    public void init(SurfaceHolder holder, int sideSquareScreen) {
+    public void init(SurfaceHolder holder, int sideSquareScreen, InputManager inputManager) {
         Log.d(MainActivity.DEBUG_TAG, "PoohFarmerCartridge.init()");
 
         this.holder = holder;
         this.sideSquareScreen = sideSquareScreen;
+        this.inputManager = inputManager;
         Log.d(MainActivity.DEBUG_TAG, "sideSquareScreen: " + sideSquareScreen);
 
 
@@ -138,28 +141,8 @@ public class PoohFarmerCartridge
     }
 
     @Override
-    public void onScreenInput(MotionEvent event) {
-        //////////////////////////////////////////////////////////
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            pressing = true;
-        } else if (event.getAction() == MotionEvent.ACTION_UP) {
-            pressing = false;
-        }
-        //////////////////////////////////////////////////////////
-
-        //////////////////////////////////////////////////////////
-        if (cantPress && !pressing) {
-            cantPress = false;
-        } else if (justPressed) {
-            cantPress = true;
-            justPressed = false;
-        }
-        if (!cantPress && pressing) {
-            justPressed = true;
-        }
-        //////////////////////////////////////////////////////////
-
-        if (justPressed) {
+    public void getInputScreen(MotionEvent event) {
+        if (inputManager.isJustPressedScreen()) {
             //HORIZONTAL
             //left
             if (event.getX() < xScreenFirstThird && event.getY() > yScreenFirstThird && event.getY() < yScreenSecondThird) {
@@ -221,53 +204,63 @@ public class PoohFarmerCartridge
 
 
     @Override
-    public void onDirectionalPadInput(DirectionalPadFragment.Direction direction) {
+    public void getInputDirectionalPad(DirectionalPadFragment.Direction direction) {
         //TODO: refactor to player.move(direction) and gameCamera.move(direction).
-        switch (direction) {
-            case UP:
-                player.moveUp();
-                gameCamera.moveUp();
-                break;
-            case LEFT:
-                player.moveLeft();
-                gameCamera.moveLeft();
-                break;
-            case RIGHT:
-                player.moveRight();
-                gameCamera.moveRight();
-                break;
-            case DOWN:
-                player.moveDown();
-                gameCamera.moveDown();
-                break;
-            default:
-                Log.d(MainActivity.DEBUG_TAG, "PoohFarmerCartridge.onDirectionalPadInput(Direction) switch's default block.");
-                break;
+        if (direction != null) {
+            switch (direction) {
+                case UP:
+                    player.moveUp();
+                    gameCamera.moveUp();
+                    break;
+                case LEFT:
+                    player.moveLeft();
+                    gameCamera.moveLeft();
+                    break;
+                case RIGHT:
+                    player.moveRight();
+                    gameCamera.moveRight();
+                    break;
+                case DOWN:
+                    player.moveDown();
+                    gameCamera.moveDown();
+                    break;
+                default:
+                    Log.d(MainActivity.DEBUG_TAG, "PoohFarmerCartridge.onDirectionalPadInput(Direction) switch's default block.");
+                    break;
+            }
         }
     }
 
     @Override
-    public void onButtonPadInput(ButtonPadFragment.InputButton inputButton) {
-        switch(inputButton) {
-            //menu button will launch FragmentParentDvdActivity
-            case MENU_BUTTON:
-                Log.d(MainActivity.DEBUG_TAG, "menu-button");
-                Intent fragmentParentDvdIntent = new Intent(context, FragmentParentDvdActivity.class);
-                context.startActivity(fragmentParentDvdIntent);
-                break;
-            case A_BUTTON:
-                Log.d(MainActivity.DEBUG_TAG, "a-button");
-                break;
-            case B_BUTTON:
-                Log.d(MainActivity.DEBUG_TAG, "b-button");
-                break;
-            default:
-                Log.d(MainActivity.DEBUG_TAG, "PoohFarmerCartridge.onButtonPadInput(InputButton) switch's default block.");
+    public void getInputButtonPad(ButtonPadFragment.InputButton inputButton) {
+        if (inputButton != null) {
+            switch (inputButton) {
+                //menu button will launch FragmentParentDvdActivity
+                case MENU_BUTTON:
+                    Log.d(MainActivity.DEBUG_TAG, "menu-button");
+                    Intent fragmentParentDvdIntent = new Intent(context, FragmentParentDvdActivity.class);
+                    context.startActivity(fragmentParentDvdIntent);
+                    break;
+                case A_BUTTON:
+                    Log.d(MainActivity.DEBUG_TAG, "a-button");
+                    break;
+                case B_BUTTON:
+                    Log.d(MainActivity.DEBUG_TAG, "b-button");
+                    break;
+                default:
+                    Log.d(MainActivity.DEBUG_TAG, "PoohFarmerCartridge.onButtonPadInput(InputButton) switch's default block.");
+            }
         }
     }
 
     @Override
     public void update(long elapsed) {
+        ////////////////////////////////////////////////////
+        getInputScreen(inputManager.getEvent());
+        getInputDirectionalPad(inputManager.getInputDirection());
+        getInputButtonPad(inputManager.getInputButton());
+        ////////////////////////////////////////////////////
+
         sceneCurrent.update(elapsed);
     }
 

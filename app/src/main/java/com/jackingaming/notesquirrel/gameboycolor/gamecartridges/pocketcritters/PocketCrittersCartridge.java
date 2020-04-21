@@ -14,6 +14,7 @@ import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.input.ButtonPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
+import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
 
 public class PocketCrittersCartridge
@@ -22,6 +23,8 @@ public class PocketCrittersCartridge
     private Context context;
     private Resources resources;
     private SurfaceHolder holder;
+    private InputManager inputManager;
+
     private int sideSquareScreen;
 
     private Bitmap texture;
@@ -32,9 +35,10 @@ public class PocketCrittersCartridge
     }
 
     @Override
-    public void init(SurfaceHolder holder, int sideSquareScreen) {
+    public void init(SurfaceHolder holder, int sideSquareScreen, InputManager inputManager) {
         this.holder = holder;
         this.sideSquareScreen = sideSquareScreen;
+        this.inputManager = inputManager;
 
         this.texture = Assets.pokemonWorldMapPart1;
         Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.init(SurfaceHolder, int)... pokemonWorldMapPart1: " + texture.getWidth() + ", " + texture.getHeight());
@@ -51,17 +55,17 @@ public class PocketCrittersCartridge
     }
 
     @Override
-    public void onScreenInput(MotionEvent event) {
+    public void getInputScreen(MotionEvent event) {
 
     }
 
     @Override
-    public void onDirectionalPadInput(DirectionalPadFragment.Direction direction) {
+    public void getInputDirectionalPad(DirectionalPadFragment.Direction direction) {
 
     }
 
     @Override
-    public void onButtonPadInput(ButtonPadFragment.InputButton inputButton) {
+    public void getInputButtonPad(ButtonPadFragment.InputButton inputButton) {
 
     }
 
