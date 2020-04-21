@@ -22,8 +22,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".sandbox.learncommunication.CommunicationActivity"></activity>
-        <!-- Below is the default path for the android:icon attribute of the above application tag -->
+        <activity android:name=".sandbox.tinkermotionevent.TinkerMotionEventActivity"></activity>
+        <activity android:name=".sandbox.learncommunication.CommunicationActivity" /> <!-- Below is the default path for the android:icon attribute of the above application tag -->
         <!-- android:icon="@mipmap/ic_launcher" -->
         <!-- I changed it to an image of a turtle. -->
         <provider

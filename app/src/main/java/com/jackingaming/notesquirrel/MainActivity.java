@@ -25,6 +25,7 @@ import com.jackingaming.notesquirrel.sandbox.learnlayout.SpriteSheetViewerActivi
 import com.jackingaming.notesquirrel.sandbox.learnfragment.FragmentParentDvdActivity;
 import com.jackingaming.notesquirrel.sandbox.learnlistadapter.ListViewerActivity;
 import com.jackingaming.notesquirrel.sandbox.tileset.TilesetUtilActivity;
+import com.jackingaming.notesquirrel.sandbox.tinkermotionevent.TinkerMotionEventActivity;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -294,6 +295,14 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent communicationIntent = new Intent(this, CommunicationActivity.class);
                 startActivity(communicationIntent);
+
+                return true;
+            case R.id.menu_motion_event:
+                //TODO: implement menu_motion_event
+                Toast.makeText(this, "Tinker Motion Event", Toast.LENGTH_LONG).show();
+
+                Intent tinkerMotionEventIntent = new Intent(this, TinkerMotionEventActivity.class);
+                startActivity(tinkerMotionEventIntent);
 
                 return true;
             case R.id.menu_jack_in:
