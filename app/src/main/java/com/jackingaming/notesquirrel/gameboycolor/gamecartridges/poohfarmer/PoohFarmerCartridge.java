@@ -191,49 +191,44 @@ public class PoohFarmerCartridge
                 }
             }
 
-            /*
-            //bottom-right quadrant on-screen touch event will launch FragmentParentDvdActivity
-            if ((event.getX() > xScreenSecondThird) && (event.getY() > yScreenSecondThird)) {
-                Log.d(MainActivity.DEBUG_TAG, "PoohFarmerCartridge.onScreenInput(MotionEvent) launch FragmentParentDvdActivity");
-                Intent fragmentParentDvdIntent = new Intent(context, FragmentParentDvdActivity.class);
-                context.startActivity(fragmentParentDvdIntent);
-            }
-            */
+                /*
+                //bottom-right quadrant on-screen touch event will launch FragmentParentDvdActivity
+                if ((event.getX() > xScreenSecondThird) && (event.getY() > yScreenSecondThird)) {
+                    Log.d(MainActivity.DEBUG_TAG, "PoohFarmerCartridge.onScreenInput(MotionEvent) launch FragmentParentDvdActivity");
+                    Intent fragmentParentDvdIntent = new Intent(context, FragmentParentDvdActivity.class);
+                    context.startActivity(fragmentParentDvdIntent);
+                }
+                */
         }
+
     }
 
 
     @Override
     public void getInputDirectionalPad(DirectionalPadFragment.Direction direction) {
         //TODO: refactor to player.move(direction) and gameCamera.move(direction).
-        if (direction != null) {
-            switch (direction) {
-                case UP:
-                    player.moveUp();
-                    gameCamera.moveUp();
-                    break;
-                case LEFT:
-                    player.moveLeft();
-                    gameCamera.moveLeft();
-                    break;
-                case RIGHT:
-                    player.moveRight();
-                    gameCamera.moveRight();
-                    break;
-                case DOWN:
-                    player.moveDown();
-                    gameCamera.moveDown();
-                    break;
-                default:
-                    Log.d(MainActivity.DEBUG_TAG, "PoohFarmerCartridge.onDirectionalPadInput(Direction) switch's default block.");
-                    break;
-            }
+        //VERTICAL
+        if (inputManager.upDirectionalPad) {
+            player.moveUp();
+            gameCamera.moveUp();
+        } else if (inputManager.downDirectionalPad) {
+            player.moveDown();
+            gameCamera.moveDown();
+        }
+
+        //HORIZONTAL
+        if (inputManager.leftDirectionalPad) {
+            player.moveLeft();
+            gameCamera.moveLeft();
+        } else if (inputManager.rightDirectionalPad) {
+            player.moveRight();
+            gameCamera.moveRight();
         }
     }
 
     @Override
     public void getInputButtonPad(ButtonPadFragment.InputButton inputButton) {
-        if (inputButton != null) {
+        if (inputManager.isPressingButtonPad()) {
             switch (inputButton) {
                 //menu button will launch FragmentParentDvdActivity
                 case MENU_BUTTON:

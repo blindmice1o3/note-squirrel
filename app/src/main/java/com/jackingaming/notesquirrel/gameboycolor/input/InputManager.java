@@ -16,12 +16,15 @@ public class InputManager
     private boolean cantPressScreen;
 
     private boolean pressingDirectionalPad;
-
-
+    public boolean upDirectionalPad;
+    public boolean downDirectionalPad;
+    public boolean leftDirectionalPad;
+    public boolean rightDirectionalPad;
 
     private boolean pressingButtonPad;
-
-
+    private boolean menuButton;
+    private boolean aButton;
+    private boolean bButton;
 
     private MotionEvent event;
     private DirectionalPadFragment.Direction inputDirection;
@@ -60,19 +63,12 @@ public class InputManager
         //////////////////////////////////////////////////////////
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             pressingScreen = true;
+            this.event = event;
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
             pressingScreen = false;
-        }
-        //////////////////////////////////////////////////////////
-
-        //TODO: on press set to what's below... on de-press set to null.
-        if (pressingScreen) {
-            ///////////////////
-            this.event = event;
-            ///////////////////
-        } else {
             this.event = null;
         }
+        //////////////////////////////////////////////////////////
 
         // Should return true if you've handled the touch event. If false gets returned,
         // will NOT check for drag event (can't drag without touch).
@@ -83,20 +79,48 @@ public class InputManager
     public void onDirectionalPadTouched(DirectionalPadFragment.Direction inputDirection, MotionEvent event) {
         Log.d(MainActivity.DEBUG_TAG, getClass().toString() + ".onDirectionalPadTouched(DirectionalPadFragment.Direction, MotionEvent)");
         //////////////////////////////////////////////////////////
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            pressingDirectionalPad = true;
-        } else if (event.getAction() == MotionEvent.ACTION_UP) {
-            pressingDirectionalPad = false;
-        }
-        //////////////////////////////////////////////////////////
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                /////////////////////////////////////
+                pressingDirectionalPad = true;
+                this.inputDirection = inputDirection;
+                /////////////////////////////////////
 
-        //TODO: on press set to what's below... on de-press set to null.
-        if (pressingDirectionalPad) {
-            ///////////////////////////
-            this.inputDirection = inputDirection;
-            ///////////////////////////
-        } else {
-            this.inputDirection = null;
+                //VERTICAL
+                if (inputDirection == DirectionalPadFragment.Direction.UP) {
+                    upDirectionalPad = true;
+                } else if (inputDirection == DirectionalPadFragment.Direction.DOWN) {
+                    downDirectionalPad = true;
+                }
+                //HORIZONTAL
+                if (inputDirection == DirectionalPadFragment.Direction.LEFT) {
+                    leftDirectionalPad = true;
+                } else if (inputDirection == DirectionalPadFragment.Direction.RIGHT) {
+                    rightDirectionalPad = true;
+                }
+
+                break;
+            case MotionEvent.ACTION_UP:
+                /////////////////////////////////////
+                pressingDirectionalPad = false;
+                this.inputDirection = null;
+                /////////////////////////////////////
+
+                //VERTICAL
+                if (inputDirection == DirectionalPadFragment.Direction.UP) {
+                    upDirectionalPad = false;
+                } else if (inputDirection == DirectionalPadFragment.Direction.DOWN) {
+                    downDirectionalPad = false;
+                }
+
+                //HORIZONTAL
+                if (inputDirection == DirectionalPadFragment.Direction.LEFT) {
+                    leftDirectionalPad = false;
+                } else if (inputDirection == DirectionalPadFragment.Direction.RIGHT) {
+                    rightDirectionalPad = false;
+                }
+
+                break;
         }
 
         //TODO:
@@ -108,19 +132,12 @@ public class InputManager
         //////////////////////////////////////////////////////////
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             pressingButtonPad = true;
+            this.inputButton = inputButton;
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
             pressingButtonPad = false;
-        }
-        //////////////////////////////////////////////////////////
-
-        //TODO: on press set to what's below... on de-press set to null.
-        if (pressingButtonPad) {
-            ///////////////////////////////
-            this.inputButton = inputButton;
-            ///////////////////////////////
-        } else {
             this.inputButton = null;
         }
+        //////////////////////////////////////////////////////////
 
         //TODO:
     }
@@ -135,6 +152,14 @@ public class InputManager
 
     public boolean isCantPressScreen() {
         return cantPressScreen;
+    }
+
+    public boolean isPressingDirectionalPad() {
+        return pressingDirectionalPad;
+    }
+
+    public boolean isPressingButtonPad() {
+        return pressingButtonPad;
     }
 
     public MotionEvent getEvent() {
