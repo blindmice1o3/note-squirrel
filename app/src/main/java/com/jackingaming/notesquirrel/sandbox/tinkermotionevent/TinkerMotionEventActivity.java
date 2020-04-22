@@ -25,6 +25,8 @@ public class TinkerMotionEventActivity extends AppCompatActivity {
                 Log.d(MainActivity.DEBUG_TAG, "TinkerMotionEventActivity.imageView.OnTouchListener...");
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     Log.d(MainActivity.DEBUG_TAG, "TinkerMotionEventActivity MotionEvent.ACTION_DOWN");
+                } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                    Log.d(MainActivity.DEBUG_TAG, "TinkerMotionEventActivity MotionEvent.ACTION_MOVE");
                 } else if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
                     Log.d(MainActivity.DEBUG_TAG, "TinkerMotionEventActivity MotionEvent.ACTION_OUTSIDE");
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {

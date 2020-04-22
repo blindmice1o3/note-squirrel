@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -91,6 +92,9 @@ public class DirectionalPadFragment extends Fragment {
         ImageView topCenter = (ImageView) view.findViewById(R.id.topCenter);
         topCenter.setImageBitmap(dPad.get("up"));
         topCenter.setOnTouchListener(new View.OnTouchListener() {
+
+            private Rect rectBoundsOfView;
+
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Log.d(MainActivity.DEBUG_TAG, "topCenter.onTouch()");
@@ -99,8 +103,18 @@ public class DirectionalPadFragment extends Fragment {
                     //TODO: Pass MotionEvent in as a second parameter.
                     boolean isPressed = true;
 
-                    if ( (event.getAction() == MotionEvent.ACTION_OUTSIDE) ||
-                            (event.getAction() == MotionEvent.ACTION_UP) ) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        rectBoundsOfView = new Rect(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());
+                    }
+                    if (event.getAction() == MotionEvent.ACTION_MOVE) {
+
+                        if( !rectBoundsOfView.contains(
+                                v.getLeft() + (int)event.getX(),
+                                v.getTop() + (int)event.getY()) ) {
+                            isPressed = false;
+                        }
+                    }
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
                         isPressed = false;
                     }
 
@@ -114,14 +128,27 @@ public class DirectionalPadFragment extends Fragment {
         ImageView centerLeft = (ImageView) view.findViewById(R.id.centerLeft);
         centerLeft.setImageBitmap(dPad.get("left"));
         centerLeft.setOnTouchListener(new View.OnTouchListener() {
+
+            private Rect rectBoundsOfView;
+
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Log.d(MainActivity.DEBUG_TAG, "centerLeft.onTouch()");
                 if (onDirectionalPadTouchListener != null) {
                     boolean isPressed = true;
 
-                    if ( (event.getAction() == MotionEvent.ACTION_OUTSIDE) ||
-                            (event.getAction() == MotionEvent.ACTION_UP) ) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        rectBoundsOfView = new Rect(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());
+                    }
+                    if (event.getAction() == MotionEvent.ACTION_MOVE) {
+
+                        if( !rectBoundsOfView.contains(
+                                v.getLeft() + (int)event.getX(),
+                                v.getTop() + (int)event.getY()) ) {
+                            isPressed = false;
+                        }
+                    }
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
                         isPressed = false;
                     }
 
@@ -135,14 +162,27 @@ public class DirectionalPadFragment extends Fragment {
         ImageView centerRight = (ImageView) view.findViewById(R.id.centerRight);
         centerRight.setImageBitmap(dPad.get("right"));
         centerRight.setOnTouchListener(new View.OnTouchListener() {
+
+            private Rect rectBoundsOfView;
+
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Log.d(MainActivity.DEBUG_TAG, "centerRight.onTouch()");
                 if (onDirectionalPadTouchListener != null) {
                     boolean isPressed = true;
 
-                    if ( (event.getAction() == MotionEvent.ACTION_OUTSIDE) ||
-                            (event.getAction() == MotionEvent.ACTION_UP) ) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        rectBoundsOfView = new Rect(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());
+                    }
+                    if (event.getAction() == MotionEvent.ACTION_MOVE) {
+
+                        if( !rectBoundsOfView.contains(
+                                v.getLeft() + (int)event.getX(),
+                                v.getTop() + (int)event.getY()) ) {
+                            isPressed = false;
+                        }
+                    }
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
                         isPressed = false;
                     }
 
@@ -156,14 +196,27 @@ public class DirectionalPadFragment extends Fragment {
         ImageView bottomCenter = (ImageView) view.findViewById(R.id.bottomCenter);
         bottomCenter.setImageBitmap(dPad.get("down"));
         bottomCenter.setOnTouchListener(new View.OnTouchListener() {
+
+            private Rect rectBoundsOfView;
+
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Log.d(MainActivity.DEBUG_TAG, "bottomCenter.onTouch()");
                 if (onDirectionalPadTouchListener != null) {
                     boolean isPressed = true;
 
-                    if ( (event.getAction() == MotionEvent.ACTION_OUTSIDE) ||
-                            (event.getAction() == MotionEvent.ACTION_UP) ) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        rectBoundsOfView = new Rect(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());
+                    }
+                    if (event.getAction() == MotionEvent.ACTION_MOVE) {
+
+                        if( !rectBoundsOfView.contains(
+                                v.getLeft() + (int)event.getX(),
+                                v.getTop() + (int)event.getY()) ) {
+                            isPressed = false;
+                        }
+                    }
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
                         isPressed = false;
                     }
 

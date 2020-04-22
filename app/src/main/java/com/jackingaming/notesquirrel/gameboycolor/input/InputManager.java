@@ -75,6 +75,11 @@ public class InputManager
         return true;
     }
 
+
+    /*
+    GOTO: DirectionalPadFragment.onCreateView()
+    https://stackoverflow.com/questions/6410200/android-detect-if-user-touches-and-drags-out-of-button-region/8069887
+     */
     @Override
     public void onDirectionalPadTouched(DirectionalPadFragment.Direction inputDirection, boolean isPressed) {
         Log.d(MainActivity.DEBUG_TAG, getClass().toString() + ".onDirectionalPadTouched(DirectionalPadFragment.Direction, MotionEvent)");
@@ -82,13 +87,6 @@ public class InputManager
         ///////////////////////////////////
         pressingDirectionalPad = isPressed;
         ///////////////////////////////////
-
-        ////////////////////////////
-        upDirectionalPad = false;
-        downDirectionalPad = false;
-        leftDirectionalPad = false;
-        rightDirectionalPad = false;
-        ////////////////////////////
 
         if (inputDirection == DirectionalPadFragment.Direction.UP) {
             upDirectionalPad = isPressed;
