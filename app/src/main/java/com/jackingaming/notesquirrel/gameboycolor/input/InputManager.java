@@ -35,6 +35,7 @@ public class InputManager
     }
 
     public void update() {
+        //VIEWPORT
         //////////////////////////////////////////////////////////
         if (cantPressScreen && !pressingScreen) {
             cantPressScreen = false;
@@ -46,6 +47,17 @@ public class InputManager
             justPressedScreen = true;
         }
         //////////////////////////////////////////////////////////
+
+        //DIRECTIONAL_PAD
+        if (!pressingDirectionalPad) {
+            upDirectionalPad = false;
+            leftDirectionalPad = false;
+            rightDirectionalPad = false;
+            downDirectionalPad = false;
+        }
+
+        //BUTTON_PAD
+
     }
 
     /**
@@ -88,14 +100,16 @@ public class InputManager
         pressingDirectionalPad = isPressed;
         ///////////////////////////////////
 
-        if (inputDirection == DirectionalPadFragment.Direction.UP) {
-            upDirectionalPad = isPressed;
-        } else if (inputDirection == DirectionalPadFragment.Direction.DOWN) {
-            downDirectionalPad = isPressed;
-        } else if (inputDirection == DirectionalPadFragment.Direction.LEFT) {
-            leftDirectionalPad = isPressed;
-        } else if (inputDirection == DirectionalPadFragment.Direction.RIGHT) {
-            rightDirectionalPad = isPressed;
+        if (inputDirection != null) {
+            if (inputDirection == DirectionalPadFragment.Direction.UP) {
+                upDirectionalPad = isPressed;
+            } else if (inputDirection == DirectionalPadFragment.Direction.DOWN) {
+                downDirectionalPad = isPressed;
+            } else if (inputDirection == DirectionalPadFragment.Direction.LEFT) {
+                leftDirectionalPad = isPressed;
+            } else if (inputDirection == DirectionalPadFragment.Direction.RIGHT) {
+                rightDirectionalPad = isPressed;
+            }
         }
 
         //TODO:
