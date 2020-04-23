@@ -26,8 +26,9 @@ import java.util.Map;
 
 public class DirectionalPadFragment extends Fragment {
 
-    ///////////////////////////////////////////////////////////////////
-    public enum Direction { UP, LEFT, RIGHT, DOWN; }
+    public enum Direction { UP, LEFT, CENTER, RIGHT, DOWN; }
+
+    ////////////////////////////////////////////////////////////////////////////////
     public interface OnDirectionalPadTouchListener {
         public void onDirectionalPadTouched(Direction direction, boolean isPressed);
     }
@@ -35,18 +36,20 @@ public class DirectionalPadFragment extends Fragment {
     public void setOnDirectionalPadTouchListener(OnDirectionalPadTouchListener onDirectionalPadTouchListener) {
         this.onDirectionalPadTouchListener = onDirectionalPadTouchListener;
     }
-    ////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
 
-    private Map<String, Bitmap> dPad;
+    private Map<Direction, Bitmap> texture;
 
     private ImageView imageViewLeft;
     private ImageView imageViewUp;
     private ImageView imageViewRight;
     private ImageView imageViewDown;
+
     private Rect boundsOfLeft;
     private Rect boundsOfUp;
     private Rect boundsOfRight;
     private Rect boundsOfDown;
+
     private ConstraintLayout constraintLayout;
 
     @Override
@@ -62,147 +65,12 @@ public class DirectionalPadFragment extends Fragment {
     }
 
     public void initBounds() {
-        Log.d(MainActivity.DEBUG_TAG, "DirectionalPadFragment.init()");
-
-        Log.d(getClass().getSimpleName(), "imageViewLeft: " + imageViewLeft);
-        Log.d(getClass().getSimpleName(), "imageViewUp: " + imageViewUp);
-        Log.d(getClass().getSimpleName(), "imageViewUp left: " + imageViewUp.getLeft());
-        Log.d(getClass().getSimpleName(), "imageViewUp top: " + imageViewUp.getTop());
-        Log.d(getClass().getSimpleName(), "imageViewUp right: " + imageViewUp.getRight());
-        Log.d(getClass().getSimpleName(), "imageViewUp bottom: " + imageViewUp.getBottom());
-        Log.d(getClass().getSimpleName(), "imageViewRight: " + imageViewRight);
-        Log.d(getClass().getSimpleName(), "imageViewDown: " + imageViewDown);
-
-
-
+        Log.d(MainActivity.DEBUG_TAG, "DirectionalPadFragment.initBounds()");
 
         boundsOfUp = new Rect(imageViewUp.getLeft(), imageViewUp.getTop(), imageViewUp.getRight(), imageViewUp.getBottom());
-        /*
-        imageViewUp.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                Log.d(MainActivity.DEBUG_TAG, "imageViewUp.onTouch()");
-                if (onDirectionalPadTouchListener != null) {
-
-                    boolean isPressed = true;
-
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        //TODO:
-                        //rectBoundsOfView = new Rect(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());
-                    }
-                    if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                        if( !boundsOfUp.contains(
-                                v.getLeft() + (int)event.getX(),
-                                v.getTop() + (int)event.getY()) ) {
-                            isPressed = false;
-                        }
-                    }
-                    if (event.getAction() == MotionEvent.ACTION_UP) {
-                        isPressed = false;
-                    }
-
-                    onDirectionalPadTouchListener.onDirectionalPadTouched(Direction.UP, isPressed);
-                }
-                return true;
-            }
-        });
-        */
-
         boundsOfLeft = new Rect(imageViewLeft.getLeft(), imageViewLeft.getTop(), imageViewLeft.getRight(), imageViewLeft.getBottom());
-        /*
-        imageViewLeft.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                Log.d(MainActivity.DEBUG_TAG, "imageViewLeft.onTouch()");
-                if (onDirectionalPadTouchListener != null) {
-
-                    boolean isPressed = true;
-
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        //rectBoundsOfView = new Rect(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());
-                    }
-                    if (event.getAction() == MotionEvent.ACTION_MOVE) {
-
-                        if( !boundsOfLeft.contains(
-                                v.getLeft() + (int)event.getX(),
-                                v.getTop() + (int)event.getY()) ) {
-                            isPressed = false;
-                        }
-                    }
-                    if (event.getAction() == MotionEvent.ACTION_UP) {
-                        isPressed = false;
-                    }
-
-                    onDirectionalPadTouchListener.onDirectionalPadTouched(Direction.LEFT, isPressed);
-                }
-                return true;
-            }
-        });
-        */
-
         boundsOfRight = new Rect(imageViewRight.getLeft(), imageViewRight.getTop(), imageViewRight.getRight(), imageViewRight.getBottom());
-        /*
-        imageViewRight.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                Log.d(MainActivity.DEBUG_TAG, "imageViewRight.onTouch()");
-                if (onDirectionalPadTouchListener != null) {
-
-                    boolean isPressed = true;
-
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        //rectBoundsOfView = new Rect(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());
-                    }
-                    if (event.getAction() == MotionEvent.ACTION_MOVE) {
-
-                        if( !boundsOfRight.contains(
-                                v.getLeft() + (int)event.getX(),
-                                v.getTop() + (int)event.getY()) ) {
-                            isPressed = false;
-                        }
-                    }
-                    if (event.getAction() == MotionEvent.ACTION_UP) {
-                        isPressed = false;
-                    }
-
-                    onDirectionalPadTouchListener.onDirectionalPadTouched(Direction.RIGHT, isPressed);
-                }
-                return true;
-            }
-        });
-        */
-
         boundsOfDown = new Rect(imageViewDown.getLeft(), imageViewDown.getTop(), imageViewDown.getRight(), imageViewDown.getBottom());
-        /*
-        imageViewDown.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                Log.d(MainActivity.DEBUG_TAG, "imageViewDown.onTouch()");
-                if (onDirectionalPadTouchListener != null) {
-
-                    boolean isPressed = true;
-
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        //rectBoundsOfView = new Rect(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());
-                    }
-                    if (event.getAction() == MotionEvent.ACTION_MOVE) {
-
-                        if( !boundsOfDown.contains(
-                                v.getLeft() + (int)event.getX(),
-                                v.getTop() + (int)event.getY()) ) {
-                            isPressed = false;
-                        }
-                    }
-                    if (event.getAction() == MotionEvent.ACTION_UP) {
-                        isPressed = false;
-                    }
-
-                    onDirectionalPadTouchListener.onDirectionalPadTouched(Direction.DOWN, isPressed);
-                }
-                return true;
-            }
-        });
-        */
 
         Log.d("DirectionalPadFragment", " constraintLayout (LTRB): " + constraintLayout.getLeft() + ", " + constraintLayout.getTop() + ", " + constraintLayout.getRight() + ", " + constraintLayout.getBottom());
 
@@ -212,8 +80,10 @@ public class DirectionalPadFragment extends Fragment {
                 Log.d(MainActivity.DEBUG_TAG, "constraintLayout.onTouch()");
                 if (onDirectionalPadTouchListener != null) {
 
-                    Direction direction = null;
+                    // If this callback is being called, a MotionEvent was triggered...
+                    // MotionEvent event may be: ACTION_DOWN, ACTION_MOVE, or ACTION_UP.
                     boolean isPressed = true;
+                    Direction direction = null;
 
                     Log.d(MainActivity.DEBUG_TAG, "CONSTRAINTLAYOUT ONTOUCHLISTENER v.getLeft(), v.getTop(): " + v.getLeft() + ", " + v.getTop());
                     Log.d(MainActivity.DEBUG_TAG, "boundsOfUp: " + boundsOfUp.left + ", " + boundsOfUp.top + ", " + boundsOfUp.right + ", " + boundsOfUp.bottom);
@@ -221,53 +91,34 @@ public class DirectionalPadFragment extends Fragment {
                     Log.d(MainActivity.DEBUG_TAG, "boundsOfRight: " + boundsOfRight.left + ", " + boundsOfRight.top + ", " + boundsOfRight.right + ", " + boundsOfRight.bottom);
                     Log.d(MainActivity.DEBUG_TAG, "boundsOfDown: " + boundsOfDown.left + ", " + boundsOfDown.top + ", " + boundsOfDown.right + ", " + boundsOfDown.bottom);
 
-                    if (boundsOfUp.contains(
-                            (int) event.getX(),
-                            (int) event.getY())) {
+                    // Determine is the touch event occurred within the bounds of a "button".
+                    // If so, set direction to the corresponding "button", otherwise the
+                    // touch event should NOT count as a "button" press.
+                    if (boundsOfUp.contains( (int) event.getX(), (int) event.getY() )) {
                         direction = Direction.UP;
-                    } else if (boundsOfDown.contains(
-                            (int) event.getX(),
-                            (int) event.getY())) {
+                    } else if (boundsOfDown.contains( (int) event.getX(), (int) event.getY() )) {
                         direction = Direction.DOWN;
-                    } else if (boundsOfLeft.contains(
-                            (int) event.getX(),
-                            (int) event.getY())) {
+                    } else if (boundsOfLeft.contains( (int) event.getX(), (int) event.getY() )) {
                         direction = Direction.LEFT;
-                    } else if (boundsOfRight.contains(
-                            (int) event.getX(),
-                            (int) event.getY())) {
+                    } else if (boundsOfRight.contains( (int) event.getX(), (int) event.getY() )) {
                         direction = Direction.RIGHT;
                     } else {
                         isPressed = false;
                     }
 
+                    // ACTION_UP means a "button" was released, and is NOT a "button" press.
                     if (event.getAction() == MotionEvent.ACTION_UP) {
                         isPressed = false;
                     }
 
-                    /*
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        //TODO:
-                        //rectBoundsOfView = new Rect(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());
-                    }
-                    if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                        if( !boundsOfUp.contains(
-                                v.getLeft() + (int)event.getX(),
-                                v.getTop() + (int)event.getY()) ) {
-                            isPressed = false;
-                        }
-                    }
-                    if (event.getAction() == MotionEvent.ACTION_UP) {
-                        isPressed = false;
-                    }
-                    */
-
+                    // Inform listener/subscriber (InputManager) that a touch event occurred
+                    // and the interpreted results are: (1) direction and (2) isPressed.
                     onDirectionalPadTouchListener.onDirectionalPadTouched(direction, isPressed);
                 }
                 return true;
             }
         });
-
+        Log.d(MainActivity.DEBUG_TAG, "DirectionalPadFragment's ConstraintLayout's OnTouchListener is defined.");
     }
 
     @Nullable
@@ -279,7 +130,7 @@ public class DirectionalPadFragment extends Fragment {
 
         Bitmap source = BitmapFactory.decodeResource(getResources(), R.drawable.d_pad);
 
-        dPad = new HashMap<String, Bitmap>();
+        texture = new HashMap<Direction, Bitmap>();
 
         ///////////////////////////////////////////////////////////////////////
         int currentOrientation = getResources().getConfiguration().orientation;
@@ -292,21 +143,22 @@ public class DirectionalPadFragment extends Fragment {
         ///////////////////////////////////////////////////////////////////////
 
         Bitmap upButton = Bitmap.createBitmap(source, 62, 365, 52, 40);
-        Bitmap scaledUpButton = Bitmap.createScaledBitmap(upButton, upButton.getWidth() * scaleFactor, upButton.getHeight() * scaleFactor, false);
         Bitmap leftButton = Bitmap.createBitmap(source, 22, 405, 40, 52);
-        Bitmap scaledLeftButton = Bitmap.createScaledBitmap(leftButton, leftButton.getWidth() * scaleFactor, leftButton.getHeight() * scaleFactor, false);
         Bitmap centerButton = Bitmap.createBitmap(source, 62, 405, 52, 52);
-        Bitmap scaledCenterButton = Bitmap.createScaledBitmap(centerButton, centerButton.getWidth() * scaleFactor, centerButton.getHeight() * scaleFactor, false);
         Bitmap rightButton = Bitmap.createBitmap(source, 114, 405, 40, 52);
-        Bitmap scaledRightButton = Bitmap.createScaledBitmap(rightButton, rightButton.getWidth() * scaleFactor, rightButton.getHeight() * scaleFactor, false);
         Bitmap downButton = Bitmap.createBitmap(source, 62, 457, 52, 40);
+
+        Bitmap scaledUpButton = Bitmap.createScaledBitmap(upButton, upButton.getWidth() * scaleFactor, upButton.getHeight() * scaleFactor, false);
+        Bitmap scaledLeftButton = Bitmap.createScaledBitmap(leftButton, leftButton.getWidth() * scaleFactor, leftButton.getHeight() * scaleFactor, false);
+        Bitmap scaledCenterButton = Bitmap.createScaledBitmap(centerButton, centerButton.getWidth() * scaleFactor, centerButton.getHeight() * scaleFactor, false);
+        Bitmap scaledRightButton = Bitmap.createScaledBitmap(rightButton, rightButton.getWidth() * scaleFactor, rightButton.getHeight() * scaleFactor, false);
         Bitmap scaledDownButton = Bitmap.createScaledBitmap(downButton, downButton.getWidth() * scaleFactor, downButton.getHeight() * scaleFactor, false);
 
-        dPad.put("up", scaledUpButton);
-        dPad.put("left", scaledLeftButton);
-        dPad.put("center", scaledCenterButton);
-        dPad.put("right", scaledRightButton);
-        dPad.put("down", scaledDownButton);
+        texture.put(Direction.UP, scaledUpButton);
+        texture.put(Direction.LEFT, scaledLeftButton);
+        texture.put(Direction.CENTER, scaledCenterButton);
+        texture.put(Direction.RIGHT, scaledRightButton);
+        texture.put(Direction.DOWN, scaledDownButton);
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////
@@ -317,7 +169,7 @@ public class DirectionalPadFragment extends Fragment {
         ImageView imageViewUpLeft = (ImageView) view.findViewById(R.id.imageViewUpLeft);
         ///////////////////////////////////////////////////////////
         imageViewUp = (ImageView) view.findViewById(R.id.imageViewUp);
-        imageViewUp.setImageBitmap(dPad.get("up"));
+        imageViewUp.setImageBitmap(texture.get(Direction.UP));
         ///////////////////////////////////////////////////////////
         ImageView imageViewUpRight = (ImageView) view.findViewById(R.id.imageViewUpRight);
 
@@ -325,13 +177,13 @@ public class DirectionalPadFragment extends Fragment {
 
         ///////////////////////////////////////////////////////////
         imageViewLeft = (ImageView) view.findViewById(R.id.imageViewLeft);
-        imageViewLeft.setImageBitmap(dPad.get("left"));
+        imageViewLeft.setImageBitmap(texture.get(Direction.LEFT));
         ///////////////////////////////////////////////////////////
         ImageView imageViewCenter = (ImageView) view.findViewById(R.id.imageViewCenter);
-        imageViewCenter.setImageBitmap(dPad.get("center"));
+        imageViewCenter.setImageBitmap(texture.get(Direction.CENTER));
         ///////////////////////////////////////////////////////////
         imageViewRight = (ImageView) view.findViewById(R.id.imageViewRight);
-        imageViewRight.setImageBitmap(dPad.get("right"));
+        imageViewRight.setImageBitmap(texture.get(Direction.RIGHT));
         ///////////////////////////////////////////////////////////
 
 
@@ -339,7 +191,7 @@ public class DirectionalPadFragment extends Fragment {
         ImageView imageViewDownLeft = (ImageView) view.findViewById(R.id.imageViewDownLeft);
         ///////////////////////////////////////////////////////////
         imageViewDown = (ImageView) view.findViewById(R.id.imageViewDown);
-        imageViewDown.setImageBitmap(dPad.get("down"));
+        imageViewDown.setImageBitmap(texture.get(Direction.DOWN));
         ///////////////////////////////////////////////////////////
         ImageView imageViewDownRight = (ImageView) view.findViewById(R.id.imageViewDownRight);
 
