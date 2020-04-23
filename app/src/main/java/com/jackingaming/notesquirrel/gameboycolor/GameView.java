@@ -10,6 +10,7 @@ import android.view.SurfaceView;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 
 public class GameView extends SurfaceView
@@ -46,6 +47,10 @@ public class GameView extends SurfaceView
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         Log.d(MainActivity.DEBUG_TAG, "GameView.surfaceChanged(SurfaceHolder, int, int, int)");
+
+        DirectionalPadFragment directionalPadFragment = (DirectionalPadFragment)
+                ((JackInActivity)getContext()).getSupportFragmentManager().findFragmentById(R.id.directionalPadFragment);
+        directionalPadFragment.initBounds();
     }
 
     /**

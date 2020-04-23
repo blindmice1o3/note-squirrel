@@ -6,84 +6,84 @@
     android:background="#FF0000">
 
     <ImageView
-        android:id="@+id/topLeft"
+        android:id="@+id/imageViewUpLeft"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/centerLeft"
+        app:layout_constraintBottom_toTopOf="@id/imageViewLeft"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/topCenter"
+        app:layout_constraintRight_toLeftOf="@id/imageViewUp"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/topCenter"
+        android:id="@+id/imageViewUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/center"
-        app:layout_constraintLeft_toRightOf="@id/topLeft"
-        app:layout_constraintRight_toLeftOf="@id/topRight"
+        app:layout_constraintBottom_toTopOf="@id/imageViewCenter"
+        app:layout_constraintLeft_toRightOf="@id/imageViewUpLeft"
+        app:layout_constraintRight_toLeftOf="@id/imageViewUpRight"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/topRight"
+        android:id="@+id/imageViewUpRight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/centerRight"
-        app:layout_constraintLeft_toRightOf="@id/topCenter"
+        app:layout_constraintBottom_toTopOf="@id/imageViewRight"
+        app:layout_constraintLeft_toRightOf="@id/imageViewUp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/centerLeft"
+        android:id="@+id/imageViewLeft"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/bottomLeft"
+        app:layout_constraintBottom_toTopOf="@id/imageViewDownLeft"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/center"
-        app:layout_constraintTop_toBottomOf="@id/topLeft" />
+        app:layout_constraintRight_toLeftOf="@id/imageViewCenter"
+        app:layout_constraintTop_toBottomOf="@id/imageViewUpLeft" />
 
     <ImageView
-        android:id="@+id/center"
+        android:id="@+id/imageViewCenter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/bottomCenter"
-        app:layout_constraintLeft_toRightOf="@id/centerLeft"
-        app:layout_constraintRight_toLeftOf="@id/centerRight"
-        app:layout_constraintTop_toBottomOf="@id/topCenter" />
+        app:layout_constraintBottom_toTopOf="@id/imageViewDown"
+        app:layout_constraintLeft_toRightOf="@id/imageViewLeft"
+        app:layout_constraintRight_toLeftOf="@id/imageViewRight"
+        app:layout_constraintTop_toBottomOf="@id/imageViewUp" />
 
     <ImageView
-        android:id="@+id/centerRight"
+        android:id="@+id/imageViewRight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/bottomRight"
-        app:layout_constraintLeft_toRightOf="@id/center"
+        app:layout_constraintBottom_toTopOf="@id/imageViewDownRight"
+        app:layout_constraintLeft_toRightOf="@id/imageViewCenter"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topRight" />
+        app:layout_constraintTop_toBottomOf="@id/imageViewUpRight" />
 
     <ImageView
-        android:id="@+id/bottomLeft"
+        android:id="@+id/imageViewDownLeft"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/bottomCenter"
-        app:layout_constraintTop_toBottomOf="@id/centerLeft" />
+        app:layout_constraintRight_toLeftOf="@id/imageViewDown"
+        app:layout_constraintTop_toBottomOf="@id/imageViewLeft" />
 
     <ImageView
-        android:id="@+id/bottomCenter"
+        android:id="@+id/imageViewDown"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/bottomLeft"
-        app:layout_constraintRight_toLeftOf="@id/bottomRight"
-        app:layout_constraintTop_toBottomOf="@id/center" />
+        app:layout_constraintLeft_toRightOf="@id/imageViewDownLeft"
+        app:layout_constraintRight_toLeftOf="@id/imageViewDownRight"
+        app:layout_constraintTop_toBottomOf="@id/imageViewCenter" />
 
     <ImageView
-        android:id="@+id/bottomRight"
+        android:id="@+id/imageViewDownRight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/bottomCenter"
+        app:layout_constraintLeft_toRightOf="@id/imageViewDown"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/centerRight" />
+        app:layout_constraintTop_toBottomOf="@id/imageViewRight" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
