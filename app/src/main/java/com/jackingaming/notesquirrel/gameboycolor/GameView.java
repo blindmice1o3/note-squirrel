@@ -84,7 +84,6 @@ public class GameView extends SurfaceView
         gameView.requestLayout();
         /////////////////////////
 
-
         JackInActivity jackInActivity = (JackInActivity) getContext();
         ////////////////////////////////////////////////////////////////////
         runGameCartridge(jackInActivity.getGameCartridge(), jackInActivity.getInputManager());

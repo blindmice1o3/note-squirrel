@@ -115,7 +115,7 @@ public class InputManager
             this.event = event;
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
             pressingViewport = false;
-            this.event = null;
+            //this.event = null;
         }
         //////////////////////////////////////////////////////////
 

@@ -10,15 +10,11 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.util.Log;
-import android.view.InputDevice;
-import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.input.ButtonPadFragment;
-import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pong.sprites.Bat;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pong.sprites.Ball;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
@@ -44,10 +40,6 @@ public class PongCartridge
 
     private Paint textPaint;
 
-    private boolean cantPress = false;
-    private boolean justPressed = false;
-    private boolean pressing = false;
-
     //private SoundPool soundPool;
     private MediaPlayer mediaPlayer;
 
@@ -58,7 +50,7 @@ public class PongCartridge
 
     @Override
     public void init(SurfaceHolder holder, int sideSquareScreen, InputManager inputManager) {
-        Log.d(MainActivity.DEBUG_TAG, "PongCartridge.init()");
+        Log.d(MainActivity.DEBUG_TAG, "PongCartridge.init(SurfaceHolder, int, InputManager)");
 
         this.holder = holder;
         this.sideSquareScreen = sideSquareScreen;
@@ -108,27 +100,11 @@ public class PongCartridge
      */
     @Override
     public void getInputViewport() {
-        if (inputManager.getEvent().getAction() == MotionEvent.ACTION_DOWN) {
-            pressing = true;
-        } else if (inputManager.getEvent().getAction() == MotionEvent.ACTION_UP) {
-            pressing = false;
-        }
-
-        if (cantPress && !pressing) {
-            cantPress = false;
-        } else if (justPressed) {
-            cantPress = true;
-            justPressed = false;
-        }
-        if (!cantPress && pressing) {
-            justPressed = true;
-        }
-
         if (state == State.RUNNING) {
             player.setBatPosition(inputManager.getEvent().getY());
         } else {
             //FIXING BUG (unreleased touch WAS immediately reinitializing the game).
-            if (justPressed) {
+            if (inputManager.isJustPressedViewport()) {
                 state = State.RUNNING;
             }
         }
@@ -136,17 +112,20 @@ public class PongCartridge
 
     @Override
     public void getInputDirectionalPad() {
-        Log.d(MainActivity.DEBUG_TAG, "PongCartridge.onDirectionalPadInput(Direction)");
+        Log.d(MainActivity.DEBUG_TAG, "PongCartridge.getInputDirectionalPad()");
         //TODO:
     }
 
     @Override
     public void getInputButtonPad() {
-        Log.d(MainActivity.DEBUG_TAG, "PongCartridge.onButtonPadInput(InputButton)");
+        Log.d(MainActivity.DEBUG_TAG, "PongCartridge.getInputButtonPad()");
+        //TODO:
     }
 
     @Override
     public void update(long elapsed) {
+        getInputViewport();
+
         if (state == State.RUNNING) {
             updateGame(elapsed);
         }
@@ -179,13 +158,13 @@ public class PongCartridge
         ////////////////////////////////////////////////////////////////////////////////////
         //ball moved left passed player
         else if (ball.getScreenRect().left < player.getScreenRect().right) {
-            Log.d(MainActivity.DEBUG_TAG, "LOST");
+            Log.d(MainActivity.DEBUG_TAG, "PongCartridge.updateGame(): LOST");
             state = State.LOST;
             initSpritePositions();
         }
         //ball moved right passed opponent
         else if (ball.getScreenRect().right > opponent.getScreenRect().left) {
-            Log.d(MainActivity.DEBUG_TAG, "WON");
+            Log.d(MainActivity.DEBUG_TAG, "PongCartridge.updateGame(): WON");
             state = State.WON;
             initSpritePositions();
         }
