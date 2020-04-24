@@ -81,8 +81,8 @@ public class PoohFarmerCartridge
         yScreenSecondThird = (int)(2 * ((float)sideSquareScreen / 3));
 
 
-        player = new Player(sideSquareScreen, pixelToScreenRatio);
         gameCamera = new GameCamera();
+        player = new Player(gameCamera, sideSquareScreen, pixelToScreenRatio);
         sceneCurrent = new Scene(sideSquareScreen);
 
 
@@ -151,7 +151,8 @@ public class PoohFarmerCartridge
 
                 if (!sceneCurrent.getTileMap().isSolid(xFuture, yFutureTop) && !sceneCurrent.getTileMap().isSolid(xFuture, yFutureBottom)) {
                     player.moveLeft();
-                    gameCamera.moveLeft();
+                    //gameCamera.moveLeft();
+                    gameCamera.update(0L);
                 }
             }
             //right
@@ -162,7 +163,8 @@ public class PoohFarmerCartridge
 
                 if (!sceneCurrent.getTileMap().isSolid(xFuture, yFutureTop) && !sceneCurrent.getTileMap().isSolid(xFuture, yFutureBottom)) {
                     player.moveRight();
-                    gameCamera.moveRight();
+                    //gameCamera.moveRight();
+                    gameCamera.update(0L);
                 }
             }
             //up
@@ -173,7 +175,8 @@ public class PoohFarmerCartridge
 
                 if (!sceneCurrent.getTileMap().isSolid(xFutureLeft, yFuture) && !sceneCurrent.getTileMap().isSolid(xFutureRight, yFuture)) {
                     player.moveUp();
-                    gameCamera.moveUp();
+                    //gameCamera.moveUp();
+                    gameCamera.update(0L);
                 }
             }
             //down
@@ -184,7 +187,8 @@ public class PoohFarmerCartridge
 
                 if (!sceneCurrent.getTileMap().isSolid(xFutureLeft, yFuture) && !sceneCurrent.getTileMap().isSolid(xFutureRight, yFuture)) {
                     player.moveDown();
-                    gameCamera.moveDown();
+                    //gameCamera.moveDown();
+                    gameCamera.update(0L);
                 }
             }
         }
@@ -197,22 +201,26 @@ public class PoohFarmerCartridge
             //up
             if (inputManager.upDirectionalPad) {
                 player.moveUp();
-                gameCamera.moveUp();
+                //gameCamera.moveUp();
+                gameCamera.update(0L);
             }
             //down
             else if (inputManager.downDirectionalPad) {
                 player.moveDown();
-                gameCamera.moveDown();
+                //gameCamera.moveDown();
+                gameCamera.update(0L);
             }
             //left
             else if (inputManager.leftDirectionalPad) {
                 player.moveLeft();
-                gameCamera.moveLeft();
+                //gameCamera.moveLeft();
+                gameCamera.update(0L);
             }
             //right
             else if (inputManager.rightDirectionalPad) {
                 player.moveRight();
-                gameCamera.moveRight();
+                //gameCamera.moveRight();
+                gameCamera.update(0L);
             }
         }
     }

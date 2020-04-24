@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Animation;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
 
@@ -14,6 +15,7 @@ public class Player extends Entity {
 
     public enum Direction { UP, DOWN, LEFT, RIGHT; }
 
+    private GameCamera gameCamera;
     private int sideSquareScreen;
     private float pixelToScreenRatio;
 
@@ -21,9 +23,10 @@ public class Player extends Entity {
     private Direction direction;
     private float moveSpeed = 4f;
 
-    public Player(int sideSquareScreen, float pixelToScreenRatio) {
+    public Player(GameCamera gameCamera, int sideSquareScreen, float pixelToScreenRatio) {
         super(0f, 0f);
 
+        this.gameCamera = gameCamera;
         this.sideSquareScreen = sideSquareScreen;
         this.pixelToScreenRatio = pixelToScreenRatio;
         direction = Direction.DOWN;
@@ -75,12 +78,19 @@ public class Player extends Entity {
         Bitmap currentFrame = currentAnimationFrame();
 
         Rect bounds = new Rect(0, 0, currentFrame.getWidth(), currentFrame.getHeight());
+
+//        Rect screenRect = new Rect(
+//                (int)(64 * pixelToScreenRatio),
+//                (int)(64 * pixelToScreenRatio),
+//                (int)((64 + width)* pixelToScreenRatio),
+//                (int)((64 + height) * pixelToScreenRatio)
+//        );
+        
         Rect screenRect = new Rect(
-                (int)(64 * pixelToScreenRatio),
-                (int)(64 * pixelToScreenRatio),
-                (int)((64 + width)* pixelToScreenRatio),
-                (int)((64 + height) * pixelToScreenRatio)
-        );
+                (int)( (xCurrent - gameCamera.getX()) * pixelToScreenRatio ),
+                (int)( (yCurrent - gameCamera.getY()) * pixelToScreenRatio ),
+                (int)( ((xCurrent - gameCamera.getX()) + width) * pixelToScreenRatio ),
+                (int)( ((yCurrent - gameCamera.getY()) + height) * pixelToScreenRatio ) );
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         canvas.drawBitmap(currentFrame, bounds, screenRect, null);
