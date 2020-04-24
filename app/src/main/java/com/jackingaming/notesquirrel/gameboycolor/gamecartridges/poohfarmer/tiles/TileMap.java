@@ -3,6 +3,7 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.til
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
+import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
 
 public class TileMap {
@@ -21,20 +22,53 @@ public class TileMap {
     private int widthSceneMax;
     private int heightSceneMax;
 
-    public TileMap() {
-        xSpawnIndex = 4;
-        ySpawnIndex = 4;
+    private JackInActivity.CartridgeID cartridgeID;
 
+    public TileMap(JackInActivity.CartridgeID cartridgeID) {
+        this.cartridgeID = cartridgeID;
+
+        initSpawnPosition();
         initTexture();
         initTiles();
     }
 
+    private void initSpawnPosition() {
+        switch (cartridgeID) {
+            case POOH_FARMER:
+                xSpawnIndex = 4;
+                ySpawnIndex = 4;
+                break;
+            case POCKET_CRITTERS:
+                xSpawnIndex = 69;
+                ySpawnIndex = 103;
+                break;
+        }
+    }
+
     private void initTexture() {
-        //SPRING
-        texture = Assets.hm3Farm[0][0];
+        switch (cartridgeID) {
+            case POOH_FARMER:
+                //SPRING
+                texture = Assets.hm3Farm[0][0];
+                break;
+            case POCKET_CRITTERS:
+                texture = Assets.pokemonWorldMapPart1;
+                break;
+        }
     }
 
     private void initTiles() {
+        switch (cartridgeID) {
+            case POOH_FARMER:
+                initTilesPoohFarmer();
+                break;
+            case POCKET_CRITTERS:
+                initTilesPocketCritters();
+                break;
+        }
+    }
+
+    private void initTilesPoohFarmer() {
         Bitmap rgbTileMap = Assets.rgbTileFarm;
 
         columns = rgbTileMap.getWidth();
@@ -61,6 +95,27 @@ public class TileMap {
                 else if (pixel == Color.BLUE) {
                     tiles[y][x] = TileType.SOLID;
                 }
+            }
+        }
+    }
+
+    private void initTilesPocketCritters() {
+        //NEED TO USE TileSpriteToRGBConverter FROM IntelliJ's PocketCritters TO
+        //GENERATE TileType[][] OF solid AND walkable FOR TILE COLLISION DETECTION.
+
+        columns = texture.getWidth() / TILE_SIZE;
+        rows = texture.getHeight() / TILE_SIZE;
+        widthSceneMax = texture.getWidth();
+        heightSceneMax = texture.getHeight();
+
+        tiles = new TileType[rows][columns];
+
+        for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < columns; x++) {
+
+                //TODO: 2020_04_24 02:15pm
+                tiles[y][x] = TileType.WALKABLE;
+
             }
         }
     }

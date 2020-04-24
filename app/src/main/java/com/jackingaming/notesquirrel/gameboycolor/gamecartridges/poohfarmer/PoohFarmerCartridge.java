@@ -12,7 +12,6 @@ import android.view.SurfaceHolder;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.input.ButtonPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.Scene;
@@ -27,10 +26,10 @@ public class PoohFarmerCartridge
         implements GameCartridge {
 
     private Context context;
-    private SurfaceHolder holder;   //used to get Canvas
     private Resources resources;
-    private InputManager inputManager;
 
+    private SurfaceHolder holder;   //used to get Canvas
+    private InputManager inputManager;
 
     private int sideSquareScreen;
     private int sideSquareGameCameraInPixel;
@@ -49,7 +48,7 @@ public class PoohFarmerCartridge
 
     @Override
     public void init(SurfaceHolder holder, int sideSquareScreen, InputManager inputManager) {
-        Log.d(MainActivity.DEBUG_TAG, "PoohFarmerCartridge.init()");
+        Log.d(MainActivity.DEBUG_TAG, "PoohFarmerCartridge.init(SurfaceHolder, int, InputManager)");
 
         this.holder = holder;
         this.sideSquareScreen = sideSquareScreen;
@@ -63,12 +62,12 @@ public class PoohFarmerCartridge
         Log.d(MainActivity.DEBUG_TAG, "pixelToScreenRatio: " + pixelToScreenRatio);
 
 
+        Assets.init(resources);
+
+
         gameCamera = new GameCamera();
         player = new Player(gameCamera, sideSquareScreen, pixelToScreenRatio);
-        sceneCurrent = new Scene(sideSquareScreen);
-
-
-        Assets.init(resources);
+        sceneCurrent = new Scene(sideSquareScreen, JackInActivity.CartridgeID.POOH_FARMER);
         sceneCurrent.init(player, gameCamera);
     }
 

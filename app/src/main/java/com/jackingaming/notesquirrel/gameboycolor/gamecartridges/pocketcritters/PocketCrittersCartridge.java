@@ -1,33 +1,44 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
 import com.jackingaming.notesquirrel.MainActivity;
+import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.input.ButtonPadFragment;
-import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.Scene;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
+import com.jackingaming.notesquirrel.sandbox.learnfragment.FragmentParentDvdActivity;
 
 public class PocketCrittersCartridge
         implements GameCartridge {
 
     private Context context;
     private Resources resources;
-    private SurfaceHolder holder;
+
+    private SurfaceHolder holder;   //used to get Canvas
     private InputManager inputManager;
 
     private int sideSquareScreen;
+    private int sideSquareGameCameraInPixel;
+    public float pixelToScreenRatio;
 
-    private Bitmap texture;
+
+    private Player player;
+    private GameCamera gameCamera;
+    private Scene sceneCurrent;
+
 
     public PocketCrittersCartridge(Context context, Resources resources) {
         this.context = context;
@@ -36,12 +47,30 @@ public class PocketCrittersCartridge
 
     @Override
     public void init(SurfaceHolder holder, int sideSquareScreen, InputManager inputManager) {
+        Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.init(SurfaceHolder, int, InputManager)");
+
         this.holder = holder;
         this.sideSquareScreen = sideSquareScreen;
         this.inputManager = inputManager;
+        Log.d(MainActivity.DEBUG_TAG, "sideSquareScreen: " + sideSquareScreen);
 
-        this.texture = Assets.pokemonWorldMapPart1;
-        Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.init(SurfaceHolder, int)... pokemonWorldMapPart1: " + texture.getWidth() + ", " + texture.getHeight());
+
+        sideSquareGameCameraInPixel = GameCamera.CLIP_NUMBER_OF_TILES * TileMap.TILE_SIZE;
+        Log.d(MainActivity.DEBUG_TAG, "sideSquareGameCameraInPixel: " + sideSquareGameCameraInPixel);
+        pixelToScreenRatio = ((float)sideSquareScreen) / sideSquareGameCameraInPixel;
+        Log.d(MainActivity.DEBUG_TAG, "pixelToScreenRatio: " + pixelToScreenRatio);
+
+
+        Assets.init(resources);
+
+
+        gameCamera = new GameCamera();
+        player = new Player(gameCamera, sideSquareScreen, pixelToScreenRatio);
+        //TODO: 2020_04_24 11:34am
+        sceneCurrent = new Scene(sideSquareScreen, JackInActivity.CartridgeID.POCKET_CRITTERS);
+        sceneCurrent.init(player, gameCamera);
+//        this.texture = Assets.pokemonWorldMapPart1;
+//        Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.init(SurfaceHolder, int, InputManager)... pokemonWorldMapPart1: " + texture.getWidth() + ", " + texture.getHeight());
     }
 
     @Override
@@ -56,22 +85,77 @@ public class PocketCrittersCartridge
 
     @Override
     public void getInputViewport() {
-
+        if (inputManager.isJustPressedViewport()) {
+            //left
+            if (inputManager.isLeftViewport()) {
+                player.move(Player.Direction.LEFT);
+            }
+            //right
+            else if (inputManager.isRightViewport()) {
+                player.move(Player.Direction.RIGHT);
+            }
+            //up
+            else if (inputManager.isUpViewport()) {
+                player.move(Player.Direction.UP);
+            }
+            //down
+            else if (inputManager.isDownViewport()) {
+                player.move(Player.Direction.DOWN);
+            }
+        }
     }
 
     @Override
     public void getInputDirectionalPad() {
-
+        if (inputManager.isPressingDirectionalPad()) {
+            //up
+            if (inputManager.isUpDirectionalPad()) {
+                player.move(Player.Direction.UP);
+            }
+            //down
+            else if (inputManager.isDownDirectionalPad()) {
+                player.move(Player.Direction.DOWN);
+            }
+            //left
+            else if (inputManager.isLeftDirectionalPad()) {
+                player.move(Player.Direction.LEFT);
+            }
+            //right
+            else if (inputManager.isRightDirectionalPad()) {
+                player.move(Player.Direction.RIGHT);
+            }
+        }
     }
 
     @Override
     public void getInputButtonPad() {
-
+        if (inputManager.isPressingButtonPad()) {
+            //menu button (will launch FragmentParentDvdActivity)
+            if (inputManager.isMenuButtonPad()) {
+                Log.d(MainActivity.DEBUG_TAG, "menu-button");
+                Intent fragmentParentDvdIntent = new Intent(context, FragmentParentDvdActivity.class);
+                context.startActivity(fragmentParentDvdIntent);
+            }
+            //a button
+            else if (inputManager.isaButtonPad()) {
+                Log.d(MainActivity.DEBUG_TAG, "a-button");
+            }
+            //b button
+            else if (inputManager.isbButtonPad()) {
+                Log.d(MainActivity.DEBUG_TAG, "b-button");
+            }
+        }
     }
 
     @Override
     public void update(long elapsed) {
+        ////////////////////////////////////////////////////
+        getInputViewport();
+        getInputDirectionalPad();
+        getInputButtonPad();
+        ////////////////////////////////////////////////////
 
+        sceneCurrent.update(elapsed);
     }
 
     @Override
@@ -86,22 +170,15 @@ public class PocketCrittersCartridge
             canvas.drawColor(Color.WHITE);
 
             //@@@@@@@@@@@@@@@@@@@@@@@@@@
-            //sceneCurrent.render(canvas);
-            //BACKGROUND
-            //gameCamera's coordinates
-            Rect boundsPalletTown = new Rect(960, 1520, 1279, 1792);
-            Rect screenPalletTown = new Rect(0, 0, sideSquareScreen, sideSquareScreen);
-            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-            canvas.drawBitmap(texture, boundsPalletTown, screenPalletTown, null);
-            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-            //FOREGROUND
-            /*
-            for (Entity entity : entities) {
-                entity.render(canvas);
-            }
-            */
+            sceneCurrent.render(canvas);
             //@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+            //gameCamera's coordinates
+//            Rect boundsPalletTown = new Rect(960, 1520, 1279, 1791);
+//            Rect screenPalletTown = new Rect(0, 0, sideSquareScreen, sideSquareScreen);
+//            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//            canvas.drawBitmap(texture, boundsPalletTown, screenPalletTown, null);
+//            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
             //unlock it and post our updated drawing to it.
             ///////////////////////////////////
