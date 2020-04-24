@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Animation;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
 
@@ -20,8 +21,13 @@ public class Player extends Entity {
     private float pixelToScreenRatio;
 
     private Map<Direction, Animation> animation;
+
     private Direction direction;
-    private float moveSpeed = 4f;
+
+    private float moveSpeed;
+    private float xMove;
+    private float yMove;
+    private TileMap tileMap;
 
     public Player(GameCamera gameCamera, int sideSquareScreen, float pixelToScreenRatio) {
         super(0f, 0f);
@@ -29,7 +35,12 @@ public class Player extends Entity {
         this.gameCamera = gameCamera;
         this.sideSquareScreen = sideSquareScreen;
         this.pixelToScreenRatio = pixelToScreenRatio;
+
         direction = Direction.DOWN;
+
+        moveSpeed = 4f;
+        xMove = 0f;
+        yMove = 0f;
     }
 
     @Override
@@ -46,33 +57,88 @@ public class Player extends Entity {
         animation.put(Direction.RIGHT, new Animation(420, Assets.corgiCrusade[3]));
     }
 
-    public void moveLeft() {
-        xCurrent -= moveSpeed;
-        direction = Direction.LEFT;
+    public void move(Direction direction) {
+        this.direction = direction;
+
+        switch (this.direction) {
+            case LEFT:
+                xMove = -moveSpeed;
+                break;
+            case RIGHT:
+                xMove = moveSpeed;
+                break;
+            case UP:
+                yMove = -moveSpeed;
+                break;
+            case DOWN:
+                yMove = moveSpeed;
+                break;
+            default:
+                xMove = 0f;
+                yMove = 0f;
+                break;
+        }
+
+        //TODO: check entity collision with if-statement
+        moveX();    //currently checking tile collisions
+        //TODO: check entity collision with if-statement
+        moveY();    //currently checking tile collisions
     }
 
-    public void moveRight() {
-        xCurrent += moveSpeed;
-        direction = Direction.RIGHT;
+    private void moveX() {
+        //LEFT
+        if (xMove < 0) {
+            int xFuture = (int) (xCurrent + xMove);
+            int yFutureTop = (int) (yCurrent);
+            int yFutureBottom = (int) (yCurrent + height - 1);
+
+            if (!tileMap.isSolid(xFuture, yFutureTop) && !tileMap.isSolid(xFuture, yFutureBottom)) {
+                xCurrent += xMove;
+                gameCamera.update(0L);
+            }
+        }
+        //RIGHT
+        else if (xMove > 0) {
+            int xFuture = (int) ((xCurrent + width) + xMove - 1);
+            int yFutureTop = (int) (yCurrent);
+            int yFutureBottom = (int) (yCurrent + height - 1);
+
+            if (!tileMap.isSolid(xFuture, yFutureTop) && !tileMap.isSolid(xFuture, yFutureBottom)) {
+                xCurrent += xMove;
+                gameCamera.update(0L);
+            }
+        }
     }
 
-    public void moveUp() {
-        yCurrent -= moveSpeed;
-        direction = Direction.UP;
-    }
+    private void moveY() {
+        //UP
+        if (yMove < 0) {
+            int yFuture = (int) (yCurrent + yMove);
+            int xFutureLeft = (int) (xCurrent);
+            int xFutureRight = (int) (xCurrent + width - 1);
 
-    public void moveDown() {
-        yCurrent += moveSpeed;
-        direction = Direction.DOWN;
+            if (!tileMap.isSolid(xFutureLeft, yFuture) && !tileMap.isSolid(xFutureRight, yFuture)) {
+                yCurrent += yMove;
+                gameCamera.update(0L);
+            }
+        }
+        //DOWN
+        else if (yMove > 0) {
+            int yFuture = (int) ((yCurrent + height) + yMove - 1);
+            int xFutureLeft = (int) (xCurrent);
+            int xFutureRight = (int) (xCurrent + width - 1);
+
+            if (!tileMap.isSolid(xFutureLeft, yFuture) && !tileMap.isSolid(xFutureRight, yFuture)) {
+                yCurrent += yMove;
+                gameCamera.update(0L);
+            }
+        }
     }
 
     @Override
     public void update(long elapsed) {
-        //TODO:
-        //getInput();
-
-        //TODO:
-        //move();
+        xMove = 0f;
+        yMove = 0f;
 
         for (Animation anim : animation.values()) {
             anim.update();
@@ -127,13 +193,12 @@ public class Player extends Entity {
         return currentFrame;
     }
 
-    public float getMoveSpeed() {
-        return moveSpeed;
+    public void setTileMap(TileMap tileMap) {
+        this.tileMap = tileMap;
     }
 
     public Direction getDirection() { return direction; }
 
-    public void setDirection(Direction direction) {
-        this.direction = direction;
-    }
+    public void setDirection(Direction direction) { this.direction = direction; }
+
 }

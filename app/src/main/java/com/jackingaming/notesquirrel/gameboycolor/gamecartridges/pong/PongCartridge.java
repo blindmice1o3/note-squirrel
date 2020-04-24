@@ -105,15 +105,12 @@ public class PongCartridge
      * Update the user's bat position.
      * <p>
      * Handle touch events triggered by GameView (custom SurfaceView).
-     *
-     * @param event The touch event's meta-data (e.g. x and y position
-     *              of the user triggered touch event)
      */
     @Override
-    public void getInputScreen(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+    public void getInputViewport() {
+        if (inputManager.getEvent().getAction() == MotionEvent.ACTION_DOWN) {
             pressing = true;
-        } else if (event.getAction() == MotionEvent.ACTION_UP) {
+        } else if (inputManager.getEvent().getAction() == MotionEvent.ACTION_UP) {
             pressing = false;
         }
 
@@ -128,7 +125,7 @@ public class PongCartridge
         }
 
         if (state == State.RUNNING) {
-            player.setBatPosition(event.getY());
+            player.setBatPosition(inputManager.getEvent().getY());
         } else {
             //FIXING BUG (unreleased touch WAS immediately reinitializing the game).
             if (justPressed) {
