@@ -68,6 +68,12 @@ public class Player extends Entity {
 
     @Override
     public void update(long elapsed) {
+        //TODO:
+        //getInput();
+
+        //TODO:
+        //move();
+
         for (Animation anim : animation.values()) {
             anim.update();
         }
@@ -85,7 +91,7 @@ public class Player extends Entity {
 //                (int)((64 + width)* pixelToScreenRatio),
 //                (int)((64 + height) * pixelToScreenRatio)
 //        );
-        
+
         Rect screenRect = new Rect(
                 (int)( (xCurrent - gameCamera.getX()) * pixelToScreenRatio ),
                 (int)( (yCurrent - gameCamera.getY()) * pixelToScreenRatio ),

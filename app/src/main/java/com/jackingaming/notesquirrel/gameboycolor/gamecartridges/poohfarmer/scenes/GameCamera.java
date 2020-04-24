@@ -36,19 +36,6 @@ public class GameCamera {
         doNotMoveOffScreen();
     }
 
-    public void moveLeft() {
-        x -= 4f;
-    }
-    public void moveRight() {
-        x += 4f;
-    }
-    public void moveUp() {
-        y -= 4f;
-    }
-    public void moveDown() {
-        y += 4f;
-    }
-
     private void centerOnEntity() {
         //get entity's xCenter, subtract half of widthClip.
         x = (entity.getxCurrent() + (entity.getWidth() / 2)) - (widthClip / 2);
