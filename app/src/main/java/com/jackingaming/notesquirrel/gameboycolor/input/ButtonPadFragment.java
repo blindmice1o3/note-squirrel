@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.jackingaming.notesquirrel.MainActivity;
@@ -24,18 +26,29 @@ import java.util.Map;
 
 public class ButtonPadFragment extends Fragment {
 
-    ///////////////////////////////////////////////////////////////////
     public enum InputButton { A_BUTTON, B_BUTTON, MENU_BUTTON; }
+
+    ///////////////////////////////////////////////////////////////////////////////
     public interface OnButtonPadTouchListener {
-        public void onButtonPadTouched(InputButton inputButton, MotionEvent event);
+        public void onButtonPadTouched(InputButton inputButton, boolean isPressed);
     }
     private OnButtonPadTouchListener onButtonPadTouchListener;
     public void setOnButtonPadTouchListener(OnButtonPadTouchListener onButtonPadTouchListener) {
         this.onButtonPadTouchListener = onButtonPadTouchListener;
     }
-    ////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////
 
-    private Map<String, Bitmap> buttonPad;
+    private Map<InputButton, Bitmap> texture;
+
+    private ImageView imageViewMenu;
+    private ImageView imageViewA;
+    private ImageView imageViewB;
+
+    private Rect boundsOfMenu;
+    private Rect boundsOfA;
+    private Rect boundsOfB;
+
+    private ConstraintLayout constraintLayout;
 
     @Override
     public void onAttach(Context context) {
@@ -49,6 +62,62 @@ public class ButtonPadFragment extends Fragment {
         Log.d(MainActivity.DEBUG_TAG, "ButtonPadFragment.onCreate(Bundle)");
     }
 
+    public void initBounds() {
+        Log.d(MainActivity.DEBUG_TAG, "ButtonPadFragment.initBounds()");
+
+        boundsOfMenu = new Rect(imageViewMenu.getLeft(), imageViewMenu.getTop(), imageViewMenu.getRight(), imageViewMenu.getBottom());
+        boundsOfA = new Rect(imageViewA.getLeft(), imageViewA.getTop(), imageViewA.getRight(), imageViewA.getBottom());
+        boundsOfB = new Rect(imageViewB.getLeft(), imageViewB.getTop(), imageViewB.getRight(), imageViewB.getBottom());
+
+        Log.d("ButtonPadFragment", " constraintLayout (LTRB): " + constraintLayout.getLeft() + ", " + constraintLayout.getTop() + ", " + constraintLayout.getRight() + ", " + constraintLayout.getBottom());
+
+        constraintLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Log.d(MainActivity.DEBUG_TAG, "constraintLayout.onTouch()");
+                if (onButtonPadTouchListener != null) {
+
+                    // If this callback is being called, a MotionEvent was triggered...
+                    // MotionEvent event may be: ACTION_DOWN, ACTION_MOVE, or ACTION_UP.
+                    boolean isPressed = true;
+                    InputButton inputButton = null;
+
+//                    Log.d(MainActivity.DEBUG_TAG, "CONSTRAINTLAYOUT ONTOUCHLISTENER v.getLeft(), v.getTop(): " + v.getLeft() + ", " + v.getTop());
+//                    Log.d(MainActivity.DEBUG_TAG, "boundsOfMenu: " + boundsOfMenu.left + ", " + boundsOfMenu.top + ", " + boundsOfMenu.right + ", " + boundsOfMenu.bottom);
+//                    Log.d(MainActivity.DEBUG_TAG, "boundsOfA: " + boundsOfA.left + ", " + boundsOfA.top + ", " + boundsOfA.right + ", " + boundsOfA.bottom);
+//                    Log.d(MainActivity.DEBUG_TAG, "boundsOfB: " + boundsOfB.left + ", " + boundsOfB.top + ", " + boundsOfB.right + ", " + boundsOfB.bottom);
+
+                    // Determine if the touch event occurred within the bounds of a "button".
+                    // If so, set inputButton to the corresponding "button", otherwise the
+                    // touch event should NOT count as a "button" press.
+                    if (boundsOfMenu.contains( (int) event.getX(), (int) event.getY() )) {
+                        inputButton = InputButton.MENU_BUTTON;
+                    } else if (boundsOfA.contains( (int) event.getX(), (int) event.getY() )) {
+                        inputButton = InputButton.A_BUTTON;
+                    } else if (boundsOfB.contains( (int) event.getX(), (int) event.getY() )) {
+                        inputButton = InputButton.B_BUTTON;
+                    } else {
+                        isPressed = false;
+                    }
+
+                    // ACTION_UP means a "button" was released, and is NOT a "button" press.
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        isPressed = false;
+                    }
+
+                    // Inform listener/subscriber (InputManager) that a touch event occurred
+                    // and the interpreted results are: (1) inputButton and (2) isPressed.
+                    onButtonPadTouchListener.onButtonPadTouched(inputButton, isPressed);
+                }
+                return true;
+            }
+        });
+
+
+
+        Log.d(MainActivity.DEBUG_TAG, "ButtonPadFragment's ConstraintLayout's OnTouchListener is defined.");
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -58,7 +127,7 @@ public class ButtonPadFragment extends Fragment {
 
         Bitmap source = BitmapFactory.decodeResource(getResources(), R.drawable.d_pad);
 
-        buttonPad = new HashMap<String, Bitmap>();
+        texture = new HashMap<InputButton, Bitmap>();
 
         ///////////////////////////////////////////////////////////////////////
         int currentOrientation = getResources().getConfiguration().orientation;
@@ -71,56 +140,31 @@ public class ButtonPadFragment extends Fragment {
         ///////////////////////////////////////////////////////////////////////
 
         Bitmap menuButton = Bitmap.createBitmap(source, 172, 375, 136, 52);
-        Bitmap scaledMenuButton = Bitmap.createScaledBitmap(menuButton, menuButton.getWidth() * scaleFactor, menuButton.getHeight() * scaleFactor, false);
         Bitmap aButton = Bitmap.createBitmap(source, 172, 435, 64, 52);
-        Bitmap scaledAButton = Bitmap.createScaledBitmap(aButton, aButton.getWidth() * scaleFactor, aButton.getHeight() * scaleFactor, false);
         Bitmap bButton = Bitmap.createBitmap(source, 244, 435, 64, 52);
+
+        Bitmap scaledMenuButton = Bitmap.createScaledBitmap(menuButton, menuButton.getWidth() * scaleFactor, menuButton.getHeight() * scaleFactor, false);
+        Bitmap scaledAButton = Bitmap.createScaledBitmap(aButton, aButton.getWidth() * scaleFactor, aButton.getHeight() * scaleFactor, false);
         Bitmap scaledBButton = Bitmap.createScaledBitmap(bButton, bButton.getWidth() * scaleFactor, bButton.getHeight() * scaleFactor, false);
 
-        buttonPad.put("menu", scaledMenuButton);
-        buttonPad.put("a", scaledAButton);
-        buttonPad.put("b", scaledBButton);
+        texture.put(InputButton.MENU_BUTTON, scaledMenuButton);
+        texture.put(InputButton.A_BUTTON, scaledAButton);
+        texture.put(InputButton.B_BUTTON, scaledBButton);
 
-        ImageView menuButtonPad = (ImageView) view.findViewById(R.id.menu_button_pad);
-        menuButtonPad.setImageBitmap(buttonPad.get("menu"));
-        menuButtonPad.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                Log.d(MainActivity.DEBUG_TAG, "menuButtonPad.onTouch()");
-                if (onButtonPadTouchListener != null) {
-                    //TODO: Instead of GameCartridge... goto JackInActivity (compose w KeyManager).
-                    //TODO: Pass MotionEvent in as a second parameter.
-                    onButtonPadTouchListener.onButtonPadTouched(InputButton.MENU_BUTTON, event);
-                }
-                return true;
-            }
-        });
 
-        ImageView aButtonPad = (ImageView) view.findViewById(R.id.a_button_pad);
-        aButtonPad.setImageBitmap(buttonPad.get("a"));
-        aButtonPad.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                Log.d(MainActivity.DEBUG_TAG, "aButtonPad.onTouch()");
-                if (onButtonPadTouchListener != null) {
-                    onButtonPadTouchListener.onButtonPadTouched(InputButton.A_BUTTON, event);
-                }
-                return true;
-            }
-        });
+        ////////////////////////////////////////////////////////////////////////////////////////
+        constraintLayout = (ConstraintLayout) view.findViewById(R.id.constraintLayoutButtonPad);
+        ////////////////////////////////////////////////////////////////////////////////////////
 
-        ImageView bButtonPad = (ImageView) view.findViewById(R.id.b_button_pad);
-        bButtonPad.setImageBitmap(buttonPad.get("b"));
-        bButtonPad.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                Log.d(MainActivity.DEBUG_TAG, "bButtonPad.onTouch()");
-                if (onButtonPadTouchListener != null) {
-                    onButtonPadTouchListener.onButtonPadTouched(InputButton.B_BUTTON, event);
-                }
-                return true;
-            }
-        });
+
+        imageViewMenu = (ImageView) view.findViewById(R.id.imageViewMenu);
+        imageViewMenu.setImageBitmap(texture.get(InputButton.MENU_BUTTON));
+
+        imageViewA = (ImageView) view.findViewById(R.id.imageViewA);
+        imageViewA.setImageBitmap(texture.get(InputButton.A_BUTTON));
+
+        imageViewB = (ImageView) view.findViewById(R.id.imageViewB);
+        imageViewB.setImageBitmap(texture.get(InputButton.B_BUTTON));
 
         return view;
     }

@@ -85,13 +85,13 @@ public class DirectionalPadFragment extends Fragment {
                     boolean isPressed = true;
                     Direction direction = null;
 
-                    Log.d(MainActivity.DEBUG_TAG, "CONSTRAINTLAYOUT ONTOUCHLISTENER v.getLeft(), v.getTop(): " + v.getLeft() + ", " + v.getTop());
-                    Log.d(MainActivity.DEBUG_TAG, "boundsOfUp: " + boundsOfUp.left + ", " + boundsOfUp.top + ", " + boundsOfUp.right + ", " + boundsOfUp.bottom);
-                    Log.d(MainActivity.DEBUG_TAG, "boundsOfLeft: " + boundsOfLeft.left + ", " + boundsOfLeft.top + ", " + boundsOfLeft.right + ", " + boundsOfLeft.bottom);
-                    Log.d(MainActivity.DEBUG_TAG, "boundsOfRight: " + boundsOfRight.left + ", " + boundsOfRight.top + ", " + boundsOfRight.right + ", " + boundsOfRight.bottom);
-                    Log.d(MainActivity.DEBUG_TAG, "boundsOfDown: " + boundsOfDown.left + ", " + boundsOfDown.top + ", " + boundsOfDown.right + ", " + boundsOfDown.bottom);
+//                    Log.d(MainActivity.DEBUG_TAG, "CONSTRAINTLAYOUT ONTOUCHLISTENER v.getLeft(), v.getTop(): " + v.getLeft() + ", " + v.getTop());
+//                    Log.d(MainActivity.DEBUG_TAG, "boundsOfUp: " + boundsOfUp.left + ", " + boundsOfUp.top + ", " + boundsOfUp.right + ", " + boundsOfUp.bottom);
+//                    Log.d(MainActivity.DEBUG_TAG, "boundsOfLeft: " + boundsOfLeft.left + ", " + boundsOfLeft.top + ", " + boundsOfLeft.right + ", " + boundsOfLeft.bottom);
+//                    Log.d(MainActivity.DEBUG_TAG, "boundsOfRight: " + boundsOfRight.left + ", " + boundsOfRight.top + ", " + boundsOfRight.right + ", " + boundsOfRight.bottom);
+//                    Log.d(MainActivity.DEBUG_TAG, "boundsOfDown: " + boundsOfDown.left + ", " + boundsOfDown.top + ", " + boundsOfDown.right + ", " + boundsOfDown.bottom);
 
-                    // Determine is the touch event occurred within the bounds of a "button".
+                    // Determine if the touch event occurred within the bounds of a "button".
                     // If so, set direction to the corresponding "button", otherwise the
                     // touch event should NOT count as a "button" press.
                     if (boundsOfUp.contains( (int) event.getX(), (int) event.getY() )) {

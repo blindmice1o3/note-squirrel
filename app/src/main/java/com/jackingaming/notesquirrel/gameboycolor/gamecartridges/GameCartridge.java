@@ -11,7 +11,7 @@ public interface GameCartridge {
     public void loadSavedState();
     public void getInputViewport();
     public void getInputDirectionalPad();
-    public void getInputButtonPad(ButtonPadFragment.InputButton inputButton);
+    public void getInputButtonPad();
     public void update(long elapsed);
     public void render();
 }

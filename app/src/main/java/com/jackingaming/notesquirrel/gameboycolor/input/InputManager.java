@@ -40,10 +40,9 @@ public class InputManager
 
     //BUTTON_PAD
     private boolean pressingButtonPad;
-    private ButtonPadFragment.InputButton inputButton;
-    private boolean menuButton;
-    private boolean aButton;
-    private boolean bButton;
+    private boolean menuButtonPad;
+    private boolean aButtonPad;
+    private boolean bButtonPad;
 
 
 
@@ -91,7 +90,11 @@ public class InputManager
         }
 
         //RESET BUTTON_PAD
-
+        if (!pressingButtonPad) {
+            menuButtonPad = false;
+            aButtonPad = false;
+            bButtonPad = false;
+        }
     }
 
     /**
@@ -103,7 +106,7 @@ public class InputManager
      */
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        Log.d(MainActivity.DEBUG_TAG, getClass().toString() + ".onTouch(View, MotionEvent)");
+        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onTouch(View, MotionEvent)");
 
         //////////////////////////////////////////////////////////
         //TODO: " || (event.getAction() == MotionEvent.ACTION_MOVE)"
@@ -145,12 +148,13 @@ public class InputManager
      */
     @Override
     public void onDirectionalPadTouched(DirectionalPadFragment.Direction inputDirection, boolean isPressed) {
-        Log.d(MainActivity.DEBUG_TAG, getClass().toString() + ".onDirectionalPadTouched(DirectionalPadFragment.Direction, MotionEvent)");
+        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onDirectionalPadTouched(DirectionalPadFragment.Direction, MotionEvent)");
 
         ///////////////////////////////////
         pressingDirectionalPad = isPressed;
         ///////////////////////////////////
 
+        //////////////////////////////////////////////////////////////////////////
         if (inputDirection != null) {
             if (inputDirection == DirectionalPadFragment.Direction.UP) {
                 upDirectionalPad = isPressed;
@@ -162,24 +166,28 @@ public class InputManager
                 rightDirectionalPad = isPressed;
             }
         }
-
-        //TODO:
+        //////////////////////////////////////////////////////////////////////////
     }
 
     @Override
-    public void onButtonPadTouched(ButtonPadFragment.InputButton inputButton, MotionEvent event) {
-        Log.d(MainActivity.DEBUG_TAG, getClass().toString() + ".onButtonPadTouched(ButtonPadFragment.InputButton, MotionEvent)");
-        //////////////////////////////////////////////////////////
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            pressingButtonPad = true;
-            this.inputButton = inputButton;
-        } else if (event.getAction() == MotionEvent.ACTION_UP) {
-            pressingButtonPad = false;
-            this.inputButton = null;
-        }
-        //////////////////////////////////////////////////////////
+    public void onButtonPadTouched(ButtonPadFragment.InputButton inputButton, boolean isPressed) {
+        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onButtonPadTouched(ButtonPadFragment.InputButton, MotionEvent)");
 
-        //TODO:
+        //////////////////////////////
+        pressingButtonPad = isPressed;
+        //////////////////////////////
+
+        ////////////////////////////////////////////////////////////////////////
+        if (inputButton != null) {
+            if (inputButton == ButtonPadFragment.InputButton.MENU_BUTTON) {
+                menuButtonPad = isPressed;
+            } else if (inputButton == ButtonPadFragment.InputButton.A_BUTTON) {
+                aButtonPad = isPressed;
+            } else if (inputButton == ButtonPadFragment.InputButton.B_BUTTON) {
+                bButtonPad = isPressed;
+            }
+        }
+        ////////////////////////////////////////////////////////////////////////
     }
 
     public MotionEvent getEvent() {
@@ -238,8 +246,16 @@ public class InputManager
         return pressingButtonPad;
     }
 
-    public ButtonPadFragment.InputButton getInputButton() {
-        return inputButton;
+    public boolean isMenuButtonPad() {
+        return menuButtonPad;
+    }
+
+    public boolean isaButtonPad() {
+        return aButtonPad;
+    }
+
+    public boolean isbButtonPad() {
+        return bButtonPad;
     }
 
 }

@@ -141,7 +141,7 @@ public class PongCartridge
     }
 
     @Override
-    public void getInputButtonPad(ButtonPadFragment.InputButton inputButton) {
+    public void getInputButtonPad() {
         Log.d(MainActivity.DEBUG_TAG, "PongCartridge.onButtonPadInput(InputButton)");
     }
 

@@ -10,6 +10,7 @@ import android.view.SurfaceView;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.input.ButtonPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 
@@ -50,7 +51,13 @@ public class GameView extends SurfaceView
 
         DirectionalPadFragment directionalPadFragment = (DirectionalPadFragment)
                 ((JackInActivity)getContext()).getSupportFragmentManager().findFragmentById(R.id.directionalPadFragment);
+        ButtonPadFragment buttonPadFragment = (ButtonPadFragment)
+                ((JackInActivity)getContext()).getSupportFragmentManager().findFragmentById(R.id.buttonPadFragment);
+
+        ////////////////////////////////////
         directionalPadFragment.initBounds();
+        buttonPadFragment.initBounds();
+        ////////////////////////////////////
     }
 
     /**

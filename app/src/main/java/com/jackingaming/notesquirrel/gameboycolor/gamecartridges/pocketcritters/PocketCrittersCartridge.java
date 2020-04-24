@@ -65,7 +65,7 @@ public class PocketCrittersCartridge
     }
 
     @Override
-    public void getInputButtonPad(ButtonPadFragment.InputButton inputButton) {
+    public void getInputButtonPad() {
 
     }
 

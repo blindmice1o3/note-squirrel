@@ -167,23 +167,21 @@ public class PoohFarmerCartridge
     }
 
     @Override
-    public void getInputButtonPad(ButtonPadFragment.InputButton inputButton) {
+    public void getInputButtonPad() {
         if (inputManager.isPressingButtonPad()) {
-            switch (inputButton) {
-                //menu button will launch FragmentParentDvdActivity
-                case MENU_BUTTON:
-                    Log.d(MainActivity.DEBUG_TAG, "menu-button");
-                    Intent fragmentParentDvdIntent = new Intent(context, FragmentParentDvdActivity.class);
-                    context.startActivity(fragmentParentDvdIntent);
-                    break;
-                case A_BUTTON:
-                    Log.d(MainActivity.DEBUG_TAG, "a-button");
-                    break;
-                case B_BUTTON:
-                    Log.d(MainActivity.DEBUG_TAG, "b-button");
-                    break;
-                default:
-                    Log.d(MainActivity.DEBUG_TAG, "PoohFarmerCartridge.onButtonPadInput(InputButton) switch's default block.");
+            //menu button (will launch FragmentParentDvdActivity)
+            if (inputManager.isMenuButtonPad()) {
+                Log.d(MainActivity.DEBUG_TAG, "menu-button");
+                Intent fragmentParentDvdIntent = new Intent(context, FragmentParentDvdActivity.class);
+                context.startActivity(fragmentParentDvdIntent);
+            }
+            //a button
+            else if (inputManager.isaButtonPad()) {
+                Log.d(MainActivity.DEBUG_TAG, "a-button");
+            }
+            //b button
+            else if (inputManager.isbButtonPad()) {
+                Log.d(MainActivity.DEBUG_TAG, "b-button");
             }
         }
     }
@@ -193,7 +191,7 @@ public class PoohFarmerCartridge
         ////////////////////////////////////////////////////
         getInputViewport();
         getInputDirectionalPad();
-        getInputButtonPad(inputManager.getInputButton());
+        getInputButtonPad();
         ////////////////////////////////////////////////////
 
         sceneCurrent.update(elapsed);
