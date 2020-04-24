@@ -38,6 +38,7 @@ public class Scene {
     private void initEntities(Player player) {
         this.player = player;
         player.init();
+        player.setTileMap(tileMap);
         player.setxCurrent((tileMap.getxSpawnIndex() * TileMap.TILE_SIZE));
         player.setyCurrent((tileMap.getySpawnIndex() * TileMap.TILE_SIZE));
 

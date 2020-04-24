@@ -7,14 +7,12 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.input.ButtonPadFragment;
-import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.Scene;
@@ -44,17 +42,6 @@ public class PoohFarmerCartridge
     private Scene sceneCurrent;
 
 
-    //CURRENTLY, USED TO MOVE PLAYER!!!
-    private int xScreenFirstThird;
-    private int xScreenSecondThird;
-    private int yScreenFirstThird;
-    private int yScreenSecondThird;
-
-
-    private boolean cantPress = false;
-    private boolean justPressed = false;
-    private boolean pressing = false;
-
     public PoohFarmerCartridge(Context context, Resources resources) {
         this.context = context;
         this.resources = resources;
@@ -75,14 +62,9 @@ public class PoohFarmerCartridge
         pixelToScreenRatio = ((float)sideSquareScreen) / sideSquareGameCameraInPixel;
         Log.d(MainActivity.DEBUG_TAG, "pixelToScreenRatio: " + pixelToScreenRatio);
 
-        xScreenFirstThird = (int)((float)sideSquareScreen / 3);
-        xScreenSecondThird = (int)(2 * ((float)sideSquareScreen / 3));
-        yScreenFirstThird = (int)((float)sideSquareScreen / 3);
-        yScreenSecondThird = (int)(2 * ((float)sideSquareScreen / 3));
 
-
-        player = new Player(sideSquareScreen, pixelToScreenRatio);
         gameCamera = new GameCamera();
+        player = new Player(gameCamera, sideSquareScreen, pixelToScreenRatio);
         sceneCurrent = new Scene(sideSquareScreen);
 
 
@@ -141,78 +123,45 @@ public class PoohFarmerCartridge
     }
 
     @Override
-    public void getInputScreen(MotionEvent event) {
-        if (inputManager.isJustPressedScreen()) {
+    public void getInputViewport() {
+        if (inputManager.isJustPressedViewport()) {
             //left
-            if (event.getX() < xScreenFirstThird && event.getY() > yScreenFirstThird && event.getY() < yScreenSecondThird) {
-                int xFuture = (int) (player.getxCurrent() - player.getMoveSpeed());
-                int yFutureTop = (int) (player.getyCurrent());
-                int yFutureBottom = (int) (player.getyCurrent() + player.getHeight() - 1);
-
-                if (!sceneCurrent.getTileMap().isSolid(xFuture, yFutureTop) && !sceneCurrent.getTileMap().isSolid(xFuture, yFutureBottom)) {
-                    player.moveLeft();
-                    gameCamera.moveLeft();
-                }
+            if (inputManager.isLeftViewport()) {
+                player.move(Player.Direction.LEFT);
             }
             //right
-            else if (event.getX() > xScreenSecondThird && event.getY() > yScreenFirstThird && event.getY() < yScreenSecondThird) {
-                int xFuture = (int) ((player.getxCurrent() + player.getWidth()) + player.getMoveSpeed() - 1);
-                int yFutureTop = (int) (player.getyCurrent());
-                int yFutureBottom = (int) (player.getyCurrent() + player.getHeight() - 1);
-
-                if (!sceneCurrent.getTileMap().isSolid(xFuture, yFutureTop) && !sceneCurrent.getTileMap().isSolid(xFuture, yFutureBottom)) {
-                    player.moveRight();
-                    gameCamera.moveRight();
-                }
+            else if (inputManager.isRightViewport()) {
+                player.move(Player.Direction.RIGHT);
             }
             //up
-            else if (event.getY() < yScreenFirstThird && event.getX() > xScreenFirstThird && event.getX() < xScreenSecondThird) {
-                int yFuture = (int) (player.getyCurrent() - player.getMoveSpeed());
-                int xFutureLeft = (int) (player.getxCurrent());
-                int xFutureRight = (int) (player.getxCurrent() + player.getWidth() - 1);
-
-                if (!sceneCurrent.getTileMap().isSolid(xFutureLeft, yFuture) && !sceneCurrent.getTileMap().isSolid(xFutureRight, yFuture)) {
-                    player.moveUp();
-                    gameCamera.moveUp();
-                }
+            else if (inputManager.isUpViewport()) {
+                player.move(Player.Direction.UP);
             }
             //down
-            else if (event.getY() > yScreenSecondThird && event.getX() > xScreenFirstThird && event.getX() < xScreenSecondThird) {
-                int yFuture = (int) ((player.getyCurrent() + player.getHeight()) + player.getMoveSpeed() - 1);
-                int xFutureLeft = (int) (player.getxCurrent());
-                int xFutureRight = (int) (player.getxCurrent() + player.getWidth() - 1);
-
-                if (!sceneCurrent.getTileMap().isSolid(xFutureLeft, yFuture) && !sceneCurrent.getTileMap().isSolid(xFutureRight, yFuture)) {
-                    player.moveDown();
-                    gameCamera.moveDown();
-                }
+            else if (inputManager.isDownViewport()) {
+                player.move(Player.Direction.DOWN);
             }
         }
     }
 
     @Override
     public void getInputDirectionalPad() {
-        //TODO: refactor to player.move(direction) and gameCamera.move(direction).
         if (inputManager.isPressingDirectionalPad()) {
             //up
-            if (inputManager.upDirectionalPad) {
-                player.moveUp();
-                gameCamera.moveUp();
+            if (inputManager.isUpDirectionalPad()) {
+                player.move(Player.Direction.UP);
             }
             //down
-            else if (inputManager.downDirectionalPad) {
-                player.moveDown();
-                gameCamera.moveDown();
+            else if (inputManager.isDownDirectionalPad()) {
+                player.move(Player.Direction.DOWN);
             }
             //left
-            else if (inputManager.leftDirectionalPad) {
-                player.moveLeft();
-                gameCamera.moveLeft();
+            else if (inputManager.isLeftDirectionalPad()) {
+                player.move(Player.Direction.LEFT);
             }
             //right
-            else if (inputManager.rightDirectionalPad) {
-                player.moveRight();
-                gameCamera.moveRight();
+            else if (inputManager.isRightDirectionalPad()) {
+                player.move(Player.Direction.RIGHT);
             }
         }
     }
@@ -242,7 +191,7 @@ public class PoohFarmerCartridge
     @Override
     public void update(long elapsed) {
         ////////////////////////////////////////////////////
-        getInputScreen(inputManager.getEvent());
+        getInputViewport();
         getInputDirectionalPad();
         getInputButtonPad(inputManager.getInputButton());
         ////////////////////////////////////////////////////

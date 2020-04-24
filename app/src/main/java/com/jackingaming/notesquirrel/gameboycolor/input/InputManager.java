@@ -11,52 +11,86 @@ public class InputManager
         DirectionalPadFragment.OnDirectionalPadTouchListener,
         ButtonPadFragment.OnButtonPadTouchListener {
 
-    private boolean pressingScreen;
-    private boolean justPressedScreen;
-    private boolean cantPressScreen;
+    //VIEWPORT
+    private int sideSquareScreen;
+    private int xScreenFirstThird;
+    private int xScreenSecondThird;
+    private int yScreenFirstThird;
+    private int yScreenSecondThird;
 
+    private MotionEvent event;
+    private boolean pressingViewport;
+    private boolean justPressedViewport;
+    private boolean cantPressViewport;
+    private boolean upViewport;
+    private boolean downViewport;
+    private boolean leftViewport;
+    private boolean rightViewport;
+
+
+
+    //DIRECTIONAL_PAD
     private boolean pressingDirectionalPad;
-    public boolean upDirectionalPad;
-    public boolean downDirectionalPad;
-    public boolean leftDirectionalPad;
-    public boolean rightDirectionalPad;
+    private boolean upDirectionalPad;
+    private boolean downDirectionalPad;
+    private boolean leftDirectionalPad;
+    private boolean rightDirectionalPad;
 
+
+
+    //BUTTON_PAD
     private boolean pressingButtonPad;
+    private ButtonPadFragment.InputButton inputButton;
     private boolean menuButton;
     private boolean aButton;
     private boolean bButton;
 
-    private MotionEvent event;
-    //private DirectionalPadFragment.Direction inputDirection;
-    private ButtonPadFragment.InputButton inputButton;
+
 
     public InputManager() {
 
     }
 
+    public void init(int sideSquareScreen) {
+        this.sideSquareScreen = sideSquareScreen;
+
+        xScreenFirstThird = (int)((float)sideSquareScreen / 3);
+        xScreenSecondThird = (int)(2 * ((float)sideSquareScreen / 3));
+        yScreenFirstThird = (int)((float)sideSquareScreen / 3);
+        yScreenSecondThird = (int)(2 * ((float)sideSquareScreen / 3));
+    }
+
     public void update() {
         //VIEWPORT
         //////////////////////////////////////////////////////////
-        if (cantPressScreen && !pressingScreen) {
-            cantPressScreen = false;
-        } else if (justPressedScreen) {
-            cantPressScreen = true;
-            justPressedScreen = false;
+        if (cantPressViewport && !pressingViewport) {
+            cantPressViewport = false;
+        } else if (justPressedViewport) {
+            cantPressViewport = true;
+            justPressedViewport = false;
         }
-        if (!cantPressScreen && pressingScreen) {
-            justPressedScreen = true;
+        if (!cantPressViewport && pressingViewport) {
+            justPressedViewport = true;
         }
         //////////////////////////////////////////////////////////
 
-        //DIRECTIONAL_PAD
-        if (!pressingDirectionalPad) {
-            upDirectionalPad = false;
-            leftDirectionalPad = false;
-            rightDirectionalPad = false;
-            downDirectionalPad = false;
+        //RESET VIEWPORT
+        if (!pressingViewport) {
+            upViewport = false;
+            downViewport = false;
+            leftViewport = false;
+            rightViewport = false;
         }
 
-        //BUTTON_PAD
+        //RESET DIRECTIONAL_PAD
+        if (!pressingDirectionalPad) {
+            upDirectionalPad = false;
+            downDirectionalPad = false;
+            leftDirectionalPad = false;
+            rightDirectionalPad = false;
+        }
+
+        //RESET BUTTON_PAD
 
     }
 
@@ -70,17 +104,34 @@ public class InputManager
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         Log.d(MainActivity.DEBUG_TAG, getClass().toString() + ".onTouch(View, MotionEvent)");
-        Log.d(MainActivity.DEBUG_TAG, getClass().toString() + ".onTouch(View, MotionEvent)... View v == " + v.toString());
 
         //////////////////////////////////////////////////////////
+        //TODO: " || (event.getAction() == MotionEvent.ACTION_MOVE)"
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            pressingScreen = true;
+            pressingViewport = true;
             this.event = event;
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
-            pressingScreen = false;
+            pressingViewport = false;
             this.event = null;
         }
         //////////////////////////////////////////////////////////
+
+        //left
+        if (event.getX() < xScreenFirstThird && event.getY() > yScreenFirstThird && event.getY() < yScreenSecondThird) {
+            leftViewport = true;
+        }
+        //right
+        else if (event.getX() > xScreenSecondThird && event.getY() > yScreenFirstThird && event.getY() < yScreenSecondThird) {
+            rightViewport = true;
+        }
+        //up
+        else if (event.getY() < yScreenFirstThird && event.getX() > xScreenFirstThird && event.getX() < xScreenSecondThird) {
+            upViewport = true;
+        }
+        //down
+        else if (event.getY() > yScreenSecondThird && event.getX() > xScreenFirstThird && event.getX() < xScreenSecondThird) {
+           downViewport = true;
+        }
 
         // Should return true if you've handled the touch event. If false gets returned,
         // will NOT check for drag event (can't drag without touch).
@@ -131,28 +182,60 @@ public class InputManager
         //TODO:
     }
 
-    public boolean isPressingScreen() {
-        return pressingScreen;
-    }
-
-    public boolean isJustPressedScreen() {
-        return justPressedScreen;
-    }
-
-    public boolean isCantPressScreen() {
-        return cantPressScreen;
-    }
-
-    public boolean isPressingButtonPad() {
-        return pressingButtonPad;
-    }
-
     public MotionEvent getEvent() {
         return event;
     }
 
+    public boolean isPressingViewport() {
+        return pressingViewport;
+    }
+
+    public boolean isJustPressedViewport() {
+        return justPressedViewport;
+    }
+
+    public boolean isCantPressViewport() {
+        return cantPressViewport;
+    }
+
+    public boolean isUpViewport() {
+        return upViewport;
+    }
+
+    public boolean isDownViewport() {
+        return downViewport;
+    }
+
+    public boolean isLeftViewport() {
+        return leftViewport;
+    }
+
+    public boolean isRightViewport() {
+        return rightViewport;
+    }
+
     public boolean isPressingDirectionalPad() {
         return pressingDirectionalPad;
+    }
+
+    public boolean isUpDirectionalPad() {
+        return upDirectionalPad;
+    }
+
+    public boolean isDownDirectionalPad() {
+        return downDirectionalPad;
+    }
+
+    public boolean isLeftDirectionalPad() {
+        return leftDirectionalPad;
+    }
+
+    public boolean isRightDirectionalPad() {
+        return rightDirectionalPad;
+    }
+
+    public boolean isPressingButtonPad() {
+        return pressingButtonPad;
     }
 
     public ButtonPadFragment.InputButton getInputButton() {

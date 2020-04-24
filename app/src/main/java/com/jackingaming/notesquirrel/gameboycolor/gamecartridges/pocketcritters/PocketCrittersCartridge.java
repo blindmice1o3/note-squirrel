@@ -55,7 +55,7 @@ public class PocketCrittersCartridge
     }
 
     @Override
-    public void getInputScreen(MotionEvent event) {
+    public void getInputViewport() {
 
     }
 
