@@ -3,10 +3,8 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
@@ -67,7 +65,7 @@ public class PocketCrittersCartridge
         gameCamera = new GameCamera();
         player = new Player(gameCamera, sideSquareScreen, pixelToScreenRatio);
         //TODO: 2020_04_24 11:34am
-        sceneCurrent = new Scene(sideSquareScreen, JackInActivity.CartridgeID.POCKET_CRITTERS);
+        sceneCurrent = new Scene(context, sideSquareScreen, JackInActivity.CartridgeID.POCKET_CRITTERS);
         sceneCurrent.init(player, gameCamera);
 //        this.texture = Assets.pokemonWorldMapPart1;
 //        Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.init(SurfaceHolder, int, InputManager)... pokemonWorldMapPart1: " + texture.getWidth() + ", " + texture.getHeight());

@@ -1,8 +1,7 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes;
 
+import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Rect;
 
 import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
@@ -17,6 +16,7 @@ public class Scene {
 
     public enum SceneId { FARM, HOME; }
 
+    private Context context;
     private int sideSquareScreen;
 
     private TileMap tileMap;
@@ -26,7 +26,8 @@ public class Scene {
 
     private JackInActivity.CartridgeID cartridgeID;
 
-    public Scene(int sideSquareScreen, JackInActivity.CartridgeID cartridgeID) {
+    public Scene(Context context, int sideSquareScreen, JackInActivity.CartridgeID cartridgeID) {
+        this.context = context;
         this.sideSquareScreen = sideSquareScreen;
         this.cartridgeID = cartridgeID;
     }
@@ -38,7 +39,7 @@ public class Scene {
     }
 
     private void initTileMap() {
-        tileMap = new TileMap(cartridgeID);
+        tileMap = new TileMap(context, cartridgeID);
     }
 
     private void initEntities(Player player) {

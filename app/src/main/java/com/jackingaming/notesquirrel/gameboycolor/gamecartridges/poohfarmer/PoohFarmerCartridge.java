@@ -67,7 +67,7 @@ public class PoohFarmerCartridge
 
         gameCamera = new GameCamera();
         player = new Player(gameCamera, sideSquareScreen, pixelToScreenRatio);
-        sceneCurrent = new Scene(sideSquareScreen, JackInActivity.CartridgeID.POOH_FARMER);
+        sceneCurrent = new Scene(context, sideSquareScreen, JackInActivity.CartridgeID.POOH_FARMER);
         sceneCurrent.init(player, gameCamera);
     }
 

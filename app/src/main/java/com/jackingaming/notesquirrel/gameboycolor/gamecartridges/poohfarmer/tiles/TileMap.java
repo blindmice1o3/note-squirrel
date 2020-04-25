@@ -1,22 +1,29 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.service.quicksettings.Tile;
 import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
+import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
 
-import java.io.File;
-import java.io.FileWriter;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class TileMap {
 
     public enum TileType { SOLID, WALKABLE, SIGN_POST, TRANSFER_POINT; }
     public static final int TILE_SIZE = 16;
+
+    Context context;
 
     private Bitmap texture;
     private TileType[][] tiles;
@@ -31,7 +38,8 @@ public class TileMap {
 
     private JackInActivity.CartridgeID cartridgeID;
 
-    public TileMap(JackInActivity.CartridgeID cartridgeID) {
+    public TileMap(Context context, JackInActivity.CartridgeID cartridgeID) {
+        this.context = context;
         this.cartridgeID = cartridgeID;
 
         initSpawnPosition();
@@ -78,13 +86,13 @@ public class TileMap {
     private void initTilesPoohFarmer() {
         Bitmap rgbTileMap = Assets.rgbTileFarm;
 
-        columns = rgbTileMap.getWidth();
-        rows = rgbTileMap.getHeight();
-        widthSceneMax = columns * TILE_SIZE;
-        heightSceneMax = rows * TILE_SIZE;
+        columns = rgbTileMap.getWidth();        //Always need.
+        rows = rgbTileMap.getHeight();          //Always need.
+        widthSceneMax = columns * TILE_SIZE;    //Always need.
+        heightSceneMax = rows * TILE_SIZE;      //Always need.
+        tiles = new TileType[rows][columns];    //Always need.
 
-        tiles = new TileType[rows][columns];
-
+        //DEFINE EACH ELEMENT.
         for (int y = 0; y < rows; y++) {
             for (int x = 0; x < columns; x++) {
                 int pixel = rgbTileMap.getPixel(x, y);
@@ -108,80 +116,46 @@ public class TileMap {
 
     private TileSpriteToRGBConverter tileSpriteToRGBConverter;
     private void initTilesPocketCritters() {
-        //TODO: 2020_04_24 02:15pm
+        //CROPPED world map.
+        columns = texture.getWidth() / TILE_SIZE;   //Always need.
+        rows = texture.getHeight() / TILE_SIZE;     //Always need.
+        widthSceneMax = texture.getWidth();         //Always need.
+        heightSceneMax = texture.getHeight();       //Always need.
+        tiles = new TileType[rows][columns];        //Always need.
 
-        columns = texture.getWidth() / TILE_SIZE;
-        rows = texture.getHeight() / TILE_SIZE;
-        widthSceneMax = texture.getWidth();
-        heightSceneMax = texture.getHeight();
+        //TODO: Instead of parsing the world map image for each run, create something similar to rgbTileFarm.
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        //text-file of the FULL world map stored as String.
+        int resId = R.raw.tiles_world_map;
+
+        //FULL world map.
+        String stringOfTiles = TileMapMaker.loadFileAsString(context, resId);
+        TileType[][] fullWorldMap = TileMapMaker.convertStringToTiles(stringOfTiles);
+
+        //DEFINE EACH ELEMENT. (NEED TO CROP TO PROPER SIZE)
+        int yStartIndex = 104;
+        for (int y = yStartIndex; y < 223; y++) {
+            tiles[y - yStartIndex] = Arrays.copyOfRange(fullWorldMap[y], 0, 81);
+        }
+        ////////////////////////////////////////////////////////////////////////////////////////////
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
         ///////////////////////////////////////////////////////////////////////////
         //NEED TO USE TileSpriteToRGBConverter FROM IntelliJ's PocketCritters TO
         //GENERATE TileType[][] OF solid AND walkable FOR TILE COLLISION DETECTION.
         ///////////////////////////////////////////////////////////////////////////
-
-        tileSpriteToRGBConverter = new TileSpriteToRGBConverter();
-
-        ArrayList<Bitmap> nonWalkableTileSpriteTargets = initNonWalkableTileSpriteTargets();
-        ArrayList<Bitmap> walkableTileSpriteTargets = initWalkableTileSpriteTargets();
-
-        tiles = tileSpriteToRGBConverter.generateTileMapForCollisionDetection(
-                texture, nonWalkableTileSpriteTargets, walkableTileSpriteTargets);
-
-
         ////////////////////////////////////////////////////////////////////////////////////////////
-        //TODO: Instead of parsing the world map image for each run, create something similar to rgbTileFarm.
-
-        // Create file to store tile map data (similar to Assets.rgbTileFarm, but not with pixels)
-        String fileFullName = "C:\\Users\\James\\Downloads\\tilesWorldMap.txt";
-        try {
-            File tilesWorldMap = new File(fileFullName);
-            if (tilesWorldMap.createNewFile()) {
-                Log.d(MainActivity.DEBUG_TAG, "TileMap.initTilesPocketCritters() CREATED NEW FILE: " + tilesWorldMap.getName());
-            } else {
-                Log.d(MainActivity.DEBUG_TAG, "TileMap.initTilesPocketCritters() FILE ALREADY EXISTS.");
-            }
-        } catch (IOException e) {
-            Log.d(MainActivity.DEBUG_TAG, "TileMap.initTilesPocketCritters() AN ERROR OCCURRED WHILE CREATING A FILE.");
-            e.printStackTrace();
-        }
-
-        // Translate the generated TileType[][] into String to be stored in a file.
-        StringBuilder sb = new StringBuilder();
-        for (int y = 0; y < tiles.length; y++) {
-            for (int x = 0; x < tiles[y].length; x++) {
-                if (tiles[y][x] == TileType.SOLID) {
-                    sb.append("1 ");
-                } else if (tiles[y][x] == TileType.WALKABLE) {
-                    sb.append("0 ");
-                }
-            }
-            sb.append("\n");
-        }
-
-        // Write to file (store the tile map data)
-        FileWriter fileWriter = null;
-        try {
-            fileWriter = new FileWriter(fileFullName);
-            fileWriter.write(sb.toString());
-            fileWriter.close();
-            Log.d(MainActivity.DEBUG_TAG, "TileMap.initTilesPocketCritters() SUCCESSFULLY WROTE TO THE FILE.");
-        } catch (IOException e) {
-            Log.d(MainActivity.DEBUG_TAG, "TileMap.initTilesPocketCritters() AN ERROR OCCURED WHILE WRITING TO FILE.");
-            e.printStackTrace();
-        }
+//        tileSpriteToRGBConverter = new TileSpriteToRGBConverter();
+//
+//        ArrayList<Bitmap> nonWalkableTileSpriteTargets = initNonWalkableTileSpriteTargets();
+//        ArrayList<Bitmap> walkableTileSpriteTargets = initWalkableTileSpriteTargets();
+//
+//        tiles = tileSpriteToRGBConverter.generateTileMapForCollisionDetection(
+//                texture, nonWalkableTileSpriteTargets, walkableTileSpriteTargets);
         ////////////////////////////////////////////////////////////////////////////////////////////
-
-
-        /*
-        tiles = new TileType[rows][columns];
-
-        for (int y = 0; y < rows; y++) {
-            for (int x = 0; x < columns; x++) {
-                tiles[y][x] = TileType.WALKABLE;
-            }
-        }
-        */
     }
 
     public boolean isSolid(int xPosition, int yPosition) {
