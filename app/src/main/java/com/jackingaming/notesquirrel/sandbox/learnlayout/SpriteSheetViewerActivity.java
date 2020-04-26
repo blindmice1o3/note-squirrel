@@ -80,7 +80,8 @@ public class SpriteSheetViewerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d(MainActivity.DEBUG_TAG, "Button clicked: Cropped World Map");
 
-                
+                Bitmap croppedWorldMap = Assets.grabPokemonWorldMapSection(getResources(), 3, 8);
+                imageView.setImageBitmap(croppedWorldMap);
             }
         });
     }

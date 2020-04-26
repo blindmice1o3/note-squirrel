@@ -31,9 +31,18 @@ public class Assets {
         Log.d(MainActivity.DEBUG_TAG, "Assets.grabPokemonWorldMapSection(Resources, int, int)... pokemonWorldMapFull is null? " + pokemonWorldMapFull);
         Log.d(MainActivity.DEBUG_TAG, "Assets.grabPokemonWorldMapSection(Resources, int, int)... pokemonWorldMapFull's (width, height): " + pokemonWorldMapFull.getWidth() + ", " + pokemonWorldMapFull.getHeight());
 
-        pokemonWorldMapCropped = Bitmap.createBitmap(pokemonWorldMapFull, 0, 1664, 1280, 1904);
-        Log.d(MainActivity.DEBUG_TAG, "Assets.grabPokemonWorldMapSection(Resources, int, int)... pokemonWorldMapCropped's (width, height): " + pokemonWorldMapCropped.getWidth() + ", " + pokemonWorldMapCropped.getHeight());
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        int widthSection = pokemonWorldMapFull.getWidth() / 10;
+        int heightSection = pokemonWorldMapFull.getHeight() / 10;
 
+        int xStart = (column - 1) * widthSection;
+        int yStart = (row - 1) * heightSection;
+
+        pokemonWorldMapCropped = Bitmap.createBitmap(pokemonWorldMapFull, xStart, yStart, widthSection, heightSection);
+        //pokemonWorldMapCropped = Bitmap.createBitmap(pokemonWorldMapFull, 0, 1664, 1280, 1904);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+        Log.d(MainActivity.DEBUG_TAG, "Assets.grabPokemonWorldMapSection(Resources, int, int)... pokemonWorldMapCropped's (width, height): " + pokemonWorldMapCropped.getWidth() + ", " + pokemonWorldMapCropped.getHeight());
         ///////////////////////////
         pokemonWorldMapFull = null;
         ///////////////////////////
