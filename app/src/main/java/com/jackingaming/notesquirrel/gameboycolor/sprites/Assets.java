@@ -108,6 +108,7 @@ public class Assets {
     private static void initPokemonWorldMap(Resources resources) {
         Log.d(MainActivity.DEBUG_TAG, "Assets.initPokemonWorldMap(Resources)");
 
+        //TODO: crop FULL world map image into 10-section(HORIZONTALLY) by 10-section(VERTICALLY)
         pokemonWorldMapFull = BitmapFactory.decodeResource(resources, R.drawable.pokemon_gsc_kanto);
         Log.d(MainActivity.DEBUG_TAG, "Assets.initPokemonWorldMap(Resources)... pokemonWorldMapPart1 is null? " + pokemonWorldMapFull);
         Log.d(MainActivity.DEBUG_TAG, "Assets.initPokemonWorldMap(Resources)... pokemonWorldMapPart1: " + pokemonWorldMapFull.getWidth() + ", " + pokemonWorldMapFull.getHeight());
