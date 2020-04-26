@@ -23,6 +23,25 @@ public class Assets {
         initEntities(resources);
     }
 
+    public static Bitmap grabPokemonWorldMapSection(Resources resources, int column, int row) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.grabPokemonWorldMapSection(Resources, int, int)");
+        Bitmap pokemonWorldMapCropped = null;
+
+        Bitmap pokemonWorldMapFull = BitmapFactory.decodeResource(resources, R.drawable.pokemon_gsc_kanto);
+        Log.d(MainActivity.DEBUG_TAG, "Assets.grabPokemonWorldMapSection(Resources, int, int)... pokemonWorldMapFull is null? " + pokemonWorldMapFull);
+        Log.d(MainActivity.DEBUG_TAG, "Assets.grabPokemonWorldMapSection(Resources, int, int)... pokemonWorldMapFull's (width, height): " + pokemonWorldMapFull.getWidth() + ", " + pokemonWorldMapFull.getHeight());
+
+        pokemonWorldMapCropped = Bitmap.createBitmap(pokemonWorldMapFull, 0, 1664, 1280, 1904);
+        Log.d(MainActivity.DEBUG_TAG, "Assets.grabPokemonWorldMapSection(Resources, int, int)... pokemonWorldMapCropped's (width, height): " + pokemonWorldMapCropped.getWidth() + ", " + pokemonWorldMapCropped.getHeight());
+
+        ///////////////////////////
+        pokemonWorldMapFull = null;
+        ///////////////////////////
+        Log.d(MainActivity.DEBUG_TAG, "Assets.grabPokemonWorldMapSection(Resources, int, int)... pokemonWorldMap is null? " + pokemonWorldMapFull);
+
+        return pokemonWorldMapCropped;
+    }
+
     private static void initTiles(Resources resources) {
         //LOAD SPRITESHEET
         Bitmap imageSource = BitmapFactory.decodeResource(resources, R.drawable.pc_yoko_tileset);

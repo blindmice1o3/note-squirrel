@@ -110,15 +110,15 @@ public class Assets {
 
         //TODO: crop FULL world map image into 10-section(HORIZONTALLY) by 10-section(VERTICALLY)
         pokemonWorldMapFull = BitmapFactory.decodeResource(resources, R.drawable.pokemon_gsc_kanto);
-        Log.d(MainActivity.DEBUG_TAG, "Assets.initPokemonWorldMap(Resources)... pokemonWorldMapPart1 is null? " + pokemonWorldMapFull);
-        Log.d(MainActivity.DEBUG_TAG, "Assets.initPokemonWorldMap(Resources)... pokemonWorldMapPart1: " + pokemonWorldMapFull.getWidth() + ", " + pokemonWorldMapFull.getHeight());
+        Log.d(MainActivity.DEBUG_TAG, "Assets.initPokemonWorldMap(Resources)... pokemonWorldMapFull is null? " + pokemonWorldMapFull);
+        Log.d(MainActivity.DEBUG_TAG, "Assets.initPokemonWorldMap(Resources)... pokemonWorldMapFull: " + pokemonWorldMapFull.getWidth() + ", " + pokemonWorldMapFull.getHeight());
         pokemonWorldMapPart1 = Bitmap.createBitmap(pokemonWorldMapFull, 0, 1664, 1280, 1904);
         Log.d(MainActivity.DEBUG_TAG, "Assets.initPokemonWorldMap(Resources)... pokemonWorldMapPart1: " + pokemonWorldMapPart1.getWidth() + ", " + pokemonWorldMapPart1.getHeight());
 
         ///////////////////////////
         pokemonWorldMapFull = null;
         ///////////////////////////
-        Log.d(MainActivity.DEBUG_TAG, "Assets.initPokemonWorldMap(Resources)... pokemonWorldMapPart1 is null? " + pokemonWorldMapFull);
+        Log.d(MainActivity.DEBUG_TAG, "Assets.initPokemonWorldMap(Resources)... pokemonWorldMapFull is null? " + pokemonWorldMapFull);
     }
 
     private static void initDPad(Resources resources) {

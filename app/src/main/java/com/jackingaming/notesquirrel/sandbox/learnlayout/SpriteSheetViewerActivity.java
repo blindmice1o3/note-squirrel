@@ -20,6 +20,7 @@ public class SpriteSheetViewerActivity extends AppCompatActivity {
     private ImageView imageView;
     private Button buttonFrame;
     private Button buttonSet;
+    private Button buttonCroppedMapTester;
 
     private Bitmap imageSource;
     private Bitmap[][] spriteSheet;
@@ -54,81 +55,39 @@ public class SpriteSheetViewerActivity extends AppCompatActivity {
         Bitmap tooBigClippit = BitmapFactory.decodeResource(getResources(), R.drawable.pc_ms_office_clippit);
         Bitmap justRightClippit = Bitmap.createScaledBitmap(tooBigClippit, 500, 500, false);
         imageSource = justRightClippit;
+
         imageView = (ImageView) findViewById(R.id.imageview_sprite_sheet);
         imageView.setImageBitmap(imageSource);
-
         Log.d(MainActivity.DEBUG_TAG, "imageSource.getWidth(): " + imageSource.getWidth());
         Log.d(MainActivity.DEBUG_TAG, "imageSource.getHeight(): " + imageSource.getHeight());
-        /*
-        Drawable imageSource = getResources().getDrawable(R.drawable.gbc_hm2_spritesheet_items);
-        imageView = (ImageView) findViewById(R.id.imageview_fragment);
-        imageView.setImageDrawable(imageSource);
-        Log.d(MainActivity.DEBUG_TAG, "imageSource.getInstrinsicWidth(): " + imageSource.getIntrinsicWidth());
-        Log.d(MainActivity.DEBUG_TAG, "imageSource.getIntrinsicHeight(): " + imageSource.getIntrinsicHeight());
-        */
 
 
 
-        imageView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                Log.d(MainActivity.DEBUG_TAG, "event.getX(), event.getY(): " + event.getX() + ", " + event.getY());
-
-                return true;
-            }
-        });
+        initButtonFrameOnClickListener();
+        initButtonSetOnClickListener();
 
 
-        buttonSet = (Button) findViewById(R.id.button_set_sprite_sheet);
-        buttonSet.setOnClickListener(new View.OnClickListener() {
+
+        initButtonCroppedMapTester();
+    }
+
+    private void initButtonCroppedMapTester() {
+        Log.d(MainActivity.DEBUG_TAG, "SpriteSheetViewerActivity.initButtonCroppedMapTester()");
+        buttonCroppedMapTester = (Button) findViewById(R.id.button_cropped_map_tester);
+
+        buttonCroppedMapTester.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sheetTracker++;
-                if (sheetTracker > 4) {
-                    sheetTracker = 0;
-                }
+                Log.d(MainActivity.DEBUG_TAG, "Button clicked: Cropped World Map");
 
-                indexButtonX = 0;
-                indexButtonY = 0;
-
-                switch (sheetTracker) {
-                    case 0:
-                        Bitmap tooBigClippit = BitmapFactory.decodeResource(getResources(), R.drawable.pc_ms_office_clippit);
-                        Bitmap justRightClippit = Bitmap.createScaledBitmap(tooBigClippit, 500, 500, false);
-                        imageSource = justRightClippit;
-                        imageView.setImageBitmap(imageSource);
-
-                        spriteSheet = Assets.wintermute;
-                        break;
-                    case 1:
-                        imageSource = BitmapFactory.decodeResource(getResources(), R.drawable.corgi_crusade_editted);
-                        imageView.setImageBitmap(imageSource);
-
-                        spriteSheet = Assets.corgiCrusade;
-                        break;
-                    case 2:
-                        imageSource = BitmapFactory.decodeResource(getResources(), R.drawable.snes_breath_of_fire_gobi);
-                        imageView.setImageBitmap(imageSource);
-
-                        spriteSheet = Assets.gobi;
-                        break;
-                    case 3:
-                        imageSource = BitmapFactory.decodeResource(getResources(), R.drawable.gbc_hm2_spritesheet_items);
-                        imageView.setImageBitmap(imageSource);
-
-                        spriteSheet = Assets.items;
-                        break;
-                    case 4:
-                        imageSource = BitmapFactory.decodeResource(getResources(), R.drawable.pc_yoko_tileset);
-                        imageView.setImageBitmap(imageSource);
-
-                        spriteSheet = Assets.tiles;
-                        break;
-                }
+                
             }
         });
+    }
 
+    private void initButtonFrameOnClickListener() {
         buttonFrame = (Button) findViewById(R.id.button_frame_sprite_sheet);
+
         buttonFrame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -196,6 +155,58 @@ public class SpriteSheetViewerActivity extends AppCompatActivity {
                 Log.d(MainActivity.DEBUG_TAG,
                         "imageView.getDrawable().getIntrinsicWidth(), imageView.getDrawable().getIntrinsicHeight(): " +
                                 imageView.getDrawable().getIntrinsicWidth() + ", " + imageView.getDrawable().getIntrinsicHeight());
+            }
+        });
+    }
+
+    private void initButtonSetOnClickListener() {
+        buttonSet = (Button) findViewById(R.id.button_set_sprite_sheet);
+
+        buttonSet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sheetTracker++;
+                if (sheetTracker > 4) {
+                    sheetTracker = 0;
+                }
+
+                indexButtonX = 0;
+                indexButtonY = 0;
+
+                switch (sheetTracker) {
+                    case 0:
+                        Bitmap tooBigClippit = BitmapFactory.decodeResource(getResources(), R.drawable.pc_ms_office_clippit);
+                        Bitmap justRightClippit = Bitmap.createScaledBitmap(tooBigClippit, 500, 500, false);
+                        imageSource = justRightClippit;
+                        imageView.setImageBitmap(imageSource);
+
+                        spriteSheet = Assets.wintermute;
+                        break;
+                    case 1:
+                        imageSource = BitmapFactory.decodeResource(getResources(), R.drawable.corgi_crusade_editted);
+                        imageView.setImageBitmap(imageSource);
+
+                        spriteSheet = Assets.corgiCrusade;
+                        break;
+                    case 2:
+                        imageSource = BitmapFactory.decodeResource(getResources(), R.drawable.snes_breath_of_fire_gobi);
+                        imageView.setImageBitmap(imageSource);
+
+                        spriteSheet = Assets.gobi;
+                        break;
+                    case 3:
+                        imageSource = BitmapFactory.decodeResource(getResources(), R.drawable.gbc_hm2_spritesheet_items);
+                        imageView.setImageBitmap(imageSource);
+
+                        spriteSheet = Assets.items;
+                        break;
+                    case 4:
+                        imageSource = BitmapFactory.decodeResource(getResources(), R.drawable.pc_yoko_tileset);
+                        imageView.setImageBitmap(imageSource);
+
+                        spriteSheet = Assets.tiles;
+                        break;
+                }
             }
         });
     }
