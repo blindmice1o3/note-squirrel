@@ -3,7 +3,6 @@ package com.jackingaming.notesquirrel.gameboycolor;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -17,7 +16,6 @@ import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 public class GameView extends SurfaceView
         implements SurfaceHolder.Callback {
 
-    private GameCartridge gameCartridge;
     private GameRunner runner;
 
     private SurfaceHolder holder;
@@ -32,15 +30,6 @@ public class GameView extends SurfaceView
 
         getHolder().addCallback(this);
     }
-
-/*
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        gameCartridge.onScreenInput(event);
-
-        return true;
-    }
-*/
 
     /**
      * We don't call this method directly, it's used by the SurfaceHolder.Callback interface.
@@ -85,53 +74,50 @@ public class GameView extends SurfaceView
         /////////////////////////
 
         JackInActivity jackInActivity = (JackInActivity) getContext();
-        ////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////
         runGameCartridge(jackInActivity.getGameCartridge(), jackInActivity.getInputManager());
-        ////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////
     }
 
     public void runGameCartridge(GameCartridge gameCartridge, InputManager inputManager) {
-        Log.d(MainActivity.DEBUG_TAG, "GameView.runGameCartridge(GameCartridge)");
+        Log.d(MainActivity.DEBUG_TAG, "GameView.runGameCartridge(GameCartridge, InputManager)");
 
-        ///////////////////////////////////
-        //this.gameCartridge = gameCartridge;
-        ///////////////////////////////////
-
-        if ( (gameCartridge != null) && (inputManager != null) ) {
-            ///////////////////////////////////////////////////////////////////////
+        if ( (gameCartridge != null) || (inputManager != null) ) {
+            //////////////////////////////////////////////////////////////////////
             inputManager.init(sideSquareScreen);
             gameCartridge.init(holder, sideSquareScreen, inputManager);
             if (((JackInActivity)getContext()).getSavedInstanceState() != null) {
-                Log.d(MainActivity.DEBUG_TAG, "GameView.runGameCartridge(GameCartridge) calling gameCartridge.loadSavedState()");
+                Log.d(MainActivity.DEBUG_TAG, "GameView.runGameCartridge(GameCartridge, InputManager) calling gameCartridge.loadSavedState()");
                 gameCartridge.loadSavedState();
             }
-            ///////////////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////////////
 
-            ///////////////////////////////////////
+            /////////////////////////////////////////////////////
             runner = new GameRunner(gameCartridge, inputManager);
-            // Tell the Thread class to go to the "public void run()" method.
+            // Tell the Thread class to goto "public void run()".
             runner.start();
-            ///////////////////////////////////////
+            /////////////////////////////////////////////////////
         } else {
-            Log.d(MainActivity.DEBUG_TAG, "ERROR: GameView.gameCartridge is null!!!!!!!!!!");
+            Log.d(MainActivity.DEBUG_TAG, "GameView.runGameCartridge(GameCartridge, InputManager) ERROR: gameCartridge or inputManger is null!");
         }
     }
 
+    /**
+     * NOW: want to wait for the thread to stop drawing.
+     *
+     * Want to NOT allow the phone to go to another application until
+     * this runner has stopped drawing... because if it goes to another
+     * application, the surface will no longer exist yet the thread will
+     * still be try to renderGame on it which will cause it to CRASH.
+     */
     public void shutDownRunner() {
         Log.d(MainActivity.DEBUG_TAG, "GameView.shutDownRunner()");
+
         if (runner != null) {
             runner.shutdown();
 
-            /*
-            NOW: want to wait for the thread to stop drawing.
-
-            Want to NOT allow the phone to go to another application until
-            this runner has stopped drawing... because if it goes to another
-            application, the surface will no longer exist yet the thread will
-            still be try to renderGame on it which will cause it to CRASH.
-             */
+            // Wait for the thread to terminate.
             while (runner != null) {
-                // This method waits for the thread to terminate.
                 try {
                     runner.join();
                     runner = null;

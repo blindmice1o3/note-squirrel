@@ -2,10 +2,12 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges;
 
 import android.view.SurfaceHolder;
 
-import com.jackingaming.notesquirrel.gameboycolor.input.ButtonPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 
 public interface GameCartridge {
+
+    enum Id { POOH_FARMER, PONG, POCKET_CRITTERS; }
+    
     public void init(SurfaceHolder holder, int sideSquareScreen, InputManager inputManager);
     public void savePresentState();
     public void loadSavedState();

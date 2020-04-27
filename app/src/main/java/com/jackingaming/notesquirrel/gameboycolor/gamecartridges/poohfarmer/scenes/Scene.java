@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles.TileMap;
@@ -24,9 +24,9 @@ public class Scene {
     private Player player;
     private GameCamera gameCamera;
 
-    private JackInActivity.CartridgeID cartridgeID;
+    private GameCartridge.Id cartridgeID;
 
-    public Scene(Context context, int sideSquareScreen, JackInActivity.CartridgeID cartridgeID) {
+    public Scene(Context context, int sideSquareScreen, GameCartridge.Id cartridgeID) {
         this.context = context;
         this.sideSquareScreen = sideSquareScreen;
         this.cartridgeID = cartridgeID;

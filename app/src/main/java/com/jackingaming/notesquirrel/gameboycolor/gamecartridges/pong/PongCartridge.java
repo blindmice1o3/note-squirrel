@@ -1,7 +1,6 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pong;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -29,7 +28,6 @@ public class PongCartridge
 
     private Context context;
     private SurfaceHolder holder;
-    private Resources resources;
     private InputManager inputManager;
 
     private int sideSquareScreen;
@@ -43,9 +41,8 @@ public class PongCartridge
     //private SoundPool soundPool;
     private MediaPlayer mediaPlayer;
 
-    public PongCartridge(Context context, Resources resources) {
+    public PongCartridge(Context context) {
         this.context = context;
-        this.resources = resources;
     }
 
     @Override
@@ -55,7 +52,6 @@ public class PongCartridge
         this.holder = holder;
         this.sideSquareScreen = sideSquareScreen;
         this.inputManager = inputManager;
-
 
         textPaint = new Paint();
         //set text's pivot-point to CENTER-OF-TEXT (instead of TOP-LEFT corner).
@@ -69,10 +65,8 @@ public class PongCartridge
         mediaPlayer = MediaPlayer.create(context, R.raw.corporate_ukulele);
         mediaPlayer.start();
 
-
-
-        Bitmap spriteSheetCorgiCrusade = BitmapFactory.decodeResource(resources, R.drawable.corgi_crusade_editted);
-        Bitmap spriteSheetYokoTileset = BitmapFactory.decodeResource(resources, R.drawable.pc_yoko_tileset);
+        Bitmap spriteSheetCorgiCrusade = BitmapFactory.decodeResource(context.getResources(), R.drawable.corgi_crusade_editted);
+        Bitmap spriteSheetYokoTileset = BitmapFactory.decodeResource(context.getResources(), R.drawable.pc_yoko_tileset);
 
         ball = new Ball(sideSquareScreen, sideSquareScreen);
         player = new Bat(sideSquareScreen, sideSquareScreen, Bat.Position.LEFT);

@@ -1,9 +1,9 @@
 package com.jackingaming.notesquirrel.gameboycolor.sprites;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.util.Log;
 
@@ -28,8 +28,10 @@ public class Assets {
     public static Bitmap pokemonWorldMapFull;
     public static Bitmap pokemonWorldMapPart1;
 
-    public static void init(Resources resources) {
-        Log.d(MainActivity.DEBUG_TAG, "Assets.init(Resources)");
+    public static void init(Context context) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.init(Context)");
+
+        Resources resources = context.getResources();
 
         ////////////////////////////////////////////////////////////////////////////////
         /*

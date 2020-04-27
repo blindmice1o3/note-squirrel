@@ -3,7 +3,6 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.Log;
@@ -26,7 +25,6 @@ public class PoohFarmerCartridge
         implements GameCartridge {
 
     private Context context;
-    private Resources resources;
 
     private SurfaceHolder holder;   //used to get Canvas
     private InputManager inputManager;
@@ -41,9 +39,8 @@ public class PoohFarmerCartridge
     private Scene sceneCurrent;
 
 
-    public PoohFarmerCartridge(Context context, Resources resources) {
+    public PoohFarmerCartridge(Context context) {
         this.context = context;
-        this.resources = resources;
     }
 
     @Override
@@ -62,12 +59,12 @@ public class PoohFarmerCartridge
         Log.d(MainActivity.DEBUG_TAG, "pixelToScreenRatio: " + pixelToScreenRatio);
 
 
-        Assets.init(resources);
+        Assets.init(context);
 
 
         gameCamera = new GameCamera();
         player = new Player(gameCamera, sideSquareScreen, pixelToScreenRatio);
-        sceneCurrent = new Scene(context, sideSquareScreen, JackInActivity.CartridgeID.POOH_FARMER);
+        sceneCurrent = new Scene(context, sideSquareScreen, Id.POOH_FARMER);
         sceneCurrent.init(player, gameCamera);
     }
 

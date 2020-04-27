@@ -21,12 +21,10 @@ import com.jackingaming.notesquirrel.sandbox.learnfragment.FragmentParentDvdActi
 
 public class JackInActivity extends AppCompatActivity {
 
-    public enum CartridgeID { POOH_FARMER, PONG, POCKET_CRITTERS; }
-
     private Bundle savedInstanceState;
-    private CartridgeID cartridgeID;
 
     private InputManager inputManager;
+    private GameCartridge.Id cartridgeID;
     private GameCartridge gameCartridge;
 
     @Override
@@ -35,22 +33,26 @@ public class JackInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_jack_in);
         Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreate(Bundle)");
 
-        //////////////////////////////////
-        inputManager = new InputManager();
-        //////////////////////////////////
 
         final GameView gameView = (GameView) findViewById(R.id.gameView);
         DirectionalPadFragment directionalPadFragment = (DirectionalPadFragment) getSupportFragmentManager().findFragmentById(R.id.directionalPadFragment);
         ButtonPadFragment buttonPadFragment = (ButtonPadFragment) getSupportFragmentManager().findFragmentById(R.id.buttonPadFragment);
         Button swapGameButton = (Button) findViewById(R.id.swap_game);
+        Button launchDvdActivityButton = (Button) findViewById(R.id.launch_dvd_activity_button);
 
+
+        //////////////////////////////////
+        inputManager = new InputManager();
+        //////////////////////////////////
         gameView.setOnTouchListener(inputManager);
         directionalPadFragment.setOnDirectionalPadTouchListener(inputManager);
         buttonPadFragment.setOnButtonPadTouchListener(inputManager);
 
 
-
-        cartridgeID = CartridgeID.POOH_FARMER;
+        //////////////////////////////////////////////////////
+        cartridgeID = GameCartridge.Id.POOH_FARMER;
+        gameCartridge = new PoohFarmerCartridge(this);
+        //////////////////////////////////////////////////////
         swapGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,8 +60,8 @@ public class JackInActivity extends AppCompatActivity {
             }
         });
 
-        //click event will launch FragmentParentDvdActivity
-        Button launchDvdActivityButton = (Button) findViewById(R.id.launch_dvd_activity_button);
+
+        // Click event will launch FragmentParentDvdActivity.
         launchDvdActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,17 +71,9 @@ public class JackInActivity extends AppCompatActivity {
         });
 
 
-
-        /////////////////////////////////////////////////////////////////////
-        gameCartridge = new PoohFarmerCartridge(this, getResources());
-        /////////////////////////////////////////////////////////////////////
-
-
-
         /////////////////////////////////////////////
         this.savedInstanceState = savedInstanceState;
         /////////////////////////////////////////////
-
         //TODO: this is the solution to a new GameCartridge being instantiated from configuration (orientation or keyboard) changes.
         //Will probably have to move GameCartridge and GameRunner here.
         //https://stackoverflow.com/questions/456211/activity-restart-on-rotation-android?rq=1
@@ -88,11 +82,10 @@ public class JackInActivity extends AppCompatActivity {
         } else {
             Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreate(Bundle) Bundle savedInstanceState is NOT null: " + savedInstanceState);
         }
-
     }
 
     public void swapGame() {
-        Log.d(MainActivity.DEBUG_TAG, "JackInActivity.switchGame()");
+        Log.d(MainActivity.DEBUG_TAG, "JackInActivity.swapGame()");
 
         GameView gameView = (GameView) findViewById(R.id.gameView);
 
@@ -100,46 +93,31 @@ public class JackInActivity extends AppCompatActivity {
 
         int index = cartridgeID.ordinal();
         index++;
-        if (index >= CartridgeID.values().length) {
+        if (index >= GameCartridge.Id.values().length) {
             index = 0;
         }
 
         ////////////////////////////////////////////
-        cartridgeID = CartridgeID.values()[index];
+        cartridgeID = GameCartridge.Id.values()[index];
         ////////////////////////////////////////////
 
         switch (cartridgeID) {
             case POOH_FARMER:
-                gameCartridge = new PoohFarmerCartridge(this, getResources());
+                gameCartridge = new PoohFarmerCartridge(this);
                 break;
             case PONG:
-                gameCartridge = new PongCartridge(this, getResources());
+                gameCartridge = new PongCartridge(this);
                 break;
             case POCKET_CRITTERS:
-                gameCartridge = new PocketCrittersCartridge(this, getResources());
+                gameCartridge = new PocketCrittersCartridge(this);
                 break;
             default:
-                Log.d(MainActivity.DEBUG_TAG, "JackInActivity.switchGame() switch's default block.");
-                gameCartridge = new PoohFarmerCartridge(this, getResources());
+                Log.d(MainActivity.DEBUG_TAG, "JackInActivity.swapGame() switch's default block.");
+                gameCartridge = new PoohFarmerCartridge(this);
                 break;
         }
 
         gameView.runGameCartridge(gameCartridge, inputManager);
-    }
-
-    public GameCartridge getGameCartridge() {
-        Log.d(MainActivity.DEBUG_TAG, "JackInActivity.getGameCartridge()");
-        return gameCartridge;
-    }
-
-    public InputManager getInputManager() {
-        Log.d(MainActivity.DEBUG_TAG, "JackInActivity.getInputManager()");
-        return inputManager;
-    }
-
-    public Bundle getSavedInstanceState() {
-        Log.d(MainActivity.DEBUG_TAG, "JackInActivity.getSavedInstanceState()");
-        return savedInstanceState;
     }
 
     @Override
@@ -175,6 +153,21 @@ public class JackInActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onDestroy()");
+    }
+
+    public GameCartridge getGameCartridge() {
+        Log.d(MainActivity.DEBUG_TAG, "JackInActivity.getGameCartridge()");
+        return gameCartridge;
+    }
+
+    public InputManager getInputManager() {
+        Log.d(MainActivity.DEBUG_TAG, "JackInActivity.getInputManager()");
+        return inputManager;
+    }
+
+    public Bundle getSavedInstanceState() {
+        Log.d(MainActivity.DEBUG_TAG, "JackInActivity.getSavedInstanceState()");
+        return savedInstanceState;
     }
 
 }

@@ -2,14 +2,12 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.jackingaming.notesquirrel.MainActivity;
-import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
@@ -23,7 +21,6 @@ public class PocketCrittersCartridge
         implements GameCartridge {
 
     private Context context;
-    private Resources resources;
 
     private SurfaceHolder holder;   //used to get Canvas
     private InputManager inputManager;
@@ -38,9 +35,8 @@ public class PocketCrittersCartridge
     private Scene sceneCurrent;
 
 
-    public PocketCrittersCartridge(Context context, Resources resources) {
+    public PocketCrittersCartridge(Context context) {
         this.context = context;
-        this.resources = resources;
     }
 
     @Override
@@ -59,16 +55,13 @@ public class PocketCrittersCartridge
         Log.d(MainActivity.DEBUG_TAG, "pixelToScreenRatio: " + pixelToScreenRatio);
 
 
-        Assets.init(resources);
+        Assets.init(context);
 
 
         gameCamera = new GameCamera();
         player = new Player(gameCamera, sideSquareScreen, pixelToScreenRatio);
-        //TODO: 2020_04_24 11:34am
-        sceneCurrent = new Scene(context, sideSquareScreen, JackInActivity.CartridgeID.POCKET_CRITTERS);
+        sceneCurrent = new Scene(context, sideSquareScreen, Id.POCKET_CRITTERS);
         sceneCurrent.init(player, gameCamera);
-//        this.texture = Assets.pokemonWorldMapPart1;
-//        Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.init(SurfaceHolder, int, InputManager)... pokemonWorldMapPart1: " + texture.getWidth() + ", " + texture.getHeight());
     }
 
     @Override
@@ -170,13 +163,6 @@ public class PocketCrittersCartridge
             //@@@@@@@@@@@@@@@@@@@@@@@@@@
             sceneCurrent.render(canvas);
             //@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-            //gameCamera's coordinates
-//            Rect boundsPalletTown = new Rect(960, 1520, 1279, 1791);
-//            Rect screenPalletTown = new Rect(0, 0, sideSquareScreen, sideSquareScreen);
-//            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-//            canvas.drawBitmap(texture, boundsPalletTown, screenPalletTown, null);
-//            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
             //unlock it and post our updated drawing to it.
             ///////////////////////////////////

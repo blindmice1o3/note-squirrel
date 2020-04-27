@@ -3,18 +3,11 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.til
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.service.quicksettings.Tile;
-import android.util.Log;
 
-import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
-import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -36,9 +29,9 @@ public class TileMap {
     private int widthSceneMax;
     private int heightSceneMax;
 
-    private JackInActivity.CartridgeID cartridgeID;
+    private GameCartridge.Id cartridgeID;
 
-    public TileMap(Context context, JackInActivity.CartridgeID cartridgeID) {
+    public TileMap(Context context, GameCartridge.Id cartridgeID) {
         this.context = context;
         this.cartridgeID = cartridgeID;
 
