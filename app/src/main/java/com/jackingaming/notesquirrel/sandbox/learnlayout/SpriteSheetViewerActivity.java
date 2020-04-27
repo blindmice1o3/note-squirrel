@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -20,7 +19,6 @@ public class SpriteSheetViewerActivity extends AppCompatActivity {
     private ImageView imageView;
     private Button buttonFrame;
     private Button buttonSet;
-    private Button buttonCroppedMapTester;
 
     private Bitmap imageSource;
     private Bitmap[][] spriteSheet;
@@ -49,7 +47,6 @@ public class SpriteSheetViewerActivity extends AppCompatActivity {
         spriteSheet = Assets.wintermute;
 
 
-
         //imageSource = BitmapFactory.decodeResource(getResources(), R.drawable.gbc_hm2_spritesheet_items);
         //imageSource = BitmapFactory.decodeResource(getResources(), R.drawable.pc_yoko_tileset1);
         Bitmap tooBigClippit = BitmapFactory.decodeResource(getResources(), R.drawable.pc_ms_office_clippit);
@@ -62,26 +59,97 @@ public class SpriteSheetViewerActivity extends AppCompatActivity {
         Log.d(MainActivity.DEBUG_TAG, "imageSource.getHeight(): " + imageSource.getHeight());
 
 
-
         initButtonFrameOnClickListener();
         initButtonSetOnClickListener();
 
 
-
-        initButtonCroppedMapTester();
+        initButtonsCroppedMapTester();
     }
 
-    private void initButtonCroppedMapTester() {
-        Log.d(MainActivity.DEBUG_TAG, "SpriteSheetViewerActivity.initButtonCroppedMapTester()");
-        buttonCroppedMapTester = (Button) findViewById(R.id.button_cropped_map_tester);
+    private int column = 3;
+    private int row = 8;
+    private void initButtonsCroppedMapTester() {
+        Log.d(MainActivity.DEBUG_TAG, "SpriteSheetViewerActivity.initButtonsCroppedMapTester()");
 
-        buttonCroppedMapTester.setOnClickListener(new View.OnClickListener() {
+        final TextView textViewDisplayWidthHeight = (TextView) findViewById(R.id.textview_display_column_row);
+
+        Button buttonCenter = (Button) findViewById(R.id.button_center);
+        buttonCenter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(MainActivity.DEBUG_TAG, "Button clicked: Cropped World Map");
+                Log.d(MainActivity.DEBUG_TAG, "Button clicked: center");
+                column = 3;
+                row = 8;
 
-                Bitmap croppedWorldMap = Assets.grabPokemonWorldMapSection(getResources(), 3, 8);
+                Bitmap croppedWorldMap = Assets.grabPokemonWorldMapSection(getResources(), column, row);
                 imageView.setImageBitmap(croppedWorldMap);
+
+                textViewDisplayWidthHeight.setText("column: " + column + ", row: " + row);
+            }
+        });
+
+        Button up = (Button) findViewById(R.id.button_up);
+        up.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(MainActivity.DEBUG_TAG, "Button clicked: up");
+                row--;
+                if (row < 1) {
+                    row = 1;
+                }
+
+                Bitmap croppedWorldMap = Assets.grabPokemonWorldMapSection(getResources(), column, row);
+                imageView.setImageBitmap(croppedWorldMap);
+
+                textViewDisplayWidthHeight.setText("column: " + column + ", row: " + row);
+            }
+        });
+        Button down = (Button) findViewById(R.id.button_down);
+        down.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(MainActivity.DEBUG_TAG, "Button clicked: down");
+                row++;
+                if (row > 10) {
+                    row = 10;
+                }
+
+                Bitmap croppedWorldMap = Assets.grabPokemonWorldMapSection(getResources(), column, row);
+                imageView.setImageBitmap(croppedWorldMap);
+
+                textViewDisplayWidthHeight.setText("column: " + column + ", row: " + row);
+            }
+        });
+        Button left = (Button) findViewById(R.id.button_left);
+        left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(MainActivity.DEBUG_TAG, "Button clicked: left");
+                column--;
+                if (column < 1) {
+                    column = 1;
+                }
+
+                Bitmap croppedWorldMap = Assets.grabPokemonWorldMapSection(getResources(), column, row);
+                imageView.setImageBitmap(croppedWorldMap);
+
+                textViewDisplayWidthHeight.setText("column: " + column + ", row: " + row);
+            }
+        });
+        Button right = (Button) findViewById(R.id.button_right);
+        right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(MainActivity.DEBUG_TAG, "Button clicked: right");
+                column++;
+                if (column > 10) {
+                    column = 10;
+                }
+
+                Bitmap croppedWorldMap = Assets.grabPokemonWorldMapSection(getResources(), column, row);
+                imageView.setImageBitmap(croppedWorldMap);
+
+                textViewDisplayWidthHeight.setText("column: " + column + ", row: " + row);
             }
         });
     }
