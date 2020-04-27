@@ -122,12 +122,13 @@ public class TileMap {
         int resId = R.raw.tiles_world_map;
 
         //FULL world map.
-        String stringOfTiles = TileMapMaker.loadFileAsString(context, resId);
-        TileType[][] fullWorldMap = TileMapMaker.convertStringToTiles(stringOfTiles);
+        String stringOfTiles = TileMapLoader.loadFileAsString(context, resId);
+        TileType[][] fullWorldMap = TileMapLoader.convertStringToTiles(stringOfTiles);
 
         //DEFINE EACH ELEMENT. (NEED TO CROP TO PROPER SIZE)
-        int yStartIndex = 104;
+        int yStartIndex = 104;  // In terms of number of TILE.
         for (int y = yStartIndex; y < 223; y++) {
+            // Arrays.copyOfRange()'s "from" is inclusive while "to" is exclusive.
             tiles[y - yStartIndex] = Arrays.copyOfRange(fullWorldMap[y], 0, 81);
         }
         ////////////////////////////////////////////////////////////////////////////////////////////

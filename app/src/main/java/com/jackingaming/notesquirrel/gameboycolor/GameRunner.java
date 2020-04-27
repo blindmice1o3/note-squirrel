@@ -46,21 +46,15 @@ public class GameRunner extends Thread {
 
         int frameCounter = 0;
         int timeCounter = 0;
-        long elapsedMillis = 0;
 
         //GAME LOOP
         while (running) {
-            // Draw stuff.
-            //Log.d(MainActivity.DEBUG_TAG, "Thread running.");
-
             long now = System.currentTimeMillis();
             long elapsed = now - lastTime;
 
             timeCounter += elapsed;
-            elapsedMillis += elapsed;
 
             if (timeCounter >= TIME_PER_FRAME) {
-                //Log.d(MainActivity.DEBUG_TAG, "elapsed: " + elapsed + " | timeCounter: " + timeCounter + " [out of " + TIME_PER_FRAME + "].");
 
                 /////////////////////
                 inputManager.update();
@@ -70,8 +64,6 @@ public class GameRunner extends Thread {
 
                 frameCounter++;
                 if (frameCounter >= 60) {
-                    //TODO:
-                    //Log.d(MainActivity.DEBUG_TAG, "elapsedMillis: " + elapsedMillis + " | frameCounter: " + frameCounter);
                     frameCounter = 0;
                 }
 
@@ -82,7 +74,7 @@ public class GameRunner extends Thread {
         }
     }
 
-    //CAN'T CALL THIS "stop()" because Thread already has a "stop()".
+    //CAN'T NAME THIS "stop()" because Thread already has a "stop()".
     public void shutdown() {
         running = false;
     }

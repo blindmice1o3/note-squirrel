@@ -17,7 +17,7 @@ import java.io.InputStreamReader;
  * Modifying for this Android project (e.g. instead of loading from a
  * String path, need to load from an int resId).
  */
-public class TileMapMaker {
+public class TileMapLoader {
 
     public static String loadFileAsString(Context context, int resId) {
         StringBuilder sb = new StringBuilder();

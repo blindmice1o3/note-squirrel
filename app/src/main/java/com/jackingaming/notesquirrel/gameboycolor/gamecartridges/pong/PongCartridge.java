@@ -95,6 +95,8 @@ public class PongCartridge
     @Override
     public void getInputViewport() {
         if (state == State.RUNNING) {
+            if ( (inputManager.getEvent() != null) &&
+                    (inputManager.getEvent().getY() <= sideSquareScreen) )
             player.setBatPosition(inputManager.getEvent().getY());
         } else {
             //FIXING BUG (unreleased touch WAS immediately reinitializing the game).

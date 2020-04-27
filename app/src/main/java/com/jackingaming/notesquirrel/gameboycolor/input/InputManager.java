@@ -109,13 +109,13 @@ public class InputManager
         Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onTouch(View, MotionEvent)");
 
         //////////////////////////////////////////////////////////
-        //TODO: " || (event.getAction() == MotionEvent.ACTION_MOVE)"
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+        if ( (event.getAction() == MotionEvent.ACTION_DOWN) ||
+                (event.getAction() == MotionEvent.ACTION_MOVE) ) {
             pressingViewport = true;
             this.event = event;
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
             pressingViewport = false;
-            //this.event = null;
+            this.event = null;
         }
         //////////////////////////////////////////////////////////
 
@@ -194,16 +194,8 @@ public class InputManager
         return event;
     }
 
-    public boolean isPressingViewport() {
-        return pressingViewport;
-    }
-
     public boolean isJustPressedViewport() {
         return justPressedViewport;
-    }
-
-    public boolean isCantPressViewport() {
-        return cantPressViewport;
     }
 
     public boolean isUpViewport() {
