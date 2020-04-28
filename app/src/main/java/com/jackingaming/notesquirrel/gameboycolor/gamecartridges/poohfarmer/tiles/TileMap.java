@@ -118,18 +118,21 @@ public class TileMap {
 
         //TODO: Instead of parsing the world map image for each run, create something similar to rgbTileFarm.
         ////////////////////////////////////////////////////////////////////////////////////////////
-        //text-file of the FULL world map stored as String.
+        //text-source-file of the FULL world map stored as String.
         int resId = R.raw.tiles_world_map;
-
-        //FULL world map.
         String stringOfTiles = TileMapLoader.loadFileAsString(context, resId);
+        //FULL world map (280-tiles by 270-tiles).
         TileType[][] fullWorldMap = TileMapLoader.convertStringToTiles(stringOfTiles);
 
-        //DEFINE EACH ELEMENT. (NEED TO CROP TO PROPER SIZE)
-        int yStartIndex = 104;  // In terms of number of TILE.
-        for (int y = yStartIndex; y < 223; y++) {
+        //DEFINE EACH ELEMENT. (TO CROP TO PROPER SIZE)
+        //TODO: these values should be used to crop the full map IMAGE from Assets class.
+        int xStartTileIndex = 0;    //In terms of number of TILE.
+        int yStartTileIndex = 104;  //In terms of number of TILE.
+        int xEndTileIndex = 81;     //EXCLUSIVE (can be +1 index out of bound).
+        int yEndTileIndex = 223;    //EXCLUSIVE (can be +1 index out of bound [e.g. array.length]).
+        for (int y = yStartTileIndex; y < yEndTileIndex; y++) {
             // Arrays.copyOfRange()'s "from" is inclusive while "to" is exclusive.
-            tiles[y - yStartIndex] = Arrays.copyOfRange(fullWorldMap[y], 0, 81);
+            tiles[y - yStartTileIndex] = Arrays.copyOfRange(fullWorldMap[y], xStartTileIndex, xEndTileIndex);
         }
         ////////////////////////////////////////////////////////////////////////////////////////////
 
