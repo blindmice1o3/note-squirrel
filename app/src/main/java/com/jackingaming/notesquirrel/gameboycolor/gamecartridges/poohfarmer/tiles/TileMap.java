@@ -127,9 +127,10 @@ public class TileMap {
         //DEFINE EACH ELEMENT. (TO CROP TO PROPER SIZE)
         //TODO: these values should be used to crop the full map IMAGE from Assets class.
         int xStartTileIndex = 0;    //In terms of number of TILE.
+        int xEndTileIndex = 80;     //EXCLUSIVE (can be +1 index out of bound).
         int yStartTileIndex = 104;  //In terms of number of TILE.
-        int xEndTileIndex = 81;     //EXCLUSIVE (can be +1 index out of bound).
         int yEndTileIndex = 223;    //EXCLUSIVE (can be +1 index out of bound [e.g. array.length]).
+
         for (int y = yStartTileIndex; y < yEndTileIndex; y++) {
             // Arrays.copyOfRange()'s "from" is inclusive while "to" is exclusive.
             tiles[y - yStartTileIndex] = Arrays.copyOfRange(fullWorldMap[y], xStartTileIndex, xEndTileIndex);

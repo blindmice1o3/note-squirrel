@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles.TileMap;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -110,17 +111,36 @@ public class Assets {
     private static void initPokemonWorldMap(Resources resources) {
         Log.d(MainActivity.DEBUG_TAG, "Assets.initPokemonWorldMap(Resources)");
 
-        //TODO: crop FULL world map image into 10-section(HORIZONTALLY) by 10-section(VERTICALLY)
         pokemonWorldMapFull = BitmapFactory.decodeResource(resources, R.drawable.pokemon_gsc_kanto);
         Log.d(MainActivity.DEBUG_TAG, "Assets.initPokemonWorldMap(Resources)... pokemonWorldMapFull is null? " + pokemonWorldMapFull);
         Log.d(MainActivity.DEBUG_TAG, "Assets.initPokemonWorldMap(Resources)... pokemonWorldMapFull: " + pokemonWorldMapFull.getWidth() + ", " + pokemonWorldMapFull.getHeight());
-        // In terms of PIXELS.
-        pokemonWorldMapPart1 = Bitmap.createBitmap(pokemonWorldMapFull, 0, 1664, 1280, 1904);
-        Log.d(MainActivity.DEBUG_TAG, "Assets.initPokemonWorldMap(Resources)... pokemonWorldMapPart1: " + pokemonWorldMapPart1.getWidth() + ", " + pokemonWorldMapPart1.getHeight());
 
-        ///////////////////////////
+        ///////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////
+        //TODO: Switching from hard-value pixel to tile index supplied by TileMap.
+        int xStartTileIndex = 0;
+        int xEndTileIndex = 80;
+        int yStartTileIndex = 104;
+        int yEndTileIndex = 223;
+
+        // In terms of PIXELS.
+        int x = xStartTileIndex * TileMap.TILE_SIZE;
+        int width = (xEndTileIndex - xStartTileIndex) * TileMap.TILE_SIZE;
+        int y = yStartTileIndex * TileMap.TILE_SIZE;
+        int height = (yEndTileIndex - yStartTileIndex) * TileMap.TILE_SIZE;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        pokemonWorldMapPart1 = Bitmap.createBitmap(pokemonWorldMapFull, x, y, width, height);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.initPokemonWorldMap(Resources)... pokemonWorldMapPart1: " + pokemonWorldMapPart1.getWidth() + ", " + pokemonWorldMapPart1.getHeight());
+        ///////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@
         pokemonWorldMapFull = null;
-        ///////////////////////////
+        //@@@@@@@@@@@@@@@@@@@@@@@@@
         Log.d(MainActivity.DEBUG_TAG, "Assets.initPokemonWorldMap(Resources)... pokemonWorldMapFull is null? " + pokemonWorldMapFull);
     }
 
