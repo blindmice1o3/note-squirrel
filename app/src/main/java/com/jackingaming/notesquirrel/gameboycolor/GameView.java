@@ -58,36 +58,39 @@ public class GameView extends SurfaceView
     public void surfaceCreated(SurfaceHolder holder) {
         Log.d(MainActivity.DEBUG_TAG, "GameView.surfaceCreated(SurfaceHolder)");
 
-        this.holder = holder;
+        SurfaceView gameView = (SurfaceView) findViewById(R.id.gameView);
 
+        this.holder = holder;
         widthScreen = getWidth();
         heightScreen = getHeight();
+
+        ///////////////////////////////////////////////////////
         sideSquareScreen = Math.min(widthScreen, heightScreen);
-
-
-
-        SurfaceView gameView = (SurfaceView) findViewById(R.id.gameView);
         gameView.getLayoutParams().width = sideSquareScreen;
         gameView.getLayoutParams().height = sideSquareScreen;
-        /////////////////////////
         gameView.requestLayout();
-        /////////////////////////
+        ///////////////////////////////////////////////////////
 
         JackInActivity jackInActivity = (JackInActivity) getContext();
         //////////////////////////////////////////////////////////////////////////////////////
-        runGameCartridge(jackInActivity.getGameCartridge(), jackInActivity.getInputManager());
+        runGameCartridge(jackInActivity.getGameCartridge(), jackInActivity.getInputManager(),
+                widthScreen, heightScreen);
         //////////////////////////////////////////////////////////////////////////////////////
     }
 
-    public void runGameCartridge(GameCartridge gameCartridge, InputManager inputManager) {
-        Log.d(MainActivity.DEBUG_TAG, "GameView.runGameCartridge(GameCartridge, InputManager)");
+    public int getWidthScreen() { return widthScreen; }
+
+    public int getHeightScreen() { return heightScreen; }
+
+    public void runGameCartridge(GameCartridge gameCartridge, InputManager inputManager, int widthScreen, int heightScreen) {
+        Log.d(MainActivity.DEBUG_TAG, "GameView.runGameCartridge(GameCartridge, InputManager, int, int)");
 
         if ( (gameCartridge != null) || (inputManager != null) ) {
             //////////////////////////////////////////////////////////////////////
-            inputManager.init(sideSquareScreen);
-            gameCartridge.init(holder, sideSquareScreen, inputManager);
+            inputManager.init(widthScreen, heightScreen);
+            gameCartridge.init(holder, inputManager, widthScreen, heightScreen);
             if (((JackInActivity)getContext()).getSavedInstanceState() != null) {
-                Log.d(MainActivity.DEBUG_TAG, "GameView.runGameCartridge(GameCartridge, InputManager) calling gameCartridge.loadSavedState()");
+                Log.d(MainActivity.DEBUG_TAG, "GameView.runGameCartridge(GameCartridge, InputManager, int, int) calling gameCartridge.loadSavedState()");
                 gameCartridge.loadSavedState();
             }
             //////////////////////////////////////////////////////////////////////
@@ -98,7 +101,7 @@ public class GameView extends SurfaceView
             runner.start();
             /////////////////////////////////////////////////////
         } else {
-            Log.d(MainActivity.DEBUG_TAG, "GameView.runGameCartridge(GameCartridge, InputManager) ERROR: gameCartridge or inputManger is null!");
+            Log.d(MainActivity.DEBUG_TAG, "GameView.runGameCartridge(GameCartridge, InputManager, int, int) ERROR: gameCartridge or inputManger is null!");
         }
     }
 

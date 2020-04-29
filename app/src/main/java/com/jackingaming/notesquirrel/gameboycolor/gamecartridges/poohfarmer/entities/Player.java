@@ -17,8 +17,8 @@ public class Player extends Entity {
     public enum Direction { UP, DOWN, LEFT, RIGHT; }
 
     private GameCamera gameCamera;
-    private int sideSquareScreen;
-    private float pixelToScreenRatio;
+    private float widthPixelToViewportRatio;
+    private float heightPixelToViewportRatio;
 
     private Map<Direction, Animation> animation;
 
@@ -29,12 +29,15 @@ public class Player extends Entity {
     private float yMove;
     private TileMap tileMap;
 
-    public Player(GameCamera gameCamera, int sideSquareScreen, float pixelToScreenRatio) {
+    public Player(GameCamera gameCamera, int widthViewport, int heightViewport) {
         super(0f, 0f);
 
         this.gameCamera = gameCamera;
-        this.sideSquareScreen = sideSquareScreen;
-        this.pixelToScreenRatio = pixelToScreenRatio;
+
+        int widthClipInPixel = gameCamera.getWidthClipInPixel();
+        int heightClipInPixel = gameCamera.getHeightClipInPixel();
+        widthPixelToViewportRatio = ((float)widthViewport) / widthClipInPixel;
+        heightPixelToViewportRatio = ((float)heightViewport) / heightClipInPixel;
 
         direction = Direction.DOWN;
 
@@ -159,10 +162,10 @@ public class Player extends Entity {
 //        );
 
         Rect screenRect = new Rect(
-                (int)( (xCurrent - gameCamera.getX()) * pixelToScreenRatio ),
-                (int)( (yCurrent - gameCamera.getY()) * pixelToScreenRatio ),
-                (int)( ((xCurrent - gameCamera.getX()) + width) * pixelToScreenRatio ),
-                (int)( ((yCurrent - gameCamera.getY()) + height) * pixelToScreenRatio ) );
+                (int)( (xCurrent - gameCamera.getX()) * widthPixelToViewportRatio ),
+                (int)( (yCurrent - gameCamera.getY()) * heightPixelToViewportRatio ),
+                (int)( ((xCurrent - gameCamera.getX()) + width) * widthPixelToViewportRatio ),
+                (int)( ((yCurrent - gameCamera.getY()) + height) * heightPixelToViewportRatio ) );
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         canvas.drawBitmap(currentFrame, bounds, screenRect, null);

@@ -12,7 +12,10 @@ public class InputManager
         ButtonPadFragment.OnButtonPadTouchListener {
 
     //VIEWPORT
-    private int sideSquareScreen;
+    private int widthScreen;
+    private int heightScreen;
+    private int widthViewport;
+    private int heightViewport;
     private int xScreenFirstThird;
     private int xScreenSecondThird;
     private int yScreenFirstThird;
@@ -50,13 +53,18 @@ public class InputManager
 
     }
 
-    public void init(int sideSquareScreen) {
-        this.sideSquareScreen = sideSquareScreen;
+    public void init(int widthScreen, int heightScreen) {
+        this.widthScreen = widthScreen;
+        this.heightScreen = heightScreen;
+        ////////////////////////////////////////////////////
+        widthViewport = Math.min(widthScreen, heightScreen);
+        heightViewport = widthViewport; //SQUARE VIEWPORT!!!
+        ////////////////////////////////////////////////////
 
-        xScreenFirstThird = (int)((float)sideSquareScreen / 3);
-        xScreenSecondThird = (int)(2 * ((float)sideSquareScreen / 3));
-        yScreenFirstThird = (int)((float)sideSquareScreen / 3);
-        yScreenSecondThird = (int)(2 * ((float)sideSquareScreen / 3));
+        xScreenFirstThird = (int)((float)widthViewport / 3);
+        xScreenSecondThird = (int)(2 * ((float)widthViewport / 3));
+        yScreenFirstThird = (int)((float)heightViewport / 3);
+        yScreenSecondThird = (int)(2 * ((float)heightViewport / 3));
     }
 
     public void update() {

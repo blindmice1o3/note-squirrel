@@ -8,7 +8,7 @@ public interface GameCartridge {
 
     enum Id { POOH_FARMER, PONG, POCKET_CRITTERS; }
     
-    public void init(SurfaceHolder holder, int sideSquareScreen, InputManager inputManager);
+    public void init(SurfaceHolder holder, InputManager inputManager, int widthScreen, int heightScreen);
     public void savePresentState();
     public void loadSavedState();
     public void getInputViewport();

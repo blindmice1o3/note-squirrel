@@ -17,8 +17,8 @@ public class Bat extends Sprite {
     private float speed = 0.8f;
     private Random random = new Random();
 
-    public Bat(int screenWidth, int screenHeight, Position position) {
-        super(screenWidth, screenHeight);
+    public Bat(int widthViewport, int heightViewport, Position position) {
+        super(widthViewport, heightViewport);
 
         this.position = position;
     }
@@ -38,12 +38,12 @@ public class Bat extends Sprite {
         if (position == Position.LEFT) {
             setX(margin);
         } else if (position == Position.RIGHT) {
-            setX( (getWidthScreen() - margin - getWidthSprite()) );
+            setX( (getWidthViewport() - margin - getWidthSprite()) );
         }
     }
 
     public void initPosition() {
-        setY( ((getHeightScreen()/2) - (getHeightSprite()/2)) );
+        setY( ((getHeightViewport()/2) - (getHeightSprite()/2)) );
     }
 
     /**
@@ -89,7 +89,7 @@ public class Bat extends Sprite {
         //PREVENT MOVING OFF-SCREEN (vertically)
         if (getScreenRect().top <= 0) {
             dirY = 1;
-        } else if (getScreenRect().bottom >= getHeightScreen()) {
+        } else if (getScreenRect().bottom >= getHeightViewport()) {
             dirY = -1;
         }
 

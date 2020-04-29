@@ -11,16 +11,16 @@ public class Sprite {
     private int widthSprite;
     private int heightSprite;
 
-    private int widthScreen;
-    private int heightScreen;
+    private int widthViewport;
+    private int heightViewport;
 
     private Bitmap image;
 
     private Rect bounds;
 
-    public Sprite(int widthScreen, int heightScreen) {
-        this.widthScreen = widthScreen;
-        this.heightScreen = heightScreen;
+    public Sprite(int widthViewport, int heightViewport) {
+        this.widthViewport = widthViewport;
+        this.heightViewport = heightViewport;
     }
 
     public void init(Bitmap image) {
@@ -50,12 +50,12 @@ public class Sprite {
         return heightSprite;
     }
 
-    public int getWidthScreen() {
-        return widthScreen;
+    public int getWidthViewport() {
+        return widthViewport;
     }
 
-    public int getHeightScreen() {
-        return heightScreen;
+    public int getHeightViewport() {
+        return heightViewport;
     }
 
     public float getX() {

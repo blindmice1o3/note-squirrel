@@ -17,19 +17,20 @@ public class Scene {
     public enum SceneId { FARM, HOME; }
 
     private Context context;
-    private int sideSquareScreen;
+    private GameCartridge.Id cartridgeID;
+    private int widthViewport;
+    private int heightViewport;
 
     private TileMap tileMap;
     private List<Entity> entities;
     private Player player;
     private GameCamera gameCamera;
 
-    private GameCartridge.Id cartridgeID;
-
-    public Scene(Context context, int sideSquareScreen, GameCartridge.Id cartridgeID) {
+    public Scene(Context context, GameCartridge.Id cartridgeID, int widthViewport, int heightViewport) {
         this.context = context;
-        this.sideSquareScreen = sideSquareScreen;
         this.cartridgeID = cartridgeID;
+        this.widthViewport = widthViewport;
+        this.heightViewport = heightViewport;
     }
 
     public void init(Player player, GameCamera gameCamera) {
@@ -69,13 +70,13 @@ public class Scene {
         Rect boundsFarm = new Rect(
                 (int)gameCamera.getX(),
                 (int)gameCamera.getY(),
-                (int)(gameCamera.getX() + gameCamera.getWidthClip()),
-                (int)(gameCamera.getY() + gameCamera.getHeightClip())
+                (int)(gameCamera.getX() + gameCamera.getWidthClipInPixel()),
+                (int)(gameCamera.getY() + gameCamera.getHeightClipInPixel())
         );
-        Rect screenFarm = new Rect(0, 0, sideSquareScreen, sideSquareScreen);
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Rect screenFarm = new Rect(0, 0, widthViewport, heightViewport);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         canvas.drawBitmap(tileMap.getTexture(), boundsFarm, screenFarm, null);
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
         //FOREGROUND
         for (Entity entity : entities) {

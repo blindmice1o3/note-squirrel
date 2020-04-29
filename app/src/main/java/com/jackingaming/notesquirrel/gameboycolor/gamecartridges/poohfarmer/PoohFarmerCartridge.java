@@ -16,7 +16,6 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scen
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles.TileMap;
 import com.jackingaming.notesquirrel.sandbox.learnfragment.FragmentParentDvdActivity;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -28,10 +27,10 @@ public class PoohFarmerCartridge
 
     private SurfaceHolder holder;   //used to get Canvas
     private InputManager inputManager;
-
-    private int sideSquareScreen;
-    private int sideSquareGameCameraInPixel;
-    public float pixelToScreenRatio;
+    private int widthScreen;
+    private int heightScreen;
+    private int widthViewport;
+    private int heightViewport;
 
     private Id idGameCartridge;
     private Player player;
@@ -48,27 +47,23 @@ public class PoohFarmerCartridge
     }
 
     @Override
-    public void init(SurfaceHolder holder, int sideSquareScreen, InputManager inputManager) {
-        Log.d(MainActivity.DEBUG_TAG, "PoohFarmerCartridge.init(SurfaceHolder, int, InputManager)");
+    public void init(SurfaceHolder holder, InputManager inputManager, int widthScreen, int heightScreen) {
+        Log.d(MainActivity.DEBUG_TAG, "PoohFarmerCartridge.init(SurfaceHolder, InputManager, int, int)");
 
         this.holder = holder;
-        this.sideSquareScreen = sideSquareScreen;
         this.inputManager = inputManager;
-        Log.d(MainActivity.DEBUG_TAG, "sideSquareScreen: " + sideSquareScreen);
-
-
-        sideSquareGameCameraInPixel = GameCamera.CLIP_NUMBER_OF_TILES * TileMap.TILE_SIZE;
-        Log.d(MainActivity.DEBUG_TAG, "sideSquareGameCameraInPixel: " + sideSquareGameCameraInPixel);
-        pixelToScreenRatio = ((float)sideSquareScreen) / sideSquareGameCameraInPixel;
-        Log.d(MainActivity.DEBUG_TAG, "pixelToScreenRatio: " + pixelToScreenRatio);
-
+        this.widthScreen = widthScreen;
+        this.heightScreen = heightScreen;
+        ////////////////////////////////////////////////////
+        widthViewport = Math.min(widthScreen, heightScreen);
+        heightViewport = widthViewport; //SQUARE VIEWPORT!!!
+        ////////////////////////////////////////////////////
 
         Assets.init(context);
 
-
         gameCamera = new GameCamera();
-        player = new Player(gameCamera, sideSquareScreen, pixelToScreenRatio);
-        sceneCurrent = new Scene(context, sideSquareScreen, idGameCartridge);
+        player = new Player(gameCamera, widthViewport, heightViewport);
+        sceneCurrent = new Scene(context, idGameCartridge, widthViewport, heightViewport);
         sceneCurrent.init(player, gameCamera);
     }
 

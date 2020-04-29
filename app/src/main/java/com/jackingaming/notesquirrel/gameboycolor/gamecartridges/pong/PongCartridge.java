@@ -27,10 +27,13 @@ public class PongCartridge
     private State state = State.PAUSED;
 
     private Context context;
-    private SurfaceHolder holder;
-    private InputManager inputManager;
 
-    private int sideSquareScreen;
+    private SurfaceHolder holder;   //used to get Canvas
+    private InputManager inputManager;
+    private int widthScreen;
+    private int heightScreen;
+    private int widthViewport;
+    private int heightViewport;
 
     private Id idGameCartridge;
     private Ball ball;
@@ -48,12 +51,17 @@ public class PongCartridge
     }
 
     @Override
-    public void init(SurfaceHolder holder, int sideSquareScreen, InputManager inputManager) {
-        Log.d(MainActivity.DEBUG_TAG, "PongCartridge.init(SurfaceHolder, int, InputManager)");
+    public void init(SurfaceHolder holder, InputManager inputManager, int widthScreen, int heightScreen) {
+        Log.d(MainActivity.DEBUG_TAG, "PongCartridge.init(SurfaceHolder, InputManager, int, int)");
 
         this.holder = holder;
-        this.sideSquareScreen = sideSquareScreen;
         this.inputManager = inputManager;
+        this.widthScreen = widthScreen;
+        this.heightScreen = heightScreen;
+        ////////////////////////////////////////////////////
+        widthViewport = Math.min(widthScreen, heightScreen);
+        heightViewport = widthViewport; //SQUARE VIEWPORT!!!
+        ////////////////////////////////////////////////////
 
         textPaint = new Paint();
         //set text's pivot-point to CENTER-OF-TEXT (instead of TOP-LEFT corner).
@@ -70,9 +78,9 @@ public class PongCartridge
         Bitmap spriteSheetCorgiCrusade = BitmapFactory.decodeResource(context.getResources(), R.drawable.corgi_crusade_editted);
         Bitmap spriteSheetYokoTileset = BitmapFactory.decodeResource(context.getResources(), R.drawable.pc_yoko_tileset);
 
-        ball = new Ball(sideSquareScreen, sideSquareScreen);
-        player = new Bat(sideSquareScreen, sideSquareScreen, Bat.Position.LEFT);
-        opponent = new Bat(sideSquareScreen, sideSquareScreen, Bat.Position.RIGHT);
+        ball = new Ball(widthViewport, heightViewport);
+        player = new Bat(widthViewport, heightViewport, Bat.Position.LEFT);
+        opponent = new Bat(widthViewport, heightViewport, Bat.Position.RIGHT);
 
         ball.init(spriteSheetCorgiCrusade);
         player.init(spriteSheetYokoTileset);
@@ -98,7 +106,7 @@ public class PongCartridge
     public void getInputViewport() {
         if (state == State.RUNNING) {
             if ( (inputManager.getEvent() != null) &&
-                    (inputManager.getEvent().getY() <= sideSquareScreen) )
+                    (inputManager.getEvent().getY() <= heightViewport) )
             player.setBatPosition(inputManager.getEvent().getY());
         } else {
             //FIXING BUG (unreleased touch WAS immediately reinitializing the game).

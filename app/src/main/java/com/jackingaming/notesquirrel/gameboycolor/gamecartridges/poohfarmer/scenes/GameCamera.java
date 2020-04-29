@@ -5,12 +5,13 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tile
 
 public class GameCamera {
 
-    public static final int CLIP_NUMBER_OF_TILES = 9;
+    public static final int CLIP_WIDTH_IN_TILE = 9;
+    public static final int CLIP_HEIGHT_IN_TILE = 9;
 
     private float x;
     private float y;
-    private int widthClip;
-    private int heightClip;
+    private int widthClipInPixel;
+    private int heightClipInPixel;
 
     private Entity entity;
     private int widthSceneMax;
@@ -19,8 +20,8 @@ public class GameCamera {
     public GameCamera() {
         x = 0f;
         y = 0f;
-        widthClip = CLIP_NUMBER_OF_TILES * TileMap.TILE_SIZE;
-        heightClip = CLIP_NUMBER_OF_TILES * TileMap.TILE_SIZE;
+        widthClipInPixel = CLIP_WIDTH_IN_TILE * TileMap.TILE_SIZE;
+        heightClipInPixel = CLIP_HEIGHT_IN_TILE * TileMap.TILE_SIZE;
     }
 
     public void init(Entity entity, int widthSceneMax, int heightSceneMax) {
@@ -37,10 +38,10 @@ public class GameCamera {
     }
 
     private void centerOnEntity() {
-        //get entity's xCenter, subtract half of widthClip.
-        x = (entity.getxCurrent() + (entity.getWidth() / 2)) - (widthClip / 2);
-        //get entity's yCenter, subtract half of heightClip.
-        y = (entity.getyCurrent() + (entity.getHeight() / 2)) - (heightClip / 2);
+        //get entity's xCenter, subtract half of widthClipInPixel.
+        x = (entity.getxCurrent() + (entity.getWidth() / 2)) - (widthClipInPixel / 2);
+        //get entity's yCenter, subtract half of heightClipInPixel.
+        y = (entity.getyCurrent() + (entity.getHeight() / 2)) - (heightClipInPixel / 2);
     }
 
     private void doNotMoveOffScreen() {
@@ -49,12 +50,12 @@ public class GameCamera {
         //TOP
         if (y < 0) { y = 0; }
         //RIGHT
-        if ((x + widthClip) > widthSceneMax) {
-            x = (widthSceneMax - widthClip);
+        if ((x + widthClipInPixel) > widthSceneMax) {
+            x = (widthSceneMax - widthClipInPixel);
         }
         //BOTTOM
-        if ((y + heightClip) > heightSceneMax) {
-            y = (heightSceneMax - heightClip);
+        if ((y + heightClipInPixel) > heightSceneMax) {
+            y = (heightSceneMax - heightClipInPixel);
         }
     }
 
@@ -74,12 +75,12 @@ public class GameCamera {
         this.y = y;
     }
 
-    public int getWidthClip() {
-        return widthClip;
+    public int getWidthClipInPixel() {
+        return widthClipInPixel;
     }
 
-    public int getHeightClip() {
-        return heightClip;
+    public int getHeightClipInPixel() {
+        return heightClipInPixel;
     }
 
 }

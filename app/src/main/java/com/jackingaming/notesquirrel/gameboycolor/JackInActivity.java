@@ -97,9 +97,9 @@ public class JackInActivity extends AppCompatActivity {
             index = 0;
         }
 
-        ////////////////////////////////////////////
+        ///////////////////////////////////////////////
         cartridgeID = GameCartridge.Id.values()[index];
-        ////////////////////////////////////////////
+        ///////////////////////////////////////////////
 
         switch (cartridgeID) {
             case POOH_FARMER:
@@ -117,7 +117,10 @@ public class JackInActivity extends AppCompatActivity {
                 break;
         }
 
-        gameView.runGameCartridge(gameCartridge, inputManager);
+        ///////////////////////////////////////////////////////////////
+        gameView.runGameCartridge(gameCartridge, inputManager,
+                gameView.getWidthScreen(), gameView.getHeightScreen());
+        ///////////////////////////////////////////////////////////////
     }
 
     @Override
