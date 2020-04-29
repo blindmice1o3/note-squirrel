@@ -126,12 +126,12 @@ public class Assets {
 
         // In terms of PIXELS.
         int x = xStartTileIndex * TileMap.TILE_SIZE;
-        int width = (xEndTileIndex - xStartTileIndex) * TileMap.TILE_SIZE;
+        int widthSceneMax = (xEndTileIndex - xStartTileIndex) * TileMap.TILE_SIZE;
         int y = yStartTileIndex * TileMap.TILE_SIZE;
-        int height = (yEndTileIndex - yStartTileIndex) * TileMap.TILE_SIZE;
+        int heightSceneMax = (yEndTileIndex - yStartTileIndex) * TileMap.TILE_SIZE;
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        pokemonWorldMapPart1 = Bitmap.createBitmap(pokemonWorldMapFull, x, y, width, height);
+        pokemonWorldMapPart1 = Bitmap.createBitmap(pokemonWorldMapFull, x, y, widthSceneMax, heightSceneMax);
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         Log.d(MainActivity.DEBUG_TAG, "Assets.initPokemonWorldMap(Resources)... pokemonWorldMapPart1: " + pokemonWorldMapPart1.getWidth() + ", " + pokemonWorldMapPart1.getHeight());
         ///////////////////////////////////////////////////////////////////

@@ -18,14 +18,12 @@ public class TileMap {
 
     Context context;
 
-    private Bitmap texture;
     private TileType[][] tiles;
+    private Bitmap texture;
 
     private int xSpawnIndex;
     private int ySpawnIndex;
 
-    private int columns;
-    private int rows;
     private int widthSceneMax;
     private int heightSceneMax;
 
@@ -36,8 +34,9 @@ public class TileMap {
         this.cartridgeID = cartridgeID;
 
         initSpawnPosition();
-        initTexture();
+
         initTiles();
+        initTexture();
     }
 
     private void initSpawnPosition() {
@@ -49,6 +48,17 @@ public class TileMap {
             case POCKET_CRITTERS:
                 xSpawnIndex = 69;
                 ySpawnIndex = 103;
+                break;
+        }
+    }
+
+    private void initTiles() {
+        switch (cartridgeID) {
+            case POOH_FARMER:
+                initTilesPoohFarmer();
+                break;
+            case POCKET_CRITTERS:
+                initTilesPocketCritters();
                 break;
         }
     }
@@ -65,25 +75,17 @@ public class TileMap {
         }
     }
 
-    private void initTiles() {
-        switch (cartridgeID) {
-            case POOH_FARMER:
-                initTilesPoohFarmer();
-                break;
-            case POCKET_CRITTERS:
-                initTilesPocketCritters();
-                break;
-        }
-    }
-
     private void initTilesPoohFarmer() {
         Bitmap rgbTileMap = Assets.rgbTileFarm;
 
-        columns = rgbTileMap.getWidth();        //Always need.
-        rows = rgbTileMap.getHeight();          //Always need.
-        widthSceneMax = columns * TILE_SIZE;    //Always need.
-        heightSceneMax = rows * TILE_SIZE;      //Always need.
-        tiles = new TileType[rows][columns];    //Always need.
+        int columns = rgbTileMap.getWidth();        //Always need.
+        int rows = rgbTileMap.getHeight();          //Always need.
+        widthSceneMax = columns * TILE_SIZE;        //Always need.
+        heightSceneMax = rows * TILE_SIZE;          //Always need.
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        tiles = new TileType[rows][columns];        //Always need.
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
         //DEFINE EACH ELEMENT.
         for (int y = 0; y < rows; y++) {
@@ -109,13 +111,6 @@ public class TileMap {
 
     private TileSpriteToRGBConverter tileSpriteToRGBConverter;
     private void initTilesPocketCritters() {
-        //CROPPED world map.
-        columns = texture.getWidth() / TILE_SIZE;   //Always need.
-        rows = texture.getHeight() / TILE_SIZE;     //Always need.
-        widthSceneMax = texture.getWidth();         //Always need.
-        heightSceneMax = texture.getHeight();       //Always need.
-        tiles = new TileType[rows][columns];        //Always need.
-
         //TODO: Instead of parsing the world map image for each run, create something similar to rgbTileFarm.
         ////////////////////////////////////////////////////////////////////////////////////////////
         //text-source-file of the FULL world map stored as String.
@@ -130,6 +125,16 @@ public class TileMap {
         int xEndTileIndex = 80;     //EXCLUSIVE (can be +1 index out of bound).
         int yStartTileIndex = 104;  //In terms of number of TILE.
         int yEndTileIndex = 223;    //EXCLUSIVE (can be +1 index out of bound [e.g. array.length]).
+
+        int columns = xEndTileIndex - xStartTileIndex;  //Always need.
+        int rows = yEndTileIndex - yStartTileIndex;     //Always need.
+        widthSceneMax = columns * TILE_SIZE;            //Always need.
+        heightSceneMax = rows * TILE_SIZE;              //Always need.
+
+        //CROPPED world map.
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        tiles = new TileType[rows][columns];            //Always need.
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
         for (int y = yStartTileIndex; y < yEndTileIndex; y++) {
             // Arrays.copyOfRange()'s "from" is inclusive while "to" is exclusive.
