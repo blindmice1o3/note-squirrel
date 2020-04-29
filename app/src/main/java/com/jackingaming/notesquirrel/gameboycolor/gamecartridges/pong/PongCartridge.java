@@ -32,6 +32,7 @@ public class PongCartridge
 
     private int sideSquareScreen;
 
+    private Id idGameCartridge;
     private Ball ball;
     private Bat player;
     private Bat opponent;
@@ -41,8 +42,9 @@ public class PongCartridge
     //private SoundPool soundPool;
     private MediaPlayer mediaPlayer;
 
-    public PongCartridge(Context context) {
+    public PongCartridge(Context context, Id idGameCartridge) {
         this.context = context;
+        this.idGameCartridge = idGameCartridge;
     }
 
     @Override

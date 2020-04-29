@@ -51,7 +51,7 @@ public class JackInActivity extends AppCompatActivity {
 
         //////////////////////////////////////////////////////
         cartridgeID = GameCartridge.Id.POOH_FARMER;
-        gameCartridge = new PoohFarmerCartridge(this);
+        gameCartridge = new PoohFarmerCartridge(this, GameCartridge.Id.POOH_FARMER);
         //////////////////////////////////////////////////////
         swapGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,17 +103,17 @@ public class JackInActivity extends AppCompatActivity {
 
         switch (cartridgeID) {
             case POOH_FARMER:
-                gameCartridge = new PoohFarmerCartridge(this);
+                gameCartridge = new PoohFarmerCartridge(this, GameCartridge.Id.POOH_FARMER);
                 break;
             case PONG:
-                gameCartridge = new PongCartridge(this);
+                gameCartridge = new PongCartridge(this, GameCartridge.Id.PONG);
                 break;
             case POCKET_CRITTERS:
-                gameCartridge = new PocketCrittersCartridge(this);
+                gameCartridge = new PocketCrittersCartridge(this, GameCartridge.Id.POCKET_CRITTERS);
                 break;
             default:
                 Log.d(MainActivity.DEBUG_TAG, "JackInActivity.swapGame() switch's default block.");
-                gameCartridge = new PoohFarmerCartridge(this);
+                gameCartridge = new PoohFarmerCartridge(this, GameCartridge.Id.POOH_FARMER);
                 break;
         }
 

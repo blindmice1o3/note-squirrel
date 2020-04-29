@@ -29,14 +29,15 @@ public class PocketCrittersCartridge
     private int sideSquareGameCameraInPixel;
     public float pixelToScreenRatio;
 
-
+    private Id idGameCartridge;
     private Player player;
     private GameCamera gameCamera;
     private Scene sceneCurrent;
 
-
-    public PocketCrittersCartridge(Context context) {
+    public PocketCrittersCartridge(Context context, Id idGameCartridge) {
         this.context = context;
+        this.idGameCartridge = idGameCartridge;
+
     }
 
     @Override
@@ -60,7 +61,7 @@ public class PocketCrittersCartridge
 
         gameCamera = new GameCamera();
         player = new Player(gameCamera, sideSquareScreen, pixelToScreenRatio);
-        sceneCurrent = new Scene(context, sideSquareScreen, Id.POCKET_CRITTERS);
+        sceneCurrent = new Scene(context, sideSquareScreen, idGameCartridge);
         sceneCurrent.init(player, gameCamera);
     }
 
