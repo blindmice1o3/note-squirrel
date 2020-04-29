@@ -14,6 +14,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.Scene;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
 import com.jackingaming.notesquirrel.sandbox.learnfragment.FragmentParentDvdActivity;
@@ -39,6 +40,7 @@ public class PoohFarmerCartridge
     //TODO: Map<GameCartridge.Id, SceneManager>...
     // Each SceneManager will have their own Map<Scene.Id, Scene>...
     // Each Scene will have tile index initialization values used for both TileMap and texture.
+    private SceneManager sceneManager;
     private Scene sceneCurrent;
 
     public PoohFarmerCartridge(Context context, Id idGameCartridge) {
@@ -63,7 +65,8 @@ public class PoohFarmerCartridge
 
         gameCamera = new GameCamera();
         player = new Player(gameCamera, widthViewport, heightViewport);
-        sceneCurrent = new Scene(context, idGameCartridge, widthViewport, heightViewport);
+        sceneManager = new SceneManager(context, widthViewport, heightViewport, idGameCartridge);
+        sceneCurrent = sceneManager.getCurrentScene();
         sceneCurrent.init(player, gameCamera);
     }
 

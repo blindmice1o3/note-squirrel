@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles.TileMap;
@@ -14,23 +13,23 @@ import java.util.List;
 
 public class Scene {
 
-    public enum SceneId { FARM, HOME; }
+    public enum Id { FARM, PART_01; }
 
     private Context context;
-    private GameCartridge.Id cartridgeID;
     private int widthViewport;
     private int heightViewport;
+    private Id sceneID;
 
     private TileMap tileMap;
     private List<Entity> entities;
     private Player player;
     private GameCamera gameCamera;
 
-    public Scene(Context context, GameCartridge.Id cartridgeID, int widthViewport, int heightViewport) {
+    public Scene(Context context, int widthViewport, int heightViewport, Id sceneID) {
         this.context = context;
-        this.cartridgeID = cartridgeID;
         this.widthViewport = widthViewport;
         this.heightViewport = heightViewport;
+        this.sceneID = sceneID;
     }
 
     public void init(Player player, GameCamera gameCamera) {
@@ -40,7 +39,7 @@ public class Scene {
     }
 
     private void initTileMap() {
-        tileMap = new TileMap(context, cartridgeID);
+        tileMap = new TileMap(context, sceneID);
     }
 
     private void initEntities(Player player) {

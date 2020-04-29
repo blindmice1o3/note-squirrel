@@ -25,9 +25,10 @@ public class Assets {
     public static Bitmap[][] wintermute;  //MS Clippit (aka Wintermute)
     public static Bitmap[][] gobi;
 
-    public static Map<String, Bitmap> dPad;
     public static Bitmap pokemonWorldMapFull;
-    public static Bitmap pokemonWorldMapPart1;
+    public static Bitmap pokemonWorldMapPart1;  //Haven't delete to avoid error from TileSpriteToRGBConverter
+
+    public static Map<String, Bitmap> dPad;
 
     public static void init(Context context) {
         Log.d(MainActivity.DEBUG_TAG, "Assets.init(Context)");
@@ -98,7 +99,7 @@ public class Assets {
 
         //TODO: OutOfMemoryError... Rethink implementation of loading image resources.
         //TODO: Should only call this when JackInActivity.gameCartridge == POCKET_CRITTERS.
-        initPokemonWorldMap(resources);
+        //initPokemonWorldMap(resources);
     }
 
     private static void initEntities(Resources resources) {
@@ -108,21 +109,22 @@ public class Assets {
         loadGobi(resources);
     }
 
-    private static void initPokemonWorldMap(Resources resources) {
-        Log.d(MainActivity.DEBUG_TAG, "Assets.initPokemonWorldMap(Resources)");
+    public static Bitmap initCroppedPokemonWorldMap(Resources resources, Map<TileMap.Specs, Integer> specs) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.initCroppedPokemonWorldMap(Resources, Map<TileMap.Specs, Integer>)");
 
-        pokemonWorldMapFull = BitmapFactory.decodeResource(resources, R.drawable.pokemon_gsc_kanto);
-        Log.d(MainActivity.DEBUG_TAG, "Assets.initPokemonWorldMap(Resources)... pokemonWorldMapFull is null? " + pokemonWorldMapFull);
-        Log.d(MainActivity.DEBUG_TAG, "Assets.initPokemonWorldMap(Resources)... pokemonWorldMapFull: " + pokemonWorldMapFull.getWidth() + ", " + pokemonWorldMapFull.getHeight());
+        Bitmap pokemonWorldMapFull = BitmapFactory.decodeResource(resources, R.drawable.pokemon_gsc_kanto);
+        Log.d(MainActivity.DEBUG_TAG, "pokemonWorldMapFull is null? " + pokemonWorldMapFull);
+        Log.d(MainActivity.DEBUG_TAG, "pokemonWorldMapFull: " + pokemonWorldMapFull.getWidth() + ", " + pokemonWorldMapFull.getHeight());
 
+        Bitmap croppedPokemonWorldMapPart1 = null;
         ///////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////
         //TODO: Switching from hard-value pixel to tile index supplied by TileMap.
-        int xStartTileIndex = 0;
-        int xEndTileIndex = 80;
-        int yStartTileIndex = 104;
-        int yEndTileIndex = 223;
+        int xStartTileIndex = specs.get(TileMap.Specs.X_START_TILE_INDEX);
+        int xEndTileIndex = specs.get(TileMap.Specs.X_END_TILE_INDEX);
+        int yStartTileIndex = specs.get(TileMap.Specs.Y_START_TILE_INDEX);
+        int yEndTileIndex = specs.get(TileMap.Specs.Y_END_TILE_INDEX);
 
         // In terms of PIXELS.
         int x = xStartTileIndex * TileMap.TILE_SIZE;
@@ -131,9 +133,9 @@ public class Assets {
         int heightSceneMax = (yEndTileIndex - yStartTileIndex) * TileMap.TILE_SIZE;
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        pokemonWorldMapPart1 = Bitmap.createBitmap(pokemonWorldMapFull, x, y, widthSceneMax, heightSceneMax);
+        croppedPokemonWorldMapPart1 = Bitmap.createBitmap(pokemonWorldMapFull, x, y, widthSceneMax, heightSceneMax);
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        Log.d(MainActivity.DEBUG_TAG, "Assets.initPokemonWorldMap(Resources)... pokemonWorldMapPart1: " + pokemonWorldMapPart1.getWidth() + ", " + pokemonWorldMapPart1.getHeight());
+        Log.d(MainActivity.DEBUG_TAG, "croppedPokemonWorldMapPart1: " + croppedPokemonWorldMapPart1.getWidth() + ", " + croppedPokemonWorldMapPart1.getHeight());
         ///////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////
@@ -141,7 +143,9 @@ public class Assets {
         //@@@@@@@@@@@@@@@@@@@@@@@@@
         pokemonWorldMapFull = null;
         //@@@@@@@@@@@@@@@@@@@@@@@@@
-        Log.d(MainActivity.DEBUG_TAG, "Assets.initPokemonWorldMap(Resources)... pokemonWorldMapFull is null? " + pokemonWorldMapFull);
+        Log.d(MainActivity.DEBUG_TAG, "Assets.initCroppedPokemonWorldMap(Resources, Map<TileMap.Specs, Integer>)... pokemonWorldMapFull is null? " + pokemonWorldMapFull);
+
+        return croppedPokemonWorldMapPart1;
     }
 
     private static void initDPad(Resources resources) {

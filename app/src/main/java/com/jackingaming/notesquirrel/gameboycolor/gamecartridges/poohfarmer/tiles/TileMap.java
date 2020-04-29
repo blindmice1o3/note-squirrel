@@ -6,32 +6,36 @@ import android.graphics.Color;
 
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TileMap {
 
     public enum TileType { SOLID, WALKABLE, SIGN_POST, TRANSFER_POINT; }
+    public enum Specs { X_START_TILE_INDEX, X_END_TILE_INDEX, Y_START_TILE_INDEX, Y_END_TILE_INDEX; }
     public static final int TILE_SIZE = 16;
 
-    Context context;
+    private Context context;
+    private Scene.Id sceneID;
 
     private TileType[][] tiles;
     private Bitmap texture;
 
     private int xSpawnIndex;
     private int ySpawnIndex;
+    private Map<Specs, Integer> specs;
 
     private int widthSceneMax;
     private int heightSceneMax;
 
-    private GameCartridge.Id cartridgeID;
-
-    public TileMap(Context context, GameCartridge.Id cartridgeID) {
+    public TileMap(Context context, Scene.Id sceneID) {
         this.context = context;
-        this.cartridgeID = cartridgeID;
+        this.sceneID = sceneID;
 
         initSpawnPosition();
 
@@ -40,42 +44,52 @@ public class TileMap {
     }
 
     private void initSpawnPosition() {
-        switch (cartridgeID) {
-            case POOH_FARMER:
+        switch (sceneID) {
+            case FARM:
                 xSpawnIndex = 4;
                 ySpawnIndex = 4;
                 break;
-            case POCKET_CRITTERS:
+            case PART_01:
                 xSpawnIndex = 69;
                 ySpawnIndex = 103;
+
+                //TODO: Move specs initialization.
+                //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                specs = new HashMap<Specs, Integer>();
+                specs.put(Specs.X_START_TILE_INDEX, 0);
+                specs.put(Specs.X_END_TILE_INDEX, 80);
+                specs.put(Specs.Y_START_TILE_INDEX, 104);
+                specs.put(Specs.Y_END_TILE_INDEX, 223);
+                //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
                 break;
         }
     }
 
     private void initTiles() {
-        switch (cartridgeID) {
-            case POOH_FARMER:
-                initTilesPoohFarmer();
+        switch (sceneID) {
+            case FARM:
+                initTilesFarm();
                 break;
-            case POCKET_CRITTERS:
-                initTilesPocketCritters();
+            case PART_01:
+                initTilesPart01();
                 break;
         }
     }
 
     private void initTexture() {
-        switch (cartridgeID) {
-            case POOH_FARMER:
+        switch (sceneID) {
+            case FARM:
                 //SPRING
                 texture = Assets.hm3Farm[0][0];
                 break;
-            case POCKET_CRITTERS:
-                texture = Assets.pokemonWorldMapPart1;
+            case PART_01:
+                texture = Assets.initCroppedPokemonWorldMap(context.getResources(), specs);
                 break;
         }
     }
 
-    private void initTilesPoohFarmer() {
+    private void initTilesFarm() {
         Bitmap rgbTileMap = Assets.rgbTileFarm;
 
         int columns = rgbTileMap.getWidth();        //Always need.
@@ -110,7 +124,7 @@ public class TileMap {
     }
 
     private TileSpriteToRGBConverter tileSpriteToRGBConverter;
-    private void initTilesPocketCritters() {
+    private void initTilesPart01() {
         //TODO: Instead of parsing the world map image for each run, create something similar to rgbTileFarm.
         ////////////////////////////////////////////////////////////////////////////////////////////
         //text-source-file of the FULL world map stored as String.
@@ -121,10 +135,10 @@ public class TileMap {
 
         //DEFINE EACH ELEMENT. (TO CROP TO PROPER SIZE)
         //TODO: these values should be used to crop the full map IMAGE from Assets class.
-        int xStartTileIndex = 0;    //In terms of number of TILE.
-        int xEndTileIndex = 80;     //EXCLUSIVE (can be +1 index out of bound).
-        int yStartTileIndex = 104;  //In terms of number of TILE.
-        int yEndTileIndex = 223;    //EXCLUSIVE (can be +1 index out of bound [e.g. array.length]).
+        int xStartTileIndex = specs.get(Specs.X_START_TILE_INDEX);  //In terms of number of TILE.
+        int xEndTileIndex = specs.get(Specs.X_END_TILE_INDEX);      //EXCLUSIVE (can be +1 index out of bound).
+        int yStartTileIndex = specs.get(Specs.Y_START_TILE_INDEX);  //In terms of number of TILE.
+        int yEndTileIndex = specs.get(Specs.Y_END_TILE_INDEX);      //EXCLUSIVE (can be +1 index out of bound [e.g. array.length]).
 
         int columns = xEndTileIndex - xStartTileIndex;  //Always need.
         int rows = yEndTileIndex - yStartTileIndex;     //Always need.
