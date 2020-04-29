@@ -36,6 +36,10 @@ public class PoohFarmerCartridge
     private Id idGameCartridge;
     private Player player;
     private GameCamera gameCamera;
+
+    //TODO: Map<GameCartridge.Id, SceneManager>...
+    // Each SceneManager will have their own Map<Scene.Id, Scene>...
+    // Each Scene will have tile index initialization values used for both TileMap and texture.
     private Scene sceneCurrent;
 
     public PoohFarmerCartridge(Context context, Id idGameCartridge) {
