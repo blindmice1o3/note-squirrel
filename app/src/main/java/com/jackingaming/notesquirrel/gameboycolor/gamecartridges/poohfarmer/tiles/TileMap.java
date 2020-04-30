@@ -239,6 +239,20 @@ public class TileMap {
         ////////////////////////////////////////////////////////////////////////////////////////////
     }
 
+    public TileType checkTile(int xInspect, int yInspect) {
+        //CHECK BEYOND SCENE BOUND (e.g. inspecting off map)
+        if ((xInspect < 0) ||(xInspect >= widthSceneMax) ||
+                (yInspect < 0) || (yInspect >= heightSceneMax)) {
+            return null;
+        }
+
+        int xIndex = xInspect / TILE_SIZE;
+        int yIndex = yInspect / TILE_SIZE;
+        Log.d(MainActivity.DEBUG_TAG, "TileMap.checkTile(int, int) (now as index values): (" + xIndex + ", " + yIndex + ").");
+
+        return tiles[yIndex][xIndex];
+    }
+
     public boolean isSolid(int xPosition, int yPosition) {
         //TODO: !!!Maybe I don't need to wrap UN-BORDERED scenes with solid tiles!!!
         //CHECK BEYOND SCENE BOUND (e.g. moving off map)
@@ -264,8 +278,6 @@ public class TileMap {
     public Scene.Id getSceneID() {
         return sceneID;
     }
-
-    public TileType[][] getTiles() { return tiles; }
 
     public Bitmap getTexture() {
         return texture;

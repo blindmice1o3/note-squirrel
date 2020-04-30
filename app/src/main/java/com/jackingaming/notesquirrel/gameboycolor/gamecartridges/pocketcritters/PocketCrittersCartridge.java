@@ -37,7 +37,7 @@ public class PocketCrittersCartridge
     // Each SceneManager will have their own Map<Scene.Id, Scene>...
     // Each Scene will have tile index initialization values used for both TileMap and texture.
     private SceneManager sceneManager;
-    private Scene sceneCurrent;
+    //private Scene sceneCurrent;
 
     public PocketCrittersCartridge(Context context, Id idGameCartridge) {
         this.context = context;
@@ -62,8 +62,9 @@ public class PocketCrittersCartridge
         gameCamera = new GameCamera();
         player = new Player(gameCamera, widthViewport, heightViewport);
         sceneManager = new SceneManager(context, widthViewport, heightViewport, idGameCartridge);
-        sceneCurrent = sceneManager.getCurrentScene();
-        sceneCurrent.init(player, gameCamera);
+        sceneManager.init(player, gameCamera);
+        //sceneCurrent = sceneManager.getCurrentScene();
+        //sceneCurrent.init(player, gameCamera);
     }
 
     @Override
@@ -152,7 +153,8 @@ public class PocketCrittersCartridge
         getInputButtonPad();
         ////////////////////////////////////////////////////
 
-        sceneCurrent.update(elapsed);
+        sceneManager.update(elapsed);
+        //sceneCurrent.update(elapsed);
     }
 
     @Override
@@ -167,7 +169,8 @@ public class PocketCrittersCartridge
             canvas.drawColor(Color.WHITE);
 
             //@@@@@@@@@@@@@@@@@@@@@@@@@@
-            sceneCurrent.render(canvas);
+            sceneManager.render(canvas);
+            //sceneCurrent.render(canvas);
             //@@@@@@@@@@@@@@@@@@@@@@@@@@
 
             //unlock it and post our updated drawing to it.

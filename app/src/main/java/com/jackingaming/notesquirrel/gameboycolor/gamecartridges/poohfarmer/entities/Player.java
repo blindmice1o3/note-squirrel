@@ -253,46 +253,46 @@ public class Player extends Entity {
 
     public void checkTileFacing() {
         Log.d(MainActivity.DEBUG_TAG, "Player.checkTileFacing()");
-        TileMap.TileType[][] tiles = tileMap.getTiles();
 
-        float xPlayer = (xCurrent+(width/2)) / TileMap.TILE_SIZE;
-        float yPlayer = (yCurrent+(height/2)) / TileMap.TILE_SIZE;
-        TileMap.TileType tileFacing = null;
+        ////////////////////////////////////////////////
+        if (tileMap.getSceneID() == Scene.Id.PART_01) {
+        ////////////////////////////////////////////////
+            float xPlayerCenter = xCurrent + (width / 2);
+            float yPlayerCenter = yCurrent + (height / 2);
 
-        switch (direction) {
-            //TODO: Change these if-statement to something logical... currently just to get working.
-            // Will only work for PocketCrittersCartridge's croppedWorldMapPart01.
-            case UP:
-                if (tileMap.getWidthSceneMax() == 1280) {
-                    Log.d(MainActivity.DEBUG_TAG, "index of tile facing: (" + (int)(xPlayer) + ", " + (int)(yPlayer - 0.6f) + ").");
-                    tileFacing = tiles[(int)(yPlayer - 0.6f)][(int)(xPlayer)];
-                    Log.d(MainActivity.DEBUG_TAG, "tileFacing: " + tileFacing.name());
-                }
-                break;
-            case DOWN:
-                if (tileMap.getWidthSceneMax() == 1280) {
-                    Log.d(MainActivity.DEBUG_TAG, "index of tile facing: (" + (int)(xPlayer) + ", " + (int)(yPlayer + 0.6f) + ").");
-                    tileFacing = tiles[(int)(yPlayer + 0.6f)][(int)(xPlayer)];
-                    Log.d(MainActivity.DEBUG_TAG, "tileFacing: " + tileFacing.name());
-                }
-                break;
-            case LEFT:
-                if (tileMap.getWidthSceneMax() == 1280) {
-                    Log.d(MainActivity.DEBUG_TAG, "index of tile facing: (" + (int)(xPlayer - 0.6f) + ", " + (int)(yPlayer) + ").");
-                    tileFacing = tiles[(int)(yPlayer)][(int)(xPlayer - 0.6f)];
-                    Log.d(MainActivity.DEBUG_TAG, "tileFacing: " + tileFacing.name());
-                }
-                break;
-            case RIGHT:
-                if (tileMap.getWidthSceneMax() == 1280) {
-                    Log.d(MainActivity.DEBUG_TAG, "index of tile facing: (" + (int)(xPlayer + 0.6f) + ", " + (int)(yPlayer) + ").");
-                    tileFacing = tiles[(int)(yPlayer)][(int)(xPlayer + 0.6f)];
-                    Log.d(MainActivity.DEBUG_TAG, "tileFacing: " + tileFacing.name());
-                }
-                break;
-            default:
-                Log.d(MainActivity.DEBUG_TAG, "Player.checkTileFacing() switch construct's default block.");
-                break;
+            int xInspect = 0;
+            int yInspect = 0;
+            switch (direction) {
+                case UP:
+                    xInspect = (int) (xPlayerCenter);
+                    yInspect = (int) (yPlayerCenter - ((height / 2) + 1));
+                    break;
+                case DOWN:
+                    xInspect = (int) (xPlayerCenter);
+                    yInspect = (int) (yPlayerCenter + ((height / 2) + 1));
+                    break;
+                case LEFT:
+                    xInspect = (int) (xPlayerCenter - ((width / 2) + 1));
+                    yInspect = (int) (yPlayerCenter);
+                    break;
+                case RIGHT:
+                    xInspect = (int) (xPlayerCenter + ((width / 2) + 1));
+                    yInspect = (int) (yPlayerCenter);
+                    break;
+                default:
+                    Log.d(MainActivity.DEBUG_TAG, "Player.checkTileFacing() switch construct's default block.");
+                    break;
+            }
+
+            Log.d(MainActivity.DEBUG_TAG, "checkTileFacing at (currently in pixel values): (" + xInspect + ", " + yInspect + ").");
+            ////////////////////////////////////////////////////////////////////
+            TileMap.TileType tileFacing = tileMap.checkTile(xInspect, yInspect);
+            ////////////////////////////////////////////////////////////////////
+            if (tileFacing != null) {
+                Log.d(MainActivity.DEBUG_TAG, "tileFacing: " + tileFacing.name());
+            } else {
+                Log.d(MainActivity.DEBUG_TAG, "tileFacing is null");
+            }
         }
     }
 
