@@ -3,6 +3,7 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.til
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
@@ -26,10 +27,11 @@ public class TileMap {
 
     private TileType[][] tiles;
     private Bitmap texture;
+    private Map<Specs, Integer> specs; //ONLY USE FOR full-world-map related TEXTURE and TILES.
 
     private int xSpawnIndex;
     private int ySpawnIndex;
-    private Map<Specs, Integer> specs; //ONLY USE FOR full-world-map related TEXTURE and TILES.
+    private Map<Scene.Id, Rect> transferPoints;
 
     private int widthSceneMax;
     private int heightSceneMax;
@@ -41,6 +43,26 @@ public class TileMap {
         init();
     }
 
+    private void initTransferPointsWorldMapPart01() {
+        transferPoints = new HashMap<Scene.Id, Rect>();
+
+        //TODO: Clean up values.
+        transferPoints.put( Scene.Id.HOME_01, new Rect(1040, (3248-(104*TILE_SIZE)), 1040+TILE_SIZE, (3248-(104*TILE_SIZE))+TILE_SIZE) );
+        transferPoints.put( Scene.Id.HOME_RIVAL, new Rect(1168, (3248-(104*TILE_SIZE)), 1168+TILE_SIZE, (3248-(104*TILE_SIZE))+TILE_SIZE) );
+        transferPoints.put( Scene.Id.LAB, new Rect(1152, (3344-(104*TILE_SIZE)), 1152+TILE_SIZE, (3344-(104*TILE_SIZE))+TILE_SIZE) );
+    }
+
+    public boolean checkTransferPointsCollision(Rect boundsFuture) {
+        Log.d(MainActivity.DEBUG_TAG, "TileMap.checkTransferPointsCollision(Rect)");
+        for (Rect transferPoint : transferPoints.values()) {
+            if (transferPoint.intersect(boundsFuture)) {
+                Log.d(MainActivity.DEBUG_TAG, "TileMap.checkTransferPointsCollision(Rect) TRUE");
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void init() {
         switch (sceneID) {
             case FARM:
@@ -50,6 +72,10 @@ public class TileMap {
             case PART_01:
                 xSpawnIndex = 69;
                 ySpawnIndex = 103;
+
+                ///////////////////////////////////
+                initTransferPointsWorldMapPart01();
+                ///////////////////////////////////
 
                 //ONLY USE FOR full-world-map related TEXTURE and TILES.
                 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -214,6 +240,7 @@ public class TileMap {
     }
 
     public boolean isSolid(int xPosition, int yPosition) {
+        //TODO: !!!Maybe I don't need to wrap UN-BORDERED scenes with solid tiles!!!
         //CHECK BEYOND SCENE BOUND (e.g. moving off map)
         if ((xPosition < 0) ||(xPosition >= widthSceneMax) ||
                 (yPosition < 0) || (yPosition >= heightSceneMax)) {
@@ -232,6 +259,10 @@ public class TileMap {
 
         //DEFAULT IS TileType.SOLID (not walkable)
         return true;
+    }
+
+    public Scene.Id getSceneID() {
+        return sceneID;
     }
 
     public TileType[][] getTiles() { return tiles; }

@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Animation;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
@@ -85,32 +86,56 @@ public class Player extends Entity {
         }
 
         //TODO: check entity collision with if-statement
-        moveX();    //currently checking tile collisions
+        moveX();    //currently checking tile collisions/transfer points
         //TODO: check entity collision with if-statement
-        moveY();    //currently checking tile collisions
+        moveY();    //currently checking tile collisions/transfer points
     }
 
     private void moveX() {
         //LEFT
         if (xMove < 0) {
-            int xFuture = (int) (xCurrent + xMove);
+            int xFutureLeft = (int) (xCurrent + xMove);
+            int xFutureRight = (int) ((xCurrent + width) + xMove - 1);
             int yFutureTop = (int) (yCurrent);
             int yFutureBottom = (int) (yCurrent + height - 1);
 
-            if (!tileMap.isSolid(xFuture, yFutureTop) && !tileMap.isSolid(xFuture, yFutureBottom)) {
+            //CHECKING tile collision
+            if (!tileMap.isSolid(xFutureLeft, yFutureTop) && !tileMap.isSolid(xFutureLeft, yFutureBottom)) {
+
                 xCurrent += xMove;
                 gameCamera.update(0L);
+
+                //CHECKING TransferPoints
+                if (tileMap.getSceneID() != Scene.Id.FARM) {
+                    Rect collisionBoundsFuture = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
+                    if (tileMap.checkTransferPointsCollision(collisionBoundsFuture)) {
+                        Log.d(MainActivity.DEBUG_TAG, "Player.moveY() LEFT, @@@@@transfer point collision@@@@@");
+                        //TODO: Implement logic for switching scenes.
+                    }
+                }
             }
         }
         //RIGHT
         else if (xMove > 0) {
-            int xFuture = (int) ((xCurrent + width) + xMove - 1);
+            int xFutureLeft = (int) (xCurrent + xMove);
+            int xFutureRight = (int) ((xCurrent + width) + xMove - 1);
             int yFutureTop = (int) (yCurrent);
             int yFutureBottom = (int) (yCurrent + height - 1);
 
-            if (!tileMap.isSolid(xFuture, yFutureTop) && !tileMap.isSolid(xFuture, yFutureBottom)) {
+            //CHECKING tile collision
+            if (!tileMap.isSolid(xFutureRight, yFutureTop) && !tileMap.isSolid(xFutureRight, yFutureBottom)) {
+
                 xCurrent += xMove;
                 gameCamera.update(0L);
+
+                //CHECKING TransferPoints
+                if (tileMap.getSceneID() != Scene.Id.FARM) {
+                    Rect collisionBoundsFuture = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
+                    if (tileMap.checkTransferPointsCollision(collisionBoundsFuture)) {
+                        Log.d(MainActivity.DEBUG_TAG, "Player.moveY() RIGHT, @@@@@transfer point collision@@@@@");
+                        //TODO: Implement logic for switching scenes.
+                    }
+                }
             }
         }
     }
@@ -118,24 +143,48 @@ public class Player extends Entity {
     private void moveY() {
         //UP
         if (yMove < 0) {
-            int yFuture = (int) (yCurrent + yMove);
+            int yFutureTop = (int) (yCurrent + yMove);
+            int yFutureBottom = (int) ((yCurrent + height) + yMove - 1);
             int xFutureLeft = (int) (xCurrent);
             int xFutureRight = (int) (xCurrent + width - 1);
 
-            if (!tileMap.isSolid(xFutureLeft, yFuture) && !tileMap.isSolid(xFutureRight, yFuture)) {
+            //CHECKING tile collision
+            if (!tileMap.isSolid(xFutureLeft, yFutureTop) && !tileMap.isSolid(xFutureRight, yFutureTop)) {
+
                 yCurrent += yMove;
                 gameCamera.update(0L);
+
+                //CHECKING TransferPoints
+                if (tileMap.getSceneID() != Scene.Id.FARM) {
+                    Rect collisionBoundsFuture = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
+                    if (tileMap.checkTransferPointsCollision(collisionBoundsFuture)) {
+                        Log.d(MainActivity.DEBUG_TAG, "Player.moveY() UP, @@@@@transfer point collision@@@@@");
+                        //TODO: Implement logic for switching scenes.
+                    }
+                }
             }
         }
         //DOWN
         else if (yMove > 0) {
-            int yFuture = (int) ((yCurrent + height) + yMove - 1);
+            int yFutureTop = (int) (yCurrent + yMove);
+            int yFutureBottom = (int) ((yCurrent + height) + yMove - 1);
             int xFutureLeft = (int) (xCurrent);
             int xFutureRight = (int) (xCurrent + width - 1);
 
-            if (!tileMap.isSolid(xFutureLeft, yFuture) && !tileMap.isSolid(xFutureRight, yFuture)) {
+            //CHECKING tile collision
+            if (!tileMap.isSolid(xFutureLeft, yFutureBottom) && !tileMap.isSolid(xFutureRight, yFutureBottom)) {
+
                 yCurrent += yMove;
                 gameCamera.update(0L);
+
+                //CHECKING TransferPoints
+                if (tileMap.getSceneID() != Scene.Id.FARM) {
+                    Rect collisionBoundsFuture = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
+                    if (tileMap.checkTransferPointsCollision(collisionBoundsFuture)) {
+                        Log.d(MainActivity.DEBUG_TAG, "Player.moveY() DOWN, @@@@@transfer point collision@@@@@");
+                        //TODO: Implement logic for switching scenes.
+                    }
+                }
             }
         }
     }
