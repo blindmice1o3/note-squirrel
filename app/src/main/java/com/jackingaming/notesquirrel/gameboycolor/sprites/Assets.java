@@ -26,7 +26,7 @@ public class Assets {
     public static Bitmap[][] gobi;
 
     public static Bitmap pokemonWorldMapFull;
-    public static Bitmap pokemonWorldMapPart1;  //Haven't delete to avoid error from TileSpriteToRGBConverter
+    public static Bitmap pokemonWorldMapPart1;  //Have not deleted to avoid error from TileSpriteToRGBConverter
 
     public static Map<String, Bitmap> dPad;
 
@@ -90,7 +90,7 @@ public class Assets {
         */
         ////////////////////////////////////////////////////////////////////////////////
 
-        initHm3Farm(resources);
+        //initHm3Farm(resources);
         initItems(resources);
         initEntities(resources);
 
@@ -109,18 +109,15 @@ public class Assets {
         loadGobi(resources);
     }
 
-    public static Bitmap initCroppedPokemonWorldMap(Resources resources, Map<TileMap.Specs, Integer> specs) {
-        Log.d(MainActivity.DEBUG_TAG, "Assets.initCroppedPokemonWorldMap(Resources, Map<TileMap.Specs, Integer>)");
+    public static Bitmap cropWorldMapPart01(Resources resources, Map<TileMap.Specs, Integer> specs) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropWorldMapPart01(Resources, Map<TileMap.Specs, Integer>)");
 
-        Bitmap pokemonWorldMapFull = BitmapFactory.decodeResource(resources, R.drawable.pokemon_gsc_kanto);
-        Log.d(MainActivity.DEBUG_TAG, "pokemonWorldMapFull is null? " + pokemonWorldMapFull);
-        Log.d(MainActivity.DEBUG_TAG, "pokemonWorldMapFull: " + pokemonWorldMapFull.getWidth() + ", " + pokemonWorldMapFull.getHeight());
+        Bitmap fullWorldMap = BitmapFactory.decodeResource(resources, R.drawable.pokemon_gsc_kanto);
+        Bitmap croppedWorldMapPart01 = null;
 
-        Bitmap croppedPokemonWorldMapPart1 = null;
-        ///////////////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////////////
-        //TODO: Switching from hard-value pixel to tile index supplied by TileMap.
+        ////////////////////////////////////////////////////////////////////////////
+        //Switched from hard-coded pixel values to tile index supplied by TileMap.//
+        ////////////////////////////////////////////////////////////////////////////
         int xStartTileIndex = specs.get(TileMap.Specs.X_START_TILE_INDEX);
         int xEndTileIndex = specs.get(TileMap.Specs.X_END_TILE_INDEX);
         int yStartTileIndex = specs.get(TileMap.Specs.Y_START_TILE_INDEX);
@@ -132,20 +129,18 @@ public class Assets {
         int y = yStartTileIndex * TileMap.TILE_SIZE;
         int heightSceneMax = (yEndTileIndex - yStartTileIndex) * TileMap.TILE_SIZE;
 
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        croppedPokemonWorldMapPart1 = Bitmap.createBitmap(pokemonWorldMapFull, x, y, widthSceneMax, heightSceneMax);
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        Log.d(MainActivity.DEBUG_TAG, "croppedPokemonWorldMapPart1: " + croppedPokemonWorldMapPart1.getWidth() + ", " + croppedPokemonWorldMapPart1.getHeight());
-        ///////////////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////////////
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        croppedWorldMapPart01 = Bitmap.createBitmap(fullWorldMap, x, y, widthSceneMax, heightSceneMax);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "croppedWorldMapPart01: " + croppedWorldMapPart01.getWidth() + ", " + croppedWorldMapPart01.getHeight());
 
-        //@@@@@@@@@@@@@@@@@@@@@@@@@
-        pokemonWorldMapFull = null;
-        //@@@@@@@@@@@@@@@@@@@@@@@@@
-        Log.d(MainActivity.DEBUG_TAG, "Assets.initCroppedPokemonWorldMap(Resources, Map<TileMap.Specs, Integer>)... pokemonWorldMapFull is null? " + pokemonWorldMapFull);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        fullWorldMap = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropWorldMapPart01(Resources, Map<TileMap.Specs, Integer>)... fullWorldMap is null? " + fullWorldMap);
 
-        return croppedPokemonWorldMapPart1;
+        return croppedWorldMapPart01;
     }
 
     private static void initDPad(Resources resources) {
@@ -163,6 +158,26 @@ public class Assets {
         dPad.put("menu", Bitmap.createBitmap(source, 172, 375, 136, 52));
         dPad.put("a", Bitmap.createBitmap(source, 172, 435, 64, 52));
         dPad.put("b", Bitmap.createBitmap(source, 244, 435, 64, 52));
+    }
+
+    public static Bitmap cropFarmSpring(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropFarmSpring(Resources)");
+
+        Bitmap farmSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm3_farm);
+        Bitmap croppedFarmSpring = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        croppedFarmSpring = Bitmap.createBitmap(farmSpriteSheet, 14, 39, 384, 400);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "croppedFarmSpring: " + croppedFarmSpring.getWidth() + ", " + croppedFarmSpring.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        farmSpriteSheet = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropFarmSpring(Resources)... farmSpriteSheet is null? " + farmSpriteSheet);
+
+        return croppedFarmSpring;
     }
 
     private static void initHm3Farm(Resources resources) {

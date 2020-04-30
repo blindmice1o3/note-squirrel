@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 
 import com.jackingaming.notesquirrel.R;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
 
@@ -28,7 +27,7 @@ public class TileMap {
 
     private int xSpawnIndex;
     private int ySpawnIndex;
-    private Map<Specs, Integer> specs;
+    private Map<Specs, Integer> specs; //ONLY USE FOR full-world-map related TEXTURE and TILES.
 
     private int widthSceneMax;
     private int heightSceneMax;
@@ -37,13 +36,10 @@ public class TileMap {
         this.context = context;
         this.sceneID = sceneID;
 
-        initSpawnPosition();
-
-        initTiles();
-        initTexture();
+        init();
     }
 
-    private void initSpawnPosition() {
+    private void init() {
         switch (sceneID) {
             case FARM:
                 xSpawnIndex = 4;
@@ -53,7 +49,6 @@ public class TileMap {
                 xSpawnIndex = 69;
                 ySpawnIndex = 103;
 
-                //TODO: Move specs initialization.
                 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                 specs = new HashMap<Specs, Integer>();
                 specs.put(Specs.X_START_TILE_INDEX, 0);
@@ -61,9 +56,13 @@ public class TileMap {
                 specs.put(Specs.Y_START_TILE_INDEX, 104);
                 specs.put(Specs.Y_END_TILE_INDEX, 223);
                 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
                 break;
         }
+
+        //@@@@@@@@@@@@
+        initTiles();
+        initTexture();
+        //@@@@@@@@@@@@
     }
 
     private void initTiles() {
@@ -80,11 +79,10 @@ public class TileMap {
     private void initTexture() {
         switch (sceneID) {
             case FARM:
-                //SPRING
-                texture = Assets.hm3Farm[0][0];
+                texture = Assets.cropFarmSpring(context.getResources());
                 break;
             case PART_01:
-                texture = Assets.initCroppedPokemonWorldMap(context.getResources(), specs);
+                texture = Assets.cropWorldMapPart01(context.getResources(), specs);
                 break;
         }
     }
