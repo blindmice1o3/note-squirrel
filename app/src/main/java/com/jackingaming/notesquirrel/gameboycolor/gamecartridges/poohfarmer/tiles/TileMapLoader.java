@@ -102,6 +102,18 @@ public class TileMapLoader {
                 else if (tokens[((y * columns) + x) + 2].equals("2")) {
                     tiles[y][x] = TileMap.TileType.WALKABLE;
                 }
+                //TelevisionTile
+                else if (tokens[((y * columns) + x) + 2].equals("3")) {
+                    tiles[y][x] = TileMap.TileType.SOLID;
+                }
+                //ComputerTile
+                else if (tokens[((y * columns) + x) + 2].equals("4")) {
+                    tiles[y][x] = TileMap.TileType.SOLID;
+                }
+                //GameConsoleTile
+                else if (tokens[((y * columns) + x) + 2].equals("5")) {
+                    tiles[y][x] = TileMap.TileType.SOLID;
+                }
                 //NullTile (blank tile)
                 else if (tokens[((y * columns) + x) + 2].equals("9")) {
                     tiles[y][x] = TileMap.TileType.SOLID;
