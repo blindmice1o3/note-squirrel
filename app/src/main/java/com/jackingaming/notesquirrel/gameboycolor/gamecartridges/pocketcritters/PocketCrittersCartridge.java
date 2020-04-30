@@ -132,6 +132,10 @@ public class PocketCrittersCartridge
             //a button
             else if (inputManager.isaButtonPad()) {
                 Log.d(MainActivity.DEBUG_TAG, "a-button");
+
+                /////////////////////////
+                player.checkTileFacing();
+                /////////////////////////
             }
             //b button
             else if (inputManager.isbButtonPad()) {

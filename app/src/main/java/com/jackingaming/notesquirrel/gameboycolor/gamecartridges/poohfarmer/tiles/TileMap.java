@@ -3,7 +3,9 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.til
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.util.Log;
 
+import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
@@ -141,6 +143,7 @@ public class TileMap {
         int columns = xEndTileIndex - xStartTileIndex;  //Always need.
         int rows = yEndTileIndex - yStartTileIndex;     //Always need.
         widthSceneMax = columns * TILE_SIZE;            //Always need.
+        Log.d(MainActivity.DEBUG_TAG, "TileMap.initTilesPart01() widthSceneMax: " + widthSceneMax);
         heightSceneMax = rows * TILE_SIZE;              //Always need.
 
         //CROPPED world map.
@@ -193,6 +196,8 @@ public class TileMap {
         //DEFAULT IS TileType.SOLID (not walkable)
         return true;
     }
+
+    public TileType[][] getTiles() { return tiles; }
 
     public Bitmap getTexture() {
         return texture;

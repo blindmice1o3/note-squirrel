@@ -3,7 +3,9 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.ent
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.util.Log;
 
+import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Animation;
@@ -198,6 +200,51 @@ public class Player extends Entity {
 
     public void setTileMap(TileMap tileMap) {
         this.tileMap = tileMap;
+    }
+
+    public void checkTileFacing() {
+        Log.d(MainActivity.DEBUG_TAG, "Player.checkTileFacing()");
+        TileMap.TileType[][] tiles = tileMap.getTiles();
+
+        float xPlayer = (xCurrent+(width/2)) / TileMap.TILE_SIZE;
+        float yPlayer = (yCurrent+(height/2)) / TileMap.TILE_SIZE;
+        TileMap.TileType tileFacing = null;
+
+        switch (direction) {
+            //TODO: Change these if-statement to something logical... currently just to get working.
+            // Will only work for PocketCrittersCartridge's croppedWorldMapPart01.
+            case UP:
+                if (tileMap.getWidthSceneMax() == 1280) {
+                    Log.d(MainActivity.DEBUG_TAG, "index of tile facing: (" + (int)(xPlayer) + ", " + (int)(yPlayer - 0.6f) + ").");
+                    tileFacing = tiles[(int)(yPlayer - 0.6f)][(int)(xPlayer)];
+                    Log.d(MainActivity.DEBUG_TAG, "tileFacing: " + tileFacing.name());
+                }
+                break;
+            case DOWN:
+                if (tileMap.getWidthSceneMax() == 1280) {
+                    Log.d(MainActivity.DEBUG_TAG, "index of tile facing: (" + (int)(xPlayer) + ", " + (int)(yPlayer + 0.6f) + ").");
+                    tileFacing = tiles[(int)(yPlayer + 0.6f)][(int)(xPlayer)];
+                    Log.d(MainActivity.DEBUG_TAG, "tileFacing: " + tileFacing.name());
+                }
+                break;
+            case LEFT:
+                if (tileMap.getWidthSceneMax() == 1280) {
+                    Log.d(MainActivity.DEBUG_TAG, "index of tile facing: (" + (int)(xPlayer - 0.6f) + ", " + (int)(yPlayer) + ").");
+                    tileFacing = tiles[(int)(yPlayer)][(int)(xPlayer - 0.6f)];
+                    Log.d(MainActivity.DEBUG_TAG, "tileFacing: " + tileFacing.name());
+                }
+                break;
+            case RIGHT:
+                if (tileMap.getWidthSceneMax() == 1280) {
+                    Log.d(MainActivity.DEBUG_TAG, "index of tile facing: (" + (int)(xPlayer + 0.6f) + ", " + (int)(yPlayer) + ").");
+                    tileFacing = tiles[(int)(yPlayer)][(int)(xPlayer + 0.6f)];
+                    Log.d(MainActivity.DEBUG_TAG, "tileFacing: " + tileFacing.name());
+                }
+                break;
+            default:
+                Log.d(MainActivity.DEBUG_TAG, "Player.checkTileFacing() switch construct's default block.");
+                break;
+        }
     }
 
     public Direction getDirection() { return direction; }
