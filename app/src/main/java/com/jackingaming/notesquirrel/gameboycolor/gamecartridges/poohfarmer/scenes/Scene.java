@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Scene {
 
-    public enum Id { FARM, PART_01; }
+    public enum Id { FARM, PART_01, HOME_01, HOME_02, HOME_RIVAL, LAB; }
 
     private Context context;
     private int widthViewport;

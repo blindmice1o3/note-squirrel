@@ -109,6 +109,86 @@ public class Assets {
         loadGobi(resources);
     }
 
+    public static Bitmap cropHome01(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropHome01(Resources)");
+
+        Bitmap indoorsHomeAndRoom = BitmapFactory.decodeResource(resources, R.drawable.indoors_home_and_room);
+        Bitmap home01 = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        home01 = Bitmap.createBitmap(indoorsHomeAndRoom, 160, 16, 128, 128);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "home01: " + home01.getWidth() + ", " + home01.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        indoorsHomeAndRoom = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropHome01(Resources)... indoorsHomeAndRoom is null? " + indoorsHomeAndRoom);
+
+        return home01;
+    }
+
+    public static Bitmap cropHome02(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropHome02(Resources)");
+
+        Bitmap indoorsHomeAndRoom = BitmapFactory.decodeResource(resources, R.drawable.indoors_home_and_room);
+        Bitmap home02 = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        home02 = Bitmap.createBitmap(indoorsHomeAndRoom, 16, 16, 128, 128);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "home02: " + home02.getWidth() + ", " + home02.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        indoorsHomeAndRoom = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropHome02(Resources)... indoorsHomeAndRoom is null? " + indoorsHomeAndRoom);
+
+        return home02;
+    }
+
+    public static Bitmap cropHomeRival(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropHomeRival(Resources)");
+
+        Bitmap indoorsHomeAndRoom = BitmapFactory.decodeResource(resources, R.drawable.indoors_home_and_room);
+        Bitmap homeRival = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        homeRival = Bitmap.createBitmap(indoorsHomeAndRoom, 304, 16, 128, 128);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "homeRival: " + homeRival.getWidth() + ", " + homeRival.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        indoorsHomeAndRoom = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropHomeRival(Resources)... indoorsHomeAndRoom is null? " + indoorsHomeAndRoom);
+
+        return homeRival;
+    }
+
+    public static Bitmap cropLab(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropLab(Resources)");
+
+        Bitmap indoorsHomeAndRoom = BitmapFactory.decodeResource(resources, R.drawable.indoors_home_and_room);
+        Bitmap lab = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        lab = Bitmap.createBitmap(indoorsHomeAndRoom, 23, 544, 160, 192);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "lab: " + lab.getWidth() + ", " + lab.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        indoorsHomeAndRoom = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropLab(Resources)... indoorsHomeAndRoom is null? " + indoorsHomeAndRoom);
+
+        return lab;
+    }
+
     public static Bitmap cropWorldMapPart01(Resources resources, Map<TileMap.Specs, Integer> specs) {
         Log.d(MainActivity.DEBUG_TAG, "Assets.cropWorldMapPart01(Resources, Map<TileMap.Specs, Integer>)");
 
@@ -141,23 +221,6 @@ public class Assets {
         Log.d(MainActivity.DEBUG_TAG, "Assets.cropWorldMapPart01(Resources, Map<TileMap.Specs, Integer>)... fullWorldMap is null? " + fullWorldMap);
 
         return croppedWorldMapPart01;
-    }
-
-    private static void initDPad(Resources resources) {
-        Log.d(MainActivity.DEBUG_TAG, "Assets.initDPad(Resources)");
-        Bitmap source = BitmapFactory.decodeResource(resources, R.drawable.d_pad);
-
-        dPad = new HashMap<String, Bitmap>();
-
-        dPad.put("up", Bitmap.createBitmap(source, 62, 365, 52, 40));
-        dPad.put("left", Bitmap.createBitmap(source, 22, 405, 40, 52));
-        dPad.put("center", Bitmap.createBitmap(source, 62, 405, 52, 52));
-        dPad.put("right", Bitmap.createBitmap(source, 114, 405, 40, 52));
-        dPad.put("down", Bitmap.createBitmap(source, 62, 457, 52, 40));
-
-        dPad.put("menu", Bitmap.createBitmap(source, 172, 375, 136, 52));
-        dPad.put("a", Bitmap.createBitmap(source, 172, 435, 64, 52));
-        dPad.put("b", Bitmap.createBitmap(source, 244, 435, 64, 52));
     }
 
     public static Bitmap cropFarmSpring(Resources resources) {
@@ -210,6 +273,23 @@ public class Assets {
         hm3Farm[3][0] = Bitmap.createBitmap(spriteSheet, 1202, 40, 384, 400);
         hm3Farm[3][1] = Bitmap.createBitmap(spriteSheet, 1202, 443, 48, 112);
         hm3Farm[3][2] = Bitmap.createBitmap(spriteSheet, 1506, 443, 80, 80);
+    }
+
+    private static void initDPad(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.initDPad(Resources)");
+        Bitmap source = BitmapFactory.decodeResource(resources, R.drawable.d_pad);
+
+        dPad = new HashMap<String, Bitmap>();
+
+        dPad.put("up", Bitmap.createBitmap(source, 62, 365, 52, 40));
+        dPad.put("left", Bitmap.createBitmap(source, 22, 405, 40, 52));
+        dPad.put("center", Bitmap.createBitmap(source, 62, 405, 52, 52));
+        dPad.put("right", Bitmap.createBitmap(source, 114, 405, 40, 52));
+        dPad.put("down", Bitmap.createBitmap(source, 62, 457, 52, 40));
+
+        dPad.put("menu", Bitmap.createBitmap(source, 172, 375, 136, 52));
+        dPad.put("a", Bitmap.createBitmap(source, 172, 435, 64, 52));
+        dPad.put("b", Bitmap.createBitmap(source, 244, 435, 64, 52));
     }
 
     private static void initItems(Resources resources){

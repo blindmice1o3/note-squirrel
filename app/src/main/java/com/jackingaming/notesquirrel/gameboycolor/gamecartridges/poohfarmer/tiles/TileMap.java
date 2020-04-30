@@ -51,6 +51,7 @@ public class TileMap {
                 xSpawnIndex = 69;
                 ySpawnIndex = 103;
 
+                //ONLY USE FOR full-world-map related TEXTURE and TILES.
                 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                 specs = new HashMap<Specs, Integer>();
                 specs.put(Specs.X_START_TILE_INDEX, 0);
@@ -58,6 +59,18 @@ public class TileMap {
                 specs.put(Specs.Y_START_TILE_INDEX, 104);
                 specs.put(Specs.Y_END_TILE_INDEX, 223);
                 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                break;
+            case HOME_01:
+                //TODO: xSpawnIndex = _; ySpawnIndex = _;
+                break;
+            case HOME_02:
+                //TODO: xSpawnIndex = _; ySpawnIndex = _;
+                break;
+            case HOME_RIVAL:
+                //TODO: xSpawnIndex = _; ySpawnIndex = _;
+                break;
+            case LAB:
+                //TODO: xSpawnIndex = _; ySpawnIndex = _;
                 break;
         }
 
@@ -75,6 +88,18 @@ public class TileMap {
             case PART_01:
                 initTilesPart01();
                 break;
+            case HOME_01:
+                //TODO: initTilesHome01();
+                break;
+            case HOME_02:
+                //TODO: initTilesHome02();
+                break;
+            case HOME_RIVAL:
+                //TODO: initTilesHomeRival();
+                break;
+            case LAB:
+                //TODO: initTilesLab();
+                break;
         }
     }
 
@@ -85,6 +110,18 @@ public class TileMap {
                 break;
             case PART_01:
                 texture = Assets.cropWorldMapPart01(context.getResources(), specs);
+                break;
+            case HOME_01:
+                texture = Assets.cropHome01(context.getResources());
+                break;
+            case HOME_02:
+                texture = Assets.cropHome02(context.getResources());
+                break;
+            case HOME_RIVAL:
+                texture = Assets.cropHomeRival(context.getResources());
+                break;
+            case LAB:
+                texture = Assets.cropLab(context.getResources());
                 break;
         }
     }
