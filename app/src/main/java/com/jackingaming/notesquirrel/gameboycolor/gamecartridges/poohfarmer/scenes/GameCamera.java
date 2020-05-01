@@ -1,5 +1,8 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes;
 
+import android.util.Log;
+
+import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles.TileMap;
 
@@ -25,6 +28,8 @@ public class GameCamera {
     }
 
     public void init(Entity entity, int widthSceneMax, int heightSceneMax) {
+        Log.d(MainActivity.DEBUG_TAG, "GameCamera.init(Entity, int, int)");
+
         this.entity = entity;
         this.widthSceneMax = widthSceneMax;
         this.heightSceneMax = heightSceneMax;

@@ -44,6 +44,8 @@ public class TileMap {
     }
 
     private void initTransferPointsWorldMapPart01() {
+        Log.d(MainActivity.DEBUG_TAG, "TileMap.initTransferPointsWorldMapPart01()");
+
         transferPoints = new HashMap<Scene.Id, Rect>();
 
         //TODO: Clean up values.
@@ -54,6 +56,7 @@ public class TileMap {
 
     public boolean checkTransferPointsCollision(Rect boundsFuture) {
         Log.d(MainActivity.DEBUG_TAG, "TileMap.checkTransferPointsCollision(Rect)");
+
         for (Rect transferPoint : transferPoints.values()) {
             if (transferPoint.intersect(boundsFuture)) {
                 Log.d(MainActivity.DEBUG_TAG, "TileMap.checkTransferPointsCollision(Rect) TRUE");
@@ -64,6 +67,8 @@ public class TileMap {
     }
 
     private void init() {
+        Log.d(MainActivity.DEBUG_TAG, "TileMap.init()");
+
         switch (sceneID) {
             case FARM:
                 xSpawnIndex = 4;
@@ -107,6 +112,8 @@ public class TileMap {
     }
 
     private void initTiles() {
+        Log.d(MainActivity.DEBUG_TAG, "TileMap.initTiles()");
+
         switch (sceneID) {
             case FARM:
                 initTilesFarm();
@@ -130,6 +137,8 @@ public class TileMap {
     }
 
     private void initTexture() {
+        Log.d(MainActivity.DEBUG_TAG, "TileMap.initTexture()");
+
         switch (sceneID) {
             case FARM:
                 texture = Assets.cropFarmSpring(context.getResources());
@@ -153,6 +162,8 @@ public class TileMap {
     }
 
     private void initTilesFarm() {
+        Log.d(MainActivity.DEBUG_TAG, "TileMap.initTilesFarm()");
+
         Bitmap rgbTileMap = Assets.rgbTileFarm;
 
         int columns = rgbTileMap.getWidth();        //Always need.
@@ -188,6 +199,8 @@ public class TileMap {
 
     private TileSpriteToRGBConverter tileSpriteToRGBConverter;
     private void initTilesPart01() {
+        Log.d(MainActivity.DEBUG_TAG, "TileMap.initTilesPart01()");
+
         //TODO: Instead of parsing the world map image for each run, create something similar to rgbTileFarm.
         ////////////////////////////////////////////////////////////////////////////////////////////
         //text-source-file of the FULL world map stored as String.
@@ -240,6 +253,8 @@ public class TileMap {
     }
 
     public TileType checkTile(int xInspect, int yInspect) {
+        Log.d(MainActivity.DEBUG_TAG, "TileMap.checkTile(int, int)");
+
         //CHECK BEYOND SCENE BOUND (e.g. inspecting off map)
         if ((xInspect < 0) ||(xInspect >= widthSceneMax) ||
                 (yInspect < 0) || (yInspect >= heightSceneMax)) {

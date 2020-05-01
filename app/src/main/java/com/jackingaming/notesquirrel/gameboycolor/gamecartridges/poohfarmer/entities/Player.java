@@ -51,10 +51,14 @@ public class Player extends Entity {
 
     @Override
     public void init() {
+        Log.d(MainActivity.DEBUG_TAG, "Player.init()");
+
         initAnimation();
     }
 
     private void initAnimation() {
+        Log.d(MainActivity.DEBUG_TAG, "Player.initAnimation()");
+
         animation = new HashMap<Direction, Animation>();
 
         animation.put(Direction.DOWN, new Animation(420, Assets.corgiCrusade[0]));
@@ -248,6 +252,8 @@ public class Player extends Entity {
     }
 
     public void setTileMap(TileMap tileMap) {
+        Log.d(MainActivity.DEBUG_TAG, "Player.setTileMap(TileMap)");
+
         this.tileMap = tileMap;
     }
 
@@ -296,8 +302,16 @@ public class Player extends Entity {
         }
     }
 
-    public Direction getDirection() { return direction; }
+    public Direction getDirection() {
+        Log.d(MainActivity.DEBUG_TAG, "Player.getDirection()");
 
-    public void setDirection(Direction direction) { this.direction = direction; }
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        Log.d(MainActivity.DEBUG_TAG, "Player.setDirection(Direction)");
+
+        this.direction = direction;
+    }
 
 }

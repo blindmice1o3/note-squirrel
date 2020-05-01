@@ -20,6 +20,8 @@ import java.io.InputStreamReader;
 public class TileMapLoader {
 
     public static String loadFileAsString(Context context, int resId) {
+        Log.d(MainActivity.DEBUG_TAG, "TileMapLoader.loadFileAsString(Context, int)");
+
         StringBuilder sb = new StringBuilder();
         BufferedReader bufferedReader = null;
         ////////////////////////////////////////////////////////////////////////
@@ -69,6 +71,8 @@ public class TileMapLoader {
      * To split on any amount of white space, use "\\s+" as the argument to "split()".
      */
     public static TileMap.TileType[][] convertStringToTiles(String stringOfTiles) {
+        Log.d(MainActivity.DEBUG_TAG, "TileMapLoader.convertStringToTiles(String)");
+
         String[] tokens = stringOfTiles.split("\\s+");
 
         // Set the width and height of our world, in terms of number of tiles (NOT PIXELS).

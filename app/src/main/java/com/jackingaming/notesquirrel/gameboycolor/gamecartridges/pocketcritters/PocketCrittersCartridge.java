@@ -11,7 +11,6 @@ import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
@@ -32,12 +31,7 @@ public class PocketCrittersCartridge
     private Id idGameCartridge;
     private Player player;
     private GameCamera gameCamera;
-
-    //TODO: Map<GameCartridge.Id, SceneManager>...
-    // Each SceneManager will have their own Map<Scene.Id, Scene>...
-    // Each Scene will have tile index initialization values used for both TileMap and texture.
     private SceneManager sceneManager;
-    //private Scene sceneCurrent;
 
     public PocketCrittersCartridge(Context context, Id idGameCartridge) {
         this.context = context;
@@ -63,18 +57,16 @@ public class PocketCrittersCartridge
         player = new Player(gameCamera, widthViewport, heightViewport);
         sceneManager = new SceneManager(context, widthViewport, heightViewport, idGameCartridge);
         sceneManager.init(player, gameCamera);
-        //sceneCurrent = sceneManager.getCurrentScene();
-        //sceneCurrent.init(player, gameCamera);
     }
 
     @Override
     public void savePresentState() {
-
+        Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.savePresentState()");
     }
 
     @Override
     public void loadSavedState() {
-
+        Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.loadSavedState()");
     }
 
     @Override
@@ -153,8 +145,7 @@ public class PocketCrittersCartridge
         getInputButtonPad();
         ////////////////////////////////////////////////////
 
-        sceneManager.update(elapsed);
-        //sceneCurrent.update(elapsed);
+        sceneManager.getCurrentScene().update(elapsed);
     }
 
     @Override
@@ -169,8 +160,7 @@ public class PocketCrittersCartridge
             canvas.drawColor(Color.WHITE);
 
             //@@@@@@@@@@@@@@@@@@@@@@@@@@
-            sceneManager.render(canvas);
-            //sceneCurrent.render(canvas);
+            sceneManager.getCurrentScene().render(canvas);
             //@@@@@@@@@@@@@@@@@@@@@@@@@@
 
             //unlock it and post our updated drawing to it.

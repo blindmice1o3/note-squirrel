@@ -2,10 +2,10 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.sce
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 
+import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles.TileMap;
@@ -35,16 +35,34 @@ public class Scene {
     }
 
     public void init(Player player, GameCamera gameCamera) {
+        Log.d(MainActivity.DEBUG_TAG, "Scene.init(Player, GameCamera)");
+
         initTileMap();
         initEntities(player);
         initGameCamera(gameCamera);
     }
 
+    public void enter(Object[] extra) {
+        Log.d(MainActivity.DEBUG_TAG, "Scene.enter(Object[])");
+
+    }
+
+    public void exit() {
+        Log.d(MainActivity.DEBUG_TAG, "Scene.exit()");
+
+    }
+
+    //TODO: move some of these to Scene.enter(Object[])
     private void initTileMap() {
+        Log.d(MainActivity.DEBUG_TAG, "Scene.initTileMap()");
+
         tileMap = new TileMap(context, sceneID);
     }
 
+    //TODO: move some of these to Scene.enter(Object[])
     private void initEntities(Player player) {
+        Log.d(MainActivity.DEBUG_TAG, "Scene.initEntities(Player)");
+
         this.player = player;
         player.init();
         player.setTileMap(tileMap);
@@ -55,7 +73,10 @@ public class Scene {
         entities.add(player);
     }
 
+    //TODO: move some of these to Scene.enter(Object[])
     private void initGameCamera(GameCamera gameCamera) {
+        Log.d(MainActivity.DEBUG_TAG, "Scene.initGameCamera(GameCamera)");
+
         this.gameCamera = gameCamera;
         gameCamera.init(player, tileMap.getWidthSceneMax(), tileMap.getHeightSceneMax());
     }
@@ -86,6 +107,8 @@ public class Scene {
     }
 
     public TileMap getTileMap() {
+        Log.d(MainActivity.DEBUG_TAG, "Scene.getTileMap()");
+
         return tileMap;
     }
 
