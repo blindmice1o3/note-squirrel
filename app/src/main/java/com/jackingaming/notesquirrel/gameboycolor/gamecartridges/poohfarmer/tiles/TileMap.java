@@ -59,8 +59,8 @@ public class TileMap {
 
         transferPoints = new HashMap<Scene.Id, Rect>();
 
-        transferPoints.put( Scene.Id.HOME_02, new Rect(8*TILE_SIZE, 2*TILE_SIZE, (8*TILE_SIZE)+(1*TILE_SIZE), (2*TILE_SIZE)+(1*TILE_SIZE)) );
-        transferPoints.put( Scene.Id.PART_01, new Rect(3*TILE_SIZE, 8*TILE_SIZE, (3*TILE_SIZE)+(2*TILE_SIZE), (8*TILE_SIZE)+(1*TILE_SIZE)) );
+        transferPoints.put( Scene.Id.HOME_02, new Rect(7*TILE_SIZE, 1*TILE_SIZE, (7*TILE_SIZE)+(1*TILE_SIZE), (1*TILE_SIZE)+(1*TILE_SIZE)) );
+        transferPoints.put( Scene.Id.PART_01, new Rect(2*TILE_SIZE, 7*TILE_SIZE, (2*TILE_SIZE)+(2*TILE_SIZE), (7*TILE_SIZE)+(1*TILE_SIZE)) );
     }
 
     private void initTransferPointsHome02() {
@@ -133,8 +133,8 @@ public class TileMap {
                 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                 break;
             case HOME_01:
-                xSpawnIndex = 3;
-                ySpawnIndex = 7;
+                xSpawnIndex = 2;
+                ySpawnIndex = 6;
 
                 ///////////////////////////
                 initTransferPointsHome01();

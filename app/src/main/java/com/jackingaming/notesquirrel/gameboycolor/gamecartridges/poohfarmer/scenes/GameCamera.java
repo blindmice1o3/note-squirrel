@@ -8,8 +8,8 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tile
 
 public class GameCamera {
 
-    public static final int CLIP_WIDTH_IN_TILE = 9;
-    public static final int CLIP_HEIGHT_IN_TILE = 9;
+    public static final int CLIP_WIDTH_IN_TILE = 8;
+    public static final int CLIP_HEIGHT_IN_TILE = 8;
 
     private float x;
     private float y;
