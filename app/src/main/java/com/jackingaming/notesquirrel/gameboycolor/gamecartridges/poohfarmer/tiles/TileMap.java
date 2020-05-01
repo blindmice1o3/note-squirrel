@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class TileMap {
 
-    public enum TileType { SOLID, WALKABLE, SIGN_POST, TRANSFER_POINT; }
+    public enum TileType { SOLID, WALKABLE, TELEVISION, COMPUTER, GAME_CONSOLE, SIGN_POST, TRANSFER_POINT; }
     public enum Specs { X_START_TILE_INDEX, X_END_TILE_INDEX, Y_START_TILE_INDEX, Y_END_TILE_INDEX; }
     public static final int TILE_SIZE = 16;
 
@@ -54,16 +54,57 @@ public class TileMap {
         transferPoints.put( Scene.Id.LAB, new Rect(1152, (3344-(104*TILE_SIZE)), 1152+TILE_SIZE, (3344-(104*TILE_SIZE))+TILE_SIZE) );
     }
 
-    public boolean checkTransferPointsCollision(Rect boundsFuture) {
+    private void initTransferPointsHome01() {
+        Log.d(MainActivity.DEBUG_TAG, "TileMap.initTransferPointsHome01()");
+
+        transferPoints = new HashMap<Scene.Id, Rect>();
+
+        transferPoints.put( Scene.Id.HOME_02, new Rect(8*TILE_SIZE, 2*TILE_SIZE, (8*TILE_SIZE)+(1*TILE_SIZE), (2*TILE_SIZE)+(1*TILE_SIZE)) );
+        transferPoints.put( Scene.Id.PART_01, new Rect(3*TILE_SIZE, 8*TILE_SIZE, (3*TILE_SIZE)+(2*TILE_SIZE), (8*TILE_SIZE)+(1*TILE_SIZE)) );
+    }
+
+    private void initTransferPointsHome02() {
+        Log.d(MainActivity.DEBUG_TAG, "TileMap.initTransferPointsHome02()");
+
+        transferPoints = new HashMap<Scene.Id, Rect>();
+
+        transferPoints.put( Scene.Id.HOME_01, new Rect(8*TILE_SIZE, 2*TILE_SIZE, (8*TILE_SIZE)+(1*TILE_SIZE), (2*TILE_SIZE)+(1*TILE_SIZE)) );
+    }
+
+    private void initTransferPointsHomeRival() {
+        Log.d(MainActivity.DEBUG_TAG, "TileMap.initTransferPointsHomeRival()");
+
+        transferPoints = new HashMap<Scene.Id, Rect>();
+
+        transferPoints.put( Scene.Id.PART_01, new Rect(3*TILE_SIZE, 8*TILE_SIZE, (3*TILE_SIZE)+(2*TILE_SIZE), (8*TILE_SIZE)+(1*TILE_SIZE)) );
+    }
+
+    private void initTransferPointsLab() {
+        Log.d(MainActivity.DEBUG_TAG, "TileMap.initTransferPointsLab()");
+
+        transferPoints = new HashMap<Scene.Id, Rect>();
+
+        transferPoints.put( Scene.Id.PART_01, new Rect(5*TILE_SIZE, 12*TILE_SIZE, (5*TILE_SIZE)+(2*TILE_SIZE), (12*TILE_SIZE)+(1*TILE_SIZE)) );
+    }
+
+    public Scene.Id checkTransferPointsCollision(Rect boundsFuture) {
         Log.d(MainActivity.DEBUG_TAG, "TileMap.checkTransferPointsCollision(Rect)");
 
-        for (Rect transferPoint : transferPoints.values()) {
-            if (transferPoint.intersect(boundsFuture)) {
+        for (Scene.Id id : transferPoints.keySet()) {
+            if (transferPoints.get(id).intersect(boundsFuture)) {
                 Log.d(MainActivity.DEBUG_TAG, "TileMap.checkTransferPointsCollision(Rect) TRUE");
-                return true;
+                Log.d(MainActivity.DEBUG_TAG, "TileMap.checkTransferPointsCollision(Rect) TRUE, Scene.Id id: " + id.name());
+                return id;
             }
         }
-        return false;
+//        for (Rect transferPoint : transferPoints.values()) {
+//            if (transferPoint.intersect(boundsFuture)) {
+//                Log.d(MainActivity.DEBUG_TAG, "TileMap.checkTransferPointsCollision(Rect) TRUE");
+//                return true;
+//            }
+//        }
+
+        return null;
     }
 
     private void init() {
@@ -92,16 +133,36 @@ public class TileMap {
                 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                 break;
             case HOME_01:
-                //TODO: xSpawnIndex = _; ySpawnIndex = _;
+                xSpawnIndex = 3;
+                ySpawnIndex = 7;
+
+                ///////////////////////////
+                initTransferPointsHome01();
+                ///////////////////////////
                 break;
             case HOME_02:
-                //TODO: xSpawnIndex = _; ySpawnIndex = _;
+                xSpawnIndex = 8;
+                ySpawnIndex = 3;
+
+                ///////////////////////////
+                initTransferPointsHome02();
+                ///////////////////////////
                 break;
             case HOME_RIVAL:
-                //TODO: xSpawnIndex = _; ySpawnIndex = _;
+                xSpawnIndex = 3;
+                ySpawnIndex = 7;
+
+                //////////////////////////////
+                initTransferPointsHomeRival();
+                //////////////////////////////
                 break;
             case LAB:
-                //TODO: xSpawnIndex = _; ySpawnIndex = _;
+                xSpawnIndex = 5;
+                ySpawnIndex = 11;
+
+                ////////////////////////
+                initTransferPointsLab();
+                ////////////////////////
                 break;
         }
 
@@ -122,16 +183,16 @@ public class TileMap {
                 initTilesPart01();
                 break;
             case HOME_01:
-                //TODO: initTilesHome01();
+                initTiles(R.raw.tile_home01);
                 break;
             case HOME_02:
-                //TODO: initTilesHome02();
+                initTiles(R.raw.tile_home02);
                 break;
             case HOME_RIVAL:
-                //TODO: initTilesHomeRival();
+                initTiles(R.raw.tile_home_rival);
                 break;
             case LAB:
-                //TODO: initTilesLab();
+                initTiles(R.raw.tile_lab);
                 break;
         }
     }
@@ -195,6 +256,19 @@ public class TileMap {
                 }
             }
         }
+    }
+
+    private void initTiles(int resId) {
+        Log.d(MainActivity.DEBUG_TAG, "TileMap.initTiles(int)");
+
+        String stringOfTiles = TileMapLoader.loadFileAsString(context, resId);
+        tiles = TileMapLoader.convertStringToTiles(stringOfTiles);
+
+        int columns = tiles[0].length;          //Always need.
+        int rows = tiles.length;                //Always need.
+        widthSceneMax = columns * TILE_SIZE;    //Always need.
+        Log.d(MainActivity.DEBUG_TAG, "TileMap.initTiles(int) widthSceneMax: " + widthSceneMax);
+        heightSceneMax = rows * TILE_SIZE;      //Always need.
     }
 
     private TileSpriteToRGBConverter tileSpriteToRGBConverter;

@@ -17,6 +17,9 @@ public class SceneManager {
     private int heightViewport;
     private GameCartridge.Id cartridgeID;
 
+    private Player player;
+    private GameCamera gameCamera;
+
     private List<Scene> sceneStack;
 
     public SceneManager(Context context, int widthViewport, int heightViewport, GameCartridge.Id cartridgeID) {
@@ -30,32 +33,36 @@ public class SceneManager {
 
     public void init(Player player, GameCamera gameCamera) {
         Log.d(MainActivity.DEBUG_TAG, "SceneManager.init(Player, GameCamera)");
+        this.player = player;
+        this.gameCamera = gameCamera;
 
-        Scene startScene = null;
+        Scene.Id id = null;
 
         switch (cartridgeID) {
             case POOH_FARMER:
-                startScene = new Scene(context, widthViewport, heightViewport, Scene.Id.FARM);
+                id = Scene.Id.FARM;
                 break;
             case POCKET_CRITTERS:
-                startScene = new Scene(context, widthViewport, heightViewport, Scene.Id.PART_01);
+                id = Scene.Id.PART_01;
                 break;
             default:
                 Log.d(MainActivity.DEBUG_TAG, "SceneManager.init(Player, GameCamera) switch construct's default block.");
         }
 
-        startScene.init(player, gameCamera); //Scene.init(Player, GameCamera) is called.
-        push(startScene, null);        //Scene.enter() is called.
+        push(id, null);
     }
 
-    public void push(Scene scene, Object[] extra) {
+    public void push(Scene.Id id, Object[] extra) {
         Log.d(MainActivity.DEBUG_TAG, "SceneManager.push(Scene, Object[])");
 
-        ///////////////////
-        scene.enter(extra);
-        ///////////////////
+        Scene newScene = new Scene(context, widthViewport, heightViewport, id);
+        newScene.init(player, gameCamera);
 
-        sceneStack.add(scene);
+        //////////////////////
+        newScene.enter(extra);
+        //////////////////////
+
+        sceneStack.add(newScene);
     }
 
     public void pop() {

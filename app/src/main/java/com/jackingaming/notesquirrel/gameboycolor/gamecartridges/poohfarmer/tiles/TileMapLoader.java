@@ -108,15 +108,15 @@ public class TileMapLoader {
                 }
                 //TelevisionTile
                 else if (tokens[((y * columns) + x) + 2].equals("3")) {
-                    tiles[y][x] = TileMap.TileType.SOLID;
+                    tiles[y][x] = TileMap.TileType.TELEVISION;
                 }
                 //ComputerTile
                 else if (tokens[((y * columns) + x) + 2].equals("4")) {
-                    tiles[y][x] = TileMap.TileType.SOLID;
+                    tiles[y][x] = TileMap.TileType.COMPUTER;
                 }
                 //GameConsoleTile
                 else if (tokens[((y * columns) + x) + 2].equals("5")) {
-                    tiles[y][x] = TileMap.TileType.SOLID;
+                    tiles[y][x] = TileMap.TileType.GAME_CONSOLE;
                 }
                 //NullTile (blank tile)
                 else if (tokens[((y * columns) + x) + 2].equals("9")) {

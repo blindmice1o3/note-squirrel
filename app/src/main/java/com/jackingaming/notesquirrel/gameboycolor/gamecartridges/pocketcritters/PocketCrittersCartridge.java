@@ -54,7 +54,7 @@ public class PocketCrittersCartridge
         Assets.init(context);
 
         gameCamera = new GameCamera();
-        player = new Player(gameCamera, widthViewport, heightViewport);
+        player = new Player(this, gameCamera, widthViewport, heightViewport);
         sceneManager = new SceneManager(context, widthViewport, heightViewport, idGameCartridge);
         sceneManager.init(player, gameCamera);
     }
@@ -170,4 +170,7 @@ public class PocketCrittersCartridge
         }
     }
 
+    public SceneManager getSceneManager() {
+        return sceneManager;
+    }
 }

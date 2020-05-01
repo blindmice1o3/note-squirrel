@@ -6,6 +6,8 @@ import android.graphics.Rect;
 import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.PocketCrittersCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles.TileMap;
@@ -19,6 +21,7 @@ public class Player extends Entity {
 
     public enum Direction { UP, DOWN, LEFT, RIGHT; }
 
+    private GameCartridge gameCartridge;
     private GameCamera gameCamera;
     private float widthPixelToViewportRatio;
     private float heightPixelToViewportRatio;
@@ -32,9 +35,10 @@ public class Player extends Entity {
     private float yMove;
     private TileMap tileMap;
 
-    public Player(GameCamera gameCamera, int widthViewport, int heightViewport) {
+    public Player(GameCartridge gameCartridge, GameCamera gameCamera, int widthViewport, int heightViewport) {
         super(0f, 0f);
 
+        this.gameCartridge = gameCartridge;
         this.gameCamera = gameCamera;
 
         int widthClipInPixel = gameCamera.getWidthClipInPixel();
@@ -112,9 +116,11 @@ public class Player extends Entity {
                 //CHECKING TransferPoints
                 if (tileMap.getSceneID() != Scene.Id.FARM) {
                     Rect collisionBoundsFuture = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
-                    if (tileMap.checkTransferPointsCollision(collisionBoundsFuture)) {
+                    if (tileMap.checkTransferPointsCollision(collisionBoundsFuture) != null) {
                         Log.d(MainActivity.DEBUG_TAG, "Player.moveY() LEFT, @@@@@transfer point collision@@@@@");
                         //TODO: Implement logic for switching scenes.
+                        Scene.Id id = tileMap.checkTransferPointsCollision(collisionBoundsFuture);
+                        ((PocketCrittersCartridge)gameCartridge).getSceneManager().push(id, null);
                     }
                 }
             }
@@ -135,9 +141,11 @@ public class Player extends Entity {
                 //CHECKING TransferPoints
                 if (tileMap.getSceneID() != Scene.Id.FARM) {
                     Rect collisionBoundsFuture = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
-                    if (tileMap.checkTransferPointsCollision(collisionBoundsFuture)) {
+                    if (tileMap.checkTransferPointsCollision(collisionBoundsFuture) != null) {
                         Log.d(MainActivity.DEBUG_TAG, "Player.moveY() RIGHT, @@@@@transfer point collision@@@@@");
                         //TODO: Implement logic for switching scenes.
+                        Scene.Id id = tileMap.checkTransferPointsCollision(collisionBoundsFuture);
+                        ((PocketCrittersCartridge)gameCartridge).getSceneManager().push(id, null);
                     }
                 }
             }
@@ -161,9 +169,11 @@ public class Player extends Entity {
                 //CHECKING TransferPoints
                 if (tileMap.getSceneID() != Scene.Id.FARM) {
                     Rect collisionBoundsFuture = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
-                    if (tileMap.checkTransferPointsCollision(collisionBoundsFuture)) {
+                    if (tileMap.checkTransferPointsCollision(collisionBoundsFuture) != null) {
                         Log.d(MainActivity.DEBUG_TAG, "Player.moveY() UP, @@@@@transfer point collision@@@@@");
                         //TODO: Implement logic for switching scenes.
+                        Scene.Id id = tileMap.checkTransferPointsCollision(collisionBoundsFuture);
+                        ((PocketCrittersCartridge)gameCartridge).getSceneManager().push(id, null);
                     }
                 }
             }
@@ -184,9 +194,11 @@ public class Player extends Entity {
                 //CHECKING TransferPoints
                 if (tileMap.getSceneID() != Scene.Id.FARM) {
                     Rect collisionBoundsFuture = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
-                    if (tileMap.checkTransferPointsCollision(collisionBoundsFuture)) {
+                    if (tileMap.checkTransferPointsCollision(collisionBoundsFuture) != null) {
                         Log.d(MainActivity.DEBUG_TAG, "Player.moveY() DOWN, @@@@@transfer point collision@@@@@");
                         //TODO: Implement logic for switching scenes.
+                        Scene.Id id = tileMap.checkTransferPointsCollision(collisionBoundsFuture);
+                        ((PocketCrittersCartridge)gameCartridge).getSceneManager().push(id, null);
                     }
                 }
             }
