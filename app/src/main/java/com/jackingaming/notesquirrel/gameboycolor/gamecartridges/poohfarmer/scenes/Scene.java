@@ -44,12 +44,16 @@ public class Scene {
 
     public void enter(Object[] extra) {
         Log.d(MainActivity.DEBUG_TAG, "Scene.enter(Object[])");
-
+        //TODO: implement
     }
 
     public void exit() {
         Log.d(MainActivity.DEBUG_TAG, "Scene.exit()");
 
+        //TODO: work-around for bug to get it working.
+        tileMap = null;
+
+        //TODO: implement
     }
 
     //TODO: move some of these to Scene.enter(Object[])
