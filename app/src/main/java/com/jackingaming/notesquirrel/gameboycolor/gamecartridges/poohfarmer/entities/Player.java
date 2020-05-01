@@ -118,8 +118,11 @@ public class Player extends Entity {
                     Rect collisionBoundsFuture = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
                     if (tileMap.checkTransferPointsCollision(collisionBoundsFuture) != null) {
                         Log.d(MainActivity.DEBUG_TAG, "Player.moveY() LEFT, @@@@@transfer point collision@@@@@");
-                        //TODO: Implement logic for switching scenes.
+                        //TODO: Re-implement (refactor) logic for switching scenes.
+                        //TODO: !!!!!DON'T CREATE NEW Scene instance FOR EVERY TRANSFER!!!!!
+                        //TODO: !!!!!POP() IS NEVER CALLED!!!!!
                         Scene.Id id = tileMap.checkTransferPointsCollision(collisionBoundsFuture);
+                        //TODO: Instead of handling transfering here, do it in TileMap.checkTransferPointsCollision(Rect).
                         ((PocketCrittersCartridge)gameCartridge).getSceneManager().push(id, null);
                     }
                 }
@@ -143,8 +146,11 @@ public class Player extends Entity {
                     Rect collisionBoundsFuture = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
                     if (tileMap.checkTransferPointsCollision(collisionBoundsFuture) != null) {
                         Log.d(MainActivity.DEBUG_TAG, "Player.moveY() RIGHT, @@@@@transfer point collision@@@@@");
-                        //TODO: Implement logic for switching scenes.
+                        //TODO: Re-implement (refactor) logic for switching scenes.
+                        //TODO: !!!!!DON'T CREATE NEW Scene instance FOR EVERY TRANSFER!!!!!
+                        //TODO: !!!!!POP() IS NEVER CALLED!!!!!
                         Scene.Id id = tileMap.checkTransferPointsCollision(collisionBoundsFuture);
+                        //TODO: Instead of handling transfering here, do it in TileMap.checkTransferPointsCollision(Rect).
                         ((PocketCrittersCartridge)gameCartridge).getSceneManager().push(id, null);
                     }
                 }
@@ -171,8 +177,11 @@ public class Player extends Entity {
                     Rect collisionBoundsFuture = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
                     if (tileMap.checkTransferPointsCollision(collisionBoundsFuture) != null) {
                         Log.d(MainActivity.DEBUG_TAG, "Player.moveY() UP, @@@@@transfer point collision@@@@@");
-                        //TODO: Implement logic for switching scenes.
+                        //TODO: Re-implement (refactor) logic for switching scenes.
+                        //TODO: !!!!!DON'T CREATE NEW Scene instance FOR EVERY TRANSFER!!!!!
+                        //TODO: !!!!!POP() IS NEVER CALLED!!!!!
                         Scene.Id id = tileMap.checkTransferPointsCollision(collisionBoundsFuture);
+                        //TODO: Instead of handling transfering here, do it in TileMap.checkTransferPointsCollision(Rect).
                         ((PocketCrittersCartridge)gameCartridge).getSceneManager().push(id, null);
                     }
                 }
@@ -196,8 +205,11 @@ public class Player extends Entity {
                     Rect collisionBoundsFuture = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
                     if (tileMap.checkTransferPointsCollision(collisionBoundsFuture) != null) {
                         Log.d(MainActivity.DEBUG_TAG, "Player.moveY() DOWN, @@@@@transfer point collision@@@@@");
-                        //TODO: Implement logic for switching scenes.
+                        //TODO: Re-implement (refactor) logic for switching scenes.
+                        //TODO: !!!!!DON'T CREATE NEW Scene instance FOR EVERY TRANSFER!!!!!
+                        //TODO: !!!!!POP() IS NEVER CALLED!!!!!
                         Scene.Id id = tileMap.checkTransferPointsCollision(collisionBoundsFuture);
+                        //TODO: Instead of handling transfering here, do it in TileMap.checkTransferPointsCollision(Rect).
                         ((PocketCrittersCartridge)gameCartridge).getSceneManager().push(id, null);
                     }
                 }

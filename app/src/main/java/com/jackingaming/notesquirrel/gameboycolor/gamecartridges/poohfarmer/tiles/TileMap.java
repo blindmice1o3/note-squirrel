@@ -68,7 +68,7 @@ public class TileMap {
 
         transferPoints = new HashMap<Scene.Id, Rect>();
 
-        transferPoints.put( Scene.Id.HOME_01, new Rect(8*TILE_SIZE, 2*TILE_SIZE, (8*TILE_SIZE)+(1*TILE_SIZE), (2*TILE_SIZE)+(1*TILE_SIZE)) );
+        transferPoints.put( Scene.Id.HOME_01, new Rect(7*TILE_SIZE, 1*TILE_SIZE, (7*TILE_SIZE)+(1*TILE_SIZE), (1*TILE_SIZE)+(1*TILE_SIZE)) );
     }
 
     private void initTransferPointsHomeRival() {
@@ -76,7 +76,7 @@ public class TileMap {
 
         transferPoints = new HashMap<Scene.Id, Rect>();
 
-        transferPoints.put( Scene.Id.PART_01, new Rect(3*TILE_SIZE, 8*TILE_SIZE, (3*TILE_SIZE)+(2*TILE_SIZE), (8*TILE_SIZE)+(1*TILE_SIZE)) );
+        transferPoints.put( Scene.Id.PART_01, new Rect(2*TILE_SIZE, 7*TILE_SIZE, (2*TILE_SIZE)+(2*TILE_SIZE), (7*TILE_SIZE)+(1*TILE_SIZE)) );
     }
 
     private void initTransferPointsLab() {
@@ -84,9 +84,10 @@ public class TileMap {
 
         transferPoints = new HashMap<Scene.Id, Rect>();
 
-        transferPoints.put( Scene.Id.PART_01, new Rect(5*TILE_SIZE, 12*TILE_SIZE, (5*TILE_SIZE)+(2*TILE_SIZE), (12*TILE_SIZE)+(1*TILE_SIZE)) );
+        transferPoints.put( Scene.Id.PART_01, new Rect(4*TILE_SIZE, 11*TILE_SIZE, (4*TILE_SIZE)+(2*TILE_SIZE), (11*TILE_SIZE)+(1*TILE_SIZE)) );
     }
 
+    //TODO: Instead of returning Scene.Id to Player class... HANDLE transferring here.
     public Scene.Id checkTransferPointsCollision(Rect boundsFuture) {
         Log.d(MainActivity.DEBUG_TAG, "TileMap.checkTransferPointsCollision(Rect)");
 
@@ -94,15 +95,19 @@ public class TileMap {
             if (transferPoints.get(id).intersect(boundsFuture)) {
                 Log.d(MainActivity.DEBUG_TAG, "TileMap.checkTransferPointsCollision(Rect) TRUE");
                 Log.d(MainActivity.DEBUG_TAG, "TileMap.checkTransferPointsCollision(Rect) TRUE, Scene.Id id: " + id.name());
+
+                ////////////////////////////////////////////////////////////////////////////////////
+                //TODO: if entering indoors scene AND current in PART_01... "recordLocationPriorToTransfer()"...
+
+                //TODO: if entering PART_01... "loadLocationPriorToTransfer()"...
+                ////////////////////////////////////////////////////////////////////////////////////
+
+                //TODO: switch construct to set spawning position base on scene entering into.
+                // Change the scene.
+
                 return id;
             }
         }
-//        for (Rect transferPoint : transferPoints.values()) {
-//            if (transferPoint.intersect(boundsFuture)) {
-//                Log.d(MainActivity.DEBUG_TAG, "TileMap.checkTransferPointsCollision(Rect) TRUE");
-//                return true;
-//            }
-//        }
 
         return null;
     }
@@ -141,24 +146,24 @@ public class TileMap {
                 ///////////////////////////
                 break;
             case HOME_02:
-                xSpawnIndex = 8;
-                ySpawnIndex = 3;
+                xSpawnIndex = 7;
+                ySpawnIndex = 2;
 
                 ///////////////////////////
                 initTransferPointsHome02();
                 ///////////////////////////
                 break;
             case HOME_RIVAL:
-                xSpawnIndex = 3;
-                ySpawnIndex = 7;
+                xSpawnIndex = 2;
+                ySpawnIndex = 6;
 
                 //////////////////////////////
                 initTransferPointsHomeRival();
                 //////////////////////////////
                 break;
             case LAB:
-                xSpawnIndex = 5;
-                ySpawnIndex = 11;
+                xSpawnIndex = 4;
+                ySpawnIndex = 10;
 
                 ////////////////////////
                 initTransferPointsLab();
@@ -343,7 +348,6 @@ public class TileMap {
     }
 
     public boolean isSolid(int xPosition, int yPosition) {
-        //TODO: !!!Maybe I don't need to wrap UN-BORDERED scenes with solid tiles!!!
         //CHECK BEYOND SCENE BOUND (e.g. moving off map)
         if ((xPosition < 0) ||(xPosition >= widthSceneMax) ||
                 (yPosition < 0) || (yPosition >= heightSceneMax)) {
@@ -357,8 +361,6 @@ public class TileMap {
         if (tiles[indexRow][indexColumn] == TileType.WALKABLE) {
             return false;
         }
-
-        //TODO: handle TileType.TRANSFER_POINT
 
         //DEFAULT IS TileType.SOLID (not walkable)
         return true;
