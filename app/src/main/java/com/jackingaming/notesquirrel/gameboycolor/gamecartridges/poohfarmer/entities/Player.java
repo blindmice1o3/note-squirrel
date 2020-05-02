@@ -1,11 +1,15 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.Log;
+import android.view.Gravity;
+import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
+import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.PocketCrittersCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
@@ -316,9 +320,9 @@ public class Player extends Entity {
     public void checkTileFacing() {
         Log.d(MainActivity.DEBUG_TAG, "Player.checkTileFacing()");
 
-        ////////////////////////////////////////////////
-        if (tileMap.getSceneID() == Scene.Id.PART_01) {
-        ////////////////////////////////////////////////
+        /////////////////////////////////////////////////////
+        if (gameCartridge instanceof PocketCrittersCartridge) {
+        /////////////////////////////////////////////////////
             float xPlayerCenter = xCurrent + (width / 2);
             float yPlayerCenter = yCurrent + (height / 2);
 
@@ -352,6 +356,37 @@ public class Player extends Entity {
             ////////////////////////////////////////////////////////////////////
             if (tileFacing != null) {
                 Log.d(MainActivity.DEBUG_TAG, "tileFacing: " + tileFacing.name());
+
+                final String message = tileFacing.name();
+                final Context context = ((PocketCrittersCartridge)gameCartridge).getContext();
+                /////////////////////////////////////////////////////////////////////////////////
+                ((JackInActivity)context).runOnUiThread(new Runnable() {
+                    public void run() {
+                        final Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                        toast.show();
+                    }
+                });
+                /////////////////////////////////////////////////////////////////////////////////
+                
+                /*
+                if ( (tileFacing == TileMap.TileType.COMPUTER) ||
+                        (tileFacing == TileMap.TileType.GAME_CONSOLE) ||
+                        (tileFacing == TileMap.TileType.TELEVISION) ) {
+
+                    final String message = tileFacing.name();
+                    final Context context = ((PocketCrittersCartridge)gameCartridge).getContext();
+                    /////////////////////////////////////////////////////////////////////////////////
+                    ((JackInActivity)context).runOnUiThread(new Runnable() {
+                        public void run() {
+                            final Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                            toast.show();
+                        }
+                    });
+                    /////////////////////////////////////////////////////////////////////////////////
+                }
+                */
             } else {
                 Log.d(MainActivity.DEBUG_TAG, "tileFacing is null");
             }

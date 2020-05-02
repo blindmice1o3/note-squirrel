@@ -169,7 +169,12 @@ public class PocketCrittersCartridge
         }
     }
 
+    public Context getContext() {
+        return context;
+    }
+
     public SceneManager getSceneManager() {
         return sceneManager;
     }
+
 }
