@@ -42,18 +42,49 @@ public class Scene {
         initGameCamera(gameCamera);
     }
 
-    public void enter(Object[] extra) {
+    public void enter() {
         Log.d(MainActivity.DEBUG_TAG, "Scene.enter(Object[])");
         //TODO: implement
+
+        if ((xPriorScene != 0f) && (yPriorScene != 0f)) {
+            player.setxCurrent(xPriorScene);
+            player.setyCurrent(yPriorScene);
+            gameCamera.update(0L);
+        }
     }
 
-    public void exit() {
+    float xPriorScene;
+    float yPriorScene;
+    public void exit(Object[] extra) {
         Log.d(MainActivity.DEBUG_TAG, "Scene.exit()");
+        //TODO: implement
 
         //TODO: work-around for bug to get it working.
+        ///////////////
         tileMap = null;
+        ///////////////
 
-        //TODO: implement
+        //Record position IMMEDIATELY BEFORE colliding with transfer point.
+        Player.Direction direction = (Player.Direction)extra[0];
+        float moveSpeed = (float)extra[1];
+        switch (direction) {
+            case LEFT:
+                xPriorScene = player.getxCurrent() + moveSpeed;
+                yPriorScene = player.getyCurrent();
+                break;
+            case RIGHT:
+                xPriorScene = player.getxCurrent() - moveSpeed;
+                yPriorScene = player.getyCurrent();
+                break;
+            case UP:
+                xPriorScene = player.getxCurrent();
+                yPriorScene = player.getyCurrent() + moveSpeed;
+                break;
+            case DOWN:
+                xPriorScene = player.getxCurrent();
+                yPriorScene = player.getyCurrent() - moveSpeed;
+                break;
+        }
     }
 
     //TODO: move some of these to Scene.enter(Object[])
@@ -114,6 +145,10 @@ public class Scene {
         Log.d(MainActivity.DEBUG_TAG, "Scene.getTileMap()");
 
         return tileMap;
+    }
+
+    public Id getSceneID() {
+        return sceneID;
     }
 
 }

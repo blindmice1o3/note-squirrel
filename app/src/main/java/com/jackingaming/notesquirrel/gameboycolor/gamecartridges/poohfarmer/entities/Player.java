@@ -10,6 +10,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.PocketCrittersCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.Scene;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Animation;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
@@ -122,7 +123,15 @@ public class Player extends Entity {
                         //TODO: !!!!!POP() IS NEVER CALLED!!!!!
                         Scene.Id id = tileMap.checkTransferPointsCollision(collisionBoundsFuture);
                         //TODO: Instead of handling transfering here, do it in TileMap.checkTransferPointsCollision(Rect).
-                        ((PocketCrittersCartridge)gameCartridge).getSceneManager().change(id, null);
+                        SceneManager sceneManager = ((PocketCrittersCartridge)gameCartridge).getSceneManager();
+                        if ( (id == Scene.Id.PART_01) ||
+                                ((id == Scene.Id.HOME_01) && (sceneManager.getCurrentScene().getSceneID() == Scene.Id.HOME_02)) ) {
+                            Object[] directionFacing = { direction, moveSpeed };
+                            sceneManager.pop(directionFacing);
+                        } else {
+                            Object[] directionFacing = { direction, moveSpeed };
+                            sceneManager.push(id, directionFacing);
+                        }
                     }
                 }
             }
@@ -149,7 +158,16 @@ public class Player extends Entity {
                         //TODO: !!!!!POP() IS NEVER CALLED!!!!!
                         Scene.Id id = tileMap.checkTransferPointsCollision(collisionBoundsFuture);
                         //TODO: Instead of handling transfering here, do it in TileMap.checkTransferPointsCollision(Rect).
-                        ((PocketCrittersCartridge)gameCartridge).getSceneManager().change(id, null);
+                        SceneManager sceneManager = ((PocketCrittersCartridge)gameCartridge).getSceneManager();
+                        if ( (id == Scene.Id.PART_01) ||
+                                ((id == Scene.Id.HOME_01) && (sceneManager.getCurrentScene().getSceneID() == Scene.Id.HOME_02)) ) {
+                            Object[] directionFacing = { direction, moveSpeed };
+                            sceneManager.pop(directionFacing);
+
+                        } else {
+                            Object[] directionFacing = { direction, moveSpeed };
+                            sceneManager.push(id, directionFacing);
+                        }
                     }
                 }
             }
@@ -179,7 +197,16 @@ public class Player extends Entity {
                         //TODO: !!!!!POP() IS NEVER CALLED!!!!!
                         Scene.Id id = tileMap.checkTransferPointsCollision(collisionBoundsFuture);
                         //TODO: Instead of handling transfering here, do it in TileMap.checkTransferPointsCollision(Rect).
-                        ((PocketCrittersCartridge)gameCartridge).getSceneManager().change(id, null);
+                        SceneManager sceneManager = ((PocketCrittersCartridge)gameCartridge).getSceneManager();
+                        if ( (id == Scene.Id.PART_01) ||
+                                ((id == Scene.Id.HOME_01) && (sceneManager.getCurrentScene().getSceneID() == Scene.Id.HOME_02)) ) {
+                            Object[] directionFacing = { direction, moveSpeed };
+                            sceneManager.pop(directionFacing);
+
+                        } else {
+                            Object[] directionFacing = { direction, moveSpeed };
+                            sceneManager.push(id, directionFacing);
+                        }
                     }
                 }
             }
@@ -206,7 +233,16 @@ public class Player extends Entity {
                         //TODO: !!!!!POP() IS NEVER CALLED!!!!!
                         Scene.Id id = tileMap.checkTransferPointsCollision(collisionBoundsFuture);
                         //TODO: Instead of handling transfering here, do it in TileMap.checkTransferPointsCollision(Rect).
-                        ((PocketCrittersCartridge)gameCartridge).getSceneManager().change(id, null);
+                        SceneManager sceneManager = ((PocketCrittersCartridge)gameCartridge).getSceneManager();
+                        if ( (id == Scene.Id.PART_01) ||
+                                ((id == Scene.Id.HOME_01) && (sceneManager.getCurrentScene().getSceneID() == Scene.Id.HOME_02)) ) {
+                            Object[] directionFacing = { direction, moveSpeed };
+                            sceneManager.pop(directionFacing);
+
+                        } else {
+                            Object[] directionFacing = { direction, moveSpeed };
+                            sceneManager.push(id, directionFacing);
+                        }
                     }
                 }
             }

@@ -77,7 +77,7 @@ public class SceneManager {
         startScene.init(player, gameCamera);
         ////////////////////////////////////
 
-        push(id);
+        sceneStack.add(startScene);
     }
 
     /**
@@ -91,15 +91,15 @@ public class SceneManager {
      * @param id To find instance of nextScene from collection of all the scenes in the game.
      * @param extra
      */
+    /*
     public void change(Scene.Id id, Object[] extra) {
         Log.d(MainActivity.DEBUG_TAG, "SceneManager.change(Scene.Id, Object[])");
-
-        Scene nextScene = sceneCollection.get(id);
 
         /////////////////////////
         getCurrentScene().exit();
         /////////////////////////
 
+        Scene nextScene = sceneCollection.get(id);
         //TODO: improve on the if-condition.
         if (nextScene.getTileMap() == null) {
             ///////////////////////////////////
@@ -113,20 +113,50 @@ public class SceneManager {
 
         push(id);
     }
+    */
 
 
-    public void push(Scene.Id id) {
-        Log.d(MainActivity.DEBUG_TAG, "SceneManager.push(Scene.Id)");
+    public void push(Scene.Id id, Object[] extra) {
+        Log.d(MainActivity.DEBUG_TAG, "SceneManager.push(Scene.Id, Object[])");
+
+        //////////////////////////////
+        getCurrentScene().exit(extra);
+        //////////////////////////////
 
         Scene nextScene = sceneCollection.get(id);
+        //TODO: improve on the if-condition.
+        if (nextScene.getTileMap() == null) {
+            ///////////////////////////////////
+            nextScene.init(player, gameCamera);
+            ///////////////////////////////////
+        }
+
+        //////////////////
+        nextScene.enter();
+        //////////////////
 
         sceneStack.add(nextScene);
     }
 
-    public void pop() {
+    public void pop(Object[] extra) {
         Log.d(MainActivity.DEBUG_TAG, "SceneManager.pop()");
 
+        //////////////////////////////
+        getCurrentScene().exit(extra);
+        //////////////////////////////
+
         sceneStack.remove( getIndexOfTop() );
+
+        //TODO: improve on the if-condition.
+        if (getCurrentScene().getTileMap() == null) {
+            ///////////////////////////////////////////
+            getCurrentScene().init(player, gameCamera);
+            ///////////////////////////////////////////
+        }
+
+        //////////////////////////
+        getCurrentScene().enter();
+        //////////////////////////
     }
 
     private int getIndexOfTop() {
