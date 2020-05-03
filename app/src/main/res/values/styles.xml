@@ -8,6 +8,16 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="Header">
+        <item name="android:background">@color/yellow</item>
+        <item name="android:textColor">@color/blue</item>
+    </style>
+
+    <style name="Content">
+        <item name="android:background">@color/light_blue</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
     <!-- found from: https://stackoverflow.com/questions/20653305/full-screen-theme-for-appcompat -->
     <style name="Theme.AppCompat.Light.NoActionBar.FullScreen" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>

@@ -27,6 +27,9 @@
         android:id="@+id/menu_motion_event"
         android:title="Tinker Motion Event" />
     <item
+        android:id="@+id/menu_television_activity"
+        android:title="Television Activity" />
+    <item
         android:id="@+id/menu_jack_in"
         android:title="Jack In" />
 </menu>

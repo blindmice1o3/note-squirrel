@@ -26,6 +26,7 @@ import com.jackingaming.notesquirrel.sandbox.learnfragment.FragmentParentDvdActi
 import com.jackingaming.notesquirrel.sandbox.learnlistadapter.ListViewerActivity;
 import com.jackingaming.notesquirrel.sandbox.tileset.TilesetUtilActivity;
 import com.jackingaming.notesquirrel.sandbox.tinkermotionevent.TinkerMotionEventActivity;
+import com.jackingaming.notesquirrel.television.TelevisionActivity;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -303,6 +304,14 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent tinkerMotionEventIntent = new Intent(this, TinkerMotionEventActivity.class);
                 startActivity(tinkerMotionEventIntent);
+
+                return true;
+            case R.id.menu_television_activity:
+                //TODO: implement menu_television_activity
+                Toast.makeText(this, "Television Activity", Toast.LENGTH_LONG).show();
+
+                Intent televisionActivityIntent = new Intent(this, TelevisionActivity.class);
+                startActivity(televisionActivityIntent);
 
                 return true;
             case R.id.menu_jack_in:
