@@ -30,6 +30,9 @@
         android:id="@+id/menu_television_activity"
         android:title="Television Activity" />
     <item
+        android:id="@+id/menu_computer_activity"
+        android:title="Computer Activity" />
+    <item
         android:id="@+id/menu_jack_in"
         android:title="Jack In" />
 </menu>

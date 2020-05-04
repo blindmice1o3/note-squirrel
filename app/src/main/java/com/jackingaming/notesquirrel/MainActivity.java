@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.jackingaming.notesquirrel.computer.ComputerActivity;
 import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.passpoints.ImageActivity;
 import com.jackingaming.notesquirrel.sandbox.learncommunication.CommunicationActivity;
@@ -312,6 +313,14 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent televisionActivityIntent = new Intent(this, TelevisionActivity.class);
                 startActivity(televisionActivityIntent);
+
+                return true;
+            case R.id.menu_computer_activity:
+                //TODO: implement menu_computer_activity
+                Toast.makeText(this, "Computer Activity", Toast.LENGTH_LONG).show();
+
+                Intent computerActivityIntent = new Intent(this, ComputerActivity.class);
+                startActivity(computerActivityIntent);
 
                 return true;
             case R.id.menu_jack_in:
