@@ -7,9 +7,12 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
@@ -33,9 +36,9 @@ public class ComputerActivity extends AppCompatActivity {
         Bitmap aiSpriteSheet = BitmapFactory.decodeResource(getResources(), R.drawable.pc_ms_office_clippit);
         ai = Bitmap.createBitmap(aiSpriteSheet, 0, 0, 124, 93);
 
-        imageViewAI.setImageBitmap(ai);
+        //imageViewAI.setImageBitmap(ai);
         //////////////////////////////////////////
-        imageViewAI.setVisibility(View.INVISIBLE);
+        //imageViewAI.setVisibility(View.INVISIBLE);
         //////////////////////////////////////////
     }
 
@@ -49,16 +52,26 @@ public class ComputerActivity extends AppCompatActivity {
         } else {
             //imageViewAI.setImageBitmap(ai);
             ////////////////////////////////////////
-            imageViewAI.setVisibility(View.VISIBLE);
+            //imageViewAI.setVisibility(View.VISIBLE);
             ////////////////////////////////////////
 
+            String toastMessage = "Ain't nothing need clearing, code-slinger.";
             ////////////////////////////////////////////////////////////////////////////////////////
-            Toast toast = Toast.makeText(this, "Ain't nothing need clearing, code-slinger.", Toast.LENGTH_LONG);
+            LayoutInflater inflater = getLayoutInflater();
+            View layout = inflater.inflate(R.layout.toast_custom_layout, (ViewGroup) findViewById(R.id.toast_layout_root));
+            TextView message = (TextView) layout.findViewById(R.id.toast_message);
+            message.setText(toastMessage);
+            ImageView image = (ImageView) layout.findViewById(R.id.toast_image);
+            image.setImageBitmap(ai);
+
+            Toast toast = new Toast(getApplicationContext());
             toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 30);
+            toast.setDuration(Toast.LENGTH_LONG);
+            toast.setView(layout);
             toast.show();
             ////////////////////////////////////////////////////////////////////////////////////////
 
-            waitForToastToFinish();
+            //waitForToastToFinish();
         }
     }
 
@@ -75,18 +88,28 @@ public class ComputerActivity extends AppCompatActivity {
         }
         //imageViewAI.setImageBitmap(ai);
         ////////////////////////////////////////
-        imageViewAI.setVisibility(View.VISIBLE);
+        //imageViewAI.setVisibility(View.VISIBLE);
         ////////////////////////////////////////
 
         ////////////////////////////////////////////////////////////////////////////////////////
-        Toast toast = Toast.makeText(this, toastMessage, Toast.LENGTH_LONG);
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.toast_custom_layout, (ViewGroup) findViewById(R.id.toast_layout_root));
+        TextView message = (TextView) layout.findViewById(R.id.toast_message);
+        message.setText(toastMessage);
+        ImageView image = (ImageView) layout.findViewById(R.id.toast_image);
+        image.setImageBitmap(ai);
+
+        Toast toast = new Toast(getApplicationContext());
         toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 30);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(layout);
         toast.show();
         ////////////////////////////////////////////////////////////////////////////////////////
 
-        waitForToastToFinish();
+        //waitForToastToFinish();
     }
 
+    /*
     private void waitForToastToFinish() {
         long timer = 0;
         long lastTime = System.currentTimeMillis();
@@ -102,7 +125,7 @@ public class ComputerActivity extends AppCompatActivity {
             }
         }
         Log.d(MainActivity.DEBUG_TAG, "After nulling");
-        
+
         //Bitmap postTimerImage = BitmapFactory.decodeResource(getResources(), R.drawable.test_32x32);
         //imageViewAI.setImageBitmap(postTimerImage);
 
@@ -111,5 +134,6 @@ public class ComputerActivity extends AppCompatActivity {
 
         //TODO: https://www.concretepage.com/android/android-toast-example-with-custom-view
     }
+     */
 
 }
