@@ -25,7 +25,7 @@ import com.jackingaming.notesquirrel.sandbox.learncommunication.CommunicationAct
 import com.jackingaming.notesquirrel.sandbox.learnlayout.SpriteSheetViewerActivity;
 import com.jackingaming.notesquirrel.sandbox.learnfragment.FragmentParentDvdActivity;
 import com.jackingaming.notesquirrel.sandbox.learnlistadapter.ListViewerActivity;
-import com.jackingaming.notesquirrel.sandbox.tileset.TilesetUtilActivity;
+import com.jackingaming.notesquirrel.sandbox.spritesheetviewer2.SpriteSheetViewer2Activity;
 import com.jackingaming.notesquirrel.sandbox.tinkermotionevent.TinkerMotionEventActivity;
 import com.jackingaming.notesquirrel.television.TelevisionActivity;
 
@@ -267,20 +267,20 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(viewListIntent);
 
                 return true;
-            case R.id.menu_tileset_util:
-                //TODO: implement menu_tile_util
-                Toast.makeText(this, "Tileset Util", Toast.LENGTH_LONG).show();
-
-                Intent tilesetUtilIntent = new Intent(this, TilesetUtilActivity.class);
-                startActivity(tilesetUtilIntent);
-
-                return true;
             case R.id.menu_sprite_sheet_viewer:
-                //TODO: implement menu_fragment_parent
-                Toast.makeText(this, "Learn about Fragment (HM items)", Toast.LENGTH_LONG).show();
+                //TODO: implement menu_sprite_sheet_viewer
+                Toast.makeText(this, "Sprite Sheet Viewer", Toast.LENGTH_LONG).show();
 
                 Intent spriteSheetViewerIntent = new Intent(this, SpriteSheetViewerActivity.class);
                 startActivity(spriteSheetViewerIntent);
+
+                return true;
+            case R.id.menu_sprite_sheet_viewer_2:
+                //TODO: implement menu_sprite_sheet_viewer_2
+                Toast.makeText(this, "Sprite Sheet Viewer 2", Toast.LENGTH_LONG).show();
+
+                Intent spriteSheetViewer2Intent = new Intent(this, SpriteSheetViewer2Activity.class);
+                startActivity(spriteSheetViewer2Intent);
 
                 return true;
             case R.id.menu_fragment_parent_dvd:

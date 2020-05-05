@@ -12,11 +12,11 @@
         android:id="@+id/menu_list"
         android:title="@string/menu_list" />
     <item
-        android:id="@+id/menu_tileset_util"
-        android:title="Tileset Util" />
-    <item
         android:id="@+id/menu_sprite_sheet_viewer"
         android:title="View Sprite Sheets (MS Clippit)" />
+    <item
+        android:id="@+id/menu_sprite_sheet_viewer_2"
+        android:title="View Sprite Sheet (R-Series)" />
     <item
         android:id="@+id/menu_fragment_parent_dvd"
         android:title="Learn about Fragment (DVD)" />

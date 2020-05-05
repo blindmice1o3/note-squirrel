@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00FF00"
+    tools:context=".sandbox.spritesheetviewer2.SpriteSheetViewer2Activity">
+
+    <ImageView
+        android:id="@+id/iv_sprite_sheet_viewer_2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#0000FF"
+        app:layout_constraintBottom_toTopOf="@id/button_column_decrement"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_column_decrement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="column--"
+        app:layout_constraintBottom_toTopOf="@id/button_row_decrement"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/button_column_increment"
+        app:layout_constraintTop_toBottomOf="@id/iv_sprite_sheet_viewer_2" />
+
+    <Button
+        android:id="@+id/button_column_increment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="column++"
+        app:layout_constraintBottom_toTopOf="@id/button_row_increment"
+        app:layout_constraintLeft_toRightOf="@id/button_column_decrement"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_sprite_sheet_viewer_2" />
+
+    <Button
+        android:id="@+id/button_row_decrement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="row--"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/button_row_increment"
+        app:layout_constraintTop_toBottomOf="@id/button_column_decrement" />
+
+    <Button
+        android:id="@+id/button_row_increment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="row++"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/button_row_decrement"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button_column_increment" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
