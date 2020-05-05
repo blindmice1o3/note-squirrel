@@ -32,6 +32,11 @@ public class ComputerActivity extends AppCompatActivity {
 
         Bitmap aiSpriteSheet = BitmapFactory.decodeResource(getResources(), R.drawable.pc_ms_office_clippit);
         ai = Bitmap.createBitmap(aiSpriteSheet, 0, 0, 124, 93);
+
+        imageViewAI.setImageBitmap(ai);
+        //////////////////////////////////////////
+        imageViewAI.setVisibility(View.INVISIBLE);
+        //////////////////////////////////////////
     }
 
     public void onButtonClearClicked(View view) {
@@ -42,13 +47,18 @@ public class ComputerActivity extends AppCompatActivity {
         if (codeOfPlayer.length() > 0) {
             editTextComputer.getText().clear();
         } else {
-            imageViewAI.setImageBitmap(ai);
+            //imageViewAI.setImageBitmap(ai);
+            ////////////////////////////////////////
+            imageViewAI.setVisibility(View.VISIBLE);
+            ////////////////////////////////////////
+
             ////////////////////////////////////////////////////////////////////////////////////////
             Toast toast = Toast.makeText(this, "Ain't nothing need clearing, code-slinger.", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 30);
             toast.show();
             ////////////////////////////////////////////////////////////////////////////////////////
-            //waitForToastToFinish();
+
+            waitForToastToFinish();
         }
     }
 
@@ -63,13 +73,18 @@ public class ComputerActivity extends AppCompatActivity {
         } else {
             toastMessage = "Show at least a little effort, console-jockey.";
         }
-        imageViewAI.setImageBitmap(ai);
+        //imageViewAI.setImageBitmap(ai);
+        ////////////////////////////////////////
+        imageViewAI.setVisibility(View.VISIBLE);
+        ////////////////////////////////////////
+
         ////////////////////////////////////////////////////////////////////////////////////////
         Toast toast = Toast.makeText(this, toastMessage, Toast.LENGTH_LONG);
         toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 30);
         toast.show();
         ////////////////////////////////////////////////////////////////////////////////////////
-        //waitForToastToFinish();
+
+        waitForToastToFinish();
     }
 
     private void waitForToastToFinish() {
@@ -79,10 +94,18 @@ public class ComputerActivity extends AppCompatActivity {
             long elapsed = System.currentTimeMillis() - lastTime;
             timer += elapsed;
             Log.d(MainActivity.DEBUG_TAG, "timer: " + timer);
+
+            if (timer >= 40000) {
+                //////////////////////////////////////////
+                imageViewAI.setVisibility(View.INVISIBLE);
+                //////////////////////////////////////////
+            }
         }
         Log.d(MainActivity.DEBUG_TAG, "After nulling");
-        Bitmap postTimerImage = BitmapFactory.decodeResource(getResources(), R.drawable.test_32x32);
-        imageViewAI.setImageBitmap(postTimerImage);
+        
+        //Bitmap postTimerImage = BitmapFactory.decodeResource(getResources(), R.drawable.test_32x32);
+        //imageViewAI.setImageBitmap(postTimerImage);
+
         //imageViewAI.setImageBitmap(null);
         //imageViewAI.invalidate();
 
