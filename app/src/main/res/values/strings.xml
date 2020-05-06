@@ -11,9 +11,17 @@
     <string name="toast_cant_save">Unable to save note. Is there sufficient space?</string>
     <string name="menu_passpoints_reset">Reset Passpoints</string>
     <string name="menu_camera">Take a Photo</string>
-    <string name="menu_gallery">Browse the Gallery</string>
-    <string name="menu_list">See a ListView</string>
     <string name="unable_to_save_photo_file">Unable to save photo file.</string>
+    <string name="menu_gallery">Browse the Gallery</string>
+    <string name="menu_list_view_email">See a ListView (email, statePressed)</string>
+    <string name="menu_list_fragment_dvd">See a ListFragment (DVD)</string>
+    <string name="menu_download_html_fragment_parent">Download Html (internet communication)</string>
+    <string name="menu_grid_view_dvd">See a GridView</string>
+    <string name="menu_sprite_sheet_verifier1">Sprite Sheet Verifier 1 (MS Clippit)</string>
+    <string name="menu_sprite_sheet_verifier2">Sprite Sheet Verifier 2 (R-Series)</string>
+    <string name="menu_television_activity">See the Television</string>
+    <string name="menu_computer_activity">See the Computer</string>
+    <string name="menu_jack_in">Jack In</string>
 
     <!-- activity_list_viewer -->
     <string-array name="list_book_title">

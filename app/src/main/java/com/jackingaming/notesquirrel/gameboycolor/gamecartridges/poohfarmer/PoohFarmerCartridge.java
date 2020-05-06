@@ -16,7 +16,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scen
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
-import com.jackingaming.notesquirrel.sandbox.learnfragment.FragmentParentDvdActivity;
+import com.jackingaming.notesquirrel.sandbox.listfragmentdvd.ListFragmentDvdParentActivity;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -163,10 +163,10 @@ public class PoohFarmerCartridge
     @Override
     public void getInputButtonPad() {
         if (inputManager.isPressingButtonPad()) {
-            //menu button (will launch FragmentParentDvdActivity)
+            //menu button (will launch ListFragmentDvdParentActivity)
             if (inputManager.isMenuButtonPad()) {
                 Log.d(MainActivity.DEBUG_TAG, "menu-button");
-                Intent fragmentParentDvdIntent = new Intent(context, FragmentParentDvdActivity.class);
+                Intent fragmentParentDvdIntent = new Intent(context, ListFragmentDvdParentActivity.class);
                 context.startActivity(fragmentParentDvdIntent);
             }
             //a button

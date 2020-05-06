@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.sandbox.spritesheetviewer2;
+package com.jackingaming.notesquirrel.sandbox.spritesheetverifier2;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 
-public class SpriteSheetViewer2Activity extends AppCompatActivity {
+public class SpriteSheetVerifier2Activity extends AppCompatActivity {
 
     private int mIndexColumn;
     private int mIndexRow;
@@ -23,10 +23,10 @@ public class SpriteSheetViewer2Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sprite_sheet_viewer_2);
-        Log.d(MainActivity.DEBUG_TAG, "SpriteSheetViewer2Activity.onCreate(Bundle)");
+        setContentView(R.layout.activity_sprite_sheet_verifier2);
+        Log.d(MainActivity.DEBUG_TAG, "SpriteSheetVerifier2Activity.onCreate(Bundle)");
 
-        final ImageView imageView = (ImageView) findViewById(R.id.iv_sprite_sheet_viewer_2);
+        final ImageView imageView = (ImageView) findViewById(R.id.iv_sprite_sheet_verifier2);
         Button buttonColumnIncrement = (Button) findViewById(R.id.button_column_increment);
         Button buttonColumnDecrement = (Button) findViewById(R.id.button_column_decrement);
         Button buttonRowIncrement = (Button) findViewById(R.id.button_row_increment);
@@ -62,7 +62,7 @@ public class SpriteSheetViewer2Activity extends AppCompatActivity {
         buttonColumnIncrement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(MainActivity.DEBUG_TAG, "SpriteSheetViewer2Activity OnClickListener button column increment");
+                Log.d(MainActivity.DEBUG_TAG, "SpriteSheetVerifier2Activity OnClickListener button column increment");
                 //TODO:
                 mIndexColumn++;
                 if (mIndexColumn >= mRobotRSeries[mIndexRow].length) {
@@ -78,7 +78,7 @@ public class SpriteSheetViewer2Activity extends AppCompatActivity {
         buttonColumnDecrement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(MainActivity.DEBUG_TAG, "SpriteSheetViewer2Activity OnClickListener button column decrement");
+                Log.d(MainActivity.DEBUG_TAG, "SpriteSheetVerifier2Activity OnClickListener button column decrement");
                 //TODO:
                 mIndexColumn--;
                 if (mIndexColumn < 0) {
@@ -94,7 +94,7 @@ public class SpriteSheetViewer2Activity extends AppCompatActivity {
         buttonRowIncrement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(MainActivity.DEBUG_TAG, "SpriteSheetViewer2Activity OnClickListener button row increment");
+                Log.d(MainActivity.DEBUG_TAG, "SpriteSheetVerifier2Activity OnClickListener button row increment");
                 //TODO:
                 mIndexRow++;
                 if (mIndexRow >= mRobotRSeries.length) {
@@ -110,7 +110,7 @@ public class SpriteSheetViewer2Activity extends AppCompatActivity {
         buttonRowDecrement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(MainActivity.DEBUG_TAG, "SpriteSheetViewer2Activity OnClickListener button row decrement");
+                Log.d(MainActivity.DEBUG_TAG, "SpriteSheetVerifier2Activity OnClickListener button row decrement");
                 //TODO:
                 mIndexRow--;
                 if (mIndexRow < 0) {
@@ -127,7 +127,7 @@ public class SpriteSheetViewer2Activity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d(MainActivity.DEBUG_TAG, "SpriteSheetViewer2Activity.onStart()");
+        Log.d(MainActivity.DEBUG_TAG, "SpriteSheetVerifier2Activity.onStart()");
     }
 
 }

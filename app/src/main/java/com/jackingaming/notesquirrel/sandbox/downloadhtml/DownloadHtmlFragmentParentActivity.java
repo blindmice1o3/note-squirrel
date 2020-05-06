@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.sandbox.learncommunication;
+package com.jackingaming.notesquirrel.sandbox.downloadhtml;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -20,7 +20,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-public class CommunicationActivity extends AppCompatActivity {
+public class DownloadHtmlFragmentParentActivity extends AppCompatActivity {
 
     Fragment viewFragment;
     TextView textView;
@@ -32,20 +32,20 @@ public class CommunicationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_communication);
-        Log.d(MainActivity.DEBUG_TAG, "CommunicationActivity.onCreate(Bundle)");
+        setContentView(R.layout.activity_download_html_fragment_parent);
+        Log.d(MainActivity.DEBUG_TAG, "DownloadHtmlFragmentParentActivity.onCreate(Bundle)");
 
         viewFragment = (ViewFragment) getSupportFragmentManager().findFragmentById(R.id.viewFragment);
-        textView = (TextView) findViewById(R.id.textView_communication);
+        textView = (TextView) findViewById(R.id.textView_displayer);
 
         controllerFragment = (ControllerFragment) getSupportFragmentManager().findFragmentById(R.id.controllerFragment);
-        buttonFragmentSwapper = (Button) findViewById(R.id.button_fragment_swapper_communication);
-        buttonWebsiteDisplayer = (Button) findViewById(R.id.button_website_displayer_communication);
+        buttonFragmentSwapper = (Button) findViewById(R.id.button_fragment_swapper);
+        buttonWebsiteDisplayer = (Button) findViewById(R.id.button_website_displayer);
 
         buttonFragmentSwapper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(MainActivity.DEBUG_TAG, "CommunicationActivity.buttonFragmentSwapper.onClick(View)");
+                Log.d(MainActivity.DEBUG_TAG, "DownloadHtmlFragmentParentActivity.buttonFragmentSwapper.onClick(View)");
 
                 DirectionalPadFragment directionalPadFragment = new DirectionalPadFragment();
 
@@ -63,7 +63,7 @@ public class CommunicationActivity extends AppCompatActivity {
         buttonWebsiteDisplayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(MainActivity.DEBUG_TAG, "CommunicationActivity.buttonWebsiteDisplayer.onClick(View)");
+                Log.d(MainActivity.DEBUG_TAG, "DownloadHtmlFragmentParentActivity.buttonWebsiteDisplayer.onClick(View)");
 
                 //Don't want to access the internet on the main thread (could lock up the main thread/UI)
                 //Android actually prevent you from doing that... so have to do this on a separate thread.

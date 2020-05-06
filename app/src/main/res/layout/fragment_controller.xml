@@ -5,22 +5,22 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/button_fragment_swapper_communication"
+        android:id="@+id/button_fragment_swapper"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="fragment swapper"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/button_website_displayer_communication"
+        app:layout_constraintRight_toLeftOf="@id/button_website_displayer"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button_website_displayer_communication"
+        android:id="@+id/button_website_displayer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="website displayer"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/button_fragment_swapper_communication"
+        app:layout_constraintLeft_toRightOf="@id/button_fragment_swapper"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.sandbox.learnlayout;
+package com.jackingaming.notesquirrel.sandbox.spritesheetverifier1;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;

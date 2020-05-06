@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.sandbox.learnlayout;
+package com.jackingaming.notesquirrel.sandbox.spritesheetverifier1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 
-public class SpriteSheetViewerActivity extends AppCompatActivity {
+public class SpriteSheetVerifier1Activity extends AppCompatActivity {
 
     private ImageView imageView;
     private Button buttonFrame;
@@ -31,7 +31,7 @@ public class SpriteSheetViewerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sprite_sheet_viewer);
+        setContentView(R.layout.activity_sprite_sheet_verifier1);
 
         ////////////////////////////
         Assets.init(getResources());
@@ -69,7 +69,7 @@ public class SpriteSheetViewerActivity extends AppCompatActivity {
     private int column = 3;
     private int row = 8;
     private void initButtonsCroppedMapTester() {
-        Log.d(MainActivity.DEBUG_TAG, "SpriteSheetViewerActivity.initButtonsCroppedMapTester()");
+        Log.d(MainActivity.DEBUG_TAG, "SpriteSheetVerifier1Activity.initButtonsCroppedMapTester()");
 
         final TextView textViewDisplayWidthHeight = (TextView) findViewById(R.id.textview_display_column_row);
 

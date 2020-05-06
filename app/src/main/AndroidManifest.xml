@@ -36,19 +36,19 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".computer.ComputerActivity" />
-        <activity android:name=".television.TelevisionActivity" />
-        <activity android:name=".sandbox.tinkermotionevent.TinkerMotionEventActivity" />
-        <activity android:name=".sandbox.learncommunication.CommunicationActivity" />
-        <activity
-            android:name=".sandbox.learnfragment.FragmentParentDvdActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".sandbox.learnlayout.SpriteSheetViewerActivity" />
-        <activity android:name=".sandbox.spritesheetviewer2.SpriteSheetViewer2Activity" />
         <activity
             android:name=".gameboycolor.JackInActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-        <activity android:name=".sandbox.learnlistadapter.ListViewerActivity" />
+        <activity android:name=".computer.ComputerActivity" />
+        <activity android:name=".television.TelevisionActivity" />
+        <activity android:name=".sandbox.spritesheetverifier2.SpriteSheetVerifier2Activity" />
+        <activity android:name=".sandbox.spritesheetverifier1.SpriteSheetVerifier1Activity" />
+        <activity android:name=".sandbox.gridviewdvd.GridViewDvdActivity" />
+        <activity android:name=".sandbox.downloadhtml.DownloadHtmlFragmentParentActivity" />
+        <activity
+            android:name=".sandbox.listfragmentdvd.ListFragmentDvdParentActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".sandbox.listviewemail.ListViewEmailActivity" />
         <activity android:name=".GalleryResultActivity" />
         <activity android:name=".CameraResultActivity" />
         <activity
@@ -61,7 +61,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity">
-
             <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

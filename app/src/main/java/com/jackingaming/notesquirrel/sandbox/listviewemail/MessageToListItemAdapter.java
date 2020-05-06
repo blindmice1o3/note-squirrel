@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.sandbox.learnlistadapter;
+package com.jackingaming.notesquirrel.sandbox.listviewemail;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;

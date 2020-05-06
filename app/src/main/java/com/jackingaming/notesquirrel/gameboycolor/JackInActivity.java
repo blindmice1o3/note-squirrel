@@ -17,7 +17,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.Pooh
 import com.jackingaming.notesquirrel.gameboycolor.input.ButtonPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
-import com.jackingaming.notesquirrel.sandbox.learnfragment.FragmentParentDvdActivity;
+import com.jackingaming.notesquirrel.sandbox.listfragmentdvd.ListFragmentDvdParentActivity;
 
 public class JackInActivity extends AppCompatActivity {
 
@@ -61,11 +61,11 @@ public class JackInActivity extends AppCompatActivity {
         });
 
 
-        // Click event will launch FragmentParentDvdActivity.
+        // Click event will launch ListFragmentDvdParentActivity.
         launchDvdActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent fragmentParentDvdIntent = new Intent(JackInActivity.this, FragmentParentDvdActivity.class);
+                Intent fragmentParentDvdIntent = new Intent(JackInActivity.this, ListFragmentDvdParentActivity.class);
                 startActivity(fragmentParentDvdIntent);
             }
         });

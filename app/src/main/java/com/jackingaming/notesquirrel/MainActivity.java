@@ -21,12 +21,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.jackingaming.notesquirrel.computer.ComputerActivity;
 import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.passpoints.ImageActivity;
-import com.jackingaming.notesquirrel.sandbox.learncommunication.CommunicationActivity;
-import com.jackingaming.notesquirrel.sandbox.learnlayout.SpriteSheetViewerActivity;
-import com.jackingaming.notesquirrel.sandbox.learnfragment.FragmentParentDvdActivity;
-import com.jackingaming.notesquirrel.sandbox.learnlistadapter.ListViewerActivity;
-import com.jackingaming.notesquirrel.sandbox.spritesheetviewer2.SpriteSheetViewer2Activity;
-import com.jackingaming.notesquirrel.sandbox.tinkermotionevent.TinkerMotionEventActivity;
+import com.jackingaming.notesquirrel.sandbox.downloadhtml.DownloadHtmlFragmentParentActivity;
+import com.jackingaming.notesquirrel.sandbox.listfragmentdvd.ListFragmentDvdParentActivity;
+import com.jackingaming.notesquirrel.sandbox.spritesheetverifier1.SpriteSheetVerifier1Activity;
+import com.jackingaming.notesquirrel.sandbox.listviewemail.ListViewEmailActivity;
+import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.SpriteSheetVerifier2Activity;
+import com.jackingaming.notesquirrel.sandbox.gridviewdvd.GridViewDvdActivity;
 import com.jackingaming.notesquirrel.television.TelevisionActivity;
 
 import java.io.BufferedReader;
@@ -165,8 +165,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            //TODO: implement menu_passpoints_reset
             case R.id.menu_passpoints_reset:
-                Toast.makeText(this, "Passpoints Reset", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.menu_passpoints_reset, Toast.LENGTH_SHORT).show();
 
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 SharedPreferences.Editor editor = prefs.edit();
@@ -178,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.menu_camera:
                 //TODO: implement menu_camera
-                Toast.makeText(this, "Camera", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.menu_camera, Toast.LENGTH_SHORT).show();
 
                 //"The Android Camera application saves a full-size photo if you give it
                 //a file to save into. You must provide a FULLY-QUALIFIED FILE NAME
@@ -252,64 +253,64 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.menu_gallery:
                 //TODO: implement menu_gallery
-                Toast.makeText(this, "Gallery", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.menu_gallery, Toast.LENGTH_SHORT).show();
 
                 Intent browseGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 //Intent browseGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
                 startActivityForResult(browseGalleryIntent, BROWSE_GALLERY_REQUEST);
 
                 return true;
-            case R.id.menu_list:
-                //TODO: implement menu_list
-                Toast.makeText(this, "List", Toast.LENGTH_LONG).show();
+            case R.id.menu_list_view_email:
+                //TODO: implement menu_list_view_email
+                Toast.makeText(this, R.string.menu_list_view_email, Toast.LENGTH_SHORT).show();
 
-                Intent viewListIntent = new Intent(this, ListViewerActivity.class);
-                startActivity(viewListIntent);
-
-                return true;
-            case R.id.menu_sprite_sheet_viewer:
-                //TODO: implement menu_sprite_sheet_viewer
-                Toast.makeText(this, "Sprite Sheet Viewer", Toast.LENGTH_LONG).show();
-
-                Intent spriteSheetViewerIntent = new Intent(this, SpriteSheetViewerActivity.class);
-                startActivity(spriteSheetViewerIntent);
+                Intent listViewEmailIntent = new Intent(this, ListViewEmailActivity.class);
+                startActivity(listViewEmailIntent);
 
                 return true;
-            case R.id.menu_sprite_sheet_viewer_2:
-                //TODO: implement menu_sprite_sheet_viewer_2
-                Toast.makeText(this, "Sprite Sheet Viewer 2", Toast.LENGTH_LONG).show();
+            case R.id.menu_list_fragment_dvd:
+                //TODO: implement menu_list_fragment_dvd
+                Toast.makeText(this, R.string.menu_list_fragment_dvd, Toast.LENGTH_SHORT).show();
 
-                Intent spriteSheetViewer2Intent = new Intent(this, SpriteSheetViewer2Activity.class);
-                startActivity(spriteSheetViewer2Intent);
-
-                return true;
-            case R.id.menu_fragment_parent_dvd:
-                //TODO: implement menu_fragment_parent_dvd
-                Toast.makeText(this, "Learn about Fragment (DVD)", Toast.LENGTH_LONG).show();
-
-                Intent fragmentDVDIntent = new Intent(this, FragmentParentDvdActivity.class);
-                startActivity(fragmentDVDIntent);
+                Intent listFragmentDvdParentIntent = new Intent(this, ListFragmentDvdParentActivity.class);
+                startActivity(listFragmentDvdParentIntent);
 
                 return true;
-            case R.id.menu_communication:
-                //TODO: implement menu_communication
-                Toast.makeText(this, "Learn Internet Communication", Toast.LENGTH_LONG).show();
+            case R.id.menu_download_html_fragment_parent:
+                //TODO: implement menu_download_html_fragment_parent
+                Toast.makeText(this, R.string.menu_download_html_fragment_parent, Toast.LENGTH_SHORT).show();
 
-                Intent communicationIntent = new Intent(this, CommunicationActivity.class);
-                startActivity(communicationIntent);
+                Intent downloadHtmlFragmentParentIntent = new Intent(this, DownloadHtmlFragmentParentActivity.class);
+                startActivity(downloadHtmlFragmentParentIntent);
 
                 return true;
-            case R.id.menu_motion_event:
-                //TODO: implement menu_motion_event
-                Toast.makeText(this, "Tinker Motion Event", Toast.LENGTH_LONG).show();
+            case R.id.menu_grid_view_dvd:
+                //TODO: implement menu_grid_view_dvd
+                Toast.makeText(this, R.string.menu_grid_view_dvd, Toast.LENGTH_SHORT).show();
 
-                Intent tinkerMotionEventIntent = new Intent(this, TinkerMotionEventActivity.class);
-                startActivity(tinkerMotionEventIntent);
+                Intent gridViewDvdIntent = new Intent(this, GridViewDvdActivity.class);
+                startActivity(gridViewDvdIntent);
+
+                return true;
+            case R.id.menu_sprite_sheet_verifier1:
+                //TODO: implement menu_sprite_sheet_verifier1
+                Toast.makeText(this, R.string.menu_sprite_sheet_verifier1, Toast.LENGTH_SHORT).show();
+
+                Intent spriteSheetVerifier1Intent = new Intent(this, SpriteSheetVerifier1Activity.class);
+                startActivity(spriteSheetVerifier1Intent);
+
+                return true;
+            case R.id.menu_sprite_sheet_verifier2:
+                //TODO: implement menu_sprite_sheet_verifier2
+                Toast.makeText(this, R.string.menu_sprite_sheet_verifier2, Toast.LENGTH_SHORT).show();
+
+                Intent spriteSheetVerifier2Intent = new Intent(this, SpriteSheetVerifier2Activity.class);
+                startActivity(spriteSheetVerifier2Intent);
 
                 return true;
             case R.id.menu_television_activity:
                 //TODO: implement menu_television_activity
-                Toast.makeText(this, "Television Activity", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.menu_television_activity, Toast.LENGTH_SHORT).show();
 
                 Intent televisionActivityIntent = new Intent(this, TelevisionActivity.class);
                 startActivity(televisionActivityIntent);
@@ -317,7 +318,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.menu_computer_activity:
                 //TODO: implement menu_computer_activity
-                Toast.makeText(this, "Computer Activity", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.menu_computer_activity, Toast.LENGTH_SHORT).show();
 
                 Intent computerActivityIntent = new Intent(this, ComputerActivity.class);
                 startActivity(computerActivityIntent);
@@ -325,14 +326,14 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.menu_jack_in:
                 //TODO: implement menu_jack_in
-                Toast.makeText(this, "Jack In", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.menu_jack_in, Toast.LENGTH_SHORT).show();
 
                 Intent jackInIntent = new Intent(this, JackInActivity.class);
                 startActivity(jackInIntent);
 
                 return true;
             default:
-                Toast.makeText(this, "MainActivity.onOptionsItemSelected(MenuItem) switch's default", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "MainActivity.onOptionsItemSelected(MenuItem) switch's default", Toast.LENGTH_SHORT).show();
                 return super.onOptionsItemSelected(item);
         }
     }

@@ -1,17 +1,14 @@
-package com.jackingaming.notesquirrel.sandbox.learnfragment;
+package com.jackingaming.notesquirrel.sandbox.listfragmentdvd;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.ListFragment;
 
 import com.jackingaming.notesquirrel.MainActivity;
-import com.jackingaming.notesquirrel.R;
 
 public class ListDvdFragment extends ListFragment {
 

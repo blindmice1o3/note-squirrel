@@ -4,27 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".sandbox.learncommunication.CommunicationActivity">
+    android:background="#FFFF00"
+    tools:context=".sandbox.listfragmentdvd.ListFragmentDvdParentActivity">
 
     <fragment
-        android:id="@+id/viewFragment"
-        android:name="com.jackingaming.notesquirrel.sandbox.learncommunication.ViewFragment"
+        android:id="@+id/modelDvd"
+        android:name="com.jackingaming.notesquirrel.sandbox.listfragmentdvd.ModelDvdFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/controllerFragment"
+        app:layout_constraintBottom_toTopOf="@id/listDvd"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <fragment
-        android:id="@+id/controllerFragment"
-        android:name="com.jackingaming.notesquirrel.sandbox.learncommunication.ControllerFragment"
+        android:id="@+id/listDvd"
+        android:name="com.jackingaming.notesquirrel.sandbox.listfragmentdvd.ListDvdFragment"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/viewFragment" />
-
+        app:layout_constraintTop_toBottomOf="@id/modelDvd" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.sandbox.learnlistadapter;
+package com.jackingaming.notesquirrel.sandbox.listviewemail;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,12 +10,12 @@ import com.jackingaming.notesquirrel.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListViewerActivity extends AppCompatActivity {
+public class ListViewEmailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_viewer);
+        setContentView(R.layout.activity_list_view_email);
 
         //setListListener();
 
@@ -64,7 +64,7 @@ public class ListViewerActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
-                Toast.makeText(ListViewerActivity.this, "Pos: " + position + "; value: " + adapter.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ListViewEmailActivity.this, "Pos: " + position + "; value: " + adapter.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
             }
         });
     }
