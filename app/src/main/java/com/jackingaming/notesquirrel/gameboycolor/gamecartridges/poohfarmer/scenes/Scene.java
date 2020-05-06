@@ -8,6 +8,7 @@ import android.util.Log;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Robot;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles.TileMap;
 
 import java.util.ArrayList;
@@ -36,10 +37,11 @@ public class Scene {
 
     public void init(Player player, GameCamera gameCamera) {
         Log.d(MainActivity.DEBUG_TAG, "Scene.init(Player, GameCamera)");
+        this.player = player;
 
         initTileMap();
-        initEntities(player);
         initGameCamera(gameCamera);
+        initEntities(player);
     }
 
     public void enter() {
@@ -98,7 +100,6 @@ public class Scene {
     private void initEntities(Player player) {
         Log.d(MainActivity.DEBUG_TAG, "Scene.initEntities(Player)");
 
-        this.player = player;
         player.init();
         player.setTileMap(tileMap);
         player.setxCurrent((tileMap.getxSpawnIndex() * TileMap.TILE_SIZE));
@@ -106,6 +107,14 @@ public class Scene {
 
         entities = new ArrayList<Entity>();
         entities.add(player);
+
+        ///////////////////////////////////
+
+        float widthPixelToViewportRatio = ((float)heightViewport) / gameCamera.getWidthClipInPixel();
+        float heightPixelToViewportRatio = ((float)heightViewport) / gameCamera.getHeightClipInPixel();
+        Entity robot = new Robot(context, gameCamera, (7*TileMap.TILE_SIZE), (4*TileMap.TILE_SIZE),
+                widthPixelToViewportRatio, heightPixelToViewportRatio);
+        entities.add(robot);
     }
 
     //TODO: move some of these to Scene.enter(Object[])
