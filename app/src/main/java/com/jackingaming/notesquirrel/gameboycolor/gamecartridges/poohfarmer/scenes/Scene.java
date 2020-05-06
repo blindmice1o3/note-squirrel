@@ -42,6 +42,10 @@ public class Scene {
         initTileMap();
         initGameCamera(gameCamera);
         initEntities(player);
+
+        //fixing bug... the game camera need to use the player's spawn
+        //position (which is set after "initGameCamera(GameCamera)").
+        gameCamera.update(0L);
     }
 
     public void enter() {
@@ -110,11 +114,13 @@ public class Scene {
 
         ///////////////////////////////////
 
-        float widthPixelToViewportRatio = ((float)heightViewport) / gameCamera.getWidthClipInPixel();
-        float heightPixelToViewportRatio = ((float)heightViewport) / gameCamera.getHeightClipInPixel();
-        Entity robot = new Robot(context, gameCamera, (7*TileMap.TILE_SIZE), (4*TileMap.TILE_SIZE),
-                widthPixelToViewportRatio, heightPixelToViewportRatio);
-        entities.add(robot);
+        if (sceneID == Id.FARM) {
+            float widthPixelToViewportRatio = ((float) heightViewport) / gameCamera.getWidthClipInPixel();
+            float heightPixelToViewportRatio = ((float) heightViewport) / gameCamera.getHeightClipInPixel();
+            Entity robot = new Robot(context, gameCamera, (7 * TileMap.TILE_SIZE), (4 * TileMap.TILE_SIZE),
+                    widthPixelToViewportRatio, heightPixelToViewportRatio);
+            entities.add(robot);
+        }
     }
 
     //TODO: move some of these to Scene.enter(Object[])
