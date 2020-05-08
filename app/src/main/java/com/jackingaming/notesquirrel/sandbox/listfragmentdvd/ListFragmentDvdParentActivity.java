@@ -8,10 +8,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.sandbox.gridviewdvd.ArrayDataSourceToGridViewCellAdapter;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class ListFragmentDvdParentActivity extends AppCompatActivity {
 
@@ -68,10 +75,55 @@ public class ListFragmentDvdParentActivity extends AppCompatActivity {
             case R.id.menu_gridview:
                 //TODO: implement menu_gridview
                 Toast.makeText(this, "GridView", Toast.LENGTH_SHORT).show();
+
+                ListDvdFragment listDvdFragment = (ListDvdFragment) getSupportFragmentManager().findFragmentById(R.id.listDvd);
+                int firstVisiblePosition = listDvdFragment.getListView().getFirstVisiblePosition();
+                Toast.makeText(this, "firstVisiblePosition: " + firstVisiblePosition, Toast.LENGTH_SHORT).show();
+                //TODO: 2020_05_08 USE ModelDvdFragment (it has image resources).
+
+                setContentView(R.layout.activity_grid_view_dvd);
+
+                // Initialize the GridView (otherwise blank screen)
+                GridView gridView = (GridView) findViewById(R.id.gridview);
+                String[] dataSourceDvd = loadCSV();
+                ArrayDataSourceToGridViewCellAdapter adapter = new ArrayDataSourceToGridViewCellAdapter(this, dataSourceDvd);
+                gridView.setAdapter(adapter);
+
                 return true;
             default:
                 Toast.makeText(this, "ListFragmentDvdParentActivity.onOptionsItemSelected(MenuItem) switch's default", Toast.LENGTH_SHORT).show();
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    private String[] loadCSV() {
+        BufferedReader bufferedReader = null;
+        StringBuilder stringBuilder = new StringBuilder();
+        String line = null;
+
+        InputStream inputStream = getResources().openRawResource(R.raw.dvd_library_collection_unsorted_csv);
+
+        try {
+            bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            while ((line = bufferedReader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String[] dvds = stringBuilder.toString().split(",");
+        Log.d(MainActivity.DEBUG_TAG, "number of dvds: " + dvds.length);
+
+        /*
+        int counter = 0;
+        for (String dvd : dvds) {
+            counter++;
+            Log.d(MainActivity.DEBUG_TAG, String.format("%3d: %s", counter, dvd));
+        }
+        */
+
+        return dvds;
+    }
+
 }

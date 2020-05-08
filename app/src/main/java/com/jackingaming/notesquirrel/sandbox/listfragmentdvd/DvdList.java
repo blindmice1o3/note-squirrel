@@ -28,35 +28,67 @@ public class DvdList extends ArrayList<Dvd> {
 
         add(new Dvd(
                 imageUpInSmoke,
-                "Up in Smoke"
+                "0 Up in Smoke"
         ));
         add(new Dvd(
                 imageFastTimeAtRidgemontHigh,
-                "Fast Time at Ridgemont High"
+                "1 Fast Time at Ridgemont High"
         ));
         add(new Dvd(
                 imageDazedAndConfused,
-                "Dazed and Confused"
+                "2 Dazed and Confused"
         ));
         add(new Dvd(
                 imageFriday,
-                "Friday"
+                "3 Friday"
         ));
         add(new Dvd(
                 imageHalfBaked,
-                "Half Baked"
+                "4 Half Baked"
         ));
         add(new Dvd(
                 imageJayAndSilentBobStrikeBack,
-                "Jay and Silent Bob Strike Back"
+                "5 Jay and Silent Bob Strike Back"
         ));
         add(new Dvd(
                 imageGrandmasBoy,
-                "Grandma's Boy"
+                "6 Grandma's Boy"
         ));
         add(new Dvd(
                 imageHaroldAndKumarGoToWhiteCastle,
-                "Harold & Kumar Go to White Castle"
+                "7 Harold & Kumar Go to White Castle"
+        ));
+        add(new Dvd(
+                imageHaroldAndKumarGoToWhiteCastle,
+                "8 Harold & Kumar Go to White Castle"
+        ));
+        add(new Dvd(
+                imageHaroldAndKumarGoToWhiteCastle,
+                "9 Harold & Kumar Go to White Castle"
+        ));
+        add(new Dvd(
+                imageHaroldAndKumarGoToWhiteCastle,
+                "10 Harold & Kumar Go to White Castle"
+        ));
+        add(new Dvd(
+                imageHaroldAndKumarGoToWhiteCastle,
+                "11 Harold & Kumar Go to White Castle"
+        ));
+        add(new Dvd(
+                imageHaroldAndKumarGoToWhiteCastle,
+                "12 Harold & Kumar Go to White Castle"
+        ));
+        add(new Dvd(
+                imageHaroldAndKumarGoToWhiteCastle,
+                "13 Harold & Kumar Go to White Castle"
+        ));
+        add(new Dvd(
+                imageHaroldAndKumarGoToWhiteCastle,
+                "14 Harold & Kumar Go to White Castle"
+        ));
+        add(new Dvd(
+                imageHaroldAndKumarGoToWhiteCastle,
+                "15 Harold & Kumar Go to White Castle"
         ));
 
         Log.d(MainActivity.DEBUG_TAG, "DvdList constructor FINISHED");
