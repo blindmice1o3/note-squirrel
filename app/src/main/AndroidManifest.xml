@@ -45,9 +45,7 @@
         <activity android:name=".sandbox.spritesheetverifier1.SpriteSheetVerifier1Activity" />
         <activity android:name=".sandbox.gridviewdvd.GridViewDvdActivity" />
         <activity android:name=".sandbox.downloadhtml.DownloadHtmlFragmentParentActivity" />
-        <activity
-            android:name=".sandbox.listfragmentdvd.ListFragmentDvdParentActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".sandbox.listfragmentdvd.ListFragmentDvdParentActivity" />
         <activity android:name=".sandbox.listviewemail.ListViewEmailActivity" />
         <activity android:name=".GalleryResultActivity" />
         <activity android:name=".CameraResultActivity" />

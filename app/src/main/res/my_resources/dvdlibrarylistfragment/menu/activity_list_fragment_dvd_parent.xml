@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_listview"
+        android:icon="@drawable/icon_listview"
+        android:title="listview"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_gridview"
+        android:icon="@drawable/icon_gridview"
+        android:title="gridview"
+        app:showAsAction="always" />
+</menu>
