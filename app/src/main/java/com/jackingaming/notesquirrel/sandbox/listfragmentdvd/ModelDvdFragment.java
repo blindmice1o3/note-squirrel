@@ -38,8 +38,8 @@ public class ModelDvdFragment extends Fragment {
     public void setDvd(Dvd dvd) {
         View view = getView();
 
-        ImageView imageView = (ImageView) view.findViewById(R.id.image);
-        TextView textView = (TextView) view.findViewById(R.id.title);
+        ImageView imageView = (ImageView) view.findViewById(R.id.imageview_dvd_cover_art);
+        TextView textView = (TextView) view.findViewById(R.id.textview_dvd_title);
 
         Bitmap source = dvd.getImage();
         Bitmap icon = Bitmap.createScaledBitmap(source,
