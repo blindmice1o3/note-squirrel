@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.Toast;
@@ -97,8 +99,20 @@ public class ListFragmentDvdParentActivity extends AppCompatActivity {
                 String[] dataSourceDvd = loadCSV();
                 ArrayDataSourceToGridViewCellAdapter adapter = new ArrayDataSourceToGridViewCellAdapter(this, dataSourceDvd);
                 */
-                DvdListToGridViewCellAdapter adapter = new DvdListToGridViewCellAdapter(this, dvds);
+                final DvdListToGridViewCellAdapter adapter = new DvdListToGridViewCellAdapter(this, dvds);
                 gridView.setAdapter(adapter);
+                gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Log.d(MainActivity.DEBUG_TAG, "GridView's OnItemClickListener.onItemClick(AdapterView<?>, View, int, long");
+                        //TODO: toggle the favorite-star's activeness image.
+
+                        Dvd dvd = dvds.get(position);
+                        dvd.toggleFavorite();
+
+                        adapter.notifyDataSetChanged();
+                    }
+                });
 
                 ////////////////////////////////////////////
                 gridView.setSelection(firstVisiblePosition);

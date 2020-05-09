@@ -60,8 +60,9 @@ public class DvdListToGridViewCellAdapter extends BaseAdapter {
             convertView = layoutInflater.inflate(R.layout.model_dvd_fragment, null);
         }
 
-        final ImageView imageView = (ImageView) convertView.findViewById(R.id.imageview_dvd_cover_art);
-        final TextView textView = (TextView) convertView.findViewById(R.id.textview_dvd_title);
+        final ImageView imageViewDvdCoverArt = (ImageView) convertView.findViewById(R.id.imageview_dvd_cover_art);
+        final TextView textViewDvdTitle = (TextView) convertView.findViewById(R.id.textview_dvd_title);
+        final ImageView imageViewFavorite = (ImageView) convertView.findViewById(R.id.imageview_favorite);
 
         /*
         Bitmap source = dvd.getImage();
@@ -70,8 +71,12 @@ public class DvdListToGridViewCellAdapter extends BaseAdapter {
         imageView.setImageBitmap(icon);
         */
 
-        imageView.setImageBitmap(dvd.getImage());
-        textView.setText(dvd.getTitle());
+        imageViewDvdCoverArt.setImageBitmap(dvd.getImage());
+        textViewDvdTitle.setText(dvd.getTitle());
+        imageViewFavorite.setImageResource(
+            dvd.getIsFavorite() ? R.drawable.btn_star_on_normal_holo_light : R.drawable.btn_star_off_normal_holo_light
+        );
+
 
         return convertView;
     }

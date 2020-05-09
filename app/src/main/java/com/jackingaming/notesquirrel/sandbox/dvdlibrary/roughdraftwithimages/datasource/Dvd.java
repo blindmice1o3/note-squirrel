@@ -8,6 +8,7 @@ public class Dvd {
 
     private Bitmap image;
     private String title;
+    private boolean isFavorite = false;
 
     public Dvd(Bitmap image, String title) {
         this.image = image;
@@ -36,4 +37,15 @@ public class Dvd {
         this.title = title;
     }
 
+    public boolean getIsFavorite() {
+        return isFavorite;
+    }
+
+    public void setIsFavorite(boolean isFavorite) {
+        this.isFavorite = isFavorite;
+    }
+
+    public void toggleFavorite() {
+        isFavorite = !isFavorite;
+    }
 }
