@@ -17,7 +17,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.Pooh
 import com.jackingaming.notesquirrel.gameboycolor.input.ButtonPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
-import com.jackingaming.notesquirrel.sandbox.listfragmentdvd.ListFragmentDvdParentActivity;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.ListFragmentDvdParentActivity;
 
 public class JackInActivity extends AppCompatActivity {
 

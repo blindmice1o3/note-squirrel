@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.sandbox.gridviewdvd;
+package com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.grid;
 
 import androidx.appcompat.app.AppCompatActivity;
 

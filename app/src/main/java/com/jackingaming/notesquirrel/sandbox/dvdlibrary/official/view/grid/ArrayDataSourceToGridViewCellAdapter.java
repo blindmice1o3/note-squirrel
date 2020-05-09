@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.sandbox.gridviewdvd;
+package com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.grid;
 
 import android.content.Context;
 import android.view.View;

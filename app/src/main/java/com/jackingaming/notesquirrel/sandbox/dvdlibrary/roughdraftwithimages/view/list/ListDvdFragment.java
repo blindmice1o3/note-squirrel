@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.sandbox.listfragmentdvd;
+package com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.view.list;
 
 import android.os.Bundle;
 import android.util.Log;

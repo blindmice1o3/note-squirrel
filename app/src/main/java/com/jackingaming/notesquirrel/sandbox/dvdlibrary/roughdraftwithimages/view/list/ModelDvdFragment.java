@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.sandbox.listfragmentdvd;
+package com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.view.list;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.datasource.Dvd;
 
 public class ModelDvdFragment extends Fragment {
 

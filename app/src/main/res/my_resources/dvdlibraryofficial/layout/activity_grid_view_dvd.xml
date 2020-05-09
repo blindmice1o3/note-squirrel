@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".sandbox.gridviewdvd.GridViewDvdActivity">
+    tools:context=".sandbox.dvdlibrary.official.view.grid.GridViewDvdActivity">
 
     <GridView
         android:id="@+id/gridview"

@@ -22,11 +22,11 @@ import com.jackingaming.notesquirrel.computer.ComputerActivity;
 import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.passpoints.ImageActivity;
 import com.jackingaming.notesquirrel.sandbox.downloadhtml.DownloadHtmlFragmentParentActivity;
-import com.jackingaming.notesquirrel.sandbox.listfragmentdvd.ListFragmentDvdParentActivity;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.ListFragmentDvdParentActivity;
 import com.jackingaming.notesquirrel.sandbox.spritesheetverifier1.SpriteSheetVerifier1Activity;
 import com.jackingaming.notesquirrel.sandbox.listviewemail.ListViewEmailActivity;
 import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.SpriteSheetVerifier2Activity;
-import com.jackingaming.notesquirrel.sandbox.gridviewdvd.GridViewDvdActivity;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.grid.GridViewDvdActivity;
 import com.jackingaming.notesquirrel.television.TelevisionActivity;
 
 import java.io.BufferedReader;
