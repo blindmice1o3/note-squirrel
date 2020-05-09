@@ -16,6 +16,7 @@ import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.datasource.Dvd;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.datasource.DvdList;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.grid.ArrayDataSourceToGridViewCellAdapter;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.view.grid.DvdListToGridViewCellAdapter;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.view.list.ListDvdFragment;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.view.list.ModelDvdFragment;
 
@@ -80,18 +81,28 @@ public class ListFragmentDvdParentActivity extends AppCompatActivity {
                 //TODO: implement menu_gridview
                 Toast.makeText(this, "GridView", Toast.LENGTH_SHORT).show();
 
+                //////////////////////////////////////////////////////
                 ListDvdFragment listDvdFragment = (ListDvdFragment) getSupportFragmentManager().findFragmentById(R.id.listDvd);
                 int firstVisiblePosition = listDvdFragment.getListView().getFirstVisiblePosition();
                 Toast.makeText(this, "firstVisiblePosition: " + firstVisiblePosition, Toast.LENGTH_SHORT).show();
+                //////////////////////////////////////////////////////
+
                 //TODO: 2020_05_08 USE ModelDvdFragment (it has image resources).
 
                 setContentView(R.layout.activity_grid_view_dvd);
 
                 // Initialize the GridView (otherwise blank screen)
                 GridView gridView = (GridView) findViewById(R.id.gridview);
+                /*
                 String[] dataSourceDvd = loadCSV();
                 ArrayDataSourceToGridViewCellAdapter adapter = new ArrayDataSourceToGridViewCellAdapter(this, dataSourceDvd);
+                */
+                DvdListToGridViewCellAdapter adapter = new DvdListToGridViewCellAdapter(this, dvds);
                 gridView.setAdapter(adapter);
+
+                ////////////////////////////////////////////
+                gridView.setSelection(firstVisiblePosition);
+                ////////////////////////////////////////////
 
                 return true;
             default:

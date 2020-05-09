@@ -22,37 +22,35 @@ public class ModelDvdFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Initialization here.
+        Log.d(MainActivity.DEBUG_TAG, "ModelDvdFragment.onCreate(Bundle)");
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.d(MainActivity.DEBUG_TAG, "ModelDvdFragment.onCreateView(LayoutInflater, ViewGroup, Bundle)");
+
         View view = inflater.inflate(R.layout.model_dvd_fragment, container, false);
-
-
 
         return view;
     }
 
     public void setDvd(Dvd dvd) {
+        Log.d(MainActivity.DEBUG_TAG, "ModelDvdFragment.setDvd(Dvd)");
+
         View view = getView();
 
         ImageView imageView = (ImageView) view.findViewById(R.id.imageview_dvd_cover_art);
         TextView textView = (TextView) view.findViewById(R.id.textview_dvd_title);
 
-        Bitmap source = dvd.getImage();
-        Bitmap icon = Bitmap.createScaledBitmap(source,
-                source.getWidth() * 2, source.getHeight() * 2, false);
-
-        imageView.setImageBitmap(icon);
-
+        imageView.setImageBitmap(dvd.getImage());
         textView.setText(dvd.getTitle());
 
-        //imageView.getLayoutParams().height = (int) (icon.getHeight() * 0.5);
-        //imageView.setAdjustViewBounds(true);
         ///////////////////////////////////////////////////////////////////////
+        /*
+        imageView.getLayoutParams().height = (int) (icon.getHeight() * 0.5);
+        imageView.setAdjustViewBounds(true);
+
         float scaledDensity = getResources().getDisplayMetrics().scaledDensity;
         int widthPixels = getResources().getDisplayMetrics().widthPixels;
         int heightPixels = getResources().getDisplayMetrics().heightPixels;
@@ -61,13 +59,16 @@ public class ModelDvdFragment extends Fragment {
         Log.d(MainActivity.DEBUG_TAG, "heightPixels: " + heightPixels);
         Log.d(MainActivity.DEBUG_TAG, "source.getHeight(): " + source.getHeight());
         Log.d(MainActivity.DEBUG_TAG, "icon.getHeight(): " + icon.getHeight());
+        */
         ///////////////////////////////////////////////////////////////////////
     }
 
     @Override
     public void onPause() {
-        // Save data if necessary.
         super.onPause();
+        Log.d(MainActivity.DEBUG_TAG, "ModelDvdFragment.onPause()");
+
+        // Save data if necessary.
     }
 
 }

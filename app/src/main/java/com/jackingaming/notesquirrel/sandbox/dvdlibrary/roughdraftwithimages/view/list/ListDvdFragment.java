@@ -12,11 +12,15 @@ import com.jackingaming.notesquirrel.MainActivity;
 
 public class ListDvdFragment extends ListFragment {
 
-    private OnDvdItemClickListener onDvdItemClickListener;
-
+    ///////////////////////////////////////////////////////////////////////////////////////
     public interface OnDvdItemClickListener {
         public void onDvdItemClicked(int position);
     }
+    private OnDvdItemClickListener onDvdItemClickListener;
+    public void setOnDvdItemClickListener(OnDvdItemClickListener onDvdItemClickListener) {
+        this.onDvdItemClickListener = onDvdItemClickListener;
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,15 +35,6 @@ public class ListDvdFragment extends ListFragment {
         if (onDvdItemClickListener != null) {
             onDvdItemClickListener.onDvdItemClicked(position);
         }
-
-        /*
-        Dvd dvd = dvds.get(position);
-        Toast.makeText(getActivity(), dvd.getTitle(), Toast.LENGTH_LONG).show();
-        */
-    }
-
-    public void setOnDvdItemClickListener(OnDvdItemClickListener onDvdItemClickListener) {
-        this.onDvdItemClickListener = onDvdItemClickListener;
     }
 
 }
