@@ -1,0 +1,46 @@
+(x1, y1,
+ x2, y2)
+
+house_level_1
+(6, 6, 
+166, 197)
+
+house_level_2
+(171, 6, 
+363, 197)
+
+house_level_3
+(368, 6, 
+623, 261)
+
+cow_barn_empty
+(8, 304,
+247, 559)
+
+cow_barn_full
+(252, 304, 
+491, 559)
+
+chicken_coop_empty
+(78, 603, 
+317, 858)
+
+chicken_coop_full 
+(322, 603, 
+562, 858)
+
+sheep_pen_empty
+(8, 902, 
+247, 1157)
+
+sheep_pen_full
+(252, 902, 
+491, 1157)
+
+hot_house_empty
+(223, 1200, 
+414, 1455)
+
+hot_house_full
+(419, 1200, 
+611, 1455)
