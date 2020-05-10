@@ -104,7 +104,7 @@ public class ListFragmentDvdParentActivity extends AppCompatActivity {
                 gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Log.d(MainActivity.DEBUG_TAG, "GridView's OnItemClickListener.onItemClick(AdapterView<?>, View, int, long");
+                        Log.d(MainActivity.DEBUG_TAG, "ListFragmentDvdParent.onOptionItemSelected()'s gridView.OnItemClickListener.onItemClick(AdapterView<?>, View, int, long)");
                         //TODO: toggle the favorite-star's activeness image.
 
                         Dvd dvd = dvds.get(position);

@@ -1,6 +1,5 @@
 package com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.view.list;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +18,8 @@ import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.dat
 
 public class ModelDvdFragment extends Fragment {
 
+    private Dvd dvd;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,19 +33,41 @@ public class ModelDvdFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.model_dvd_fragment, container, false);
 
+        ImageView imageViewFavorite = (ImageView) view.findViewById(R.id.imageview_favorite);
+
+        imageViewFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (dvd != null) {
+                    Log.d(MainActivity.DEBUG_TAG, "clicking star of favorite dvd");
+
+                    dvd.toggleFavorite();
+
+                    ((ImageView)v).setImageResource(
+                            dvd.getIsFavorite() ? R.drawable.btn_star_on_normal_holo_light : R.drawable.btn_star_off_normal_holo_light
+                    );
+                }
+            }
+        });
+
         return view;
     }
 
     public void setDvd(Dvd dvd) {
         Log.d(MainActivity.DEBUG_TAG, "ModelDvdFragment.setDvd(Dvd)");
+        this.dvd = dvd;
 
         View view = getView();
 
-        ImageView imageView = (ImageView) view.findViewById(R.id.imageview_dvd_cover_art);
-        TextView textView = (TextView) view.findViewById(R.id.textview_dvd_title);
+        ImageView imageViewDvdCoverArt = (ImageView) view.findViewById(R.id.imageview_dvd_cover_art);
+        TextView textViewDvdTitle = (TextView) view.findViewById(R.id.textview_dvd_title);
+        ImageView imageViewFavorite = (ImageView) view.findViewById(R.id.imageview_favorite);
 
-        imageView.setImageBitmap(dvd.getImage());
-        textView.setText(dvd.getTitle());
+        imageViewDvdCoverArt.setImageBitmap(dvd.getImage());
+        textViewDvdTitle.setText(dvd.getTitle());
+        imageViewFavorite.setImageResource(
+                dvd.getIsFavorite() ? R.drawable.btn_star_on_normal_holo_light : R.drawable.btn_star_off_normal_holo_light
+        );
 
         ///////////////////////////////////////////////////////////////////////
         /*
