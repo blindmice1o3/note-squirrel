@@ -23,6 +23,7 @@ import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.passpoints.ImageActivity;
 import com.jackingaming.notesquirrel.sandbox.downloadhtml.DownloadHtmlFragmentParentActivity;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.ListFragmentDvdParentActivity;
+import com.jackingaming.notesquirrel.sandbox.learnfragment.LearnFragmentParentActivity;
 import com.jackingaming.notesquirrel.sandbox.spritesheetverifier1.SpriteSheetVerifier1Activity;
 import com.jackingaming.notesquirrel.sandbox.listviewemail.ListViewEmailActivity;
 import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.SpriteSheetVerifier2Activity;
@@ -268,14 +269,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(listViewEmailIntent);
 
                 return true;
-            case R.id.menu_list_fragment_dvd:
-                //TODO: implement menu_list_fragment_dvd
-                Toast.makeText(this, R.string.menu_list_fragment_dvd, Toast.LENGTH_SHORT).show();
-
-                Intent listFragmentDvdParentIntent = new Intent(this, ListFragmentDvdParentActivity.class);
-                startActivity(listFragmentDvdParentIntent);
-
-                return true;
             case R.id.menu_download_html_fragment_parent:
                 //TODO: implement menu_download_html_fragment_parent
                 Toast.makeText(this, R.string.menu_download_html_fragment_parent, Toast.LENGTH_SHORT).show();
@@ -290,6 +283,22 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent gridViewDvdIntent = new Intent(this, GridViewDvdActivity.class);
                 startActivity(gridViewDvdIntent);
+
+                return true;
+            case R.id.menu_list_fragment_dvd:
+                //TODO: implement menu_list_fragment_dvd
+                Toast.makeText(this, R.string.menu_list_fragment_dvd, Toast.LENGTH_SHORT).show();
+
+                Intent listFragmentDvdParentIntent = new Intent(this, ListFragmentDvdParentActivity.class);
+                startActivity(listFragmentDvdParentIntent);
+
+                return true;
+            case R.id.menu_learn_fragment_parent:
+                //TODO: implement menu_learn_fragment_parent
+                Toast.makeText(this, R.string.menu_learn_fragment_parent, Toast.LENGTH_SHORT).show();
+
+                Intent learnFragmentParentIntent = new Intent(this, LearnFragmentParentActivity.class);
+                startActivity(learnFragmentParentIntent);
 
                 return true;
             case R.id.menu_sprite_sheet_verifier1:

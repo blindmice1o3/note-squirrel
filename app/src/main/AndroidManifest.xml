@@ -43,9 +43,10 @@
         <activity android:name=".television.TelevisionActivity" />
         <activity android:name=".sandbox.spritesheetverifier2.SpriteSheetVerifier2Activity" />
         <activity android:name=".sandbox.spritesheetverifier1.SpriteSheetVerifier1Activity" />
+        <activity android:name=".sandbox.learnfragment.LearnFragmentParentActivity"></activity>
+        <activity android:name=".sandbox.dvdlibrary.roughdraftwithimages.ListFragmentDvdParentActivity" />
         <activity android:name=".sandbox.dvdlibrary.official.view.grid.GridViewDvdActivity" />
         <activity android:name=".sandbox.downloadhtml.DownloadHtmlFragmentParentActivity" />
-        <activity android:name=".sandbox.dvdlibrary.roughdraftwithimages.ListFragmentDvdParentActivity" />
         <activity android:name=".sandbox.listviewemail.ListViewEmailActivity" />
         <activity android:name=".GalleryResultActivity" />
         <activity android:name=".CameraResultActivity" />
@@ -59,6 +60,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity">
+
             <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

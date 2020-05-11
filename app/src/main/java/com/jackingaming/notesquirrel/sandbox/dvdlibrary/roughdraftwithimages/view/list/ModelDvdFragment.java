@@ -43,7 +43,7 @@ public class ModelDvdFragment extends Fragment {
 
                     dvd.toggleFavorite();
 
-                    ((ImageView)v).setImageResource(
+                    ((ImageView) v).setImageResource(
                             dvd.getIsFavorite() ? R.drawable.btn_star_on_normal_holo_light : R.drawable.btn_star_off_normal_holo_light
                     );
                 }

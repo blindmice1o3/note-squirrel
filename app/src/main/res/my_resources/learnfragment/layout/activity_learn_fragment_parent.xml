@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearlayout_learnfragmentparent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FF00FF"
+    android:orientation="vertical"
+    tools:context=".sandbox.learnfragment.LearnFragmentParentActivity">
+
+    <FrameLayout
+        android:id="@+id/framelayout_top"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="50"
+        android:background="#0000FF">
+
+        <TextView
+            android:id="@+id/textview_top"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#00FF00"
+            android:text="TextView inside R.id.framelayout_top"
+            android:textSize="24sp" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/framelayout_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="50"
+        android:background="#00FFFF">
+
+        <TextView
+            android:id="@+id/textview_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFFF00"
+            android:text="TextView inside R.id.framelayout_bottom"
+            android:textSize="16sp" />
+
+    </FrameLayout>
+
+</LinearLayout>
