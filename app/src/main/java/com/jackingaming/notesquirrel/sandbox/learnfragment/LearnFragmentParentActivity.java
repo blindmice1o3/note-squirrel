@@ -33,6 +33,7 @@ public class LearnFragmentParentActivity extends AppCompatActivity
         //FirstTestFragment framelayouttopFirstTestFragment = (FirstTestFragment) fragmentManager.findFragmentById(R.id.framelayout_top);
         NoFrameFragment noFrameFragment = (NoFrameFragment) fragmentManager.findFragmentById(R.id.textview_no_frame_fragment);
         NoFrameFragment framelayoutNoFrameFragment = (NoFrameFragment) fragmentManager.findFragmentById(R.id.framelayout_top);
+        FirstTestFragment firstTestFragmentInsideFrameLayoutBottom = (FirstTestFragment) fragmentManager.findFragmentById(R.id.framelayout_bottom);
         if (framelayoutFirstTestFragment == null) {
             Log.d(MainActivity.DEBUG_TAG, "framelayoutFirstTestFragment is null");
         }
@@ -87,6 +88,17 @@ public class LearnFragmentParentActivity extends AppCompatActivity
         } else {
             Log.d(MainActivity.DEBUG_TAG, "LearnFragmentParentActivity.onLeftButtonClick(View)... framelayoutNoFrameFragment NOT remove(Fragment)");
         }
+
+        if (firstTestFragmentInsideFrameLayoutBottom != null ) {
+            Log.d(MainActivity.DEBUG_TAG, "LearnFragmentParentActivity.onLeftButtonClick(View)... firstTestFragmentInsideFrameLayoutBottom remove(Fragment)");
+
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.remove(firstTestFragmentInsideFrameLayoutBottom);
+
+            transaction.commit();
+        } else {
+            Log.d(MainActivity.DEBUG_TAG, "LearnFragmentParentActivity.onLeftButtonClick(View)... firstTestFragmentInsideFrameLayoutBottom NOT remove(Fragment)");
+        }
     }
 
     public void onRightButtonClick(View view) {
@@ -97,15 +109,15 @@ public class LearnFragmentParentActivity extends AppCompatActivity
 
         FirstTestFragment fragment = FirstTestFragment.newInstance("one", "two");
         ////////////////////////////////////////////////////////
-        NoFrameFragment noFrameFragment = new NoFrameFragment();
+        //NoFrameFragment noFrameFragment = new NoFrameFragment();
         ////////////////////////////////////////////////////////
-        transaction.add(R.id.framelayout_top, noFrameFragment);
+        transaction.replace(R.id.framelayout_bottom, fragment);
         transaction.addToBackStack(null);
 
         transaction.commit();
 
         //////////////////////////////////////////////////////////////////////////////////
-        Log.d(MainActivity.DEBUG_TAG, "NoFrameFragment's id: " + noFrameFragment.getId());
+        //Log.d(MainActivity.DEBUG_TAG, "NoFrameFragment's id: " + noFrameFragment.getId());
         //////////////////////////////////////////////////////////////////////////////////
     }
 

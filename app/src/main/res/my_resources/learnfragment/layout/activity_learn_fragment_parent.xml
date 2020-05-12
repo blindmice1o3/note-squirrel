@@ -38,6 +38,12 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/framelayout_top">
 
+        <fragment
+            android:name="com.jackingaming.notesquirrel.sandbox.learnfragment.fragments.NoFrameFragment"
+            android:id="@+id/noframefragment_in_framelayout_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+<!--
         <TextView
             android:id="@+id/textview_bottom"
             android:layout_width="match_parent"
@@ -45,6 +51,7 @@
             android:background="#FFFF00"
             android:text="TextView inside R.id.framelayout_bottom"
             android:textSize="16sp" />
+-->
 
     </FrameLayout>
 
@@ -63,16 +70,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="50"
-            android:text="left"
-            android:onClick="onLeftButtonClick"/>
+            android:onClick="onLeftButtonClick"
+            android:text="left" />
 
         <Button
             android:id="@+id/button_right"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="50"
-            android:text="right"
-            android:onClick="onRightButtonClick"/>
+            android:onClick="onRightButtonClick"
+            android:text="right" />
 
     </LinearLayout>
 
