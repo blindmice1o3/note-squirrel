@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,11 +17,20 @@ import com.jackingaming.notesquirrel.sandbox.learnfragment.fragments.FirstTestFr
 import com.jackingaming.notesquirrel.sandbox.learnfragment.fragments.NoFrameFragment;
 
 public class LearnFragmentParentActivity extends AppCompatActivity
-        implements FirstTestFragment.OnFragmentInteractionListener {
+        implements FirstTestFragment.OnFragmentClickedListener {
 
+    private boolean isBlue = true;
     @Override
-    public void onFragmentInteraction(Uri uri) {
-        Toast.makeText(this, "LearnFragmentParentActivity's fragment's interface... FirstTestFragment.OnFragmentInteractionListener.onFragmentInteraction(Uri)", Toast.LENGTH_SHORT).show();
+    public void onFragmentClickedInteraction(View v) {
+        Log.d(MainActivity.DEBUG_TAG, "LearnFragmentParentActivity's fragment's interface... FirstTestFragment.OnFragmentClickedListener.onFragmentClickedInteraction(View)");
+
+        if (isBlue) {
+            v.setBackgroundColor(Color.BLUE);
+        } else {
+            v.setBackgroundColor(Color.YELLOW);
+        }
+
+        isBlue = !isBlue;
     }
 
     public void onLeftButtonClick(View view) {

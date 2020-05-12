@@ -17,7 +17,7 @@ import com.jackingaming.notesquirrel.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link FirstTestFragment.OnFragmentInteractionListener} interface
+ * {@link OnFragmentClickedListener} interface
  * to handle interaction events.
  * Use the {@link FirstTestFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -34,11 +34,11 @@ public class FirstTestFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+    public interface OnFragmentClickedListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onFragmentClickedInteraction(View view);
     }
-    private OnFragmentInteractionListener mListener;
+    private OnFragmentClickedListener fragmentClickedListener;
     //set within onAttach(Context)
 
     // TODO: Rename parameter arguments, choose names that match
@@ -81,11 +81,11 @@ public class FirstTestFragment extends Fragment {
         super.onAttach(context);
         Log.d(MainActivity.DEBUG_TAG, "FirstTestFragment.onAttach(Context)");
 
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof OnFragmentClickedListener) {
+            fragmentClickedListener = (OnFragmentClickedListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnFragmentClickedListener");
         }
     }
 
@@ -106,16 +106,19 @@ public class FirstTestFragment extends Fragment {
         Log.d(MainActivity.DEBUG_TAG, "FirstTestFragment.onCreateView(LayoutInflater, ViewGroup, Bundle)");
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_first_test, container, false);
-    }
+        View view = inflater.inflate(R.layout.fragment_first_test, container, false);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (fragmentClickedListener != null) {
+                    fragmentClickedListener.onFragmentClickedInteraction(v);
+                } else {
+                    Log.d(MainActivity.DEBUG_TAG, "fragmentClickedListener is null");
+                }
+            }
+        });
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        Log.d(MainActivity.DEBUG_TAG, "FirstTestFragment.onButtonPressed(Uri)");
-
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+        return view;
     }
 
     @Override
@@ -123,7 +126,7 @@ public class FirstTestFragment extends Fragment {
         super.onDetach();
         Log.d(MainActivity.DEBUG_TAG, "FirstTestFragment.onDetach()");
 
-        mListener = null;
+        fragmentClickedListener = null;
     }
 
 }
