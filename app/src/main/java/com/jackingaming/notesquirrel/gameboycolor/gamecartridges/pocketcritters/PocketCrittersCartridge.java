@@ -114,7 +114,7 @@ public class PocketCrittersCartridge
 
     @Override
     public void getInputButtonPad() {
-        if (inputManager.isPressingButtonPad()) {
+        if (inputManager.isJustPressedButtonPad()) {
             //menu button (will launch ListFragmentDvdParentActivity)
             if (inputManager.isMenuButtonPad()) {
                 Log.d(MainActivity.DEBUG_TAG, "menu-button");

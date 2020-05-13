@@ -43,6 +43,8 @@ public class InputManager
 
     //BUTTON_PAD
     private boolean pressingButtonPad;
+    private boolean justPressedButtonPad;
+    private boolean cantPressButtonPad;
     private boolean menuButtonPad;
     private boolean aButtonPad;
     private boolean bButtonPad;
@@ -78,6 +80,19 @@ public class InputManager
         }
         if (!cantPressViewport && pressingViewport) {
             justPressedViewport = true;
+        }
+        //////////////////////////////////////////////////////////
+
+        //BUTTON_PAD
+        //////////////////////////////////////////////////////////
+        if (cantPressButtonPad && !pressingButtonPad) {
+            cantPressButtonPad = false;
+        } else if (justPressedButtonPad) {
+            cantPressButtonPad = true;
+            justPressedButtonPad = false;
+        }
+        if (!cantPressButtonPad && pressingButtonPad) {
+            justPressedButtonPad = true;
         }
         //////////////////////////////////////////////////////////
 
@@ -205,6 +220,8 @@ public class InputManager
     public boolean isJustPressedViewport() {
         return justPressedViewport;
     }
+
+    public boolean isJustPressedButtonPad() { return justPressedButtonPad; }
 
     public boolean isUpViewport() {
         return upViewport;
