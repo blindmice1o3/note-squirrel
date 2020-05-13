@@ -2,6 +2,9 @@ package com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -81,7 +84,6 @@ public class ListFragmentDvdParentActivity extends AppCompatActivity {
 
                 //TODO: 2020_05_09
 
-                /*
                 setContentView(R.layout.activity_list_fragment_dvd_parent);
 
                 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -105,7 +107,6 @@ public class ListFragmentDvdParentActivity extends AppCompatActivity {
                     }
                 });
                 ////////////////////////////////////////////////////////////////////////////////////////////
-                */
 
                 return true;
             case R.id.menu_gridview:
@@ -116,6 +117,15 @@ public class ListFragmentDvdParentActivity extends AppCompatActivity {
                 listDvdFragment = (ListDvdFragment) getSupportFragmentManager().findFragmentById(R.id.listDvd);
                 int firstVisiblePosition = listDvdFragment.getListView().getFirstVisiblePosition();
                 Toast.makeText(this, "firstVisiblePosition: " + firstVisiblePosition, Toast.LENGTH_SHORT).show();
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                Fragment modelFragment = fragmentManager.findFragmentById(R.id.modelDvd);
+                Fragment listFragment = fragmentManager.findFragmentById(R.id.listDvd);
+
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.remove(modelFragment);
+                transaction.remove(listFragment);
+                transaction.commit();
                 //////////////////////////////////////////////////////
 
                 //TODO: 2020_05_08 USE ModelDvdFragment (it has image resources).
