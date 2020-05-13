@@ -1,7 +1,6 @@
 package com.jackingaming.notesquirrel.sandbox.learnfragment.fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -19,10 +18,10 @@ import com.jackingaming.notesquirrel.R;
  * Activities that contain this fragment must implement the
  * {@link OnFragmentClickedListener} interface
  * to handle interaction events.
- * Use the {@link FirstTestFragment#newInstance} factory method to
+ * Use the {@link AboveFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FirstTestFragment extends Fragment {
+public class AboveFragment extends Fragment {
 
     /**
      * This interface must be implemented by activities that contain this
@@ -50,8 +49,8 @@ public class FirstTestFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public FirstTestFragment() {
-        Log.d(MainActivity.DEBUG_TAG, "FirstTestFragment() constructor (BUT SHOULD USE the \"newInstance(String, String)\" factory method to instantiate.");
+    public AboveFragment() {
+        Log.d(MainActivity.DEBUG_TAG, "AboveFragment() constructor (BUT SHOULD USE the \"newInstance(String, String)\" factory method to instantiate.");
 
         // Required empty public constructor
     }
@@ -62,13 +61,13 @@ public class FirstTestFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FirstTestFragment.
+     * @return A new instance of fragment AboveFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static FirstTestFragment newInstance(String param1, String param2) {
-        Log.d(MainActivity.DEBUG_TAG, "FirstTestFragment.newInstance(String, String)");
+    public static AboveFragment newInstance(String param1, String param2) {
+        Log.d(MainActivity.DEBUG_TAG, "AboveFragment.newInstance(String, String)");
 
-        FirstTestFragment fragment = new FirstTestFragment();
+        AboveFragment fragment = new AboveFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -79,7 +78,7 @@ public class FirstTestFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Log.d(MainActivity.DEBUG_TAG, "FirstTestFragment.onAttach(Context)");
+        Log.d(MainActivity.DEBUG_TAG, "AboveFragment.onAttach(Context)");
 
         if (context instanceof OnFragmentClickedListener) {
             fragmentClickedListener = (OnFragmentClickedListener) context;
@@ -92,7 +91,7 @@ public class FirstTestFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(MainActivity.DEBUG_TAG, "FirstTestFragment.onCreate(Bundle)");
+        Log.d(MainActivity.DEBUG_TAG, "AboveFragment.onCreate(Bundle)");
 
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -103,7 +102,7 @@ public class FirstTestFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d(MainActivity.DEBUG_TAG, "FirstTestFragment.onCreateView(LayoutInflater, ViewGroup, Bundle)");
+        Log.d(MainActivity.DEBUG_TAG, "AboveFragment.onCreateView(LayoutInflater, ViewGroup, Bundle)");
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_first_test, container, false);
@@ -124,7 +123,7 @@ public class FirstTestFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        Log.d(MainActivity.DEBUG_TAG, "FirstTestFragment.onDetach()");
+        Log.d(MainActivity.DEBUG_TAG, "AboveFragment.onDetach()");
 
         fragmentClickedListener = null;
     }
