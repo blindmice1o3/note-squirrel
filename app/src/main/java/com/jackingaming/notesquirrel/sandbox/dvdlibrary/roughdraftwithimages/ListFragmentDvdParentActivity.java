@@ -32,19 +32,31 @@ import java.io.InputStreamReader;
 
 public class ListFragmentDvdParentActivity extends AppCompatActivity {
 
+    private enum Mode { LIST, GRID; }
+
     private DvdList dvds;
+    private Mode mode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_fragment_dvd_parent);
+        Log.d(MainActivity.DEBUG_TAG, "ListFragmentDvdParentActivity.onCreate(Bundle)");
 
         dvds = new DvdList(getResources());
 
-        Log.d(MainActivity.DEBUG_TAG, "ListFragmentDvdParentActivity.onCreate(Bundle)");
+        initListMode();
+    }
+
+    private void initListMode() {
+        mode = Mode.LIST;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        setContentView(R.layout.activity_list_fragment_dvd_parent);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
         ////////////////////////////////////////////////////////////////////////////////////////////
-        final ModelDvdFragment modelDvdFragment = (ModelDvdFragment) getSupportFragmentManager().findFragmentById(R.id.modelDvd);
+        final ModelDvdFragment modelDvdFragment =
+                (ModelDvdFragment) getSupportFragmentManager().findFragmentById(R.id.modelDvd);
         modelDvdFragment.setDvd(dvds.get(0));
         ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -66,6 +78,54 @@ public class ListFragmentDvdParentActivity extends AppCompatActivity {
         ////////////////////////////////////////////////////////////////////////////////////////////
     }
 
+    private void initGridMode() {
+        mode = Mode.GRID;
+
+        //FIND PREVIOUS POSITION
+        ListDvdFragment listDvdFragment = (ListDvdFragment) getSupportFragmentManager().findFragmentById(R.id.listDvd);
+        int firstVisiblePosition = listDvdFragment.getListView().getFirstVisiblePosition();
+        Toast.makeText(this, "firstVisiblePosition: " + firstVisiblePosition, Toast.LENGTH_SHORT).show();
+
+        ///////////////////////CLEAN UP///////////////////////
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment modelFragment = fragmentManager.findFragmentById(R.id.modelDvd);
+        Fragment listFragment = fragmentManager.findFragmentById(R.id.listDvd);
+
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.remove(modelFragment);
+        transaction.remove(listFragment);
+        transaction.commit();
+        //////////////////////////////////////////////////////
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        setContentView(R.layout.activity_grid_view_dvd);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+        // Initialize the GridView (otherwise blank screen)
+        GridView gridView = (GridView) findViewById(R.id.gridview);
+
+        final DvdListToGridViewCellAdapter adapterForArrayList = new DvdListToGridViewCellAdapter(this, dvds);
+        gridView.setAdapter(adapterForArrayList);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(MainActivity.DEBUG_TAG, "ListFragmentDvdParent.onOptionItemSelected()'s gridView.OnItemClickListener.onItemClick(AdapterView<?>, View, int, long)");
+
+                // Toggle the favorite-star's activeness image.
+                Dvd dvd = dvds.get(position);
+                //@@@@@@@@@@@@@@@@@@@
+                dvd.toggleFavorite();
+                //@@@@@@@@@@@@@@@@@@@
+                adapterForArrayList.notifyDataSetChanged();
+            }
+        });
+
+        ////////////////////////////////////////////
+        gridView.setSelection(firstVisiblePosition);
+        ////////////////////////////////////////////
+
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_list_fragment_dvd_parent, menu);
@@ -74,89 +134,24 @@ public class ListFragmentDvdParentActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        ListDvdFragment listDvdFragment;
-
         switch (item.getItemId()) {
             case R.id.menu_listview:
-                //TODO: implement menu_listview
-                Toast.makeText(this, "ListView", Toast.LENGTH_SHORT).show();
+                if (mode != Mode.LIST) {
+                    Toast.makeText(this, "ListView", Toast.LENGTH_SHORT).show();
 
-                //TODO: 2020_05_09
-
-                setContentView(R.layout.activity_list_fragment_dvd_parent);
-
-                ////////////////////////////////////////////////////////////////////////////////////////////
-                final ModelDvdFragment modelDvdFragment = (ModelDvdFragment) getSupportFragmentManager().findFragmentById(R.id.modelDvd);
-                modelDvdFragment.setDvd(dvds.get(0));
-                ////////////////////////////////////////////////////////////////////////////////////////////
-
-                ////////////////////////////////////////////////////////////////////////////////////////////
-                listDvdFragment = (ListDvdFragment) getSupportFragmentManager().findFragmentById(R.id.listDvd);
-
-                ArrayAdapter<Dvd> adapterForArray = new ArrayAdapter<Dvd>(this,
-                        R.layout.list_item_dvd, dvds);
-
-                listDvdFragment.setListAdapter(adapterForArray);
-                listDvdFragment.setOnDvdItemClickListener(new ListDvdFragment.OnDvdItemClickListener() {
-                    @Override
-                    public void onDvdItemClicked(int position) {
-                        Dvd dvd = dvds.get(position);
-
-                        modelDvdFragment.setDvd(dvd);
-                    }
-                });
-                ////////////////////////////////////////////////////////////////////////////////////////////
-
+                    initListMode();
+                } else {
+                    Toast.makeText(this, "Already ListView", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             case R.id.menu_gridview:
-                //TODO: implement menu_gridview
-                Toast.makeText(this, "GridView", Toast.LENGTH_SHORT).show();
+                if (mode != Mode.GRID) {
+                    Toast.makeText(this, "GridView", Toast.LENGTH_SHORT).show();
 
-                //////////////////////////////////////////////////////
-                listDvdFragment = (ListDvdFragment) getSupportFragmentManager().findFragmentById(R.id.listDvd);
-                int firstVisiblePosition = listDvdFragment.getListView().getFirstVisiblePosition();
-                Toast.makeText(this, "firstVisiblePosition: " + firstVisiblePosition, Toast.LENGTH_SHORT).show();
-
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                Fragment modelFragment = fragmentManager.findFragmentById(R.id.modelDvd);
-                Fragment listFragment = fragmentManager.findFragmentById(R.id.listDvd);
-
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.remove(modelFragment);
-                transaction.remove(listFragment);
-                transaction.commit();
-                //////////////////////////////////////////////////////
-
-                //TODO: 2020_05_08 USE ModelDvdFragment (it has image resources).
-
-                setContentView(R.layout.activity_grid_view_dvd);
-
-                // Initialize the GridView (otherwise blank screen)
-                GridView gridView = (GridView) findViewById(R.id.gridview);
-                /*
-                String[] dataSourceDvd = loadCSV();
-                ArrayDataSourceToGridViewCellAdapter adapter = new ArrayDataSourceToGridViewCellAdapter(this, dataSourceDvd);
-                */
-                final DvdListToGridViewCellAdapter adapterForArrayList = new DvdListToGridViewCellAdapter(this, dvds);
-                gridView.setAdapter(adapterForArrayList);
-                gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Log.d(MainActivity.DEBUG_TAG, "ListFragmentDvdParent.onOptionItemSelected()'s gridView.OnItemClickListener.onItemClick(AdapterView<?>, View, int, long)");
-                        //TODO: toggle the favorite-star's activeness image.
-
-                        Dvd dvd = dvds.get(position);
-                        dvd.toggleFavorite();
-
-                        adapterForArrayList.notifyDataSetChanged();
-                    }
-                });
-
-                ////////////////////////////////////////////
-                gridView.setSelection(firstVisiblePosition);
-                ////////////////////////////////////////////
-
+                    initGridMode();
+                } else {
+                    Toast.makeText(this, "Already GridView", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             default:
                 Toast.makeText(this, "ListFragmentDvdParentActivity.onOptionsItemSelected(MenuItem) switch's default", Toast.LENGTH_SHORT).show();
