@@ -16,6 +16,8 @@ import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pong.sprites.Bat;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pong.sprites.Ball;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 
 public class PongCartridge
@@ -237,4 +239,33 @@ public class PongCartridge
         canvas.drawText(text, canvas.getWidth() / 2, canvas.getHeight() / 2, textPaint);
     }
 
+    @Override
+    public Context getContext() {
+        return context;
+    }
+
+    @Override
+    public Id getIdGameCartridge() {
+        return idGameCartridge;
+    }
+
+    @Override
+    public Player getPlayer() {
+        return null;
+    }
+
+    @Override
+    public GameCamera getGameCamera() {
+        return null;
+    }
+
+    @Override
+    public int getWidthViewport() {
+        return widthViewport;
+    }
+
+    @Override
+    public int getHeightViewport() {
+        return heightViewport;
+    }
 }

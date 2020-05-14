@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.PocketCrittersCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.Scene;
@@ -40,16 +41,19 @@ public class Player extends Entity {
     private float yMove;
     private TileMap tileMap;
 
-    public Player(GameCartridge gameCartridge, GameCamera gameCamera, int widthViewport, int heightViewport) {
+    public Player(Handler handler) {
+    //public Player(GameCartridge gameCartridge, GameCamera gameCamera, int widthViewport, int heightViewport) {
         super(0f, 0f);
 
-        this.gameCartridge = gameCartridge;
-        this.gameCamera = gameCamera;
+        this.gameCartridge = handler.getGameCartridge();
+        this.gameCamera = handler.getGameCartridge().getGameCamera();
+        //this.gameCartridge = gameCartridge;
+        //this.gameCamera = gameCamera;
 
         int widthClipInPixel = gameCamera.getWidthClipInPixel();
         int heightClipInPixel = gameCamera.getHeightClipInPixel();
-        widthPixelToViewportRatio = ((float)widthViewport) / widthClipInPixel;
-        heightPixelToViewportRatio = ((float)heightViewport) / heightClipInPixel;
+        widthPixelToViewportRatio = ((float)handler.getGameCartridge().getWidthViewport()) / widthClipInPixel;
+        heightPixelToViewportRatio = ((float)handler.getGameCartridge().getHeightViewport()) / heightClipInPixel;
 
         direction = Direction.DOWN;
 

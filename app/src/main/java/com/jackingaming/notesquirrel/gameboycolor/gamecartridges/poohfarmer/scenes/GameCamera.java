@@ -3,6 +3,7 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.sce
 import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles.TileMap;
 
@@ -10,6 +11,8 @@ public class GameCamera {
 
     public static final int CLIP_WIDTH_IN_TILE = 8;
     public static final int CLIP_HEIGHT_IN_TILE = 8;
+
+    private Handler handler;
 
     private float x;
     private float y;
@@ -20,7 +23,11 @@ public class GameCamera {
     private int widthSceneMax;
     private int heightSceneMax;
 
-    public GameCamera() {
+    public GameCamera(Handler handler) {
+        Log.d(MainActivity.DEBUG_TAG, "GameCamera(Handler) constructor");
+
+        this.handler = handler;
+
         x = 0f;
         y = 0f;
         widthClipInPixel = CLIP_WIDTH_IN_TILE * TileMap.TILE_SIZE;

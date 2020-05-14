@@ -6,6 +6,7 @@ import android.graphics.Rect;
 import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Robot;
@@ -18,6 +19,8 @@ public class Scene {
 
     public enum Id { FARM, PART_01, HOME_01, HOME_02, HOME_RIVAL, LAB; }
 
+    private Handler handler;
+
     private Context context;
     private int widthViewport;
     private int heightViewport;
@@ -28,10 +31,16 @@ public class Scene {
     private Player player;
     private GameCamera gameCamera;
 
-    public Scene(Context context, int widthViewport, int heightViewport, Id sceneID) {
-        this.context = context;
-        this.widthViewport = widthViewport;
-        this.heightViewport = heightViewport;
+    public Scene(Handler handler, Id sceneID) {
+    //public Scene(Context context, int widthViewport, int heightViewport, Id sceneID) {
+        this.handler = handler;
+
+        context = handler.getGameCartridge().getContext();
+        widthViewport = handler.getGameCartridge().getWidthViewport();
+        heightViewport = handler.getGameCartridge().getHeightViewport();
+        //this.context = context;
+        //this.widthViewport = widthViewport;
+        //this.heightViewport = heightViewport;
         this.sceneID = sceneID;
     }
 
@@ -49,7 +58,7 @@ public class Scene {
     }
 
     public void enter() {
-        Log.d(MainActivity.DEBUG_TAG, "Scene.enter(Object[])");
+        Log.d(MainActivity.DEBUG_TAG, "Scene.enter()");
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         //TODO: call handler.setCurrentScene(this);
@@ -65,7 +74,7 @@ public class Scene {
     float xPriorScene;
     float yPriorScene;
     public void exit(Object[] extra) {
-        Log.d(MainActivity.DEBUG_TAG, "Scene.exit()");
+        Log.d(MainActivity.DEBUG_TAG, "Scene.exit(Object[])");
         //TODO: implement
 
         //TODO: work-around for bug to get it working.
