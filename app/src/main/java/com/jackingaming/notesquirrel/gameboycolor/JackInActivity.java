@@ -1,5 +1,6 @@
 package com.jackingaming.notesquirrel.gameboycolor;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -136,14 +137,33 @@ public class JackInActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onSaveInstanceState(Bundle) calling gameCartridge.savePresentState()");
+
+        /////////////////////////////////
+        gameCartridge.savePresentState();
+        /////////////////////////////////
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onRestoreInstanceState(Bundle)");
+
+        /////////////////////////////////
+        if (savedInstanceState != null) {
+            Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onRestoreInstanceState(Bundle) calling gameCartridge.loadSavedState()");
+            Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onRestoreInstanceState(Bundle) gameCartridge NOT init() YET! gameCartridge.loadSavedState() is called again in GameView.runGameCartridge()!!!!!");
+            gameCartridge.loadSavedState();
+        }
+        /////////////////////////////////
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
         Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onPause()");
-
-        ///////////////////////////////////////////////////////////
-        Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onPause() calling gameCartridge.savePresentState()");
-        gameCartridge.savePresentState();
-        ///////////////////////////////////////////////////////////
     }
 
     @Override
