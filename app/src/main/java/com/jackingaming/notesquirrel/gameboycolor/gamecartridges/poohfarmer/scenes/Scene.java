@@ -50,7 +50,10 @@ public class Scene {
 
     public void enter() {
         Log.d(MainActivity.DEBUG_TAG, "Scene.enter(Object[])");
-        //TODO: implement
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //TODO: call handler.setCurrentScene(this);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
         if ((xPriorScene != 0f) && (yPriorScene != 0f)) {
             player.setxCurrent(xPriorScene);
