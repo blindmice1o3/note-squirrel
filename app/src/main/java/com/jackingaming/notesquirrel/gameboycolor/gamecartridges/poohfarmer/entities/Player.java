@@ -25,8 +25,6 @@ import java.util.Map;
 
 public class Player extends Entity {
 
-    public enum Direction { UP, DOWN, LEFT, RIGHT; }
-
     private GameCartridge gameCartridge;
     private GameCamera gameCamera;
     private float widthPixelToViewportRatio;
