@@ -160,21 +160,15 @@ public class SpriteSheetVerifier1Activity extends AppCompatActivity {
         buttonFrame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //imageView.setMinimumWidth( (spriteSheet[indexButtonY][indexButtonX].getWidth() * 7) );
-                //imageView.setMinimumHeight( (spriteSheet[indexButtonY][indexButtonX].getHeight() * 7) );
-                //imageView.setMaxWidth( (spriteSheet[indexButtonY][indexButtonX].getWidth() * 7) );
-                //imageView.setMaxHeight( (spriteSheet[indexButtonY][indexButtonX].getHeight() * 7) );
-                //imageView.setAdjustViewBounds(true);
-                Log.d(MainActivity.DEBUG_TAG, "buttonFrame's OnClickListener.onClick(View) BEFORE calling spriteSheet's width and height.");
+                Log.d(MainActivity.DEBUG_TAG, "SpriteSheetVerifier1Activity.buttonFrame's OnClickListener.onClick(View)");
+
                 //How to set by pixel:
-                //imageView.getLayoutParams().width = (spriteSheet[indexButtonY][indexButtonX].getWidth() * 15);
-                imageView.getLayoutParams().width = (spriteSheet[indexButtonY][indexButtonX].getWidth() * 6);
-                //imageView.getLayoutParams().height = (spriteSheet[indexButtonY][indexButtonX].getHeight() * 15);
-                imageView.getLayoutParams().height = (spriteSheet[indexButtonY][indexButtonX].getHeight() * 6);
-                //imageView.setLayoutParams( new ViewGroup.LayoutParams(16*15, 16*15) );
+                //imageView.getLayoutParams().width = (spriteSheet[indexButtonY][indexButtonX].getWidth() * 6);
+                //imageView.getLayoutParams().height = (spriteSheet[indexButtonY][indexButtonX].getHeight() * 6);
                 //////////////////////////
-                imageView.requestLayout();
+                //imageView.requestLayout();
                 //////////////////////////
+
                 //How to set by dp:
                 //int dimensionInDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dimensionInPixel, getResources().getDisplayMetrics());
                 //imageView.getLayoutParams().height = dimensionInDp;
@@ -182,7 +176,6 @@ public class SpriteSheetVerifier1Activity extends AppCompatActivity {
                 //////////////////////////
                 //imageView.requestLayout();
                 //////////////////////////
-                Log.d(MainActivity.DEBUG_TAG, "buttonFrame's OnClickListener.onClick(View) AFTER calling spriteSheet's width and height.");
 
                 Bitmap newImage = Bitmap.createScaledBitmap(spriteSheet[indexButtonY][indexButtonX], 240, 240, false);
 
