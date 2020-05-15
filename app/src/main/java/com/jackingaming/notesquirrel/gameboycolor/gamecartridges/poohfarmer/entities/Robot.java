@@ -247,4 +247,9 @@ public class Robot extends Creature {
     public void setState(State state) {
         this.state = state;
     }
+
+    public State getState() {
+        return state;
+    }
+
 }

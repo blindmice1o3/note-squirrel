@@ -182,14 +182,31 @@ public class PoohFarmerCartridge
             else if (inputManager.isaButtonPad()) {
                 Log.d(MainActivity.DEBUG_TAG, "a-button");
 
-                //////////////////////////////////////////////////
+                //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                //TILES
                 player.checkTileFacing();   //currently only using for pocket_critters
 
+                //ENTITIES
                 Entity entity = player.getEntityCurrentlyFacing();
+                //CHANGES robot's State (cycles incrementally)
                 if(entity instanceof Robot) {
-                    ((Robot)entity).setState(Robot.State.WALK);
+
+                    int robotStateIndex = ((Robot)entity).getState().ordinal();
+
+                    robotStateIndex++;
+
+                    if (robotStateIndex >= Robot.State.values().length) {
+                        robotStateIndex = 0;
+                    }
+
+                    ////////////////////////////////////////////////////////////////
+                    ((Robot)entity).setState(Robot.State.values()[robotStateIndex]);
+                    ////////////////////////////////////////////////////////////////
+                    //if( ((Robot)entity).getState() == Robot.State.OFF ){
+                    //    ((Robot) entity).setState(Robot.State.WALK);
+                    //}
                 }
-                //////////////////////////////////////////////////
+                //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             }
             //b button
             else if (inputManager.isbButtonPad()) {
