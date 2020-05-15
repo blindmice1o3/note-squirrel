@@ -52,15 +52,17 @@ public class PocketCrittersCartridge
         heightViewport = widthViewport; //SQUARE VIEWPORT!!!
         ////////////////////////////////////////////////////
 
+        Assets.init(context);
+
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         Handler handler = new Handler(this);
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-        Assets.init(context);
-
-        gameCamera = new GameCamera();
-        player = new Player(this, gameCamera, widthViewport, heightViewport);
-        sceneManager = new SceneManager(context, widthViewport, heightViewport, idGameCartridge, player, gameCamera);
+        gameCamera = new GameCamera(handler);
+        player = new Player(handler);
+        //player = new Player(this, gameCamera, widthViewport, heightViewport);
+        sceneManager = new SceneManager(handler);
+        //sceneManager = new SceneManager(context, widthViewport, heightViewport, idGameCartridge, player, gameCamera);
     }
 
     @Override
@@ -174,12 +176,39 @@ public class PocketCrittersCartridge
         }
     }
 
+    @Override
     public Context getContext() {
         return context;
     }
 
+    @Override
+    public Id getIdGameCartridge() {
+        return idGameCartridge;
+    }
+
+    @Override
+    public Player getPlayer() {
+        return player;
+    }
+
+    @Override
+    public GameCamera getGameCamera() {
+        return gameCamera;
+    }
+
+    @Override
     public SceneManager getSceneManager() {
         return sceneManager;
+    }
+
+    @Override
+    public int getWidthViewport() {
+        return widthViewport;
+    }
+
+    @Override
+    public int getHeightViewport() {
+        return heightViewport;
     }
 
 }

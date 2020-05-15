@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
 
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ import java.util.Map;
 
 public class SceneManager {
 
+    private Handler handler;
+
     private Map<Scene.Id, Scene> sceneCollection;
 
     private Player player;
@@ -22,21 +25,64 @@ public class SceneManager {
     private List<Scene> sceneStack;
     ///////////////////////////////
 
-    public SceneManager(Context context, int widthViewport, int heightViewport,
-                        GameCartridge.Id cartridgeID, Player player, GameCamera gameCamera) {
-        Log.d(MainActivity.DEBUG_TAG, "SceneManager(Context, int, int, GameCartridge.Id, Player, GameCamera) constructor... cartridgeID: " + cartridgeID.name());
+    public SceneManager(Handler handler) {
+        Log.d(MainActivity.DEBUG_TAG, "SceneManager(Handler) constructor");
+    //public SceneManager(Context context, int widthViewport, int heightViewport,
+    //                    GameCartridge.Id cartridgeID, Player player, GameCamera gameCamera) {
+    //    Log.d(MainActivity.DEBUG_TAG, "SceneManager(Context, int, int, GameCartridge.Id, Player, GameCamera) constructor... cartridgeID: " + cartridgeID.name());
+        this.handler = handler;
 
-        // Must call initSceneCollection() before init() (starting scene instantiated here).
-        initSceneCollection(context, widthViewport, heightViewport);
+        //////////////////////////////////////////////////////////////////////////////////////////
+        // Must call initSceneCollection() before Scene.init() (starting scene instantiated here).
+        initSceneCollection();
+        //initSceneCollection(
+        //        handler.getGameCartridge().getContext(),
+        //        handler.getGameCartridge().getWidthViewport(),
+        //        handler.getGameCartridge().getHeightViewport() );
+        //initSceneCollection(context, widthViewport, heightViewport);
+        //////////////////////////////////////////////////////////////////////////////////////////
 
-        init(cartridgeID, player, gameCamera);
+        player = handler.getGameCartridge().getPlayer();
+        //this.player = player;
+        gameCamera = handler.getGameCartridge().getGameCamera();
+        //this.gameCamera = gameCamera;
+
+        ////////////////////////////////////
+        sceneStack = new ArrayList<Scene>();
+        ////////////////////////////////////
+
+        // Determine starting scene based on GameCartridge.Id.
+        Scene.Id id = null;
+        switch (handler.getGameCartridge().getIdGameCartridge()) {
+            case POOH_FARMER:
+                id = Scene.Id.FARM;
+                break;
+            case POCKET_CRITTERS:
+                id = Scene.Id.PART_01;
+                break;
+            default:
+                Log.d(MainActivity.DEBUG_TAG, "SceneManager() constructor's switch construct's default block.");
+        }
+
+        Scene startScene = sceneCollection.get(id);
+        ////////////////////////////////////
+        startScene.init(player, gameCamera);
+        ////////////////////////////////////
+
+        ///////////////////
+        startScene.enter();
+        ///////////////////
+
+        sceneStack.add(startScene);
     }
 
     /**
      * Instantiate all the scenes in the game (only once per run).
      */
-    private void initSceneCollection(Context context, int widthViewport, int heightViewport) {
-        Log.d(MainActivity.DEBUG_TAG, "SceneManager.initSceneCollection(Context, int, int)");
+    private void initSceneCollection() {
+    //private void initSceneCollection(Context context, int widthViewport, int heightViewport) {
+        Log.d(MainActivity.DEBUG_TAG, "SceneManager.initSceneCollection()");
+        //Log.d(MainActivity.DEBUG_TAG, "SceneManager.initSceneCollection(Context, int, int)");
 
         /////////////////////////////////////////////////
         sceneCollection = new HashMap<Scene.Id, Scene>();
@@ -45,39 +91,8 @@ public class SceneManager {
         // IMAGEs are not loaded yet (not until Scene.init() is called).
         // This should help with memory issues (on-the-fly loading).
         for (Scene.Id id : Scene.Id.values()) {
-            sceneCollection.put(id, new Scene(context, widthViewport, heightViewport, id));
+            sceneCollection.put(id, new Scene(handler, id));
         }
-    }
-
-    public void init(GameCartridge.Id cartridgeID, Player player, GameCamera gameCamera) {
-        Log.d(MainActivity.DEBUG_TAG, "SceneManager.init(GameCartridge.Id, Player, GameCamera)");
-
-        this.player = player;
-        this.gameCamera = gameCamera;
-
-        ////////////////////////////////////
-        sceneStack = new ArrayList<Scene>();
-        ////////////////////////////////////
-
-        // Determine starting scene based on GameCartridge.Id.
-        Scene.Id id = null;
-        switch (cartridgeID) {
-            case POOH_FARMER:
-                id = Scene.Id.FARM;
-                break;
-            case POCKET_CRITTERS:
-                id = Scene.Id.PART_01;
-                break;
-            default:
-                Log.d(MainActivity.DEBUG_TAG, "SceneManager.init(GameCartridge.Id, Player, GameCamera) switch construct's default block.");
-        }
-
-        Scene startScene = sceneCollection.get(id);
-        ////////////////////////////////////
-        startScene.init(player, gameCamera);
-        ////////////////////////////////////
-
-        sceneStack.add(startScene);
     }
 
     /**
@@ -91,31 +106,6 @@ public class SceneManager {
      * @param id To find instance of nextScene from collection of all the scenes in the game.
      * @param extra
      */
-    /*
-    public void change(Scene.Id id, Object[] extra) {
-        Log.d(MainActivity.DEBUG_TAG, "SceneManager.change(Scene.Id, Object[])");
-
-        /////////////////////////
-        getCurrentScene().exit();
-        /////////////////////////
-
-        Scene nextScene = sceneCollection.get(id);
-        //TODO: improve on the if-condition.
-        if (nextScene.getTileMap() == null) {
-            ///////////////////////////////////
-            nextScene.init(player, gameCamera);
-            ///////////////////////////////////
-        }
-
-        ///////////////////////
-        nextScene.enter(extra);
-        ///////////////////////
-
-        push(id);
-    }
-    */
-
-
     public void push(Scene.Id id, Object[] extra) {
         Log.d(MainActivity.DEBUG_TAG, "SceneManager.push(Scene.Id, Object[])");
 
