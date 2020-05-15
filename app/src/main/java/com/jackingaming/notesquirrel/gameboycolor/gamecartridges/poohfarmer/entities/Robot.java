@@ -17,7 +17,7 @@ import java.util.Random;
 
 public class Robot extends Creature {
 
-    public enum State { WALK, RUN; }
+    public enum State { OFF, WALK, RUN; }
 
     private GameCamera gameCamera;
     private float widthPixelToViewportRatio;
@@ -36,7 +36,7 @@ public class Robot extends Creature {
         widthPixelToViewportRatio = ((float) handler.getGameCartridge().getWidthViewport()) / gameCamera.getWidthClipInPixel();
         heightPixelToViewportRatio = ((float) handler.getGameCartridge().getHeightViewport()) / gameCamera.getHeightClipInPixel();
 
-        state = State.WALK;
+        state = State.OFF;
 
         initImage(handler.getGameCartridge().getContext().getResources());
     }
@@ -144,7 +144,9 @@ public class Robot extends Creature {
             anim.update();
         }
 
-        decideWalkRandomDirection();
+        if (state != State.OFF) {
+            decideWalkRandomDirection();
+        }
     }
 
     private void decideWalkRandomDirection() {
@@ -167,6 +169,7 @@ public class Robot extends Creature {
                     move(Direction.DOWN);
                     break;
                 default:
+                    //TODO: maybe set state to State.OFF
                     xMove = 0;
                     yMove = 0;
                     break;
@@ -198,7 +201,9 @@ public class Robot extends Creature {
 //        if (xMove == 0f && yMove == 0f) { return image; }
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-        if (state == State.WALK) {
+        if (state == State.OFF) {
+            currentFrame = image;
+        } else if (state == State.WALK) {
             switch (direction) {
                 case UP:
                     currentFrame = animationWalk.get(Direction.UP).getCurrentFrame();
@@ -239,4 +244,7 @@ public class Robot extends Creature {
         return currentFrame;
     }
 
+    public void setState(State state) {
+        this.state = state;
+    }
 }

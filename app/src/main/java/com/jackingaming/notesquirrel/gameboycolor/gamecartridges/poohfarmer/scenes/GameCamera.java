@@ -30,8 +30,8 @@ public class GameCamera {
 
         x = 0f;
         y = 0f;
-        widthClipInPixel = CLIP_WIDTH_IN_TILE * TileMap.TILE_SIZE;
-        heightClipInPixel = CLIP_HEIGHT_IN_TILE * TileMap.TILE_SIZE;
+        widthClipInPixel = CLIP_WIDTH_IN_TILE * TileMap.TILE_WIDTH;
+        heightClipInPixel = CLIP_HEIGHT_IN_TILE * TileMap.TILE_HEIGHT;
     }
 
     public void init(Entity entity, int widthSceneMax, int heightSceneMax) {

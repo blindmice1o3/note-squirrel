@@ -20,7 +20,8 @@ public class TileMap {
 
     public enum TileType { SOLID, WALKABLE, TELEVISION, COMPUTER, GAME_CONSOLE, SIGN_POST, TRANSFER_POINT; }
     public enum Specs { X_START_TILE_INDEX, X_END_TILE_INDEX, Y_START_TILE_INDEX, Y_END_TILE_INDEX; }
-    public static final int TILE_SIZE = 16;
+    public static final int TILE_WIDTH = 16;
+    public static final int TILE_HEIGHT = 16;
 
     private Context context;
     private Scene.Id sceneID;
@@ -49,9 +50,9 @@ public class TileMap {
         transferPoints = new HashMap<Scene.Id, Rect>();
 
         //TODO: Clean up values.
-        transferPoints.put( Scene.Id.HOME_01, new Rect(1040, (3248-(104*TILE_SIZE)), 1040+TILE_SIZE, (3248-(104*TILE_SIZE))+TILE_SIZE) );
-        transferPoints.put( Scene.Id.HOME_RIVAL, new Rect(1168, (3248-(104*TILE_SIZE)), 1168+TILE_SIZE, (3248-(104*TILE_SIZE))+TILE_SIZE) );
-        transferPoints.put( Scene.Id.LAB, new Rect(1152, (3344-(104*TILE_SIZE)), 1152+TILE_SIZE, (3344-(104*TILE_SIZE))+TILE_SIZE) );
+        transferPoints.put( Scene.Id.HOME_01, new Rect(1040, (3248-(104*TILE_HEIGHT)), 1040+TILE_WIDTH, (3248-(104*TILE_HEIGHT))+TILE_HEIGHT) );
+        transferPoints.put( Scene.Id.HOME_RIVAL, new Rect(1168, (3248-(104*TILE_HEIGHT)), 1168+TILE_WIDTH, (3248-(104*TILE_HEIGHT))+TILE_HEIGHT) );
+        transferPoints.put( Scene.Id.LAB, new Rect(1152, (3344-(104*TILE_HEIGHT)), 1152+TILE_WIDTH, (3344-(104*TILE_HEIGHT))+TILE_HEIGHT) );
     }
 
     private void initTransferPointsHome01() {
@@ -59,8 +60,8 @@ public class TileMap {
 
         transferPoints = new HashMap<Scene.Id, Rect>();
 
-        transferPoints.put( Scene.Id.HOME_02, new Rect(7*TILE_SIZE, 1*TILE_SIZE, (7*TILE_SIZE)+(1*TILE_SIZE), (1*TILE_SIZE)+(1*TILE_SIZE)) );
-        transferPoints.put( Scene.Id.PART_01, new Rect(2*TILE_SIZE, 7*TILE_SIZE, (2*TILE_SIZE)+(2*TILE_SIZE), (7*TILE_SIZE)+(1*TILE_SIZE)) );
+        transferPoints.put( Scene.Id.HOME_02, new Rect(7*TILE_WIDTH, 1*TILE_HEIGHT, (7*TILE_WIDTH)+(1*TILE_WIDTH), (1*TILE_HEIGHT)+(1*TILE_HEIGHT)) );
+        transferPoints.put( Scene.Id.PART_01, new Rect(2*TILE_WIDTH, 7*TILE_HEIGHT, (2*TILE_WIDTH)+(2*TILE_WIDTH), (7*TILE_HEIGHT)+(1*TILE_HEIGHT)) );
     }
 
     private void initTransferPointsHome02() {
@@ -68,7 +69,7 @@ public class TileMap {
 
         transferPoints = new HashMap<Scene.Id, Rect>();
 
-        transferPoints.put( Scene.Id.HOME_01, new Rect(7*TILE_SIZE, 1*TILE_SIZE, (7*TILE_SIZE)+(1*TILE_SIZE), (1*TILE_SIZE)+(1*TILE_SIZE)) );
+        transferPoints.put( Scene.Id.HOME_01, new Rect(7*TILE_WIDTH, 1*TILE_HEIGHT, (7*TILE_WIDTH)+(1*TILE_WIDTH), (1*TILE_HEIGHT)+(1*TILE_HEIGHT)) );
     }
 
     private void initTransferPointsHomeRival() {
@@ -76,7 +77,7 @@ public class TileMap {
 
         transferPoints = new HashMap<Scene.Id, Rect>();
 
-        transferPoints.put( Scene.Id.PART_01, new Rect(2*TILE_SIZE, 7*TILE_SIZE, (2*TILE_SIZE)+(2*TILE_SIZE), (7*TILE_SIZE)+(1*TILE_SIZE)) );
+        transferPoints.put( Scene.Id.PART_01, new Rect(2*TILE_WIDTH, 7*TILE_HEIGHT, (2*TILE_WIDTH)+(2*TILE_WIDTH), (7*TILE_HEIGHT)+(1*TILE_HEIGHT)) );
     }
 
     private void initTransferPointsLab() {
@@ -84,7 +85,7 @@ public class TileMap {
 
         transferPoints = new HashMap<Scene.Id, Rect>();
 
-        transferPoints.put( Scene.Id.PART_01, new Rect(4*TILE_SIZE, 11*TILE_SIZE, (4*TILE_SIZE)+(2*TILE_SIZE), (11*TILE_SIZE)+(1*TILE_SIZE)) );
+        transferPoints.put( Scene.Id.PART_01, new Rect(4*TILE_WIDTH, 11*TILE_HEIGHT, (4*TILE_WIDTH)+(2*TILE_WIDTH), (11*TILE_HEIGHT)+(1*TILE_HEIGHT)) );
     }
 
     //TODO: Instead of returning Scene.Id to Player class... HANDLE transferring here.
@@ -234,8 +235,8 @@ public class TileMap {
 
         int columns = rgbTileMap.getWidth();        //Always need.
         int rows = rgbTileMap.getHeight();          //Always need.
-        widthSceneMax = columns * TILE_SIZE;        //Always need.
-        heightSceneMax = rows * TILE_SIZE;          //Always need.
+        widthSceneMax = columns * TILE_WIDTH;        //Always need.
+        heightSceneMax = rows * TILE_HEIGHT;          //Always need.
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         tiles = new TileType[rows][columns];        //Always need.
@@ -271,9 +272,9 @@ public class TileMap {
 
         int columns = tiles[0].length;          //Always need.
         int rows = tiles.length;                //Always need.
-        widthSceneMax = columns * TILE_SIZE;    //Always need.
+        widthSceneMax = columns * TILE_WIDTH;    //Always need.
         Log.d(MainActivity.DEBUG_TAG, "TileMap.initTiles(int) widthSceneMax: " + widthSceneMax);
-        heightSceneMax = rows * TILE_SIZE;      //Always need.
+        heightSceneMax = rows * TILE_HEIGHT;      //Always need.
     }
 
     private TileSpriteToRGBConverter tileSpriteToRGBConverter;
@@ -297,9 +298,9 @@ public class TileMap {
 
         int columns = xEndTileIndex - xStartTileIndex;  //Always need.
         int rows = yEndTileIndex - yStartTileIndex;     //Always need.
-        widthSceneMax = columns * TILE_SIZE;            //Always need.
+        widthSceneMax = columns * TILE_WIDTH;            //Always need.
         Log.d(MainActivity.DEBUG_TAG, "TileMap.initTilesPart01() widthSceneMax: " + widthSceneMax);
-        heightSceneMax = rows * TILE_SIZE;              //Always need.
+        heightSceneMax = rows * TILE_HEIGHT;              //Always need.
 
         //CROPPED world map.
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -331,18 +332,14 @@ public class TileMap {
         ////////////////////////////////////////////////////////////////////////////////////////////
     }
 
-    public TileType checkTile(int xInspect, int yInspect) {
-        Log.d(MainActivity.DEBUG_TAG, "TileMap.checkTile(int, int)");
-
+    public TileType checkTile(int xIndex, int yIndex) {
         //CHECK BEYOND SCENE BOUND (e.g. inspecting off map)
-        if ((xInspect < 0) ||(xInspect >= widthSceneMax) ||
-                (yInspect < 0) || (yInspect >= heightSceneMax)) {
+        if ((xIndex < 0) ||(xIndex >= (widthSceneMax / TILE_WIDTH)) ||
+                (yIndex < 0) || (yIndex >= (heightSceneMax / TILE_HEIGHT))) {
             return null;
         }
 
-        int xIndex = xInspect / TILE_SIZE;
-        int yIndex = yInspect / TILE_SIZE;
-        Log.d(MainActivity.DEBUG_TAG, "TileMap.checkTile(int, int) (now as index values): (" + xIndex + ", " + yIndex + ").");
+        Log.d(MainActivity.DEBUG_TAG, "TileMap.checkTile(int, int) (xIndex, yIndex): (" + xIndex + ", " + yIndex + ").");
 
         return tiles[yIndex][xIndex];
     }
@@ -354,8 +351,8 @@ public class TileMap {
             return true;
         }
 
-        int indexColumn = xPosition / TILE_SIZE;
-        int indexRow = yPosition / TILE_SIZE;
+        int indexColumn = xPosition / TILE_WIDTH;
+        int indexRow = yPosition / TILE_HEIGHT;
 
         //CHECK FOR TileType.WALKABLE
         if (tiles[indexRow][indexColumn] == TileType.WALKABLE) {
@@ -400,13 +397,13 @@ public class TileMap {
         //NON-SOLID TILES
         //Tall-Grass -> possible PocketMonster Encounter!
         walkableTileSpriteTargets.add(
-                Bitmap.createBitmap(texture, 1088, 3184 - 1664, TILE_SIZE, TILE_SIZE) ); //tall-grass (ROUTE01)
+                Bitmap.createBitmap(texture, 1088, 3184 - 1664, TILE_WIDTH, TILE_HEIGHT) ); //tall-grass (ROUTE01)
         walkableTileSpriteTargets.add(
-                Bitmap.createBitmap(texture, 864, 1760 - 1664, TILE_SIZE, TILE_SIZE) ); //tall-grass (ROUTE02)
+                Bitmap.createBitmap(texture, 864, 1760 - 1664, TILE_WIDTH, TILE_HEIGHT) ); //tall-grass (ROUTE02)
 //        walkableTileSpriteTargets.add(
-//                Bitmap.createBitmap(texture, 800, 1184, TILE_SIZE, TILE_SIZE) ); //tall-grass (Place.VIRIDIAN_FOREST [but more like Town.PEWTER_CITY's south])
+//                Bitmap.createBitmap(texture, 800, 1184, TILE_WIDTH, TILE_HEIGHT) ); //tall-grass (Place.VIRIDIAN_FOREST [but more like Town.PEWTER_CITY's south])
 //        walkableTileSpriteTargets.add(
-//                Bitmap.createBitmap(texture, 1600, 928, TILE_SIZE, TILE_SIZE) ); //tall-grass (ROUTE03)
+//                Bitmap.createBitmap(texture, 1600, 928, TILE_WIDTH, TILE_HEIGHT) ); //tall-grass (ROUTE03)
 
         return walkableTileSpriteTargets;
     }
@@ -418,23 +415,23 @@ public class TileMap {
         ////Town.PALLET_TOWN///////////////////////////////////////////////////////////////////////////////////////////
 
         nonWalkableTileSpriteTargets.add(
-                Bitmap.createBitmap(texture, 960, 3376 - 1664, TILE_SIZE, TILE_SIZE) );     //fence-blue (Town.PALLET_TOWN)
+                Bitmap.createBitmap(texture, 960, 3376 - 1664, TILE_WIDTH, TILE_HEIGHT) );     //fence-blue (Town.PALLET_TOWN)
         nonWalkableTileSpriteTargets.add(
-                Bitmap.createBitmap(texture, 1024, 3312 - 1664, TILE_SIZE, TILE_SIZE) );    //fence-brown (Town.PALLET_TOWN)
+                Bitmap.createBitmap(texture, 1024, 3312 - 1664, TILE_WIDTH, TILE_HEIGHT) );    //fence-brown (Town.PALLET_TOWN)
         nonWalkableTileSpriteTargets.add(
-                Bitmap.createBitmap(texture, 1072, 3312 - 1664, TILE_SIZE, TILE_SIZE) );    //sign-post (Town.PALLET_TOWN)
+                Bitmap.createBitmap(texture, 1072, 3312 - 1664, TILE_WIDTH, TILE_HEIGHT) );    //sign-post (Town.PALLET_TOWN)
         nonWalkableTileSpriteTargets.add(
-                Bitmap.createBitmap(texture, 1024, 3392 - 1664, TILE_SIZE, TILE_SIZE) );    //NW-shore (Town.PALLET_TOWN)
+                Bitmap.createBitmap(texture, 1024, 3392 - 1664, TILE_WIDTH, TILE_HEIGHT) );    //NW-shore (Town.PALLET_TOWN)
         nonWalkableTileSpriteTargets.add(
-                Bitmap.createBitmap(texture, 1040, 3392 - 1664, TILE_SIZE, TILE_SIZE) );    //N-shore (Town.PALLET_TOWN)
+                Bitmap.createBitmap(texture, 1040, 3392 - 1664, TILE_WIDTH, TILE_HEIGHT) );    //N-shore (Town.PALLET_TOWN)
         nonWalkableTileSpriteTargets.add(
-                Bitmap.createBitmap(texture, 1072, 3392 - 1664, TILE_SIZE, TILE_SIZE) );    //NE-shore (Town.PALLET_TOWN)
+                Bitmap.createBitmap(texture, 1072, 3392 - 1664, TILE_WIDTH, TILE_HEIGHT) );    //NE-shore (Town.PALLET_TOWN)
         nonWalkableTileSpriteTargets.add(
-                Bitmap.createBitmap(texture, 1024, 3408 - 1664, TILE_SIZE, TILE_SIZE) );    //W-shore (Town.PALLET_TOWN)
+                Bitmap.createBitmap(texture, 1024, 3408 - 1664, TILE_WIDTH, TILE_HEIGHT) );    //W-shore (Town.PALLET_TOWN)
         nonWalkableTileSpriteTargets.add(
-                Bitmap.createBitmap(texture, 1072, 3408 - 1664, TILE_SIZE, TILE_SIZE) );    //E-shore (Town.PALLET_TOWN)
+                Bitmap.createBitmap(texture, 1072, 3408 - 1664, TILE_WIDTH, TILE_HEIGHT) );    //E-shore (Town.PALLET_TOWN)
         nonWalkableTileSpriteTargets.add(
-                Bitmap.createBitmap(texture, 976, 3152 - 1664, TILE_SIZE, TILE_SIZE) );     //bush (Town.PALLET_TOWN)
+                Bitmap.createBitmap(texture, 976, 3152 - 1664, TILE_WIDTH, TILE_HEIGHT) );     //bush (Town.PALLET_TOWN)
 
         // building_home (Town.PALLET_TOWN), starting at x == 1024, y == 3216, width/number_of_columns == 4, height/number_of_rows == 3.
         ArrayList<Bitmap> homeNoDoor = tileSpriteToRGBConverter.pullMultipleTiles(
@@ -461,13 +458,13 @@ public class TileMap {
         ////Town.VIRIDIAN_CITY/////////////////////////////////////////////////////////////////////////////////////////
 
         nonWalkableTileSpriteTargets.add(
-                Bitmap.createBitmap(texture, 992, 2400 - 1664, TILE_SIZE, TILE_SIZE) );     //W-building_window (Town.VIRIDIAN_CITY)
+                Bitmap.createBitmap(texture, 992, 2400 - 1664, TILE_WIDTH, TILE_HEIGHT) );     //W-building_window (Town.VIRIDIAN_CITY)
         nonWalkableTileSpriteTargets.add(
-                Bitmap.createBitmap(texture, 1040, 2400 - 1664, TILE_SIZE, TILE_SIZE) );    //E-building_window (Town.VIRIDIAN_CITY)
+                Bitmap.createBitmap(texture, 1040, 2400 - 1664, TILE_WIDTH, TILE_HEIGHT) );    //E-building_window (Town.VIRIDIAN_CITY)
         nonWalkableTileSpriteTargets.add(
-                Bitmap.createBitmap(texture, 1024, 2416 - 1664, TILE_SIZE, TILE_SIZE) );    //building_pokecenter_sign (Town.VIRIDIAN_CITY)
+                Bitmap.createBitmap(texture, 1024, 2416 - 1664, TILE_WIDTH, TILE_HEIGHT) );    //building_pokecenter_sign (Town.VIRIDIAN_CITY)
         nonWalkableTileSpriteTargets.add(
-                Bitmap.createBitmap(texture, 1120, 2320 - 1664, TILE_SIZE, TILE_SIZE) );    //building_pokemart_sign (Town.VIRIDIAN_CITY)
+                Bitmap.createBitmap(texture, 1120, 2320 - 1664, TILE_WIDTH, TILE_HEIGHT) );    //building_pokemart_sign (Town.VIRIDIAN_CITY)
 
         //building_no_door (Town.VIRIDIAN_CITY), starting at x == 960, y == 2080, width/number_of_columns == 4, height/number_of_rows == 2.
         ArrayList<Bitmap> buildingNoDoor = tileSpriteToRGBConverter.pullMultipleTiles(
@@ -494,34 +491,34 @@ public class TileMap {
         ////ROUTE22////////////////////////////////////////////////////////////////////////////////////////////////////
 
         nonWalkableTileSpriteTargets.add(
-                Bitmap.createBitmap(texture, 640, 2512 - 1664, TILE_SIZE, TILE_SIZE) ); //S-mountain (ROUTE22)
+                Bitmap.createBitmap(texture, 640, 2512 - 1664, TILE_WIDTH, TILE_HEIGHT) ); //S-mountain (ROUTE22)
         nonWalkableTileSpriteTargets.add(
-                Bitmap.createBitmap(texture, 688, 2512 - 1664, TILE_SIZE, TILE_SIZE) ); //SE-mountain (ROUTE22)
+                Bitmap.createBitmap(texture, 688, 2512 - 1664, TILE_WIDTH, TILE_HEIGHT) ); //SE-mountain (ROUTE22)
         nonWalkableTileSpriteTargets.add(
-                Bitmap.createBitmap(texture, 688, 2496 - 1664, TILE_SIZE, TILE_SIZE) ); //E-mountain (ROUTE22)
+                Bitmap.createBitmap(texture, 688, 2496 - 1664, TILE_WIDTH, TILE_HEIGHT) ); //E-mountain (ROUTE22)
         nonWalkableTileSpriteTargets.add(
-                Bitmap.createBitmap(texture, 640, 2496 - 1664, TILE_SIZE, TILE_SIZE) ); //CENTER-mountain (ROUTE22)
+                Bitmap.createBitmap(texture, 640, 2496 - 1664, TILE_WIDTH, TILE_HEIGHT) ); //CENTER-mountain (ROUTE22)
         nonWalkableTileSpriteTargets.add(
-                Bitmap.createBitmap(texture, 688, 2304 - 1664, TILE_SIZE, TILE_SIZE) ); //NE-mountain (ROUTE22)
+                Bitmap.createBitmap(texture, 688, 2304 - 1664, TILE_WIDTH, TILE_HEIGHT) ); //NE-mountain (ROUTE22)
         nonWalkableTileSpriteTargets.add(
-                Bitmap.createBitmap(texture, 624, 2304 - 1664, TILE_SIZE, TILE_SIZE) ); //N-mountain (ROUTE22)
+                Bitmap.createBitmap(texture, 624, 2304 - 1664, TILE_WIDTH, TILE_HEIGHT) ); //N-mountain (ROUTE22)
         nonWalkableTileSpriteTargets.add(
-                Bitmap.createBitmap(texture, 608, 2304 - 1664, TILE_SIZE, TILE_SIZE) ); //NW-mountain (ROUTE22)
+                Bitmap.createBitmap(texture, 608, 2304 - 1664, TILE_WIDTH, TILE_HEIGHT) ); //NW-mountain (ROUTE22)
         nonWalkableTileSpriteTargets.add(
-                Bitmap.createBitmap(texture, 608, 2320 - 1664, TILE_SIZE, TILE_SIZE) ); //W-mountain (ROUTE22)
+                Bitmap.createBitmap(texture, 608, 2320 - 1664, TILE_WIDTH, TILE_HEIGHT) ); //W-mountain (ROUTE22)
         nonWalkableTileSpriteTargets.add(
-                Bitmap.createBitmap(texture, 576, 2224 - 1664, TILE_SIZE, TILE_SIZE) ); //SW-mountain (ROUTE22)
+                Bitmap.createBitmap(texture, 576, 2224 - 1664, TILE_WIDTH, TILE_HEIGHT) ); //SW-mountain (ROUTE22)
 
         ////ROUTE02////////////////////////////////////////////////////////////////////////////////////////////////////
 
         nonWalkableTileSpriteTargets.add(
-                Bitmap.createBitmap(texture, 800, 2000 - 1664, TILE_SIZE, TILE_SIZE) ); //bush (ROUTE02)
+                Bitmap.createBitmap(texture, 800, 2000 - 1664, TILE_WIDTH, TILE_HEIGHT) ); //bush (ROUTE02)
         nonWalkableTileSpriteTargets.add(
-                Bitmap.createBitmap(texture, 912, 1968 - 1664, TILE_SIZE, TILE_SIZE) ); //sign-post (ROUTE02)
+                Bitmap.createBitmap(texture, 912, 1968 - 1664, TILE_WIDTH, TILE_HEIGHT) ); //sign-post (ROUTE02)
         nonWalkableTileSpriteTargets.add(
-                Bitmap.createBitmap(texture, 896, 1984 - 1664, TILE_SIZE, TILE_SIZE) ); //fence-brown (ROUTE02)
+                Bitmap.createBitmap(texture, 896, 1984 - 1664, TILE_WIDTH, TILE_HEIGHT) ); //fence-brown (ROUTE02)
         nonWalkableTileSpriteTargets.add(
-                Bitmap.createBitmap(texture, 800, 1680 - 1664, TILE_SIZE, TILE_SIZE) ); //fence-blue (ROUTE02)
+                Bitmap.createBitmap(texture, 800, 1680 - 1664, TILE_WIDTH, TILE_HEIGHT) ); //fence-blue (ROUTE02)
 
 //        ////Place.VIRIDIAN_FOREST//////////////////////////////////////////////////////////////////////////////////////
 //
@@ -542,23 +539,23 @@ public class TileMap {
 //        );
 //
 //        nonWalkableTileSpriteTargets.add(
-//                Bitmap.createBitmap(texture, 960, 1216, TILE_SIZE, TILE_SIZE) );     //NW-mountain (Place.VIRIDIAN_FOREST)
+//                Bitmap.createBitmap(texture, 960, 1216, TILE_WIDTH, TILE_HEIGHT) );     //NW-mountain (Place.VIRIDIAN_FOREST)
 //        nonWalkableTileSpriteTargets.add(
-//                Bitmap.createBitmap(texture, 960, 1232, TILE_SIZE, TILE_SIZE) );     //W-mountain (Place.VIRIDIAN_FOREST)
+//                Bitmap.createBitmap(texture, 960, 1232, TILE_WIDTH, TILE_HEIGHT) );     //W-mountain (Place.VIRIDIAN_FOREST)
 //        nonWalkableTileSpriteTargets.add(
-//                Bitmap.createBitmap(texture, 960, 1264, TILE_SIZE, TILE_SIZE) );     //SW-mountain (Place.VIRIDIAN_FOREST)
+//                Bitmap.createBitmap(texture, 960, 1264, TILE_WIDTH, TILE_HEIGHT) );     //SW-mountain (Place.VIRIDIAN_FOREST)
 //        nonWalkableTileSpriteTargets.add(
-//                Bitmap.createBitmap(texture, 976, 1264, TILE_SIZE, TILE_SIZE) );     //S-mountain (Place.VIRIDIAN_FOREST)
+//                Bitmap.createBitmap(texture, 976, 1264, TILE_WIDTH, TILE_HEIGHT) );     //S-mountain (Place.VIRIDIAN_FOREST)
 //        nonWalkableTileSpriteTargets.add(
-//                Bitmap.createBitmap(texture, 1072, 1264, TILE_SIZE, TILE_SIZE) );    //SE-mountain (Place.VIRIDIAN_FOREST)
+//                Bitmap.createBitmap(texture, 1072, 1264, TILE_WIDTH, TILE_HEIGHT) );    //SE-mountain (Place.VIRIDIAN_FOREST)
 //        nonWalkableTileSpriteTargets.add(
-//                Bitmap.createBitmap(texture, 1072, 1248, TILE_SIZE, TILE_SIZE) );    //E-mountain (Place.VIRIDIAN_FOREST)
+//                Bitmap.createBitmap(texture, 1072, 1248, TILE_WIDTH, TILE_HEIGHT) );    //E-mountain (Place.VIRIDIAN_FOREST)
 //        nonWalkableTileSpriteTargets.add(
-//                Bitmap.createBitmap(texture, 976, 1248, TILE_SIZE, TILE_SIZE) );     //CENTER-mountain (Place.VIRIDIAN_FOREST)
+//                Bitmap.createBitmap(texture, 976, 1248, TILE_WIDTH, TILE_HEIGHT) );     //CENTER-mountain (Place.VIRIDIAN_FOREST)
 //        nonWalkableTileSpriteTargets.add(
-//                Bitmap.createBitmap(texture, 1072, 1216, TILE_SIZE, TILE_SIZE) );    //NE-mountain (Place.VIRIDIAN_FOREST)
+//                Bitmap.createBitmap(texture, 1072, 1216, TILE_WIDTH, TILE_HEIGHT) );    //NE-mountain (Place.VIRIDIAN_FOREST)
 //        nonWalkableTileSpriteTargets.add(
-//                Bitmap.createBitmap(texture, 976, 1216, TILE_SIZE, TILE_SIZE) );     //N-mountain (Place.VIRIDIAN_FOREST)
+//                Bitmap.createBitmap(texture, 976, 1216, TILE_WIDTH, TILE_HEIGHT) );     //N-mountain (Place.VIRIDIAN_FOREST)
 //
 //        ////Town.PEWTER_CITY///////////////////////////////////////////////////////////////////////////////////////////
 //

@@ -118,6 +118,71 @@ public class Player extends Creature {
         return currentFrame;
     }
 
+    public Entity getEntityCurrentlyFacing() {
+        Log.d(MainActivity.DEBUG_TAG, "Player.getEntityCurrentlyFacing()");
+
+        Entity tempEntityReturner = null;
+
+        int creatureCenterX = (int)(xCurrent + (width / 2));
+        int creatureCenterY = (int)(yCurrent + (height / 2));
+
+        Rect entityCollisionBox = new Rect();
+        switch (direction) {
+            case DOWN:
+                entityCollisionBox.left = (creatureCenterX-(TileMap.TILE_WIDTH/4));
+                entityCollisionBox.top = (creatureCenterY+(TileMap.TILE_HEIGHT/2)+((int)(0.3)*TileMap.TILE_HEIGHT));
+                entityCollisionBox.right = (creatureCenterX-(TileMap.TILE_WIDTH/4)) +
+                        (TileMap.TILE_WIDTH/2);
+                entityCollisionBox.bottom = (creatureCenterY+(TileMap.TILE_HEIGHT/2)+((int)(0.3)*TileMap.TILE_HEIGHT)) +
+                        (TileMap.TILE_HEIGHT/2);
+                break;
+            case UP:
+                entityCollisionBox.left = (creatureCenterX-(TileMap.TILE_WIDTH/4));
+                entityCollisionBox.top = (creatureCenterY-((int)(1.4)*TileMap.TILE_HEIGHT));
+                entityCollisionBox.right = (creatureCenterX-(TileMap.TILE_WIDTH/4)) +
+                        (TileMap.TILE_WIDTH/2);
+                entityCollisionBox.bottom = (creatureCenterY-((int)(1.4)*TileMap.TILE_HEIGHT)) +
+                        (TileMap.TILE_HEIGHT/2);
+                break;
+            case LEFT:
+                entityCollisionBox.left = (creatureCenterX-((int)(1.4)*TileMap.TILE_WIDTH));
+                entityCollisionBox.top = (creatureCenterY-(TileMap.TILE_HEIGHT/4));
+                entityCollisionBox.right = (creatureCenterX-((int)(1.4)*TileMap.TILE_WIDTH)) +
+                        (TileMap.TILE_WIDTH/2);
+                entityCollisionBox.bottom = (creatureCenterY-(TileMap.TILE_HEIGHT/4)) +
+                        (TileMap.TILE_HEIGHT/2);
+                break;
+            case RIGHT:
+                entityCollisionBox.left = (creatureCenterX+(TileMap.TILE_WIDTH/2)+((int)(0.3)*TileMap.TILE_WIDTH));
+                entityCollisionBox.top = (creatureCenterY-(TileMap.TILE_HEIGHT/4));
+                entityCollisionBox.right = (creatureCenterX+(TileMap.TILE_WIDTH/2)+((int)(0.3)*TileMap.TILE_WIDTH)) +
+                        (TileMap.TILE_WIDTH/2);
+                entityCollisionBox.bottom = (creatureCenterY-(TileMap.TILE_HEIGHT/4)) +
+                        (TileMap.TILE_HEIGHT/2);
+                break;
+            default:
+                break;
+        }
+
+        for (Entity e : handler.getGameCartridge().getSceneManager().getCurrentScene().getEntities()) {
+            if (e.equals(this)) {
+                continue;
+            }
+
+            if (entityCollisionBox.intersect(e.getCollisionBounds(0, 0))) {
+                tempEntityReturner = e;
+            }
+        }
+
+        if (tempEntityReturner != null) {
+            Log.d(MainActivity.DEBUG_TAG, "Player.getEntityCurrentlyFacing() entity: " + tempEntityReturner.toString());
+        } else {
+            Log.d(MainActivity.DEBUG_TAG, "Player.getEntityCurrentlyFacing() entity is null");
+        }
+
+        return tempEntityReturner;
+    }
+
     public void checkTileFacing() {
         Log.d(MainActivity.DEBUG_TAG, "Player.checkTileFacing()");
 
@@ -129,33 +194,33 @@ public class Player extends Creature {
             float xPlayerCenter = xCurrent + (width / 2);
             float yPlayerCenter = yCurrent + (height / 2);
 
-            int xInspect = 0;
-            int yInspect = 0;
+            int xInspectIndex = 0;
+            int yInspectIndex = 0;
             switch (direction) {
                 case UP:
-                    xInspect = (int) (xPlayerCenter);
-                    yInspect = (int) (yPlayerCenter - ((height / 2) + 1));
+                    xInspectIndex = (int) (xPlayerCenter / TileMap.TILE_WIDTH);
+                    yInspectIndex = (int) ((yPlayerCenter - TileMap.TILE_HEIGHT) / TileMap.TILE_HEIGHT);
                     break;
                 case DOWN:
-                    xInspect = (int) (xPlayerCenter);
-                    yInspect = (int) (yPlayerCenter + ((height / 2) + 1));
+                    xInspectIndex = (int) (xPlayerCenter / TileMap.TILE_WIDTH);
+                    yInspectIndex = (int) ((yPlayerCenter + TileMap.TILE_HEIGHT) / TileMap.TILE_HEIGHT);
                     break;
                 case LEFT:
-                    xInspect = (int) (xPlayerCenter - ((width / 2) + 1));
-                    yInspect = (int) (yPlayerCenter);
+                    xInspectIndex = (int) ((xPlayerCenter - TileMap.TILE_WIDTH) / TileMap.TILE_WIDTH);
+                    yInspectIndex = (int) (yPlayerCenter / TileMap.TILE_HEIGHT);
                     break;
                 case RIGHT:
-                    xInspect = (int) (xPlayerCenter + ((width / 2) + 1));
-                    yInspect = (int) (yPlayerCenter);
+                    xInspectIndex = (int) ((xPlayerCenter + TileMap.TILE_WIDTH) / TileMap.TILE_WIDTH);
+                    yInspectIndex = (int) (yPlayerCenter / TileMap.TILE_HEIGHT);
                     break;
                 default:
                     Log.d(MainActivity.DEBUG_TAG, "Player.checkTileFacing() switch construct's default block.");
                     break;
             }
 
-            Log.d(MainActivity.DEBUG_TAG, "checkTileFacing at (currently in pixel values): (" + xInspect + ", " + yInspect + ").");
+            Log.d(MainActivity.DEBUG_TAG, "checkTileFacing at: (" + xInspectIndex + ", " + yInspectIndex + ").");
             ////////////////////////////////////////////////////////////////////
-            TileMap.TileType tileFacing = tileMap.checkTile(xInspect, yInspect);
+            TileMap.TileType tileFacing = tileMap.checkTile(xInspectIndex, yInspectIndex);
             ////////////////////////////////////////////////////////////////////
             if (tileFacing != null) {
                 Log.d(MainActivity.DEBUG_TAG, "tileFacing: " + tileFacing.name());

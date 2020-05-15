@@ -204,10 +204,10 @@ public class Assets {
         int yEndTileIndex = specs.get(TileMap.Specs.Y_END_TILE_INDEX);
 
         // In terms of PIXELS.
-        int x = xStartTileIndex * TileMap.TILE_SIZE;
-        int widthSceneMax = (xEndTileIndex - xStartTileIndex) * TileMap.TILE_SIZE;
-        int y = yStartTileIndex * TileMap.TILE_SIZE;
-        int heightSceneMax = (yEndTileIndex - yStartTileIndex) * TileMap.TILE_SIZE;
+        int x = xStartTileIndex * TileMap.TILE_WIDTH;
+        int widthSceneMax = (xEndTileIndex - xStartTileIndex) * TileMap.TILE_WIDTH;
+        int y = yStartTileIndex * TileMap.TILE_HEIGHT;
+        int heightSceneMax = (yEndTileIndex - yStartTileIndex) * TileMap.TILE_HEIGHT;
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         croppedWorldMapPart01 = Bitmap.createBitmap(fullWorldMap, x, y, widthSceneMax, heightSceneMax);

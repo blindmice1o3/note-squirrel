@@ -114,8 +114,8 @@ public class Scene {
 
         player.init();
         //player.setTileMap(tileMap);
-        player.setxCurrent((tileMap.getxSpawnIndex() * TileMap.TILE_SIZE));
-        player.setyCurrent((tileMap.getySpawnIndex() * TileMap.TILE_SIZE));
+        player.setxCurrent((tileMap.getxSpawnIndex() * TileMap.TILE_WIDTH));
+        player.setyCurrent((tileMap.getySpawnIndex() * TileMap.TILE_HEIGHT));
 
         entities = new ArrayList<Entity>();
         entities.add(player);
@@ -123,7 +123,7 @@ public class Scene {
         ///////////////////////////////////
 
         if (sceneID == Id.FARM) {
-            Entity robot = new Robot(handler, (7 * TileMap.TILE_SIZE), (5 * TileMap.TILE_SIZE));
+            Entity robot = new Robot(handler, (7 * TileMap.TILE_WIDTH), (5 * TileMap.TILE_HEIGHT));
             entities.add(robot);
         }
     }

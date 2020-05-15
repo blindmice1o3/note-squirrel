@@ -10,7 +10,9 @@ import android.view.SurfaceHolder;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Robot;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
@@ -132,9 +134,14 @@ public class PocketCrittersCartridge
             else if (inputManager.isaButtonPad()) {
                 Log.d(MainActivity.DEBUG_TAG, "a-button");
 
-                /////////////////////////
-                player.checkTileFacing();
-                /////////////////////////
+                //////////////////////////////////////////////////
+                player.checkTileFacing();   //currently only using for pocket_critters
+
+                Entity entity = player.getEntityCurrentlyFacing();
+                if(entity instanceof Robot) {
+                    ((Robot)entity).setState(Robot.State.WALK);
+                }
+                //////////////////////////////////////////////////
             }
             //b button
             else if (inputManager.isbButtonPad()) {

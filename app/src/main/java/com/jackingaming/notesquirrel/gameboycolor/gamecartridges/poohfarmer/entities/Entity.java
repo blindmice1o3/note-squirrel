@@ -22,8 +22,8 @@ public abstract class Entity {
 
         this.xCurrent = xCurrent;
         this.yCurrent = yCurrent;
-        width = TileMap.TILE_SIZE;
-        height = TileMap.TILE_SIZE;
+        width = TileMap.TILE_WIDTH;
+        height = TileMap.TILE_HEIGHT;
 
         bounds = new Rect(0, 0, width, height);
     }
