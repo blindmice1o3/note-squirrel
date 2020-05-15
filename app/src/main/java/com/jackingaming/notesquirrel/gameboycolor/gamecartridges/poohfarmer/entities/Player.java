@@ -42,18 +42,12 @@ public class Player extends Entity {
     private TileMap tileMap;
 
     public Player(Handler handler) {
-    //public Player(GameCartridge gameCartridge, GameCamera gameCamera, int widthViewport, int heightViewport) {
-        super(0f, 0f);
+        super(handler,0f, 0f);
 
-        this.gameCartridge = handler.getGameCartridge();
-        this.gameCamera = handler.getGameCartridge().getGameCamera();
-        //this.gameCartridge = gameCartridge;
-        //this.gameCamera = gameCamera;
-
-        int widthClipInPixel = gameCamera.getWidthClipInPixel();
-        int heightClipInPixel = gameCamera.getHeightClipInPixel();
-        widthPixelToViewportRatio = ((float)handler.getGameCartridge().getWidthViewport()) / widthClipInPixel;
-        heightPixelToViewportRatio = ((float)handler.getGameCartridge().getHeightViewport()) / heightClipInPixel;
+        gameCartridge = handler.getGameCartridge();
+        gameCamera = handler.getGameCartridge().getGameCamera();
+        widthPixelToViewportRatio = ((float) handler.getGameCartridge().getWidthViewport()) / gameCamera.getWidthClipInPixel();
+        heightPixelToViewportRatio = ((float) handler.getGameCartridge().getHeightViewport()) / gameCamera.getHeightClipInPixel();
 
         direction = Direction.DOWN;
 
@@ -103,9 +97,13 @@ public class Player extends Entity {
         }
 
         //TODO: check entity collision with if-statement
-        moveX();    //currently checking tile collisions/transfer points
+        if (!checkEntityCollision(xMove, 0f)) {
+            moveX();    //currently checking tile collisions/transfer points
+        }
         //TODO: check entity collision with if-statement
-        moveY();    //currently checking tile collisions/transfer points
+        if (!checkEntityCollision(0f, yMove)) {
+            moveY();    //currently checking tile collisions/transfer points
+        }
     }
 
     private void moveX() {

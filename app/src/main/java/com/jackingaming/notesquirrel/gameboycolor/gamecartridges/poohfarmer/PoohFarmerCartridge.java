@@ -235,13 +235,14 @@ public class PoohFarmerCartridge
         return player;
     }
 
-    public SceneManager getSceneManager() {
-        return sceneManager;
-    }
-
     @Override
     public GameCamera getGameCamera() {
         return gameCamera;
+    }
+
+    @Override
+    public SceneManager getSceneManager() {
+        return sceneManager;
     }
 
     @Override

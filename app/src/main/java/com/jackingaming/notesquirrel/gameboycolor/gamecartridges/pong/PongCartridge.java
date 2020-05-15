@@ -18,6 +18,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pong.sprites.Ba
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pong.sprites.Ball;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 
 public class PongCartridge
@@ -256,6 +257,11 @@ public class PongCartridge
 
     @Override
     public GameCamera getGameCamera() {
+        return null;
+    }
+
+    @Override
+    public SceneManager getSceneManager() {
         return null;
     }
 

@@ -1,6 +1,5 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,23 +7,25 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
 
 public class Robot extends Entity {
 
-    private Bitmap mImage;
-    private GameCamera mGameCamera;
-    private float mWidthPixelToViewportRatio;
-    private float mHeightPixelToViewportRatio;
+    private GameCamera gameCamera;
+    private float widthPixelToViewportRatio;
+    private float heightPixelToViewportRatio;
 
-    public Robot(Context context, GameCamera gameCamera, float xCurrent, float yCurrent,
-                 float widthPixelToViewportRatio, float heightPixelToViewportRatio) {
-        super(xCurrent, yCurrent);
-        this.mGameCamera = gameCamera;
-        this.mWidthPixelToViewportRatio = widthPixelToViewportRatio;
-        this.mHeightPixelToViewportRatio = heightPixelToViewportRatio;
+    private Bitmap image;
 
-        initImage(context.getResources());
+    public Robot(Handler handler, float xCurrent, float yCurrent) {
+        super(handler, xCurrent, yCurrent);
+
+        gameCamera = handler.getGameCartridge().getGameCamera();
+        widthPixelToViewportRatio = ((float) handler.getGameCartridge().getWidthViewport()) / gameCamera.getWidthClipInPixel();
+        heightPixelToViewportRatio = ((float) handler.getGameCartridge().getHeightViewport()) / gameCamera.getHeightClipInPixel();
+
+        initImage(handler.getGameCartridge().getContext().getResources());
     }
 
     @Override
@@ -37,7 +38,7 @@ public class Robot extends Entity {
 
         int xStart = 1 * (32 + 8);
         int yStart = 6 * (32 + 8);
-        mImage = Bitmap.createBitmap(spriteSheet, xStart, yStart, 32, 32);
+        image = Bitmap.createBitmap(spriteSheet, xStart, yStart, 32, 32);
     }
 
     @Override
@@ -47,15 +48,15 @@ public class Robot extends Entity {
 
     @Override
     public void render(Canvas canvas) {
-        Rect bounds = new Rect(0, 0, mImage.getWidth(), mImage.getHeight());
+        Rect bounds = new Rect(0, 0, image.getWidth(), image.getHeight());
         Rect screenRect = new Rect(
-                (int)( (xCurrent - mGameCamera.getX()) * mWidthPixelToViewportRatio ),
-                (int)( (yCurrent - mGameCamera.getY()) * mHeightPixelToViewportRatio ),
-                (int)( ((xCurrent - mGameCamera.getX()) + width) * mWidthPixelToViewportRatio ),
-                (int)( ((yCurrent - mGameCamera.getY()) + height) * mHeightPixelToViewportRatio ) );
+                (int)( (xCurrent - gameCamera.getX()) * widthPixelToViewportRatio),
+                (int)( (yCurrent - gameCamera.getY()) * heightPixelToViewportRatio),
+                (int)( ((xCurrent - gameCamera.getX()) + width) * widthPixelToViewportRatio),
+                (int)( ((yCurrent - gameCamera.getY()) + height) * heightPixelToViewportRatio) );
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        canvas.drawBitmap(mImage, bounds, screenRect, null);
+        canvas.drawBitmap(image, bounds, screenRect, null);
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     }
 
