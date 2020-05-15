@@ -144,9 +144,17 @@ public class Robot extends Creature {
             anim.update();
         }
 
-        if (state != State.OFF) {
-            decideWalkRandomDirection();
+        /////////////////////////////////
+        if (state == State.WALK) {
+            moveSpeed = 4f;
+        } else if (state == State.RUN) {
+            moveSpeed = 6f;
+        } else if (state == State.OFF) {
+            moveSpeed = 0f;
         }
+        /////////////////////////////////
+
+        decideWalkRandomDirection();
     }
 
     private void decideWalkRandomDirection() {
