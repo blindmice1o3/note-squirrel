@@ -13,8 +13,9 @@ import com.jackingaming.notesquirrel.gameboycolor.sprites.Animation;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
-public class Robot extends Entity {
+public class Robot extends Creature {
 
     public enum State { WALK, RUN; }
 
@@ -23,10 +24,6 @@ public class Robot extends Entity {
     private float heightPixelToViewportRatio;
 
     private State state;
-    private Direction direction;
-
-    private float xMove;
-    private float yMove;
 
     private Bitmap image;
     private Map<Direction, Animation> animationWalk;
@@ -40,10 +37,6 @@ public class Robot extends Entity {
         heightPixelToViewportRatio = ((float) handler.getGameCartridge().getHeightViewport()) / gameCamera.getHeightClipInPixel();
 
         state = State.WALK;
-        direction = Direction.DOWN;
-
-        xMove = 0f;
-        yMove = 0f;
 
         initImage(handler.getGameCartridge().getContext().getResources());
     }
@@ -52,7 +45,6 @@ public class Robot extends Entity {
     public void init() {
 
     }
-
 
     private void initImage(Resources resources) {
         Bitmap spriteSheet = BitmapFactory.decodeResource(resources, R.drawable.snes_chrono_trigger_r_series);
@@ -151,6 +143,35 @@ public class Robot extends Entity {
         for (Animation anim : animationRun.values()) {
             anim.update();
         }
+
+        decideWalkRandomDirection();
+    }
+
+    private void decideWalkRandomDirection() {
+        Random random = new Random();
+
+        if (random.nextInt(100) == 1) {
+            int moveDir = random.nextInt(5);
+
+            switch (moveDir) {
+                case 0:
+                    move(Direction.LEFT);
+                    break;
+                case 1:
+                    move(Direction.RIGHT);
+                    break;
+                case 2:
+                    move(Direction.UP);
+                    break;
+                case 3:
+                    move(Direction.DOWN);
+                    break;
+                default:
+                    xMove = 0;
+                    yMove = 0;
+                    break;
+            }
+        }
     }
 
     @Override
@@ -174,7 +195,7 @@ public class Robot extends Entity {
         Bitmap currentFrame = null;
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        if (xMove == 0f && yMove == 0f) { return image; }
+//        if (xMove == 0f && yMove == 0f) { return image; }
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
         if (state == State.WALK) {

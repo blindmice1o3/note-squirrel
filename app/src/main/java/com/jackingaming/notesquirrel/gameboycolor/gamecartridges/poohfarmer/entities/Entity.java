@@ -8,14 +8,13 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tile
 
 public abstract class Entity {
 
-    public enum Direction { UP, DOWN, LEFT, RIGHT; }
-
     protected Handler handler;
 
     protected float xCurrent;
     protected float yCurrent;
     protected int width;
     protected int height;
+
     protected Rect bounds;
 
     public Entity(Handler handler, float xCurrent, float yCurrent) {

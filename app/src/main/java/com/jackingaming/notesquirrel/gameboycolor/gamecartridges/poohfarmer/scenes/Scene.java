@@ -113,7 +113,7 @@ public class Scene {
         Log.d(MainActivity.DEBUG_TAG, "Scene.initEntities(Player)");
 
         player.init();
-        player.setTileMap(tileMap);
+        //player.setTileMap(tileMap);
         player.setxCurrent((tileMap.getxSpawnIndex() * TileMap.TILE_SIZE));
         player.setyCurrent((tileMap.getySpawnIndex() * TileMap.TILE_SIZE));
 
@@ -140,6 +140,10 @@ public class Scene {
         for (Entity entity : entities) {
             entity.update(elapsed);
         }
+
+        //////////////////////////////
+        gameCamera.update(0L);
+        //////////////////////////////
     }
 
     public void render(Canvas canvas) {
