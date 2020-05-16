@@ -49,6 +49,8 @@ public class PongCartridge
     private MediaPlayer mediaPlayer;
 
     public PongCartridge(Context context, Id idGameCartridge) {
+        Log.d(MainActivity.DEBUG_TAG, "PongCartridge(Context, Id) constructor");
+
         this.context = context;
         this.idGameCartridge = idGameCartridge;
     }
@@ -107,6 +109,8 @@ public class PongCartridge
      */
     @Override
     public void getInputViewport() {
+        Log.d(MainActivity.DEBUG_TAG, "PongCartridge.getInputViewport()");
+
         if (state == State.RUNNING) {
             if ( (inputManager.getEvent() != null) &&
                     (inputManager.getEvent().getY() <= heightViewport) )
@@ -141,6 +145,8 @@ public class PongCartridge
     }
 
     private void initSpritePositions() {
+        Log.d(MainActivity.DEBUG_TAG, "PongCartridge.initSpritePositions()");
+
         ball.initPosition();
         player.initPosition();
         opponent.initPosition();

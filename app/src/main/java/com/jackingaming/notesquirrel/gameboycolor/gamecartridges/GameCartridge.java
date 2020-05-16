@@ -10,7 +10,7 @@ import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 
 public interface GameCartridge {
 
-    enum Id { POOH_FARMER, PONG, POCKET_CRITTERS; }
+    enum Id { POCKET_CRITTERS, POOH_FARMER, PONG, FROGGER; }
     
     public void init(SurfaceHolder holder, InputManager inputManager, int widthScreen, int heightScreen);
 

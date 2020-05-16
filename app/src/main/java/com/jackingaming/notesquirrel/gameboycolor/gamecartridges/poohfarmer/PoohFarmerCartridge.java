@@ -41,6 +41,8 @@ public class PoohFarmerCartridge
     private SceneManager sceneManager;
 
     public PoohFarmerCartridge(Context context, Id idGameCartridge) {
+        Log.d(MainActivity.DEBUG_TAG, "PoohFarmerCartridge(Context, Id) constructor");
+
         this.context = context;
         this.idGameCartridge = idGameCartridge;
     }

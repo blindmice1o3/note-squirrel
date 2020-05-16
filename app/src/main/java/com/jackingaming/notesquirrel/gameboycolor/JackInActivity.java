@@ -12,6 +12,7 @@ import android.widget.Button;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.FroggerCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.PocketCrittersCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pong.PongCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.PoohFarmerCartridge;
@@ -51,8 +52,8 @@ public class JackInActivity extends AppCompatActivity {
 
 
         //////////////////////////////////////////////////////
-        cartridgeID = GameCartridge.Id.POOH_FARMER;
-        gameCartridge = new PoohFarmerCartridge(this, GameCartridge.Id.POOH_FARMER);
+        cartridgeID = GameCartridge.Id.POCKET_CRITTERS;
+        gameCartridge = new PocketCrittersCartridge(this, cartridgeID);
         //////////////////////////////////////////////////////
         swapGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,14 +104,17 @@ public class JackInActivity extends AppCompatActivity {
         ///////////////////////////////////////////////
 
         switch (cartridgeID) {
+            case POCKET_CRITTERS:
+                gameCartridge = new PocketCrittersCartridge(this, GameCartridge.Id.POCKET_CRITTERS);
+                break;
             case POOH_FARMER:
                 gameCartridge = new PoohFarmerCartridge(this, GameCartridge.Id.POOH_FARMER);
                 break;
             case PONG:
                 gameCartridge = new PongCartridge(this, GameCartridge.Id.PONG);
                 break;
-            case POCKET_CRITTERS:
-                gameCartridge = new PocketCrittersCartridge(this, GameCartridge.Id.POCKET_CRITTERS);
+            case FROGGER:
+                gameCartridge = new FroggerCartridge(this, GameCartridge.Id.FROGGER);
                 break;
             default:
                 Log.d(MainActivity.DEBUG_TAG, "JackInActivity.swapGame() switch's default block.");

@@ -37,6 +37,8 @@ public class PocketCrittersCartridge
     private SceneManager sceneManager;
 
     public PocketCrittersCartridge(Context context, Id idGameCartridge) {
+        Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge(Context, Id) constructor");
+
         this.context = context;
         this.idGameCartridge = idGameCartridge;
     }

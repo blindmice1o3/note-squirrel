@@ -62,7 +62,7 @@ public class Player extends Creature {
         yMove = 0f;
 
         for (Animation anim : animation.values()) {
-            anim.update();
+            anim.update(elapsed);
         }
     }
 
