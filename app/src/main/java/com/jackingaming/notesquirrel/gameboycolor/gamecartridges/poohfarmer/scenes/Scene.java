@@ -1,6 +1,5 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes;
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.Log;
@@ -22,7 +21,6 @@ public class Scene {
     private Handler handler;
     private Id sceneID;
 
-    private Context context;
     private int widthViewport;
     private int heightViewport;
 
@@ -35,7 +33,6 @@ public class Scene {
         this.handler = handler;
         this.sceneID = sceneID;
 
-        context = handler.getGameCartridge().getContext();
         widthViewport = handler.getGameCartridge().getWidthViewport();
         heightViewport = handler.getGameCartridge().getHeightViewport();
     }
@@ -105,7 +102,7 @@ public class Scene {
     private void initTileMap() {
         Log.d(MainActivity.DEBUG_TAG, "Scene.initTileMap()");
 
-        tileMap = new TileMap(context, sceneID);
+        tileMap = new TileMap(handler, sceneID);
     }
 
     //TODO: move some of these to Scene.enter(Object[])

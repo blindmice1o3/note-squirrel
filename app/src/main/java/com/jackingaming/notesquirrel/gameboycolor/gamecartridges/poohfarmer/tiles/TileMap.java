@@ -1,6 +1,5 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -8,6 +7,7 @@ import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
 
@@ -23,7 +23,7 @@ public class TileMap {
     public static final int TILE_WIDTH = 16;
     public static final int TILE_HEIGHT = 16;
 
-    private Context context;
+    private Handler handler;
     private Scene.Id sceneID;
 
     private TileType[][] tiles;
@@ -37,8 +37,8 @@ public class TileMap {
     private int widthSceneMax;
     private int heightSceneMax;
 
-    public TileMap(Context context, Scene.Id sceneID) {
-        this.context = context;
+    public TileMap(Handler handler, Scene.Id sceneID) {
+        this.handler = handler;
         this.sceneID = sceneID;
 
         init();
@@ -208,22 +208,23 @@ public class TileMap {
 
         switch (sceneID) {
             case FARM:
-                texture = Assets.cropFarmSpring(context.getResources());
+                texture = Assets.cropFarmSpring(handler.getGameCartridge().getContext().getResources());
                 break;
             case PART_01:
-                texture = Assets.cropWorldMapPart01(context.getResources(), specs);
+                texture = Assets.cropWorldMapPart01(handler.getGameCartridge().getContext().getResources(),
+                        specs);
                 break;
             case HOME_01:
-                texture = Assets.cropHome01(context.getResources());
+                texture = Assets.cropHome01(handler.getGameCartridge().getContext().getResources());
                 break;
             case HOME_02:
-                texture = Assets.cropHome02(context.getResources());
+                texture = Assets.cropHome02(handler.getGameCartridge().getContext().getResources());
                 break;
             case HOME_RIVAL:
-                texture = Assets.cropHomeRival(context.getResources());
+                texture = Assets.cropHomeRival(handler.getGameCartridge().getContext().getResources());
                 break;
             case LAB:
-                texture = Assets.cropLab(context.getResources());
+                texture = Assets.cropLab(handler.getGameCartridge().getContext().getResources());
                 break;
         }
     }
@@ -267,7 +268,7 @@ public class TileMap {
     private void initTiles(int resId) {
         Log.d(MainActivity.DEBUG_TAG, "TileMap.initTiles(int)");
 
-        String stringOfTiles = TileMapLoader.loadFileAsString(context, resId);
+        String stringOfTiles = TileMapLoader.loadFileAsString(handler.getGameCartridge().getContext(), resId);
         tiles = TileMapLoader.convertStringToTiles(stringOfTiles);
 
         int columns = tiles[0].length;          //Always need.
@@ -285,7 +286,7 @@ public class TileMap {
         ////////////////////////////////////////////////////////////////////////////////////////////
         //text-source-file of the FULL world map stored as String.
         int resId = R.raw.tiles_world_map;
-        String stringOfTiles = TileMapLoader.loadFileAsString(context, resId);
+        String stringOfTiles = TileMapLoader.loadFileAsString(handler.getGameCartridge().getContext(), resId);
         //FULL world map (280-tiles by 270-tiles).
         TileType[][] fullWorldMap = TileMapLoader.convertStringToTiles(stringOfTiles);
 
