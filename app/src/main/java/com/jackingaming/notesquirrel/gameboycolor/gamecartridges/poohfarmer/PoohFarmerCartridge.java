@@ -184,7 +184,7 @@ public class PoohFarmerCartridge
 
                 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                 //TILES
-                player.checkTileFacing();   //currently only using for pocket_critters
+                player.getTileTypeCurrentlyFacing();   //currently only using for pocket_critters
 
                 //ENTITIES
                 Entity entity = player.getEntityCurrentlyFacing();
