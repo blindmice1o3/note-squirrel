@@ -38,10 +38,8 @@ public class GameCamera {
         if (handler.getGameCartridge().getIdGameCartridge() == GameCartridge.Id.FROGGER) {
             int clipWidthInTile = 20;
             int clipHeightInTile = 15;
-            int tileWidthFrogger = 48;
+            int tileWidthFrogger = (int)((48f) * (15f/20f));
             int tileHeightFrogger = 48;
-
-            
 
             widthClipInPixel = clipWidthInTile * tileWidthFrogger;
             heightClipInPixel = clipHeightInTile * tileHeightFrogger;
