@@ -36,6 +36,15 @@ public class Player extends Creature {
                 handler.getGameCartridge().getGameCamera().getWidthClipInPixel();
         heightPixelToViewportRatio = ((float) handler.getGameCartridge().getHeightViewport()) /
                 handler.getGameCartridge().getGameCamera().getHeightClipInPixel();
+
+        //TODO: WORK-AROUND
+        if (handler.getGameCartridge().getIdGameCartridge() == GameCartridge.Id.FROGGER) {
+            int tileWidthFrogger = 48;
+            int tileHeightFrogger = 48;
+
+            width = tileWidthFrogger;
+            height = tileHeightFrogger;
+        }
     }
 
     @Override
@@ -62,7 +71,7 @@ public class Player extends Creature {
         yMove = 0f;
 
         for (Animation anim : animation.values()) {
-            anim.update();
+            anim.update(elapsed);
         }
     }
 
@@ -183,8 +192,8 @@ public class Player extends Creature {
         return tempEntityReturner;
     }
 
-    public void checkTileFacing() {
-        Log.d(MainActivity.DEBUG_TAG, "Player.checkTileFacing()");
+    public TileMap.TileType getTileTypeCurrentlyFacing() {
+        Log.d(MainActivity.DEBUG_TAG, "Player.getTileTypeCurrentlyFacing()");
 
         TileMap tileMap = gameCartridge.getSceneManager().getCurrentScene().getTileMap();
 
@@ -214,51 +223,17 @@ public class Player extends Creature {
                     yInspectIndex = (int) (yPlayerCenter / TileMap.TILE_HEIGHT);
                     break;
                 default:
-                    Log.d(MainActivity.DEBUG_TAG, "Player.checkTileFacing() switch construct's default block.");
+                    Log.d(MainActivity.DEBUG_TAG, "Player.getTileTypeCurrentlyFacing() switch construct's default block.");
                     break;
             }
 
-            Log.d(MainActivity.DEBUG_TAG, "checkTileFacing at: (" + xInspectIndex + ", " + yInspectIndex + ").");
-            ////////////////////////////////////////////////////////////////////
-            TileMap.TileType tileFacing = tileMap.checkTile(xInspectIndex, yInspectIndex);
-            ////////////////////////////////////////////////////////////////////
-            if (tileFacing != null) {
-                Log.d(MainActivity.DEBUG_TAG, "tileFacing: " + tileFacing.name());
-
-                final String message = tileFacing.name();
-                final Context context = ((PocketCrittersCartridge)gameCartridge).getContext();
-                /////////////////////////////////////////////////////////////////////////////////
-                ((JackInActivity)context).runOnUiThread(new Runnable() {
-                    public void run() {
-                        final Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-                        toast.show();
-                    }
-                });
-                /////////////////////////////////////////////////////////////////////////////////
-                
-                /*
-                if ( (tileFacing == TileMap.TileType.COMPUTER) ||
-                        (tileFacing == TileMap.TileType.GAME_CONSOLE) ||
-                        (tileFacing == TileMap.TileType.TELEVISION) ) {
-
-                    final String message = tileFacing.name();
-                    final Context context = ((PocketCrittersCartridge)gameCartridge).getContext();
-                    /////////////////////////////////////////////////////////////////////////////////
-                    ((JackInActivity)context).runOnUiThread(new Runnable() {
-                        public void run() {
-                            final Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
-                            toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-                            toast.show();
-                        }
-                    });
-                    /////////////////////////////////////////////////////////////////////////////////
-                }
-                */
-            } else {
-                Log.d(MainActivity.DEBUG_TAG, "tileFacing is null");
-            }
+            Log.d(MainActivity.DEBUG_TAG, "getTileTypeCurrentlyFacing at: (" + xInspectIndex + ", " + yInspectIndex + ").");
+            ///////////////////////////////////////////////////////
+            return tileMap.checkTile(xInspectIndex, yInspectIndex);
+            ///////////////////////////////////////////////////////
         }
+
+        return null;
     }
 
 }

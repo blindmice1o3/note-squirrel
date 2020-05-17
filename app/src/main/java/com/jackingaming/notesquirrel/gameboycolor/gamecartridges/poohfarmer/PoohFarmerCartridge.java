@@ -41,6 +41,8 @@ public class PoohFarmerCartridge
     private SceneManager sceneManager;
 
     public PoohFarmerCartridge(Context context, Id idGameCartridge) {
+        Log.d(MainActivity.DEBUG_TAG, "PoohFarmerCartridge(Context, Id) constructor");
+
         this.context = context;
         this.idGameCartridge = idGameCartridge;
     }
@@ -66,9 +68,7 @@ public class PoohFarmerCartridge
 
         gameCamera = new GameCamera(handler);
         player = new Player(handler);
-        //player = new Player(this, gameCamera, widthViewport, heightViewport);
         sceneManager = new SceneManager(handler);
-        //sceneManager = new SceneManager(context, widthViewport, heightViewport, idGameCartridge, player, gameCamera);
     }
 
     @Override
@@ -184,7 +184,7 @@ public class PoohFarmerCartridge
 
                 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                 //TILES
-                player.checkTileFacing();   //currently only using for pocket_critters
+                player.getTileTypeCurrentlyFacing();   //currently only using for pocket_critters
 
                 //ENTITIES
                 Entity entity = player.getEntityCurrentlyFacing();

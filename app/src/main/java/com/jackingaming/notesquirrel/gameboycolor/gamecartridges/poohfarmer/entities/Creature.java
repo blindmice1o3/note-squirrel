@@ -234,4 +234,10 @@ public abstract class Creature extends Entity {
         this.direction = direction;
     }
 
+    public float getMoveSpeed() {
+        Log.d(MainActivity.DEBUG_TAG, "Creature.getMoveSpeed()");
+
+        return moveSpeed;
+    }
+
 }

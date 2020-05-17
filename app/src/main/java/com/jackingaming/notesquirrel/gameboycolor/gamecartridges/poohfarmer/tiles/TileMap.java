@@ -1,6 +1,7 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.util.Log;
@@ -170,37 +171,16 @@ public class TileMap {
                 initTransferPointsLab();
                 ////////////////////////
                 break;
+            case FROGGER:
+                xSpawnIndex = 10;
+                ySpawnIndex = 14;
+                break;
         }
 
         //@@@@@@@@@@@@
-        initTiles();
         initTexture();
+        initTiles();
         //@@@@@@@@@@@@
-    }
-
-    private void initTiles() {
-        Log.d(MainActivity.DEBUG_TAG, "TileMap.initTiles()");
-
-        switch (sceneID) {
-            case FARM:
-                initTilesFarm();
-                break;
-            case PART_01:
-                initTilesPart01();
-                break;
-            case HOME_01:
-                initTiles(R.raw.tile_home01);
-                break;
-            case HOME_02:
-                initTiles(R.raw.tile_home02);
-                break;
-            case HOME_RIVAL:
-                initTiles(R.raw.tile_home_rival);
-                break;
-            case LAB:
-                initTiles(R.raw.tile_lab);
-                break;
-        }
     }
 
     private void initTexture() {
@@ -226,6 +206,60 @@ public class TileMap {
             case LAB:
                 texture = Assets.cropLab(handler.getGameCartridge().getContext().getResources());
                 break;
+            case FROGGER:
+                texture = BitmapFactory.decodeResource(handler.getGameCartridge().getContext().getResources(),
+                        R.drawable.frogger_background);
+                break;
+        }
+    }
+
+    private void initTiles() {
+        Log.d(MainActivity.DEBUG_TAG, "TileMap.initTiles()");
+
+        switch (sceneID) {
+            case FARM:
+                initTilesFarm();
+                break;
+            case PART_01:
+                initTilesPart01();
+                break;
+            case HOME_01:
+                initTiles(R.raw.tile_home01);
+                break;
+            case HOME_02:
+                initTiles(R.raw.tile_home02);
+                break;
+            case HOME_RIVAL:
+                initTiles(R.raw.tile_home_rival);
+                break;
+            case LAB:
+                initTiles(R.raw.tile_lab);
+                break;
+            case FROGGER:
+                initTilesFrogger();
+                break;
+        }
+    }
+
+    private void initTilesFrogger() {
+        Log.d(MainActivity.DEBUG_TAG, "TileMap.initTilesFrogger()");
+
+        int tileWidthFrogger = 48;
+        int tileHeightFrogger = 48;
+
+        int columns = texture.getWidth() / tileWidthFrogger;    //Always need.
+        int rows = texture.getHeight() / tileHeightFrogger;     //Always need.
+        widthSceneMax = texture.getWidth();                     //Always need.
+        heightSceneMax = texture.getHeight();                   //Always need.
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        tiles = new TileType[rows][columns];                    //Always need.
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+        for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < columns; x++) {
+                tiles[y][x] = TileType.WALKABLE;
+            }
         }
     }
 
@@ -234,13 +268,13 @@ public class TileMap {
 
         Bitmap rgbTileMap = Assets.rgbTileFarm;
 
-        int columns = rgbTileMap.getWidth();        //Always need.
-        int rows = rgbTileMap.getHeight();          //Always need.
-        widthSceneMax = columns * TILE_WIDTH;        //Always need.
-        heightSceneMax = rows * TILE_HEIGHT;          //Always need.
+        int columns = rgbTileMap.getWidth();            //Always need.
+        int rows = rgbTileMap.getHeight();              //Always need.
+        widthSceneMax = columns * TILE_WIDTH;           //Always need.
+        heightSceneMax = rows * TILE_HEIGHT;            //Always need.
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        tiles = new TileType[rows][columns];        //Always need.
+        tiles = new TileType[rows][columns];            //Always need.
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
         //DEFINE EACH ELEMENT.

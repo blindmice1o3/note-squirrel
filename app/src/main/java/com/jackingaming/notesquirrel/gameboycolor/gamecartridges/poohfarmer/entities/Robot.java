@@ -138,10 +138,10 @@ public class Robot extends Creature {
         yMove = 0f;
 
         for (Animation anim : animationWalk.values()) {
-            anim.update();
+            anim.update(elapsed);
         }
         for (Animation anim : animationRun.values()) {
-            anim.update();
+            anim.update(elapsed);
         }
 
         /////////////////////////////////

@@ -20,9 +20,8 @@ public class Animation {
         lastTime = System.currentTimeMillis();
     }
 
-    public void update() {
-        timer += System.currentTimeMillis() - lastTime;
-        lastTime = System.currentTimeMillis();
+    public void update(long elapsed) {
+        timer += elapsed;
 
         if (timer > speed) {
             index++;
