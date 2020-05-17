@@ -16,7 +16,7 @@ import java.util.List;
 
 public class Scene {
 
-    public enum Id { FARM, PART_01, HOME_01, HOME_02, HOME_RIVAL, LAB; }
+    public enum Id { FARM, PART_01, HOME_01, HOME_02, HOME_RIVAL, LAB, FROGGER; }
 
     private Handler handler;
     private Id sceneID;
@@ -110,13 +110,21 @@ public class Scene {
         Log.d(MainActivity.DEBUG_TAG, "Scene.initEntities(Player)");
 
         player.init();
-        //player.setTileMap(tileMap);
         player.setxCurrent((tileMap.getxSpawnIndex() * TileMap.TILE_WIDTH));
         player.setyCurrent((tileMap.getySpawnIndex() * TileMap.TILE_HEIGHT));
 
+        //TODO: WORK-AROUND (ADJUST TILE_WIDTH and TILE_HEIGHT).
+        if (sceneID == Id.FROGGER) {
+            int tileWidthFrogger = 48;
+            int tileHeightFrogger = 48;
+
+            player.setxCurrent((tileMap.getxSpawnIndex() * tileWidthFrogger));
+            player.setyCurrent((tileMap.getySpawnIndex() * tileHeightFrogger));
+        }
+
+        ///////////////////////////////////
         entities = new ArrayList<Entity>();
         entities.add(player);
-
         ///////////////////////////////////
 
         if (sceneID == Id.FARM) {

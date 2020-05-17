@@ -68,9 +68,7 @@ public class PoohFarmerCartridge
 
         gameCamera = new GameCamera(handler);
         player = new Player(handler);
-        //player = new Player(this, gameCamera, widthViewport, heightViewport);
         sceneManager = new SceneManager(handler);
-        //sceneManager = new SceneManager(context, widthViewport, heightViewport, idGameCartridge, player, gameCamera);
     }
 
     @Override

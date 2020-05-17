@@ -36,6 +36,15 @@ public class Player extends Creature {
                 handler.getGameCartridge().getGameCamera().getWidthClipInPixel();
         heightPixelToViewportRatio = ((float) handler.getGameCartridge().getHeightViewport()) /
                 handler.getGameCartridge().getGameCamera().getHeightClipInPixel();
+
+        //TODO: WORK-AROUND
+        if (handler.getGameCartridge().getIdGameCartridge() == GameCartridge.Id.FROGGER) {
+            int tileWidthFrogger = 48;
+            int tileHeightFrogger = 48;
+
+            width = tileWidthFrogger;
+            height = tileHeightFrogger;
+        }
     }
 
     @Override

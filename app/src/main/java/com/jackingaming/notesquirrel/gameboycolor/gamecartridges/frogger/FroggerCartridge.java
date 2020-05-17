@@ -8,6 +8,7 @@ import android.view.SurfaceHolder;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.SceneManager;
@@ -26,6 +27,9 @@ public class FroggerCartridge
     private int heightViewport;
 
     private Id idGameCartridge;
+    private Player player;
+    private GameCamera gameCamera;
+    private SceneManager sceneManager;
 
     public FroggerCartridge(Context context, Id idGameCartridge) {
         Log.d(MainActivity.DEBUG_TAG, "FroggerCartridge(Context, Id) constructor");
@@ -47,7 +51,15 @@ public class FroggerCartridge
         heightViewport = widthViewport; //SQUARE VIEWPORT!!!
         ////////////////////////////////////////////////////
 
+        //Assets.init(context);
 
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Handler handler = new Handler(this);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+        gameCamera = new GameCamera(handler);
+        player = new Player(handler);
+        sceneManager = new SceneManager(handler);
     }
 
     @Override
@@ -90,19 +102,19 @@ public class FroggerCartridge
     @Override
     public Player getPlayer() {
         Log.d(MainActivity.DEBUG_TAG, "FroggerCartridge.getPlayer()");
-        return null;
+        return player;
     }
 
     @Override
     public GameCamera getGameCamera() {
         Log.d(MainActivity.DEBUG_TAG, "FroggerCartridge.getGameCamera()");
-        return null;
+        return gameCamera;
     }
 
     @Override
     public SceneManager getSceneManager() {
         Log.d(MainActivity.DEBUG_TAG, "FroggerCartridge.getSceneManager()");
-        return null;
+        return sceneManager;
     }
 
     @Override
@@ -119,7 +131,13 @@ public class FroggerCartridge
 
     @Override
     public void update(long elapsed) {
+        ////////////////////////////////////////////////////
+        getInputViewport();
+        getInputDirectionalPad();
+        getInputButtonPad();
+        ////////////////////////////////////////////////////
 
+        sceneManager.getCurrentScene().update(elapsed);
     }
 
     @Override
@@ -134,7 +152,7 @@ public class FroggerCartridge
             canvas.drawColor(Color.WHITE);
 
             //@@@@@@@@@@@@@@@@@@@@@@@@@@
-            //sceneManager.getCurrentScene().render(canvas);
+            sceneManager.getCurrentScene().render(canvas);
             //@@@@@@@@@@@@@@@@@@@@@@@@@@
 
             //unlock it and post our updated drawing to it.

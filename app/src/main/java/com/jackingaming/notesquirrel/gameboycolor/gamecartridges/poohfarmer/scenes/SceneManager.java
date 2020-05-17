@@ -60,6 +60,9 @@ public class SceneManager {
             case POCKET_CRITTERS:
                 id = Scene.Id.PART_01;
                 break;
+            case FROGGER:
+                id = Scene.Id.FROGGER;
+                break;
             default:
                 Log.d(MainActivity.DEBUG_TAG, "SceneManager() constructor's switch construct's default block.");
         }
