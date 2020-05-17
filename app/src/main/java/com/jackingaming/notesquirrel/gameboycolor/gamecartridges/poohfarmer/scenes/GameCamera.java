@@ -40,6 +40,7 @@ public class GameCamera {
             int clipHeightInTile = 15;
             int tileWidthFrogger = 48;
             int tileHeightFrogger = 48;
+            
 
             widthClipInPixel = clipWidthInTile * tileWidthFrogger;
             heightClipInPixel = clipHeightInTile * tileHeightFrogger;
