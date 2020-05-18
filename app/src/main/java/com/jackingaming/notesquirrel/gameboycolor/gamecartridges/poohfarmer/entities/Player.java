@@ -35,6 +35,18 @@ public class Player extends Creature {
                 gameCamera.getWidthClipInPixel();
         heightPixelToViewportRatio = ((float) handler.getGameCartridge().getHeightViewport()) /
                 gameCamera.getHeightClipInPixel();
+    }
+
+    @Override
+    public void init() {
+        Log.d(MainActivity.DEBUG_TAG, "Player.init()");
+
+        initAnimation();
+        adjustSizeAndBounds();
+    }
+
+    private void adjustSizeAndBounds() {
+        Log.d(MainActivity.DEBUG_TAG, "Player.adjustSizeAndBounds()");
 
         //TODO: WORK-AROUND (FROGGER TILE_WIDTH and TILE_HEIGHT)
         if (handler.getGameCartridge().getIdGameCartridge() == GameCartridge.Id.FROGGER) {
@@ -46,13 +58,6 @@ public class Player extends Creature {
             height = 1 * tileHeightFrogger;
             bounds = new Rect(0, 0, width, height);
         }
-    }
-
-    @Override
-    public void init() {
-        Log.d(MainActivity.DEBUG_TAG, "Player.init()");
-
-        initAnimation();
     }
 
     private void initAnimation() {

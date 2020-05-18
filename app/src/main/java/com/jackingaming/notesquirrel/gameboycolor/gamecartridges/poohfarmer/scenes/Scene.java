@@ -7,6 +7,7 @@ import android.util.Log;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.entities.Car;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Creature;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Robot;
@@ -124,14 +125,68 @@ public class Scene {
             //////////////////////////////////////////////////////////////////////////////////
             int tileWidthFrogger = 48;
             int tileHeightFrogger = 48;
-            player.setBounds( new Rect(0, 0, tileWidthFrogger, tileHeightFrogger) );
+            //player.setBounds( new Rect(0, 0, tileWidthFrogger, tileHeightFrogger) );
             //////////////////////////////////////////////////////////////////////////////////
 
             player.setxCurrent((tileMap.getxSpawnIndex() * tileWidthFrogger));
             player.setyCurrent((tileMap.getySpawnIndex() * tileHeightFrogger));
 
-            entities.add(new Car(handler, 1 * tileWidthFrogger, 1 * tileHeightFrogger));
-            entities.add(new com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.entities.Log(handler, 4 * tileWidthFrogger, 3 * tileHeightFrogger));
+            entities.add(
+                    new Car(handler,
+                            1 * tileWidthFrogger, 1 * tileHeightFrogger,
+                            Creature.Direction.RIGHT, Car.Type.PINK) );
+            entities.add(
+                    new Car(handler,
+                            3 * tileWidthFrogger, 1 * tileHeightFrogger,
+                            Creature.Direction.LEFT, Car.Type.PINK) );
+            entities.add(
+                    new Car(handler,
+                            5 * tileWidthFrogger, 1 * tileHeightFrogger,
+                            Creature.Direction.RIGHT, Car.Type.WHITE) );
+            entities.add(
+                    new Car(handler,
+                            7 * tileWidthFrogger, 1 * tileHeightFrogger,
+                            Creature.Direction.LEFT, Car.Type.WHITE) );
+            entities.add(
+                    new Car(handler,
+                            9 * tileWidthFrogger, 1 * tileHeightFrogger,
+                            Creature.Direction.RIGHT, Car.Type.YELLOW) );
+            entities.add(
+                    new Car(handler,
+                            11 * tileWidthFrogger, 1 * tileHeightFrogger,
+                            Creature.Direction.LEFT, Car.Type.YELLOW) );
+            entities.add(
+                    new Car(handler,
+                            13 * tileWidthFrogger, 1 * tileHeightFrogger,
+                            Creature.Direction.RIGHT, Car.Type.BIG_RIG) );
+            entities.add(
+                    new Car(handler,
+                            16 * tileWidthFrogger, 1 * tileHeightFrogger,
+                            Creature.Direction.LEFT, Car.Type.BIG_RIG) );
+            entities.add(
+                    new com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.entities.Log(handler,
+                            4 * tileWidthFrogger, 3 * tileHeightFrogger,
+                            Creature.Direction.LEFT, com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.entities.Log.Size.SMALL) );
+            entities.add(
+                    new com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.entities.Log(handler,
+                            7 * tileWidthFrogger, 4 * tileHeightFrogger,
+                            Creature.Direction.LEFT, com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.entities.Log.Size.MEDIUM) );
+            entities.add(
+                    new com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.entities.Log(handler,
+                            2 * tileWidthFrogger, 5 * tileHeightFrogger,
+                            Creature.Direction.LEFT, com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.entities.Log.Size.LARGE) );
+            entities.add(
+                    new com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.entities.Log(handler,
+                            7 * tileWidthFrogger, 3 * tileHeightFrogger,
+                            Creature.Direction.RIGHT, com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.entities.Log.Size.SMALL) );
+            entities.add(
+                    new com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.entities.Log(handler,
+                            11 * tileWidthFrogger, 4 * tileHeightFrogger,
+                            Creature.Direction.RIGHT, com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.entities.Log.Size.MEDIUM) );
+            entities.add(
+                    new com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.entities.Log(handler,
+                            2 * tileWidthFrogger, 6 * tileHeightFrogger,
+                            Creature.Direction.RIGHT, com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.entities.Log.Size.LARGE) );
         }
 
         if (sceneID == Id.FARM) {
