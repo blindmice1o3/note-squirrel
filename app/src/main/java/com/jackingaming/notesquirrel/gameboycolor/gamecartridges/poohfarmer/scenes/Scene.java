@@ -139,36 +139,38 @@ public class Scene {
 
             entityManager.addEntity(
                     new Car(handler,
-                            1 * tileWidthFrogger, 1 * tileHeightFrogger,
+                            0 * tileWidthFrogger, (8 * tileHeightFrogger) + 15,
                             Creature.Direction.RIGHT, Car.Type.PINK) );
             entityManager.addEntity(
                     new Car(handler,
-                            3 * tileWidthFrogger, 1 * tileHeightFrogger,
+                            19 * tileWidthFrogger, (9 * tileHeightFrogger) + 15,
                             Creature.Direction.LEFT, Car.Type.PINK) );
             entityManager.addEntity(
                     new Car(handler,
-                            5 * tileWidthFrogger, 1 * tileHeightFrogger,
+                            0 * tileWidthFrogger, (10 * tileHeightFrogger) + 15,
                             Creature.Direction.RIGHT, Car.Type.WHITE) );
             entityManager.addEntity(
                     new Car(handler,
-                            7 * tileWidthFrogger, 1 * tileHeightFrogger,
+                            19 * tileWidthFrogger, (11 * tileHeightFrogger) + 15,
                             Creature.Direction.LEFT, Car.Type.WHITE) );
             entityManager.addEntity(
                     new Car(handler,
-                            9 * tileWidthFrogger, 1 * tileHeightFrogger,
+                            0 * tileWidthFrogger, (12 * tileHeightFrogger) + 15,
                             Creature.Direction.RIGHT, Car.Type.YELLOW) );
             entityManager.addEntity(
                     new Car(handler,
-                            11 * tileWidthFrogger, 1 * tileHeightFrogger,
+                            19 * tileWidthFrogger, (13 * tileHeightFrogger) + 15,
                             Creature.Direction.LEFT, Car.Type.YELLOW) );
+
             entityManager.addEntity(
                     new Car(handler,
-                            13 * tileWidthFrogger, 1 * tileHeightFrogger,
+                            0 * tileWidthFrogger, (6 * tileHeightFrogger) + 15,
                             Creature.Direction.RIGHT, Car.Type.BIG_RIG) );
             entityManager.addEntity(
                     new Car(handler,
-                            16 * tileWidthFrogger, 1 * tileHeightFrogger,
+                            19 * tileWidthFrogger, (7 * tileHeightFrogger) + 15,
                             Creature.Direction.LEFT, Car.Type.BIG_RIG) );
+
             entityManager.addEntity(
                     new com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.entities.Log(handler,
                             4 * tileWidthFrogger, 3 * tileHeightFrogger,
@@ -204,10 +206,213 @@ public class Scene {
         gameCamera.init(player, tileMap.getWidthSceneMax(), tileMap.getHeightSceneMax());
     }
 
+    int controllerForNextEntityInstantiation = 0;
+    int numTypeOfCars = 2;
+    int numTypeOfRiverEntities = 4;
+    int chanceToInstantiate = 0;
     public void update(long elapsed) {
         //////////////////////////////
         entityManager.update(elapsed);
         //////////////////////////////
+
+        //TODO: WORK-AROUND (ADJUST TILE_WIDTH and TILE_HEIGHT).
+        if (sceneID == Id.FROGGER) {
+            ///////////////////////////
+            int tileWidthFrogger = 48;
+            int tileHeightFrogger = 48;
+            ///////////////////////////
+
+            if (entityManager.getEntities().size() < 12) {
+                chanceToInstantiate = (int)(Math.random()*100)+1;
+                Log.d(MainActivity.DEBUG_TAG, "chanceToInstantiate: " + chanceToInstantiate);
+
+                //ONLY INSTANTIATE 5% of the time UPDATE(long) IS CALLED.
+                if (chanceToInstantiate <= 5) {
+                    controllerForNextEntityInstantiation = (int) (Math.random() * (numTypeOfCars+numTypeOfRiverEntities)) + 1;
+                    Log.d(MainActivity.DEBUG_TAG, "controllerForNextEntityInstantiation: " + controllerForNextEntityInstantiation);
+                    int x = 0;
+                    int y = 0;
+                    int width = 0;
+                    int height = 0;
+
+                    switch (controllerForNextEntityInstantiation) {
+                        case 1:
+                            x = 0;
+                            y = (8 * tileHeightFrogger) + 15;
+                            width = tileWidthFrogger;
+                            height = tileHeightFrogger;
+
+                            //checking for overlap before instantiating new Car.
+                            for (Entity e : entityManager.getEntities()) {
+                                if (e.getCollisionBounds(0, 0).intersect(new Rect(x, y, x+width, y+height))) {
+                                    return;
+                                }
+                            }
+
+                            //add new right Car instance.
+                            entityManager.addEntity(new Car(handler, x, y,
+                                    Creature.Direction.RIGHT, Car.Type.PINK) );
+
+                            break;
+                        case 2:
+                            x = 19 * tileWidthFrogger;
+                            y = (9 * tileHeightFrogger) + 15;
+                            width = tileWidthFrogger;
+                            height = tileHeightFrogger;
+
+                            //checking for overlap before instantiating new Car.
+                            for (Entity e : entityManager.getEntities()) {
+                                if (e.getCollisionBounds(0, 0).intersect(new Rect(x, y, x+width, y+height))) {
+                                    return;
+                                }
+                            }
+
+                            //add new left Car instance.
+                            entityManager.addEntity(new Car(handler, x, y,
+                                    Creature.Direction.LEFT, Car.Type.PINK) );
+
+                            break;
+                        case 3:
+                            //Log.Size.SMALL
+
+                            /*
+                            x = (widthInNumOfTile - 1) * Tile.screenTileWidth;;
+                            y = (3*Tile.screenTileHeight);
+                            width = Assets.logSmall.getWidth();
+                            height = Tile.screenTileHeight;
+
+                            //checking for overlap before instantiating new Log.
+                            for (Entity e : entityManager.getEntities()) {
+                                if (e.getCollisionBounds(0, 0).intersects(new Rectangle(x, y, width, height))) {
+                                    return;
+                                }
+                            }
+
+                            //add new Log instance (FAST!!! Size.SMALL).
+                            Log fastLog = new Log(handler, x, y, Log.Size.SMALL, Log.MovementDirection.LEFT);
+                            fastLog.setSpeed(2);
+                            entityManager.addEntity(fastLog);
+                            */
+
+                            x = 0;
+                            y = (10 * tileHeightFrogger) + 15;
+                            width = tileWidthFrogger;
+                            height = tileHeightFrogger;
+
+                            //checking for overlap before instantiating new Car.
+                            for (Entity e : entityManager.getEntities()) {
+                                if (e.getCollisionBounds(0, 0).intersect(new Rect(x, y, x+width, y+height))) {
+                                    return;
+                                }
+                            }
+
+                            //add new right Car instance.
+                            entityManager.addEntity(new Car(handler, x, y,
+                                    Creature.Direction.RIGHT, Car.Type.WHITE) );
+
+                            break;
+                        case 4:
+                            //Log.Size.SMALL
+
+                            /*
+                            x = 0;
+                            y = (4*Tile.screenTileHeight);
+                            width = Assets.logSmall.getWidth();
+                            height = Tile.screenTileHeight;
+
+                            //checking for overlap before instantiating new Log.
+                            for (Entity e : entityManager.getEntities()) {
+                                if (e.getCollisionBounds(0, 0).intersects(new Rectangle(x, y, width, height))) {
+                                    return;
+                                }
+                            }
+
+                            //add new Log instance (Size.SMALL).
+                            entityManager.addEntity(new Log(handler, x, y, Log.Size.SMALL, Log.MovementDirection.RIGHT));
+                            */
+
+                            x = 19 * tileWidthFrogger;
+                            y = (11 * tileHeightFrogger) + 15;
+                            width = tileWidthFrogger;
+                            height = tileHeightFrogger;
+
+                            //checking for overlap before instantiating new Car.
+                            for (Entity e : entityManager.getEntities()) {
+                                if (e.getCollisionBounds(0, 0).intersect(new Rect(x, y, x+width, y+height))) {
+                                    return;
+                                }
+                            }
+
+                            //add new left Car instance.
+                            entityManager.addEntity(new Car(handler, x, y,
+                                    Creature.Direction.LEFT, Car.Type.WHITE) );
+
+                            break;
+                        case 5:
+                            //Log.Size.LARGE
+
+                            /*
+                            x = (widthInNumOfTile - 1) * Tile.screenTileWidth;;
+                            y = (5*Tile.screenTileHeight);
+                            width = Assets.logLarge.getWidth();
+                            height = Tile.screenTileHeight;
+
+                            //checking for overlap before instantiating new Log.
+                            for (Entity e : entityManager.getEntities()) {
+                                if (e.getCollisionBounds(0, 0).intersects(new Rectangle(x, y, width, height))) {
+                                    return;
+                                }
+                            }
+
+                            //add new Log instance (Size.LARGE).
+                            entityManager.addEntity(new Log(handler, x, y, Log.Size.LARGE, Log.MovementDirection.LEFT));
+                            */
+
+                            x = 0;
+                            y = (12 * tileHeightFrogger) + 15;
+                            width = tileWidthFrogger;
+                            height = tileHeightFrogger;
+
+                            //checking for overlap before instantiating new Car.
+                            for (Entity e : entityManager.getEntities()) {
+                                if (e.getCollisionBounds(0, 0).intersect(new Rect(x, y, x+width, y+height))) {
+                                    return;
+                                }
+                            }
+
+                            //add new right Car instance.
+                            entityManager.addEntity(new Car(handler, x, y,
+                                    Creature.Direction.RIGHT, Car.Type.YELLOW) );
+
+                            break;
+                        case 6:
+                            //Log.Size.MEDIUM
+
+                            /*
+                            x = 0;
+                            y = (6*Tile.screenTileHeight);
+                            width = Assets.logMedium.getWidth();
+                            height = Tile.screenTileHeight;
+
+                            //checking for overlap before instantiating new Log.
+                            for (Entity e : entityManager.getEntities()) {
+                                if (e.getCollisionBounds(0, 0).intersects(new Rectangle(x, y, width, height))) {
+                                    return;
+                                }
+                            }
+
+                            //add new Log instance (Size.MEDIUM).
+                            entityManager.addEntity(new Log(handler, x, y, Log.Size.MEDIUM, Log.MovementDirection.RIGHT));
+                            */
+
+                            break;
+                        default:
+                            Log.d(MainActivity.DEBUG_TAG, "Scene.update(), switch (Id.FROGGER)'s default.");
+                            break;
+                    }
+                }
+            }
+        }
 
         //////////////////////////////
         gameCamera.update(0L);

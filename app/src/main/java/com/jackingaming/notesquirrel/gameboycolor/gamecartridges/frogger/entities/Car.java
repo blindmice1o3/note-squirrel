@@ -114,7 +114,33 @@ public class Car extends Creature {
 
     @Override
     public void update(long elapsed) {
+        xMove = 0;
+        yMove = 0;
 
+        switch (direction) {
+            case LEFT:
+                if ( (xCurrent-moveSpeed) > 0 ) {
+                    xMove = -moveSpeed;
+                } else {
+                    active = false;
+                }
+
+                break;
+            case RIGHT:
+                int widthSceneMax = handler.getGameCartridge().getSceneManager().getCurrentScene().getTileMap().getWidthSceneMax();
+                if ( (xCurrent+width+moveSpeed) < widthSceneMax ) {
+                    xMove = moveSpeed;
+                } else {
+                    active = false;
+                }
+
+                break;
+            default:
+                Log.d(MainActivity.DEBUG_TAG, "Car.update(long) switch (direction)'s default.");
+                break;
+        }
+
+        move(direction);
     }
 
     @Override
