@@ -82,7 +82,9 @@ public abstract class Creature extends Entity {
                 //////////////////
 
                 //CHECKING TransferPoints
-                if ((this instanceof Player) && (tileMap.getSceneID() != Scene.Id.FARM)) {
+                if ((this instanceof Player) &&
+                        (tileMap.getSceneID() != Scene.Id.FARM) &&
+                        (tileMap.getSceneID() != Scene.Id.FROGGER)) {
                     Rect collisionBoundsFuture = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
                     if (tileMap.checkTransferPointsCollision(collisionBoundsFuture) != null) {
                         Log.d(MainActivity.DEBUG_TAG, "Creature.moveY() LEFT, @@@@@transfer point collision@@@@@");
@@ -118,7 +120,9 @@ public abstract class Creature extends Entity {
                 //////////////////
 
                 //CHECKING TransferPoints
-                if ((this instanceof Player) && (tileMap.getSceneID() != Scene.Id.FARM)) {
+                if ((this instanceof Player) &&
+                        (tileMap.getSceneID() != Scene.Id.FARM) &&
+                        (tileMap.getSceneID() != Scene.Id.FROGGER)) {
                     Rect collisionBoundsFuture = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
                     if (tileMap.checkTransferPointsCollision(collisionBoundsFuture) != null) {
                         Log.d(MainActivity.DEBUG_TAG, "Creature.moveY() RIGHT, @@@@@transfer point collision@@@@@");
@@ -161,7 +165,9 @@ public abstract class Creature extends Entity {
                 //////////////////
 
                 //CHECKING TransferPoints
-                if ((this instanceof Player) && (tileMap.getSceneID() != Scene.Id.FARM)) {
+                if ((this instanceof Player) &&
+                        (tileMap.getSceneID() != Scene.Id.FARM) &&
+                        (tileMap.getSceneID() != Scene.Id.FROGGER)) {
                     Rect collisionBoundsFuture = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
                     if (tileMap.checkTransferPointsCollision(collisionBoundsFuture) != null) {
                         Log.d(MainActivity.DEBUG_TAG, "Creature.moveY() UP, @@@@@transfer point collision@@@@@");
@@ -198,7 +204,9 @@ public abstract class Creature extends Entity {
                 //////////////////
 
                 //CHECKING TransferPoints
-                if ((this instanceof Player) && (tileMap.getSceneID() != Scene.Id.FARM)) {
+                if ((this instanceof Player) &&
+                        (tileMap.getSceneID() != Scene.Id.FARM) &&
+                        (tileMap.getSceneID() != Scene.Id.FROGGER)) {
                     Rect collisionBoundsFuture = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
                     if (tileMap.checkTransferPointsCollision(collisionBoundsFuture) != null) {
                         Log.d(MainActivity.DEBUG_TAG, "Creature.moveY() DOWN, @@@@@transfer point collision@@@@@");

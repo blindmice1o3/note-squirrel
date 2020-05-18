@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
@@ -388,6 +389,18 @@ public class TileMap {
 
         int indexColumn = xPosition / TILE_WIDTH;
         int indexRow = yPosition / TILE_HEIGHT;
+
+        //TODO: WORK-AROUND
+        if (handler.getGameCartridge().getIdGameCartridge() == GameCartridge.Id.FROGGER) {
+            int tileWidthFrogger = 48;
+            int tileHeightFrogger = 48;
+
+            //reverse from tile size being 16pixels... then go to tile size being 48 pixels...
+            indexColumn = (indexColumn * TILE_WIDTH);
+            indexRow = (indexRow * TILE_HEIGHT);
+            indexColumn = (indexColumn / tileWidthFrogger);
+            indexRow = (indexRow / tileHeightFrogger);
+        }
 
         //CHECK FOR TileType.WALKABLE
         if (tiles[indexRow][indexColumn] == TileType.WALKABLE) {

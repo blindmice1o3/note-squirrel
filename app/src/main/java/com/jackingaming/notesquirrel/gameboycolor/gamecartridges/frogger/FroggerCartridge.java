@@ -1,6 +1,7 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.Log;
@@ -13,6 +14,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.enti
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.ListFragmentDvdParentActivity;
 
 public class FroggerCartridge
         implements GameCartridge {
@@ -74,17 +76,66 @@ public class FroggerCartridge
 
     @Override
     public void getInputViewport() {
-        Log.d(MainActivity.DEBUG_TAG, "FroggerCartridge.getInputViewport()");
+        if (inputManager.isJustPressedViewport()) {
+            //left
+            if (inputManager.isLeftViewport()) {
+                player.move(Player.Direction.LEFT);
+            }
+            //right
+            else if (inputManager.isRightViewport()) {
+                player.move(Player.Direction.RIGHT);
+            }
+            //up
+            else if (inputManager.isUpViewport()) {
+                player.move(Player.Direction.UP);
+            }
+            //down
+            else if (inputManager.isDownViewport()) {
+                player.move(Player.Direction.DOWN);
+            }
+        }
     }
 
     @Override
     public void getInputDirectionalPad() {
-        Log.d(MainActivity.DEBUG_TAG, "FroggerCartridge.getInputDirectionalPad()");
+        if (inputManager.isPressingDirectionalPad()) {
+            //up
+            if (inputManager.isUpDirectionalPad()) {
+                player.move(Player.Direction.UP);
+            }
+            //down
+            else if (inputManager.isDownDirectionalPad()) {
+                player.move(Player.Direction.DOWN);
+            }
+            //left
+            else if (inputManager.isLeftDirectionalPad()) {
+                player.move(Player.Direction.LEFT);
+            }
+            //right
+            else if (inputManager.isRightDirectionalPad()) {
+                player.move(Player.Direction.RIGHT);
+            }
+        }
     }
 
     @Override
     public void getInputButtonPad() {
-        Log.d(MainActivity.DEBUG_TAG, "FroggerCartridge.getInputButtonPad()");
+        if (inputManager.isJustPressedButtonPad()) {
+            //menu button (will launch ListFragmentDvdParentActivity)
+            if (inputManager.isMenuButtonPad()) {
+                Log.d(MainActivity.DEBUG_TAG, "menu-button");
+                Intent fragmentParentDvdIntent = new Intent(context, ListFragmentDvdParentActivity.class);
+                context.startActivity(fragmentParentDvdIntent);
+            }
+            //a button
+            else if (inputManager.isaButtonPad()) {
+                Log.d(MainActivity.DEBUG_TAG, "a-button");
+            }
+            //b button
+            else if (inputManager.isbButtonPad()) {
+                Log.d(MainActivity.DEBUG_TAG, "b-button");
+            }
+        }
     }
 
     @Override
