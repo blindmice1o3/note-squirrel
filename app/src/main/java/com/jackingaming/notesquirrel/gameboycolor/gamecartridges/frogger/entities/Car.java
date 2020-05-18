@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Creature;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
@@ -20,15 +21,22 @@ public class Car extends Creature {
     public Car(Handler handler, float xCurrent, float yCurrent) {
         super(handler, xCurrent, yCurrent);
 
-        /////////////////////////////////////////////////
-        width = 48;
-        height = 48;
-        bounds = new Rect(0, 0, width, height);
-        /////////////////////////////////////////////////
-
         gameCamera = handler.getGameCartridge().getGameCamera();
-        widthPixelToViewportRatio = ((float) handler.getGameCartridge().getWidthViewport()) / gameCamera.getWidthClipInPixel();
-        heightPixelToViewportRatio = ((float) handler.getGameCartridge().getHeightViewport()) / gameCamera.getHeightClipInPixel();
+        widthPixelToViewportRatio = ((float) handler.getGameCartridge().getWidthViewport()) /
+                gameCamera.getWidthClipInPixel();
+        heightPixelToViewportRatio = ((float) handler.getGameCartridge().getHeightViewport()) /
+                gameCamera.getHeightClipInPixel();
+
+        //TODO: WORK-AROUND (FROGGER TILE_WIDTH and TILE_HEIGHT)
+        if (handler.getGameCartridge().getIdGameCartridge() == GameCartridge.Id.FROGGER) {
+            int tileWidthFrogger = 48;
+            int tileHeightFrogger = 48;
+
+            //ADJUST width, height, and bounds.
+            width = 1 * tileWidthFrogger;
+            height = 1 * tileHeightFrogger;
+            bounds = new Rect(0, 0, width, height);
+        }
 
         initImage();
     }

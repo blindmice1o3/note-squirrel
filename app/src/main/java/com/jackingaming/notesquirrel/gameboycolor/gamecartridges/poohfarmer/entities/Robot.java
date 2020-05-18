@@ -33,8 +33,10 @@ public class Robot extends Creature {
         super(handler, xCurrent, yCurrent);
 
         gameCamera = handler.getGameCartridge().getGameCamera();
-        widthPixelToViewportRatio = ((float) handler.getGameCartridge().getWidthViewport()) / gameCamera.getWidthClipInPixel();
-        heightPixelToViewportRatio = ((float) handler.getGameCartridge().getHeightViewport()) / gameCamera.getHeightClipInPixel();
+        widthPixelToViewportRatio = ((float) handler.getGameCartridge().getWidthViewport()) /
+                gameCamera.getWidthClipInPixel();
+        heightPixelToViewportRatio = ((float) handler.getGameCartridge().getHeightViewport()) /
+                gameCamera.getHeightClipInPixel();
 
         state = State.OFF;
 
@@ -191,10 +193,10 @@ public class Robot extends Creature {
 
         Rect bounds = new Rect(0, 0, image.getWidth(), image.getHeight());
         Rect screenRect = new Rect(
-                (int)( (xCurrent - gameCamera.getX()) * widthPixelToViewportRatio),
-                (int)( (yCurrent - gameCamera.getY()) * heightPixelToViewportRatio),
-                (int)( ((xCurrent - gameCamera.getX()) + width) * widthPixelToViewportRatio),
-                (int)( ((yCurrent - gameCamera.getY()) + height) * heightPixelToViewportRatio) );
+                (int)( (xCurrent - gameCamera.getX()) * widthPixelToViewportRatio ),
+                (int)( (yCurrent - gameCamera.getY()) * heightPixelToViewportRatio ),
+                (int)( ((xCurrent - gameCamera.getX()) + width) * widthPixelToViewportRatio ),
+                (int)( ((yCurrent - gameCamera.getY()) + height) * heightPixelToViewportRatio ) );
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         canvas.drawBitmap(currentFrame, bounds, screenRect, null);

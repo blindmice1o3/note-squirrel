@@ -1,18 +1,15 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.Log;
-import android.view.Gravity;
-import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
-import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.PocketCrittersCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles.TileMap;
@@ -24,7 +21,7 @@ import java.util.Map;
 
 public class Player extends Creature {
 
-    private GameCartridge gameCartridge;
+    private GameCamera gameCamera;
     private float widthPixelToViewportRatio;
     private float heightPixelToViewportRatio;
 
@@ -33,19 +30,21 @@ public class Player extends Creature {
     public Player(Handler handler) {
         super(handler,0f, 0f);
 
-        gameCartridge = handler.getGameCartridge();
+        gameCamera = handler.getGameCartridge().getGameCamera();
         widthPixelToViewportRatio = ((float) handler.getGameCartridge().getWidthViewport()) /
-                handler.getGameCartridge().getGameCamera().getWidthClipInPixel();
+                gameCamera.getWidthClipInPixel();
         heightPixelToViewportRatio = ((float) handler.getGameCartridge().getHeightViewport()) /
-                handler.getGameCartridge().getGameCamera().getHeightClipInPixel();
+                gameCamera.getHeightClipInPixel();
 
-        //TODO: WORK-AROUND
+        //TODO: WORK-AROUND (FROGGER TILE_WIDTH and TILE_HEIGHT)
         if (handler.getGameCartridge().getIdGameCartridge() == GameCartridge.Id.FROGGER) {
             int tileWidthFrogger = 48;
             int tileHeightFrogger = 48;
 
-            width = tileWidthFrogger;
-            height = tileHeightFrogger;
+            //ADJUST width, height, and bounds.
+            width = 1 * tileWidthFrogger;
+            height = 1 * tileHeightFrogger;
+            bounds = new Rect(0, 0, width, height);
         }
     }
 
@@ -247,6 +246,11 @@ public class Player extends Creature {
         Bitmap currentFrame = currentAnimationFrame();
 
         Rect bounds = new Rect(0, 0, currentFrame.getWidth(), currentFrame.getHeight());
+        Rect screenRect = new Rect(
+                (int)( (xCurrent - gameCamera.getX()) * widthPixelToViewportRatio ),
+                (int)( (yCurrent - gameCamera.getY()) * heightPixelToViewportRatio ),
+                (int)( ((xCurrent - gameCamera.getX()) + width) * widthPixelToViewportRatio ),
+                (int)( ((yCurrent - gameCamera.getY()) + height) * heightPixelToViewportRatio ) );
 
 //        Rect screenRect = new Rect(
 //                (int)(64 * pixelToScreenRatio),
@@ -254,16 +258,6 @@ public class Player extends Creature {
 //                (int)((64 + width)* pixelToScreenRatio),
 //                (int)((64 + height) * pixelToScreenRatio)
 //        );
-
-        Rect screenRect = new Rect(
-                (int)( (xCurrent - handler.getGameCartridge().getGameCamera().getX()) *
-                        widthPixelToViewportRatio ),
-                (int)( (yCurrent - handler.getGameCartridge().getGameCamera().getY()) *
-                        heightPixelToViewportRatio ),
-                (int)( ((xCurrent - handler.getGameCartridge().getGameCamera().getX()) + width) *
-                        widthPixelToViewportRatio ),
-                (int)( ((yCurrent - handler.getGameCartridge().getGameCamera().getY()) + height) *
-                        heightPixelToViewportRatio ) );
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         canvas.drawBitmap(currentFrame, bounds, screenRect, null);
@@ -362,6 +356,7 @@ public class Player extends Creature {
     public TileMap.TileType getTileTypeCurrentlyFacing() {
         Log.d(MainActivity.DEBUG_TAG, "Player.getTileTypeCurrentlyFacing()");
 
+        GameCartridge gameCartridge = handler.getGameCartridge();
         TileMap tileMap = gameCartridge.getSceneManager().getCurrentScene().getTileMap();
 
         /////////////////////////////////////////////////////
