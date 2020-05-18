@@ -30,6 +30,13 @@ public class Assets {
 
     public static Map<String, Bitmap> dPad;
 
+    //FROGGER_CARTRIDGE
+    public static Bitmap spriteSheetFrogger, backgroundFrogger, winningRow, startingRow,
+            logLarge, logMedium, logSmall, parrotRight, carPinkLeft, carWhiteRight, carYellowLeft,
+            seaLionRight, bigRigLeft;
+    public static Bitmap[] frogRight, frogLeft, frogUp, frogDown, turtleLeft, crocRight, snowPlowRight,
+            snakeLeft, frogNPCRight, frogNPCLeft;
+
     public static void init(Context context) {
         Log.d(MainActivity.DEBUG_TAG, "Assets.init(Context)");
 
@@ -91,6 +98,9 @@ public class Assets {
         ////////////////////////////////////////////////////////////////////////////////
 
         //initHm3Farm(resources);
+        //////////////////////////////
+        initFroggerSprites(resources);
+        //////////////////////////////
         initItems(resources);
         initEntities(resources);
 
@@ -273,6 +283,63 @@ public class Assets {
         hm3Farm[3][0] = Bitmap.createBitmap(spriteSheet, 1202, 40, 384, 400);
         hm3Farm[3][1] = Bitmap.createBitmap(spriteSheet, 1202, 443, 48, 112);
         hm3Farm[3][2] = Bitmap.createBitmap(spriteSheet, 1506, 443, 80, 80);
+    }
+
+    public static void initFroggerSprites(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.initFroggerSprites(Resources) START...");
+
+        Bitmap spriteSheetFrogger = BitmapFactory.decodeResource(resources, R.drawable.frogger_entities);
+
+        winningRow = Bitmap.createBitmap(spriteSheetFrogger, 0, 55,  399,52);
+        startingRow = Bitmap.createBitmap(spriteSheetFrogger, 0, 119, 399, 34);
+        logLarge = Bitmap.createBitmap(spriteSheetFrogger, 7, 166, 177,21);
+        logMedium = Bitmap.createBitmap(spriteSheetFrogger, 7, 198, 116, 21);
+        logSmall = Bitmap.createBitmap(spriteSheetFrogger, 7, 230, 84, 21);
+        parrotRight = Bitmap.createBitmap(spriteSheetFrogger, 140, 236, 16, 16);
+        carPinkLeft = Bitmap.createBitmap(spriteSheetFrogger, 10, 267, 28, 20);
+        carWhiteRight = Bitmap.createBitmap(spriteSheetFrogger, 46, 265, 24, 24);
+        carYellowLeft = Bitmap.createBitmap(spriteSheetFrogger, 82, 264, 24, 26);
+        seaLionRight = Bitmap.createBitmap(spriteSheetFrogger, 116, 271, 32, 18);
+        bigRigLeft = Bitmap.createBitmap(spriteSheetFrogger, 106, 302, 46, 18);
+
+        frogRight = new Bitmap[2];
+        frogRight[0] = Bitmap.createBitmap(spriteSheetFrogger, 13, 334, 17, 23);
+        frogRight[1] = Bitmap.createBitmap(spriteSheetFrogger, 43, 335, 25, 22);
+        frogLeft = new Bitmap[2];
+        frogLeft[0] = Bitmap.createBitmap(spriteSheetFrogger, 83, 335, 17, 23);
+        frogLeft[1] = Bitmap.createBitmap(spriteSheetFrogger, 112, 338, 25, 22);
+        frogUp = new Bitmap[2];
+        frogUp[0] = Bitmap.createBitmap(spriteSheetFrogger, 12, 369, 23, 17);
+        frogUp[1] = Bitmap.createBitmap(spriteSheetFrogger, 46, 366, 22, 25);
+        frogDown = new Bitmap[2];
+        frogDown[0] = Bitmap.createBitmap(spriteSheetFrogger, 80, 369, 23, 17);
+        frogDown[1] = Bitmap.createBitmap(spriteSheetFrogger, 114, 366, 22, 25);
+        turtleLeft = new Bitmap[5];
+        turtleLeft[0] = Bitmap.createBitmap(spriteSheetFrogger, 15, 406, 31, 22);
+        turtleLeft[1] = Bitmap.createBitmap(spriteSheetFrogger, 54, 407, 31, 22);
+        turtleLeft[2] = Bitmap.createBitmap(spriteSheetFrogger, 94, 408, 29, 19);
+        turtleLeft[3] = Bitmap.createBitmap(spriteSheetFrogger, 134, 408, 29, 21);
+        turtleLeft[4] = Bitmap.createBitmap(spriteSheetFrogger, 179, 408, 26, 21);
+        crocRight = new Bitmap[2];
+        crocRight[0] = Bitmap.createBitmap(spriteSheetFrogger, 156, 332, 89, 29);
+        crocRight[1] = Bitmap.createBitmap(spriteSheetFrogger, 156, 373, 89, 21);
+        snowPlowRight = new Bitmap[3];
+        snowPlowRight[0] = Bitmap.createBitmap(spriteSheetFrogger, 11, 301, 23, 21);
+        snowPlowRight[1] = Bitmap.createBitmap(spriteSheetFrogger, 42, 301, 23, 21);
+        snowPlowRight[2] = Bitmap.createBitmap(spriteSheetFrogger, 73, 301, 23, 21);
+        snakeLeft = new Bitmap[4];
+        snakeLeft[0] = Bitmap.createBitmap(spriteSheetFrogger, 184, 226, 38, 10);
+        snakeLeft[1] = Bitmap.createBitmap(spriteSheetFrogger, 185, 251, 37, 13);
+        snakeLeft[2] = Bitmap.createBitmap(spriteSheetFrogger, 184, 276, 38, 16);
+        snakeLeft[3] = Bitmap.createBitmap(spriteSheetFrogger, 185, 304, 37, 13);
+        frogNPCRight = new Bitmap[2];
+        frogNPCRight[0] = Bitmap.createBitmap(spriteSheetFrogger, 236, 407, 20, 24);
+        frogNPCRight[1] = Bitmap.createBitmap(spriteSheetFrogger, 270, 409, 27, 24);
+        frogNPCLeft = new Bitmap[2];
+        frogNPCLeft[0] = Bitmap.createBitmap(spriteSheetFrogger, 315, 407, 19, 24);
+        frogNPCLeft[1] = Bitmap.createBitmap(spriteSheetFrogger, 348, 409, 28, 23);
+
+        Log.d(MainActivity.DEBUG_TAG, "Assets.initFroggerSprites(Resources) FINISH!!!");
     }
 
     private static void initDPad(Resources resources) {

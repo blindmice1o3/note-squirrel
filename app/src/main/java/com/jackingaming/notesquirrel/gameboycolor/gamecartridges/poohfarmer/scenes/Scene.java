@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.entities.Car;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Robot;
@@ -113,6 +114,11 @@ public class Scene {
         player.setxCurrent((tileMap.getxSpawnIndex() * TileMap.TILE_WIDTH));
         player.setyCurrent((tileMap.getySpawnIndex() * TileMap.TILE_HEIGHT));
 
+        ///////////////////////////////////
+        entities = new ArrayList<Entity>();
+        entities.add(player);
+        ///////////////////////////////////
+
         //TODO: WORK-AROUND (ADJUST TILE_WIDTH and TILE_HEIGHT).
         if (sceneID == Id.FROGGER) {
             int tileWidthFrogger = 48;
@@ -120,12 +126,9 @@ public class Scene {
 
             player.setxCurrent((tileMap.getxSpawnIndex() * tileWidthFrogger));
             player.setyCurrent((tileMap.getySpawnIndex() * tileHeightFrogger));
-        }
 
-        ///////////////////////////////////
-        entities = new ArrayList<Entity>();
-        entities.add(player);
-        ///////////////////////////////////
+            entities.add(new Car(handler, 48, 48));
+        }
 
         if (sceneID == Id.FARM) {
             Entity robot = new Robot(handler, (7 * TileMap.TILE_WIDTH), (5 * TileMap.TILE_HEIGHT));
