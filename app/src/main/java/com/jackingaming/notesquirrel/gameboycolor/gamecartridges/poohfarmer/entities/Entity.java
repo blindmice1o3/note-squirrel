@@ -77,4 +77,8 @@ public abstract class Entity {
         return height;
     }
 
+    public void setBounds(Rect bounds) {
+        this.bounds = bounds;
+    }
+
 }

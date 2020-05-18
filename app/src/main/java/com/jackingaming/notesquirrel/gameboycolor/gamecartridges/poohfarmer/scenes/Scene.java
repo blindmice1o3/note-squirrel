@@ -121,13 +121,16 @@ public class Scene {
 
         //TODO: WORK-AROUND (ADJUST TILE_WIDTH and TILE_HEIGHT).
         if (sceneID == Id.FROGGER) {
+            //////////////////////////////////////////////////////////////////////////////////
             int tileWidthFrogger = 48;
             int tileHeightFrogger = 48;
+            player.setBounds( new Rect(0, 0, tileWidthFrogger, tileHeightFrogger) );
+            //////////////////////////////////////////////////////////////////////////////////
 
             player.setxCurrent((tileMap.getxSpawnIndex() * tileWidthFrogger));
             player.setyCurrent((tileMap.getySpawnIndex() * tileHeightFrogger));
 
-            entities.add(new Car(handler, 48, 48));
+            entities.add(new Car(handler, 1 * tileWidthFrogger, 1 * tileHeightFrogger));
         }
 
         if (sceneID == Id.FARM) {
