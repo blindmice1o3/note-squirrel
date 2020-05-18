@@ -17,6 +17,8 @@ public abstract class Entity {
 
     protected Rect bounds;
 
+    protected boolean active;
+
     public Entity(Handler handler, float xCurrent, float yCurrent) {
         this.handler = handler;
 
@@ -26,6 +28,8 @@ public abstract class Entity {
         height = TileMap.TILE_HEIGHT;
 
         bounds = new Rect(0, 0, width, height);
+
+        active = true;
     }
 
     public abstract void init();
@@ -79,6 +83,14 @@ public abstract class Entity {
 
     public void setBounds(Rect bounds) {
         this.bounds = bounds;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 }

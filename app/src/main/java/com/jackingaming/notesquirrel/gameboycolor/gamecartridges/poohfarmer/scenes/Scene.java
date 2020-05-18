@@ -9,6 +9,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.entities.Car;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Creature;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Entity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.EntityManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Robot;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles.TileMap;
@@ -27,7 +28,8 @@ public class Scene {
     private int heightViewport;
 
     private TileMap tileMap;
-    private List<Entity> entities;
+    private EntityManager entityManager;
+    //private List<Entity> entities;
     private Player player;
     private GameCamera gameCamera;
 
@@ -45,7 +47,7 @@ public class Scene {
 
         initTileMap();
         initGameCamera(gameCamera);
-        initEntities(player);
+        initEntityManager(player);
 
         //fixing bug... the game camera need to use the player's spawn
         //position (which is set after "initGameCamera(GameCamera)").
@@ -108,17 +110,21 @@ public class Scene {
     }
 
     //TODO: move some of these to Scene.enter(Object[])
-    private void initEntities(Player player) {
-        Log.d(MainActivity.DEBUG_TAG, "Scene.initEntities(Player)");
+    private void initEntityManager(Player player) {
+        Log.d(MainActivity.DEBUG_TAG, "Scene.initEntityManager(Player)");
 
         player.init();
         player.setxCurrent((tileMap.getxSpawnIndex() * TileMap.TILE_WIDTH));
         player.setyCurrent((tileMap.getySpawnIndex() * TileMap.TILE_HEIGHT));
 
-        ///////////////////////////////////
-        entities = new ArrayList<Entity>();
-        entities.add(player);
-        ///////////////////////////////////
+        ///////////////////////////////////////////////////
+        entityManager = new EntityManager(handler, player);
+        ///////////////////////////////////////////////////
+
+        if (sceneID == Id.FARM) {
+            Entity robot = new Robot(handler, (7 * TileMap.TILE_WIDTH), (5 * TileMap.TILE_HEIGHT));
+            entityManager.addEntity(robot);
+        }
 
         //TODO: WORK-AROUND (ADJUST TILE_WIDTH and TILE_HEIGHT).
         if (sceneID == Id.FROGGER) {
@@ -131,67 +137,62 @@ public class Scene {
             player.setxCurrent((tileMap.getxSpawnIndex() * tileWidthFrogger));
             player.setyCurrent((tileMap.getySpawnIndex() * tileHeightFrogger));
 
-            entities.add(
+            entityManager.addEntity(
                     new Car(handler,
                             1 * tileWidthFrogger, 1 * tileHeightFrogger,
                             Creature.Direction.RIGHT, Car.Type.PINK) );
-            entities.add(
+            entityManager.addEntity(
                     new Car(handler,
                             3 * tileWidthFrogger, 1 * tileHeightFrogger,
                             Creature.Direction.LEFT, Car.Type.PINK) );
-            entities.add(
+            entityManager.addEntity(
                     new Car(handler,
                             5 * tileWidthFrogger, 1 * tileHeightFrogger,
                             Creature.Direction.RIGHT, Car.Type.WHITE) );
-            entities.add(
+            entityManager.addEntity(
                     new Car(handler,
                             7 * tileWidthFrogger, 1 * tileHeightFrogger,
                             Creature.Direction.LEFT, Car.Type.WHITE) );
-            entities.add(
+            entityManager.addEntity(
                     new Car(handler,
                             9 * tileWidthFrogger, 1 * tileHeightFrogger,
                             Creature.Direction.RIGHT, Car.Type.YELLOW) );
-            entities.add(
+            entityManager.addEntity(
                     new Car(handler,
                             11 * tileWidthFrogger, 1 * tileHeightFrogger,
                             Creature.Direction.LEFT, Car.Type.YELLOW) );
-            entities.add(
+            entityManager.addEntity(
                     new Car(handler,
                             13 * tileWidthFrogger, 1 * tileHeightFrogger,
                             Creature.Direction.RIGHT, Car.Type.BIG_RIG) );
-            entities.add(
+            entityManager.addEntity(
                     new Car(handler,
                             16 * tileWidthFrogger, 1 * tileHeightFrogger,
                             Creature.Direction.LEFT, Car.Type.BIG_RIG) );
-            entities.add(
+            entityManager.addEntity(
                     new com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.entities.Log(handler,
                             4 * tileWidthFrogger, 3 * tileHeightFrogger,
                             Creature.Direction.LEFT, com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.entities.Log.Size.SMALL) );
-            entities.add(
+            entityManager.addEntity(
                     new com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.entities.Log(handler,
                             7 * tileWidthFrogger, 4 * tileHeightFrogger,
                             Creature.Direction.LEFT, com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.entities.Log.Size.MEDIUM) );
-            entities.add(
+            entityManager.addEntity(
                     new com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.entities.Log(handler,
                             2 * tileWidthFrogger, 5 * tileHeightFrogger,
                             Creature.Direction.LEFT, com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.entities.Log.Size.LARGE) );
-            entities.add(
+            entityManager.addEntity(
                     new com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.entities.Log(handler,
                             7 * tileWidthFrogger, 3 * tileHeightFrogger,
                             Creature.Direction.RIGHT, com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.entities.Log.Size.SMALL) );
-            entities.add(
+            entityManager.addEntity(
                     new com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.entities.Log(handler,
                             11 * tileWidthFrogger, 4 * tileHeightFrogger,
                             Creature.Direction.RIGHT, com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.entities.Log.Size.MEDIUM) );
-            entities.add(
+            entityManager.addEntity(
                     new com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.entities.Log(handler,
                             2 * tileWidthFrogger, 6 * tileHeightFrogger,
                             Creature.Direction.RIGHT, com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.entities.Log.Size.LARGE) );
-        }
-
-        if (sceneID == Id.FARM) {
-            Entity robot = new Robot(handler, (7 * TileMap.TILE_WIDTH), (5 * TileMap.TILE_HEIGHT));
-            entities.add(robot);
         }
     }
 
@@ -204,9 +205,9 @@ public class Scene {
     }
 
     public void update(long elapsed) {
-        for (Entity entity : entities) {
-            entity.update(elapsed);
-        }
+        //////////////////////////////
+        entityManager.update(elapsed);
+        //////////////////////////////
 
         //////////////////////////////
         gameCamera.update(0L);
@@ -227,9 +228,7 @@ public class Scene {
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
         //FOREGROUND
-        for (Entity entity : entities) {
-            entity.render(canvas);
-        }
+        entityManager.render(canvas);
     }
 
     public TileMap getTileMap() {
@@ -241,7 +240,7 @@ public class Scene {
     public List<Entity> getEntities() {
         Log.d(MainActivity.DEBUG_TAG, "Scene.getEntities()");
 
-        return entities;
+        return entityManager.getEntities();
     }
 
     public Id getSceneID() {
