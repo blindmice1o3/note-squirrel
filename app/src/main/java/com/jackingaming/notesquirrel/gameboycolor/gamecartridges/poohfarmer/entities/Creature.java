@@ -63,7 +63,7 @@ public abstract class Creature extends Entity {
         }
     }
 
-    private void moveX() {
+    protected void moveX() {
         GameCartridge gameCartridge = handler.getGameCartridge();
         TileMap tileMap = gameCartridge.getSceneManager().getCurrentScene().getTileMap();
 
@@ -76,33 +76,9 @@ public abstract class Creature extends Entity {
 
             //CHECKING tile collision
             if (!tileMap.isSolid(xFutureLeft, yFutureTop) && !tileMap.isSolid(xFutureLeft, yFutureBottom)) {
-
                 //////////////////
                 xCurrent += xMove;
                 //////////////////
-
-                //CHECKING TransferPoints
-                if ((this instanceof Player) &&
-                        (tileMap.getSceneID() != Scene.Id.FARM) &&
-                        (tileMap.getSceneID() != Scene.Id.FROGGER)) {
-                    Rect collisionBoundsFuture = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
-                    if (tileMap.checkTransferPointsCollision(collisionBoundsFuture) != null) {
-                        Log.d(MainActivity.DEBUG_TAG, "Creature.moveY() LEFT, @@@@@transfer point collision@@@@@");
-                        //TODO: recordLocationPriorToTranfer() and loadLocationPriorToTransfer().
-                        //TODO: !!!!!POP() IS NEVER CALLED!!!!!
-                        Scene.Id id = tileMap.checkTransferPointsCollision(collisionBoundsFuture);
-                        //TODO: Instead of handling transfering here, do it in TileMap.checkTransferPointsCollision(Rect).
-                        SceneManager sceneManager = ((PocketCrittersCartridge)gameCartridge).getSceneManager();
-                        if ( (id == Scene.Id.PART_01) ||
-                                ((id == Scene.Id.HOME_01) && (sceneManager.getCurrentScene().getSceneID() == Scene.Id.HOME_02)) ) {
-                            Object[] directionFacing = { direction, moveSpeed };
-                            sceneManager.pop(directionFacing);
-                        } else {
-                            Object[] directionFacing = { direction, moveSpeed };
-                            sceneManager.push(id, directionFacing);
-                        }
-                    }
-                }
             }
         }
         //RIGHT
@@ -114,39 +90,14 @@ public abstract class Creature extends Entity {
 
             //CHECKING tile collision
             if (!tileMap.isSolid(xFutureRight, yFutureTop) && !tileMap.isSolid(xFutureRight, yFutureBottom)) {
-
                 //////////////////
                 xCurrent += xMove;
                 //////////////////
-
-                //CHECKING TransferPoints
-                if ((this instanceof Player) &&
-                        (tileMap.getSceneID() != Scene.Id.FARM) &&
-                        (tileMap.getSceneID() != Scene.Id.FROGGER)) {
-                    Rect collisionBoundsFuture = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
-                    if (tileMap.checkTransferPointsCollision(collisionBoundsFuture) != null) {
-                        Log.d(MainActivity.DEBUG_TAG, "Creature.moveY() RIGHT, @@@@@transfer point collision@@@@@");
-                        //TODO: recordLocationPriorToTranfer() and loadLocationPriorToTransfer()
-                        //TODO: !!!!!POP() IS NEVER CALLED!!!!!
-                        Scene.Id id = tileMap.checkTransferPointsCollision(collisionBoundsFuture);
-                        //TODO: Instead of handling transfering here, do it in TileMap.checkTransferPointsCollision(Rect).
-                        SceneManager sceneManager = ((PocketCrittersCartridge)gameCartridge).getSceneManager();
-                        if ( (id == Scene.Id.PART_01) ||
-                                ((id == Scene.Id.HOME_01) && (sceneManager.getCurrentScene().getSceneID() == Scene.Id.HOME_02)) ) {
-                            Object[] directionFacing = { direction, moveSpeed };
-                            sceneManager.pop(directionFacing);
-
-                        } else {
-                            Object[] directionFacing = { direction, moveSpeed };
-                            sceneManager.push(id, directionFacing);
-                        }
-                    }
-                }
             }
         }
     }
 
-    private void moveY() {
+    protected void moveY() {
         GameCartridge gameCartridge = handler.getGameCartridge();
         TileMap tileMap = gameCartridge.getSceneManager().getCurrentScene().getTileMap();
 
@@ -159,34 +110,9 @@ public abstract class Creature extends Entity {
 
             //CHECKING tile collision
             if (!tileMap.isSolid(xFutureLeft, yFutureTop) && !tileMap.isSolid(xFutureRight, yFutureTop)) {
-
                 //////////////////
                 yCurrent += yMove;
                 //////////////////
-
-                //CHECKING TransferPoints
-                if ((this instanceof Player) &&
-                        (tileMap.getSceneID() != Scene.Id.FARM) &&
-                        (tileMap.getSceneID() != Scene.Id.FROGGER)) {
-                    Rect collisionBoundsFuture = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
-                    if (tileMap.checkTransferPointsCollision(collisionBoundsFuture) != null) {
-                        Log.d(MainActivity.DEBUG_TAG, "Creature.moveY() UP, @@@@@transfer point collision@@@@@");
-                        //TODO: recordLocationPriorToTranfer() and loadLocationPriorToTransfer()
-                        //TODO: !!!!!POP() IS NEVER CALLED!!!!!
-                        Scene.Id id = tileMap.checkTransferPointsCollision(collisionBoundsFuture);
-                        //TODO: Instead of handling transfering here, do it in TileMap.checkTransferPointsCollision(Rect).
-                        SceneManager sceneManager = ((PocketCrittersCartridge)gameCartridge).getSceneManager();
-                        if ( (id == Scene.Id.PART_01) ||
-                                ((id == Scene.Id.HOME_01) && (sceneManager.getCurrentScene().getSceneID() == Scene.Id.HOME_02)) ) {
-                            Object[] directionFacing = { direction, moveSpeed };
-                            sceneManager.pop(directionFacing);
-
-                        } else {
-                            Object[] directionFacing = { direction, moveSpeed };
-                            sceneManager.push(id, directionFacing);
-                        }
-                    }
-                }
             }
         }
         //DOWN
@@ -198,34 +124,9 @@ public abstract class Creature extends Entity {
 
             //CHECKING tile collision
             if (!tileMap.isSolid(xFutureLeft, yFutureBottom) && !tileMap.isSolid(xFutureRight, yFutureBottom)) {
-
                 //////////////////
                 yCurrent += yMove;
                 //////////////////
-
-                //CHECKING TransferPoints
-                if ((this instanceof Player) &&
-                        (tileMap.getSceneID() != Scene.Id.FARM) &&
-                        (tileMap.getSceneID() != Scene.Id.FROGGER)) {
-                    Rect collisionBoundsFuture = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
-                    if (tileMap.checkTransferPointsCollision(collisionBoundsFuture) != null) {
-                        Log.d(MainActivity.DEBUG_TAG, "Creature.moveY() DOWN, @@@@@transfer point collision@@@@@");
-                        //TODO: recordLocationPriorToTranfer() and loadLocationPriorToTransfer()
-                        //TODO: !!!!!POP() IS NEVER CALLED!!!!!
-                        Scene.Id id = tileMap.checkTransferPointsCollision(collisionBoundsFuture);
-                        //TODO: Instead of handling transfering here, do it in TileMap.checkTransferPointsCollision(Rect).
-                        SceneManager sceneManager = ((PocketCrittersCartridge)gameCartridge).getSceneManager();
-                        if ( (id == Scene.Id.PART_01) ||
-                                ((id == Scene.Id.HOME_01) && (sceneManager.getCurrentScene().getSceneID() == Scene.Id.HOME_02)) ) {
-                            Object[] directionFacing = { direction, moveSpeed };
-                            sceneManager.pop(directionFacing);
-
-                        } else {
-                            Object[] directionFacing = { direction, moveSpeed };
-                            sceneManager.push(id, directionFacing);
-                        }
-                    }
-                }
             }
         }
     }
