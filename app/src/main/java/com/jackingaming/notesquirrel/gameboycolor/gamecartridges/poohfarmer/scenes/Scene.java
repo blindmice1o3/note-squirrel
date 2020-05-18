@@ -131,6 +131,7 @@ public class Scene {
             player.setyCurrent((tileMap.getySpawnIndex() * tileHeightFrogger));
 
             entities.add(new Car(handler, 1 * tileWidthFrogger, 1 * tileHeightFrogger));
+            entities.add(new com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.entities.Log(handler, 4 * tileWidthFrogger, 3 * tileHeightFrogger));
         }
 
         if (sceneID == Id.FARM) {
