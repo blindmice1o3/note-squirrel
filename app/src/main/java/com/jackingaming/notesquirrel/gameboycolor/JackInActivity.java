@@ -19,6 +19,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.Pooh
 import com.jackingaming.notesquirrel.gameboycolor.input.ButtonPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
+import com.jackingaming.notesquirrel.gameboycolor.input.ViewportFragment;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.ListFragmentDvdParentActivity;
 
 public class JackInActivity extends AppCompatActivity {
@@ -36,7 +37,8 @@ public class JackInActivity extends AppCompatActivity {
         Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreate(Bundle)");
 
 
-        final GameView gameView = (GameView) findViewById(R.id.gameView);
+        //final GameView gameView = (GameView) findViewById(R.id.gameView);
+        final ViewportFragment viewportFragment = (ViewportFragment) getSupportFragmentManager().findFragmentById(R.id.viewportfragment);
         DirectionalPadFragment directionalPadFragment = (DirectionalPadFragment) getSupportFragmentManager().findFragmentById(R.id.directionalPadFragment);
         ButtonPadFragment buttonPadFragment = (ButtonPadFragment) getSupportFragmentManager().findFragmentById(R.id.buttonPadFragment);
         Button swapGameButton = (Button) findViewById(R.id.swap_game);
@@ -46,6 +48,7 @@ public class JackInActivity extends AppCompatActivity {
         //////////////////////////////////
         inputManager = new InputManager();
         //////////////////////////////////
+        GameView gameView = viewportFragment.getView().findViewById(R.id.viewportfragment_gameview);
         gameView.setOnTouchListener(inputManager);
         directionalPadFragment.setOnDirectionalPadTouchListener(inputManager);
         buttonPadFragment.setOnButtonPadTouchListener(inputManager);
@@ -89,7 +92,8 @@ public class JackInActivity extends AppCompatActivity {
     public void swapGame() {
         Log.d(MainActivity.DEBUG_TAG, "JackInActivity.swapGame()");
 
-        GameView gameView = (GameView) findViewById(R.id.gameView);
+        //GameView gameView = (GameView) findViewById(R.id.gameView);
+        GameView gameView = (GameView) findViewById(R.id.viewportfragment_gameview);
 
         gameView.shutDownRunner();
 

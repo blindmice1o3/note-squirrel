@@ -58,7 +58,8 @@ public class GameView extends SurfaceView
     public void surfaceCreated(SurfaceHolder holder) {
         Log.d(MainActivity.DEBUG_TAG, "GameView.surfaceCreated(SurfaceHolder)");
 
-        SurfaceView gameView = (SurfaceView) findViewById(R.id.gameView);
+        //SurfaceView gameView = (SurfaceView) findViewById(R.id.gameView);
+        SurfaceView gameView = (SurfaceView) findViewById(R.id.viewportfragment_gameview);
 
         this.holder = holder;
         widthScreen = getWidth();

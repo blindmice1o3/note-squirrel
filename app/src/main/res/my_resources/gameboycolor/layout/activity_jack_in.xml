@@ -8,10 +8,21 @@
     android:background="#00FF00"
     tools:context=".gameboycolor.JackInActivity">
 
+    <fragment
+        android:id="@+id/viewportfragment"
+        android:name="com.jackingaming.notesquirrel.gameboycolor.input.ViewportFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true" />
+
+    <!--
     <com.jackingaming.notesquirrel.gameboycolor.GameView
         android:id="@+id/gameView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    -->
 
     <fragment
         android:id="@+id/directionalPadFragment"
@@ -37,7 +48,7 @@
         android:id="@+id/swap_game"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/gameView"
+        android:layout_below="@id/viewportfragment"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
         android:text="swap game" />
@@ -46,7 +57,7 @@
         android:id="@+id/launch_dvd_activity_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/gameView"
+        android:layout_below="@id/viewportfragment"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="10dp"
         android:text="dvd list" />
