@@ -237,6 +237,30 @@ public class Player extends Creature {
     }
 
     @Override
+    public boolean checkEntityCollision(float xOffset, float yOffset) {
+        for (Entity e : handler.getGameCartridge().getSceneManager().getCurrentScene().getEntityManager().getEntities()) {
+            //if the entity calling checkEntityCollision(float, float) finds ITSELF in the collection, skip by continue.
+            if (e.equals(this)) {
+                continue;
+            }
+
+            //check EACH entity to see if their collision bounds INTERSECTS with yours.
+            if (e.getCollisionBounds(0f, 0f).intersect(getCollisionBounds(xOffset, yOffset))) {
+                //Frog can walk on Log instances.
+                ////////////////////////
+                if (e instanceof com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.entities.Log) {
+                    return false;
+                } else {
+                    return true;
+                }
+                ////////////////////////
+            }
+        }
+
+        return false;
+    }
+
+    @Override
     public void update(long elapsed) {
         xMove = 0f;
         yMove = 0f;
@@ -339,7 +363,7 @@ public class Player extends Creature {
                 break;
         }
 
-        for (Entity e : handler.getGameCartridge().getSceneManager().getCurrentScene().getEntities()) {
+        for (Entity e : handler.getGameCartridge().getSceneManager().getCurrentScene().getEntityManager().getEntities()) {
             if (e.equals(this)) {
                 continue;
             }

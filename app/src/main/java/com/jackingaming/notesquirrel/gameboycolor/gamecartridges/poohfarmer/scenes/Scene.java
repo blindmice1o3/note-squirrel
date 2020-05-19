@@ -384,10 +384,10 @@ public class Scene {
         return tileMap;
     }
 
-    public List<Entity> getEntities() {
+    public EntityManager getEntityManager() {
         Log.d(MainActivity.DEBUG_TAG, "Scene.getEntities()");
 
-        return entityManager.getEntities();
+        return entityManager;
     }
 
     public Id getSceneID() {

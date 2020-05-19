@@ -145,4 +145,8 @@ public abstract class Creature extends Entity {
         return moveSpeed;
     }
 
+    public void setMoveSpeed(float moveSpeed) {
+        this.moveSpeed = moveSpeed;
+    }
+
 }

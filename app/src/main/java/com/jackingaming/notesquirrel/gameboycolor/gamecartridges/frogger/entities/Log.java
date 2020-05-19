@@ -8,6 +8,8 @@ import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Creature;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Entity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
 
@@ -50,11 +52,11 @@ public class Log extends Creature {
         android.util.Log.d(MainActivity.DEBUG_TAG, "Log.init()");
 
         initImage();
-        adjustSizeAndBounds();
+        adjustSizeSpeedAndBounds();
     }
 
-    private void adjustSizeAndBounds() {
-        android.util.Log.d(MainActivity.DEBUG_TAG, "Log.adjustSizeAndBounds()");
+    private void adjustSizeSpeedAndBounds() {
+        android.util.Log.d(MainActivity.DEBUG_TAG, "Log.adjustSizeSpeedAndBounds()");
 
         //TODO: WORK-AROUND (FROGGER TILE_WIDTH and TILE_HEIGHT)
         if (handler.getGameCartridge().getIdGameCartridge() == GameCartridge.Id.FROGGER) {
@@ -65,12 +67,15 @@ public class Log extends Creature {
             switch (size) {
                 case LARGE:
                     width = Assets.logLarge.getWidth();
+                    moveSpeed = 2f;
                     break;
                 case MEDIUM:
                     width = Assets.logMedium.getWidth();
+                    moveSpeed = 3f;
                     break;
                 case SMALL:
                     width = Assets.logSmall.getWidth();
+                    moveSpeed = 4f;
                     break;
             }
             height = 1 * tileHeightFrogger;
@@ -104,6 +109,36 @@ public class Log extends Creature {
                     break;
             }
         }
+    }
+
+    @Override
+    public boolean checkEntityCollision(float xOffset, float yOffset) {
+        for (Entity e : handler.getGameCartridge().getSceneManager().getCurrentScene().getEntityManager().getEntities()) {
+            //if the entity calling checkEntityCollision(float, float) finds ITSELF in the collection, skip by continue.
+            if (e.equals(this)) {
+                continue;
+            }
+
+            //check EACH entity to see if their collision bounds INTERSECTS with yours.
+            if (e.getCollisionBounds(0f, 0f).intersect(getCollisionBounds(xOffset, yOffset))) {
+                //Frog can walk on Log instances.
+                ////////////////////////
+                if (e instanceof Player) {
+                    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                    e.setxCurrent( (e.getxCurrent() + xOffset) );
+                    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+                    //@@@@@@@@@@%
+                    return false;
+                    //@@@@@@@@@@@
+                } else {
+                    return true;
+                }
+                ////////////////////////
+            }
+        }
+
+        return false;
     }
 
     @Override

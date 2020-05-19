@@ -19,12 +19,16 @@ public class EntityManager {
     private Comparator<Entity> renderSorter = new Comparator<Entity>() {
         @Override
         public int compare(Entity a, Entity b) {
+            return (a instanceof Player) ? (1) : (-1);
+
+            /*
             //compare based on the y-value of the Entity's BOTTOM-left corner.
             if ( (a.getyCurrent() + a.getHeight()) < (b.getyCurrent() + b.getHeight()) ) {
                 return -1;
             } else {
                 return 1;
             }
+            */
         }
     };
 

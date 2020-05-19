@@ -37,7 +37,7 @@ public abstract class Entity {
     public abstract void render(Canvas canvas);
 
     public boolean checkEntityCollision(float xOffset, float yOffset) {
-        for (Entity e : handler.getGameCartridge().getSceneManager().getCurrentScene().getEntities()) {
+        for (Entity e : handler.getGameCartridge().getSceneManager().getCurrentScene().getEntityManager().getEntities()) {
             if (e.equals(this)) {
                 continue;
             }
