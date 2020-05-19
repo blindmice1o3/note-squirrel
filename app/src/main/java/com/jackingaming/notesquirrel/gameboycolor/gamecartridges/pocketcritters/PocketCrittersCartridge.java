@@ -2,8 +2,10 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.SurfaceHolder;
@@ -27,6 +29,8 @@ import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.Lis
 public class PocketCrittersCartridge
         implements GameCartridge {
 
+    public enum State { GAME, START_MENU; }
+
     private Context context;
 
     private SurfaceHolder holder;   //used to get Canvas
@@ -37,6 +41,8 @@ public class PocketCrittersCartridge
     private int heightViewport;
 
     private Id idGameCartridge;
+    private State state;
+
     private Player player;
     private GameCamera gameCamera;
     private SceneManager sceneManager;
@@ -46,6 +52,7 @@ public class PocketCrittersCartridge
 
         this.context = context;
         this.idGameCartridge = idGameCartridge;
+        state = State.GAME;
     }
 
     @Override
@@ -85,21 +92,47 @@ public class PocketCrittersCartridge
     @Override
     public void getInputViewport() {
         if (inputManager.isJustPressedViewport()) {
-            //left
-            if (inputManager.isLeftViewport()) {
-                player.move(Player.Direction.LEFT);
-            }
-            //right
-            else if (inputManager.isRightViewport()) {
-                player.move(Player.Direction.RIGHT);
-            }
-            //up
-            else if (inputManager.isUpViewport()) {
-                player.move(Player.Direction.UP);
-            }
-            //down
-            else if (inputManager.isDownViewport()) {
-                player.move(Player.Direction.DOWN);
+            switch (state) {
+                case GAME:
+                    //left
+                    if (inputManager.isLeftViewport()) {
+                        Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputViewport() state == State.GAME left-button-justPressed");
+                        player.move(Player.Direction.LEFT);
+                    }
+                    //right
+                    else if (inputManager.isRightViewport()) {
+                        Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputViewport() state == State.GAME right-button-justPressed");
+                        player.move(Player.Direction.RIGHT);
+                    }
+                    //up
+                    else if (inputManager.isUpViewport()) {
+                        Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputViewport() state == State.GAME up-button-justPressed");
+                        player.move(Player.Direction.UP);
+                    }
+                    //down
+                    else if (inputManager.isDownViewport()) {
+                        Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputViewport() state == State.GAME down-button-justPressed");
+                        player.move(Player.Direction.DOWN);
+                    }
+                    break;
+                case START_MENU:
+                    //left
+                    if (inputManager.isLeftViewport()) {
+                        Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputViewport() state == State.START_MENU left-button-justPressed");
+                    }
+                    //right
+                    else if (inputManager.isRightViewport()) {
+                        Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputViewport() state == State.START_MENU right-button-justPressed");
+                    }
+                    //up
+                    else if (inputManager.isUpViewport()) {
+                        Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputViewport() state == State.START_MENU up-button-justPressed");
+                    }
+                    //down
+                    else if (inputManager.isDownViewport()) {
+                        Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputViewport() state == State.START_MENU down-button-justPressed");
+                    }
+                    break;
             }
         }
     }
@@ -107,21 +140,47 @@ public class PocketCrittersCartridge
     @Override
     public void getInputDirectionalPad() {
         if (inputManager.isPressingDirectionalPad()) {
-            //up
-            if (inputManager.isUpDirectionalPad()) {
-                player.move(Player.Direction.UP);
-            }
-            //down
-            else if (inputManager.isDownDirectionalPad()) {
-                player.move(Player.Direction.DOWN);
-            }
-            //left
-            else if (inputManager.isLeftDirectionalPad()) {
-                player.move(Player.Direction.LEFT);
-            }
-            //right
-            else if (inputManager.isRightDirectionalPad()) {
-                player.move(Player.Direction.RIGHT);
+            switch (state) {
+                case GAME:
+                    //up
+                    if (inputManager.isUpDirectionalPad()) {
+                        Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputDirectionalPad() state == State.GAME up-button-pressing");
+                        player.move(Player.Direction.UP);
+                    }
+                    //down
+                    else if (inputManager.isDownDirectionalPad()) {
+                        Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputDirectionalPad() state == State.GAME down-button-pressing");
+                        player.move(Player.Direction.DOWN);
+                    }
+                    //left
+                    else if (inputManager.isLeftDirectionalPad()) {
+                        Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputDirectionalPad() state == State.GAME left-button-pressing");
+                        player.move(Player.Direction.LEFT);
+                    }
+                    //right
+                    else if (inputManager.isRightDirectionalPad()) {
+                        Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputDirectionalPad() state == State.GAME right-button-pressing");
+                        player.move(Player.Direction.RIGHT);
+                    }
+                    break;
+                case START_MENU:
+                    //up
+                    if (inputManager.isUpDirectionalPad()) {
+                        Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputDirectionalPad() state == State.START_MENU up-button-pressing");
+                    }
+                    //down
+                    else if (inputManager.isDownDirectionalPad()) {
+                        Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputDirectionalPad() state == State.START_MENU down-button-pressing");
+                    }
+                    //left
+                    else if (inputManager.isLeftDirectionalPad()) {
+                        Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputDirectionalPad() state == State.START_MENU left-button-pressing");
+                    }
+                    //right
+                    else if (inputManager.isRightDirectionalPad()) {
+                        Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputDirectionalPad() state == State.START_MENU right-button-pressing");
+                    }
+                    break;
             }
         }
     }
@@ -129,94 +188,110 @@ public class PocketCrittersCartridge
     @Override
     public void getInputButtonPad() {
         if (inputManager.isJustPressedButtonPad()) {
-            //menu button (will launch ListFragmentDvdParentActivity)
+            //menu button (will toggle between State.GAME and State.START_MENU)
             if (inputManager.isMenuButtonPad()) {
                 Log.d(MainActivity.DEBUG_TAG, "menu-button");
-                Intent fragmentParentDvdIntent = new Intent(context, ListFragmentDvdParentActivity.class);
-                context.startActivity(fragmentParentDvdIntent);
+
+                state = (state == State.GAME) ? (State.START_MENU) : (State.GAME);
             }
             //a button
             else if (inputManager.isaButtonPad()) {
                 Log.d(MainActivity.DEBUG_TAG, "a-button");
 
-                //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-                //TILES
-                TileMap.TileType tileFacing = player.getTileTypeCurrentlyFacing();  //currently only using for pocket_critters
+                switch (state) {
+                    case GAME:
+                        Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.GAME a-button-justPressed");
+                        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                        //TILES
+                        TileMap.TileType tileFacing = player.getTileTypeCurrentlyFacing();  //currently only using for pocket_critters
 
-                if (tileFacing == null) {
-                    Log.d(MainActivity.DEBUG_TAG, "tileFacing is null");
-                    return;
-                }
-                //TODO: if (player.getTileTypeCurrentlyFacing() == TileType.GAME_CONSOLE),
-                // change game cartridge or change scene or start new Activity???
-                else if (tileFacing == TileMap.TileType.GAME_CONSOLE) {
-                    Log.d(MainActivity.DEBUG_TAG, "tileFacing is: " + tileFacing.name());
-
-                    final String message = "GaMeCoNsOlE tile.";
-                    /////////////////////////////////////////////////////////////////////////////////
-                    ((JackInActivity)context).runOnUiThread(new Runnable() {
-                        public void run() {
-                            final Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
-                            toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-                            toast.show();
+                        if (tileFacing == null) {
+                            Log.d(MainActivity.DEBUG_TAG, "tileFacing is null");
+                            return;
                         }
-                    });
-                    /////////////////////////////////////////////////////////////////////////////////
+                        //TODO: if (player.getTileTypeCurrentlyFacing() == TileType.GAME_CONSOLE),
+                        // change game cartridge or change scene or start new Activity???
+                        else if (tileFacing == TileMap.TileType.GAME_CONSOLE) {
+                            Log.d(MainActivity.DEBUG_TAG, "tileFacing is: " + tileFacing.name());
+
+                            final String message = "GaMeCoNsOlE tile.";
+                            /////////////////////////////////////////////////////////////////////////////////
+                            ((JackInActivity)context).runOnUiThread(new Runnable() {
+                                public void run() {
+                                    final Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+                                    toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                                    toast.show();
+                                }
+                            });
+                            /////////////////////////////////////////////////////////////////////////////////
 
 
-                    //TODO: PocketCrittersCartridge.sceneManager will use PoohFarmerCartridge's scene.
-                    ////////////////////////////////////////
-                    Object[] extra = new Object[10];
-                    extra[0] = player.getDirection();
-                    extra[1] = player.getMoveSpeed();
-                    sceneManager.push(Scene.Id.FARM, extra);
-                    ////////////////////////////////////////
-                } else {
-                    Log.d(MainActivity.DEBUG_TAG, "tileFacing is: " + tileFacing.name());
+                            //TODO: PocketCrittersCartridge.sceneManager will use PoohFarmerCartridge's scene.
+                            ////////////////////////////////////////
+                            Object[] extra = new Object[10];
+                            extra[0] = player.getDirection();
+                            extra[1] = player.getMoveSpeed();
+                            sceneManager.push(Scene.Id.FARM, extra);
+                            ////////////////////////////////////////
+                        } else {
+                            Log.d(MainActivity.DEBUG_TAG, "tileFacing is: " + tileFacing.name());
 
-                    final String message = tileFacing.name();
-                    /////////////////////////////////////////////////////////////////////////////////
-                    ((JackInActivity)context).runOnUiThread(new Runnable() {
-                        public void run() {
-                            final Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
-                            toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-                            toast.show();
+                            final String message = tileFacing.name();
+                            /////////////////////////////////////////////////////////////////////////////////
+                            ((JackInActivity)context).runOnUiThread(new Runnable() {
+                                public void run() {
+                                    final Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+                                    toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                                    toast.show();
+                                }
+                            });
+                            /////////////////////////////////////////////////////////////////////////////////
                         }
-                    });
-                    /////////////////////////////////////////////////////////////////////////////////
+
+                        //ENTITIES
+                        Entity entity = player.getEntityCurrentlyFacing();
+                        //CHANGES robot's State (cycles incrementally)
+                        if(entity instanceof Robot) {
+                            int robotStateIndex = ((Robot)entity).getState().ordinal();
+
+                            robotStateIndex++;
+
+                            if (robotStateIndex >= Robot.State.values().length) {
+                                robotStateIndex = 0;
+                            }
+
+                            ////////////////////////////////////////////////////////////////
+                            ((Robot)entity).setState(Robot.State.values()[robotStateIndex]);
+                            ////////////////////////////////////////////////////////////////
+                        }
+                        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                        break;
+                    case START_MENU:
+                        Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.START_MENU a-button-justPressed");
+                        break;
                 }
-
-                //ENTITIES
-                Entity entity = player.getEntityCurrentlyFacing();
-                //CHANGES robot's State (cycles incrementally)
-                if(entity instanceof Robot) {
-                    int robotStateIndex = ((Robot)entity).getState().ordinal();
-
-                    robotStateIndex++;
-
-                    if (robotStateIndex >= Robot.State.values().length) {
-                        robotStateIndex = 0;
-                    }
-
-                    ////////////////////////////////////////////////////////////////
-                    ((Robot)entity).setState(Robot.State.values()[robotStateIndex]);
-                    ////////////////////////////////////////////////////////////////
-                }
-                //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             }
             //b button
             else if (inputManager.isbButtonPad()) {
                 Log.d(MainActivity.DEBUG_TAG, "b-button");
 
-                if (sceneManager.getCurrentScene().getSceneID() == Scene.Id.FARM) {
-                    Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() b-button: POP PoohFarmerCartridge's scene!!!");
+                switch (state) {
+                    case GAME:
+                        Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.GAME b-button-justPressed");
+                        if (sceneManager.getCurrentScene().getSceneID() == Scene.Id.FARM) {
+                            Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() b-button: POP PoohFarmerCartridge's scene!!!");
 
-                    ////////////////////////////////
-                    Object[] extra = new Object[10];
-                    extra[0] = player.getDirection();
-                    extra[1] = player.getMoveSpeed();
-                    sceneManager.pop(extra);
-                    ////////////////////////////////
+                            ////////////////////////////////
+                            Object[] extra = new Object[10];
+                            extra[0] = player.getDirection();
+                            extra[1] = player.getMoveSpeed();
+                            sceneManager.pop(extra);
+                            ////////////////////////////////
+                        }
+                        break;
+                    case START_MENU:
+                        Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.START_MENU b-button-justPressed");
+                        break;
                 }
             }
         }
@@ -230,7 +305,15 @@ public class PocketCrittersCartridge
         getInputButtonPad();
         ////////////////////////////////////////////////////
 
-        sceneManager.getCurrentScene().update(elapsed);
+        switch (state) {
+            case GAME:
+                sceneManager.getCurrentScene().update(elapsed);
+                break;
+            case START_MENU:
+                //TODO:
+                break;
+        }
+
     }
 
     @Override
@@ -245,7 +328,36 @@ public class PocketCrittersCartridge
             canvas.drawColor(Color.WHITE);
 
             //@@@@@@@@@@@@@@@@@@@@@@@@@@
-            sceneManager.getCurrentScene().render(canvas);
+            switch (state) {
+                case GAME:
+                    sceneManager.getCurrentScene().render(canvas);
+                    break;
+                case START_MENU:
+                    //TODO: 2020_05_19 PocketCrittersCartridge.render(Canvas) state == State.START_MENU
+                    //RE-DRAW state.GAME as background (otherwise white background because we'd cleared earlier)
+                    sceneManager.getCurrentScene().render(canvas);
+
+                    Bitmap startMenuState = Assets.cropStartMenuState(context.getResources());
+                    int scaleFactor = 6;
+
+                    Rect srcBounds = new Rect(0,
+                            0,
+                            startMenuState.getWidth(),
+                            startMenuState.getHeight());
+                    Rect dstBounds = new Rect(widthViewport-(scaleFactor*startMenuState.getWidth()),
+                            ((heightViewport/2)-(scaleFactor*(startMenuState.getHeight()/2))),
+                            widthViewport,
+                            (heightViewport/2)+(scaleFactor*(startMenuState.getHeight()/2)));
+                    canvas.drawBitmap(startMenuState, srcBounds, dstBounds, null);
+
+                    /*
+                    canvas.drawBitmap(startMenuState,
+                            widthViewport-startMenuState.getWidth(),
+                            (heightViewport-startMenuState.getHeight())/2,
+                            null);
+                    */
+                    break;
+            }
             //@@@@@@@@@@@@@@@@@@@@@@@@@@
 
             //unlock it and post our updated drawing to it.
