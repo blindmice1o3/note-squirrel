@@ -4,21 +4,15 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.SurfaceHolder;
-import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
-import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.PocketCrittersCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Entity;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Robot;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.SceneManager;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
 
@@ -122,7 +116,33 @@ public class StartMenuState
             Log.d(MainActivity.DEBUG_TAG, "a-button");
 
             Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.START_MENU a-button-justPressed");
+
             //TODO: handle menu item selected by indexMenu.
+            MenuItem selectedMenuItem = MenuItem.values()[indexMenu];
+            switch (selectedMenuItem) {
+                case CRITTER_DEX:
+                    Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.START_MENU a-button-justPressed CRITTER_DEX");
+                    break;
+                case BELT_LIST:
+                    Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.START_MENU a-button-justPressed BELT_LIST");
+                    break;
+                case BACKPACK_LIST:
+                    Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.START_MENU a-button-justPressed BACKPACK_LIST");
+                    break;
+                case LOAD:
+                    Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.START_MENU a-button-justPressed LOAD");
+                    break;
+                case SAVE:
+                    Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.START_MENU a-button-justPressed SAVE");
+                    break;
+                case OPTION:
+                    Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.START_MENU a-button-justPressed OPTION");
+                    break;
+                case EXIT:
+                    Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.START_MENU a-button-justPressed EXIT");
+                    ((PocketCrittersCartridge)handler.getGameCartridge()).getStateManager().pop();
+                    break;
+            }
         }
         //b button
         else if (inputManager.isbButtonPad()) {
@@ -163,10 +183,10 @@ public class StartMenuState
                     0,
                     startMenuState.getWidth(),
                     startMenuState.getHeight());
-            Rect dstBoundsBackground = new Rect( (widthViewport-(scaleFactor*startMenuState.getWidth())),
-                    ((heightViewport/2)-(scaleFactor*(startMenuState.getHeight()/2))),
+            Rect dstBoundsBackground = new Rect((widthViewport - (scaleFactor * startMenuState.getWidth())),
+                    ((heightViewport / 2) - (scaleFactor * (startMenuState.getHeight() / 2))),
                     widthViewport,
-                    (heightViewport/2)+(scaleFactor*(startMenuState.getHeight()/2)) );
+                    (heightViewport / 2) + (scaleFactor * (startMenuState.getHeight() / 2)));
             canvas.drawBitmap(startMenuState, srcBoundsBackground, dstBoundsBackground, null);
 
             //DRAW CURSOR
@@ -181,11 +201,28 @@ public class StartMenuState
             ////////////////////////////////////////////////////////////////
             int yOffset = yOffsetInitial + (indexMenu * (16 * scaleFactor));
             ////////////////////////////////////////////////////////////////
-            Rect dstBoundsCursor = new Rect( (widthViewport-(scaleFactor*startMenuState.getWidth()) + xOffset),
-                    ((heightViewport/2)-(scaleFactor*(startMenuState.getHeight()/2)) + yOffset),
-                    (widthViewport-(scaleFactor*startMenuState.getWidth()) + xOffset) + (scaleFactor*startMenuStateCursor.getWidth()),
-                    ((heightViewport/2)-(scaleFactor*(startMenuState.getHeight()/2)) + yOffset) + (scaleFactor*startMenuStateCursor.getHeight()) );
+            Rect dstBoundsCursor = new Rect((widthViewport - (scaleFactor * startMenuState.getWidth()) + xOffset),
+                    ((heightViewport / 2) - (scaleFactor * (startMenuState.getHeight() / 2)) + yOffset),
+                    (widthViewport - (scaleFactor * startMenuState.getWidth()) + xOffset) + (scaleFactor * startMenuStateCursor.getWidth()),
+                    ((heightViewport / 2) - (scaleFactor * (startMenuState.getHeight() / 2)) + yOffset) + (scaleFactor * startMenuStateCursor.getHeight()));
             canvas.drawBitmap(startMenuStateCursor, srcBoundsCursor, dstBoundsCursor, null);
+
+
+            //FILL IN BLANK OF BACKGROUND IMAGE
+            Paint textPaint = new Paint();
+            textPaint.setTextAlign(Paint.Align.LEFT);
+            textPaint.setAntiAlias(true);
+            textPaint.setColor(Color.BLACK);
+            textPaint.setTextSize(64);
+            int xOffsetLoad = xOffset + (startMenuStateCursor.getWidth() * scaleFactor) + (1 * scaleFactor);
+            int yOffsetLoad = yOffsetInitial + (startMenuStateCursor.getHeight() * scaleFactor) + (MenuItem.LOAD.ordinal() * (16 * scaleFactor));
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////
+            canvas.drawText("LOAD",
+                    (widthViewport - (scaleFactor * startMenuState.getWidth()) + xOffsetLoad),
+                    ((heightViewport / 2) - (scaleFactor * (startMenuState.getHeight() / 2)) + yOffsetLoad),
+                    textPaint);
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
             //TODO: DRAW SECOND CURSOR (temporary to figure out yOffset).
             /*
