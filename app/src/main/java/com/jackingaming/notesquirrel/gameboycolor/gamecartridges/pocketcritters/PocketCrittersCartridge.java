@@ -334,28 +334,48 @@ public class PocketCrittersCartridge
                     break;
                 case START_MENU:
                     //TODO: 2020_05_19 PocketCrittersCartridge.render(Canvas) state == State.START_MENU
+
                     //RE-DRAW state.GAME as background (otherwise white background because we'd cleared earlier)
                     sceneManager.getCurrentScene().render(canvas);
 
+                    //DRAW BACKGROUND
                     Bitmap startMenuState = Assets.cropStartMenuState(context.getResources());
                     int scaleFactor = 6;
 
-                    Rect srcBounds = new Rect(0,
+                    Rect srcBoundsBackground = new Rect(0,
                             0,
                             startMenuState.getWidth(),
                             startMenuState.getHeight());
-                    Rect dstBounds = new Rect(widthViewport-(scaleFactor*startMenuState.getWidth()),
+                    Rect dstBoundsBackground = new Rect( (widthViewport-(scaleFactor*startMenuState.getWidth())),
                             ((heightViewport/2)-(scaleFactor*(startMenuState.getHeight()/2))),
                             widthViewport,
-                            (heightViewport/2)+(scaleFactor*(startMenuState.getHeight()/2)));
-                    canvas.drawBitmap(startMenuState, srcBounds, dstBounds, null);
+                            (heightViewport/2)+(scaleFactor*(startMenuState.getHeight()/2)) );
+                    canvas.drawBitmap(startMenuState, srcBoundsBackground, dstBoundsBackground, null);
 
-                    /*
-                    canvas.drawBitmap(startMenuState,
-                            widthViewport-startMenuState.getWidth(),
-                            (heightViewport-startMenuState.getHeight())/2,
-                            null);
-                    */
+                    //DRAW CURSOR
+                    Bitmap startMenuStateCursor = Assets.cropStartMenuStateCursor(context.getResources());
+
+                    Rect srcBoundsCursor = new Rect(0,
+                            0,
+                            startMenuStateCursor.getWidth(),
+                            startMenuStateCursor.getHeight());
+                    int xOffset = 5 * scaleFactor;
+                    int yOffset = 13 * scaleFactor;
+                    Rect dstBoundsCursor = new Rect( (widthViewport-(scaleFactor*startMenuState.getWidth()) + xOffset),
+                            ((heightViewport/2)-(scaleFactor*(startMenuState.getHeight()/2)) + yOffset),
+                            (widthViewport-(scaleFactor*startMenuState.getWidth()) + xOffset) + (scaleFactor*startMenuStateCursor.getWidth()),
+                            ((heightViewport/2)-(scaleFactor*(startMenuState.getHeight()/2)) + yOffset) + (scaleFactor*startMenuStateCursor.getHeight()) );
+                    canvas.drawBitmap(startMenuStateCursor, srcBoundsCursor, dstBoundsCursor, null);
+
+                    //TODO: DRAW SECOND CURSOR (temporary to figure out yOffset).
+                    //////////////////////////////
+                    yOffset += (16 * scaleFactor);
+                    //////////////////////////////
+                    Rect dstBoundsCursor2 = new Rect( (widthViewport-(scaleFactor*startMenuState.getWidth()) + xOffset),
+                            ((heightViewport/2)-(scaleFactor*(startMenuState.getHeight()/2)) + yOffset),
+                            (widthViewport-(scaleFactor*startMenuState.getWidth()) + xOffset) + (scaleFactor*startMenuStateCursor.getWidth()),
+                            ((heightViewport/2)-(scaleFactor*(startMenuState.getHeight()/2)) + yOffset) + (scaleFactor*startMenuStateCursor.getHeight()) );
+                    canvas.drawBitmap(startMenuStateCursor, srcBoundsCursor, dstBoundsCursor2, null);
                     break;
             }
             //@@@@@@@@@@@@@@@@@@@@@@@@@@

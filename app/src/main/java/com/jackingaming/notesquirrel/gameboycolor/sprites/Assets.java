@@ -233,6 +233,15 @@ public class Assets {
         return croppedWorldMapPart01;
     }
 
+    public static Bitmap cropStartMenuStateCursor(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropStartMenuStateCursor(Resources)");
+
+        Bitmap startMenuSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.start_menu_state);
+        Bitmap startMenuStateCursor = Bitmap.createBitmap(startMenuSpriteSheet, 3, 162, 7, 7);
+
+        return startMenuStateCursor;
+    }
+
     public static Bitmap cropStartMenuState(Resources resources) {
         Log.d(MainActivity.DEBUG_TAG, "Assets.cropStartMenuState(Resources)");
 
