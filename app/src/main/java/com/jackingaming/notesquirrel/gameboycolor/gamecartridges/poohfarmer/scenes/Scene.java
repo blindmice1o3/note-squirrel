@@ -390,6 +390,14 @@ public class Scene {
         return entityManager;
     }
 
+    public void setGameCamera(GameCamera gameCamera) {
+        this.gameCamera = gameCamera;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
     public Id getSceneID() {
         return sceneID;
     }

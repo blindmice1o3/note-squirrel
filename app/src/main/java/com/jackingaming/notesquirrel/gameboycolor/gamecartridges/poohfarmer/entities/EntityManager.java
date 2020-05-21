@@ -96,4 +96,8 @@ public class EntityManager {
         //TODO:
     }
 
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
 }

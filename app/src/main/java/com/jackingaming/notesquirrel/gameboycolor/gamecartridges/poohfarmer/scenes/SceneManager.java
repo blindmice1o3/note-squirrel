@@ -177,4 +177,12 @@ public class SceneManager {
         //TODO: restore sceneStack.
     }
 
+    public void setGameCamera(GameCamera gameCamera) {
+        this.gameCamera = gameCamera;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
 }

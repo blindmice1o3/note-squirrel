@@ -58,9 +58,11 @@ public class Player extends Creature
             //ADJUST width, height, and bounds.
             width = 1 * tileWidthFrogger;
             height = 1 * tileHeightFrogger;
-            bounds = new Rect(0, 0, width, height);
         }
+
+        bounds = new Rect(0, 0, width, height);
     }
+
 
     private void initAnimation() {
         Log.d(MainActivity.DEBUG_TAG, "Player.initAnimation()");

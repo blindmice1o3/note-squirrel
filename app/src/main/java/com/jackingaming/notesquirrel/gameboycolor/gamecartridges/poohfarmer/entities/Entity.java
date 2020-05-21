@@ -6,16 +6,19 @@ import android.graphics.Rect;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles.TileMap;
 
-public abstract class Entity {
+import java.io.Serializable;
 
-    protected Handler handler;
+public abstract class Entity
+        implements Serializable {
+
+    transient protected Handler handler;
 
     protected float xCurrent;
     protected float yCurrent;
     protected int width;
     protected int height;
 
-    protected Rect bounds;
+    transient protected Rect bounds;
 
     protected boolean active;
 

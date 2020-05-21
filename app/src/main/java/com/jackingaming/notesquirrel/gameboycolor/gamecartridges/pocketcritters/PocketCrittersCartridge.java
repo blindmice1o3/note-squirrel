@@ -111,7 +111,9 @@ public class PocketCrittersCartridge
         */
 
         //TODO:
-        SerializationDoer.loadReadFromFile(handler);
+        if (handler != null) {
+            SerializationDoer.loadReadFromFile(handler);
+        }
     }
 
     @Override

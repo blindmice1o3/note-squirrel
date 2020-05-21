@@ -163,9 +163,12 @@ public class JackInActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onRestoreInstanceState(Bundle) calling gameCartridge.loadSavedState()");
             Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onRestoreInstanceState(Bundle) gameCartridge NOT init() YET! gameCartridge.loadSavedState() is called again in GameView.runGameCartridge()!!!!!");
-            gameCartridge.loadSavedState();
+            //gameCartridge.loadSavedState();
         }
         /////////////////////////////////
+
+        Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onRestoreInstanceState(Bundle) " +
+                "WILL TAKE CARE OF IN GameView.runGameCartridge(GameCartridge, InputManager, int, int)");
     }
 
     @Override
