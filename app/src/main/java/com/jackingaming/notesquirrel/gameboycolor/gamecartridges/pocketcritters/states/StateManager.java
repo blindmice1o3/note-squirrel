@@ -49,4 +49,18 @@ public class StateManager {
 
     public State getCurrentState() { return stateStack.get( getIndexOfTop() ); }
 
+    public void savePresentState() {
+        for (State state : stateHashMap.values()) {
+            state.savePresentState();
+        }
+        for (int i = 0; i < stateStack.size(); i++) {
+            //TODO: write to file.
+        }
+    }
+
+    public void loadSavedState() {
+        //TODO: restore every state in stateHashMap.
+        //TODO: restore stateStack.
+    }
+
 }

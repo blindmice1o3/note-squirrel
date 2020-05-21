@@ -254,4 +254,14 @@ public class StartMenuState
 
     }
 
+    @Override
+    public void savePresentState() {
+        //TODO:
+    }
+
+    @Override
+    public void loadSavedState() {
+        //TODO:
+    }
+
 }

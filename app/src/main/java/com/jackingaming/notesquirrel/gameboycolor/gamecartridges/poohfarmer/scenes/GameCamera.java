@@ -107,4 +107,12 @@ public class GameCamera {
         return heightClipInPixel;
     }
 
+    public void savePresentState() {
+        //TODO:
+    }
+
+    public void loadSavedState() {
+        //TODO:
+    }
+
 }

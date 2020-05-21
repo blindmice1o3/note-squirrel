@@ -18,4 +18,8 @@ public interface State {
 
     public void exit();
 
+    public void savePresentState();
+
+    public void loadSavedState();
+
 }

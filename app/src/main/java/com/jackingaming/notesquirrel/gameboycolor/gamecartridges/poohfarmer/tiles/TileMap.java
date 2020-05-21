@@ -664,4 +664,12 @@ public class TileMap {
         return nonWalkableTileSpriteTargets;
     }
 
+    public void savePresentState() {
+        //TODO:
+    }
+
+    public void loadSavedState() {
+        //TODO:
+    }
+
 }

@@ -163,4 +163,18 @@ public class SceneManager {
         return sceneStack.get( getIndexOfTop() );
     }
 
+    public void savePresentState() {
+        for (Scene scene : sceneCollection.values()) {
+            scene.savePresentState();
+        }
+        for (int i = 0; i < sceneStack.size(); i++) {
+            //TODO: write to file.
+        }
+    }
+
+    public void loadSavedState() {
+        //TODO: restore every scene in sceneCollection.
+        //TODO: restore sceneStack.
+    }
+
 }

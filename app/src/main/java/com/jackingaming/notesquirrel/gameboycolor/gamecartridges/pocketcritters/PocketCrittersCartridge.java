@@ -85,11 +85,23 @@ public class PocketCrittersCartridge
     @Override
     public void savePresentState() {
         Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.savePresentState()");
+
+        gameCamera.savePresentState();
+        player.savePresentState();
+        sceneManager.savePresentState();
+        stateManager.savePresentState();
+        //TODO:
     }
 
     @Override
     public void loadSavedState() {
         Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.loadSavedState()");
+
+        gameCamera.loadSavedState();
+        player.loadSavedState();
+        sceneManager.loadSavedState();
+        stateManager.loadSavedState();
+        //TODO:
     }
 
     @Override

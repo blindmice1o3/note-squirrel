@@ -227,4 +227,14 @@ public class GameState
 
     }
 
+    @Override
+    public void savePresentState() {
+        //TODO:
+    }
+
+    @Override
+    public void loadSavedState() {
+        //TODO:
+    }
+
 }

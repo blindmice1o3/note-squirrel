@@ -427,4 +427,12 @@ public class Player extends Creature {
         return null;
     }
 
+    public void savePresentState() {
+        //TODO:
+    }
+
+    public void loadSavedState() {
+        //TODO:
+    }
+
 }

@@ -88,4 +88,12 @@ public class EntityManager {
         this.entities = entities;
     }
 
+    public void savePresentState() {
+        //TODO:
+    }
+
+    public void loadSavedState() {
+        //TODO:
+    }
+
 }

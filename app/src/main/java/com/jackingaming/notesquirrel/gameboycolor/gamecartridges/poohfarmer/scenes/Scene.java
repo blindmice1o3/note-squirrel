@@ -394,4 +394,12 @@ public class Scene {
         return sceneID;
     }
 
+    public void savePresentState() {
+        //TODO:
+    }
+
+    public void loadSavedState() {
+        //TODO:
+    }
+
 }
