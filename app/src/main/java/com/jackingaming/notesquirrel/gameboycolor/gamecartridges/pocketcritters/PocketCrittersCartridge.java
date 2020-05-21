@@ -110,10 +110,12 @@ public class PocketCrittersCartridge
         stateManager.loadSavedState();
         */
 
-        //TODO:
+        //TODO: !!!THIS CHECKING FOR NULL IS NECESSARY!!!
         if (handler != null) {
             SerializationDoer.loadReadFromFile(handler);
+            //TAKEN CARE OF IN GameView.runGameCartridge(GameCartridge, InputManager, int, int).
         }
+
     }
 
     @Override
@@ -188,6 +190,7 @@ public class PocketCrittersCartridge
     }
 
     public InputManager getInputManager() { return inputManager; }
+
 
     public StateManager getStateManager() { return stateManager; }
 

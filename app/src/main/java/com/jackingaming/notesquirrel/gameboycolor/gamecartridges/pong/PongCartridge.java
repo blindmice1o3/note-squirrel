@@ -14,6 +14,7 @@ import android.view.SurfaceHolder;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.states.StateManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pong.sprites.Bat;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pong.sprites.Ball;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
@@ -280,6 +281,9 @@ public class PongCartridge
     public SceneManager getSceneManager() {
         return null;
     }
+
+    @Override
+    public StateManager getStateManager() { return null; }
 
     @Override
     public int getWidthViewport() {

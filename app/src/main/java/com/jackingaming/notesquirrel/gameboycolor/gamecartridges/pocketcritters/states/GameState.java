@@ -237,4 +237,8 @@ public class GameState
         //TODO:
     }
 
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
 }

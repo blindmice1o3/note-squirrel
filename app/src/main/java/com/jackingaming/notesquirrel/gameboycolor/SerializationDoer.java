@@ -5,6 +5,8 @@ import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.states.GameState;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.EntityManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
@@ -74,32 +76,42 @@ public class SerializationDoer {
 
 
 
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             handler.getGameCartridge().setGameCamera( (GameCamera)os.readObject() );
             Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(Handler) de-serialized GameCamera.");
             handler.getGameCartridge().setPlayer( (Player)os.readObject() );
             Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(Handler) de-serialized Player.");
-            ///////////////////////////////////////////////////////////////
-            handler.getGameCartridge().getGameCamera().setHandler(handler);
-            handler.getGameCartridge().getPlayer().setHandler(handler);
-            handler.getGameCartridge().getPlayer().init();
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+            ///////////////////////////////////////////////////////////////
             GameCamera gameCamera = handler.getGameCartridge().getGameCamera();
             Player player = handler.getGameCartridge().getPlayer();
 
-            handler.getGameCartridge().getSceneManager().setGameCamera(gameCamera);
-            handler.getGameCartridge().getSceneManager().getCurrentScene().setGameCamera(gameCamera);
-            handler.getGameCartridge().getSceneManager().setPlayer(player);
-            handler.getGameCartridge().getSceneManager().getCurrentScene().setPlayer(player);
+            //HANDLER
+            gameCamera.setHandler(handler);
+            player.setHandler(handler);
 
+            //PLAYER AND GAME_CAMERA
+            player.init();
+            player.setGameCamera(gameCamera);
+            gameCamera.setEntity(player);
+
+            //SCENE_MANAGER
+            handler.getGameCartridge().getSceneManager().setGameCamera(gameCamera);
+            handler.getGameCartridge().getSceneManager().setPlayer(player);
+
+            //TODO: ONLY LOADS PROPERLY FOR Scene.PART_01
+            //SCENE (CURRENT)
+            handler.getGameCartridge().getSceneManager().getCurrentScene().setGameCamera(gameCamera);
+            handler.getGameCartridge().getSceneManager().getCurrentScene().setPlayer(player);
             EntityManager entityManager = handler.getGameCartridge().getSceneManager().getCurrentScene().getEntityManager();
-            for (Entity e : entityManager.getEntities()) {
-                if (e instanceof Player) {
-                    e.setActive(false);
-                }
-            }
-            entityManager.update(0L);
+            entityManager.removePreviousPlayer();
             entityManager.setPlayer(player);
             entityManager.addEntity(player);
+
+            //STATE
+            State gameState = handler.getGameCartridge().getStateManager().getState(State.Id.GAME);
+            ((GameState)gameState).setPlayer(player);
             ///////////////////////////////////////////////////////////////
 
 

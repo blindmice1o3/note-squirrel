@@ -10,6 +10,7 @@ import android.view.SurfaceHolder;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.states.StateManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.SceneManager;
@@ -179,6 +180,12 @@ public class FroggerCartridge
     public SceneManager getSceneManager() {
         Log.d(MainActivity.DEBUG_TAG, "FroggerCartridge.getSceneManager()");
         return sceneManager;
+    }
+
+    @Override
+    public StateManager getStateManager() {
+        Log.d(MainActivity.DEBUG_TAG, "FroggerCartridge.getStateManager()... currently returning \"null\".");
+        return null;
     }
 
     @Override

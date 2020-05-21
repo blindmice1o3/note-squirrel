@@ -122,4 +122,8 @@ public class GameCamera
         //TODO:
     }
 
+    public void setEntity(Entity entity) {
+        this.entity = entity;
+    }
+
 }

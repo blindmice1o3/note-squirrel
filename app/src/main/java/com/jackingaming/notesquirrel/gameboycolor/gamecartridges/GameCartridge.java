@@ -3,6 +3,7 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges;
 import android.content.Context;
 import android.view.SurfaceHolder;
 
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.states.StateManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.SceneManager;
@@ -28,6 +29,7 @@ public interface GameCartridge {
     public void setPlayer(Player player);
     public GameCamera getGameCamera();
     public SceneManager getSceneManager();
+    public StateManager getStateManager();
     public int getWidthViewport();
     public int getHeightViewport();
 

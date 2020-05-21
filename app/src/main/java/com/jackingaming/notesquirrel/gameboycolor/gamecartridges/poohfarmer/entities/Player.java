@@ -439,4 +439,8 @@ public class Player extends Creature
         //TODO:
     }
 
+    public void setGameCamera(GameCamera gameCamera) {
+        this.gameCamera = gameCamera;
+    }
+
 }

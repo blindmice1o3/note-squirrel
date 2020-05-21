@@ -1,6 +1,7 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.states;
 
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;

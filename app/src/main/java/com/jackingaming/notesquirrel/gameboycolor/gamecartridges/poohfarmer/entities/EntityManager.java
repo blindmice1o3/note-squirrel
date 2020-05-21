@@ -40,6 +40,20 @@ public class EntityManager {
         entities.add(player);
     }
 
+    public void removePreviousPlayer() {
+        Iterator<Entity> it = entities.iterator();
+        while (it.hasNext()) {
+            Entity entityFromArrayList = it.next();
+
+            ////////////////////////////////////
+            if (entityFromArrayList == player) {
+                it.remove();
+                break;
+            }
+            ////////////////////////////////////
+        }
+    }
+
     public void update(long elapsed) {
         Iterator<Entity> it = entities.iterator();
         while (it.hasNext()) {

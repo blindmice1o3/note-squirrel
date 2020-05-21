@@ -12,6 +12,7 @@ import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.states.StateManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Robot;
@@ -278,6 +279,9 @@ public class PoohFarmerCartridge
     public void setGameCamera(GameCamera gameCamera) {
         this.gameCamera = gameCamera;
     }
+
+    @Override
+    public StateManager getStateManager() { return null; }
 
     @Override
     public SceneManager getSceneManager() {
