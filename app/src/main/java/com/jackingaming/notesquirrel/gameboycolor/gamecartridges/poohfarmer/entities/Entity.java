@@ -57,6 +57,10 @@ public abstract class Entity {
                 (int)(yCurrent + bounds.top + yOffset) + bounds.bottom);
     }
 
+    public void setHandler(Handler handler) {
+        this.handler = handler;
+    }
+
     public float getxCurrent() {
         return xCurrent;
     }

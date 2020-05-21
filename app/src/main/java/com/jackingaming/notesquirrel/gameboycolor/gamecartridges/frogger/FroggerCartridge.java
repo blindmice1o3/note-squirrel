@@ -28,6 +28,7 @@ public class FroggerCartridge
     private int widthViewport;
     private int heightViewport;
 
+    private Handler handler;
     private Id idGameCartridge;
     private Player player;
     private GameCamera gameCamera;
@@ -56,7 +57,7 @@ public class FroggerCartridge
         //Assets.init(context);
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        Handler handler = new Handler(this);
+        handler = new Handler(this);
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
         gameCamera = new GameCamera(handler);
@@ -157,9 +158,21 @@ public class FroggerCartridge
     }
 
     @Override
+    public void setPlayer(Player player) {
+        Log.d(MainActivity.DEBUG_TAG, "FroggerCartridge.setPlayer(Player)");
+        this.player = player;
+    }
+
+    @Override
     public GameCamera getGameCamera() {
         Log.d(MainActivity.DEBUG_TAG, "FroggerCartridge.getGameCamera()");
         return gameCamera;
+    }
+
+    @Override
+    public void setGameCamera(GameCamera gameCamera) {
+        Log.d(MainActivity.DEBUG_TAG, "FroggerCartridge.setGameCamera(GameCamera)");
+        this.gameCamera = gameCamera;
     }
 
     @Override

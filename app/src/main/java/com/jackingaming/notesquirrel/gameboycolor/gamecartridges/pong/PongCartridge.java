@@ -262,8 +262,18 @@ public class PongCartridge
     }
 
     @Override
+    public void setPlayer(Player player) {
+        //intentionally blank.
+    }
+
+    @Override
     public GameCamera getGameCamera() {
         return null;
+    }
+
+    @Override
+    public void setGameCamera(GameCamera gameCamera) {
+        //intentionally blank.
     }
 
     @Override

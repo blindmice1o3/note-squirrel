@@ -23,7 +23,9 @@ public interface GameCartridge {
 
     public Context getContext();
     public Id getIdGameCartridge();
+    public void setGameCamera(GameCamera gameCamera);
     public Player getPlayer();
+    public void setPlayer(Player player);
     public GameCamera getGameCamera();
     public SceneManager getSceneManager();
     public int getWidthViewport();

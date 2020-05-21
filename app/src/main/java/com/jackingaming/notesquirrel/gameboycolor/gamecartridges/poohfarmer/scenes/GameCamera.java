@@ -8,12 +8,15 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles.TileMap;
 
-public class GameCamera {
+import java.io.Serializable;
+
+public class GameCamera
+        implements Serializable {
 
     public static final int CLIP_WIDTH_IN_TILE = 8;
     public static final int CLIP_HEIGHT_IN_TILE = 8;
 
-    private Handler handler;
+    transient private Handler handler;
 
     private float x;
     private float y;
@@ -81,6 +84,10 @@ public class GameCamera {
         if ((y + heightClipInPixel) > heightSceneMax) {
             y = (heightSceneMax - heightClipInPixel);
         }
+    }
+
+    public void setHandler(Handler handler) {
+        this.handler = handler;
     }
 
     public float getX() {

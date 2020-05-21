@@ -35,6 +35,7 @@ public class PoohFarmerCartridge
     private int widthViewport;
     private int heightViewport;
 
+    private Handler handler;
     private Id idGameCartridge;
     private Player player;
     private GameCamera gameCamera;
@@ -63,7 +64,7 @@ public class PoohFarmerCartridge
         Assets.init(context);
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        Handler handler = new Handler(this);
+        handler = new Handler(this);
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
         gameCamera = new GameCamera(handler);
@@ -264,8 +265,18 @@ public class PoohFarmerCartridge
     }
 
     @Override
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    @Override
     public GameCamera getGameCamera() {
         return gameCamera;
+    }
+
+    @Override
+    public void setGameCamera(GameCamera gameCamera) {
+        this.gameCamera = gameCamera;
     }
 
     @Override

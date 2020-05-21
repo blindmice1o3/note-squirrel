@@ -16,16 +16,18 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tile
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Animation;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Player extends Creature {
+public class Player extends Creature
+        implements Serializable {
 
     private GameCamera gameCamera;
     private float widthPixelToViewportRatio;
     private float heightPixelToViewportRatio;
 
-    private Map<Direction, Animation> animation;
+    transient private Map<Direction, Animation> animation;
 
     public Player(Handler handler) {
         super(handler,0f, 0f);

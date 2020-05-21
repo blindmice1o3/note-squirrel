@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
+import com.jackingaming.notesquirrel.gameboycolor.SerializationDoer;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.states.StateManager;
@@ -39,6 +40,7 @@ public class PocketCrittersCartridge
     private int widthViewport;
     private int heightViewport;
 
+    private Handler handler;
     private Id idGameCartridge;
     private StateManager stateManager;
     //private State state;
@@ -71,7 +73,7 @@ public class PocketCrittersCartridge
         Assets.init(context);
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        Handler handler = new Handler(this);
+        handler = new Handler(this);
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
         gameCamera = new GameCamera(handler);
@@ -86,22 +88,30 @@ public class PocketCrittersCartridge
     public void savePresentState() {
         Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.savePresentState()");
 
+        /*
         gameCamera.savePresentState();
         player.savePresentState();
         sceneManager.savePresentState();
         stateManager.savePresentState();
+        */
+
         //TODO:
+        SerializationDoer.saveWriteToFile(handler);
     }
 
     @Override
     public void loadSavedState() {
         Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.loadSavedState()");
 
+        /*
         gameCamera.loadSavedState();
         player.loadSavedState();
         sceneManager.loadSavedState();
         stateManager.loadSavedState();
+        */
+
         //TODO:
+        SerializationDoer.loadReadFromFile(handler);
     }
 
     @Override
@@ -161,8 +171,18 @@ public class PocketCrittersCartridge
     }
 
     @Override
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    @Override
     public GameCamera getGameCamera() {
         return gameCamera;
+    }
+
+    @Override
+    public void setGameCamera(GameCamera gameCamera) {
+        this.gameCamera = gameCamera;
     }
 
     public InputManager getInputManager() { return inputManager; }
