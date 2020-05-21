@@ -11,6 +11,8 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.enti
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.EntityManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.Scene;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.SceneManager;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -18,6 +20,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 
 public class SerializationDoer {
 
@@ -40,6 +43,9 @@ public class SerializationDoer {
             Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(Handler) serialized GameCamera.");
             os.writeObject(handler.getGameCartridge().getPlayer());
             Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(Handler) serialized Player.");
+            //TODO: record SceneManager.sceneStack
+            os.writeObject(handler.getGameCartridge().getSceneManager().getSceneIdsFromSceneStack());
+            Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(Handler) serialized Scene.Id of scenes from SceneManager.sceneStack.");
 
 
 
@@ -81,6 +87,7 @@ public class SerializationDoer {
             Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(Handler) de-serialized GameCamera.");
             handler.getGameCartridge().setPlayer( (Player)os.readObject() );
             Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(Handler) de-serialized Player.");
+            ArrayList<Scene.Id> sceneIdsFromSceneStack = (ArrayList<Scene.Id>)os.readObject();
             //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
             ///////////////////////////////////////////////////////////////
@@ -102,12 +109,16 @@ public class SerializationDoer {
 
             //TODO: ONLY LOADS PROPERLY FOR Scene.PART_01
             //SCENE (CURRENT)
+            handler.getGameCartridge().getSceneManager().restoreSceneStack(sceneIdsFromSceneStack,
+                    gameCamera, player);
+            /*
             handler.getGameCartridge().getSceneManager().getCurrentScene().setGameCamera(gameCamera);
             handler.getGameCartridge().getSceneManager().getCurrentScene().setPlayer(player);
             EntityManager entityManager = handler.getGameCartridge().getSceneManager().getCurrentScene().getEntityManager();
             entityManager.removePreviousPlayer();
             entityManager.setPlayer(player);
             entityManager.addEntity(player);
+            */
 
             //STATE
             State gameState = handler.getGameCartridge().getStateManager().getState(State.Id.GAME);

@@ -2,7 +2,9 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.ent
 
 import android.graphics.Canvas;
 import android.os.Build;
+import android.util.Log;
 
+import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
 
 import java.util.ArrayList;
@@ -41,10 +43,11 @@ public class EntityManager {
     }
 
     public void removePreviousPlayer() {
+        Log.d(MainActivity.DEBUG_TAG, "EntityManager.removePreviousPlayer()");
+
         Iterator<Entity> it = entities.iterator();
         while (it.hasNext()) {
             Entity entityFromArrayList = it.next();
-
             ////////////////////////////////////
             if (entityFromArrayList == player) {
                 it.remove();

@@ -6,6 +6,7 @@ import android.util.Log;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.EntityManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
 
 import java.util.ArrayList;
@@ -183,6 +184,53 @@ public class SceneManager {
 
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    /**
+     * MAKE LIST OF Scene.ID CURRENTLY IN SceneManager.sceneStack
+     */
+    public ArrayList<Scene.Id> getSceneIdsFromSceneStack() {
+        ArrayList<Scene.Id> sceneIdsFromSceneStack = new ArrayList<Scene.Id>();
+
+        for (int i = 0; i < sceneStack.size(); i++) {
+            Scene scene = sceneStack.get(i);
+            sceneIdsFromSceneStack.add(scene.getSceneID());
+            Log.d(MainActivity.DEBUG_TAG, "SceneManager.getSceneIdsFromSceneStack() added: " + scene.getSceneID());
+        }
+
+        return sceneIdsFromSceneStack;
+    }
+
+    public void restoreSceneStack(ArrayList<Scene.Id> sceneIdsFromSceneStack,
+                                  GameCamera gameCamera, Player player) {
+
+        for (int i = 0; i < sceneIdsFromSceneStack.size(); i++) {
+            Scene.Id id = sceneIdsFromSceneStack.get(i);
+            Scene scene = sceneCollection.get(id);
+
+
+            //!!!DON'T ADD THE INITIAL SCENE TO sceneStack (it's already there)!!!
+            if (sceneStack.size() == 1) {
+                Log.d(MainActivity.DEBUG_TAG, "SceneManager.restoreSceneStack(ArrayList<Scene.Id>, GameCamera, Player) INITIAL SCENE... don't add to stack");
+                scene.setGameCamera(gameCamera);
+                scene.setPlayer(player);
+
+                EntityManager entityManager = scene.getEntityManager();
+                if (entityManager != null) {
+                    entityManager.removePreviousPlayer();
+                    entityManager.setPlayer(player);
+                    entityManager.addEntity(player);
+                } else {
+                    Log.d(MainActivity.DEBUG_TAG, "SceneManager.restoreSceneStack(ArrayList<Scene.Id>, GameCamera, Player) INITIAL SCENE... entityManager is null.");
+                }
+            } else {
+                scene.init(player, gameCamera);
+                sceneStack.add(scene);
+            }
+        }
+
+
+
     }
 
 }
