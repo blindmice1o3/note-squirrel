@@ -210,7 +210,7 @@ public class SceneManager {
 
 
             //!!!DON'T ADD THE INITIAL SCENE TO sceneStack (it's already there)!!!
-            if (sceneStack.size() == 1) {
+            if ((sceneStack.size() == 1) && (id == Scene.Id.PART_01)) {
                 Log.d(MainActivity.DEBUG_TAG, "SceneManager.restoreSceneStack(ArrayList<Scene.Id>, GameCamera, Player) INITIAL SCENE... don't add to stack");
                 scene.setGameCamera(gameCamera);
                 scene.setPlayer(player);
