@@ -9,8 +9,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tile
 
 import java.io.Serializable;
 
-public abstract class Creature extends Entity
-        implements Serializable {
+public abstract class Creature extends Entity {
 
     public enum Direction { UP, DOWN, LEFT, RIGHT; }
 

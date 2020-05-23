@@ -29,8 +29,8 @@ public class Scene
     private int widthViewport;
     private int heightViewport;
 
-    private TileMap tileMap;
-    private EntityManager entityManager;
+    transient private TileMap tileMap;
+    transient private EntityManager entityManager;
     //private List<Entity> entities;
     private Player player;
     private GameCamera gameCamera;
@@ -59,15 +59,29 @@ public class Scene
     public void enter() {
         Log.d(MainActivity.DEBUG_TAG, "Scene.enter()");
 
-        //@@maybe not@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        //TODO: call handler.setCurrentScene(this);
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        player.init();
 
-        if ((xPriorScene != 0f) && (yPriorScene != 0f)) {
+        if ((xPriorScene == 0f) && (yPriorScene == 0f)) {
+            player.setxCurrent((tileMap.getxSpawnIndex() * TileMap.TILE_WIDTH));
+            player.setyCurrent((tileMap.getySpawnIndex() * TileMap.TILE_HEIGHT));
+
+            //TODO: WORK-AROUND (ADJUST TILE_WIDTH and TILE_HEIGHT).
+            if (sceneID == Id.FROGGER) {
+                ///////////////////////////
+                int tileWidthFrogger = 48;
+                int tileHeightFrogger = 48;
+                ///////////////////////////
+
+                player.setxCurrent((tileMap.getxSpawnIndex() * tileWidthFrogger));
+                player.setyCurrent((tileMap.getySpawnIndex() * tileHeightFrogger));
+            }
+
+        } else {
             player.setxCurrent(xPriorScene);
             player.setyCurrent(yPriorScene);
-            gameCamera.update(0L);
         }
+
+        gameCamera.update(0L);
     }
 
     float xPriorScene;
@@ -105,19 +119,15 @@ public class Scene
     }
 
     //TODO: move some of these to Scene.enter(Object[])
-    private void initTileMap() {
+    public void initTileMap() {
         Log.d(MainActivity.DEBUG_TAG, "Scene.initTileMap()");
 
         tileMap = new TileMap(handler, sceneID);
     }
 
     //TODO: move some of these to Scene.enter(Object[])
-    private void initEntityManager(Player player) {
+    public void initEntityManager(Player player) {
         Log.d(MainActivity.DEBUG_TAG, "Scene.initEntityManager(Player)");
-
-        player.init();
-        player.setxCurrent((tileMap.getxSpawnIndex() * TileMap.TILE_WIDTH));
-        player.setyCurrent((tileMap.getySpawnIndex() * TileMap.TILE_HEIGHT));
 
         ///////////////////////////////////////////////////
         entityManager = new EntityManager(handler, player);
@@ -126,18 +136,6 @@ public class Scene
         if (sceneID == Id.FARM) {
             Entity robot = new Robot(handler, (7 * TileMap.TILE_WIDTH), (5 * TileMap.TILE_HEIGHT));
             entityManager.addEntity(robot);
-        }
-
-        //TODO: WORK-AROUND (ADJUST TILE_WIDTH and TILE_HEIGHT).
-        if (sceneID == Id.FROGGER) {
-            //////////////////////////////////////////////////////////////////////////////////
-            int tileWidthFrogger = 48;
-            int tileHeightFrogger = 48;
-            //player.setBounds( new Rect(0, 0, tileWidthFrogger, tileHeightFrogger) );
-            //////////////////////////////////////////////////////////////////////////////////
-
-            player.setxCurrent((tileMap.getxSpawnIndex() * tileWidthFrogger));
-            player.setyCurrent((tileMap.getySpawnIndex() * tileHeightFrogger));
         }
     }
 

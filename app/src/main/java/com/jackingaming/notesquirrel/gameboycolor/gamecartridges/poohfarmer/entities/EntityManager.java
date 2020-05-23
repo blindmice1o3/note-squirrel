@@ -7,18 +7,16 @@ import android.util.Log;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 
-public class EntityManager
-        implements Serializable {
+public class EntityManager {
 
-    transient private Handler handler;
+    private Handler handler;
     private Player player;
 
-    transient private ArrayList<Entity> entities;
+    private ArrayList<Entity> entities;
 
     private Comparator<Entity> renderSorter = new Comparator<Entity>() {
         @Override
@@ -36,12 +34,10 @@ public class EntityManager
         }
     };
 
-    public EntityManager(Handler handler) {
+    public EntityManager(Handler handler, Player player) {
         this.handler = handler;
         this.player = player;
-    }
 
-    public void initEntities(Player player) {
         entities = new ArrayList<Entity>();
         entities.add(player);
     }

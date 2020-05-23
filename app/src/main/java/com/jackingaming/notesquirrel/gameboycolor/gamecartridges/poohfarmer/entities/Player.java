@@ -20,8 +20,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Player extends Creature
-        implements Serializable {
+public class Player extends Creature {
 
     private GameCamera gameCamera;
     private float widthPixelToViewportRatio;

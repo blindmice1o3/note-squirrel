@@ -123,11 +123,8 @@ public class SerializationDoer {
                 scene.setHandler(handler);
                 scene.setGameCamera(gameCamera);
                 scene.setPlayer(player);
-                scene.getEntityManager().setHandler(handler);
-                scene.getEntityManager().removePreviousPlayer();
-                scene.getEntityManager().setPlayer(player);
-                scene.getEntityManager().addEntity(player);
-                scene.getTileMap().setHandler(handler);
+                scene.initEntityManager(player);
+                scene.initTileMap();
 
                 gameCartridge.getSceneManager().putScene(id, scene);
             }
