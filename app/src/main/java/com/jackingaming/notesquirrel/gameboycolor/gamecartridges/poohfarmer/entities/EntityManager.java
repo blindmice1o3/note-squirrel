@@ -18,7 +18,7 @@ public class EntityManager
     transient private Handler handler;
     private Player player;
 
-    private ArrayList<Entity> entities;
+    transient private ArrayList<Entity> entities;
 
     private Comparator<Entity> renderSorter = new Comparator<Entity>() {
         @Override
@@ -36,10 +36,12 @@ public class EntityManager
         }
     };
 
-    public EntityManager(Handler handler, Player player) {
+    public EntityManager(Handler handler) {
         this.handler = handler;
         this.player = player;
+    }
 
+    public void initEntities(Player player) {
         entities = new ArrayList<Entity>();
         entities.add(player);
     }

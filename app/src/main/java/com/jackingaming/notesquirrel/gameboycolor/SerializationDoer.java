@@ -119,12 +119,20 @@ public class SerializationDoer {
                 //////////////////////////////////////
                 Scene scene = (Scene) os.readObject();
                 //////////////////////////////////////
+                Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile() scene: " + scene.getSceneID());
                 scene.setHandler(handler);
+                scene.setGameCamera(gameCamera);
+                scene.setPlayer(player);
+                scene.getEntityManager().setHandler(handler);
+                scene.getEntityManager().removePreviousPlayer();
+                scene.getEntityManager().setPlayer(player);
+                scene.getEntityManager().addEntity(player);
+                scene.getTileMap().setHandler(handler);
 
                 gameCartridge.getSceneManager().putScene(id, scene);
             }
             handler.getGameCartridge().getSceneManager().restoreSceneStack(sceneIdsFromSceneStack,
-                    handler, gameCamera, player);
+                    handler, player);
 
             //STATE (/STATE_MANAGER)
             State gameState = handler.getGameCartridge().getStateManager().getState(State.Id.GAME);
