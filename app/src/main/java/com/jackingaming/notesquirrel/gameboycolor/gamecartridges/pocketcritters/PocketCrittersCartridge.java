@@ -88,20 +88,25 @@ public class PocketCrittersCartridge
     public void savePresentState() {
         Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.savePresentState()");
 
+        //TODO:
+        SerializationDoer.saveWriteToFile(this);
+
         /*
         gameCamera.savePresentState();
         player.savePresentState();
         sceneManager.savePresentState();
         stateManager.savePresentState();
         */
-
-        //TODO:
-        SerializationDoer.saveWriteToFile(handler);
     }
 
     @Override
     public void loadSavedState() {
         Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.loadSavedState()");
+
+        //TODO: !!!THIS CHECKING FOR NULL IS NECESSARY!!!
+        if (handler != null) {
+            SerializationDoer.loadReadFromFile(this);
+        }
 
         /*
         gameCamera.loadSavedState();
@@ -109,13 +114,6 @@ public class PocketCrittersCartridge
         sceneManager.loadSavedState();
         stateManager.loadSavedState();
         */
-
-        //TODO: !!!THIS CHECKING FOR NULL IS NECESSARY!!!
-        if (handler != null) {
-            SerializationDoer.loadReadFromFile(handler);
-            //TAKEN CARE OF IN GameView.runGameCartridge(GameCartridge, InputManager, int, int).
-        }
-
     }
 
     @Override
@@ -167,6 +165,11 @@ public class PocketCrittersCartridge
     @Override
     public Id getIdGameCartridge() {
         return idGameCartridge;
+    }
+
+    @Override
+    public Handler getHandler() {
+        return handler;
     }
 
     @Override

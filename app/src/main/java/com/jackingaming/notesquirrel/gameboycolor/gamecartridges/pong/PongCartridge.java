@@ -14,6 +14,7 @@ import android.view.SurfaceHolder;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.states.StateManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pong.sprites.Bat;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pong.sprites.Ball;
@@ -255,6 +256,11 @@ public class PongCartridge
     @Override
     public Id getIdGameCartridge() {
         return idGameCartridge;
+    }
+
+    @Override
+    public Handler getHandler() {
+        return null;
     }
 
     @Override

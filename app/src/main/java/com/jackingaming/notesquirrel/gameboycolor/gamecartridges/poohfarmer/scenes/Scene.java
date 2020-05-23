@@ -15,13 +15,15 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.enti
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Scene {
+public class Scene
+        implements Serializable {
 
     public enum Id { FARM, PART_01, HOME_01, HOME_02, HOME_RIVAL, LAB, FROGGER; }
 
-    private Handler handler;
+    transient private Handler handler;
     private Id sceneID;
 
     private int widthViewport;
@@ -389,6 +391,8 @@ public class Scene {
 
         return entityManager;
     }
+
+    public void setHandler(Handler handler) { this.handler = handler; }
 
     public void setGameCamera(GameCamera gameCamera) {
         this.gameCamera = gameCamera;

@@ -261,6 +261,11 @@ public class PoohFarmerCartridge
     }
 
     @Override
+    public Handler getHandler() {
+        return handler;
+    }
+
+    @Override
     public Player getPlayer() {
         return player;
     }

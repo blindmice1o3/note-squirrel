@@ -8,6 +8,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.EntityManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles.TileMap;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -157,6 +158,14 @@ public class SceneManager {
         return (sceneStack.size() - 1);
     }
 
+    public Scene getScene(Scene.Id id) {
+        return sceneCollection.get(id);
+    }
+
+    public void putScene(Scene.Id id, Scene scene) {
+        sceneCollection.put(id, scene);
+    }
+
     /**
      * Retrieves most recent scene (top of sceneStack).
      */
@@ -189,25 +198,24 @@ public class SceneManager {
     /**
      * MAKE LIST OF Scene.ID CURRENTLY IN SceneManager.sceneStack
      */
-    public ArrayList<Scene.Id> getSceneIdsFromSceneStack() {
+    public ArrayList<Scene.Id> retrieveSceneIdsFromSceneStack() {
         ArrayList<Scene.Id> sceneIdsFromSceneStack = new ArrayList<Scene.Id>();
 
         for (int i = 0; i < sceneStack.size(); i++) {
             Scene scene = sceneStack.get(i);
             sceneIdsFromSceneStack.add(scene.getSceneID());
-            Log.d(MainActivity.DEBUG_TAG, "SceneManager.getSceneIdsFromSceneStack() added: " + scene.getSceneID());
+            Log.d(MainActivity.DEBUG_TAG, "SceneManager.retrieveSceneIdsFromSceneStack() added: " + scene.getSceneID());
         }
 
         return sceneIdsFromSceneStack;
     }
 
     public void restoreSceneStack(ArrayList<Scene.Id> sceneIdsFromSceneStack,
-                                  GameCamera gameCamera, Player player) {
+                                  Handler handler, GameCamera gameCamera, Player player) {
 
         for (int i = 0; i < sceneIdsFromSceneStack.size(); i++) {
             Scene.Id id = sceneIdsFromSceneStack.get(i);
             Scene scene = sceneCollection.get(id);
-
 
             //!!!DON'T ADD THE INITIAL SCENE TO sceneStack (it's already there)!!!
             if ((sceneStack.size() == 1) && (id == Scene.Id.PART_01)) {
@@ -217,14 +225,24 @@ public class SceneManager {
 
                 EntityManager entityManager = scene.getEntityManager();
                 if (entityManager != null) {
+                    entityManager.setHandler(handler);
                     entityManager.removePreviousPlayer();
                     entityManager.setPlayer(player);
                     entityManager.addEntity(player);
                 } else {
                     Log.d(MainActivity.DEBUG_TAG, "SceneManager.restoreSceneStack(ArrayList<Scene.Id>, GameCamera, Player) INITIAL SCENE... entityManager is null.");
                 }
+
+                TileMap tileMap = scene.getTileMap();
+                if (tileMap != null) {
+                    tileMap.setHandler(handler);
+                } else {
+                    Log.d(MainActivity.DEBUG_TAG, "SceneManager.restoreSceneStack(ArrayList<Scene.Id>, GameCamera, Player) INITIAL SCENE... tileMap is null.");
+                }
             } else {
                 scene.init(player, gameCamera);
+                scene.getEntityManager().setHandler(handler);
+                scene.getTileMap().setHandler(handler);
                 sceneStack.add(scene);
             }
         }

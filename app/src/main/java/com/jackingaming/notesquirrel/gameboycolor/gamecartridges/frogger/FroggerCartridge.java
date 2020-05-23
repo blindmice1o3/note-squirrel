@@ -153,6 +153,12 @@ public class FroggerCartridge
     }
 
     @Override
+    public Handler getHandler() {
+        Log.d(MainActivity.DEBUG_TAG, "FroggerCartridge.getHandler()");
+        return handler;
+    }
+
+    @Override
     public Player getPlayer() {
         Log.d(MainActivity.DEBUG_TAG, "FroggerCartridge.getPlayer()");
         return player;
