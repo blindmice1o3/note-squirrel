@@ -61,6 +61,9 @@ public class Scene
 
         player.init();
 
+        Log.d(MainActivity.DEBUG_TAG, "Scene.enter() player.xCurrent, player.yCurrent: " + player.getxCurrent() + ", " + player.getyCurrent());
+        Log.d(MainActivity.DEBUG_TAG, "Scene.enter() xPriorScene, yPriorScene: " + xPriorScene + ", " + yPriorScene);
+
         if ((xPriorScene == 0f) && (yPriorScene == 0f)) {
             player.setxCurrent((tileMap.getxSpawnIndex() * TileMap.TILE_WIDTH));
             player.setyCurrent((tileMap.getySpawnIndex() * TileMap.TILE_HEIGHT));
@@ -81,7 +84,8 @@ public class Scene
             player.setyCurrent(yPriorScene);
         }
 
-        gameCamera.update(0L);
+        Log.d(MainActivity.DEBUG_TAG, "Scene.enter() player.xCurrent, player.yCurrent: " + player.getxCurrent() + ", " + player.getyCurrent());
+        gameCamera.init(player, tileMap.getWidthSceneMax(), tileMap.getHeightSceneMax());
     }
 
     float xPriorScene;
@@ -140,7 +144,8 @@ public class Scene
     }
 
     //TODO: move some of these to Scene.enter(Object[])
-    private void initGameCamera(GameCamera gameCamera) {
+    public
+    void initGameCamera(GameCamera gameCamera) {
         Log.d(MainActivity.DEBUG_TAG, "Scene.initGameCamera(GameCamera)");
 
         this.gameCamera = gameCamera;

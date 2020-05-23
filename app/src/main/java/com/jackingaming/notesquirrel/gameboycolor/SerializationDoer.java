@@ -128,8 +128,7 @@ public class SerializationDoer {
 
                 gameCartridge.getSceneManager().putScene(id, scene);
             }
-            handler.getGameCartridge().getSceneManager().restoreSceneStack(sceneIdsFromSceneStack,
-                    handler, player);
+            handler.getGameCartridge().getSceneManager().restoreSceneStack(sceneIdsFromSceneStack);
 
             //STATE (/STATE_MANAGER)
             State gameState = handler.getGameCartridge().getStateManager().getState(State.Id.GAME);

@@ -210,44 +210,24 @@ public class SceneManager {
         return sceneIdsFromSceneStack;
     }
 
-    public void restoreSceneStack(ArrayList<Scene.Id> sceneIdsFromSceneStack,
-                                  Handler handler, Player player) {
-
+    public void restoreSceneStack(ArrayList<Scene.Id> sceneIdsFromSceneStack) {
         for (int i = 0; i < sceneIdsFromSceneStack.size(); i++) {
             Scene.Id id = sceneIdsFromSceneStack.get(i);
             Scene scene = sceneCollection.get(id);
 
-            //!!!DON'T ADD THE INITIAL SCENE TO sceneStack (it's already there)!!!
-            if ((sceneStack.size() == 1) && (id == Scene.Id.PART_01)) {
-                Log.d(MainActivity.DEBUG_TAG, "SceneManager.restoreSceneStack(ArrayList<Scene.Id>, GameCamera, Player) INITIAL SCENE... don't add to stack");
+            sceneStack.add(scene);
 
-                /*
-                EntityManager entityManager = scene.getEntityManager();
-                if (entityManager != null) {
-                    Log.d(MainActivity.DEBUG_TAG, "SceneManager.restoreSceneStack(ArrayList<Scene.Id>, GameCamera, Player) INITIAL SCENE... entityManager is NOT null.");
-                    entityManager.setHandler(handler);
-                    entityManager.removePreviousPlayer();
-                    entityManager.setPlayer(player);
-                    entityManager.addEntity(player);
-                } else {
-                    Log.d(MainActivity.DEBUG_TAG, "SceneManager.restoreSceneStack(ArrayList<Scene.Id>, GameCamera, Player) INITIAL SCENE... entityManager is null.");
-                }
-                */
+            //Prior to restoring the first saved scene, sceneStack already has initial scene (must remove).
+            if (i == 0) {
+                Log.d(MainActivity.DEBUG_TAG, "SceneManager.restoreSceneStack(ArrayList<Scene.Id>, GameCamera, Player) FIRST SAVED SCENE RESTORED.");
 
-                TileMap tileMap = scene.getTileMap();
-                if (tileMap != null) {
-                    Log.d(MainActivity.DEBUG_TAG, "SceneManager.restoreSceneStack(ArrayList<Scene.Id>, GameCamera, Player) INITIAL SCENE... tileMap is NOT null.");
-                    tileMap.setHandler(handler);
-                } else {
-                    Log.d(MainActivity.DEBUG_TAG, "SceneManager.restoreSceneStack(ArrayList<Scene.Id>, GameCamera, Player) INITIAL SCENE... tileMap is null.");
-                }
-            } else {
-                sceneStack.add(scene);
+                Log.d(MainActivity.DEBUG_TAG, "SceneManager.restoreSceneStack(ArrayList<Scene.Id>, GameCamera, Player) REMOVING INITIAL SCENE THAT WAS ADDED WHEN SceneManager WAS INSTANTIATED.");
+
+                sceneStack.remove(0);
+
+                Log.d(MainActivity.DEBUG_TAG, "SceneManager.restoreSceneStack(ArrayList<Scene.Id>, GameCamera, Player) REMOVED INITIAL SCENE THAT WAS ADDED WHEN SceneManager WAS INSTANTIATED.");
             }
         }
-
-
-
     }
 
 }
