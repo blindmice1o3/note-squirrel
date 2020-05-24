@@ -1,32 +1,19 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Rect;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.SurfaceHolder;
-import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
-import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.SerializationDoer;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.states.StateManager;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Robot;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.SceneManager;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
-import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.ListFragmentDvdParentActivity;
 
 public class PocketCrittersCartridge
         implements GameCartridge {
@@ -43,7 +30,6 @@ public class PocketCrittersCartridge
     private Handler handler;
     private Id idGameCartridge;
     private StateManager stateManager;
-    //private State state;
 
     private Player player;
     private GameCamera gameCamera;
@@ -54,7 +40,6 @@ public class PocketCrittersCartridge
 
         this.context = context;
         this.idGameCartridge = idGameCartridge;
-        //state = State.BASE_GAME;
     }
 
     @Override
@@ -88,32 +73,17 @@ public class PocketCrittersCartridge
     public void savePresentState() {
         Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.savePresentState()");
 
-        //TODO:
         SerializationDoer.saveWriteToFile(this);
-
-        /*
-        gameCamera.savePresentState();
-        player.savePresentState();
-        sceneManager.savePresentState();
-        stateManager.savePresentState();
-        */
     }
 
     @Override
     public void loadSavedState() {
         Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.loadSavedState()");
 
-        //TODO: !!!THIS CHECKING FOR NULL IS NECESSARY!!!
+        // !!!THIS CHECKING FOR NULL IS NECESSARY!!!
         if (handler != null) {
             SerializationDoer.loadReadFromFile(this);
         }
-
-        /*
-        gameCamera.loadSavedState();
-        player.loadSavedState();
-        sceneManager.loadSavedState();
-        stateManager.loadSavedState();
-        */
     }
 
     @Override

@@ -86,11 +86,6 @@ public class EntityManager {
             Entity e = entities.get(i);
             e.render(canvas);
         }
-/*
-        for (Entity e : entities) {
-            e.render(canvas);
-        }
-*/
     }
 
     public void addEntity(Entity e) {
@@ -103,14 +98,6 @@ public class EntityManager {
 
     public void setEntities(ArrayList<Entity> entities) {
         this.entities = entities;
-    }
-
-    public void savePresentState() {
-        //TODO:
-    }
-
-    public void loadSavedState() {
-        //TODO:
     }
 
     public void setHandler(Handler handler) {

@@ -16,7 +16,6 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tile
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Animation;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,7 +60,6 @@ public class Player extends Creature {
 
         bounds = new Rect(0, 0, width, height);
     }
-
 
     private void initAnimation() {
         Log.d(MainActivity.DEBUG_TAG, "Player.initAnimation()");
@@ -428,14 +426,6 @@ public class Player extends Creature {
         }
 
         return null;
-    }
-
-    public void savePresentState() {
-        //TODO:
-    }
-
-    public void loadSavedState() {
-        //TODO:
     }
 
     public void setGameCamera(GameCamera gameCamera) {

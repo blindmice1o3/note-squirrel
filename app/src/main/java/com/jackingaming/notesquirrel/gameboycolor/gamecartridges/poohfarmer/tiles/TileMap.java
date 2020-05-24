@@ -19,19 +19,18 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TileMap
-        implements Serializable {
+public class TileMap {
 
     public enum TileType { SOLID, WALKABLE, TELEVISION, COMPUTER, GAME_CONSOLE, SIGN_POST, TRANSFER_POINT; }
     public enum Specs { X_START_TILE_INDEX, X_END_TILE_INDEX, Y_START_TILE_INDEX, Y_END_TILE_INDEX; }
     public static final int TILE_WIDTH = 16;
     public static final int TILE_HEIGHT = 16;
 
-    transient private Handler handler;
+    private Handler handler;
     private Scene.Id sceneID;
 
     private TileType[][] tiles;
-    transient private Bitmap texture;
+    private Bitmap texture;
     private Map<Specs, Integer> specs; //ONLY USE FOR full-world-map related TEXTURE and TILES.
 
     private int xSpawnIndex;
@@ -668,14 +667,6 @@ public class TileMap
 
     public void setHandler(Handler handler) {
         this.handler = handler;
-    }
-
-    public void savePresentState() {
-        //TODO:
-    }
-
-    public void loadSavedState() {
-        //TODO:
     }
 
 }

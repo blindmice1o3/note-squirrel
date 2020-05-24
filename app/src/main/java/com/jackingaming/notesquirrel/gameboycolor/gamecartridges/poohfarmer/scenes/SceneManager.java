@@ -1,14 +1,10 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.EntityManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles.TileMap;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,35 +15,26 @@ public class SceneManager {
 
     private Handler handler;
 
-    private Map<Scene.Id, Scene> sceneCollection;
-
     private Player player;
     private GameCamera gameCamera;
-    ///////////////////////////////
+
+    /////////////////////////////////////////////
+    private Map<Scene.Id, Scene> sceneCollection;
     private List<Scene> sceneStack;
-    ///////////////////////////////
+    /////////////////////////////////////////////
 
     public SceneManager(Handler handler) {
         Log.d(MainActivity.DEBUG_TAG, "SceneManager(Handler) constructor");
-    //public SceneManager(Context context, int widthViewport, int heightViewport,
-    //                    GameCartridge.Id cartridgeID, Player player, GameCamera gameCamera) {
-    //    Log.d(MainActivity.DEBUG_TAG, "SceneManager(Context, int, int, GameCartridge.Id, Player, GameCamera) constructor... cartridgeID: " + cartridgeID.name());
+
         this.handler = handler;
 
         //////////////////////////////////////////////////////////////////////////////////////////
         // Must call initSceneCollection() before Scene.init() (starting scene instantiated here).
         initSceneCollection();
-        //initSceneCollection(
-        //        handler.getGameCartridge().getContext(),
-        //        handler.getGameCartridge().getWidthViewport(),
-        //        handler.getGameCartridge().getHeightViewport() );
-        //initSceneCollection(context, widthViewport, heightViewport);
         //////////////////////////////////////////////////////////////////////////////////////////
 
         player = handler.getGameCartridge().getPlayer();
-        //this.player = player;
         gameCamera = handler.getGameCartridge().getGameCamera();
-        //this.gameCamera = gameCamera;
 
         ////////////////////////////////////
         sceneStack = new ArrayList<Scene>();
@@ -85,9 +72,7 @@ public class SceneManager {
      * Instantiate all the scenes in the game (only once per run).
      */
     private void initSceneCollection() {
-    //private void initSceneCollection(Context context, int widthViewport, int heightViewport) {
         Log.d(MainActivity.DEBUG_TAG, "SceneManager.initSceneCollection()");
-        //Log.d(MainActivity.DEBUG_TAG, "SceneManager.initSceneCollection(Context, int, int)");
 
         /////////////////////////////////////////////////
         sceneCollection = new HashMap<Scene.Id, Scene>();
@@ -171,20 +156,6 @@ public class SceneManager {
      */
     public Scene getCurrentScene() {
         return sceneStack.get( getIndexOfTop() );
-    }
-
-    public void savePresentState() {
-        for (Scene scene : sceneCollection.values()) {
-            scene.savePresentState();
-        }
-        for (int i = 0; i < sceneStack.size(); i++) {
-            //TODO: write to file.
-        }
-    }
-
-    public void loadSavedState() {
-        //TODO: restore every scene in sceneCollection.
-        //TODO: restore sceneStack.
     }
 
     public void setGameCamera(GameCamera gameCamera) {

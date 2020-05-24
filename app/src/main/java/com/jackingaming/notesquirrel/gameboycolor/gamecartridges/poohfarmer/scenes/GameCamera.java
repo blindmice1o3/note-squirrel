@@ -114,14 +114,6 @@ public class GameCamera
         return heightClipInPixel;
     }
 
-    public void savePresentState() {
-        //TODO:
-    }
-
-    public void loadSavedState() {
-        //TODO:
-    }
-
     public void setEntity(Entity entity) {
         this.entity = entity;
     }

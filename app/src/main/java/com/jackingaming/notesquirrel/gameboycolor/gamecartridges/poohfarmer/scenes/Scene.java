@@ -16,7 +16,6 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tile
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class Scene
         implements Serializable {
@@ -31,7 +30,6 @@ public class Scene
 
     transient private TileMap tileMap;
     transient private EntityManager entityManager;
-    //private List<Entity> entities;
     private Player player;
     private GameCamera gameCamera;
 
@@ -92,7 +90,6 @@ public class Scene
     float yPriorScene;
     public void exit(Object[] extra) {
         Log.d(MainActivity.DEBUG_TAG, "Scene.exit(Object[])");
-        //TODO: implement
 
         //TODO: work-around for bug to get it working.
         ///////////////
@@ -144,8 +141,7 @@ public class Scene
     }
 
     //TODO: move some of these to Scene.enter(Object[])
-    public
-    void initGameCamera(GameCamera gameCamera) {
+    public void initGameCamera(GameCamera gameCamera) {
         Log.d(MainActivity.DEBUG_TAG, "Scene.initGameCamera(GameCamera)");
 
         this.gameCamera = gameCamera;
@@ -407,14 +403,6 @@ public class Scene
 
     public Id getSceneID() {
         return sceneID;
-    }
-
-    public void savePresentState() {
-        //TODO:
-    }
-
-    public void loadSavedState() {
-        //TODO:
     }
 
 }
