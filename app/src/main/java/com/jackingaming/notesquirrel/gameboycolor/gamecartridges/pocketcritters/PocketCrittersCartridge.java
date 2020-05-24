@@ -73,7 +73,7 @@ public class PocketCrittersCartridge
     public void savePresentState() {
         Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.savePresentState()");
 
-        SerializationDoer.saveWriteToFile(this);
+        SerializationDoer.saveWriteToFile(this, true);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class PocketCrittersCartridge
 
         // !!!THIS CHECKING FOR NULL IS NECESSARY!!!
         if (handler != null) {
-            SerializationDoer.loadReadFromFile(this);
+            SerializationDoer.loadReadFromFile(this, true);
         }
     }
 

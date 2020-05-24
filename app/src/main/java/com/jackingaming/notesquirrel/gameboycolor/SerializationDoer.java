@@ -22,18 +22,18 @@ import java.util.ArrayList;
 
 public class SerializationDoer {
 
-    public static void saveWriteToFile(GameCartridge gameCartridge) {
-        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(Handler)");
+    public static void saveWriteToFile(GameCartridge gameCartridge, boolean isViaOrientation) {
+
+        String fileName = (isViaOrientation) ? ("savedStateFileViaOrientation.ser") : ("savedStateFileViaMenu");
+
+        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(GameCartridge, boolean): " + fileName);
         try {
-            Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(Handler) beginning.");
-
+            Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(GameCartridge, boolean) beginning.");
+            ////////////////////////////////////////////////////////////////////////////////////////
             //FileOutputStream fs = new FileOutputStream("savedStateFile.ser");
-            ////////////////////////////////////////////////////////////////////////////////////////
-            FileOutputStream fs = gameCartridge.getContext().openFileOutput("savedStateFile.ser", Context.MODE_PRIVATE);
-            ////////////////////////////////////////////////////////////////////////////////////////
+            FileOutputStream fs = gameCartridge.getContext().openFileOutput(fileName, Context.MODE_PRIVATE);
             ObjectOutputStream os = new ObjectOutputStream(fs);
-            Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(Handler) opened \"savedStateFile.ser\".");
-
+            ////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -61,15 +61,12 @@ public class SerializationDoer {
 
 
 
-            Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(Handler) closing \"savedStateFile.ser\".");
-            ////////////
-            os.close();
-            ////////////
-
+            Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(GameCartridge, boolean) closing: " + fileName);
             ///////////
+            os.close();
             fs.close();
             ///////////
-            Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(Handler) ending.");
+            Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(GameCartridge, boolean) ending.");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -77,16 +74,18 @@ public class SerializationDoer {
         }
     }
 
-    public static void loadReadFromFile(GameCartridge gameCartridge) {
-        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(Handler)");
-        try {
-            Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(Handler) beginning.");
+    public static void loadReadFromFile(GameCartridge gameCartridge, boolean isViaOrientation) {
 
+        String fileName = (isViaOrientation) ? ("savedStateFileViaOrientation.ser") : ("savedStateFileViaMenu");
+
+        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(GameCartridge, boolean): " + fileName);
+        try {
+            Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(GameCartridge, boolean) beginning.");
             ////////////////////////////////////////////////////////////////////////////////////////
-            FileInputStream fi = gameCartridge.getContext().openFileInput("savedStateFile.ser");
-            ////////////////////////////////////////////////////////////////////////////////////////
+            FileInputStream fi = gameCartridge.getContext().openFileInput(fileName);
             ObjectInputStream os = new ObjectInputStream(fi);
-            Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(Handler) opened \"savedStateFile.ser\".");
+            ////////////////////////////////////////////////////////////////////////////////////////
+
 
             ///////////////////////////////////////////////////////////////////////////////////
             GameCamera gameCamera = (GameCamera) os.readObject();
@@ -119,7 +118,7 @@ public class SerializationDoer {
                 //////////////////////////////////////
                 Scene scene = (Scene) os.readObject();
                 //////////////////////////////////////
-                Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile() scene: " + scene.getSceneID());
+                Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(GameCartridge, boolean) scene: " + scene.getSceneID());
                 scene.setHandler(handler);
                 scene.setGameCamera(gameCamera);
                 scene.setPlayer(player);
@@ -136,15 +135,12 @@ public class SerializationDoer {
 
 
 
-            Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(Handler) closing \"savedStateFile.ser\".");
+            Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(GameCartridge, boolean) closing: " + fileName);
             ////////////
             os.close();
-            ////////////
-
-            ////////////
             fi.close();
             ////////////
-            Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(Handler) ending.");
+            Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(GameCartridge, boolean) ending.");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.jackingaming.notesquirrel.MainActivity;
+import com.jackingaming.notesquirrel.gameboycolor.SerializationDoer;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.PocketCrittersCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.SceneManager;
@@ -131,9 +132,11 @@ public class StartMenuState
                     break;
                 case LOAD:
                     Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.START_MENU a-button-justPressed LOAD");
+                    SerializationDoer.loadReadFromFile(handler.getGameCartridge(), false);
                     break;
                 case SAVE:
                     Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.START_MENU a-button-justPressed SAVE");
+                    SerializationDoer.saveWriteToFile(handler.getGameCartridge(), false);
                     break;
                 case OPTION:
                     Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.START_MENU a-button-justPressed OPTION");
@@ -252,16 +255,6 @@ public class StartMenuState
     @Override
     public void exit() {
 
-    }
-
-    @Override
-    public void savePresentState() {
-        //TODO:
-    }
-
-    @Override
-    public void loadSavedState() {
-        //TODO:
     }
 
 }
