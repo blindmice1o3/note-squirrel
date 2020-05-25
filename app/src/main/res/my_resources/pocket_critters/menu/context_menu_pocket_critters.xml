@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/critter_dex"
+        android:title="Critterdex" />
+    <item
+        android:id="@+id/belt_list"
+        android:title="Belt List" />
+    <item
+        android:id="@+id/backpack_list"
+        android:title="Backpack List" />
+    <item
+        android:id="@+id/load"
+        android:title="Load" />
+    <item
+        android:id="@+id/save"
+        android:title="Save" />
+    <item
+        android:id="@+id/option"
+        android:title="Option" />
+    <item
+        android:id="@+id/exit"
+        android:title="Exit" />
+</menu>

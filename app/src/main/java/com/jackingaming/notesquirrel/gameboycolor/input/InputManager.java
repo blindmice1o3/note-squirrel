@@ -135,6 +135,8 @@ public class InputManager
         }
     }
 
+
+
     /**
      * System's callback method when the user triggers a touch event
      * from the viewport.
@@ -160,25 +162,32 @@ public class InputManager
         //left
         if (event.getX() < xScreenFirstThird && event.getY() > yScreenFirstThird && event.getY() < yScreenSecondThird) {
             leftViewport = true;
+            return true;
         }
         //right
         else if (event.getX() > xScreenSecondThird && event.getY() > yScreenFirstThird && event.getY() < yScreenSecondThird) {
             rightViewport = true;
+            return true;
         }
         //up
         else if (event.getY() < yScreenFirstThird && event.getX() > xScreenFirstThird && event.getX() < xScreenSecondThird) {
             upViewport = true;
+            return true;
         }
         //down
         else if (event.getY() > yScreenSecondThird && event.getX() > xScreenFirstThird && event.getX() < xScreenSecondThird) {
            downViewport = true;
+            return true;
         }
 
-        // Should return true if you've handled the touch event. If false gets returned,
-        // will NOT check for drag event (can't drag without touch).
-        return true;
-    }
+//        // Should return true if you've handled the touch event. If false gets returned,
+//        // will NOT check for drag event (can't drag without touch).
+//        return true;
 
+        //RETURNING FALSE so something else (ancestor) can handle the touch event (in this case,
+        // JackInActivity's viewport fragment's SurfaceView's context menu).
+        return false;
+    }
 
     /*
     GOTO: DirectionalPadFragment.onCreateView()

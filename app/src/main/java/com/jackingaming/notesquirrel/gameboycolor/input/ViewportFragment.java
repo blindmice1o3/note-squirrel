@@ -3,10 +3,14 @@ package com.jackingaming.notesquirrel.gameboycolor.input;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +18,7 @@ import androidx.fragment.app.Fragment;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.gameboycolor.GameView;
 import com.jackingaming.notesquirrel.sandbox.listviewemail.Message;
 import com.jackingaming.notesquirrel.sandbox.listviewemail.MessageToListItemAdapter;
 
@@ -32,10 +37,6 @@ public class ViewportFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(MainActivity.DEBUG_TAG, "ViewportFragment.onCreate(Bundle)");
-    }
-
-    public void initBounds() {
-
     }
 
     @Nullable

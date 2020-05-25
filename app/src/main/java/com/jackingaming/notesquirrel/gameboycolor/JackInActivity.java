@@ -6,8 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
@@ -87,7 +91,53 @@ public class JackInActivity extends AppCompatActivity {
         } else {
             Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreate(Bundle) Bundle savedInstanceState is NOT null: " + savedInstanceState);
         }
+
+        //@@@@@@@CONTEXT_MENU@@@@@@@
+        if (cartridgeID == GameCartridge.Id.POCKET_CRITTERS) {
+            registerForContextMenu(gameView);
+        }
     }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreateContextMenu(ContextMenu, View, ContextMenu.ContextMenuInfo)");
+        MenuInflater inflater = getMenuInflater();
+        //@@@@@@@CONTEXT_MENU@@@@@@@
+        inflater.inflate(R.menu.context_menu_pocket_critters, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        //@@@@@@@CONTEXT_MENU@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onContextItemSelected(MenuItem)");
+        switch (item.getItemId()) {
+            case R.id.critter_dex:
+                Toast.makeText(this, "Critterdex", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.belt_list:
+                Toast.makeText(this, "Belt List", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.backpack_list:
+                Toast.makeText(this, "Backpack List", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.load:
+                Toast.makeText(this, "Load", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.save:
+                Toast.makeText(this, "Save", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.option:
+                Toast.makeText(this, "Option", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.exit:
+                Toast.makeText(this, "Exit", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+
 
     public void swapGame() {
         Log.d(MainActivity.DEBUG_TAG, "JackInActivity.swapGame()");
