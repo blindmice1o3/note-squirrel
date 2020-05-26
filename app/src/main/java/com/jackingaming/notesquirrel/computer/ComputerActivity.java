@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,22 +21,51 @@ import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.datasource.Dvd;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.datasource.DvdList;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.view.list.MyListFragment;
 
 public class ComputerActivity extends AppCompatActivity {
 
-    private EditText editTextComputer;
+    //FRAGMENT
+    private MyListFragment projectToolWindowFragment;
+    private EditorPanelFragment editorPanelFragment;
+    //VIEW
+    private EditText editTextEditorPanel;
+    //TOAST (CUSTOM VIEW)
+    private Bitmap ai;
 
-    Bitmap ai;
+    //DATA SOURCE (for ListFragment's ArrayAdapter)
+    //TODO: placeholder for project tool window.
+    private DvdList dvds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_computer);
 
-        editTextComputer = (EditText) findViewById(R.id.editTextIDE);
+        projectToolWindowFragment =
+                (MyListFragment) getSupportFragmentManager().findFragmentById(R.id.list_fragment_project_tool_window);
+        editorPanelFragment =
+                (EditorPanelFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_editor_panel);
+        editTextEditorPanel = (EditText) findViewById(R.id.editTextEditorPanel);
 
         Bitmap aiSpriteSheet = BitmapFactory.decodeResource(getResources(), R.drawable.pc_ms_office_clippit);
         ai = Bitmap.createBitmap(aiSpriteSheet, 0, 0, 124, 93);
+
+        //TODO: placeholder for project tool window.
+        dvds = new DvdList(getResources());
+        ArrayAdapter<Dvd> adapter = new ArrayAdapter<Dvd>(this,
+                R.layout.array_adapter_my_list_fragment, dvds);
+        projectToolWindowFragment.setListAdapter(adapter);
+
+        projectToolWindowFragment.setOnListItemClickListener(new MyListFragment.OnListItemClickListener() {
+            @Override
+            public void onDvdItemClicked(int position) {
+                Toast.makeText(ComputerActivity.this, "List item clicked", Toast.LENGTH_SHORT).show();
+                editTextEditorPanel.setText(dvds.get(position).getTitle());
+            }
+        });
     }
 
     @Override
@@ -59,10 +89,10 @@ public class ComputerActivity extends AppCompatActivity {
     public void onButtonClearClicked(View view) {
         Log.d(MainActivity.DEBUG_TAG, "ComputerActivity.onButtonClearClicked(View)");
 
-        String codeOfPlayer = editTextComputer.getText().toString();
+        String codeOfPlayer = editTextEditorPanel.getText().toString();
 
         if (codeOfPlayer.length() > 0) {
-            editTextComputer.getText().clear();
+            editTextEditorPanel.getText().clear();
         } else {
             String toastMessage = "Ain't nothing need clearing, code-slinger.";
 
@@ -86,7 +116,7 @@ public class ComputerActivity extends AppCompatActivity {
     public void onButtonRunClicked(View view) {
         Log.d(MainActivity.DEBUG_TAG, "ComputerActivity.onButtonRunClicked(View)");
 
-        String codeOfPlayer = editTextComputer.getText().toString();
+        String codeOfPlayer = editTextEditorPanel.getText().toString();
 
         String toastMessage = null;
         if (codeOfPlayer.length() > 0) {
