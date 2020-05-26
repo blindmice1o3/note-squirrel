@@ -3,6 +3,7 @@ package com.jackingaming.notesquirrel.gameboycolor;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,7 +11,10 @@ import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
@@ -100,11 +104,77 @@ public class JackInActivity extends AppCompatActivity {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        /*
         super.onCreateContextMenu(menu, v, menuInfo);
         Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreateContextMenu(ContextMenu, View, ContextMenu.ContextMenuInfo)");
         MenuInflater inflater = getMenuInflater();
         //@@@@@@@CONTEXT_MENU@@@@@@@
         inflater.inflate(R.menu.context_menu_pocket_critters, menu);
+        */
+
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.start_menu);
+
+        LinearLayout startMenuLinearLayout = (LinearLayout) dialog.findViewById(R.id.start_menu_linearlayout);
+
+        TextView critterDex = (TextView) startMenuLinearLayout.findViewById(R.id.dialog_critter_dex);
+        critterDex.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(JackInActivity.this, "Critterdex", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        TextView beltList = (TextView) startMenuLinearLayout.findViewById(R.id.dialog_belt_list);
+        beltList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(JackInActivity.this, "Belt List", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        TextView backpackList = (TextView) startMenuLinearLayout.findViewById(R.id.dialog_backpack_list);
+        backpackList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(JackInActivity.this, "Backpack List", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        TextView load = (TextView) startMenuLinearLayout.findViewById(R.id.dialog_load);
+        load.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(JackInActivity.this, "Load", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        TextView save = (TextView) startMenuLinearLayout.findViewById(R.id.dialog_save);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(JackInActivity.this, "Save", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        TextView option = (TextView) startMenuLinearLayout.findViewById(R.id.dialog_option);
+        option.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(JackInActivity.this, "Option", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        TextView exit = (TextView) startMenuLinearLayout.findViewById(R.id.dialog_exit);
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(JackInActivity.this, "Exit", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        dialog.show();
     }
 
     @Override
