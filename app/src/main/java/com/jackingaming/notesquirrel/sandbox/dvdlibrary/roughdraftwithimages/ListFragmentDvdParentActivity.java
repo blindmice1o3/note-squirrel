@@ -21,7 +21,7 @@ import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.datasource.Dvd;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.datasource.DvdList;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.view.grid.DvdListToGridViewCellAdapter;
-import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.view.list.ListDvdFragment;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.view.list.MyListFragment;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.view.list.ModelDvdFragment;
 
 import java.io.BufferedReader;
@@ -37,7 +37,7 @@ public class ListFragmentDvdParentActivity extends AppCompatActivity {
     private DvdList dvds;
 
     private Mode mode;
-    private int mPosition;
+    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class ListFragmentDvdParentActivity extends AppCompatActivity {
         dvds = new DvdList(getResources());
 
         initListMode();
-        mPosition = 0;
+        position = 0;
     }
 
     private void initListMode() {
@@ -60,21 +60,21 @@ public class ListFragmentDvdParentActivity extends AppCompatActivity {
         ////////////////////////////////////////////////////////////////////////////////////////////
         final ModelDvdFragment modelDvdFragment =
                 (ModelDvdFragment) getSupportFragmentManager().findFragmentById(R.id.modelDvd);
-        modelDvdFragment.setDvd(dvds.get(mPosition));
+        modelDvdFragment.setDvd(dvds.get(position));
         ////////////////////////////////////////////////////////////////////////////////////////////
 
         ////////////////////////////////////////////////////////////////////////////////////////////
-        ListDvdFragment listDvdFragment = (ListDvdFragment) getSupportFragmentManager().findFragmentById(R.id.listDvd);
+        MyListFragment myListFragment = (MyListFragment) getSupportFragmentManager().findFragmentById(R.id.listDvd);
 
         ArrayAdapter<Dvd> adapter = new ArrayAdapter<Dvd>(this,
-                R.layout.list_item_dvd, dvds);
+                R.layout.array_adapter_my_list_fragment, dvds);
 
-        listDvdFragment.setListAdapter(adapter);
-        listDvdFragment.setOnDvdItemClickListener(new ListDvdFragment.OnDvdItemClickListener() {
+        myListFragment.setListAdapter(adapter);
+        myListFragment.setOnListItemClickListener(new MyListFragment.OnListItemClickListener() {
             @Override
             public void onDvdItemClicked(int position) {
                 //tracking last clicked position
-                mPosition = position;
+                setPosition(position);
 
                 Dvd dvd = dvds.get(position);
 
@@ -88,8 +88,8 @@ public class ListFragmentDvdParentActivity extends AppCompatActivity {
         mode = Mode.GRID;
 
         //FIND PREVIOUS POSITION
-        ListDvdFragment listDvdFragment = (ListDvdFragment) getSupportFragmentManager().findFragmentById(R.id.listDvd);
-        int firstVisiblePosition = listDvdFragment.getListView().getFirstVisiblePosition();
+        MyListFragment myListFragment = (MyListFragment) getSupportFragmentManager().findFragmentById(R.id.listDvd);
+        int firstVisiblePosition = myListFragment.getListView().getFirstVisiblePosition();
         Toast.makeText(this, "firstVisiblePosition: " + firstVisiblePosition, Toast.LENGTH_SHORT).show();
 
         ///////////////////////CLEAN UP///////////////////////
@@ -117,7 +117,7 @@ public class ListFragmentDvdParentActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(MainActivity.DEBUG_TAG, "ListFragmentDvdParent.onOptionItemSelected()'s gridView.OnItemClickListener.onItemClick(AdapterView<?>, View, int, long)");
                 //tracking last clicked position
-                mPosition = position;
+                setPosition(position);
 
                 // Toggle the favorite-star's activeness image.
                 Dvd dvd = dvds.get(position);
@@ -134,9 +134,9 @@ public class ListFragmentDvdParentActivity extends AppCompatActivity {
 
     }
 
-    private static final String favoritedDvdTitlesKey = "favoritedDvdTitlesKey";
-    private static final String positionKey = "positionKey";
-    private static final String modeIndexKey = "modeIndexKey";
+    private static final String FAVORITED_DVD_TITLES_KEY = "FAVORITED_DVD_TITLES_KEY";
+    private static final String POSITION_KEY = "POSITION_KEY";
+    private static final String MODE_INDEX_KEY = "MODE_INDEX_KEY";
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -151,19 +151,19 @@ public class ListFragmentDvdParentActivity extends AppCompatActivity {
             }
         }
         //Save the list to outState for later.
-        outState.putStringArrayList(favoritedDvdTitlesKey, favoritedDvdTitles);
+        outState.putStringArrayList(FAVORITED_DVD_TITLES_KEY, favoritedDvdTitles);
         ////////////////////////////////////////////////////////////////////////////////////////////
 
         ////////////////////////////////////////////////////////////////////////////////////////////
         int modeIndex = mode.ordinal();
-        outState.putInt(modeIndexKey, modeIndex);
+        outState.putInt(MODE_INDEX_KEY, modeIndex);
         ////////////////////////////////////////////////////////////////////////////////////////////
 
         ////////////////////////////////////////////////////////////////////////////////////////////
         //!!!ONLY LIST HAS ModelDvdFragment!!!
         if (mode == Mode.LIST) {
-            //Save mPosition (determines which dvd for ModelDvdFragment to display) to outstate for later.
-            outState.putInt(positionKey, mPosition);
+            //Save position (determines which dvd for ModelDvdFragment to display) to outstate for later.
+            outState.putInt(POSITION_KEY, position);
         }
         ////////////////////////////////////////////////////////////////////////////////////////////
     }
@@ -175,7 +175,7 @@ public class ListFragmentDvdParentActivity extends AppCompatActivity {
 
         ////////////////////////////////////////////////////////////////////////////////////////////
         //Get the previously saved list of favorited dvds.
-        final ArrayList<String> favoritedDvdTitles = savedInstanceState.getStringArrayList(favoritedDvdTitlesKey);
+        final ArrayList<String> favoritedDvdTitles = savedInstanceState.getStringArrayList(FAVORITED_DVD_TITLES_KEY);
         //Iterate through all the dvds and set which was favorited.
         for (String dvdTitle : favoritedDvdTitles) {
             for (Dvd dvd : dvds) {
@@ -188,20 +188,20 @@ public class ListFragmentDvdParentActivity extends AppCompatActivity {
         ////////////////////////////////////////////////////////////////////////////////////////////
 
         ////////////////////////////////////////////////////////////////////////////////////////////
-        int modeIndex = savedInstanceState.getInt(modeIndexKey);
+        int modeIndex = savedInstanceState.getInt(MODE_INDEX_KEY);
         mode = Mode.values()[modeIndex];
         ////////////////////////////////////////////////////////////////////////////////////////////
 
         ////////////////////////////////////////////////////////////////////////////////////////////
         //!!!ONLY LIST HAS ModelDvdFragment!!!
         if (mode == Mode.LIST) {
-            //Get the previously saved mPosition to set dvd to display in ModelDvdFragment.
-            mPosition = savedInstanceState.getInt(positionKey);
+            //Get the previously saved position to set dvd to display in ModelDvdFragment.
+            position = savedInstanceState.getInt(POSITION_KEY);
 
-            //Set dvd for ModelDvdFragment to display, based on previously saved mPosition.
+            //Set dvd for ModelDvdFragment to display, based on previously saved position.
             final ModelDvdFragment modelDvdFragment =
                     (ModelDvdFragment) getSupportFragmentManager().findFragmentById(R.id.modelDvd);
-            modelDvdFragment.setDvd(dvds.get(mPosition));
+            modelDvdFragment.setDvd(dvds.get(position));
         } else if (mode == Mode.GRID) {
             //Activity's default starting mode (when re-created) is LIST.
             initGridMode();
@@ -270,6 +270,10 @@ public class ListFragmentDvdParentActivity extends AppCompatActivity {
         */
 
         return dvds;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 
 }

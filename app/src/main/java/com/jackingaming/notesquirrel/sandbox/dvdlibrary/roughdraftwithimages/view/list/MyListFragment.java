@@ -10,30 +10,30 @@ import androidx.fragment.app.ListFragment;
 
 import com.jackingaming.notesquirrel.MainActivity;
 
-public class ListDvdFragment extends ListFragment {
+public class MyListFragment extends ListFragment {
 
     ///////////////////////////////////////////////////////////////////////////////////////
-    public interface OnDvdItemClickListener {
+    public interface OnListItemClickListener {
         public void onDvdItemClicked(int position);
     }
-    private OnDvdItemClickListener onDvdItemClickListener;
-    public void setOnDvdItemClickListener(OnDvdItemClickListener onDvdItemClickListener) {
-        this.onDvdItemClickListener = onDvdItemClickListener;
+    private OnListItemClickListener onListItemClickListener;
+    public void setOnListItemClickListener(OnListItemClickListener onListItemClickListener) {
+        this.onListItemClickListener = onListItemClickListener;
     }
     ///////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(MainActivity.DEBUG_TAG, "ListDvdFragment.onCreate(Bundle)");
+        Log.d(MainActivity.DEBUG_TAG, "MyListFragment.onCreate(Bundle)");
     }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        Log.d(MainActivity.DEBUG_TAG, "ListDvdFragment.onListItemClick(ListView, View, int, long)");
+        Log.d(MainActivity.DEBUG_TAG, "MyListFragment.onListItemClick(ListView, View, int, long)");
 
-        if (onDvdItemClickListener != null) {
-            onDvdItemClickListener.onDvdItemClicked(position);
+        if (onListItemClickListener != null) {
+            onListItemClickListener.onDvdItemClicked(position);
         }
     }
 
