@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jackingaming.notesquirrel">
+
     <!-- Supporting different screen resolutions -->
     <supports-screens
         android:largeScreens="true"
         android:normalScreens="true"
         android:resizeable="true"
         android:smallScreens="false"
-        android:xlargeScreens="true" /> <!-- Features (optional): camera -->
+        android:xlargeScreens="true" />
+
+    <!-- Features (optional): camera -->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -15,6 +18,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- Below is the default path for the android:icon attribute -->
+    <!-- android:icon="@mipmap/ic_launcher" -->
+    <!-- I changed it to an image of a turtle. -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/rsz_1zturtle"
@@ -23,9 +29,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!-- Below is the default path for the android:icon attribute of the above application tag -->
-        <!-- android:icon="@mipmap/ic_launcher" -->
-        <!-- I changed it to an image of a turtle. -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.jackingaming.notesquirrel.fileprovider"
@@ -39,11 +42,13 @@
         <activity
             android:name=".gameboycolor.JackInActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-        <activity android:name=".computer.ComputerActivity" />
+        <activity
+            android:name=".computer.ComputerActivity"
+            android:screenOrientation="landscape" />
         <activity android:name=".television.TelevisionActivity" />
         <activity android:name=".sandbox.spritesheetverifier2.SpriteSheetVerifier2Activity" />
         <activity android:name=".sandbox.spritesheetverifier1.SpriteSheetVerifier1Activity" />
-        <activity android:name=".sandbox.learnfragment.LearnFragmentParentActivity"></activity>
+        <activity android:name=".sandbox.learnfragment.LearnFragmentParentActivity" />
         <activity android:name=".sandbox.dvdlibrary.roughdraftwithimages.ListFragmentDvdParentActivity" />
         <activity android:name=".sandbox.dvdlibrary.official.view.grid.GridViewDvdActivity" />
         <activity android:name=".sandbox.downloadhtml.DownloadHtmlFragmentParentActivity" />
@@ -60,7 +65,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity">
-
             <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -69,6 +73,7 @@
             </intent-filter>
             -->
         </activity>
+
     </application>
 
 </manifest>

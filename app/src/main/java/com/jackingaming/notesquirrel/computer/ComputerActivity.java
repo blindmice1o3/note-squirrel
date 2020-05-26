@@ -1,5 +1,6 @@
 package com.jackingaming.notesquirrel.computer;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Bitmap;
@@ -8,6 +9,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -40,6 +43,24 @@ public class ComputerActivity extends AppCompatActivity {
         //////////////////////////////////////////
         //imageViewAI.setVisibility(View.INVISIBLE);
         //////////////////////////////////////////
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.options_menu_activity_computer, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_computer_paperclip:
+                Toast.makeText(this, "Paperclip", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                Toast.makeText(this, "ComputerActivity.onOptionsItemSelected(MenuItem) switch's default", Toast.LENGTH_SHORT).show();
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void onButtonClearClicked(View view) {
