@@ -24,7 +24,6 @@ import com.jackingaming.notesquirrel.R;
 public class ComputerActivity extends AppCompatActivity {
 
     private EditText editTextComputer;
-    private ImageView imageViewAI;
 
     Bitmap ai;
 
@@ -34,15 +33,9 @@ public class ComputerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_computer);
 
         editTextComputer = (EditText) findViewById(R.id.editTextIDE);
-        imageViewAI = (ImageView) findViewById(R.id.imageViewAI);
 
         Bitmap aiSpriteSheet = BitmapFactory.decodeResource(getResources(), R.drawable.pc_ms_office_clippit);
         ai = Bitmap.createBitmap(aiSpriteSheet, 0, 0, 124, 93);
-
-        //imageViewAI.setImageBitmap(ai);
-        //////////////////////////////////////////
-        //imageViewAI.setVisibility(View.INVISIBLE);
-        //////////////////////////////////////////
     }
 
     @Override
@@ -71,12 +64,8 @@ public class ComputerActivity extends AppCompatActivity {
         if (codeOfPlayer.length() > 0) {
             editTextComputer.getText().clear();
         } else {
-            //imageViewAI.setImageBitmap(ai);
-            ////////////////////////////////////////
-            //imageViewAI.setVisibility(View.VISIBLE);
-            ////////////////////////////////////////
-
             String toastMessage = "Ain't nothing need clearing, code-slinger.";
+
             ////////////////////////////////////////////////////////////////////////////////////////
             LayoutInflater inflater = getLayoutInflater();
             View layout = inflater.inflate(R.layout.toast_custom_layout, (ViewGroup) findViewById(R.id.toast_layout_root));
@@ -91,8 +80,6 @@ public class ComputerActivity extends AppCompatActivity {
             toast.setView(layout);
             toast.show();
             ////////////////////////////////////////////////////////////////////////////////////////
-
-            //waitForToastToFinish();
         }
     }
 
@@ -107,10 +94,6 @@ public class ComputerActivity extends AppCompatActivity {
         } else {
             toastMessage = "Show at least a little effort, console-jockey.";
         }
-        //imageViewAI.setImageBitmap(ai);
-        ////////////////////////////////////////
-        //imageViewAI.setVisibility(View.VISIBLE);
-        ////////////////////////////////////////
 
         ////////////////////////////////////////////////////////////////////////////////////////
         LayoutInflater inflater = getLayoutInflater();
@@ -126,35 +109,6 @@ public class ComputerActivity extends AppCompatActivity {
         toast.setView(layout);
         toast.show();
         ////////////////////////////////////////////////////////////////////////////////////////
-
-        //waitForToastToFinish();
     }
-
-    /*
-    private void waitForToastToFinish() {
-        long timer = 0;
-        long lastTime = System.currentTimeMillis();
-        while (timer < 40000) {
-            long elapsed = System.currentTimeMillis() - lastTime;
-            timer += elapsed;
-            Log.d(MainActivity.DEBUG_TAG, "timer: " + timer);
-
-            if (timer >= 40000) {
-                //////////////////////////////////////////
-                imageViewAI.setVisibility(View.INVISIBLE);
-                //////////////////////////////////////////
-            }
-        }
-        Log.d(MainActivity.DEBUG_TAG, "After nulling");
-
-        //Bitmap postTimerImage = BitmapFactory.decodeResource(getResources(), R.drawable.test_32x32);
-        //imageViewAI.setImageBitmap(postTimerImage);
-
-        //imageViewAI.setImageBitmap(null);
-        //imageViewAI.invalidate();
-
-        //TODO: https://www.concretepage.com/android/android-toast-example-with-custom-view
-    }
-     */
 
 }
