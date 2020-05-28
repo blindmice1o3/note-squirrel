@@ -2,13 +2,14 @@ package com.jackingaming.notesquirrel.gameboycolor;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -139,6 +140,33 @@ public class JackInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(JackInActivity.this, "Backpack List", Toast.LENGTH_SHORT).show();
+
+                final Dialog dialog = new Dialog(JackInActivity.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+                dialog.setContentView(R.layout.backpack);
+                RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.recycler_view_tinkering);
+
+                // use this setting to improve performance if you know that changes
+                // in content do not change the layout size of the RecyclerView
+                recyclerView.setHasFixedSize(true);
+
+                // use a linear layout manager
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(JackInActivity.this);
+                recyclerView.setLayoutManager(layoutManager);
+
+                // specify an adapter (see also next example)
+                //mAdapter = new MyAdapter(myDataset);
+                //recyclerView.setAdapter(mAdapter);
+
+                recyclerView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(JackInActivity.this, "Backpack", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                dialog.show();
             }
         });
 
