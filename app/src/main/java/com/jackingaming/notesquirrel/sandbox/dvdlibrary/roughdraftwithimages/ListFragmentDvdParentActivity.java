@@ -8,7 +8,9 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -82,6 +84,9 @@ public class ListFragmentDvdParentActivity extends AppCompatActivity {
             }
         });
         ////////////////////////////////////////////////////////////////////////////////////////////
+
+        //@@@@@@@CONTEXT_MENU@@@@@@@
+        registerForContextMenu(myListFragment.getListView());
     }
 
     private void initGridMode() {
@@ -132,6 +137,8 @@ public class ListFragmentDvdParentActivity extends AppCompatActivity {
         gridView.setSelection(firstVisiblePosition);
         ////////////////////////////////////////////
 
+        //@@@@@@@CONTEXT_MENU@@@@@@@
+        registerForContextMenu(gridView);
     }
 
     private static final String FAVORITED_DVD_TITLES_KEY = "FAVORITED_DVD_TITLES_KEY";
@@ -207,6 +214,32 @@ public class ListFragmentDvdParentActivity extends AppCompatActivity {
             initGridMode();
         }
         ////////////////////////////////////////////////////////////////////////////////////////////
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreateContextMenu(ContextMenu, View, ContextMenu.ContextMenuInfo)");
+        MenuInflater inflater = getMenuInflater();
+        //@@@@@@@CONTEXT_MENU@@@@@@@
+        inflater.inflate(R.menu.context_menu_activity_list_fragment_dvd_parent, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        //@@@@@@@CONTEXT_MENU@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "ListFragmentDvdParentActivity.onContextItemSelected(MenuItem)");
+        switch (item.getItemId()) {
+            case R.id.check_out:
+                Toast.makeText(this, "Check out", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.cancel:
+                Toast.makeText(this, "Cancel", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
     }
 
     @Override

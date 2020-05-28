@@ -64,19 +64,11 @@ public class DvdListToGridViewCellAdapter extends BaseAdapter {
         final TextView textViewDvdTitle = (TextView) convertView.findViewById(R.id.textview_dvd_title);
         final ImageView imageViewFavorite = (ImageView) convertView.findViewById(R.id.imageview_favorite);
 
-        /*
-        Bitmap source = dvd.getImage();
-        Bitmap icon = Bitmap.createScaledBitmap(source,
-                source.getWidth() * 2, source.getHeight() * 2, false);
-        imageView.setImageBitmap(icon);
-        */
-
         imageViewDvdCoverArt.setImageBitmap(dvd.getImage());
         textViewDvdTitle.setText(dvd.getTitle());
         imageViewFavorite.setImageResource(
             dvd.getIsFavorite() ? R.drawable.btn_star_on_normal_holo_light : R.drawable.btn_star_off_normal_holo_light
         );
-
 
         return convertView;
     }
