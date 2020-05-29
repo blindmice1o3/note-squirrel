@@ -67,13 +67,15 @@ public class PocketCrittersCartridge
         /////////////////////////////////////////
         stateManager = new StateManager(handler);
         /////////////////////////////////////////
+
+        //TODO: if isReturningFromActivity... then load
     }
 
     @Override
     public void savePresentState() {
         Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.savePresentState()");
 
-        SerializationDoer.saveWriteToFile(this, true);
+        SerializationDoer.saveWriteToFile(this, false);
     }
 
     @Override
@@ -82,7 +84,7 @@ public class PocketCrittersCartridge
 
         // !!!THIS CHECKING FOR NULL IS NECESSARY!!!
         if (handler != null) {
-            SerializationDoer.loadReadFromFile(this, true);
+            SerializationDoer.loadReadFromFile(this, false);
         }
     }
 

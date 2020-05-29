@@ -1,7 +1,9 @@
 package com.jackingaming.notesquirrel.gameboycolor;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,6 +34,8 @@ import com.jackingaming.notesquirrel.gameboycolor.input.ViewportFragment;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.ListFragmentDvdParentActivity;
 
 public class JackInActivity extends AppCompatActivity {
+
+    public static final int REQUEST_CODE_RECYCLER_VIEW_ACTIVITY = 17;
 
     private Bundle savedInstanceState;
 
@@ -141,34 +145,13 @@ public class JackInActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Toast.makeText(JackInActivity.this, "Backpack List", Toast.LENGTH_SHORT).show();
 
-                final Dialog dialog = new Dialog(JackInActivity.this);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.POCKET_CRITTERS) {
+                    ((PocketCrittersCartridge)gameCartridge).savePresentState();
+                }
 
-                dialog.setContentView(R.layout.backpack);
-                RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.recycler_view_tinkering);
-
-                // use this setting to improve performance if you know that changes
-                // in content do not change the layout size of the RecyclerView
-                recyclerView.setHasFixedSize(true);
-
-                // use a linear layout manager
-                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(JackInActivity.this);
-                recyclerView.setLayoutManager(layoutManager);
-
-                //TODO: placeholder dataSet.
-                String[] dataSet = { "Here ", "is ", "a ", "data ", "set ", "of ", "String ", "objects." };
-                // specify an adapter
-                AdapterRecyclerView adapter = new AdapterRecyclerView(dataSet);
-                recyclerView.setAdapter(adapter);
-
-                recyclerView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(JackInActivity.this, "Backpack", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                dialog.show();
+                Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreateContextMenu.OnClickListener.onClick(View) STARTING ACTIVITY FOR RESULT (RecyclerViewActivity)");
+                Intent recyclerViewIntent = new Intent(JackInActivity.this, RecyclerViewActivity.class);
+                startActivityForResult(recyclerViewIntent, REQUEST_CODE_RECYCLER_VIEW_ACTIVITY);
             }
         });
 
@@ -205,6 +188,22 @@ public class JackInActivity extends AppCompatActivity {
         });
 
         dialog.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onActivityResult(int, int, Intent)");
+
+        //TODO: this LOADING is happening before everything is instantiated (so everything loaded
+        // is getting overwritten back to the initial state).
+        //&& resultCode == RESULT_OK
+        if (requestCode == REQUEST_CODE_RECYCLER_VIEW_ACTIVITY) {
+            Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onActivityResult(int, int, Intent) RETURNING FROM RecyclerViewActivity (LOADING SAVED STATE)");
+//            if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.POCKET_CRITTERS) {
+//                ((PocketCrittersCartridge)gameCartridge).loadSavedState();
+//            }
+            //TODO: set a boolean isReturningFromActivity = true and use this at end of PocketCritterCartridge.init().
+        }
     }
 
     @Override

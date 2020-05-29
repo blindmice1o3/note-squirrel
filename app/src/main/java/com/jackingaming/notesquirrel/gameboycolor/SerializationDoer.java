@@ -22,9 +22,9 @@ import java.util.ArrayList;
 
 public class SerializationDoer {
 
-    public static void saveWriteToFile(GameCartridge gameCartridge, boolean isViaOrientation) {
+    public static void saveWriteToFile(GameCartridge gameCartridge, boolean isViaPlayerChoice) {
 
-        String fileName = (isViaOrientation) ? ("savedStateFileViaOrientation.ser") : ("savedStateFileViaMenu");
+        String fileName = (isViaPlayerChoice) ? ("savedStateFileViaMenu") : ("savedStateFileViaOS.ser");
 
         Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(GameCartridge, boolean): " + fileName);
         try {
@@ -74,9 +74,9 @@ public class SerializationDoer {
         }
     }
 
-    public static void loadReadFromFile(GameCartridge gameCartridge, boolean isViaOrientation) {
+    public static void loadReadFromFile(GameCartridge gameCartridge, boolean isViaPlayerChoice) {
 
-        String fileName = (isViaOrientation) ? ("savedStateFileViaOrientation.ser") : ("savedStateFileViaMenu");
+        String fileName = (isViaPlayerChoice) ? ("savedStateFileViaMenu") : ("savedStateFileViaOS.ser");
 
         Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(GameCartridge, boolean): " + fileName);
         try {

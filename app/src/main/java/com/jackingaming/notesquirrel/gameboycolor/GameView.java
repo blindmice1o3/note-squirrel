@@ -90,6 +90,7 @@ public class GameView extends SurfaceView
             //////////////////////////////////////////////////////////////////////
             inputManager.init(widthScreen, heightScreen);
             gameCartridge.init(holder, inputManager, widthScreen, heightScreen);
+            //DON'T CALL loadSavedState() ON ACTIVITY'S VERY FIRST START-UP.
             if (((JackInActivity)getContext()).getSavedInstanceState() != null) {
                 Log.d(MainActivity.DEBUG_TAG, "GameView.runGameCartridge(GameCartridge, InputManager, int, int) calling gameCartridge.loadSavedState()");
                 gameCartridge.loadSavedState();

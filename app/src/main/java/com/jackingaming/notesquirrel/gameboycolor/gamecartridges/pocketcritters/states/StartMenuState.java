@@ -132,11 +132,11 @@ public class StartMenuState
                     break;
                 case LOAD:
                     Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.START_MENU a-button-justPressed LOAD");
-                    SerializationDoer.loadReadFromFile(handler.getGameCartridge(), false);
+                    SerializationDoer.loadReadFromFile(handler.getGameCartridge(), true);
                     break;
                 case SAVE:
                     Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.START_MENU a-button-justPressed SAVE");
-                    SerializationDoer.saveWriteToFile(handler.getGameCartridge(), false);
+                    SerializationDoer.saveWriteToFile(handler.getGameCartridge(), true);
                     break;
                 case OPTION:
                     Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.START_MENU a-button-justPressed OPTION");
