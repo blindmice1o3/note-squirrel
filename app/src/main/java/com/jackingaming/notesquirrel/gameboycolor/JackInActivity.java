@@ -190,6 +190,10 @@ public class JackInActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    boolean isReturningFromActivity = false;
+    public boolean isReturningFromActivity() {
+        return isReturningFromActivity;
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onActivityResult(int, int, Intent)");
@@ -203,6 +207,7 @@ public class JackInActivity extends AppCompatActivity {
 //                ((PocketCrittersCartridge)gameCartridge).loadSavedState();
 //            }
             //TODO: set a boolean isReturningFromActivity = true and use this at end of PocketCritterCartridge.init().
+            isReturningFromActivity = true;
         }
     }
 

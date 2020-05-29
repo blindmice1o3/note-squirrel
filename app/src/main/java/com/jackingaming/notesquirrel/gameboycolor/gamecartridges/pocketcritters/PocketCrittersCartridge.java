@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.jackingaming.notesquirrel.MainActivity;
+import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.SerializationDoer;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
@@ -69,6 +70,9 @@ public class PocketCrittersCartridge
         /////////////////////////////////////////
 
         //TODO: if isReturningFromActivity... then load
+        if ( ((JackInActivity)context).isReturningFromActivity() ) {
+            loadSavedState();
+        }
     }
 
     @Override
