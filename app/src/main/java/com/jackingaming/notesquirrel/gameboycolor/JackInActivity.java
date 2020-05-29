@@ -155,9 +155,11 @@ public class JackInActivity extends AppCompatActivity {
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(JackInActivity.this);
                 recyclerView.setLayoutManager(layoutManager);
 
-                // specify an adapter (see also next example)
-                //mAdapter = new MyAdapter(myDataset);
-                //recyclerView.setAdapter(mAdapter);
+                //TODO: placeholder dataSet.
+                String[] dataSet = { "Here ", "is ", "a ", "data ", "set ", "of ", "String ", "objects." };
+                // specify an adapter
+                AdapterRecyclerView adapter = new AdapterRecyclerView(dataSet);
+                recyclerView.setAdapter(adapter);
 
                 recyclerView.setOnClickListener(new View.OnClickListener() {
                     @Override
