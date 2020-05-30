@@ -10,10 +10,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.transition.Fade;
+import android.transition.Scene;
+import android.transition.Transition;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -149,6 +154,13 @@ public class JackInActivity extends AppCompatActivity {
                 if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.POCKET_CRITTERS) {
                     ((PocketCrittersCartridge)gameCartridge).savePresentState();
                 }
+
+//                // Create the scene root for the scenes in this app
+//                ViewGroup sceneRoot = (ViewGroup) findViewById(R.id.relativeLayout);
+//                Scene aScene = Scene.getSceneForLayout(sceneRoot, R.id.relativeLayout, JackInActivity.this);
+//                Scene anotherScene = Scene.getSceneForLayout(sceneRoot, R.id.constraintlayout_recycler_view_activity, JackInActivity.this);
+//                Transition fadeTransition = new Fade();
+//                TransitionManager.go(anotherScene, fadeTransition);
 
                 Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreateContextMenu.OnClickListener.onClick(View) STARTING ACTIVITY FOR RESULT (RecyclerViewActivity)");
                 Intent recyclerViewIntent = new Intent(JackInActivity.this, RecyclerViewActivity.class);
