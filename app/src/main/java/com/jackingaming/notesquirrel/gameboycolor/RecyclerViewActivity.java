@@ -5,17 +5,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.PocketCrittersCartridge;
 
 public class RecyclerViewActivity extends AppCompatActivity
         implements AdapterRecyclerView.ItemClickListener {
@@ -24,32 +20,12 @@ public class RecyclerViewActivity extends AppCompatActivity
 
     private Mode mode = Mode.GRID;
 
-    RecyclerView recyclerView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycler_view);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_tinkering);
-
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        recyclerView.setHasFixedSize(true);
-
-        // use a linear layout manager
-        //RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        // use a grid layout manager
-        int numberOfColumns = 4;
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, numberOfColumns);
-        recyclerView.setLayoutManager(layoutManager);
-
-        //TODO: placeholder dataSet.
-        String[] dataSet = { "Here ", "is ", "a ", "data ", "set ", "of ", "String ", "objects." };
-        // specify an adapter
-        AdapterRecyclerView adapter = new AdapterRecyclerView(dataSet);
-        adapter.setClickListener(this);
-        recyclerView.setAdapter(adapter);
+        initRecyclerView();
     }
 
     @Override
@@ -57,29 +33,53 @@ public class RecyclerViewActivity extends AppCompatActivity
         Toast.makeText(this, "position: " + position, Toast.LENGTH_SHORT).show();
     }
 
+    private void initRecyclerView() {
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view_tinkering);
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        recyclerView.setHasFixedSize(true);
+
+        // specify a layout manager
+        recyclerView.setLayoutManager( instantiateLayoutManager() );
+
+        //TODO: placeholder dataSet.
+        String[] dataSet = { "Here ", "is ", "a ", "data ", "set ", "of ", "String ", "objects." };
+        AdapterRecyclerView adapter = new AdapterRecyclerView(dataSet);
+        adapter.setClickListener(this);
+
+        // specify an adapter
+        recyclerView.setAdapter(adapter);
+    }
+
     public void onSwitchModeButtonClick(View view) {
         Log.d(MainActivity.DEBUG_TAG, "RecyclerViewActivity.onSwitchModeButtonClick(View)");
 
-        // Alternate current mode.
-        mode = (mode == Mode.GRID) ? (Mode.LINEAR) : (Mode.GRID);
+        toggleMode();
 
-        RecyclerView.LayoutManager layoutManager = null;
+        initRecyclerView();
+    }
+
+    /**
+     * Alternate current mode.
+     */
+    private void toggleMode() {
+        mode = (mode == Mode.GRID) ? (Mode.LINEAR) : (Mode.GRID);
+    }
+
+    private RecyclerView.LayoutManager instantiateLayoutManager() {
         switch (mode) {
             case GRID:
                 // use a grid layout manager
                 int numberOfColumns = 4;
-                layoutManager = new GridLayoutManager(this, numberOfColumns);
-                break;
+                return new GridLayoutManager(this, numberOfColumns);
             case LINEAR:
                 // use a linear layout manager
-                layoutManager = new LinearLayoutManager(this);
-                break;
+                return new LinearLayoutManager(this);
             default:
                 Log.d(MainActivity.DEBUG_TAG, "RecyclerViewActivity.onSwitchModeButtonClick(View) switch (mode)'s default block.");
-                break;
+                return null;
         }
-
-        recyclerView.setLayoutManager(layoutManager);
     }
 
 }

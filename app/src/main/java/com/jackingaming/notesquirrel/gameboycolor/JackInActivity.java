@@ -155,16 +155,17 @@ public class JackInActivity extends AppCompatActivity {
                     ((PocketCrittersCartridge)gameCartridge).savePresentState();
                 }
 
-                // Create the scene root for the scenes in this app
-                ViewGroup sceneRoot = (ViewGroup) findViewById(R.id.relativeLayout);
-                Scene aScene = Scene.getSceneForLayout(sceneRoot, R.layout.activity_jack_in, JackInActivity.this);
-                Scene anotherScene = Scene.getSceneForLayout(sceneRoot, R.layout.activity_recycler_view, JackInActivity.this);
-                Transition fadeTransition = new Fade();
-                TransitionManager.go(anotherScene, fadeTransition);
+//                // Create the scene root for the scenes in this app
+//                ViewGroup sceneRoot = (ViewGroup) findViewById(R.id.relativeLayout);
+//                Scene aScene = Scene.getSceneForLayout(sceneRoot, R.layout.activity_jack_in, JackInActivity.this);
+//                Scene anotherScene = Scene.getSceneForLayout(sceneRoot, R.layout.activity_recycler_view, JackInActivity.this);
+//                Transition fadeTransition = new Fade();
+//                TransitionManager.go(anotherScene, fadeTransition);
+//                dialog.dismiss();
 
-//                Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreateContextMenu.OnClickListener.onClick(View) STARTING ACTIVITY FOR RESULT (RecyclerViewActivity)");
-//                Intent recyclerViewIntent = new Intent(JackInActivity.this, RecyclerViewActivity.class);
-//                startActivityForResult(recyclerViewIntent, REQUEST_CODE_RECYCLER_VIEW_ACTIVITY);
+                Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreateContextMenu.OnClickListener.onClick(View) STARTING ACTIVITY FOR RESULT (RecyclerViewActivity)");
+                Intent recyclerViewIntent = new Intent(JackInActivity.this, RecyclerViewActivity.class);
+                startActivityForResult(recyclerViewIntent, REQUEST_CODE_RECYCLER_VIEW_ACTIVITY);
             }
         });
 
