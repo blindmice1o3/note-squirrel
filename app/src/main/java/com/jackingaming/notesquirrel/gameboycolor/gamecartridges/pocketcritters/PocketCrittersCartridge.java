@@ -72,6 +72,8 @@ public class PocketCrittersCartridge
         //TODO: if isReturningFromActivity... then load
         if ( ((JackInActivity)context).isReturningFromActivity() ) {
             loadSavedState();
+
+            ((JackInActivity)context).setReturningFromActivity(false);
         }
     }
 

@@ -25,6 +25,7 @@ import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.FroggerCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.PocketCrittersCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.states.GameState;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pong.PongCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.PoohFarmerCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.input.ButtonPadFragment;
@@ -190,7 +191,10 @@ public class JackInActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    boolean isReturningFromActivity = false;
+    private boolean isReturningFromActivity = false;
+    public void setReturningFromActivity(boolean returningFromActivity) {
+        isReturningFromActivity = returningFromActivity;
+    }
     public boolean isReturningFromActivity() {
         return isReturningFromActivity;
     }
@@ -207,6 +211,10 @@ public class JackInActivity extends AppCompatActivity {
 //                ((PocketCrittersCartridge)gameCartridge).loadSavedState();
 //            }
             //TODO: set a boolean isReturningFromActivity = true and use this at end of PocketCritterCartridge.init().
+            isReturningFromActivity = true;
+        } else if (requestCode == GameState.REQUEST_CODE_TEXTBOX_STATE_ACTIVITY) {
+            Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onActivityResult(int, int, Intent) RETURNING FROM TextboxStateActivity (LOADING SAVED STATE)");
+
             isReturningFromActivity = true;
         }
     }

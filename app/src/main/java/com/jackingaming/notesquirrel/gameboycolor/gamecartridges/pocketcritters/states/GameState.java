@@ -1,6 +1,7 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.states;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
+import com.jackingaming.notesquirrel.gameboycolor.TextboxStateActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.PocketCrittersCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Entity;
@@ -22,6 +24,8 @@ import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 
 public class GameState
         implements State {
+
+    public static final int REQUEST_CODE_TEXTBOX_STATE_ACTIVITY = 13;
 
     private Handler handler;
 
@@ -139,6 +143,19 @@ public class GameState
                 extra[1] = player.getMoveSpeed();
                 sceneManager.push(Scene.Id.FARM, extra);
                 ////////////////////////////////////////
+            }
+            //TODO: !!!!!Testing TextBoxState (must remove later)!!!!!
+            else if (tileFacing == TileMap.TileType.TELEVISION) {
+                Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() a-button");
+                Log.d(MainActivity.DEBUG_TAG, "tileFacing is: " + tileFacing.name());
+                Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() accessing TextboxStateActivity");
+
+                handler.getGameCartridge().savePresentState();
+                Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() saved present state");
+
+                Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() starting Activity for result...");
+                Intent textboxStateIntent = new Intent(context, TextboxStateActivity.class);
+                ((JackInActivity)context).startActivityForResult(textboxStateIntent, REQUEST_CODE_TEXTBOX_STATE_ACTIVITY);
             } else {
                 Log.d(MainActivity.DEBUG_TAG, "tileFacing is: " + tileFacing.name());
 
