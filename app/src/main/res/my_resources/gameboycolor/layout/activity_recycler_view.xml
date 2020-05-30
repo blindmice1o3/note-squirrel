@@ -9,6 +9,21 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_tinkering"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/button_switch_mode"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_switch_mode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onSwitchModeButtonClick"
+        android:text="switch mode"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recycler_view_tinkering" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

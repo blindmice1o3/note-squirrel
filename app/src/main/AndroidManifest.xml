@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jackingaming.notesquirrel">
+
     <!-- Supporting different screen resolutions -->
     <supports-screens
         android:largeScreens="true"
         android:normalScreens="true"
         android:resizeable="true"
         android:smallScreens="false"
-        android:xlargeScreens="true" /> <!-- Features (optional): camera -->
+        android:xlargeScreens="true" />
+
+    <!-- Features (optional): camera -->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -22,8 +25,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".gameboycolor.TextboxStateActivity"></activity>
-        <activity android:name=".gameboycolor.RecyclerViewActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -38,6 +39,8 @@
         <activity
             android:name=".gameboycolor.JackInActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity android:name=".gameboycolor.TextboxStateActivity" />
+        <activity android:name=".gameboycolor.RecyclerViewActivity" />
         <activity
             android:name=".computer.ComputerActivity"
             android:screenOrientation="landscape" />
