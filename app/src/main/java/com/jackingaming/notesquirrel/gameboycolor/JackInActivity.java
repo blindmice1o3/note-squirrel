@@ -33,6 +33,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.states.GameState;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pong.PongCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.PoohFarmerCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.items.BackpackActivity;
 import com.jackingaming.notesquirrel.gameboycolor.input.ButtonPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
@@ -164,8 +165,10 @@ public class JackInActivity extends AppCompatActivity {
 //                dialog.dismiss();
 
                 Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreateContextMenu.OnClickListener.onClick(View) STARTING ACTIVITY FOR RESULT (RecyclerViewActivity)");
-                Intent recyclerViewIntent = new Intent(JackInActivity.this, RecyclerViewActivity.class);
-                startActivityForResult(recyclerViewIntent, REQUEST_CODE_RECYCLER_VIEW_ACTIVITY);
+                Intent backpackIntent = new Intent(JackInActivity.this, BackpackActivity.class);
+                //Intent recyclerViewIntent = new Intent(JackInActivity.this, RecyclerViewActivity.class);
+                startActivityForResult(backpackIntent, REQUEST_CODE_RECYCLER_VIEW_ACTIVITY);
+                //startActivityForResult(recyclerViewIntent, REQUEST_CODE_RECYCLER_VIEW_ACTIVITY);
             }
         });
 

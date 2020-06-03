@@ -10,36 +10,36 @@ public class Item {
 
     public enum Id { AX, HAMMER, SHOVEL, SICKLE, WATERING_CAN, FISHING_POLE, BUG_NET; }
 
-    private Id mId;
-    private Bitmap mImage;
+    private Id id;
+    private Bitmap image;
 
     public Item (Resources resources, Id id) {
-        this.mId = id;
+        this.id = id;
         initImage(resources);
     }
 
     private void initImage(Resources resources) {
-        switch (mId) {
+        switch (id) {
             case AX:
-                mImage = cropImage(resources, 1, 4);
+                image = cropImage(resources, 1, 4);
                 break;
             case HAMMER:
-                mImage = cropImage(resources, 2, 4);
+                image = cropImage(resources, 2, 4);
                 break;
             case SHOVEL:
-                mImage = cropImage(resources, 3, 4);
+                image = cropImage(resources, 3, 4);
                 break;
             case SICKLE:
-                mImage = cropImage(resources, 4, 4);
+                image = cropImage(resources, 4, 4);
                 break;
             case WATERING_CAN:
-                mImage = cropImage(resources, 5, 4);
+                image = cropImage(resources, 5, 4);
                 break;
             case FISHING_POLE:
-                mImage = cropImage(resources, 6, 4);
+                image = cropImage(resources, 6, 4);
                 break;
             case BUG_NET:
-                mImage = cropImage(resources, 7, 4);
+                image = cropImage(resources, 7, 4);
                 break;
         }
     }
@@ -66,6 +66,14 @@ public class Item {
         Bitmap spriteSheetItems = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm2_spritesheet_items);
 
         return Bitmap.createBitmap(spriteSheetItems, xStart, yStart, widthItem, heightItem);
+    }
+
+    public Id getId() {
+        return id;
+    }
+
+    public Bitmap getImage() {
+        return image;
     }
 
 }

@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.gameboycolor;
+package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.items;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -13,28 +13,26 @@ import android.widget.Toast;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
-public class RecyclerViewActivity extends AppCompatActivity
-        implements AdapterRecyclerView.ItemClickListener {
+public class BackpackActivity extends AppCompatActivity
+        implements ItemAdapterRecyclerView.ItemClickListener {
 
     public enum Mode { GRID, LINEAR; }
 
     private RecyclerView recyclerView;
-    private String[] dataSet;
-    private AdapterRecyclerView adapter;
+    private List<Item> dataSet;
+    private ItemAdapterRecyclerView adapter;
     private int scrollPosition;
     private Mode mode = Mode.GRID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recycler_view);
+        setContentView(R.layout.activity_backpack);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_tinkering);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_backpack_activity);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -43,8 +41,10 @@ public class RecyclerViewActivity extends AppCompatActivity
         scrollPosition = 0;
         mode = Mode.GRID;
 
-        dataSet = loadCSV();
-        adapter = new AdapterRecyclerView(dataSet);
+        dataSet = new ArrayList<Item>();
+        dataSet.add(new Item(getResources(), Item.Id.BUG_NET));
+        //TODO: add Item instance!!!
+        adapter = new ItemAdapterRecyclerView(dataSet);
         adapter.setClickListener(this);
 
         initRecyclerView();
@@ -64,7 +64,7 @@ public class RecyclerViewActivity extends AppCompatActivity
     }
 
     public void onSwitchModeButtonClick(View view) {
-        Log.d(MainActivity.DEBUG_TAG, "RecyclerViewActivity.onSwitchModeButtonClick(View)");
+        Log.d(MainActivity.DEBUG_TAG, "BackpackActivity.onSwitchModeButtonClick(View)");
 
         recordScrollPosition();
 
@@ -84,7 +84,7 @@ public class RecyclerViewActivity extends AppCompatActivity
                 scrollPosition = ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
                 break;
             default:
-                Log.d(MainActivity.DEBUG_TAG, "RecyclerViewActivity.recordScrollPosition() switch (mode)'s default block.");
+                Log.d(MainActivity.DEBUG_TAG, "BackpackActivity.recordScrollPosition() switch (mode)'s default block.");
                 break;
         }
     }
@@ -108,40 +108,9 @@ public class RecyclerViewActivity extends AppCompatActivity
             case LINEAR:
                 return new LinearLayoutManager(this);
             default:
-                Log.d(MainActivity.DEBUG_TAG, "RecyclerViewActivity.instantiateLayoutManager() switch (mode)'s default block.");
+                Log.d(MainActivity.DEBUG_TAG, "BackpackActivity.instantiateLayoutManager() switch (mode)'s default block.");
                 return null;
         }
-    }
-
-    private String[] loadCSV() {
-        BufferedReader bufferedReader = null;
-        StringBuilder stringBuilder = new StringBuilder();
-        String line = null;
-
-        InputStream inputStream = getResources().openRawResource(R.raw.dvd_library_collection_unsorted_csv);
-
-        try {
-            bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            while ((line = bufferedReader.readLine()) != null) {
-                stringBuilder.append(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        String[] dvds = stringBuilder.toString().split(",");
-        Log.d(MainActivity.DEBUG_TAG, "number of dvds (via array's length): " + dvds.length);
-
-        ///////////////////////////////////////////////////////////////////////////
-        int counter = 0;
-        for (String dvd : dvds) {
-            counter++;
-            Log.d(MainActivity.DEBUG_TAG, String.format("%3d: %s", counter, dvd));
-        }
-        Toast.makeText(this, "number of dvds (via counter): " + counter, Toast.LENGTH_SHORT).show();
-        ///////////////////////////////////////////////////////////////////////////
-
-        return dvds;
     }
 
 }
