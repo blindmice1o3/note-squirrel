@@ -20,7 +20,9 @@ public class ItemAdapterRecyclerView extends RecyclerView.Adapter<ItemAdapterRec
     public interface ItemClickListener {
         void onItemClick(View view, int position);
     }
+
     private ItemClickListener itemClickListener;
+
     // register as an observer... allows clicks events to be caught
     public void setClickListener(ItemClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
@@ -28,10 +30,11 @@ public class ItemAdapterRecyclerView extends RecyclerView.Adapter<ItemAdapterRec
     ///////////////////////////////////////////////////////////////////////////////////////
 
     private List<Item> dataSet;
+    private boolean isGrid;
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
+    // Provide a reference to the views for each data item_grid_mode
+    // Complex data items may need more than one view per item_grid_mode, and
+    // you provide access to all the views for a data item_grid_mode in a view holder
     public class ItemViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
 
@@ -41,10 +44,15 @@ public class ItemAdapterRecyclerView extends RecyclerView.Adapter<ItemAdapterRec
         public ItemViewHolder(View view) {
             super(view);
 
-            imageView = view.findViewById(R.id.imageview_item);
+            if (isGrid) {
+                imageView = view.findViewById(R.id.imageview_item_grid_mode);
+                textView = view.findViewById(R.id.textview_item_grid_mode);
+            } else {
+                imageView = view.findViewById(R.id.imageview_item_linear_mode);
+                textView = view.findViewById(R.id.textview_item_linear_mode);
+            }
 
-            textView = view.findViewById(R.id.textview_item);
-            textView.setOnClickListener(this);
+            view.setOnClickListener(this);
         }
 
         @Override
@@ -56,8 +64,9 @@ public class ItemAdapterRecyclerView extends RecyclerView.Adapter<ItemAdapterRec
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ItemAdapterRecyclerView(List<Item> dataSet) {
+    public ItemAdapterRecyclerView(List<Item> dataSet, BackpackActivity.Mode mode) {
         this.dataSet = dataSet;
+        isGrid = (mode == BackpackActivity.Mode.GRID) ? (true) : (false);
     }
 
     // Create new views (invoked by the layout manager)
@@ -65,8 +74,14 @@ public class ItemAdapterRecyclerView extends RecyclerView.Adapter<ItemAdapterRec
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // create a new view
-        View v = (View) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item, parent, false);
+        View v = null;
+        if (isGrid) {
+            v = (View) LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_grid_mode, parent, false);
+        } else {
+            v = (View) LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_linear_mode, parent, false);
+        }
 
         // do stuff.
 
@@ -80,8 +95,8 @@ public class ItemAdapterRecyclerView extends RecyclerView.Adapter<ItemAdapterRec
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.textView.setText( dataSet.get(position).getId().name() );
-        holder.imageView.setImageBitmap( dataSet.get(position).getImage() );
+        holder.textView.setText(dataSet.get(position).getId().name());
+        holder.imageView.setImageBitmap(dataSet.get(position).getImage());
     }
 
     // Return the size of your dataset (invoked by the layout manager)

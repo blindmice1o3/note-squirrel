@@ -45,13 +45,13 @@ public class Item {
     }
 
     /**
-     * Crop sprite of item on-the-fly, instead of all-at-once
+     * Crop sprite of item_grid_mode on-the-fly, instead of all-at-once
      * immediately when the game begins.
      *
      * @param resources Context's instance of Resources.
      * @param column A value between 1-9.
      * @param row A value between 1-9.
-     * @return Sprite of an item from sprite sheet
+     * @return Sprite of an item_grid_mode from sprite sheet
      * "gbc_hm2_spritesheet_items". ***Some cells are blank.***
      */
     private Bitmap cropImage(Resources resources, int column, int row) {
@@ -60,8 +60,8 @@ public class Item {
         int heightItem = 16;
 
         // start = border + (index * (offset))
-        int xStart = margin + ((column-1) * (column + margin));
-        int yStart = margin + ((row-1) * (row + margin));
+        int xStart = margin + ((column-1) * (widthItem + margin));
+        int yStart = margin + ((row-1) * (heightItem + margin));
 
         Bitmap spriteSheetItems = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm2_spritesheet_items);
 

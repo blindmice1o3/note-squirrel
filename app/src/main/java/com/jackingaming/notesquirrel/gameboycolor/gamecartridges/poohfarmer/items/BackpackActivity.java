@@ -43,9 +43,24 @@ public class BackpackActivity extends AppCompatActivity
 
         dataSet = new ArrayList<Item>();
         dataSet.add(new Item(getResources(), Item.Id.BUG_NET));
-        //TODO: add Item instance!!!
-        adapter = new ItemAdapterRecyclerView(dataSet);
-        adapter.setClickListener(this);
+        dataSet.add(new Item(getResources(), Item.Id.SHOVEL));
+        dataSet.add(new Item(getResources(), Item.Id.SICKLE));
+        dataSet.add(new Item(getResources(), Item.Id.FISHING_POLE));
+
+        dataSet.add(new Item(getResources(), Item.Id.AX));
+        dataSet.add(new Item(getResources(), Item.Id.HAMMER));
+        dataSet.add(new Item(getResources(), Item.Id.BUG_NET));
+        dataSet.add(new Item(getResources(), Item.Id.WATERING_CAN));
+
+        dataSet.add(new Item(getResources(), Item.Id.BUG_NET));
+        dataSet.add(new Item(getResources(), Item.Id.SHOVEL));
+        dataSet.add(new Item(getResources(), Item.Id.SICKLE));
+        dataSet.add(new Item(getResources(), Item.Id.FISHING_POLE));
+
+        dataSet.add(new Item(getResources(), Item.Id.AX));
+        dataSet.add(new Item(getResources(), Item.Id.HAMMER));
+        dataSet.add(new Item(getResources(), Item.Id.BUG_NET));
+        dataSet.add(new Item(getResources(), Item.Id.WATERING_CAN));
 
         initRecyclerView();
     }
@@ -56,11 +71,13 @@ public class BackpackActivity extends AppCompatActivity
     }
 
     private void initRecyclerView() {
+        // specify an adapter (based on Mode.GRID or Mode.LINEAR)
+        adapter = new ItemAdapterRecyclerView(dataSet, mode);
+        adapter.setClickListener(this);
+        recyclerView.setAdapter(adapter);
+
         // specify a layout manager
         recyclerView.setLayoutManager( instantiateLayoutManager() );
-
-        // specify an adapter
-        recyclerView.setAdapter(adapter);
     }
 
     public void onSwitchModeButtonClick(View view) {
