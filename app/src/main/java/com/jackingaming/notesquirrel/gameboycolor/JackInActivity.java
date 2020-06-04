@@ -177,6 +177,10 @@ public class JackInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(JackInActivity.this, "Load", Toast.LENGTH_SHORT).show();
+
+                if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.POCKET_CRITTERS) {
+                    SerializationDoer.loadReadFromFile(gameCartridge, true);
+                }
             }
         });
 
@@ -185,6 +189,10 @@ public class JackInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(JackInActivity.this, "Save", Toast.LENGTH_SHORT).show();
+
+                if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.POCKET_CRITTERS) {
+                    SerializationDoer.saveWriteToFile(gameCartridge, true);
+                }
             }
         });
 
