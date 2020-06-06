@@ -28,7 +28,7 @@ android {
                            'src/main/res/my_resources/game_television',
                            'src/main/res/my_resources/gameboycolor',
                            'src/main/res/my_resources/pocket_critters',
-                           'src/main/res/my_resources/pooh_farmer', 'src/main/res/my_resources/learnfragment']
+                           'src/main/res/my_resources/pooh_farmer']
         }
     }
 }

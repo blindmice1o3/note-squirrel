@@ -3,22 +3,14 @@ package com.jackingaming.notesquirrel.gameboycolor;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.transition.Fade;
-import android.transition.Scene;
-import android.transition.Transition;
-import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -42,7 +34,7 @@ import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.Lis
 
 public class JackInActivity extends AppCompatActivity {
 
-    public static final int REQUEST_CODE_RECYCLER_VIEW_ACTIVITY = 17;
+    public static final int REQUEST_CODE_BACKPACK_ACTIVITY = 17;
 
     private Bundle savedInstanceState;
 
@@ -156,6 +148,7 @@ public class JackInActivity extends AppCompatActivity {
                     ((PocketCrittersCartridge)gameCartridge).savePresentState();
                 }
 
+                //TODO: remove following code used to practice BUILT-IN SCENE TRANSITION
 //                // Create the scene root for the scenes in this app
 //                ViewGroup sceneRoot = (ViewGroup) findViewById(R.id.relativeLayout);
 //                Scene aScene = Scene.getSceneForLayout(sceneRoot, R.layout.activity_jack_in, JackInActivity.this);
@@ -164,11 +157,9 @@ public class JackInActivity extends AppCompatActivity {
 //                TransitionManager.go(anotherScene, fadeTransition);
 //                dialog.dismiss();
 
-                Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreateContextMenu.OnClickListener.onClick(View) STARTING ACTIVITY FOR RESULT (RecyclerViewActivity)");
+                Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreateContextMenu.OnClickListener.onClick(View) STARTING ACTIVITY FOR RESULT (BackpackActivity)");
                 Intent backpackIntent = new Intent(JackInActivity.this, BackpackActivity.class);
-                //Intent recyclerViewIntent = new Intent(JackInActivity.this, RecyclerViewActivity.class);
-                startActivityForResult(backpackIntent, REQUEST_CODE_RECYCLER_VIEW_ACTIVITY);
-                //startActivityForResult(recyclerViewIntent, REQUEST_CODE_RECYCLER_VIEW_ACTIVITY);
+                startActivityForResult(backpackIntent, REQUEST_CODE_BACKPACK_ACTIVITY);
             }
         });
 
@@ -229,8 +220,8 @@ public class JackInActivity extends AppCompatActivity {
         //TODO: this LOADING is happening before everything is instantiated (so everything loaded
         // is getting overwritten back to the initial state).
         //&& resultCode == RESULT_OK
-        if (requestCode == REQUEST_CODE_RECYCLER_VIEW_ACTIVITY) {
-            Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onActivityResult(int, int, Intent) RETURNING FROM RecyclerViewActivity (LOADING SAVED STATE)");
+        if (requestCode == REQUEST_CODE_BACKPACK_ACTIVITY) {
+            Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onActivityResult(int, int, Intent) RETURNING FROM BackpackActivity (LOADING SAVED STATE)");
 //            if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.POCKET_CRITTERS) {
 //                ((PocketCrittersCartridge)gameCartridge).loadSavedState();
 //            }

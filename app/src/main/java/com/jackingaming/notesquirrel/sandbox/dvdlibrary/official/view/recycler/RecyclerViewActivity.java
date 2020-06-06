@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.gameboycolor;
+package com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;

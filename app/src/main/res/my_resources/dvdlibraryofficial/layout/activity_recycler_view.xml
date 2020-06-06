@@ -5,7 +5,7 @@
     android:id="@+id/constraintlayout_recycler_view_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".gameboycolor.RecyclerViewActivity">
+    tools:context=".sandbox.dvdlibrary.official.view.recycler.RecyclerViewActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_tinkering"
