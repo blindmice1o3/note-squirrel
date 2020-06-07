@@ -20,6 +20,7 @@ public class StateManager {
 
         stateHashMap.put(State.Id.GAME, new GameState(handler));
         stateHashMap.put(State.Id.START_MENU, new StartMenuState(handler));
+        stateHashMap.put(State.Id.TEXTBOX, new TextboxState(handler));
 
         stateStack = new ArrayList<State>();
         stateStack.add(stateHashMap.get(State.Id.GAME));

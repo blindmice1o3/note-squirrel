@@ -2,7 +2,7 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters
 
 public interface State {
 
-    public enum Id { GAME, START_MENU; }
+    public enum Id { GAME, START_MENU, TEXTBOX; }
 
     public void getInputViewport();
 

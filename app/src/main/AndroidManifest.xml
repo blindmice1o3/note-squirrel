@@ -40,7 +40,6 @@
             android:name=".gameboycolor.JackInActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity android:name=".gameboycolor.gamecartridges.poohfarmer.items.BackpackActivity" />
-        <activity android:name=".gameboycolor.TextboxStateActivity" />
         <activity android:name=".computer.ComputerActivity" />
         <activity android:name=".television.TelevisionActivity" />
         <activity android:name=".sandbox.spritesheetverifier2.SpriteSheetVerifier2Activity" />

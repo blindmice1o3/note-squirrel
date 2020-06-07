@@ -104,8 +104,7 @@ public class GameState
     public void getInputButtonPad() {
         //a button
         if (inputManager.isaButtonPad()) {
-            Log.d(MainActivity.DEBUG_TAG, "a-button");
-            Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.GAME a-button-justPressed");
+            Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() a-button-justPressed");
 
             //@@@@@TILES@@@@@
             TileMap.TileType tileFacing = player.getTileTypeCurrentlyFacing();  //currently only using for pocket_critters
@@ -185,11 +184,10 @@ public class GameState
         }
         //b button
         else if (inputManager.isbButtonPad()) {
-            Log.d(MainActivity.DEBUG_TAG, "b-button");
+            Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() b-button-justPressed");
 
-            Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.GAME b-button-justPressed");
             if (sceneManager.getCurrentScene().getSceneID() == Scene.Id.FARM) {
-                Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() b-button: POP PoohFarmerCartridge's scene!!!");
+                Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() b-button: POP PoohFarmerCartridge's scene!!!");
 
                 ////////////////////////////////
                 Object[] extra = new Object[10];
@@ -198,10 +196,14 @@ public class GameState
                 sceneManager.pop(extra);
                 ////////////////////////////////
             }
+            //TODO: temporary; to test TextboxState.
+            else {
+                ((PocketCrittersCartridge) handler.getGameCartridge()).getStateManager().push(Id.TEXTBOX, null);
+            }
         }
         //menu button (push State.START_MENU)
         else if (inputManager.isMenuButtonPad()) {
-            Log.d(MainActivity.DEBUG_TAG, "menu-button");
+            Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() menu-button-justPressed");
 
             ((PocketCrittersCartridge)handler.getGameCartridge()).getStateManager().push(Id.START_MENU, null);
         }
