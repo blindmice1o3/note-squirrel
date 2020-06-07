@@ -317,22 +317,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(spriteSheetVerifier2Intent);
 
                 return true;
-            case R.id.menu_television_activity:
-                //TODO: implement menu_television_activity
-                Toast.makeText(this, R.string.menu_television_activity, Toast.LENGTH_SHORT).show();
-
-                Intent televisionActivityIntent = new Intent(this, TelevisionActivity.class);
-                startActivity(televisionActivityIntent);
-
-                return true;
-            case R.id.menu_computer_activity:
-                //TODO: implement menu_computer_activity
-                Toast.makeText(this, R.string.menu_computer_activity, Toast.LENGTH_SHORT).show();
-
-                Intent computerActivityIntent = new Intent(this, ComputerActivity.class);
-                startActivity(computerActivityIntent);
-
-                return true;
             case R.id.menu_jack_in:
                 //TODO: implement menu_jack_in
                 Toast.makeText(this, R.string.menu_jack_in, Toast.LENGTH_SHORT).show();

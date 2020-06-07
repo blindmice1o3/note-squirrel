@@ -10,8 +10,8 @@ import android.view.SurfaceHolder;
 import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
+import com.jackingaming.notesquirrel.computer.ComputerActivity;
 import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
-import com.jackingaming.notesquirrel.gameboycolor.TextboxStateActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.PocketCrittersCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Entity;
@@ -21,11 +21,13 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scen
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tiles.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
+import com.jackingaming.notesquirrel.television.TelevisionActivity;
 
 public class GameState
         implements State {
 
-    public static final int REQUEST_CODE_TEXTBOX_STATE_ACTIVITY = 13;
+    public static final int REQUEST_CODE_TELEVISION_ACTIVITY = 13;
+    public static final int REQUEST_CODE_COMPUTER_ACTIVITY = 14;
 
     private Handler handler;
 
@@ -100,30 +102,23 @@ public class GameState
 
     @Override
     public void getInputButtonPad() {
-        //menu button (will toggle between State.GAME and State.START_MENU)
-        if (inputManager.isMenuButtonPad()) {
-            Log.d(MainActivity.DEBUG_TAG, "menu-button");
-
-            ((PocketCrittersCartridge)handler.getGameCartridge()).getStateManager().push(Id.START_MENU, null);
-        }
         //a button
-        else if (inputManager.isaButtonPad()) {
+        if (inputManager.isaButtonPad()) {
             Log.d(MainActivity.DEBUG_TAG, "a-button");
-
             Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.GAME a-button-justPressed");
-            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-            //TILES
+
+            //@@@@@TILES@@@@@
             TileMap.TileType tileFacing = player.getTileTypeCurrentlyFacing();  //currently only using for pocket_critters
 
+            //TODO: may not be needed (was intended for tiles at edge of TileMap)
             if (tileFacing == null) {
                 Log.d(MainActivity.DEBUG_TAG, "tileFacing is null");
                 return;
             }
-            //TODO: if (player.getTileTypeCurrentlyFacing() == TileType.GAME_CONSOLE),
-            // change game cartridge or change scene or start new Activity???
-            else if (tileFacing == TileMap.TileType.GAME_CONSOLE) {
-                Log.d(MainActivity.DEBUG_TAG, "tileFacing is: " + tileFacing.name());
 
+            Log.d(MainActivity.DEBUG_TAG, "tileFacing is: " + tileFacing.name());
+            //TODO: change game cartridge or change scene or start new Activity???
+            if (tileFacing == TileMap.TileType.GAME_CONSOLE) {
                 final String message = "GaMeCoNsOlE tile.";
                 /////////////////////////////////////////////////////////////////////////////////
                 ((JackInActivity)context).runOnUiThread(new Runnable() {
@@ -135,7 +130,6 @@ public class GameState
                 });
                 /////////////////////////////////////////////////////////////////////////////////
 
-
                 //TODO: PocketCrittersCartridge.sceneManager will use PoohFarmerCartridge's scene.
                 ////////////////////////////////////////
                 Object[] extra = new Object[10];
@@ -143,19 +137,20 @@ public class GameState
                 extra[1] = player.getMoveSpeed();
                 sceneManager.push(Scene.Id.FARM, extra);
                 ////////////////////////////////////////
-            }
-            //TODO: !!!!!Testing TextBoxState (must remove later)!!!!!
-            else if (tileFacing == TileMap.TileType.TELEVISION) {
-                Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() a-button");
-                Log.d(MainActivity.DEBUG_TAG, "tileFacing is: " + tileFacing.name());
-                Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() accessing TextboxStateActivity");
-
+            } else if (tileFacing == TileMap.TileType.TELEVISION) {
                 handler.getGameCartridge().savePresentState();
                 Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() saved present state");
 
-                Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() starting Activity for result...");
-                Intent textboxStateIntent = new Intent(context, TextboxStateActivity.class);
-                ((JackInActivity)context).startActivityForResult(textboxStateIntent, REQUEST_CODE_TEXTBOX_STATE_ACTIVITY);
+                Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() starting TelevisionActivity for result...");
+                Intent televisionIntent = new Intent(context, TelevisionActivity.class);
+                ((JackInActivity)context).startActivityForResult(televisionIntent, REQUEST_CODE_TELEVISION_ACTIVITY);
+            } else if (tileFacing == TileMap.TileType.COMPUTER) {
+                handler.getGameCartridge().savePresentState();
+                Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() saved present state");
+
+                Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() starting ComputerActivity for result...");
+                Intent computerIntent = new Intent(context, ComputerActivity.class);
+                ((JackInActivity)context).startActivityForResult(computerIntent, REQUEST_CODE_COMPUTER_ACTIVITY);
             } else {
                 Log.d(MainActivity.DEBUG_TAG, "tileFacing is: " + tileFacing.name());
 
@@ -171,10 +166,10 @@ public class GameState
                 /////////////////////////////////////////////////////////////////////////////////
             }
 
-            //ENTITIES
+            //@@@@@ENTITIES@@@@@
             Entity entity = player.getEntityCurrentlyFacing();
             //CHANGES robot's State (cycles incrementally)
-            if(entity instanceof Robot) {
+            if (entity instanceof Robot) {
                 int robotStateIndex = ((Robot)entity).getState().ordinal();
 
                 robotStateIndex++;
@@ -187,7 +182,6 @@ public class GameState
                 ((Robot)entity).setState(Robot.State.values()[robotStateIndex]);
                 ////////////////////////////////////////////////////////////////
             }
-            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         }
         //b button
         else if (inputManager.isbButtonPad()) {
@@ -204,6 +198,12 @@ public class GameState
                 sceneManager.pop(extra);
                 ////////////////////////////////
             }
+        }
+        //menu button (push State.START_MENU)
+        else if (inputManager.isMenuButtonPad()) {
+            Log.d(MainActivity.DEBUG_TAG, "menu-button");
+
+            ((PocketCrittersCartridge)handler.getGameCartridge()).getStateManager().push(Id.START_MENU, null);
         }
     }
 

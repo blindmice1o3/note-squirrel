@@ -20,8 +20,6 @@
     <string name="menu_recycler_view_dvd">See a RecyclerView</string>
     <string name="menu_sprite_sheet_verifier1">Sprite Sheet Verifier 1 (MS Clippit)</string>
     <string name="menu_sprite_sheet_verifier2">Sprite Sheet Verifier 2 (R-Series)</string>
-    <string name="menu_television_activity">See the Television</string>
-    <string name="menu_computer_activity">See the Computer</string>
     <string name="menu_jack_in">Jack In</string>
 
     <!-- activity_list_viewer -->

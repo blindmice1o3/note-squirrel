@@ -227,8 +227,12 @@ public class JackInActivity extends AppCompatActivity {
 //            }
             //TODO: set a boolean isReturningFromActivity = true and use this at end of PocketCritterCartridge.init().
             isReturningFromActivity = true;
-        } else if (requestCode == GameState.REQUEST_CODE_TEXTBOX_STATE_ACTIVITY) {
-            Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onActivityResult(int, int, Intent) RETURNING FROM TextboxStateActivity (LOADING SAVED STATE)");
+        } else if (requestCode == GameState.REQUEST_CODE_TELEVISION_ACTIVITY) {
+            Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onActivityResult(int, int, Intent) RETURNING FROM TelevisionActivity (LOADING SAVED STATE)");
+
+            isReturningFromActivity = true;
+        } else if (requestCode == GameState.REQUEST_CODE_COMPUTER_ACTIVITY) {
+            Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onActivityResult(int, int, Intent) RETURNING FROM ComputerActivity (LOADING SAVED STATE)");
 
             isReturningFromActivity = true;
         }

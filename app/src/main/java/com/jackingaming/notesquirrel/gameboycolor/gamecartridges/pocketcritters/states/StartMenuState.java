@@ -106,14 +106,8 @@ public class StartMenuState
 
     @Override
     public void getInputButtonPad() {
-        //menu button (will toggle between State.GAME and State.START_MENU)
-        if (inputManager.isMenuButtonPad()) {
-            Log.d(MainActivity.DEBUG_TAG, "menu-button");
-
-            ((PocketCrittersCartridge)handler.getGameCartridge()).getStateManager().pop();
-        }
         //a button
-        else if (inputManager.isaButtonPad()) {
+        if (inputManager.isaButtonPad()) {
             Log.d(MainActivity.DEBUG_TAG, "a-button");
 
             Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.START_MENU a-button-justPressed");
@@ -152,6 +146,12 @@ public class StartMenuState
             Log.d(MainActivity.DEBUG_TAG, "b-button");
 
             Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.START_MENU b-button-justPressed");
+            ((PocketCrittersCartridge)handler.getGameCartridge()).getStateManager().pop();
+        }
+        //menu button (pop State.START_MENU)
+        else if (inputManager.isMenuButtonPad()) {
+            Log.d(MainActivity.DEBUG_TAG, "menu-button");
+
             ((PocketCrittersCartridge)handler.getGameCartridge()).getStateManager().pop();
         }
     }
