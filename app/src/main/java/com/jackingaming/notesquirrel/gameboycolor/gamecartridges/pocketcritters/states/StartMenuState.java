@@ -1,6 +1,7 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.states;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -10,9 +11,11 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.jackingaming.notesquirrel.MainActivity;
+import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.SerializationDoer;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.PocketCrittersCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.items.BackpackActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
@@ -36,29 +39,31 @@ public class StartMenuState
 
     public StartMenuState(Handler handler) {
         this.handler = handler;
-        indexMenu = 0;
 
         context = handler.getGameCartridge().getContext();
         holder = ((PocketCrittersCartridge)handler.getGameCartridge()).getHolder();
         inputManager = ((PocketCrittersCartridge)handler.getGameCartridge()).getInputManager();
         widthViewport = handler.getGameCartridge().getWidthViewport();
         heightViewport = handler.getGameCartridge().getHeightViewport();
+
         sceneManager = handler.getGameCartridge().getSceneManager();
+
+        indexMenu = 0;
     }
 
     @Override
     public void getInputViewport() {
         //left
         if (inputManager.isLeftViewport()) {
-            Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputViewport() state == State.START_MENU left-button-justPressed");
+            Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputViewport() left-button-justPressed");
         }
         //right
         else if (inputManager.isRightViewport()) {
-            Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputViewport() state == State.START_MENU right-button-justPressed");
+            Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputViewport() right-button-justPressed");
         }
         //up
         else if (inputManager.isUpViewport()) {
-            Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputViewport() state == State.START_MENU up-button-justPressed");
+            Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputViewport() up-button-justPressed");
             indexMenu--;
             if (indexMenu < 0) {
                 indexMenu = (MenuItem.values().length-1);
@@ -66,7 +71,7 @@ public class StartMenuState
         }
         //down
         else if (inputManager.isDownViewport()) {
-            Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputViewport() state == State.START_MENU down-button-justPressed");
+            Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputViewport() down-button-justPressed");
             indexMenu++;
             if (indexMenu > (MenuItem.values().length-1)) {
                 indexMenu = 0;
@@ -79,7 +84,7 @@ public class StartMenuState
         if (inputManager.isJustPressedDirectionalPad()) {
             //up
             if (inputManager.isUpDirectionalPad()) {
-                Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputDirectionalPad() state == State.START_MENU up-button-pressing");
+                Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputDirectionalPad() up-button-pressing");
                 indexMenu--;
                 if (indexMenu < 0) {
                     indexMenu = (MenuItem.values().length - 1);
@@ -87,7 +92,7 @@ public class StartMenuState
             }
             //down
             else if (inputManager.isDownDirectionalPad()) {
-                Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputDirectionalPad() state == State.START_MENU down-button-pressing");
+                Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputDirectionalPad() down-button-pressing");
                 indexMenu++;
                 if (indexMenu > (MenuItem.values().length - 1)) {
                     indexMenu = 0;
@@ -95,11 +100,11 @@ public class StartMenuState
             }
             //left
             else if (inputManager.isLeftDirectionalPad()) {
-                Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputDirectionalPad() state == State.START_MENU left-button-pressing");
+                Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputDirectionalPad() left-button-pressing");
             }
             //right
             else if (inputManager.isRightDirectionalPad()) {
-                Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputDirectionalPad() state == State.START_MENU right-button-pressing");
+                Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputDirectionalPad() right-button-pressing");
             }
         }
     }
@@ -108,50 +113,49 @@ public class StartMenuState
     public void getInputButtonPad() {
         //a button
         if (inputManager.isaButtonPad()) {
-            Log.d(MainActivity.DEBUG_TAG, "a-button");
-
-            Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.START_MENU a-button-justPressed");
-
             //TODO: handle menu item selected by indexMenu.
             MenuItem selectedMenuItem = MenuItem.values()[indexMenu];
             switch (selectedMenuItem) {
                 case CRITTER_DEX:
-                    Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.START_MENU a-button-justPressed CRITTER_DEX");
+                    Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() a-button-justPressed CRITTER_DEX");
                     break;
                 case BELT_LIST:
-                    Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.START_MENU a-button-justPressed BELT_LIST");
+                    Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() a-button-justPressed BELT_LIST");
                     break;
                 case BACKPACK_LIST:
-                    Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.START_MENU a-button-justPressed BACKPACK_LIST");
+                    Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() a-button-justPressed BACKPACK_LIST");
+                    handler.getGameCartridge().savePresentState();
+                    Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() saved present state");
+
+                    Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() starting BackpackActivity for result...");
+                    Intent backpackIntent = new Intent(context, BackpackActivity.class);
+                    ((JackInActivity)context).startActivityForResult(backpackIntent, JackInActivity.REQUEST_CODE_BACKPACK_ACTIVITY);
                     break;
                 case LOAD:
-                    Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.START_MENU a-button-justPressed LOAD");
+                    Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() a-button-justPressed LOAD");
                     SerializationDoer.loadReadFromFile(handler.getGameCartridge(), true);
                     break;
                 case SAVE:
-                    Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.START_MENU a-button-justPressed SAVE");
+                    Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() a-button-justPressed SAVE");
                     SerializationDoer.saveWriteToFile(handler.getGameCartridge(), true);
                     break;
                 case OPTION:
-                    Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.START_MENU a-button-justPressed OPTION");
+                    Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() a-button-justPressed OPTION");
                     break;
                 case EXIT:
-                    Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.START_MENU a-button-justPressed EXIT");
+                    Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() a-button-justPressed EXIT");
                     ((PocketCrittersCartridge)handler.getGameCartridge()).getStateManager().pop();
                     break;
             }
         }
         //b button
         else if (inputManager.isbButtonPad()) {
-            Log.d(MainActivity.DEBUG_TAG, "b-button");
-
-            Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.getInputButtonPad() state == State.START_MENU b-button-justPressed");
+            Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() b-button-justPressed");
             ((PocketCrittersCartridge)handler.getGameCartridge()).getStateManager().pop();
         }
         //menu button (pop State.START_MENU)
         else if (inputManager.isMenuButtonPad()) {
-            Log.d(MainActivity.DEBUG_TAG, "menu-button");
-
+            Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() menu-button-justPressed");
             ((PocketCrittersCartridge)handler.getGameCartridge()).getStateManager().pop();
         }
     }
