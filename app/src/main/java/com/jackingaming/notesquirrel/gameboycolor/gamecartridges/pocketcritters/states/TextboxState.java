@@ -115,12 +115,20 @@ public class TextboxState
         //a button
         if (inputManager.isaButtonPad()) {
             Log.d(MainActivity.DEBUG_TAG, "TextboxState.getInputButtonPad() a-button-justPressed");
+
+            //TODO:
+            textbox.turnToNextPage();
         }
         //b button (pop State.TEXTBOX)
         else if (inputManager.isbButtonPad()) {
             Log.d(MainActivity.DEBUG_TAG, "TextboxState.getInputButtonPad() b-button-justPressed");
 
-            ((PocketCrittersCartridge)handler.getGameCartridge()).getStateManager().pop();
+            //TODO:
+            if (textbox.getIndexPages() == 0) {
+                ((PocketCrittersCartridge) handler.getGameCartridge()).getStateManager().pop();
+            } else {
+                textbox.turnToPreviousPage();
+            }
         }
         //menu button
         else if (inputManager.isMenuButtonPad()) {
@@ -190,6 +198,9 @@ public class TextboxState
         private int numberOfLinesPerPage;
         private List<List<String>> pages;
 
+        private int indexPages;
+        private List<String> pageCurrent;
+
         public Textbox(int x0Background, int y0Background, int x1Background, int y1Background,
                        int margin, Paint paintBackground, Paint paintText, String textFull) {
             this.x0Background = x0Background;
@@ -239,6 +250,10 @@ public class TextboxState
                     sb = new StringBuilder();
                 }
             }
+            // The for-loop may not have added the last line.
+            if (sb.toString().length() > 0) {
+                lines.add(sb.toString());
+            }
 
             // At this point, textFull is divided into line-length-chunks
             // (but may have more lines than will fit on one page).
@@ -277,6 +292,29 @@ public class TextboxState
                     pages.add(page);
                 }
             }
+
+            indexPages = 0;
+            pageCurrent = pages.get(indexPages);
+        }
+
+        public void turnToNextPage() {
+            indexPages++;
+
+            if (indexPages >= pages.size()) {
+                indexPages = (pages.size() - 1);
+            }
+
+            pageCurrent = pages.get(indexPages);
+        }
+
+        public void turnToPreviousPage() {
+            indexPages--;
+
+            if (indexPages < 0) {
+                indexPages = 0;
+            }
+
+            pageCurrent = pages.get(indexPages);
         }
 
         public void render(Canvas canvas) {
@@ -286,18 +324,19 @@ public class TextboxState
             canvas.drawRect(background, paintBackground);
             /////////////////////////////////////////////
 
-            ///////TESTING///////////////////
-            List<String> page = pages.get(1);
-            /////////////////////////////////
             int xCurrent = xStartText;
             int yCurrent = yStartText;
             //@@@DRAW TEXT@@@
-            for (String line : page) {
+            for (String line : pageCurrent) {
                 /////////////////////////////////////////////////////
                 canvas.drawText(line, xCurrent, yCurrent, paintText);
                 /////////////////////////////////////////////////////
                 yCurrent += heightLine;
             }
+        }
+
+        public int getIndexPages() {
+            return indexPages;
         }
 
     }
