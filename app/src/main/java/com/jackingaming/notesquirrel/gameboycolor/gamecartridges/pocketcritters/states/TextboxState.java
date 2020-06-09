@@ -28,7 +28,7 @@ public class TextboxState
     private int heightViewport;
     private SceneManager sceneManager;
 
-    private Page page;
+    private Textbox textbox;
 
     public TextboxState(Handler handler) {
         this.handler = handler;
@@ -39,10 +39,10 @@ public class TextboxState
         heightViewport = handler.getGameCartridge().getHeightViewport();
         sceneManager = handler.getGameCartridge().getSceneManager();
 
-        initPage();
+        initTextbox();
     }
 
-    private void initPage() {
+    private void initTextbox() {
         int x0Background = 0;
         int y0Background = (int)((2/3f) * heightViewport);
         int x1Background = widthViewport;
@@ -65,7 +65,7 @@ public class TextboxState
         String textFull = "The cat in the hat will never give a fish what it desires most, the key to the city of moonlight. This is true for fall, winter, and spring... but NOT summer. In the summer, the fashionable feline's generousity cresses before breaking into a surge of outward actions which benefit the entire animal community, far more than just that of fishes who desire the key to the city of moonlight. Unfortunately, summer passes quicker than most fish would like.";
 
         ////////////////////////////////////////////////////////////////////////
-        page = new Page(x0Background, y0Background, x1Background, y1Background,
+        textbox = new Textbox(x0Background, y0Background, x1Background, y1Background,
                 margin, paintBackground, paintText, textFull);
         ////////////////////////////////////////////////////////////////////////
     }
@@ -148,9 +148,9 @@ public class TextboxState
             // (otherwise white background because we'd cleared earlier)
             sceneManager.getCurrentScene().render(canvas);
 
-            ////////////////////
-            page.render(canvas);
-            ////////////////////
+            ///////////////////////
+            textbox.render(canvas);
+            ///////////////////////
 
             //unlock it and post our updated drawing to it.
             ///////////////////////////////////
@@ -169,7 +169,7 @@ public class TextboxState
 
     }
 
-    class Page {
+    class Textbox {
 
         private int x0Background;
         private int y0Background;
@@ -180,16 +180,18 @@ public class TextboxState
         private Paint paintText;
         private String textFull;
 
-        private int lineHeight;
+        private int heightLine;
         private int xStartText;
         private int yStartText;
         private int widthMax;
         private int heightMax;
 
         private List<String> lines;
+        private int numberOfLinesPerPage;
+        private List<List<String>> pages;
 
-        public Page(int x0Background, int y0Background, int x1Background, int y1Background,
-                    int margin, Paint paintBackground, Paint paintText, String textFull) {
+        public Textbox(int x0Background, int y0Background, int x1Background, int y1Background,
+                       int margin, Paint paintBackground, Paint paintText, String textFull) {
             this.x0Background = x0Background;
             this.y0Background = y0Background;
             this.x1Background = x1Background;
@@ -200,6 +202,7 @@ public class TextboxState
             this.textFull = textFull;
 
             initLines();
+            initPages();
         }
 
         private void initLines() {
@@ -208,15 +211,20 @@ public class TextboxState
             String[] words = textFull.split(" ");
             StringBuilder sb = new StringBuilder();
 
+            //REFERENCE: https://stackoverflow.com/questions/3654321/measuring-text-height-to-be-drawn-on-canvas-android
             Paint.FontMetrics fm = paintText.getFontMetrics();
-            lineHeight = (int) (fm.bottom - fm.top + fm.leading);
+            heightLine = (int) (fm.bottom - fm.top + fm.leading);
+
             xStartText = x0Background + margin;
-            yStartText = y0Background + margin + lineHeight; //normally starts top-left
+            yStartText = y0Background + margin - (int)(fm.top); //normally starts at BASELINE
+
             // Area to work with.
             widthMax = x1Background - x0Background - margin - margin;
             heightMax = y1Background - y0Background - margin - margin;
 
-            //TODO:  (1) split full text into line-size-chunks
+            numberOfLinesPerPage = heightMax / heightLine;
+
+            //TODO:  (1) split textFull into line-length-chunks.
             for (int i = 0; i < words.length; i++) {
                 if ((paintText.measureText(sb.toString()) + paintText.measureText(words[i] + " "))
                         < widthMax) {
@@ -229,8 +237,44 @@ public class TextboxState
                     lines.add(sb.toString());
                     //RESTART StringBuilder
                     sb = new StringBuilder();
-                    //TODO: (2) determine how many lines will fit
-                    //TODO: if yStartText reaches heightMax... must start a new page.
+                }
+            }
+
+            // At this point, textFull is divided into line-length-chunks
+            // (but may have more lines than will fit on one page).
+        }
+
+        private void initPages() {
+            pages = new ArrayList<List<String>>();
+
+            //TODO: (2) determine how many lines will fit (lay out lines onto pages).
+
+            // One page.
+            if (lines.size() <= numberOfLinesPerPage) {
+                pages.add(lines);
+            }
+            // Multiple pages.
+            else {
+                List<String> page = new ArrayList<String>();
+                int counter = 0;
+
+                for (int i = 0; i < lines.size(); i++) {
+                    counter++;
+
+                    if (counter <= numberOfLinesPerPage) {
+                        page.add(lines.get(i));
+                    }
+                    // Page is full.
+                    else {
+                        pages.add(page);
+                        page = new ArrayList<String>();
+                        counter = 0;
+                        i--;    //Haven't added current line to page.
+                    }
+                }
+                // Last page has lines, but not a full page (for-loop didn't add it to pages).
+                if (lines.size() % numberOfLinesPerPage > 0) {
+                    pages.add(page);
                 }
             }
         }
@@ -242,14 +286,17 @@ public class TextboxState
             canvas.drawRect(background, paintBackground);
             /////////////////////////////////////////////
 
+            ///////TESTING///////////////////
+            List<String> page = pages.get(1);
+            /////////////////////////////////
             int xCurrent = xStartText;
             int yCurrent = yStartText;
             //@@@DRAW TEXT@@@
-            for (String line : lines) {
+            for (String line : page) {
                 /////////////////////////////////////////////////////
                 canvas.drawText(line, xCurrent, yCurrent, paintText);
                 /////////////////////////////////////////////////////
-                yCurrent += lineHeight;
+                yCurrent += heightLine;
             }
         }
 
