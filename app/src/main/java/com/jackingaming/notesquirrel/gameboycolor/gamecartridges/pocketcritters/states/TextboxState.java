@@ -60,13 +60,9 @@ public class TextboxState
         paintText.setTypeface(Typeface.SANS_SERIF);
         paintText.setTypeface(Typeface.DEFAULT_BOLD);
 
-        // Complete text to display.
-        //String textFull = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-        String textFull = "The cat in the hat will never give a fish what it desires most, the key to the city of moonlight. This is true for fall, winter, and spring... but NOT summer. In the summer, the fashionable feline's generousity cresses before breaking into a surge of outward actions which benefit the entire animal community, far more than just that of fishes who desire the key to the city of moonlight. Unfortunately, summer passes quicker than most fish would like.";
-
         ////////////////////////////////////////////////////////////////////////
         textbox = new Textbox(x0Background, y0Background, x1Background, y1Background,
-                margin, paintBackground, paintText, textFull);
+                margin, paintBackground, paintText);
         ////////////////////////////////////////////////////////////////////////
     }
 
@@ -171,7 +167,14 @@ public class TextboxState
 
     @Override
     public void enter(Object[] args) {
+        if (args != null) {
+            if (args[0] instanceof String) {
+                textbox.setTextFull( ((String)args[0]) );
+            }
+        }
 
+        // Might split default textFull. Will always reset textbox's pageCurrent and indexes.
+        textbox.initTextbox();
     }
 
     @Override
@@ -205,7 +208,7 @@ public class TextboxState
         private int indexLineOfPageCurrent;
 
         public Textbox(int x0Background, int y0Background, int x1Background, int y1Background,
-                       int margin, Paint paintBackground, Paint paintText, String textFull) {
+                       int margin, Paint paintBackground, Paint paintText) {
             this.x0Background = x0Background;
             this.y0Background = y0Background;
             this.x1Background = x1Background;
@@ -213,10 +216,23 @@ public class TextboxState
             this.margin = margin;
             this.paintBackground = paintBackground;
             this.paintText = paintText;
-            this.textFull = textFull;
 
+            // Default text.
+            textFull = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+        }
+
+        public void setTextFull(String textFull) {
+            this.textFull = textFull;
+        }
+
+        public void initTextbox() {
             initLines();
             initPages();
+
+            indexPages = 0;
+            pageCurrent = pages.get(indexPages);
+
+            resetPageAnimation();
         }
 
         private void initLines() {
@@ -295,10 +311,6 @@ public class TextboxState
                     pages.add(page);
                 }
             }
-
-            indexPages = 0;
-            pageCurrent = pages.get(indexPages);
-            indexLineOfPageCurrent = 0;
         }
 
         public void turnToNextPage() {
@@ -306,6 +318,9 @@ public class TextboxState
 
             if (indexPages >= pages.size()) {
                 indexPages = (pages.size() - 1);
+            } else {
+                // Only reset revealing animation when page is actually turned.
+                resetPageAnimation();
             }
 
             pageCurrent = pages.get(indexPages);
@@ -316,11 +331,18 @@ public class TextboxState
 
             if (indexPages < 0) {
                 indexPages = 0;
+            } else {
+                // Only reset revealing animation when page is actually turned.
+                resetPageAnimation();
             }
 
             pageCurrent = pages.get(indexPages);
         }
 
+        private void resetPageAnimation() {
+            timer = 0;
+            indexLineOfPageCurrent = 0;
+        }
 
         private StringBuilder revealedText = new StringBuilder();
         private long timer = 0;
@@ -332,7 +354,11 @@ public class TextboxState
             timer += elapsed;
             if (timer >= DELAY) {
                 //TODO: do stuff.
-                if (indexLineOfPageCurrent < numberOfLinesPerPage) {
+
+
+                // Reveal next line
+                // TODO: if indexCharOfCurrentLine == pages.get(indexPages).get(indexLineOfPagesCurrent).length()
+                if (indexLineOfPageCurrent < pageCurrent.size()) {
                     indexLineOfPageCurrent++;
                 }
 
