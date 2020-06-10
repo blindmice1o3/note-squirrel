@@ -138,7 +138,9 @@ public class TextboxState
 
     @Override
     public void update(long elapsed) {
-        //TODO:
+        ////////////////////////
+        textbox.update(elapsed);
+        ////////////////////////
     }
 
     @Override
@@ -200,6 +202,7 @@ public class TextboxState
 
         private int indexPages;
         private List<String> pageCurrent;
+        private int indexLineOfPageCurrent;
 
         public Textbox(int x0Background, int y0Background, int x1Background, int y1Background,
                        int margin, Paint paintBackground, Paint paintText, String textFull) {
@@ -295,6 +298,7 @@ public class TextboxState
 
             indexPages = 0;
             pageCurrent = pages.get(indexPages);
+            indexLineOfPageCurrent = 0;
         }
 
         public void turnToNextPage() {
@@ -317,6 +321,26 @@ public class TextboxState
             pageCurrent = pages.get(indexPages);
         }
 
+
+        private StringBuilder revealedText = new StringBuilder();
+        private long timer = 0;
+        private static final long DELAY = 500; // 500 milliseconds before revealing next character.
+        public void update(long elapsed) {
+            //TODO: FIRST implement revealing one line at a time.
+            // SECOND implement revealing one character at a time.
+
+            timer += elapsed;
+            if (timer >= DELAY) {
+                //TODO: do stuff.
+                if (indexLineOfPageCurrent < numberOfLinesPerPage) {
+                    indexLineOfPageCurrent++;
+                }
+
+                // Reset timer.
+                timer = 0;
+            }
+        }
+
         public void render(Canvas canvas) {
             //@@@DRAW BACKGROUND PANEL@@@
             Rect background = new Rect(x0Background, y0Background, x1Background, y1Background);
@@ -327,9 +351,10 @@ public class TextboxState
             int xCurrent = xStartText;
             int yCurrent = yStartText;
             //@@@DRAW TEXT@@@
-            for (String line : pageCurrent) {
+            for (int i = 0; i < indexLineOfPageCurrent; i++) {
+                String lineCurrent = pageCurrent.get(i);
                 /////////////////////////////////////////////////////
-                canvas.drawText(line, xCurrent, yCurrent, paintText);
+                canvas.drawText(lineCurrent, xCurrent, yCurrent, paintText);
                 /////////////////////////////////////////////////////
                 yCurrent += heightLine;
             }
