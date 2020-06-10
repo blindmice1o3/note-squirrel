@@ -120,7 +120,7 @@ public class TextboxState
             Log.d(MainActivity.DEBUG_TAG, "TextboxState.getInputButtonPad() b-button-justPressed");
 
             //TODO:
-            if (textbox.getIndexPages() == 0) {
+            if (textbox.getIndexPageCurrent() == 0) {
                 ((PocketCrittersCartridge) handler.getGameCartridge()).getStateManager().pop();
             } else {
                 textbox.turnToPreviousPage();
@@ -203,9 +203,9 @@ public class TextboxState
         private int numberOfLinesPerPage;
         private List<List<String>> pages;
 
-        private int indexPages;
-        private List<String> pageCurrent;
+        private int indexPageCurrent;
         private int indexLineOfPageCurrent;
+        private int indexCharOfLineCurrent;
 
         public Textbox(int x0Background, int y0Background, int x1Background, int y1Background,
                        int margin, Paint paintBackground, Paint paintText) {
@@ -229,10 +229,15 @@ public class TextboxState
             initLines();
             initPages();
 
-            indexPages = 0;
-            pageCurrent = pages.get(indexPages);
+            indexPageCurrent = 0;
 
             resetPageAnimation();
+        }
+
+        private void resetPageAnimation() {
+            timer = 0;
+            indexLineOfPageCurrent = 0;
+            indexCharOfLineCurrent = 0;
         }
 
         private void initLines() {
@@ -314,56 +319,64 @@ public class TextboxState
         }
 
         public void turnToNextPage() {
-            indexPages++;
+            indexPageCurrent++;
 
-            if (indexPages >= pages.size()) {
-                indexPages = (pages.size() - 1);
+            // Check if out-of-bounds.
+            if (indexPageCurrent >= pages.size()) {
+                indexPageCurrent = (pages.size() - 1);
             } else {
-                // Only reset revealing animation when page is actually turned.
+                // Reset revealing-animation only when page is actually turned.
                 resetPageAnimation();
             }
-
-            pageCurrent = pages.get(indexPages);
         }
 
         public void turnToPreviousPage() {
-            indexPages--;
+            indexPageCurrent--;
 
-            if (indexPages < 0) {
-                indexPages = 0;
+            // Check if out-of-bounds.
+            if (indexPageCurrent < 0) {
+                indexPageCurrent = 0;
             } else {
-                // Only reset revealing animation when page is actually turned.
+                // Reset revealing-animation only when page is actually turned.
                 resetPageAnimation();
             }
-
-            pageCurrent = pages.get(indexPages);
         }
 
-        private void resetPageAnimation() {
-            timer = 0;
-            indexLineOfPageCurrent = 0;
-        }
-
-        private StringBuilder revealedText = new StringBuilder();
         private long timer = 0;
-        private static final long DELAY = 500; // 500 milliseconds before revealing next character.
+        private static final long DELAY = 100; // 100 milliseconds (0.1 second) before revealing next character.
         public void update(long elapsed) {
-            //TODO: FIRST implement revealing one line at a time.
-            // SECOND implement revealing one character at a time.
-
             timer += elapsed;
             if (timer >= DELAY) {
-                //TODO: do stuff.
+                //TODO: reveal one character at a time for each line.
+                List<String> pageCurrent = pages.get(indexPageCurrent);
+                String lineCurrent = pageCurrent.get(indexLineOfPageCurrent);
 
+                // Reveal next character.
+                /////////////////////////
+                indexCharOfLineCurrent++;
+                /////////////////////////
 
-                // Reveal next line
-                // TODO: if indexCharOfCurrentLine == pages.get(indexPages).get(indexLineOfPagesCurrent).length()
-                if (indexLineOfPageCurrent < pageCurrent.size()) {
+                // Check if out-of-bounds (end of line).
+                if (indexCharOfLineCurrent >= lineCurrent.length()) {
+                    // Reveal next line (LINE FEED).
+                    /////////////////////////
                     indexLineOfPageCurrent++;
+                    /////////////////////////
+
+                    // Check if out-of-bounds (end of page).
+                    if (indexLineOfPageCurrent >= pageCurrent.size()) {
+                        indexLineOfPageCurrent = (pageCurrent.size() - 1);
+                        indexCharOfLineCurrent = (lineCurrent.length() - 1);
+                    } else {
+                        // Reset index of current line (CARRIAGE RETURN).
+                        indexCharOfLineCurrent = 0;
+                    }
                 }
 
                 // Reset timer.
+                //////////
                 timer = 0;
+                //////////
             }
         }
 
@@ -377,17 +390,36 @@ public class TextboxState
             int xCurrent = xStartText;
             int yCurrent = yStartText;
             //@@@DRAW TEXT@@@
-            for (int i = 0; i < indexLineOfPageCurrent; i++) {
-                String lineCurrent = pageCurrent.get(i);
-                /////////////////////////////////////////////////////
-                canvas.drawText(lineCurrent, xCurrent, yCurrent, paintText);
-                /////////////////////////////////////////////////////
-                yCurrent += heightLine;
+            List<String> pageCurrent = pages.get(indexPageCurrent);
+            for (int i = 0; i < pageCurrent.size(); i++) {
+                // Regular drawText() for lines before current line.
+                if (i < indexLineOfPageCurrent) {
+                    String linePrevious = pageCurrent.get(i);
+                    /////////////////////////////////////////////////////
+                    canvas.drawText(linePrevious, xCurrent, yCurrent, paintText);
+                    /////////////////////////////////////////////////////
+                    yCurrent += heightLine;
+                }
+                // Type-writer animation for current line.
+                else {
+                    String lineCurrent = pageCurrent.get(indexLineOfPageCurrent);
+
+                    if (indexCharOfLineCurrent < lineCurrent.length()) {
+                        String revealedText = lineCurrent.substring(0, indexCharOfLineCurrent);
+                        /////////////////////////////////////////////////////
+                        canvas.drawText(revealedText, xCurrent, yCurrent, paintText);
+                        /////////////////////////////////////////////////////
+                    } else {
+                        /////////////////////////////////////////////////////
+                        canvas.drawText(lineCurrent, xCurrent, yCurrent, paintText);
+                        /////////////////////////////////////////////////////
+                    }
+                }
             }
         }
 
-        public int getIndexPages() {
-            return indexPages;
+        public int getIndexPageCurrent() {
+            return indexPageCurrent;
         }
 
     }

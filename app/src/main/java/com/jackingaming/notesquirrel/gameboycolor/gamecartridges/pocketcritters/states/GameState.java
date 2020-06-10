@@ -200,7 +200,7 @@ public class GameState
             else {
                 ////////////////////////////////
                 Object[] extra = new Object[10];
-                //extra[0] = "The cat in the hat will never give a fish what it desires most, the key to the city of moonlight. This is true for fall, winter, and spring... but NOT summer. In the summer, the fashionable feline's generousity cresses before breaking into a surge of outward actions which benefit the entire animal community, far more than just that of fishes who desire the key to the city of moonlight. Unfortunately, summer passes quicker than most fish would like.";
+                extra[0] = "The cat in the hat will never give a fish what it desires most, the key to the city of moonlight. This is true for fall, winter, and spring... but NOT summer. In the summer, the fashionable feline's generousity cresses before breaking into a surge of outward actions which benefit the entire animal community, far more than just that of fishes who desire the key to the city of moonlight. Unfortunately, summer passes quicker than most fish would like.";
                 ////////////////////////////////
                 ((PocketCrittersCartridge) handler.getGameCartridge()).getStateManager().push(Id.TEXTBOX, extra);
             }
