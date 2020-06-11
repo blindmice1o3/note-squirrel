@@ -6,19 +6,22 @@ import android.graphics.BitmapFactory;
 
 import com.jackingaming.notesquirrel.R;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item
+        implements Serializable {
 
     public enum Id { AX, HAMMER, SHOVEL, SICKLE, WATERING_CAN, FISHING_POLE, BUG_NET; }
 
     private Id id;
-    private Bitmap image;
+    transient private Bitmap image;
 
     public Item (Resources resources, Id id) {
         this.id = id;
         initImage(resources);
     }
 
-    private void initImage(Resources resources) {
+    public void initImage(Resources resources) {
         switch (id) {
             case AX:
                 image = cropImage(resources, 1, 4);

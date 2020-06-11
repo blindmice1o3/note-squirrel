@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +22,8 @@ public class BackpackActivity extends AppCompatActivity
         implements ItemAdapterRecyclerView.ItemClickListener {
 
     public enum Mode { GRID, LINEAR; }
+
+    public static final String SELECTED_ITEM = "SELECTED_ITEM";
 
     private RecyclerView recyclerView;
     private List<Item> dataSet;
@@ -62,12 +66,29 @@ public class BackpackActivity extends AppCompatActivity
         dataSet.add(new Item(getResources(), Item.Id.BUG_NET));
         dataSet.add(new Item(getResources(), Item.Id.WATERING_CAN));
 
+        /////////////////////////////////////////////////////////////////////////
+        if (getIntent().getSerializableExtra(JackInActivity.INVENTORY) != null) {
+            dataSet = (ArrayList<Item>) getIntent().getSerializableExtra(JackInActivity.INVENTORY);
+            for (Item item : dataSet) {
+                item.initImage(getResources());
+            }
+        }
+        /////////////////////////////////////////////////////////////////////////
+
         initRecyclerView();
     }
 
     @Override
     public void onItemClick(View view, int position) {
         Toast.makeText(this, "position: " + position, Toast.LENGTH_SHORT).show();
+
+        /////////////////////////////////////////////////////////////////////////
+        Intent intent = new Intent();
+        intent.putExtra(SELECTED_ITEM, position);
+        setResult(RESULT_OK, intent);
+        Log.d(MainActivity.DEBUG_TAG, "BackpackActivity.onItemClick(View, int) Intent.putExtra(String, int) has put position in as extra data.");
+        finish();
+        /////////////////////////////////////////////////////////////////////////
     }
 
     private void initRecyclerView() {

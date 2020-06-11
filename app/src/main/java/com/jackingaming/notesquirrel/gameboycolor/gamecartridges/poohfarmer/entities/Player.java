@@ -9,6 +9,7 @@ import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.PocketCrittersCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.items.Item;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.SceneManager;
@@ -16,6 +17,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.tile
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Animation;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +28,7 @@ public class Player extends Creature {
     private float heightPixelToViewportRatio;
 
     transient private Map<Direction, Animation> animation;
+    private ArrayList<Item> inventory;
 
     public Player(Handler handler) {
         super(handler,0f, 0f);
@@ -35,6 +38,14 @@ public class Player extends Creature {
                 gameCamera.getWidthClipInPixel();
         heightPixelToViewportRatio = ((float) handler.getGameCartridge().getHeightViewport()) /
                 gameCamera.getHeightClipInPixel();
+
+        inventory = new ArrayList<Item>();
+        inventory.add(new Item(handler.getGameCartridge().getContext().getResources(), Item.Id.BUG_NET));
+        inventory.add(new Item(handler.getGameCartridge().getContext().getResources(), Item.Id.FISHING_POLE));
+    }
+
+    public ArrayList<Item> getInventory() {
+        return inventory;
     }
 
     @Override

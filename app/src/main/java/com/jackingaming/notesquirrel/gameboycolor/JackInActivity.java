@@ -26,15 +26,19 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pong.PongCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.PoohFarmerCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.items.BackpackActivity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.items.Item;
 import com.jackingaming.notesquirrel.gameboycolor.input.ButtonPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 import com.jackingaming.notesquirrel.gameboycolor.input.ViewportFragment;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.ListFragmentDvdParentActivity;
 
+import java.util.ArrayList;
+
 public class JackInActivity extends AppCompatActivity {
 
     public static final int REQUEST_CODE_BACKPACK_ACTIVITY = 17;
+    public static final String INVENTORY = "INVENTORY";
 
     private Bundle savedInstanceState;
 
@@ -159,6 +163,11 @@ public class JackInActivity extends AppCompatActivity {
 
                 Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreateContextMenu.OnClickListener.onClick(View) STARTING ACTIVITY FOR RESULT (BackpackActivity)");
                 Intent backpackIntent = new Intent(JackInActivity.this, BackpackActivity.class);
+                if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.POCKET_CRITTERS) {
+                    ArrayList<Item> inventory = ((PocketCrittersCartridge)gameCartridge).getPlayer().getInventory();
+                    backpackIntent.putExtra(INVENTORY, inventory);
+                    Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreateContextMenu.OnClickListener.onClick(View) passing ArrayList<Item> into BackpackActivity");
+                }
                 startActivityForResult(backpackIntent, REQUEST_CODE_BACKPACK_ACTIVITY);
             }
         });
@@ -225,6 +234,15 @@ public class JackInActivity extends AppCompatActivity {
 //            if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.POCKET_CRITTERS) {
 //                ((PocketCrittersCartridge)gameCartridge).loadSavedState();
 //            }
+
+            //Prevents crashing if BACK was pressed instead of clicking an item.
+            if (resultCode == RESULT_OK) {
+                int position = data.getIntExtra(BackpackActivity.SELECTED_ITEM, -1);
+                Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onActivityResult(int, int, Intent) BackpackActivity... position (-1 is defaultValue): " + position);
+            } else {
+                Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onActivityResult(int, int, Intent) BackpackActivity... resultCode is NOT \"RESULT_OK\"... BACK was pressed instead of clicking an item!!!");
+            }
+
             //TODO: set a boolean isReturningFromActivity = true and use this at end of PocketCritterCartridge.init().
             isReturningFromActivity = true;
         } else if (requestCode == GameState.REQUEST_CODE_TELEVISION_ACTIVITY) {
