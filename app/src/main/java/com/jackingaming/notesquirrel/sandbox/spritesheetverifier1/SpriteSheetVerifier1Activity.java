@@ -78,13 +78,28 @@ public class SpriteSheetVerifier1Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(MainActivity.DEBUG_TAG, "Button clicked: center");
-                column = 3;
-                row = 8;
+                if (sheetTracker == 0) {
+                    //ms clippit
+                    indexButtonX = 0;
+                    indexButtonY = 0;
 
-                Bitmap croppedWorldMap = Assets.grabPokemonWorldMapSection(getResources(), column, row);
-                imageView.setImageBitmap(croppedWorldMap);
+                    Bitmap tooBigClippit = BitmapFactory.decodeResource(getResources(), R.drawable.pc_ms_office_clippit);
+                    Bitmap justRightClippit = Bitmap.createScaledBitmap(tooBigClippit, 500, 500, false);
+                    imageSource = justRightClippit;
+                    imageView.setImageBitmap(imageSource);
 
-                textViewDisplayWidthHeight.setText("column: " + column + ", row: " + row);
+                    String text = String.format("(x: %d), (y: %d)", indexButtonX, indexButtonY);
+                    textViewDisplayWidthHeight.setText(text);
+                } else {
+                    //pokemon world map
+                    column = 3;
+                    row = 8;
+
+                    Bitmap croppedWorldMap = Assets.grabPokemonWorldMapSection(getResources(), column, row);
+                    imageView.setImageBitmap(croppedWorldMap);
+
+                    textViewDisplayWidthHeight.setText("column: " + column + ", row: " + row);
+                }
             }
         });
 
@@ -93,15 +108,30 @@ public class SpriteSheetVerifier1Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(MainActivity.DEBUG_TAG, "Button clicked: up");
-                row--;
-                if (row < 1) {
-                    row = 1;
+                if (sheetTracker == 0) {
+                    //ms clippit
+                    indexButtonY--;
+                    if (indexButtonY < 0) {
+                        indexButtonY = 0;
+                    }
+
+                    Bitmap newImage = Bitmap.createScaledBitmap(spriteSheet[indexButtonY][indexButtonX], 240, 240, false);
+                    imageView.setImageBitmap(newImage);
+
+                    String text = String.format("(x: %d), (y: %d)", indexButtonX, indexButtonY);
+                    textViewDisplayWidthHeight.setText(text);
+                } else {
+                    //pokemon world map
+                    row--;
+                    if (row < 1) {
+                        row = 1;
+                    }
+
+                    Bitmap croppedWorldMap = Assets.grabPokemonWorldMapSection(getResources(), column, row);
+                    imageView.setImageBitmap(croppedWorldMap);
+
+                    textViewDisplayWidthHeight.setText("column: " + column + ", row: " + row);
                 }
-
-                Bitmap croppedWorldMap = Assets.grabPokemonWorldMapSection(getResources(), column, row);
-                imageView.setImageBitmap(croppedWorldMap);
-
-                textViewDisplayWidthHeight.setText("column: " + column + ", row: " + row);
             }
         });
         Button down = (Button) findViewById(R.id.button_down);
@@ -109,15 +139,30 @@ public class SpriteSheetVerifier1Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(MainActivity.DEBUG_TAG, "Button clicked: down");
-                row++;
-                if (row > 10) {
-                    row = 10;
+                if (sheetTracker == 0) {
+                    //ms clippit
+                    indexButtonY++;
+                    if (indexButtonY > (spriteSheet.length - 1)) {
+                        indexButtonY = (spriteSheet.length - 1);
+                    }
+
+                    Bitmap newImage = Bitmap.createScaledBitmap(spriteSheet[indexButtonY][indexButtonX], 240, 240, false);
+                    imageView.setImageBitmap(newImage);
+
+                    String text = String.format("(x: %d), (y: %d)", indexButtonX, indexButtonY);
+                    textViewDisplayWidthHeight.setText(text);
+                } else {
+                    //pokemon world map
+                    row++;
+                    if (row > 10) {
+                        row = 10;
+                    }
+
+                    Bitmap croppedWorldMap = Assets.grabPokemonWorldMapSection(getResources(), column, row);
+                    imageView.setImageBitmap(croppedWorldMap);
+
+                    textViewDisplayWidthHeight.setText("column: " + column + ", row: " + row);
                 }
-
-                Bitmap croppedWorldMap = Assets.grabPokemonWorldMapSection(getResources(), column, row);
-                imageView.setImageBitmap(croppedWorldMap);
-
-                textViewDisplayWidthHeight.setText("column: " + column + ", row: " + row);
             }
         });
         Button left = (Button) findViewById(R.id.button_left);
@@ -125,15 +170,30 @@ public class SpriteSheetVerifier1Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(MainActivity.DEBUG_TAG, "Button clicked: left");
-                column--;
-                if (column < 1) {
-                    column = 1;
+                if (sheetTracker == 0) {
+                    //ms clippit
+                    indexButtonX--;
+                    if (indexButtonX < 0) {
+                        indexButtonX = 0;
+                    }
+
+                    Bitmap newImage = Bitmap.createScaledBitmap(spriteSheet[indexButtonY][indexButtonX], 240, 240, false);
+                    imageView.setImageBitmap(newImage);
+
+                    String text = String.format("(x: %d), (y: %d)", indexButtonX, indexButtonY);
+                    textViewDisplayWidthHeight.setText(text);
+                } else {
+                    //pokemon world map
+                    column--;
+                    if (column < 1) {
+                        column = 1;
+                    }
+
+                    Bitmap croppedWorldMap = Assets.grabPokemonWorldMapSection(getResources(), column, row);
+                    imageView.setImageBitmap(croppedWorldMap);
+
+                    textViewDisplayWidthHeight.setText("column: " + column + ", row: " + row);
                 }
-
-                Bitmap croppedWorldMap = Assets.grabPokemonWorldMapSection(getResources(), column, row);
-                imageView.setImageBitmap(croppedWorldMap);
-
-                textViewDisplayWidthHeight.setText("column: " + column + ", row: " + row);
             }
         });
         Button right = (Button) findViewById(R.id.button_right);
@@ -141,15 +201,30 @@ public class SpriteSheetVerifier1Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(MainActivity.DEBUG_TAG, "Button clicked: right");
-                column++;
-                if (column > 10) {
-                    column = 10;
+                if (sheetTracker == 0) {
+                    //ms clippit
+                    indexButtonX++;
+                    if (indexButtonX > (spriteSheet[indexButtonY].length - 1)) {
+                        indexButtonX = (spriteSheet[indexButtonY].length - 1);
+                    }
+
+                    Bitmap newImage = Bitmap.createScaledBitmap(spriteSheet[indexButtonY][indexButtonX], 240, 240, false);
+                    imageView.setImageBitmap(newImage);
+
+                    String text = String.format("(x: %d), (y: %d)", indexButtonX, indexButtonY);
+                    textViewDisplayWidthHeight.setText(text);
+                } else {
+                    //pokemon world map
+                    column++;
+                    if (column > 10) {
+                        column = 10;
+                    }
+
+                    Bitmap croppedWorldMap = Assets.grabPokemonWorldMapSection(getResources(), column, row);
+                    imageView.setImageBitmap(croppedWorldMap);
+
+                    textViewDisplayWidthHeight.setText("column: " + column + ", row: " + row);
                 }
-
-                Bitmap croppedWorldMap = Assets.grabPokemonWorldMapSection(getResources(), column, row);
-                imageView.setImageBitmap(croppedWorldMap);
-
-                textViewDisplayWidthHeight.setText("column: " + column + ", row: " + row);
             }
         });
     }
@@ -177,19 +252,6 @@ public class SpriteSheetVerifier1Activity extends AppCompatActivity {
                 //imageView.requestLayout();
                 //////////////////////////
 
-                Bitmap newImage = Bitmap.createScaledBitmap(spriteSheet[indexButtonY][indexButtonX], 240, 240, false);
-
-                imageView.setImageBitmap(newImage);
-
-                /////////////////////////////////////////////////////////////////////
-                TextView textView = (TextView) findViewById(R.id.textview_sprite_sheet);
-                if (sheetTracker == 0) {
-                    textView.setText("Wintermute (homage to William Gibson)");
-                } else {
-                    textView.setText("");
-                }
-                /////////////////////////////////////////////////////////////////////
-
                 indexButtonX++;
                 if (indexButtonX == spriteSheet[indexButtonY].length) {
                     indexButtonX = 0;
@@ -199,6 +261,21 @@ public class SpriteSheetVerifier1Activity extends AppCompatActivity {
                         indexButtonY = 0;
                     }
                 }
+
+                Bitmap newImage = Bitmap.createScaledBitmap(spriteSheet[indexButtonY][indexButtonX], 240, 240, false);
+                imageView.setImageBitmap(newImage);
+
+                /////////////////////////////////////////////////////////////////////
+                TextView textView = (TextView) findViewById(R.id.textview_sprite_sheet);
+                TextView textViewDisplayColumnRow = (TextView) findViewById(R.id.textview_display_column_row);
+                if (sheetTracker == 0) {
+                    textView.setText("Wintermute (homage to William Gibson)");
+                    String text = String.format("(x: %d), (y: %d)", indexButtonX, indexButtonY);
+                    textViewDisplayColumnRow.setText(text);
+                } else {
+                    textView.setText("");
+                }
+                /////////////////////////////////////////////////////////////////////
 
                 /*
                 int[][] test = {
