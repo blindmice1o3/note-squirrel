@@ -18,4 +18,6 @@ public interface State {
 
     public void exit();
 
+    public Id getId();
+
 }

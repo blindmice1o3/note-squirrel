@@ -26,6 +26,7 @@ public class StartMenuState
     public enum MenuItem { CRITTER_DEX, BELT_LIST, BACKPACK_LIST, LOAD, SAVE, OPTION, EXIT; }
 
     private Handler handler;
+    private Id id;
 
     private Context context;
     private SurfaceHolder holder;   //used to get Canvas
@@ -39,6 +40,7 @@ public class StartMenuState
 
     public StartMenuState(Handler handler) {
         this.handler = handler;
+        id = Id.START_MENU;
 
         context = handler.getGameCartridge().getContext();
         holder = ((PocketCrittersCartridge)handler.getGameCartridge()).getHolder();
@@ -118,33 +120,46 @@ public class StartMenuState
             switch (selectedMenuItem) {
                 case CRITTER_DEX:
                     Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() a-button-justPressed CRITTER_DEX");
+                    ((PocketCrittersCartridge)handler.getGameCartridge()).getStateManager().pop();
                     break;
                 case BELT_LIST:
                     Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() a-button-justPressed BELT_LIST");
+                    ((PocketCrittersCartridge)handler.getGameCartridge()).getStateManager().pop();
                     break;
                 case BACKPACK_LIST:
                     Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() a-button-justPressed BACKPACK_LIST");
-                    handler.getGameCartridge().savePresentState();
+                    ////////////////////////////////////////////////////////////////////////////////////
                     Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() saved present state");
-
+                    handler.getGameCartridge().savePresentState();
                     Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() starting BackpackActivity for result...");
                     Intent backpackIntent = new Intent(context, BackpackActivity.class);
                     ((JackInActivity)context).startActivityForResult(backpackIntent, JackInActivity.REQUEST_CODE_BACKPACK_ACTIVITY);
+                    ////////////////////////////////////////////////////////////////////////////////////
+                    ((PocketCrittersCartridge)handler.getGameCartridge()).getStateManager().pop();
                     break;
                 case LOAD:
                     Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() a-button-justPressed LOAD");
+                    ////////////////////////////////////////////////////////////////////////////////////
                     SerializationDoer.loadReadFromFile(handler.getGameCartridge(), true);
+                    ////////////////////////////////////////////////////////////////////////////////////
+                    ((PocketCrittersCartridge)handler.getGameCartridge()).getStateManager().pop();
                     break;
                 case SAVE:
                     Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() a-button-justPressed SAVE");
+                    ///////////////////////////////////////////////////////////////////////////////////
                     SerializationDoer.saveWriteToFile(handler.getGameCartridge(), true);
+                    ///////////////////////////////////////////////////////////////////////////////////
+                    ((PocketCrittersCartridge)handler.getGameCartridge()).getStateManager().pop();
                     break;
                 case OPTION:
                     Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() a-button-justPressed OPTION");
+                    ((PocketCrittersCartridge)handler.getGameCartridge()).getStateManager().pop();
                     break;
                 case EXIT:
                     Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() a-button-justPressed EXIT");
+                    //////////////////////////////////////////////////////////////////////////////
                     ((PocketCrittersCartridge)handler.getGameCartridge()).getStateManager().pop();
+                    //////////////////////////////////////////////////////////////////////////////
                     break;
             }
         }
@@ -253,12 +268,17 @@ public class StartMenuState
 
     @Override
     public void enter(Object[] args) {
-
+        Log.d(MainActivity.DEBUG_TAG, "StartMenuState.enter(Object[]) State.Id: " + id);
     }
 
     @Override
     public void exit() {
+        indexMenu = 0;
+    }
 
+    @Override
+    public Id getId() {
+        return id;
     }
 
 }

@@ -21,6 +21,7 @@ public class TextboxState
         implements State {
 
     private Handler handler;
+    private Id id;
 
     private SurfaceHolder holder;   //used to get Canvas
     private InputManager inputManager;
@@ -32,6 +33,7 @@ public class TextboxState
 
     public TextboxState(Handler handler) {
         this.handler = handler;
+        id = Id.TEXTBOX;
 
         holder = ((PocketCrittersCartridge)handler.getGameCartridge()).getHolder();
         inputManager = ((PocketCrittersCartridge)handler.getGameCartridge()).getInputManager();
@@ -167,6 +169,8 @@ public class TextboxState
 
     @Override
     public void enter(Object[] args) {
+        Log.d(MainActivity.DEBUG_TAG, "TextboxState.enter(Object[]) State.Id: " + id);
+
         if (args != null) {
             if (args[0] instanceof String) {
                 textbox.setTextFull( ((String)args[0]) );
@@ -180,6 +184,11 @@ public class TextboxState
     @Override
     public void exit() {
 
+    }
+
+    @Override
+    public Id getId() {
+        return id;
     }
 
     class Textbox {

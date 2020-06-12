@@ -131,6 +131,7 @@ public class JackInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(JackInActivity.this, "Critterdex", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
             }
         });
 
@@ -139,6 +140,7 @@ public class JackInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(JackInActivity.this, "Belt List", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
             }
         });
 
@@ -147,10 +149,6 @@ public class JackInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(JackInActivity.this, "Backpack List", Toast.LENGTH_SHORT).show();
-
-                if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.POCKET_CRITTERS) {
-                    ((PocketCrittersCartridge)gameCartridge).savePresentState();
-                }
 
                 //TODO: remove following code used to practice BUILT-IN SCENE TRANSITION
 //                // Create the scene root for the scenes in this app
@@ -161,7 +159,12 @@ public class JackInActivity extends AppCompatActivity {
 //                TransitionManager.go(anotherScene, fadeTransition);
 //                dialog.dismiss();
 
-                Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreateContextMenu.OnClickListener.onClick(View) STARTING ACTIVITY FOR RESULT (BackpackActivity)");
+                ////////////////////////////////////////////////////////////////////////////////////
+                Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreateContextMenu.OnClickListener.onClick(View) saved present state");
+                if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.POCKET_CRITTERS) {
+                    ((PocketCrittersCartridge)gameCartridge).savePresentState();
+                }
+                Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreateContextMenu.OnClickListener.onClick(View) starting BackpackActivity for result...)");
                 Intent backpackIntent = new Intent(JackInActivity.this, BackpackActivity.class);
                 if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.POCKET_CRITTERS) {
                     ArrayList<Item> inventory = ((PocketCrittersCartridge)gameCartridge).getPlayer().getInventory();
@@ -169,6 +172,8 @@ public class JackInActivity extends AppCompatActivity {
                     Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreateContextMenu.OnClickListener.onClick(View) passing ArrayList<Item> into BackpackActivity");
                 }
                 startActivityForResult(backpackIntent, REQUEST_CODE_BACKPACK_ACTIVITY);
+                ////////////////////////////////////////////////////////////////////////////////////
+                dialog.dismiss();
             }
         });
 
@@ -177,10 +182,12 @@ public class JackInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(JackInActivity.this, "Load", Toast.LENGTH_SHORT).show();
-
+                ////////////////////////////////////////////////////////////////////////////////////
                 if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.POCKET_CRITTERS) {
                     SerializationDoer.loadReadFromFile(gameCartridge, true);
                 }
+                ////////////////////////////////////////////////////////////////////////////////////
+                dialog.dismiss();
             }
         });
 
@@ -189,10 +196,12 @@ public class JackInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(JackInActivity.this, "Save", Toast.LENGTH_SHORT).show();
-
+                ////////////////////////////////////////////////////////////////////////////////////
                 if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.POCKET_CRITTERS) {
                     SerializationDoer.saveWriteToFile(gameCartridge, true);
                 }
+                ////////////////////////////////////////////////////////////////////////////////////
+                dialog.dismiss();
             }
         });
 
@@ -201,6 +210,7 @@ public class JackInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(JackInActivity.this, "Option", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
             }
         });
 
@@ -209,6 +219,9 @@ public class JackInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(JackInActivity.this, "Exit", Toast.LENGTH_SHORT).show();
+                /////////////////
+                dialog.dismiss();
+                /////////////////
             }
         });
 

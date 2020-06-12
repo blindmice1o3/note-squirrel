@@ -30,6 +30,7 @@ public class GameState
     public static final int REQUEST_CODE_COMPUTER_ACTIVITY = 14;
 
     private Handler handler;
+    private Id id;
 
     private Context context;
     private SurfaceHolder holder;   //used to get Canvas
@@ -42,6 +43,7 @@ public class GameState
 
     public GameState(Handler handler) {
         this.handler = handler;
+        id = Id.GAME;
 
         context = handler.getGameCartridge().getContext();
         holder = ((PocketCrittersCartridge)handler.getGameCartridge()).getHolder();
@@ -242,12 +244,17 @@ public class GameState
 
     @Override
     public void enter(Object[] args) {
-
+        Log.d(MainActivity.DEBUG_TAG, "GameState.enter(Object[]) State.Id: " + id);
     }
 
     @Override
     public void exit() {
 
+    }
+
+    @Override
+    public Id getId() {
+        return id;
     }
 
     public void setPlayer(Player player) {
