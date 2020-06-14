@@ -37,6 +37,8 @@ public class StartMenuState
     private SceneManager sceneManager;
 
     private int indexMenu;
+    private Bitmap startMenuState;
+    private Bitmap startMenuStateCursor;
 
     public StartMenuState(Handler handler) {
         this.handler = handler;
@@ -51,6 +53,8 @@ public class StartMenuState
         sceneManager = handler.getGameCartridge().getSceneManager();
 
         indexMenu = 0;
+        startMenuState = Assets.cropStartMenuState(context.getResources());
+        startMenuStateCursor = Assets.cropStartMenuStateCursor(context.getResources());
     }
 
     @Override
@@ -120,14 +124,15 @@ public class StartMenuState
             switch (selectedMenuItem) {
                 case CRITTER_DEX:
                     Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() a-button-justPressed CRITTER_DEX");
-                    ((PocketCrittersCartridge)handler.getGameCartridge()).getStateManager().pop();
+                    handler.getGameCartridge().getStateManager().pop();
                     break;
                 case BELT_LIST:
                     Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() a-button-justPressed BELT_LIST");
-                    ((PocketCrittersCartridge)handler.getGameCartridge()).getStateManager().pop();
+                    handler.getGameCartridge().getStateManager().pop();
                     break;
                 case BACKPACK_LIST:
                     Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() a-button-justPressed BACKPACK_LIST");
+                    handler.getGameCartridge().getStateManager().pop();
                     ////////////////////////////////////////////////////////////////////////////////////
                     Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() saved present state");
                     handler.getGameCartridge().savePresentState();
@@ -135,31 +140,30 @@ public class StartMenuState
                     Intent backpackIntent = new Intent(context, BackpackActivity.class);
                     ((JackInActivity)context).startActivityForResult(backpackIntent, JackInActivity.REQUEST_CODE_BACKPACK_ACTIVITY);
                     ////////////////////////////////////////////////////////////////////////////////////
-                    ((PocketCrittersCartridge)handler.getGameCartridge()).getStateManager().pop();
                     break;
                 case LOAD:
                     Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() a-button-justPressed LOAD");
+                    handler.getGameCartridge().getStateManager().pop();
                     ////////////////////////////////////////////////////////////////////////////////////
                     SerializationDoer.loadReadFromFile(handler.getGameCartridge(), true);
                     ////////////////////////////////////////////////////////////////////////////////////
-                    ((PocketCrittersCartridge)handler.getGameCartridge()).getStateManager().pop();
                     break;
                 case SAVE:
                     Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() a-button-justPressed SAVE");
+                    handler.getGameCartridge().getStateManager().pop();
                     ///////////////////////////////////////////////////////////////////////////////////
                     SerializationDoer.saveWriteToFile(handler.getGameCartridge(), true);
                     ///////////////////////////////////////////////////////////////////////////////////
-                    ((PocketCrittersCartridge)handler.getGameCartridge()).getStateManager().pop();
                     break;
                 case OPTION:
                     Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() a-button-justPressed OPTION");
-                    ((PocketCrittersCartridge)handler.getGameCartridge()).getStateManager().pop();
+                    handler.getGameCartridge().getStateManager().pop();
                     break;
                 case EXIT:
                     Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() a-button-justPressed EXIT");
-                    //////////////////////////////////////////////////////////////////////////////
-                    ((PocketCrittersCartridge)handler.getGameCartridge()).getStateManager().pop();
-                    //////////////////////////////////////////////////////////////////////////////
+                    ///////////////////////////////////////////////////
+                    handler.getGameCartridge().getStateManager().pop();
+                    ///////////////////////////////////////////////////
                     break;
             }
         }
@@ -198,7 +202,6 @@ public class StartMenuState
             sceneManager.getCurrentScene().render(canvas);
 
             //DRAW BACKGROUND
-            Bitmap startMenuState = Assets.cropStartMenuState(context.getResources());
             int scaleFactor = 6;
 
             Rect srcBoundsBackground = new Rect(0,
@@ -212,8 +215,6 @@ public class StartMenuState
             canvas.drawBitmap(startMenuState, srcBoundsBackground, dstBoundsBackground, null);
 
             //DRAW CURSOR
-            Bitmap startMenuStateCursor = Assets.cropStartMenuStateCursor(context.getResources());
-
             Rect srcBoundsCursor = new Rect(0,
                     0,
                     startMenuStateCursor.getWidth(),

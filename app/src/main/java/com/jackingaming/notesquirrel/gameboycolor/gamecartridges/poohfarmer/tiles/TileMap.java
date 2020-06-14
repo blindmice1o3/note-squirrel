@@ -93,7 +93,7 @@ public class TileMap {
 
     //TODO: Instead of returning Scene.Id to Player class... HANDLE transferring here.
     public Scene.Id checkTransferPointsCollision(Rect boundsFuture) {
-        Log.d(MainActivity.DEBUG_TAG, "TileMap.checkTransferPointsCollision(Rect)");
+        //Log.d(MainActivity.DEBUG_TAG, "TileMap.checkTransferPointsCollision(Rect)");
 
         for (Scene.Id id : transferPoints.keySet()) {
             if (transferPoints.get(id).intersect(boundsFuture)) {

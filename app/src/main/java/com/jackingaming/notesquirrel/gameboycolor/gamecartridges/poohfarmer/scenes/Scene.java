@@ -380,14 +380,12 @@ public class Scene
     }
 
     public TileMap getTileMap() {
-        Log.d(MainActivity.DEBUG_TAG, "Scene.getTileMap()");
-
+        //Log.d(MainActivity.DEBUG_TAG, "Scene.getTileMap()");
         return tileMap;
     }
 
     public EntityManager getEntityManager() {
-        Log.d(MainActivity.DEBUG_TAG, "Scene.getEntities()");
-
+        //Log.d(MainActivity.DEBUG_TAG, "Scene.getEntities()");
         return entityManager;
     }
 

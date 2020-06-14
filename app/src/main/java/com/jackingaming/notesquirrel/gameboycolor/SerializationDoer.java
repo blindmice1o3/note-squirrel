@@ -53,11 +53,16 @@ public class SerializationDoer {
             for (int i = 0; i < sceneIdsFromSceneStack.size(); i++) {
                 Scene.Id id = sceneIdsFromSceneStack.get(i);
                 Scene scene = gameCartridge.getSceneManager().getScene(id);
+                Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(GameCartridge, boolean) saving scene that has id: " + id);
 
                 //////////////////////
                 os.writeObject(scene);
                 //////////////////////
             }
+
+            //TODO: STATE_MANAGER (list of states from stateStack)
+
+            //TODO: STATE
 
 
 
@@ -90,6 +95,9 @@ public class SerializationDoer {
             ///////////////////////////////////////////////////////////////////////////////////
             GameCamera gameCamera = (GameCamera) os.readObject();
             Player player = (Player) os.readObject();
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            player.setName("EeyoreDeserialized");
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             ArrayList<Scene.Id> sceneIdsFromSceneStack = (ArrayList<Scene.Id>) os.readObject();
             ///////////////////////////////////////////////////////////////////////////////////
 
@@ -118,7 +126,7 @@ public class SerializationDoer {
                 //////////////////////////////////////
                 Scene scene = (Scene) os.readObject();
                 //////////////////////////////////////
-                Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(GameCartridge, boolean) scene: " + scene.getSceneID());
+                Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(GameCartridge, boolean) loading scene that has id: " + id);
                 scene.setHandler(handler);
                 scene.setGameCamera(gameCamera);
                 scene.setPlayer(player);

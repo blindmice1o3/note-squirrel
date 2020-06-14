@@ -28,7 +28,17 @@ public class Player extends Creature {
     private float heightPixelToViewportRatio;
 
     transient private Map<Direction, Animation> animation;
+
+    private String name = "EeyoreDefault";
     private ArrayList<Item> inventory;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Player(Handler handler) {
         super(handler,0f, 0f);

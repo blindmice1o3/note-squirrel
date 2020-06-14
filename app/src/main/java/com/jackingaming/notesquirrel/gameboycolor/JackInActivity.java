@@ -149,16 +149,7 @@ public class JackInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(JackInActivity.this, "Backpack List", Toast.LENGTH_SHORT).show();
-
-                //TODO: remove following code used to practice BUILT-IN SCENE TRANSITION
-//                // Create the scene root for the scenes in this app
-//                ViewGroup sceneRoot = (ViewGroup) findViewById(R.id.relativeLayout);
-//                Scene aScene = Scene.getSceneForLayout(sceneRoot, R.layout.activity_jack_in, JackInActivity.this);
-//                Scene anotherScene = Scene.getSceneForLayout(sceneRoot, R.layout.activity_recycler_view, JackInActivity.this);
-//                Transition fadeTransition = new Fade();
-//                TransitionManager.go(anotherScene, fadeTransition);
-//                dialog.dismiss();
-
+                dialog.dismiss();
                 ////////////////////////////////////////////////////////////////////////////////////
                 Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreateContextMenu.OnClickListener.onClick(View) saved present state");
                 if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.POCKET_CRITTERS) {
@@ -173,7 +164,15 @@ public class JackInActivity extends AppCompatActivity {
                 }
                 startActivityForResult(backpackIntent, REQUEST_CODE_BACKPACK_ACTIVITY);
                 ////////////////////////////////////////////////////////////////////////////////////
-                dialog.dismiss();
+
+                //TODO: remove following code used to practice BUILT-IN SCENE TRANSITION
+//                // Create the scene root for the scenes in this app
+//                ViewGroup sceneRoot = (ViewGroup) findViewById(R.id.relativeLayout);
+//                Scene aScene = Scene.getSceneForLayout(sceneRoot, R.layout.activity_jack_in, JackInActivity.this);
+//                Scene anotherScene = Scene.getSceneForLayout(sceneRoot, R.layout.activity_recycler_view, JackInActivity.this);
+//                Transition fadeTransition = new Fade();
+//                TransitionManager.go(anotherScene, fadeTransition);
+//                dialog.dismiss();
             }
         });
 
@@ -182,12 +181,12 @@ public class JackInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(JackInActivity.this, "Load", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
                 ////////////////////////////////////////////////////////////////////////////////////
                 if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.POCKET_CRITTERS) {
                     SerializationDoer.loadReadFromFile(gameCartridge, true);
                 }
                 ////////////////////////////////////////////////////////////////////////////////////
-                dialog.dismiss();
             }
         });
 
@@ -196,12 +195,12 @@ public class JackInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(JackInActivity.this, "Save", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
                 ////////////////////////////////////////////////////////////////////////////////////
                 if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.POCKET_CRITTERS) {
                     SerializationDoer.saveWriteToFile(gameCartridge, true);
                 }
                 ////////////////////////////////////////////////////////////////////////////////////
-                dialog.dismiss();
             }
         });
 

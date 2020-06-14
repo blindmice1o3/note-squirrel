@@ -12,6 +12,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.states.StateManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.GameCamera;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 import com.jackingaming.notesquirrel.gameboycolor.sprites.Assets;
@@ -74,6 +75,12 @@ public class PocketCrittersCartridge
             loadSavedState();
 
             ((JackInActivity)context).setReturningFromActivity(false);
+        }
+
+        for (int i = 0; i < sceneManager.retrieveSceneIdsFromSceneStack().size(); i++) {
+            Scene.Id sceneId = sceneManager.retrieveSceneIdsFromSceneStack().get(i);
+            Log.d(MainActivity.DEBUG_TAG, i + " " + sceneId.name() + " " +
+                    sceneManager.getScene(Scene.Id.PART_01).getEntityManager().getPlayer().getName());
         }
     }
 

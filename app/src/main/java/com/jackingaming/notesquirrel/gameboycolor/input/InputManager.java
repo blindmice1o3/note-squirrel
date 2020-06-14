@@ -1,10 +1,7 @@
 package com.jackingaming.notesquirrel.gameboycolor.input;
 
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-
-import com.jackingaming.notesquirrel.MainActivity;
 
 public class InputManager
         implements View.OnTouchListener,
@@ -146,7 +143,7 @@ public class InputManager
      */
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onTouch(View, MotionEvent)");
+        //Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onTouch(View, MotionEvent)");
 
         //////////////////////////////////////////////////////////
         if ( (event.getAction() == MotionEvent.ACTION_DOWN) ||
@@ -195,7 +192,7 @@ public class InputManager
      */
     @Override
     public void onDirectionalPadTouched(DirectionalPadFragment.Direction inputDirection, boolean isPressed) {
-        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onDirectionalPadTouched(DirectionalPadFragment.Direction, MotionEvent)");
+        //Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onDirectionalPadTouched(DirectionalPadFragment.Direction, MotionEvent)");
 
         ///////////////////////////////////
         pressingDirectionalPad = isPressed;
@@ -218,7 +215,7 @@ public class InputManager
 
     @Override
     public void onButtonPadTouched(ButtonPadFragment.InputButton inputButton, boolean isPressed) {
-        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onButtonPadTouched(ButtonPadFragment.InputButton, MotionEvent)");
+        //Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onButtonPadTouched(ButtonPadFragment.InputButton, MotionEvent)");
 
         //////////////////////////////
         pressingButtonPad = isPressed;

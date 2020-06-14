@@ -74,7 +74,7 @@ public class ButtonPadFragment extends Fragment {
         constraintLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Log.d(MainActivity.DEBUG_TAG, "constraintLayout.onTouch()");
+                //Log.d(MainActivity.DEBUG_TAG, "constraintLayout.onTouch()");
                 if (onButtonPadTouchListener != null) {
 
                     // If this callback is being called, a MotionEvent was triggered...
