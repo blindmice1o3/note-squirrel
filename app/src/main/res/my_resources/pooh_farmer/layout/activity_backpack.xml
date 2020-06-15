@@ -5,7 +5,7 @@
     android:id="@+id/constraintlayout_backpack_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".gameboycolor.gamecartridges.poohfarmer.items.BackpackActivity">
+    tools:context=".gameboycolor.gamecartridges.base.items.BackpackActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_backpack_activity"

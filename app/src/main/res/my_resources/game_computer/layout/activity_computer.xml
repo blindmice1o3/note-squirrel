@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#00FF00"
-    tools:context=".computer.ComputerActivity">
+    tools:context=".gameboycolor.gamecartridges.derived.pocketcritters.computer.ComputerActivity">
 
     <fragment
         android:id="@+id/list_fragment_project_tool_window"
@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/fragment_editor_panel"
-        android:name="com.jackingaming.notesquirrel.computer.EditorPanelFragment"
+        android:name="com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.computer.EditorPanelFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/buttonRun"

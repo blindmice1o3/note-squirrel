@@ -19,14 +19,15 @@ import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.frogger.FroggerCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.PocketCrittersCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pocketcritters.states.GameState;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.pong.PongCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.PoohFarmerCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.items.BackpackActivity;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.poohfarmer.items.Item;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.SerializationDoer;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.FroggerCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.PocketCrittersCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.GameState;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pong.PongCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.PoohFarmerCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.BackpackActivity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.Item;
 import com.jackingaming.notesquirrel.gameboycolor.input.ButtonPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
@@ -120,52 +121,53 @@ public class JackInActivity extends AppCompatActivity {
         inflater.inflate(R.menu.context_menu_pocket_critters, menu);
         */
 
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.start_menu);
+        if (cartridgeID == GameCartridge.Id.POCKET_CRITTERS) {
+            final Dialog dialog = new Dialog(this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.start_menu);
 
-        LinearLayout startMenuLinearLayout = (LinearLayout) dialog.findViewById(R.id.start_menu_linearlayout);
+            LinearLayout startMenuLinearLayout = (LinearLayout) dialog.findViewById(R.id.start_menu_linearlayout);
 
-        TextView critterDex = (TextView) startMenuLinearLayout.findViewById(R.id.dialog_critter_dex);
-        critterDex.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(JackInActivity.this, "Critterdex", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-            }
-        });
-
-        TextView beltList = (TextView) startMenuLinearLayout.findViewById(R.id.dialog_belt_list);
-        beltList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(JackInActivity.this, "Belt List", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-            }
-        });
-
-        TextView backpackList = (TextView) startMenuLinearLayout.findViewById(R.id.dialog_backpack_list);
-        backpackList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(JackInActivity.this, "Backpack List", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-                ////////////////////////////////////////////////////////////////////////////////////
-                Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreateContextMenu.OnClickListener.onClick(View) saved present state");
-                if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.POCKET_CRITTERS) {
-                    ((PocketCrittersCartridge)gameCartridge).savePresentState();
+            TextView critterDex = (TextView) startMenuLinearLayout.findViewById(R.id.dialog_critter_dex);
+            critterDex.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(JackInActivity.this, "Critterdex", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
                 }
-                Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreateContextMenu.OnClickListener.onClick(View) starting BackpackActivity for result...)");
-                Intent backpackIntent = new Intent(JackInActivity.this, BackpackActivity.class);
-                if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.POCKET_CRITTERS) {
-                    ArrayList<Item> inventory = ((PocketCrittersCartridge)gameCartridge).getPlayer().getInventory();
-                    backpackIntent.putExtra(INVENTORY, inventory);
-                    Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreateContextMenu.OnClickListener.onClick(View) passing ArrayList<Item> into BackpackActivity");
-                }
-                startActivityForResult(backpackIntent, REQUEST_CODE_BACKPACK_ACTIVITY);
-                ////////////////////////////////////////////////////////////////////////////////////
+            });
 
-                //TODO: remove following code used to practice BUILT-IN SCENE TRANSITION
+            TextView beltList = (TextView) startMenuLinearLayout.findViewById(R.id.dialog_belt_list);
+            beltList.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(JackInActivity.this, "Belt List", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }
+            });
+
+            TextView backpackList = (TextView) startMenuLinearLayout.findViewById(R.id.dialog_backpack_list);
+            backpackList.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(JackInActivity.this, "Backpack List", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                    ////////////////////////////////////////////////////////////////////////////////////
+                    Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreateContextMenu.OnClickListener.onClick(View) saved present state");
+                    if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.POCKET_CRITTERS) {
+                        ((PocketCrittersCartridge) gameCartridge).savePresentState();
+                    }
+                    Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreateContextMenu.OnClickListener.onClick(View) starting BackpackActivity for result...)");
+                    Intent backpackIntent = new Intent(JackInActivity.this, BackpackActivity.class);
+                    if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.POCKET_CRITTERS) {
+                        ArrayList<Item> inventory = ((PocketCrittersCartridge) gameCartridge).getPlayer().getInventory();
+                        backpackIntent.putExtra(INVENTORY, inventory);
+                        Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreateContextMenu.OnClickListener.onClick(View) passing ArrayList<Item> into BackpackActivity");
+                    }
+                    startActivityForResult(backpackIntent, REQUEST_CODE_BACKPACK_ACTIVITY);
+                    ////////////////////////////////////////////////////////////////////////////////////
+
+                    //TODO: remove following code used to practice BUILT-IN SCENE TRANSITION
 //                // Create the scene root for the scenes in this app
 //                ViewGroup sceneRoot = (ViewGroup) findViewById(R.id.relativeLayout);
 //                Scene aScene = Scene.getSceneForLayout(sceneRoot, R.layout.activity_jack_in, JackInActivity.this);
@@ -173,58 +175,59 @@ public class JackInActivity extends AppCompatActivity {
 //                Transition fadeTransition = new Fade();
 //                TransitionManager.go(anotherScene, fadeTransition);
 //                dialog.dismiss();
-            }
-        });
-
-        TextView load = (TextView) startMenuLinearLayout.findViewById(R.id.dialog_load);
-        load.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(JackInActivity.this, "Load", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-                ////////////////////////////////////////////////////////////////////////////////////
-                if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.POCKET_CRITTERS) {
-                    SerializationDoer.loadReadFromFile(gameCartridge, true);
                 }
-                ////////////////////////////////////////////////////////////////////////////////////
-            }
-        });
+            });
 
-        TextView save = (TextView) startMenuLinearLayout.findViewById(R.id.dialog_save);
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(JackInActivity.this, "Save", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-                ////////////////////////////////////////////////////////////////////////////////////
-                if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.POCKET_CRITTERS) {
-                    SerializationDoer.saveWriteToFile(gameCartridge, true);
+            TextView load = (TextView) startMenuLinearLayout.findViewById(R.id.dialog_load);
+            load.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(JackInActivity.this, "Load", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                    ////////////////////////////////////////////////////////////////////////////////////
+                    if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.POCKET_CRITTERS) {
+                        SerializationDoer.loadReadFromFile(gameCartridge, true);
+                    }
+                    ////////////////////////////////////////////////////////////////////////////////////
                 }
-                ////////////////////////////////////////////////////////////////////////////////////
-            }
-        });
+            });
 
-        TextView option = (TextView) startMenuLinearLayout.findViewById(R.id.dialog_option);
-        option.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(JackInActivity.this, "Option", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-            }
-        });
+            TextView save = (TextView) startMenuLinearLayout.findViewById(R.id.dialog_save);
+            save.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(JackInActivity.this, "Save", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                    ////////////////////////////////////////////////////////////////////////////////////
+                    if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.POCKET_CRITTERS) {
+                        SerializationDoer.saveWriteToFile(gameCartridge, true);
+                    }
+                    ////////////////////////////////////////////////////////////////////////////////////
+                }
+            });
 
-        TextView exit = (TextView) startMenuLinearLayout.findViewById(R.id.dialog_exit);
-        exit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(JackInActivity.this, "Exit", Toast.LENGTH_SHORT).show();
-                /////////////////
-                dialog.dismiss();
-                /////////////////
-            }
-        });
+            TextView option = (TextView) startMenuLinearLayout.findViewById(R.id.dialog_option);
+            option.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(JackInActivity.this, "Option", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }
+            });
 
-        dialog.show();
+            TextView exit = (TextView) startMenuLinearLayout.findViewById(R.id.dialog_exit);
+            exit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(JackInActivity.this, "Exit", Toast.LENGTH_SHORT).show();
+                    /////////////////
+                    dialog.dismiss();
+                    /////////////////
+                }
+            });
+
+            dialog.show();
+        }
     }
 
     private boolean isReturningFromActivity = false;
