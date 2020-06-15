@@ -72,7 +72,7 @@ public class SceneManager {
     /**
      * Instantiate all the scenes in the game (only once per run).
      */
-    private void initSceneCollection() {
+    public void initSceneCollection() {
         Log.d(MainActivity.DEBUG_TAG, "SceneManager.initSceneCollection()");
 
         /////////////////////////////////////////////////
@@ -183,22 +183,19 @@ public class SceneManager {
     }
 
     public void restoreSceneStack(ArrayList<Scene.Id> sceneIdsFromSceneStack) {
+        // MUST CLEAR sceneStack (possible scenario of not loading from very beginning of game).
+        sceneStack.clear();
+
         for (int i = 0; i < sceneIdsFromSceneStack.size(); i++) {
             Scene.Id id = sceneIdsFromSceneStack.get(i);
+
             Scene scene = sceneCollection.get(id);
+            ///////////////////////////////
+            scene.init(player, gameCamera);
+            scene.enter();
+            ///////////////////////////////
 
             sceneStack.add(scene);
-
-            //Prior to restoring the first saved scene, sceneStack already has initial scene (must remove).
-            if (i == 0) {
-                Log.d(MainActivity.DEBUG_TAG, "SceneManager.restoreSceneStack(ArrayList<Scene.Id>, GameCamera, Player) FIRST SAVED SCENE RESTORED.");
-
-                Log.d(MainActivity.DEBUG_TAG, "SceneManager.restoreSceneStack(ArrayList<Scene.Id>, GameCamera, Player) REMOVING INITIAL SCENE THAT WAS ADDED WHEN SceneManager WAS INSTANTIATED.");
-
-                sceneStack.remove(0);
-
-                Log.d(MainActivity.DEBUG_TAG, "SceneManager.restoreSceneStack(ArrayList<Scene.Id>, GameCamera, Player) REMOVED INITIAL SCENE THAT WAS ADDED WHEN SceneManager WAS INSTANTIATED.");
-            }
         }
     }
 

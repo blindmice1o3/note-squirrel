@@ -116,6 +116,9 @@ public class SerializationDoer {
             //SCENE_MANAGER
             gameCartridge.getSceneManager().setGameCamera(gameCamera);
             gameCartridge.getSceneManager().setPlayer(player);
+            //////////////////////////////////////////////////////
+            gameCartridge.getSceneManager().initSceneCollection();
+            //////////////////////////////////////////////////////
 
             //SCENE (CURRENT)
             for (int i = 0; i < sceneIdsFromSceneStack.size(); i++) {
@@ -125,11 +128,12 @@ public class SerializationDoer {
                 //////////////////////////////////////
                 Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(GameCartridge, boolean) loading scene that has id: " + id);
                 scene.setHandler(handler);
-                scene.setGameCamera(gameCamera);
-                scene.setPlayer(player);
-                scene.initEntityManager(player);
-                scene.initTileMap();
+//                scene.setGameCamera(gameCamera);
+//                scene.setPlayer(player);
+//                scene.initEntityManager(player);
+//                scene.initTileMap();
 
+                // Write-over the key-value pair of SceneManager.sceneCollection.
                 gameCartridge.getSceneManager().putScene(id, scene);
             }
             handler.getGameCartridge().getSceneManager().restoreSceneStack(sceneIdsFromSceneStack);
