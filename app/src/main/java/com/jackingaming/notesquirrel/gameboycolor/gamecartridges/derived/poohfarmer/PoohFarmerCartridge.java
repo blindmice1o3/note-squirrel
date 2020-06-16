@@ -70,7 +70,7 @@ public class PoohFarmerCartridge
         handler = new Handler(this);
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-        gameCamera = new GameCamera(handler);
+        gameCamera = new GameCamera(widthViewport, heightViewport);
         player = new Player(handler);
         sceneManager = new SceneManager(handler);
         /////////////////////////////////////////

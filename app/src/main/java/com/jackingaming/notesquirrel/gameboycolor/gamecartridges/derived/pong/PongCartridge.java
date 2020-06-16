@@ -160,27 +160,27 @@ public class PongCartridge
         ///////////////////////////////////////////
         //player (rectangle) and ball (point)
         //(x is left side of ball, y is top of ball) OR (x is left side of ball, y is bottom of ball)
-        if (player.getScreenRect().contains(ball.getScreenRect().left, ball.getScreenRect().top) ||
-                player.getScreenRect().contains(ball.getScreenRect().left, ball.getScreenRect().bottom)) {
+        if (player.getRectOnScreen().contains(ball.getRectOnScreen().left, ball.getRectOnScreen().top) ||
+                player.getRectOnScreen().contains(ball.getRectOnScreen().left, ball.getRectOnScreen().bottom)) {
             ball.moveRight();
         }
         //opponent (rectangle) and ball (point)
         //(x is right side of ball, y is top of ball) OR (x is right side of ball, y is bottom of ball)
-        else if (opponent.getScreenRect().contains(ball.getScreenRect().right, ball.getScreenRect().top) ||
-                opponent.getScreenRect().contains(ball.getScreenRect().right, ball.getScreenRect().bottom)) {
+        else if (opponent.getRectOnScreen().contains(ball.getRectOnScreen().right, ball.getRectOnScreen().top) ||
+                opponent.getRectOnScreen().contains(ball.getRectOnScreen().right, ball.getRectOnScreen().bottom)) {
             ball.moveLeft();
         }
         ////////////////////////////////////////////////////////////////////////////////////
         //CHECK FOR WINNING CONDITION (can only reach here IF BALL HAVE NOT BOUNCED OFF BAT)
         ////////////////////////////////////////////////////////////////////////////////////
         //ball moved left passed player
-        else if (ball.getScreenRect().left < player.getScreenRect().right) {
+        else if (ball.getRectOnScreen().left < player.getRectOnScreen().right) {
             Log.d(MainActivity.DEBUG_TAG, "PongCartridge.updateGame(): LOST");
             state = State.LOST;
             initSpritePositions();
         }
         //ball moved right passed opponent
-        else if (ball.getScreenRect().right > opponent.getScreenRect().left) {
+        else if (ball.getRectOnScreen().right > opponent.getRectOnScreen().left) {
             Log.d(MainActivity.DEBUG_TAG, "PongCartridge.updateGame(): WON");
             state = State.WON;
             initSpritePositions();

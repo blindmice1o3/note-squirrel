@@ -101,7 +101,6 @@ public class SerializationDoer {
             Handler handler = gameCartridge.getHandler();
 
             //HANDLER
-            gameCamera.setHandler(handler);
             player.setHandler(handler);
 
             //PLAYER AND GAME_CAMERA

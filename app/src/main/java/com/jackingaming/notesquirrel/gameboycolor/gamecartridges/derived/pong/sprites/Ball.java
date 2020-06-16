@@ -21,8 +21,8 @@ public class Ball extends Sprite {
     public void init(Bitmap image) {
         super.init(image);
 
-        setWidthSprite(100);
-        setHeightSprite(100);
+        setWidth(100);
+        setHeight(100);
 
         initPosition();
 
@@ -34,12 +34,12 @@ public class Ball extends Sprite {
     }
 
     public void initPosition() {
-        setX( ((getWidthViewport()/2) - (getWidthSprite()/2)) );
-        setY( ((getHeightViewport()/2) - (getHeightSprite()/2)) );
+        setxCurrent( ((getWidthViewport()/2) - (getWidth()/2)) );
+        setyCurrent( ((getHeightViewport()/2) - (getHeight()/2)) );
     }
 
     public void update(long elapsed) {
-        Rect screenRect = getScreenRect();
+        Rect screenRect = getRectOnScreen();
         //PREVENT MOVING OFF-SCREEN (horizontally)
         if (screenRect.left <= 0) {
             dirX = 1;
@@ -54,14 +54,14 @@ public class Ball extends Sprite {
         }
 
         //UPDATE BALL'S POSITION
-        float x = getX();
-        float y = getY();
+        float x = getxCurrent();
+        float y = getyCurrent();
         ///////////////////////////////
         x += (dirX * speedX * elapsed);
         y += (dirY * speedY * elapsed);
         ///////////////////////////////
-        setX(x);
-        setY(y);
+        setxCurrent(x);
+        setyCurrent(y);
     }
 
     public void moveRight() {

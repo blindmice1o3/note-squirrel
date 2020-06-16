@@ -18,7 +18,7 @@ public abstract class Entity
     protected int width;
     protected int height;
 
-    transient protected Rect bounds;
+    transient protected Rect bounds; //COLLISION-BOX (NOT same as rectOfImage or rectOnScreen).
 
     protected boolean active;
 

@@ -27,8 +27,8 @@ public class Bat extends Sprite {
     public void init(Bitmap image) {
         super.init(image);
 
-        setWidthSprite(100);
-        setHeightSprite(600);
+        setWidth(100);
+        setHeight(600);
 
         initPosition();
 
@@ -36,14 +36,14 @@ public class Bat extends Sprite {
         dirY = random.nextInt(2)*2-1;
 
         if (position == Position.LEFT) {
-            setX(margin);
+            setxCurrent(margin);
         } else if (position == Position.RIGHT) {
-            setX( (getWidthViewport() - margin - getWidthSprite()) );
+            setxCurrent( (getWidthViewport() - margin - getWidth()) );
         }
     }
 
     public void initPosition() {
-        setY( ((getHeightViewport()/2) - (getHeightSprite()/2)) );
+        setyCurrent( ((getHeightViewport()/2) - (getHeight()/2)) );
     }
 
     /**
@@ -56,7 +56,7 @@ public class Bat extends Sprite {
      */
     public void setBatPosition(float y) {
         ////UPDATE PLAYER'S POSITION
-        setY( (y - (getHeightSprite()/2)) );
+        setyCurrent( (y - (getHeight()/2)) );
     }
 
     /**
@@ -77,7 +77,7 @@ public class Bat extends Sprite {
         } else if (decision < 6) {
             //Move towards the ball: 4 out of every 20 times.
             //if vertical center of ball is less than vertical center of opponent, move opponent upward.
-            if (ball.getScreenRect().centerY() < getScreenRect().centerY()) {
+            if (ball.getRectOnScreen().centerY() < getRectOnScreen().centerY()) {
                 dirY = -1;
             }
             //the ball is lower on the screen than the bat, move opponent downward.
@@ -87,18 +87,18 @@ public class Bat extends Sprite {
         }
 
         //PREVENT MOVING OFF-SCREEN (vertically)
-        if (getScreenRect().top <= 0) {
+        if (getRectOnScreen().top <= 0) {
             dirY = 1;
-        } else if (getScreenRect().bottom >= getHeightViewport()) {
+        } else if (getRectOnScreen().bottom >= getHeightViewport()) {
             dirY = -1;
         }
 
         //UPDATE OPPONENT'S POSITION
-        float y = getY();
+        float y = getyCurrent();
         ////////////////////////////
         y += dirY * speed * elapsed;
         ////////////////////////////
-        setY(y);
+        setyCurrent(y);
     }
 
 }

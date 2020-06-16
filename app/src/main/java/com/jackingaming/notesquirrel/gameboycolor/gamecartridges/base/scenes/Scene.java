@@ -26,9 +26,6 @@ public class Scene
     transient private Handler handler;
     private Id sceneID;
 
-    private int widthViewport;
-    private int heightViewport;
-
     transient private TileMap tileMap;
     transient private EntityManager entityManager;
     private Player player;
@@ -37,9 +34,6 @@ public class Scene
     public Scene(Handler handler, Id sceneID) {
         this.handler = handler;
         this.sceneID = sceneID;
-
-        widthViewport = handler.getGameCartridge().getWidthViewport();
-        heightViewport = handler.getGameCartridge().getHeightViewport();
     }
 
     public void init(Player player, GameCamera gameCamera) {
@@ -365,15 +359,10 @@ public class Scene
 
     public void render(Canvas canvas) {
         //BACKGROUND
-        Rect boundsFarm = new Rect(
-                (int)gameCamera.getX(),
-                (int)gameCamera.getY(),
-                (int)(gameCamera.getX() + gameCamera.getWidthClipInPixel()),
-                (int)(gameCamera.getY() + gameCamera.getHeightClipInPixel())
-        );
-        Rect screenFarm = new Rect(0, 0, widthViewport, heightViewport);
+        Rect rectOfClip = gameCamera.getRectOfClip();
+        Rect rectOfViewport = gameCamera.getRectOfViewport();
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        canvas.drawBitmap(tileMap.getTexture(), boundsFarm, screenFarm, null);
+        canvas.drawBitmap(tileMap.getTexture(), rectOfClip, rectOfViewport, null);
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
         //FOREGROUND

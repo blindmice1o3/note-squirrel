@@ -258,6 +258,7 @@ public class Player extends Creature {
         }
     }
 
+    //TODO: have FroggerCartridge use a subclass of Player.
     @Override
     public boolean checkEntityCollision(float xOffset, float yOffset) {
         for (Entity e : handler.getGameCartridge().getSceneManager().getCurrentScene().getEntityManager().getEntities()) {
@@ -296,14 +297,14 @@ public class Player extends Creature {
     public void render(Canvas canvas) {
         Bitmap currentFrame = currentAnimationFrame();
 
-        Rect bounds = new Rect(0, 0, currentFrame.getWidth(), currentFrame.getHeight());
-        Rect screenRect = new Rect(
+        Rect rectOfImage = new Rect(0, 0, currentFrame.getWidth(), currentFrame.getHeight());
+        Rect rectOnScreen = new Rect(
                 (int)( (xCurrent - gameCamera.getX()) * widthPixelToViewportRatio ),
                 (int)( (yCurrent - gameCamera.getY()) * heightPixelToViewportRatio ),
                 (int)( ((xCurrent - gameCamera.getX()) + width) * widthPixelToViewportRatio ),
                 (int)( ((yCurrent - gameCamera.getY()) + height) * heightPixelToViewportRatio ) );
 
-//        Rect screenRect = new Rect(
+//        Rect rectOnScreen = new Rect(
 //                (int)(64 * pixelToScreenRatio),
 //                (int)(64 * pixelToScreenRatio),
 //                (int)((64 + width)* pixelToScreenRatio),
@@ -311,7 +312,7 @@ public class Player extends Creature {
 //        );
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        canvas.drawBitmap(currentFrame, bounds, screenRect, null);
+        canvas.drawBitmap(currentFrame, rectOfImage, rectOnScreen, null);
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     }
 

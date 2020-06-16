@@ -6,17 +6,17 @@ import android.graphics.Rect;
 
 public class Sprite {
 
-    private float x;
-    private float y;
-    private int widthSprite;
-    private int heightSprite;
+    private float xCurrent;
+    private float yCurrent;
+    private int width;
+    private int height;
 
     private int widthViewport;
     private int heightViewport;
 
     private Bitmap image;
 
-    private Rect bounds;
+    private Rect rectOfImage;
 
     public Sprite(int widthViewport, int heightViewport) {
         this.widthViewport = widthViewport;
@@ -26,28 +26,28 @@ public class Sprite {
     public void init(Bitmap image) {
         this.image = image;
 
-        bounds = new Rect(0, 0, image.getWidth(), image.getHeight());
+        rectOfImage = new Rect(0, 0, image.getWidth(), image.getHeight());
     }
 
     public void draw(Canvas canvas) {
-        //canvas.drawBitmap(image, x, y, null);
-        canvas.drawBitmap(image, getBounds(), getScreenRect(), null);
+        //canvas.drawBitmap(image, xCurrent, yCurrent, null);
+        canvas.drawBitmap(image, getRectOfImage(), getRectOnScreen(), null);
     }
 
-    public Rect getBounds() {
-        return bounds;
+    public Rect getRectOfImage() {
+        return rectOfImage;
     }
 
-    public Rect getScreenRect() {
-        return new Rect((int)x, (int)y, (int)(x + widthSprite), (int)(y + heightSprite));
+    public Rect getRectOnScreen() {
+        return new Rect((int) xCurrent, (int) yCurrent, (int)(xCurrent + width), (int)(yCurrent + height));
     }
 
-    public int getWidthSprite() {
-        return widthSprite;
+    public int getWidth() {
+        return width;
     }
 
-    public int getHeightSprite() {
-        return heightSprite;
+    public int getHeight() {
+        return height;
     }
 
     public int getWidthViewport() {
@@ -58,28 +58,28 @@ public class Sprite {
         return heightViewport;
     }
 
-    public float getX() {
-        return x;
+    public float getxCurrent() {
+        return xCurrent;
     }
 
-    public void setX(float x) {
-        this.x = x;
+    public void setxCurrent(float xCurrent) {
+        this.xCurrent = xCurrent;
     }
 
-    public float getY() {
-        return y;
+    public float getyCurrent() {
+        return yCurrent;
     }
 
-    public void setY(float y) {
-        this.y = y;
+    public void setyCurrent(float yCurrent) {
+        this.yCurrent = yCurrent;
     }
 
-    public void setWidthSprite(int widthSprite) {
-        this.widthSprite = widthSprite;
+    public void setWidth(int width) {
+        this.width = width;
     }
 
-    public void setHeightSprite(int heightSprite) {
-        this.heightSprite = heightSprite;
+    public void setHeight(int height) {
+        this.height = height;
     }
 
 }

@@ -61,7 +61,14 @@ public class FroggerCartridge
         handler = new Handler(this);
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-        gameCamera = new GameCamera(handler);
+        gameCamera = new GameCamera(widthViewport, heightViewport);
+        int clipWidthInTile = 20;
+        int clipHeightInTile = 15;
+        int tileWidthFrogger = (int)((48f) * (15f/20f));
+        int tileHeightFrogger = 48;
+        gameCamera.setWidthClipInPixel(clipWidthInTile * tileWidthFrogger);
+        gameCamera.setHeightClipInPixel(clipHeightInTile * tileHeightFrogger);
+
         player = new Player(handler);
         sceneManager = new SceneManager(handler);
     }

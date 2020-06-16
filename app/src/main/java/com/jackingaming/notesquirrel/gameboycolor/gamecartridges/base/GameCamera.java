@@ -1,5 +1,6 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base;
 
+import android.graphics.Rect;
 import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
@@ -14,37 +15,28 @@ public class GameCamera
     public static final int CLIP_WIDTH_IN_TILE = 8;
     public static final int CLIP_HEIGHT_IN_TILE = 8;
 
-    transient private Handler handler;
-
     private float x;
     private float y;
     private int widthClipInPixel;
     private int heightClipInPixel;
 
+    private int widthViewport;
+    private int heightViewport;
+
     private Entity entity;
     private int widthSceneMax;
     private int heightSceneMax;
 
-    public GameCamera(Handler handler) {
+    public GameCamera(int widthViewport, int heightViewport) {
         Log.d(MainActivity.DEBUG_TAG, "GameCamera(Handler) constructor");
-
-        this.handler = handler;
 
         x = 0f;
         y = 0f;
         widthClipInPixel = CLIP_WIDTH_IN_TILE * TileMap.TILE_WIDTH;
         heightClipInPixel = CLIP_HEIGHT_IN_TILE * TileMap.TILE_HEIGHT;
 
-        //TODO: WORK-AROUND
-        if (handler.getGameCartridge().getIdGameCartridge() == GameCartridge.Id.FROGGER) {
-            int clipWidthInTile = 20;
-            int clipHeightInTile = 15;
-            int tileWidthFrogger = (int)((48f) * (15f/20f));
-            int tileHeightFrogger = 48;
-
-            widthClipInPixel = clipWidthInTile * tileWidthFrogger;
-            heightClipInPixel = clipHeightInTile * tileHeightFrogger;
-        }
+        this.widthViewport = widthViewport;
+        this.heightViewport = heightViewport;
     }
 
     public void init(Entity entity, int widthSceneMax, int heightSceneMax) {
@@ -84,8 +76,12 @@ public class GameCamera
         }
     }
 
-    public void setHandler(Handler handler) {
-        this.handler = handler;
+    public Rect getRectOfClip() {
+        return new Rect((int)x, (int)y, (int)(x + widthClipInPixel), (int)(y + heightClipInPixel));
+    }
+
+    public Rect getRectOfViewport() {
+        return new Rect(0, 0, widthViewport, heightViewport);
     }
 
     public float getX() {
@@ -108,8 +104,16 @@ public class GameCamera
         return widthClipInPixel;
     }
 
+    public void setWidthClipInPixel(int widthClipInPixel) {
+        this.widthClipInPixel = widthClipInPixel;
+    }
+
     public int getHeightClipInPixel() {
         return heightClipInPixel;
+    }
+
+    public void setHeightClipInPixel(int heightClipInPixel) {
+        this.heightClipInPixel = heightClipInPixel;
     }
 
     public void setEntity(Entity entity) {
