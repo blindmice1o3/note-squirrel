@@ -17,7 +17,7 @@ public class SceneFarm extends Scene {
     public void initEntityManager(Player player) {
         super.initEntityManager(player);
 
-        Entity robot = new Robot(handler, (7 * TileMap.TILE_WIDTH), (5 * TileMap.TILE_HEIGHT));
+        Entity robot = new Robot(handler, (7 * tileMap.getTileWidth()), (5 * tileMap.getTileHeight()));
         entityManager.addEntity(robot);
     }
 

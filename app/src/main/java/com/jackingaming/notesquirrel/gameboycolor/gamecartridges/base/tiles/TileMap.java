@@ -24,6 +24,8 @@ public class TileMap {
     public enum Specs { X_START_TILE_INDEX, X_END_TILE_INDEX, Y_START_TILE_INDEX, Y_END_TILE_INDEX; }
     public static final int TILE_WIDTH = 16;
     public static final int TILE_HEIGHT = 16;
+    public static final int TILE_WIDTH_48 = 48;
+    public static final int TILE_HEIGHT_48 = 48;
 
     private Handler handler;
     private Scene.Id sceneID;
@@ -32,6 +34,8 @@ public class TileMap {
     private Bitmap texture;
     private Map<Specs, Integer> specs; //ONLY USE FOR full-world-map related TEXTURE and TILES.
 
+    private int tileWidth;
+    private int tileHeight;
     private int xSpawnIndex;
     private int ySpawnIndex;
     private Map<Scene.Id, Rect> transferPoints;
@@ -120,10 +124,16 @@ public class TileMap {
 
         switch (sceneID) {
             case FARM:
+                tileWidth = TILE_WIDTH;
+                tileHeight = TILE_HEIGHT;
+
                 xSpawnIndex = 4;
                 ySpawnIndex = 4;
                 break;
             case PART_01:
+                tileWidth = TILE_WIDTH;
+                tileHeight = TILE_HEIGHT;
+
                 xSpawnIndex = 69;
                 ySpawnIndex = 103;
 
@@ -141,6 +151,9 @@ public class TileMap {
                 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                 break;
             case HOME_01:
+                tileWidth = TILE_WIDTH;
+                tileHeight = TILE_HEIGHT;
+
                 xSpawnIndex = 2;
                 ySpawnIndex = 6;
 
@@ -149,6 +162,9 @@ public class TileMap {
                 ///////////////////////////
                 break;
             case HOME_02:
+                tileWidth = TILE_WIDTH;
+                tileHeight = TILE_HEIGHT;
+
                 xSpawnIndex = 7;
                 ySpawnIndex = 2;
 
@@ -157,6 +173,9 @@ public class TileMap {
                 ///////////////////////////
                 break;
             case HOME_RIVAL:
+                tileWidth = TILE_WIDTH;
+                tileHeight = TILE_HEIGHT;
+
                 xSpawnIndex = 2;
                 ySpawnIndex = 6;
 
@@ -165,6 +184,9 @@ public class TileMap {
                 //////////////////////////////
                 break;
             case LAB:
+                tileWidth = TILE_WIDTH;
+                tileHeight = TILE_HEIGHT;
+
                 xSpawnIndex = 4;
                 ySpawnIndex = 10;
 
@@ -173,6 +195,9 @@ public class TileMap {
                 ////////////////////////
                 break;
             case FROGGER:
+                tileWidth = TILE_WIDTH_48;
+                tileHeight = TILE_HEIGHT_48;
+
                 xSpawnIndex = 10;
                 ySpawnIndex = 14;
                 break;
@@ -417,6 +442,14 @@ public class TileMap {
 
     public Bitmap getTexture() {
         return texture;
+    }
+
+    public int getTileWidth() {
+        return tileWidth;
+    }
+
+    public int getTileHeight() {
+        return tileHeight;
     }
 
     public int getxSpawnIndex() {

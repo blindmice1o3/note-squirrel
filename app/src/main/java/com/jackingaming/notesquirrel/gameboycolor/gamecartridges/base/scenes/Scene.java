@@ -56,8 +56,8 @@ public class Scene
         Log.d(MainActivity.DEBUG_TAG, "Scene.enter() xPriorScene, yPriorScene: " + xPriorScene + ", " + yPriorScene);
 
         if ((xPriorScene == 0f) && (yPriorScene == 0f)) {
-            player.setxCurrent((tileMap.getxSpawnIndex() * TileMap.TILE_WIDTH));
-            player.setyCurrent((tileMap.getySpawnIndex() * TileMap.TILE_HEIGHT));
+            player.setxCurrent((tileMap.getxSpawnIndex() * tileMap.getTileWidth()));
+            player.setyCurrent((tileMap.getySpawnIndex() * tileMap.getTileHeight()));
         } else {
             player.setxCurrent(xPriorScene);
             player.setyCurrent(yPriorScene);

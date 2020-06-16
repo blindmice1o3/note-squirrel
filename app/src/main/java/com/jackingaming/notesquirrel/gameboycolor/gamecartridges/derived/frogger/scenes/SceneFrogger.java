@@ -13,9 +13,6 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger
 
 public class SceneFrogger extends Scene {
 
-    private int tileWidthFrogger;
-    private int tileHeightFrogger;
-
     private int controllerForNextEntityInstantiation;
     private int numOfCarLanes;
     private int numOfRiverLanes;
@@ -24,36 +21,10 @@ public class SceneFrogger extends Scene {
     public SceneFrogger(Handler handler, Id sceneID) {
         super(handler, sceneID);
 
-        tileWidthFrogger = 48;
-        tileHeightFrogger = 48;
-
         controllerForNextEntityInstantiation = 0;
         numOfCarLanes = 5;
         numOfRiverLanes = 4;
         chanceToInstantiate = 0;
-    }
-
-    @Override
-    public void enter() {
-        Log.d(MainActivity.DEBUG_TAG, "Scene.enter()");
-
-        player.init();
-
-        Log.d(MainActivity.DEBUG_TAG, "Scene.enter() player.xCurrent, player.yCurrent: " + player.getxCurrent() + ", " + player.getyCurrent());
-        Log.d(MainActivity.DEBUG_TAG, "Scene.enter() xPriorScene, yPriorScene: " + xPriorScene + ", " + yPriorScene);
-
-        if ((xPriorScene == 0f) && (yPriorScene == 0f)) {
-            ///////////////////////////////////////////////////////////////////
-            player.setxCurrent((tileMap.getxSpawnIndex() * tileWidthFrogger));
-            player.setyCurrent((tileMap.getySpawnIndex() * tileHeightFrogger));
-            ///////////////////////////////////////////////////////////////////
-        } else {
-            player.setxCurrent(xPriorScene);
-            player.setyCurrent(yPriorScene);
-        }
-
-        Log.d(MainActivity.DEBUG_TAG, "Scene.enter() player.xCurrent, player.yCurrent: " + player.getxCurrent() + ", " + player.getyCurrent());
-        gameCamera.init(player, tileMap.getWidthSceneMax(), tileMap.getHeightSceneMax());
     }
 
     @Override
@@ -79,9 +50,9 @@ public class SceneFrogger extends Scene {
                     case 1:
                         //Direction.RIGHT
                         x = 0;
-                        y = (8 * tileHeightFrogger) + 15;               //LANE01 (CLOSEST TO TOP)
-                        width = tileWidthFrogger;
-                        height = tileHeightFrogger;
+                        y = (8 * tileMap.getTileHeight()) + 15;               //LANE01 (CLOSEST TO TOP)
+                        width = tileMap.getTileWidth();
+                        height = tileMap.getTileHeight();
 
                         //checking for overlap before instantiating new Car.
                         for (Entity e : entityManager.getEntities()) {
@@ -97,10 +68,10 @@ public class SceneFrogger extends Scene {
                         break;
                     case 2:
                         //Direction.LEFT
-                        x = 19 * tileWidthFrogger;
-                        y = (9 * tileHeightFrogger) + 15;               //LANE02
-                        width = tileWidthFrogger;
-                        height = tileHeightFrogger;
+                        x = 19 * tileMap.getTileWidth();
+                        y = (9 * tileMap.getTileHeight()) + 15;               //LANE02
+                        width = tileMap.getTileWidth();
+                        height = tileMap.getTileHeight();
 
                         //checking for overlap before instantiating new Car.
                         for (Entity e : entityManager.getEntities()) {
@@ -117,9 +88,9 @@ public class SceneFrogger extends Scene {
                     case 3:
                         //Direction.RIGHT
                         x = 0;
-                        y = (10 * tileHeightFrogger) + 15;              //LANE03 (MIDDLE)
-                        width = tileWidthFrogger;
-                        height = tileHeightFrogger;
+                        y = (10 * tileMap.getTileHeight()) + 15;              //LANE03 (MIDDLE)
+                        width = tileMap.getTileWidth();
+                        height = tileMap.getTileHeight();
 
                         //checking for overlap before instantiating new Car.
                         for (Entity e : entityManager.getEntities()) {
@@ -135,10 +106,10 @@ public class SceneFrogger extends Scene {
                         break;
                     case 4:
                         //Direction.LEFT
-                        x = 19 * tileWidthFrogger;
-                        y = (11 * tileHeightFrogger) + 15;          //LANE04
-                        width = tileWidthFrogger;
-                        height = tileHeightFrogger;
+                        x = 19 * tileMap.getTileWidth();
+                        y = (11 * tileMap.getTileHeight()) + 15;          //LANE04
+                        width = tileMap.getTileWidth();
+                        height = tileMap.getTileHeight();
 
                         //checking for overlap before instantiating new Car.
                         for (Entity e : entityManager.getEntities()) {
@@ -155,9 +126,9 @@ public class SceneFrogger extends Scene {
                     case 5:
                         //Direction.RIGHT
                         x = 0;
-                        y = (12 * tileHeightFrogger) + 15;                      //LANE05 (CLOSEST TO BOTTOM)
-                        width = tileWidthFrogger;
-                        height = tileHeightFrogger;
+                        y = (12 * tileMap.getTileHeight()) + 15;                      //LANE05 (CLOSEST TO BOTTOM)
+                        width = tileMap.getTileWidth();
+                        height = tileMap.getTileHeight();
 
                         //checking for overlap before instantiating new Car.
                         for (Entity e : entityManager.getEntities()) {
@@ -174,9 +145,9 @@ public class SceneFrogger extends Scene {
                     case 6:
                         //Direction.RIGHT
                         x = 0;
-                        y = (3 * tileHeightFrogger) + 15;               //RIVER (CLOSEST TO TOP)
+                        y = (3 * tileMap.getTileHeight()) + 15;               //RIVER (CLOSEST TO TOP)
                         width = Assets.logSmall.getWidth(); //Log.Size.SMALL
-                        height = tileHeightFrogger;
+                        height = tileMap.getTileHeight();
 
                         //checking for overlap before instantiating new Log.
                         for (Entity e : entityManager.getEntities()) {
@@ -192,10 +163,10 @@ public class SceneFrogger extends Scene {
                         break;
                     case 7:
                         //Direction.LEFT
-                        x = (19 * tileWidthFrogger);
-                        y = (4 * tileHeightFrogger) + 15;
+                        x = (19 * tileMap.getTileWidth());
+                        y = (4 * tileMap.getTileHeight()) + 15;
                         width = Assets.logMedium.getWidth(); //Log.Size.MEDIUM
-                        height = tileHeightFrogger;
+                        height = tileMap.getTileHeight();
 
                         //checking for overlap before instantiating new Log.
                         for (Entity e : entityManager.getEntities()) {
@@ -212,9 +183,9 @@ public class SceneFrogger extends Scene {
                     case 8:
                         //Direction.RIGHT
                         x = 0;
-                        y = (5 * tileHeightFrogger) + 15;
+                        y = (5 * tileMap.getTileHeight()) + 15;
                         width = Assets.logLarge.getWidth(); //Log.Size.LARGE
-                        height = tileHeightFrogger;
+                        height = tileMap.getTileHeight();
 
                         //checking for overlap before instantiating new Log.
                         for (Entity e : entityManager.getEntities()) {
@@ -230,10 +201,10 @@ public class SceneFrogger extends Scene {
                         break;
                     case 9:
                         //Direction.LEFT
-                        x = (19 * tileWidthFrogger);
-                        y = (6 * tileHeightFrogger) + 15;
+                        x = (19 * tileMap.getTileWidth());
+                        y = (6 * tileMap.getTileHeight()) + 15;
                         width = Assets.logSmall.getWidth(); //Log.Size.SMALL
-                        height = tileHeightFrogger;
+                        height = tileMap.getTileHeight();
 
                         //checking for overlap before instantiating new Log.
                         for (Entity e : entityManager.getEntities()) {
