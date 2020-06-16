@@ -6,11 +6,14 @@ import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Player;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.scenes.SceneFrogger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.FROGGER;
 
 public class SceneManager {
 
@@ -51,7 +54,7 @@ public class SceneManager {
                 id = Scene.Id.PART_01;
                 break;
             case FROGGER:
-                id = Scene.Id.FROGGER;
+                id = FROGGER;
                 break;
             default:
                 Log.d(MainActivity.DEBUG_TAG, "SceneManager() constructor's switch construct's default block.");
@@ -82,7 +85,13 @@ public class SceneManager {
         // IMAGEs are not loaded yet (not until Scene.init() is called).
         // This should help with memory issues (on-the-fly loading).
         for (Scene.Id id : Scene.Id.values()) {
-            sceneCollection.put(id, new Scene(handler, id));
+            if (id != FROGGER) {
+                sceneCollection.put(id, new Scene(handler, id));
+            } else {
+                ///////////////////////////////////////////////////////
+                sceneCollection.put(id, new SceneFrogger(handler, id));
+                ///////////////////////////////////////////////////////
+            }
         }
     }
 
