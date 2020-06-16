@@ -13,24 +13,54 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger
 
 public class SceneFrogger extends Scene {
 
+    private int tileWidthFrogger;
+    private int tileHeightFrogger;
+
+    private int controllerForNextEntityInstantiation;
+    private int numOfCarLanes;
+    private int numOfRiverLanes;
+    private int chanceToInstantiate;
+
     public SceneFrogger(Handler handler, Id sceneID) {
         super(handler, sceneID);
+
+        tileWidthFrogger = 48;
+        tileHeightFrogger = 48;
+
+        controllerForNextEntityInstantiation = 0;
+        numOfCarLanes = 5;
+        numOfRiverLanes = 4;
+        chanceToInstantiate = 0;
     }
 
-    int controllerForNextEntityInstantiation = 0;
-    int numOfCarLanes = 5;
-    int numOfRiverLanes = 4;
-    int chanceToInstantiate = 0;
+    @Override
+    public void enter() {
+        Log.d(MainActivity.DEBUG_TAG, "Scene.enter()");
+
+        player.init();
+
+        Log.d(MainActivity.DEBUG_TAG, "Scene.enter() player.xCurrent, player.yCurrent: " + player.getxCurrent() + ", " + player.getyCurrent());
+        Log.d(MainActivity.DEBUG_TAG, "Scene.enter() xPriorScene, yPriorScene: " + xPriorScene + ", " + yPriorScene);
+
+        if ((xPriorScene == 0f) && (yPriorScene == 0f)) {
+            ///////////////////////////////////////////////////////////////////
+            player.setxCurrent((tileMap.getxSpawnIndex() * tileWidthFrogger));
+            player.setyCurrent((tileMap.getySpawnIndex() * tileHeightFrogger));
+            ///////////////////////////////////////////////////////////////////
+        } else {
+            player.setxCurrent(xPriorScene);
+            player.setyCurrent(yPriorScene);
+        }
+
+        Log.d(MainActivity.DEBUG_TAG, "Scene.enter() player.xCurrent, player.yCurrent: " + player.getxCurrent() + ", " + player.getyCurrent());
+        gameCamera.init(player, tileMap.getWidthSceneMax(), tileMap.getHeightSceneMax());
+    }
+
     @Override
     public void update(long elapsed) {
         //////////////////////////////
         entityManager.update(elapsed);
         //////////////////////////////
-
-        ///////////////////////////
-        int tileWidthFrogger = 48;
-        int tileHeightFrogger = 48;
-        ///////////////////////////
 
         if (entityManager.getEntities().size() < 12) {
             chanceToInstantiate = (int) (Math.random() * 100) + 1;

@@ -7,14 +7,9 @@ import android.util.Log;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.Car;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Creature;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.EntityManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Player;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.entities.Robot;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
 
 import java.io.Serializable;
 
@@ -30,6 +25,9 @@ public class Scene
     transient protected EntityManager entityManager;
     protected Player player;
     protected GameCamera gameCamera;
+
+    protected float xPriorScene;
+    protected float yPriorScene;
 
     public Scene(Handler handler, Id sceneID) {
         this.handler = handler;
@@ -60,18 +58,6 @@ public class Scene
         if ((xPriorScene == 0f) && (yPriorScene == 0f)) {
             player.setxCurrent((tileMap.getxSpawnIndex() * TileMap.TILE_WIDTH));
             player.setyCurrent((tileMap.getySpawnIndex() * TileMap.TILE_HEIGHT));
-
-            //TODO: WORK-AROUND (ADJUST TILE_WIDTH and TILE_HEIGHT).
-            if (sceneID == Id.FROGGER) {
-                ///////////////////////////
-                int tileWidthFrogger = 48;
-                int tileHeightFrogger = 48;
-                ///////////////////////////
-
-                player.setxCurrent((tileMap.getxSpawnIndex() * tileWidthFrogger));
-                player.setyCurrent((tileMap.getySpawnIndex() * tileHeightFrogger));
-            }
-
         } else {
             player.setxCurrent(xPriorScene);
             player.setyCurrent(yPriorScene);
@@ -81,8 +67,6 @@ public class Scene
         gameCamera.init(player, tileMap.getWidthSceneMax(), tileMap.getHeightSceneMax());
     }
 
-    float xPriorScene;
-    float yPriorScene;
     public void exit(Object[] extra) {
         Log.d(MainActivity.DEBUG_TAG, "Scene.exit(Object[])");
 
@@ -118,7 +102,9 @@ public class Scene
     public void initTileMap() {
         Log.d(MainActivity.DEBUG_TAG, "Scene.initTileMap()");
 
+        ////////////////////////////////////////
         tileMap = new TileMap(handler, sceneID);
+        ////////////////////////////////////////
     }
 
     //TODO: move some of these to Scene.enter(Object[])
@@ -128,11 +114,6 @@ public class Scene
         ///////////////////////////////////////////////////
         entityManager = new EntityManager(handler, player);
         ///////////////////////////////////////////////////
-
-        if (sceneID == Id.FARM) {
-            Entity robot = new Robot(handler, (7 * TileMap.TILE_WIDTH), (5 * TileMap.TILE_HEIGHT));
-            entityManager.addEntity(robot);
-        }
     }
 
     //TODO: move some of these to Scene.enter(Object[])

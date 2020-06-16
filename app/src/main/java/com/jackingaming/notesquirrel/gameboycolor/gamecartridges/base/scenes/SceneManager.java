@@ -7,12 +7,14 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.scenes.SceneFrogger;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.SceneFarm;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.FARM;
 import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.FROGGER;
 
 public class SceneManager {
@@ -85,12 +87,16 @@ public class SceneManager {
         // IMAGEs are not loaded yet (not until Scene.init() is called).
         // This should help with memory issues (on-the-fly loading).
         for (Scene.Id id : Scene.Id.values()) {
-            if (id != FROGGER) {
+            if ( (id != FROGGER) && (id != FARM) ) {
                 sceneCollection.put(id, new Scene(handler, id));
-            } else {
+            } else if (id == FROGGER) {
                 ///////////////////////////////////////////////////////
                 sceneCollection.put(id, new SceneFrogger(handler, id));
                 ///////////////////////////////////////////////////////
+            } else if (id == FARM) {
+                ////////////////////////////////////////////////////
+                sceneCollection.put(id, new SceneFarm(handler, id));
+                ////////////////////////////////////////////////////
             }
         }
     }
