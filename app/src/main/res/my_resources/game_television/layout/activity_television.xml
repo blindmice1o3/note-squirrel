@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0000FF"
-    tools:context=".television.TelevisionActivity">
+    tools:context=".gameboycolor.gamecartridges.derived.pocketcritters.television.TelevisionActivity">
 
     <TextView
         android:id="@+id/tag_live"

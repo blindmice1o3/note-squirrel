@@ -3,7 +3,7 @@ package com.jackingaming.notesquirrel.gameboycolor;
 import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 
 /**
