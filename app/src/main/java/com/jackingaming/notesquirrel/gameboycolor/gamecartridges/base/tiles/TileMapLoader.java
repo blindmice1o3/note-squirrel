@@ -1,6 +1,7 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
@@ -19,14 +20,14 @@ import java.io.InputStreamReader;
  */
 public class TileMapLoader {
 
-    public static String loadFileAsString(Context context, int resId) {
+    public static String loadFileAsString(Resources resources, int resId) {
         Log.d(MainActivity.DEBUG_TAG, "TileMapLoader.loadFileAsString(Context, int)");
 
         StringBuilder sb = new StringBuilder();
         BufferedReader bufferedReader = null;
-        ////////////////////////////////////////////////////////////////////////
-        InputStream inputStream = context.getResources().openRawResource(resId);
-        ////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////
+        InputStream inputStream = resources.openRawResource(resId);
+        ///////////////////////////////////////////////////////////
 
         try {
             bufferedReader = new BufferedReader(new InputStreamReader(inputStream));

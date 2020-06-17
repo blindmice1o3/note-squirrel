@@ -10,6 +10,7 @@ import android.util.Log;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.outdoors.worldmap.TileMapPart01;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -71,7 +72,7 @@ public class Assets {
 
 
         ////////////////////////////////////////////////////////////////////////////////
-        rgbTileFarm = BitmapFactory.decodeResource(resources, R.drawable.tile_map_farm);
+        //rgbTileFarm = BitmapFactory.decodeResource(resources, R.drawable.tile_map_farm);
         /*
         StringBuilder sb = new StringBuilder();
         sb.append(" \n");
@@ -105,7 +106,7 @@ public class Assets {
         initEntities(resources);
 
         //TODO: Currently loading this within DirectionalPadFragment and ButtonPadFragment (duplicate).
-        initDPad(resources);
+        initDPad(resources);//
 
         //TODO: OutOfMemoryError... Rethink implementation of loading image resources.
         //TODO: Should only call this when JackInActivity.gameCartridge == POCKET_CRITTERS.
@@ -199,7 +200,7 @@ public class Assets {
         return lab;
     }
 
-    public static Bitmap cropWorldMapPart01(Resources resources, Map<TileMap.Specs, Integer> specs) {
+    public static Bitmap cropWorldMapPart01(Resources resources, Map<TileMapPart01.Specs, Integer> specs) {
         Log.d(MainActivity.DEBUG_TAG, "Assets.cropWorldMapPart01(Resources, Map<TileMap.Specs, Integer>)");
 
         Bitmap fullWorldMap = BitmapFactory.decodeResource(resources, R.drawable.pokemon_gsc_kanto);
@@ -208,10 +209,10 @@ public class Assets {
         ////////////////////////////////////////////////////////////////////////////
         //Switched from hard-coded pixel values to tile index supplied by TileMap.//
         ////////////////////////////////////////////////////////////////////////////
-        int xStartTileIndex = specs.get(TileMap.Specs.X_START_TILE_INDEX);
-        int xEndTileIndex = specs.get(TileMap.Specs.X_END_TILE_INDEX);
-        int yStartTileIndex = specs.get(TileMap.Specs.Y_START_TILE_INDEX);
-        int yEndTileIndex = specs.get(TileMap.Specs.Y_END_TILE_INDEX);
+        int xStartTileIndex = specs.get(TileMapPart01.Specs.X_START_TILE_INDEX);
+        int xEndTileIndex = specs.get(TileMapPart01.Specs.X_END_TILE_INDEX);
+        int yStartTileIndex = specs.get(TileMapPart01.Specs.Y_START_TILE_INDEX);
+        int yEndTileIndex = specs.get(TileMapPart01.Specs.Y_END_TILE_INDEX);
 
         // In terms of PIXELS.
         int x = xStartTileIndex * TileMap.TILE_WIDTH;

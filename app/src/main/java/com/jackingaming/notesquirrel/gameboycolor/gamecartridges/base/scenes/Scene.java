@@ -10,6 +10,13 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.EntityManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.tiles.TileMapFrogger;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.indoors.TileMapHome01;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.indoors.TileMapHome02;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.indoors.TileMapHomeRival;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.indoors.TileMapLab;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.outdoors.worldmap.TileMapPart01;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.outdoors.TileMapFarm;
 
 import java.io.Serializable;
 
@@ -102,9 +109,33 @@ public class Scene
     public void initTileMap() {
         Log.d(MainActivity.DEBUG_TAG, "Scene.initTileMap()");
 
-        ////////////////////////////////////////
-        tileMap = new TileMap(handler, sceneID);
-        ////////////////////////////////////////
+        switch (sceneID) {
+            case FARM:
+                tileMap = new TileMapFarm(handler, sceneID);
+                break;
+            case PART_01:
+                tileMap = new TileMapPart01(handler, sceneID);
+                break;
+            case HOME_01:
+                tileMap = new TileMapHome01(handler, sceneID);
+                break;
+            case HOME_02:
+                tileMap = new TileMapHome02(handler, sceneID);
+                break;
+            case HOME_RIVAL:
+                tileMap = new TileMapHomeRival(handler, sceneID);
+                break;
+            case LAB:
+                tileMap = new TileMapLab(handler, sceneID);
+                break;
+            case FROGGER:
+                tileMap = new TileMapFrogger(handler, sceneID);
+                break;
+            default:
+                Log.d(MainActivity.DEBUG_TAG, "Scene.initTileMap() switch-construct's default block.");
+                tileMap = new TileMapPart01(handler, sceneID);
+                break;
+        }
     }
 
     //TODO: move some of these to Scene.enter(Object[])

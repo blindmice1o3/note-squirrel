@@ -1,98 +1,58 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
-import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 
-public class TileMap {
+public abstract class TileMap {
 
     public enum TileType { SOLID, WALKABLE, TELEVISION, COMPUTER, GAME_CONSOLE, SIGN_POST, TRANSFER_POINT; }
-    public enum Specs { X_START_TILE_INDEX, X_END_TILE_INDEX, Y_START_TILE_INDEX, Y_END_TILE_INDEX; }
+
     public static final int TILE_WIDTH = 16;
     public static final int TILE_HEIGHT = 16;
-    public static final int TILE_WIDTH_48 = 48;
-    public static final int TILE_HEIGHT_48 = 48;
 
     private Handler handler;
     private Scene.Id sceneID;
 
-    private TileType[][] tiles;
-    private Bitmap texture;
-    private Map<Specs, Integer> specs; //ONLY USE FOR full-world-map related TEXTURE and TILES.
+    protected TileType[][] tiles;
+    protected Bitmap texture;
 
-    private int tileWidth;
-    private int tileHeight;
-    private int xSpawnIndex;
-    private int ySpawnIndex;
-    private Map<Scene.Id, Rect> transferPoints;
+    protected int tileWidth;
+    protected int tileHeight;
+    protected int xSpawnIndex;
+    protected int ySpawnIndex;
+    protected Map<Scene.Id, Rect> transferPoints;
 
-    private int widthSceneMax;
-    private int heightSceneMax;
+    protected int widthSceneMax;
+    protected int heightSceneMax;
 
     public TileMap(Handler handler, Scene.Id sceneID) {
         this.handler = handler;
         this.sceneID = sceneID;
 
-        init();
+        //@@@@@@@@@@@@@@@@@@@
+        initTileSize();
+        initSpawnPosition();
+        initTransferPoints();
+        initTextureAndSourceFile(handler.getGameCartridge().getContext().getResources());
+        initTiles();
+        //@@@@@@@@@@@@@@@@@@@
     }
 
-    private void initTransferPointsWorldMapPart01() {
-        Log.d(MainActivity.DEBUG_TAG, "TileMap.initTransferPointsWorldMapPart01()");
-
-        transferPoints = new HashMap<Scene.Id, Rect>();
-
-        //TODO: Clean up values.
-        transferPoints.put( Scene.Id.HOME_01, new Rect(1040, (3248-(104*TILE_HEIGHT)), 1040+TILE_WIDTH, (3248-(104*TILE_HEIGHT))+TILE_HEIGHT) );
-        transferPoints.put( Scene.Id.HOME_RIVAL, new Rect(1168, (3248-(104*TILE_HEIGHT)), 1168+TILE_WIDTH, (3248-(104*TILE_HEIGHT))+TILE_HEIGHT) );
-        transferPoints.put( Scene.Id.LAB, new Rect(1152, (3344-(104*TILE_HEIGHT)), 1152+TILE_WIDTH, (3344-(104*TILE_HEIGHT))+TILE_HEIGHT) );
-    }
-
-    private void initTransferPointsHome01() {
-        Log.d(MainActivity.DEBUG_TAG, "TileMap.initTransferPointsHome01()");
-
-        transferPoints = new HashMap<Scene.Id, Rect>();
-
-        transferPoints.put( Scene.Id.HOME_02, new Rect(7*TILE_WIDTH, 1*TILE_HEIGHT, (7*TILE_WIDTH)+(1*TILE_WIDTH), (1*TILE_HEIGHT)+(1*TILE_HEIGHT)) );
-        transferPoints.put( Scene.Id.PART_01, new Rect(2*TILE_WIDTH, 7*TILE_HEIGHT, (2*TILE_WIDTH)+(2*TILE_WIDTH), (7*TILE_HEIGHT)+(1*TILE_HEIGHT)) );
-    }
-
-    private void initTransferPointsHome02() {
-        Log.d(MainActivity.DEBUG_TAG, "TileMap.initTransferPointsHome02()");
-
-        transferPoints = new HashMap<Scene.Id, Rect>();
-
-        transferPoints.put( Scene.Id.HOME_01, new Rect(7*TILE_WIDTH, 1*TILE_HEIGHT, (7*TILE_WIDTH)+(1*TILE_WIDTH), (1*TILE_HEIGHT)+(1*TILE_HEIGHT)) );
-    }
-
-    private void initTransferPointsHomeRival() {
-        Log.d(MainActivity.DEBUG_TAG, "TileMap.initTransferPointsHomeRival()");
-
-        transferPoints = new HashMap<Scene.Id, Rect>();
-
-        transferPoints.put( Scene.Id.PART_01, new Rect(2*TILE_WIDTH, 7*TILE_HEIGHT, (2*TILE_WIDTH)+(2*TILE_WIDTH), (7*TILE_HEIGHT)+(1*TILE_HEIGHT)) );
-    }
-
-    private void initTransferPointsLab() {
-        Log.d(MainActivity.DEBUG_TAG, "TileMap.initTransferPointsLab()");
-
-        transferPoints = new HashMap<Scene.Id, Rect>();
-
-        transferPoints.put( Scene.Id.PART_01, new Rect(4*TILE_WIDTH, 11*TILE_HEIGHT, (4*TILE_WIDTH)+(2*TILE_WIDTH), (11*TILE_HEIGHT)+(1*TILE_HEIGHT)) );
-    }
+    protected abstract void initTileSize();
+    protected abstract void initSpawnPosition();
+    protected abstract void initTransferPoints();
+    protected abstract void initTextureAndSourceFile(Resources resources);
+    protected abstract void initTiles();
 
     //TODO: Instead of returning Scene.Id to Player class... HANDLE transferring here.
     public Scene.Id checkTransferPointsCollision(Rect boundsFuture) {
@@ -117,280 +77,6 @@ public class TileMap {
         }
 
         return null;
-    }
-
-    private void init() {
-        Log.d(MainActivity.DEBUG_TAG, "TileMap.init()");
-
-        switch (sceneID) {
-            case FARM:
-                tileWidth = TILE_WIDTH;
-                tileHeight = TILE_HEIGHT;
-
-                xSpawnIndex = 4;
-                ySpawnIndex = 4;
-                break;
-            case PART_01:
-                tileWidth = TILE_WIDTH;
-                tileHeight = TILE_HEIGHT;
-
-                xSpawnIndex = 69;
-                ySpawnIndex = 103;
-
-                ///////////////////////////////////
-                initTransferPointsWorldMapPart01();
-                ///////////////////////////////////
-
-                //ONLY USE FOR full-world-map related TEXTURE and TILES.
-                //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-                specs = new HashMap<Specs, Integer>();
-                specs.put(Specs.X_START_TILE_INDEX, 0);
-                specs.put(Specs.X_END_TILE_INDEX, 80);
-                specs.put(Specs.Y_START_TILE_INDEX, 104);
-                specs.put(Specs.Y_END_TILE_INDEX, 223);
-                //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-                break;
-            case HOME_01:
-                tileWidth = TILE_WIDTH;
-                tileHeight = TILE_HEIGHT;
-
-                xSpawnIndex = 2;
-                ySpawnIndex = 6;
-
-                ///////////////////////////
-                initTransferPointsHome01();
-                ///////////////////////////
-                break;
-            case HOME_02:
-                tileWidth = TILE_WIDTH;
-                tileHeight = TILE_HEIGHT;
-
-                xSpawnIndex = 7;
-                ySpawnIndex = 2;
-
-                ///////////////////////////
-                initTransferPointsHome02();
-                ///////////////////////////
-                break;
-            case HOME_RIVAL:
-                tileWidth = TILE_WIDTH;
-                tileHeight = TILE_HEIGHT;
-
-                xSpawnIndex = 2;
-                ySpawnIndex = 6;
-
-                //////////////////////////////
-                initTransferPointsHomeRival();
-                //////////////////////////////
-                break;
-            case LAB:
-                tileWidth = TILE_WIDTH;
-                tileHeight = TILE_HEIGHT;
-
-                xSpawnIndex = 4;
-                ySpawnIndex = 10;
-
-                ////////////////////////
-                initTransferPointsLab();
-                ////////////////////////
-                break;
-            case FROGGER:
-                tileWidth = TILE_WIDTH_48;
-                tileHeight = TILE_HEIGHT_48;
-
-                xSpawnIndex = 10;
-                ySpawnIndex = 14;
-                break;
-        }
-
-        //@@@@@@@@@@@@
-        initTexture();
-        initTiles();
-        //@@@@@@@@@@@@
-    }
-
-    private void initTexture() {
-        Log.d(MainActivity.DEBUG_TAG, "TileMap.initTexture()");
-
-        switch (sceneID) {
-            case FARM:
-                texture = Assets.cropFarmSpring(handler.getGameCartridge().getContext().getResources());
-                break;
-            case PART_01:
-                texture = Assets.cropWorldMapPart01(handler.getGameCartridge().getContext().getResources(),
-                        specs);
-                break;
-            case HOME_01:
-                texture = Assets.cropHome01(handler.getGameCartridge().getContext().getResources());
-                break;
-            case HOME_02:
-                texture = Assets.cropHome02(handler.getGameCartridge().getContext().getResources());
-                break;
-            case HOME_RIVAL:
-                texture = Assets.cropHomeRival(handler.getGameCartridge().getContext().getResources());
-                break;
-            case LAB:
-                texture = Assets.cropLab(handler.getGameCartridge().getContext().getResources());
-                break;
-            case FROGGER:
-                texture = BitmapFactory.decodeResource(handler.getGameCartridge().getContext().getResources(),
-                        R.drawable.frogger_background);
-                break;
-        }
-    }
-
-    private void initTiles() {
-        Log.d(MainActivity.DEBUG_TAG, "TileMap.initTiles()");
-
-        switch (sceneID) {
-            case FARM:
-                initTilesFarm();
-                break;
-            case PART_01:
-                initTilesPart01();
-                break;
-            case HOME_01:
-                initTiles(R.raw.tile_home01);
-                break;
-            case HOME_02:
-                initTiles(R.raw.tile_home02);
-                break;
-            case HOME_RIVAL:
-                initTiles(R.raw.tile_home_rival);
-                break;
-            case LAB:
-                initTiles(R.raw.tile_lab);
-                break;
-            case FROGGER:
-                initTilesFrogger();
-                break;
-        }
-    }
-
-    private void initTilesFrogger() {
-        Log.d(MainActivity.DEBUG_TAG, "TileMap.initTilesFrogger()");
-
-        int tileWidthFrogger = 48;
-        int tileHeightFrogger = 48;
-
-        int columns = texture.getWidth() / tileWidthFrogger;    //Always need.
-        int rows = texture.getHeight() / tileHeightFrogger;     //Always need.
-        widthSceneMax = texture.getWidth();                     //Always need.
-        heightSceneMax = texture.getHeight();                   //Always need.
-
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        tiles = new TileType[rows][columns];                    //Always need.
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-        for (int y = 0; y < rows; y++) {
-            for (int x = 0; x < columns; x++) {
-                tiles[y][x] = TileType.WALKABLE;
-            }
-        }
-    }
-
-    private void initTilesFarm() {
-        Log.d(MainActivity.DEBUG_TAG, "TileMap.initTilesFarm()");
-
-        Bitmap rgbTileMap = Assets.rgbTileFarm;
-
-        int columns = rgbTileMap.getWidth();            //Always need.
-        int rows = rgbTileMap.getHeight();              //Always need.
-        widthSceneMax = columns * TILE_WIDTH;           //Always need.
-        heightSceneMax = rows * TILE_HEIGHT;            //Always need.
-
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        tiles = new TileType[rows][columns];            //Always need.
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-        //DEFINE EACH ELEMENT.
-        for (int y = 0; y < rows; y++) {
-            for (int x = 0; x < columns; x++) {
-                int pixel = rgbTileMap.getPixel(x, y);
-
-                if (pixel == Color.BLACK) {
-                    tiles[y][x] = TileType.SOLID;
-                } else if (pixel == Color.WHITE) {
-                    tiles[y][x] = TileType.WALKABLE;
-                } else if (pixel == Color.RED) {
-                    tiles[y][x] = TileType.SIGN_POST;
-                } else if (pixel == Color.GREEN) {
-                    tiles[y][x] = TileType.TRANSFER_POINT;
-                }
-                //TODO: handle special tiles (stashWood, flowerPlot, hotSpring)
-                else if (pixel == Color.BLUE) {
-                    tiles[y][x] = TileType.SOLID;
-                }
-            }
-        }
-    }
-
-    private void initTiles(int resId) {
-        Log.d(MainActivity.DEBUG_TAG, "TileMap.initTiles(int)");
-
-        String stringOfTiles = TileMapLoader.loadFileAsString(handler.getGameCartridge().getContext(), resId);
-        tiles = TileMapLoader.convertStringToTiles(stringOfTiles);
-
-        int columns = tiles[0].length;          //Always need.
-        int rows = tiles.length;                //Always need.
-        widthSceneMax = columns * TILE_WIDTH;    //Always need.
-        Log.d(MainActivity.DEBUG_TAG, "TileMap.initTiles(int) widthSceneMax: " + widthSceneMax);
-        heightSceneMax = rows * TILE_HEIGHT;      //Always need.
-    }
-
-    private TileSpriteToRGBConverter tileSpriteToRGBConverter;
-    private void initTilesPart01() {
-        Log.d(MainActivity.DEBUG_TAG, "TileMap.initTilesPart01()");
-
-        //TODO: Instead of parsing the world map image for each run, create something similar to rgbTileFarm.
-        ////////////////////////////////////////////////////////////////////////////////////////////
-        //text-source-file of the FULL world map stored as String.
-        int resId = R.raw.tiles_world_map;
-        String stringOfTiles = TileMapLoader.loadFileAsString(handler.getGameCartridge().getContext(), resId);
-        //FULL world map (280-tiles by 270-tiles).
-        TileType[][] fullWorldMap = TileMapLoader.convertStringToTiles(stringOfTiles);
-
-        //DEFINE EACH ELEMENT. (TO CROP TO PROPER SIZE)
-        //TODO: these values should be used to crop the full map IMAGE from Assets class.
-        int xStartTileIndex = specs.get(Specs.X_START_TILE_INDEX);  //In terms of number of TILE.
-        int xEndTileIndex = specs.get(Specs.X_END_TILE_INDEX);      //EXCLUSIVE (can be +1 index out of bound).
-        int yStartTileIndex = specs.get(Specs.Y_START_TILE_INDEX);  //In terms of number of TILE.
-        int yEndTileIndex = specs.get(Specs.Y_END_TILE_INDEX);      //EXCLUSIVE (can be +1 index out of bound [e.g. array.length]).
-
-        int columns = xEndTileIndex - xStartTileIndex;  //Always need.
-        int rows = yEndTileIndex - yStartTileIndex;     //Always need.
-        widthSceneMax = columns * TILE_WIDTH;            //Always need.
-        Log.d(MainActivity.DEBUG_TAG, "TileMap.initTilesPart01() widthSceneMax: " + widthSceneMax);
-        heightSceneMax = rows * TILE_HEIGHT;              //Always need.
-
-        //CROPPED world map.
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        tiles = new TileType[rows][columns];            //Always need.
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-        for (int y = yStartTileIndex; y < yEndTileIndex; y++) {
-            // Arrays.copyOfRange()'s "from" is inclusive while "to" is exclusive.
-            tiles[y - yStartTileIndex] = Arrays.copyOfRange(fullWorldMap[y], xStartTileIndex, xEndTileIndex);
-        }
-        ////////////////////////////////////////////////////////////////////////////////////////////
-
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-        ///////////////////////////////////////////////////////////////////////////
-        //NEED TO USE TileSpriteToRGBConverter FROM IntelliJ's PocketCritters TO
-        //GENERATE TileType[][] OF solid AND walkable FOR TILE COLLISION DETECTION.
-        ///////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////////////////
-//        tileSpriteToRGBConverter = new TileSpriteToRGBConverter();
-//
-//        ArrayList<Bitmap> nonWalkableTileSpriteTargets = initNonWalkableTileSpriteTargets();
-//        ArrayList<Bitmap> walkableTileSpriteTargets = initWalkableTileSpriteTargets();
-//
-//        tiles = tileSpriteToRGBConverter.generateTileMapForCollisionDetection(
-//                texture, nonWalkableTileSpriteTargets, walkableTileSpriteTargets);
-        ////////////////////////////////////////////////////////////////////////////////////////////
     }
 
     public TileType checkTile(int xIndex, int yIndex) {
@@ -471,6 +157,31 @@ public class TileMap {
     ////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private TileSpriteToRGBConverter tileSpriteToRGBConverter;
+//    private void initTilesPart01() {
+//        Log.d(MainActivity.DEBUG_TAG, "TileMap.initTilesPart01()");
+//
+//        ////////////////////////////////////////////////////////////////////////////////////////////
+//
+//        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//
+//        ///////////////////////////////////////////////////////////////////////////
+//        //NEED TO USE TileSpriteToRGBConverter FROM IntelliJ's PocketCritters TO
+//        //GENERATE TileType[][] OF solid AND walkable FOR TILE COLLISION DETECTION.
+//        ///////////////////////////////////////////////////////////////////////////
+//        ////////////////////////////////////////////////////////////////////////////////////////////
+//        tileSpriteToRGBConverter = new TileSpriteToRGBConverter();
+//
+//        ArrayList<Bitmap> nonWalkableTileSpriteTargets = initNonWalkableTileSpriteTargets();
+//        ArrayList<Bitmap> walkableTileSpriteTargets = initWalkableTileSpriteTargets();
+//
+//        tiles = tileSpriteToRGBConverter.generateTileMapForCollisionDetection(
+//                texture, nonWalkableTileSpriteTargets, walkableTileSpriteTargets);
+//        ////////////////////////////////////////////////////////////////////////////////////////////
+//    }
 
     private ArrayList<Bitmap> initWalkableTileSpriteTargets() {
         ArrayList<Bitmap> walkableTileSpriteTargets = new ArrayList<Bitmap>();
