@@ -116,11 +116,11 @@ public class Player extends Creature {
                 if ((tileMap.getSceneID() != Scene.Id.FARM) &&
                         (tileMap.getSceneID() != Scene.Id.FROGGER)) {
                     Rect collisionBoundsFuture = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
-                    if (tileMap.checkTransferPointsCollision(collisionBoundsFuture) != null) {
+                    Scene.Id id = tileMap.checkTransferPointsCollision(collisionBoundsFuture);
+                    if (id != null) {
                         Log.d(MainActivity.DEBUG_TAG, "Creature.moveY() LEFT, @@@@@transfer point collision@@@@@");
                         //TODO: recordLocationPriorToTranfer() and loadLocationPriorToTransfer().
-                        //TODO: !!!!!POP() IS NEVER CALLED!!!!!
-                        Scene.Id id = tileMap.checkTransferPointsCollision(collisionBoundsFuture);
+
                         //TODO: Instead of handling transfering here, do it in TileMap.checkTransferPointsCollision(Rect).
                         SceneManager sceneManager = ((PocketCrittersCartridge)gameCartridge).getSceneManager();
                         if ( (id == Scene.Id.PART_01) ||
@@ -153,11 +153,11 @@ public class Player extends Creature {
                 if ((tileMap.getSceneID() != Scene.Id.FARM) &&
                         (tileMap.getSceneID() != Scene.Id.FROGGER)) {
                     Rect collisionBoundsFuture = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
-                    if (tileMap.checkTransferPointsCollision(collisionBoundsFuture) != null) {
+                    Scene.Id id = tileMap.checkTransferPointsCollision(collisionBoundsFuture);
+                    if (id != null) {
                         Log.d(MainActivity.DEBUG_TAG, "Creature.moveY() RIGHT, @@@@@transfer point collision@@@@@");
                         //TODO: recordLocationPriorToTranfer() and loadLocationPriorToTransfer()
-                        //TODO: !!!!!POP() IS NEVER CALLED!!!!!
-                        Scene.Id id = tileMap.checkTransferPointsCollision(collisionBoundsFuture);
+
                         //TODO: Instead of handling transfering here, do it in TileMap.checkTransferPointsCollision(Rect).
                         SceneManager sceneManager = ((PocketCrittersCartridge)gameCartridge).getSceneManager();
                         if ( (id == Scene.Id.PART_01) ||
@@ -198,11 +198,11 @@ public class Player extends Creature {
                 if ((tileMap.getSceneID() != Scene.Id.FARM) &&
                         (tileMap.getSceneID() != Scene.Id.FROGGER)) {
                     Rect collisionBoundsFuture = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
-                    if (tileMap.checkTransferPointsCollision(collisionBoundsFuture) != null) {
+                    Scene.Id id = tileMap.checkTransferPointsCollision(collisionBoundsFuture);
+                    if (id != null) {
                         Log.d(MainActivity.DEBUG_TAG, "Creature.moveY() UP, @@@@@transfer point collision@@@@@");
                         //TODO: recordLocationPriorToTranfer() and loadLocationPriorToTransfer()
-                        //TODO: !!!!!POP() IS NEVER CALLED!!!!!
-                        Scene.Id id = tileMap.checkTransferPointsCollision(collisionBoundsFuture);
+
                         //TODO: Instead of handling transfering here, do it in TileMap.checkTransferPointsCollision(Rect).
                         SceneManager sceneManager = ((PocketCrittersCartridge)gameCartridge).getSceneManager();
                         if ( (id == Scene.Id.PART_01) ||
@@ -236,11 +236,11 @@ public class Player extends Creature {
                 if ((tileMap.getSceneID() != Scene.Id.FARM) &&
                         (tileMap.getSceneID() != Scene.Id.FROGGER)) {
                     Rect collisionBoundsFuture = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
-                    if (tileMap.checkTransferPointsCollision(collisionBoundsFuture) != null) {
+                    Scene.Id id = tileMap.checkTransferPointsCollision(collisionBoundsFuture);
+                    if (id != null) {
                         Log.d(MainActivity.DEBUG_TAG, "Creature.moveY() DOWN, @@@@@transfer point collision@@@@@");
                         //TODO: recordLocationPriorToTranfer() and loadLocationPriorToTransfer()
-                        //TODO: !!!!!POP() IS NEVER CALLED!!!!!
-                        Scene.Id id = tileMap.checkTransferPointsCollision(collisionBoundsFuture);
+
                         //TODO: Instead of handling transfering here, do it in TileMap.checkTransferPointsCollision(Rect).
                         SceneManager sceneManager = ((PocketCrittersCartridge)gameCartridge).getSceneManager();
                         if ( (id == Scene.Id.PART_01) ||

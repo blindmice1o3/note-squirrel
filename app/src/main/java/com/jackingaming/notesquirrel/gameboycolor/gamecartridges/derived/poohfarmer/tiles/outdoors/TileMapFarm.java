@@ -4,12 +4,15 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Rect;
 
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
+
+import java.util.HashMap;
 
 public class TileMapFarm extends TileMap {
 
@@ -34,6 +37,8 @@ public class TileMapFarm extends TileMap {
 
     @Override
     protected void initTransferPoints() {
+        transferPoints = new HashMap<Scene.Id, Rect>();
+
         //intentionally blank (for now).
     }
 

@@ -60,7 +60,6 @@ public abstract class TileMap {
 
         for (Scene.Id id : transferPoints.keySet()) {
             if (transferPoints.get(id).intersect(boundsFuture)) {
-                Log.d(MainActivity.DEBUG_TAG, "TileMap.checkTransferPointsCollision(Rect) TRUE");
                 Log.d(MainActivity.DEBUG_TAG, "TileMap.checkTransferPointsCollision(Rect) TRUE, Scene.Id id: " + id.name());
 
                 ////////////////////////////////////////////////////////////////////////////////////
@@ -81,8 +80,8 @@ public abstract class TileMap {
 
     public TileType checkTile(int xIndex, int yIndex) {
         //CHECK BEYOND SCENE BOUND (e.g. inspecting off map)
-        if ((xIndex < 0) ||(xIndex >= (widthSceneMax / TILE_WIDTH)) ||
-                (yIndex < 0) || (yIndex >= (heightSceneMax / TILE_HEIGHT))) {
+        if ((xIndex < 0) ||(xIndex >= (widthSceneMax / tileWidth)) ||
+                (yIndex < 0) || (yIndex >= (heightSceneMax / tileHeight))) {
             return null;
         }
 
@@ -98,20 +97,8 @@ public abstract class TileMap {
             return true;
         }
 
-        int indexColumn = xPosition / TILE_WIDTH;
-        int indexRow = yPosition / TILE_HEIGHT;
-
-        //TODO: WORK-AROUND
-        if (handler.getGameCartridge().getIdGameCartridge() == GameCartridge.Id.FROGGER) {
-            int tileWidthFrogger = 48;
-            int tileHeightFrogger = 48;
-
-            //reverse from tile size being 16pixels... then go to tile size being 48 pixels...
-            indexColumn = (indexColumn * TILE_WIDTH);
-            indexRow = (indexRow * TILE_HEIGHT);
-            indexColumn = (indexColumn / tileWidthFrogger);
-            indexRow = (indexRow / tileHeightFrogger);
-        }
+        int indexColumn = xPosition / tileWidth;
+        int indexRow = yPosition / tileHeight;
 
         //CHECK FOR TileType.WALKABLE
         if (tiles[indexRow][indexColumn] == TileType.WALKABLE) {
