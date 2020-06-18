@@ -14,10 +14,13 @@ import java.util.HashMap;
 
 public class TileMapHothouse extends TileMap {
 
+    private boolean isFull;
     private String stringOfTiles;
 
     public TileMapHothouse(Handler handler, Scene.Id sceneID) {
         super(handler, sceneID);
+
+        isFull = false;
     }
 
     @Override
@@ -42,7 +45,9 @@ public class TileMapHothouse extends TileMap {
 
     @Override
     protected void initTextureAndSourceFile(Resources resources) {
-        texture = Assets.cropHothouse(resources);
+        //////////////////////////////////////////////////////////////////////////////////////////////
+        texture = (isFull) ? Assets.cropHothouseFull(resources) : Assets.cropHothouseEmpty(resources);
+        //////////////////////////////////////////////////////////////////////////////////////////////
 
         //text-source-file of HOTHOUSE stored as String.
         stringOfTiles = TileMapLoader.loadFileAsString(resources, R.raw.tile_hothouse);
@@ -56,6 +61,16 @@ public class TileMapHothouse extends TileMap {
         int rows = tiles.length;                //Always need.
         widthSceneMax = columns * tileWidth;    //Always need.
         heightSceneMax = rows * tileHeight;     //Always need.
+    }
+
+    public void toggleIsFull(Resources resources) {
+        /////////////////
+        isFull = !isFull;
+        /////////////////
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+        texture = (isFull) ? Assets.cropHothouseFull(resources) : Assets.cropHothouseEmpty(resources);
+        //////////////////////////////////////////////////////////////////////////////////////////////
     }
 
 }

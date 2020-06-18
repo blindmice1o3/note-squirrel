@@ -19,6 +19,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.P
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.entities.Robot;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.indoors.TileMapHothouse;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.ListFragmentDvdParentActivity;
@@ -142,90 +143,21 @@ public class PoohFarmerCartridge
     @Override
     public void getInputViewport() {
         if (inputManager.isJustPressedViewport()) {
-            //left
-            if (inputManager.isLeftViewport()) {
-                player.move(Player.Direction.LEFT);
-            }
-            //right
-            else if (inputManager.isRightViewport()) {
-                player.move(Player.Direction.RIGHT);
-            }
-            //up
-            else if (inputManager.isUpViewport()) {
-                player.move(Player.Direction.UP);
-            }
-            //down
-            else if (inputManager.isDownViewport()) {
-                player.move(Player.Direction.DOWN);
-            }
+            stateManager.getCurrentState().getInputViewport();
         }
     }
 
     @Override
     public void getInputDirectionalPad() {
         if (inputManager.isPressingDirectionalPad()) {
-            //up
-            if (inputManager.isUpDirectionalPad()) {
-                player.move(Player.Direction.UP);
-            }
-            //down
-            else if (inputManager.isDownDirectionalPad()) {
-                player.move(Player.Direction.DOWN);
-            }
-            //left
-            else if (inputManager.isLeftDirectionalPad()) {
-                player.move(Player.Direction.LEFT);
-            }
-            //right
-            else if (inputManager.isRightDirectionalPad()) {
-                player.move(Player.Direction.RIGHT);
-            }
+            stateManager.getCurrentState().getInputDirectionalPad();
         }
     }
 
     @Override
     public void getInputButtonPad() {
         if (inputManager.isJustPressedButtonPad()) {
-            //menu button (will launch ListFragmentDvdParentActivity)
-            if (inputManager.isMenuButtonPad()) {
-                Log.d(MainActivity.DEBUG_TAG, "menu-button");
-                Intent fragmentParentDvdIntent = new Intent(context, ListFragmentDvdParentActivity.class);
-                context.startActivity(fragmentParentDvdIntent);
-            }
-            //a button
-            else if (inputManager.isaButtonPad()) {
-                Log.d(MainActivity.DEBUG_TAG, "a-button");
-
-                //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-                //TILES
-                player.getTileTypeCurrentlyFacing();   //currently only using for pocket_critters
-
-                //ENTITIES
-                Entity entity = player.getEntityCurrentlyFacing();
-                //CHANGES robot's State (cycles incrementally)
-                if(entity instanceof Robot) {
-
-                    int robotStateIndex = ((Robot)entity).getState().ordinal();
-
-                    robotStateIndex++;
-
-                    if (robotStateIndex >= Robot.State.values().length) {
-                        robotStateIndex = 0;
-                    }
-
-                    ////////////////////////////////////////////////////////////////
-                    ((Robot)entity).setState(Robot.State.values()[robotStateIndex]);
-                    ////////////////////////////////////////////////////////////////
-                    //if( ((Robot)entity).getState() == Robot.State.OFF ){
-                    //    ((Robot) entity).setState(Robot.State.WALK);
-                    //}
-                }
-                //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-            }
-            //b button
-            else if (inputManager.isbButtonPad()) {
-                Log.d(MainActivity.DEBUG_TAG, "b-button");
-            }
+            stateManager.getCurrentState().getInputButtonPad();
         }
     }
 

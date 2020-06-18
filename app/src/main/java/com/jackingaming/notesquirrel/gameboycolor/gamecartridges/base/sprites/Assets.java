@@ -200,24 +200,44 @@ public class Assets {
         return lab;
     }
 
-    public static Bitmap cropHothouse(Resources resources) {
-        Log.d(MainActivity.DEBUG_TAG, "Assets.cropHothouse(Resources)");
+    public static Bitmap cropHothouseEmpty(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropHothouseEmpty(Resources)");
 
         Bitmap indoorsFarmHM2 = BitmapFactory.decodeResource(resources, R.drawable.hm2_farm_indoors);
-        Bitmap hothouse = null;
+        Bitmap hothouseEmpty = null;
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        hothouse = Bitmap.createBitmap(indoorsFarmHM2, 223, 1200, 192, 256);
+        hothouseEmpty = Bitmap.createBitmap(indoorsFarmHM2, 223, 1200, 192, 256);
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        Log.d(MainActivity.DEBUG_TAG, "hothouse: " + hothouse.getWidth() + ", " + hothouse.getHeight());
+        Log.d(MainActivity.DEBUG_TAG, "hothouseEmpty: " + hothouseEmpty.getWidth() + ", " + hothouseEmpty.getHeight());
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         //May be redundant because local variable.
         indoorsFarmHM2 = null;
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        Log.d(MainActivity.DEBUG_TAG, "Assets.cropHothouse(Resources)... indoorsFarmHM2 is null? " + indoorsFarmHM2);
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropHothouseEmpty(Resources)... indoorsFarmHM2 is null? " + indoorsFarmHM2);
 
-        return hothouse;
+        return hothouseEmpty;
+    }
+
+    public static Bitmap cropHothouseFull(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropHothouseFull(Resources)");
+
+        Bitmap indoorsFarmHM2 = BitmapFactory.decodeResource(resources, R.drawable.hm2_farm_indoors);
+        Bitmap hothouseFull = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        hothouseFull = Bitmap.createBitmap(indoorsFarmHM2, 419, 1200, 192, 256);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "hothouseFull: " + hothouseFull.getWidth() + ", " + hothouseFull.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        indoorsFarmHM2 = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropHothouseFull(Resources)... indoorsFarmHM2 is null? " + indoorsFarmHM2);
+
+        return hothouseFull;
     }
 
     public static Bitmap cropWorldMapPart01(Resources resources, Map<TileMapPart01.Specs, Integer> specs) {
