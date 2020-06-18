@@ -39,7 +39,8 @@ public class TileMapFarm extends TileMap {
     protected void initTransferPoints() {
         transferPoints = new HashMap<Scene.Id, Rect>();
 
-        //intentionally blank (for now).
+        //TODO: Use tileWidth and tileHeight instance member instead of constant.
+        transferPoints.put( Scene.Id.HOTHOUSE, new Rect(17*TILE_WIDTH, 15*TILE_HEIGHT, (17*TILE_WIDTH)+(1*TILE_WIDTH), (15*TILE_HEIGHT)+(1*TILE_HEIGHT)) );
     }
 
     @Override

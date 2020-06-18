@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.indoors;
+package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.indoors;
 
 import android.content.res.Resources;
 import android.graphics.Rect;
@@ -12,11 +12,11 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.Tile
 
 import java.util.HashMap;
 
-public class TileMapLab extends TileMap {
+public class TileMapHothouse extends TileMap {
 
     private String stringOfTiles;
 
-    public TileMapLab(Handler handler, Scene.Id sceneID) {
+    public TileMapHothouse(Handler handler, Scene.Id sceneID) {
         super(handler, sceneID);
     }
 
@@ -28,8 +28,8 @@ public class TileMapLab extends TileMap {
 
     @Override
     protected void initSpawnPosition() {
-        xSpawnIndex = 4;
-        ySpawnIndex = 10;
+        xSpawnIndex = 6;
+        ySpawnIndex = 11;
     }
 
     @Override
@@ -37,15 +37,15 @@ public class TileMapLab extends TileMap {
         transferPoints = new HashMap<Scene.Id, Rect>();
 
         //TODO: Use tileWidth and tileHeight instance member instead of constant.
-        transferPoints.put( Scene.Id.PART_01, new Rect(4*TILE_WIDTH, 11*TILE_HEIGHT, (4*TILE_WIDTH)+(2*TILE_WIDTH), (11*TILE_HEIGHT)+(1*TILE_HEIGHT)) );
+        transferPoints.put( Scene.Id.FARM, new Rect(5*TILE_WIDTH, 13*TILE_HEIGHT, (5*TILE_WIDTH)+(2*TILE_WIDTH), (13*TILE_HEIGHT)+(1*TILE_HEIGHT)) );
     }
 
     @Override
     protected void initTextureAndSourceFile(Resources resources) {
-        texture = Assets.cropLab(resources);
+        texture = Assets.cropHothouse(resources);
 
-        //text-source-file of LAB stored as String.
-        stringOfTiles = TileMapLoader.loadFileAsString(resources, R.raw.tile_lab);
+        //text-source-file of HOTHOUSE stored as String.
+        stringOfTiles = TileMapLoader.loadFileAsString(resources, R.raw.tile_hothouse);
     }
 
     @Override

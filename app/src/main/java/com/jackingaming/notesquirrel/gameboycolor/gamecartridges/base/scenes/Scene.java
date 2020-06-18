@@ -1,6 +1,8 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
 
@@ -16,14 +18,20 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketc
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.indoors.TileMapHomeRival;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.indoors.TileMapLab;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.outdoors.worldmap.TileMapPart01;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.indoors.TileMapHothouse;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.outdoors.TileMapFarm;
 
 import java.io.Serializable;
 
+import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap.TILE_HEIGHT;
+import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap.TILE_WIDTH;
+
 public class Scene
         implements Serializable {
 
-    public enum Id { FARM, PART_01, HOME_01, HOME_02, HOME_RIVAL, LAB, FROGGER; }
+    public enum Id { FARM, HOTHOUSE, SHEEP_PEN, CHICKEN_COOP, BARN, HOUSE_01, HOUSE_02, HOUSE_03,
+        PART_01, HOME_01, HOME_02, HOME_RIVAL, LAB,
+        FROGGER; }
 
     transient protected Handler handler;
     protected Id sceneID;
@@ -112,6 +120,9 @@ public class Scene
         switch (sceneID) {
             case FARM:
                 tileMap = new TileMapFarm(handler, sceneID);
+                break;
+            case HOTHOUSE:
+                tileMap = new TileMapHothouse(handler, sceneID);
                 break;
             case PART_01:
                 tileMap = new TileMapPart01(handler, sceneID);

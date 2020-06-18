@@ -58,13 +58,14 @@ public abstract class TileMap {
     // within TileMap instead of Scene's "enter()" and "exit()"
     // (e.g. instead of just having spawnPosition... also store enterPosition and exitPosition).
     public void checkTransferPointsCollision(Rect collisionBounds) {
-        if ((sceneID != Scene.Id.FARM) && (sceneID != Scene.Id.FROGGER)) {
+        if (sceneID != Scene.Id.FROGGER) {
             for (Scene.Id id : transferPoints.keySet()) {
                 if (transferPoints.get(id).intersect(collisionBounds)) {
                     SceneManager sceneManager = handler.getGameCartridge().getSceneManager();
                     //POP
                     if ( (id == Scene.Id.PART_01) ||
-                            ((id == Scene.Id.HOME_01) && (sceneManager.getCurrentScene().getSceneID() == Scene.Id.HOME_02)) ) {
+                            ((id == Scene.Id.HOME_01) && (sceneManager.getCurrentScene().getSceneID() == Scene.Id.HOME_02)) ||
+                            (id == Scene.Id.FARM) ) {
                         Object[] directionFacing = { handler.getGameCartridge().getPlayer().getDirection(),
                                 handler.getGameCartridge().getPlayer().getMoveSpeed() };
                         sceneManager.pop(directionFacing);
@@ -106,7 +107,8 @@ public abstract class TileMap {
         int indexRow = yPosition / tileHeight;
 
         //CHECK FOR TileType.WALKABLE
-        if (tiles[indexRow][indexColumn] == TileType.WALKABLE) {
+        if ( (tiles[indexRow][indexColumn] == TileType.WALKABLE) ||
+                (tiles[indexRow][indexColumn] == TileType.TRANSFER_POINT) ) {
             return false;
         }
 

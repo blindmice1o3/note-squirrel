@@ -200,6 +200,26 @@ public class Assets {
         return lab;
     }
 
+    public static Bitmap cropHothouse(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropHothouse(Resources)");
+
+        Bitmap indoorsFarmHM2 = BitmapFactory.decodeResource(resources, R.drawable.hm2_farm_indoors);
+        Bitmap hothouse = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        hothouse = Bitmap.createBitmap(indoorsFarmHM2, 223, 1200, 192, 256);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "hothouse: " + hothouse.getWidth() + ", " + hothouse.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        indoorsFarmHM2 = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropHothouse(Resources)... indoorsFarmHM2 is null? " + indoorsFarmHM2);
+
+        return hothouse;
+    }
+
     public static Bitmap cropWorldMapPart01(Resources resources, Map<TileMapPart01.Specs, Integer> specs) {
         Log.d(MainActivity.DEBUG_TAG, "Assets.cropWorldMapPart01(Resources, Map<TileMap.Specs, Integer>)");
 
