@@ -11,8 +11,6 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.PocketCrittersCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.Item;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Animation;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
@@ -112,27 +110,9 @@ public class Player extends Creature {
                 xCurrent += xMove;
                 //////////////////
 
-                //CHECKING TransferPoints
-                if ((tileMap.getSceneID() != Scene.Id.FARM) &&
-                        (tileMap.getSceneID() != Scene.Id.FROGGER)) {
-                    Rect collisionBoundsFuture = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
-                    Scene.Id id = tileMap.checkTransferPointsCollision(collisionBoundsFuture);
-                    if (id != null) {
-                        Log.d(MainActivity.DEBUG_TAG, "Creature.moveY() LEFT, @@@@@transfer point collision@@@@@");
-                        //TODO: recordLocationPriorToTranfer() and loadLocationPriorToTransfer().
-
-                        //TODO: Instead of handling transfering here, do it in TileMap.checkTransferPointsCollision(Rect).
-                        SceneManager sceneManager = ((PocketCrittersCartridge)gameCartridge).getSceneManager();
-                        if ( (id == Scene.Id.PART_01) ||
-                                ((id == Scene.Id.HOME_01) && (sceneManager.getCurrentScene().getSceneID() == Scene.Id.HOME_02)) ) {
-                            Object[] directionFacing = { direction, moveSpeed };
-                            sceneManager.pop(directionFacing);
-                        } else {
-                            Object[] directionFacing = { direction, moveSpeed };
-                            sceneManager.push(id, directionFacing);
-                        }
-                    }
-                }
+                //CHECKING transfer point collision
+                Rect collisionBounds = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
+                tileMap.checkTransferPointsCollision(collisionBounds);
             }
         }
         //RIGHT
@@ -149,28 +129,9 @@ public class Player extends Creature {
                 xCurrent += xMove;
                 //////////////////
 
-                //CHECKING TransferPoints
-                if ((tileMap.getSceneID() != Scene.Id.FARM) &&
-                        (tileMap.getSceneID() != Scene.Id.FROGGER)) {
-                    Rect collisionBoundsFuture = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
-                    Scene.Id id = tileMap.checkTransferPointsCollision(collisionBoundsFuture);
-                    if (id != null) {
-                        Log.d(MainActivity.DEBUG_TAG, "Creature.moveY() RIGHT, @@@@@transfer point collision@@@@@");
-                        //TODO: recordLocationPriorToTranfer() and loadLocationPriorToTransfer()
-
-                        //TODO: Instead of handling transfering here, do it in TileMap.checkTransferPointsCollision(Rect).
-                        SceneManager sceneManager = ((PocketCrittersCartridge)gameCartridge).getSceneManager();
-                        if ( (id == Scene.Id.PART_01) ||
-                                ((id == Scene.Id.HOME_01) && (sceneManager.getCurrentScene().getSceneID() == Scene.Id.HOME_02)) ) {
-                            Object[] directionFacing = { direction, moveSpeed };
-                            sceneManager.pop(directionFacing);
-
-                        } else {
-                            Object[] directionFacing = { direction, moveSpeed };
-                            sceneManager.push(id, directionFacing);
-                        }
-                    }
-                }
+                //CHECKING transfer point collision
+                Rect collisionBounds = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
+                tileMap.checkTransferPointsCollision(collisionBounds);
             }
         }
     }
@@ -194,28 +155,9 @@ public class Player extends Creature {
                 yCurrent += yMove;
                 //////////////////
 
-                //CHECKING TransferPoints
-                if ((tileMap.getSceneID() != Scene.Id.FARM) &&
-                        (tileMap.getSceneID() != Scene.Id.FROGGER)) {
-                    Rect collisionBoundsFuture = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
-                    Scene.Id id = tileMap.checkTransferPointsCollision(collisionBoundsFuture);
-                    if (id != null) {
-                        Log.d(MainActivity.DEBUG_TAG, "Creature.moveY() UP, @@@@@transfer point collision@@@@@");
-                        //TODO: recordLocationPriorToTranfer() and loadLocationPriorToTransfer()
-
-                        //TODO: Instead of handling transfering here, do it in TileMap.checkTransferPointsCollision(Rect).
-                        SceneManager sceneManager = ((PocketCrittersCartridge)gameCartridge).getSceneManager();
-                        if ( (id == Scene.Id.PART_01) ||
-                                ((id == Scene.Id.HOME_01) && (sceneManager.getCurrentScene().getSceneID() == Scene.Id.HOME_02)) ) {
-                            Object[] directionFacing = { direction, moveSpeed };
-                            sceneManager.pop(directionFacing);
-
-                        } else {
-                            Object[] directionFacing = { direction, moveSpeed };
-                            sceneManager.push(id, directionFacing);
-                        }
-                    }
-                }
+                //CHECKING transfer point collision
+                Rect collisionBounds = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
+                tileMap.checkTransferPointsCollision(collisionBounds);
             }
         }
         //DOWN
@@ -232,28 +174,9 @@ public class Player extends Creature {
                 yCurrent += yMove;
                 //////////////////
 
-                //CHECKING TransferPoints
-                if ((tileMap.getSceneID() != Scene.Id.FARM) &&
-                        (tileMap.getSceneID() != Scene.Id.FROGGER)) {
-                    Rect collisionBoundsFuture = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
-                    Scene.Id id = tileMap.checkTransferPointsCollision(collisionBoundsFuture);
-                    if (id != null) {
-                        Log.d(MainActivity.DEBUG_TAG, "Creature.moveY() DOWN, @@@@@transfer point collision@@@@@");
-                        //TODO: recordLocationPriorToTranfer() and loadLocationPriorToTransfer()
-
-                        //TODO: Instead of handling transfering here, do it in TileMap.checkTransferPointsCollision(Rect).
-                        SceneManager sceneManager = ((PocketCrittersCartridge)gameCartridge).getSceneManager();
-                        if ( (id == Scene.Id.PART_01) ||
-                                ((id == Scene.Id.HOME_01) && (sceneManager.getCurrentScene().getSceneID() == Scene.Id.HOME_02)) ) {
-                            Object[] directionFacing = { direction, moveSpeed };
-                            sceneManager.pop(directionFacing);
-
-                        } else {
-                            Object[] directionFacing = { direction, moveSpeed };
-                            sceneManager.push(id, directionFacing);
-                        }
-                    }
-                }
+                //CHECKING transfer point collision
+                Rect collisionBounds = new Rect(xFutureLeft, yFutureTop, xFutureRight, yFutureBottom);
+                tileMap.checkTransferPointsCollision(collisionBounds);
             }
         }
     }

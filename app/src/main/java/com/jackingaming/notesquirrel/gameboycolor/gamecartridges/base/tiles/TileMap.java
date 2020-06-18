@@ -6,9 +6,9 @@ import android.graphics.Rect;
 import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -54,28 +54,33 @@ public abstract class TileMap {
     protected abstract void initTextureAndSourceFile(Resources resources);
     protected abstract void initTiles();
 
-    //TODO: Instead of returning Scene.Id to Player class... HANDLE transferring here.
-    public Scene.Id checkTransferPointsCollision(Rect boundsFuture) {
-        //Log.d(MainActivity.DEBUG_TAG, "TileMap.checkTransferPointsCollision(Rect)");
-
-        for (Scene.Id id : transferPoints.keySet()) {
-            if (transferPoints.get(id).intersect(boundsFuture)) {
-                Log.d(MainActivity.DEBUG_TAG, "TileMap.checkTransferPointsCollision(Rect) TRUE, Scene.Id id: " + id.name());
-
-                ////////////////////////////////////////////////////////////////////////////////////
-                //TODO: if entering indoors scene AND current in PART_01... "recordLocationPriorToTransfer()"...
-
-                //TODO: if entering PART_01... "loadLocationPriorToTransfer()"...
-                ////////////////////////////////////////////////////////////////////////////////////
-
-                //TODO: switch construct to set spawning position base on scene entering into.
-                // Change the scene.
-
-                return id;
+    //TODO: do "recordLocationPriorToTransfer()" and "loadLocationPriorToTransfer()"
+    // within TileMap instead of Scene's "enter()" and "exit()"
+    // (e.g. instead of just having spawnPosition... also store enterPosition and exitPosition).
+    public void checkTransferPointsCollision(Rect collisionBounds) {
+        if ((sceneID != Scene.Id.FARM) && (sceneID != Scene.Id.FROGGER)) {
+            for (Scene.Id id : transferPoints.keySet()) {
+                if (transferPoints.get(id).intersect(collisionBounds)) {
+                    SceneManager sceneManager = handler.getGameCartridge().getSceneManager();
+                    //POP
+                    if ( (id == Scene.Id.PART_01) ||
+                            ((id == Scene.Id.HOME_01) && (sceneManager.getCurrentScene().getSceneID() == Scene.Id.HOME_02)) ) {
+                        Object[] directionFacing = { handler.getGameCartridge().getPlayer().getDirection(),
+                                handler.getGameCartridge().getPlayer().getMoveSpeed() };
+                        sceneManager.pop(directionFacing);
+                    }
+                    //PUSH
+                    else {
+                        Object[] directionFacing = { handler.getGameCartridge().getPlayer().getDirection(),
+                                handler.getGameCartridge().getPlayer().getMoveSpeed() };
+                        sceneManager.push(id, directionFacing);
+                    }
+                    //////
+                    break;
+                    //////
+                }
             }
         }
-
-        return null;
     }
 
     public TileType checkTile(int xIndex, int yIndex) {
