@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.jackingaming.notesquirrel.R;
+
 public class QuadrantActivity extends AppCompatActivity {
 
     @Override
@@ -11,4 +13,5 @@ public class QuadrantActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quadrant);
     }
+
 }

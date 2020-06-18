@@ -3,6 +3,7 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocket
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -79,6 +80,11 @@ public class ComputerActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menu_computer_paperclip:
                 Toast.makeText(this, "Paperclip", Toast.LENGTH_SHORT).show();
+                /////////////////////////////////////////////////////////////////////////////////
+                //TODO: launch 4-FrameLayout (quadrants) activity.
+                Intent quandrantIntent = new Intent(this, QuadrantActivity.class);
+                startActivity(quandrantIntent);
+                /////////////////////////////////////////////////////////////////////////////////
                 return true;
             default:
                 Toast.makeText(this, "ComputerActivity.onOptionsItemSelected(MenuItem) switch's default", Toast.LENGTH_SHORT).show();
