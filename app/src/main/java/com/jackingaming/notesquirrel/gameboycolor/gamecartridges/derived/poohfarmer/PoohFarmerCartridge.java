@@ -16,6 +16,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Sce
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.StateManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Player;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.entities.Robot;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
@@ -72,6 +73,10 @@ public class PoohFarmerCartridge
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
         gameCamera = new GameCamera(widthViewport, heightViewport);
+        /////////////////////////////////////////////////////////
+        gameCamera.setWidthClipInPixel((9*TileMap.TILE_WIDTH));
+        gameCamera.setHeightClipInPixel((9*TileMap.TILE_HEIGHT));
+        /////////////////////////////////////////////////////////
         player = new Player(handler);
         sceneManager = new SceneManager(handler);
         /////////////////////////////////////////

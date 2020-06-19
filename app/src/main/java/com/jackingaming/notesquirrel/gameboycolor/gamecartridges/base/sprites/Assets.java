@@ -492,37 +492,257 @@ public class Assets {
         return croppedFarmSpring;
     }
 
-    private static void initHm3Farm(Resources resources) {
-        Log.d(MainActivity.DEBUG_TAG, "Assets.initHm3Farm(Resources)");
-        //LOAD SPRITESHEET
-        Bitmap spriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm3_farm);
+    public static Bitmap cropFarmSummer(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropFarmSummer(Resources)");
 
-        //UNPACKING THE SPRITESHEET (logic is specific to each spritesheet's layout)
-        int column = 3;
-        int row = 4;
+        Bitmap farmSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm3_farm);
+        Bitmap croppedFarmSummer = null;
 
-        hm3Farm = new Bitmap[row][column];
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        croppedFarmSummer = Bitmap.createBitmap(farmSpriteSheet, 410, 40, 384, 400);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "croppedFarmSummer: " + croppedFarmSummer.getWidth() + ", " + croppedFarmSummer.getHeight());
 
-        //SPRING (farm, flower plot, hot spring)
-        hm3Farm[0][0] = Bitmap.createBitmap(spriteSheet, 14, 39, 384, 400);
-        hm3Farm[0][1] = Bitmap.createBitmap(spriteSheet, 14, 442, 48, 112);
-        hm3Farm[0][2] = Bitmap.createBitmap(spriteSheet, 318, 442, 80, 80);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        farmSpriteSheet = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropFarmSummer(Resources)... farmSpriteSheet is null? " + farmSpriteSheet);
 
-        //SUMMER (farm, flower plot, hot spring)
-        hm3Farm[1][0] = Bitmap.createBitmap(spriteSheet, 410, 40, 384, 400);
-        hm3Farm[1][1] = Bitmap.createBitmap(spriteSheet, 410, 443, 48, 112);
-        hm3Farm[1][2] = Bitmap.createBitmap(spriteSheet, 714, 443, 80, 80);
-
-        //FALL (farm, flower plot, hot spring)
-        hm3Farm[2][0] = Bitmap.createBitmap(spriteSheet, 806, 40, 384, 400);
-        hm3Farm[2][1] = Bitmap.createBitmap(spriteSheet, 806, 443, 48, 112);
-        hm3Farm[2][2] = Bitmap.createBitmap(spriteSheet, 1100, 443, 80, 80);
-
-        //WINTER (farm, flower plot, hot spring)
-        hm3Farm[3][0] = Bitmap.createBitmap(spriteSheet, 1202, 40, 384, 400);
-        hm3Farm[3][1] = Bitmap.createBitmap(spriteSheet, 1202, 443, 48, 112);
-        hm3Farm[3][2] = Bitmap.createBitmap(spriteSheet, 1506, 443, 80, 80);
+        return croppedFarmSummer;
     }
+
+    public static Bitmap cropFarmFall(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropFarmFall(Resources)");
+
+        Bitmap farmSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm3_farm);
+        Bitmap croppedFarmFall = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        croppedFarmFall = Bitmap.createBitmap(farmSpriteSheet, 806, 40, 384, 400);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "croppedFarmFall: " + croppedFarmFall.getWidth() + ", " + croppedFarmFall.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        farmSpriteSheet = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropFarmFall(Resources)... farmSpriteSheet is null? " + farmSpriteSheet);
+
+        return croppedFarmFall;
+    }
+
+    public static Bitmap cropFarmWinter(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropFarmWinter(Resources)");
+
+        Bitmap farmSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm3_farm);
+        Bitmap croppedFarmWinter = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        croppedFarmWinter = Bitmap.createBitmap(farmSpriteSheet, 1202, 40, 384, 400);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "croppedFarmWinter: " + croppedFarmWinter.getWidth() + ", " + croppedFarmWinter.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        farmSpriteSheet = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropFarmWinter(Resources)... farmSpriteSheet is null? " + farmSpriteSheet);
+
+        return croppedFarmWinter;
+    }
+
+    public static Bitmap cropFlowerPlotSpring(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropFlowerPlotSpring(Resources)");
+
+        Bitmap farmSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm3_farm);
+        Bitmap croppedFlowerPlotSpring = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        croppedFlowerPlotSpring = Bitmap.createBitmap(farmSpriteSheet, 14, 442, 48, 112);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "croppedFlowerPlotSpring: " + croppedFlowerPlotSpring.getWidth() + ", " + croppedFlowerPlotSpring.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        farmSpriteSheet = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropFlowerPlotSpring(Resources)... farmSpriteSheet is null? " + farmSpriteSheet);
+
+        return croppedFlowerPlotSpring;
+    }
+
+    public static Bitmap cropFlowerPlotSummer(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropFlowerPlotSummer(Resources)");
+
+        Bitmap farmSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm3_farm);
+        Bitmap croppedFlowerPlotSummer = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        croppedFlowerPlotSummer = Bitmap.createBitmap(farmSpriteSheet, 410, 443, 48, 112);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "croppedFlowerPlotSummer: " + croppedFlowerPlotSummer.getWidth() + ", " + croppedFlowerPlotSummer.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        farmSpriteSheet = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropFlowerPlotSummer(Resources)... farmSpriteSheet is null? " + farmSpriteSheet);
+
+        return croppedFlowerPlotSummer;
+    }
+
+    public static Bitmap cropFlowerPlotFall(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropFlowerPlotFall(Resources)");
+
+        Bitmap farmSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm3_farm);
+        Bitmap croppedFlowerPlotFall = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        croppedFlowerPlotFall = Bitmap.createBitmap(farmSpriteSheet, 806, 443, 48, 112);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "croppedFlowerPlotFall: " + croppedFlowerPlotFall.getWidth() + ", " + croppedFlowerPlotFall.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        farmSpriteSheet = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropFlowerPlotFall(Resources)... farmSpriteSheet is null? " + farmSpriteSheet);
+
+        return croppedFlowerPlotFall;
+    }
+
+    public static Bitmap cropFlowerPlotWinter(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropFlowerPlotWinter(Resources)");
+
+        Bitmap farmSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm3_farm);
+        Bitmap croppedFlowerPlotWinter = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        croppedFlowerPlotWinter = Bitmap.createBitmap(farmSpriteSheet, 1202, 443, 48, 112);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "croppedFlowerPlotWinter: " + croppedFlowerPlotWinter.getWidth() + ", " + croppedFlowerPlotWinter.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        farmSpriteSheet = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropFlowerPlotWinter(Resources)... farmSpriteSheet is null? " + farmSpriteSheet);
+
+        return croppedFlowerPlotWinter;
+    }
+
+    public static Bitmap cropHotSpringSpring(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropHotSpringSpring(Resources)");
+
+        Bitmap farmSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm3_farm);
+        Bitmap croppedHotSpringSpring = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        croppedHotSpringSpring = Bitmap.createBitmap(farmSpriteSheet, 318, 442, 80, 80);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "croppedHotSpringSpring: " + croppedHotSpringSpring.getWidth() + ", " + croppedHotSpringSpring.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        farmSpriteSheet = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropHotSpringSpring(Resources)... farmSpriteSheet is null? " + farmSpriteSheet);
+
+        return croppedHotSpringSpring;
+    }
+
+    public static Bitmap cropHotSpringSummer(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropHotSpringSummer(Resources)");
+
+        Bitmap farmSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm3_farm);
+        Bitmap croppedHotSpringSummer = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        croppedHotSpringSummer = Bitmap.createBitmap(farmSpriteSheet, 714, 443, 80, 80);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "croppedHotSpringSummer: " + croppedHotSpringSummer.getWidth() + ", " + croppedHotSpringSummer.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        farmSpriteSheet = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropHotSpringSummer(Resources)... farmSpriteSheet is null? " + farmSpriteSheet);
+
+        return croppedHotSpringSummer;
+    }
+
+    public static Bitmap cropHotSpringFall(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropHotSpringFall(Resources)");
+
+        Bitmap farmSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm3_farm);
+        Bitmap croppedHotSpringFall = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        croppedHotSpringFall = Bitmap.createBitmap(farmSpriteSheet, 1100, 443, 80, 80);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "croppedHotSpringFall: " + croppedHotSpringFall.getWidth() + ", " + croppedHotSpringFall.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        farmSpriteSheet = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropHotSpringFall(Resources)... farmSpriteSheet is null? " + farmSpriteSheet);
+
+        return croppedHotSpringFall;
+    }
+
+    public static Bitmap cropHotSpringWinter(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropHotSpringWinter(Resources)");
+
+        Bitmap farmSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm3_farm);
+        Bitmap croppedHotSpringWinter = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        croppedHotSpringWinter = Bitmap.createBitmap(farmSpriteSheet, 1506, 443, 80, 80);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "croppedHotSpringWinter: " + croppedHotSpringWinter.getWidth() + ", " + croppedHotSpringWinter.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        farmSpriteSheet = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropHotSpringWinter(Resources)... farmSpriteSheet is null? " + farmSpriteSheet);
+
+        return croppedHotSpringWinter;
+    }
+
+//    private static void initHm3Farm(Resources resources) {
+//        Log.d(MainActivity.DEBUG_TAG, "Assets.initHm3Farm(Resources)");
+//        //LOAD SPRITESHEET
+//        Bitmap spriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm3_farm);
+//
+//        //UNPACKING THE SPRITESHEET (logic is specific to each spritesheet's layout)
+//        int column = 3;
+//        int row = 4;
+//
+//        hm3Farm = new Bitmap[row][column];
+//
+//        //SPRING (farm, flower plot, hot spring)
+//        hm3Farm[0][0] = Bitmap.createBitmap(spriteSheet, 14, 39, 384, 400);
+//        hm3Farm[0][1] = Bitmap.createBitmap(spriteSheet, 14, 442, 48, 112);
+//        hm3Farm[0][2] = Bitmap.createBitmap(spriteSheet, 318, 442, 80, 80);
+//
+//        //SUMMER (farm, flower plot, hot spring)
+//        hm3Farm[1][0] = Bitmap.createBitmap(spriteSheet, 410, 40, 384, 400);
+//        hm3Farm[1][1] = Bitmap.createBitmap(spriteSheet, 410, 443, 48, 112);
+//        hm3Farm[1][2] = Bitmap.createBitmap(spriteSheet, 714, 443, 80, 80);
+//
+//        //FALL (farm, flower plot, hot spring)
+//        hm3Farm[2][0] = Bitmap.createBitmap(spriteSheet, 806, 40, 384, 400);
+//        hm3Farm[2][1] = Bitmap.createBitmap(spriteSheet, 806, 443, 48, 112);
+//        hm3Farm[2][2] = Bitmap.createBitmap(spriteSheet, 1100, 443, 80, 80);
+//
+//        //WINTER (farm, flower plot, hot spring)
+//        hm3Farm[3][0] = Bitmap.createBitmap(spriteSheet, 1202, 40, 384, 400);
+//        hm3Farm[3][1] = Bitmap.createBitmap(spriteSheet, 1202, 443, 48, 112);
+//        hm3Farm[3][2] = Bitmap.createBitmap(spriteSheet, 1506, 443, 80, 80);
+//    }
 
     public static void initFroggerSprites(Resources resources) {
         Log.d(MainActivity.DEBUG_TAG, "Assets.initFroggerSprites(Resources) START...");
