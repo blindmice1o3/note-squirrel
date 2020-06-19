@@ -169,7 +169,7 @@ public class PoohFarmerCartridge
         getInputButtonPad();
         ////////////////////////////////////////////////////
 
-        sceneManager.getCurrentScene().update(elapsed);
+        stateManager.getCurrentState().update(elapsed);
     }
 
     @Override

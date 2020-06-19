@@ -18,7 +18,13 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketc
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.indoors.TileMapHomeRival;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.indoors.TileMapLab;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.outdoors.worldmap.TileMapPart01;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.indoors.TileMapChickenCoop;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.indoors.TileMapCowBarn;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.indoors.TileMapHothouse;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.indoors.TileMapHouseLevel01;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.indoors.TileMapHouseLevel02;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.indoors.TileMapHouseLevel03;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.indoors.TileMapSheepPen;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.outdoors.TileMapFarm;
 
 import java.io.Serializable;
@@ -29,7 +35,7 @@ import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.til
 public class Scene
         implements Serializable {
 
-    public enum Id { FARM, HOTHOUSE, SHEEP_PEN, CHICKEN_COOP, BARN, HOUSE_01, HOUSE_02, HOUSE_03,
+    public enum Id { FARM, HOTHOUSE, SHEEP_PEN, CHICKEN_COOP, COW_BARN, HOUSE_01, HOUSE_02, HOUSE_03,
         PART_01, HOME_01, HOME_02, HOME_RIVAL, LAB,
         FROGGER; }
 
@@ -123,6 +129,24 @@ public class Scene
                 break;
             case HOTHOUSE:
                 tileMap = new TileMapHothouse(handler, sceneID);
+                break;
+            case SHEEP_PEN:
+                tileMap = new TileMapSheepPen(handler, sceneID);
+                break;
+            case CHICKEN_COOP:
+                tileMap = new TileMapChickenCoop(handler, sceneID);
+                break;
+            case COW_BARN:
+                tileMap = new TileMapCowBarn(handler, sceneID);
+                break;
+            case HOUSE_01:
+                tileMap = new TileMapHouseLevel01(handler, sceneID);
+                break;
+            case HOUSE_02:
+                tileMap = new TileMapHouseLevel02(handler, sceneID);
+                break;
+            case HOUSE_03:
+                tileMap = new TileMapHouseLevel03(handler, sceneID);
                 break;
             case PART_01:
                 tileMap = new TileMapPart01(handler, sceneID);

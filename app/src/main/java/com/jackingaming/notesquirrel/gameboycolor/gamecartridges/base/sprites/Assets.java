@@ -240,6 +240,186 @@ public class Assets {
         return hothouseFull;
     }
 
+    public static Bitmap cropSheepPenEmpty(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropSheepPenEmpty(Resources)");
+
+        Bitmap indoorsFarmHM2 = BitmapFactory.decodeResource(resources, R.drawable.hm2_farm_indoors);
+        Bitmap sheepPenEmpty = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        sheepPenEmpty = Bitmap.createBitmap(indoorsFarmHM2, 8, 902, 240, 256);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "sheepPenEmpty: " + sheepPenEmpty.getWidth() + ", " + sheepPenEmpty.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        indoorsFarmHM2 = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropSheepPenEmpty(Resources)... indoorsFarmHM2 is null? " + indoorsFarmHM2);
+
+        return sheepPenEmpty;
+    }
+
+    public static Bitmap cropSheepPenFull(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropSheepPenFull(Resources)");
+
+        Bitmap indoorsFarmHM2 = BitmapFactory.decodeResource(resources, R.drawable.hm2_farm_indoors);
+        Bitmap sheepPenFull = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        sheepPenFull = Bitmap.createBitmap(indoorsFarmHM2, 252, 902, 240, 256);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "sheepPenFull: " + sheepPenFull.getWidth() + ", " + sheepPenFull.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        indoorsFarmHM2 = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropSheepPenFull(Resources)... indoorsFarmHM2 is null? " + indoorsFarmHM2);
+
+        return sheepPenFull;
+    }
+
+    public static Bitmap cropChickenCoopEmpty(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropChickenCoopEmpty(Resources)");
+
+        Bitmap indoorsFarmHM2 = BitmapFactory.decodeResource(resources, R.drawable.hm2_farm_indoors);
+        Bitmap chickenCoopEmpty = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        chickenCoopEmpty = Bitmap.createBitmap(indoorsFarmHM2, 78, 603, 240, 256);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "chickenCoopEmpty: " + chickenCoopEmpty.getWidth() + ", " + chickenCoopEmpty.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        indoorsFarmHM2 = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropChickenCoopEmpty(Resources)... indoorsFarmHM2 is null? " + indoorsFarmHM2);
+
+        return chickenCoopEmpty;
+    }
+
+    public static Bitmap cropChickenCoopFull(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropChickenCoopFull(Resources)");
+
+        Bitmap indoorsFarmHM2 = BitmapFactory.decodeResource(resources, R.drawable.hm2_farm_indoors);
+        Bitmap chickenCoopFull = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        chickenCoopFull = Bitmap.createBitmap(indoorsFarmHM2, 322, 603, 240, 256);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "chickenCoopFull: " + chickenCoopFull.getWidth() + ", " + chickenCoopFull.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        indoorsFarmHM2 = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropChickenCoopFull(Resources)... indoorsFarmHM2 is null? " + indoorsFarmHM2);
+
+        return chickenCoopFull;
+    }
+
+    public static Bitmap cropCowBarnEmpty(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropCowBarnEmpty(Resources)");
+
+        Bitmap indoorsFarmHM2 = BitmapFactory.decodeResource(resources, R.drawable.hm2_farm_indoors);
+        Bitmap cowBarnEmpty = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        cowBarnEmpty = Bitmap.createBitmap(indoorsFarmHM2, 8, 304, 240, 256);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "cowBarnEmpty: " + cowBarnEmpty.getWidth() + ", " + cowBarnEmpty.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        indoorsFarmHM2 = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropCowBarnEmpty(Resources)... indoorsFarmHM2 is null? " + indoorsFarmHM2);
+
+        return cowBarnEmpty;
+    }
+
+    public static Bitmap cropCowBarnFull(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropCowBarnFull(Resources)");
+
+        Bitmap indoorsFarmHM2 = BitmapFactory.decodeResource(resources, R.drawable.hm2_farm_indoors);
+        Bitmap cowBarnFull = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        cowBarnFull = Bitmap.createBitmap(indoorsFarmHM2, 252, 304, 240, 256);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "cowBarnFull: " + cowBarnFull.getWidth() + ", " + cowBarnFull.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        indoorsFarmHM2 = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropCowBarnFull(Resources)... indoorsFarmHM2 is null? " + indoorsFarmHM2);
+
+        return cowBarnFull;
+    }
+
+    public static Bitmap cropHouseLevel01(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropHouseLevel01(Resources)");
+
+        Bitmap indoorsFarmHM2 = BitmapFactory.decodeResource(resources, R.drawable.hm2_farm_indoors);
+        Bitmap houseLevel01 = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        houseLevel01 = Bitmap.createBitmap(indoorsFarmHM2, 6, 6, 160, 192);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "houseLevel01: " + houseLevel01.getWidth() + ", " + houseLevel01.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        indoorsFarmHM2 = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropHouseLevel01(Resources)... indoorsFarmHM2 is null? " + indoorsFarmHM2);
+
+        return houseLevel01;
+    }
+
+    public static Bitmap cropHouseLevel02(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropHouseLevel02(Resources)");
+
+        Bitmap indoorsFarmHM2 = BitmapFactory.decodeResource(resources, R.drawable.hm2_farm_indoors);
+        Bitmap houseLevel02 = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        houseLevel02 = Bitmap.createBitmap(indoorsFarmHM2, 171, 6, 192, 192);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "houseLevel02: " + houseLevel02.getWidth() + ", " + houseLevel02.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        indoorsFarmHM2 = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropHouseLevel02(Resources)... indoorsFarmHM2 is null? " + indoorsFarmHM2);
+
+        return houseLevel02;
+    }
+
+    public static Bitmap cropHouseLevel03(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropHouseLevel03(Resources)");
+
+        Bitmap indoorsFarmHM2 = BitmapFactory.decodeResource(resources, R.drawable.hm2_farm_indoors);
+        Bitmap houseLevel03 = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        houseLevel03 = Bitmap.createBitmap(indoorsFarmHM2, 368, 6, 256, 256);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "houseLevel03: " + houseLevel03.getWidth() + ", " + houseLevel03.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        indoorsFarmHM2 = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropHouseLevel03(Resources)... indoorsFarmHM2 is null? " + indoorsFarmHM2);
+
+        return houseLevel03;
+    }
+
     public static Bitmap cropWorldMapPart01(Resources resources, Map<TileMapPart01.Specs, Integer> specs) {
         Log.d(MainActivity.DEBUG_TAG, "Assets.cropWorldMapPart01(Resources, Map<TileMap.Specs, Integer>)");
 
