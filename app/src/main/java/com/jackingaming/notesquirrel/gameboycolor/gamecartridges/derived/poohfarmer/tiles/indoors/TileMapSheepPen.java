@@ -31,7 +31,7 @@ public class TileMapSheepPen extends TileMap {
 
     @Override
     protected void initSpawnPosition() {
-        xSpawnIndex = 6;
+        xSpawnIndex = 7;
         ySpawnIndex = 12;
     }
 

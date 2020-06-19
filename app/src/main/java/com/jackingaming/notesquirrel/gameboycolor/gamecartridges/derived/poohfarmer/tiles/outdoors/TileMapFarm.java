@@ -46,8 +46,6 @@ public class TileMapFarm extends TileMap {
         transferPoints.put( Scene.Id.CHICKEN_COOP, new Rect(18*TILE_WIDTH, 5*TILE_HEIGHT, (18*TILE_WIDTH)+(1*TILE_WIDTH), (5*TILE_HEIGHT)+(1*TILE_HEIGHT)) );
         transferPoints.put( Scene.Id.COW_BARN, new Rect(10*TILE_WIDTH, 4*TILE_HEIGHT, (10*TILE_WIDTH)+(1*TILE_WIDTH), (4*TILE_HEIGHT)+(1*TILE_HEIGHT)) );
 
-        //TODO: BUG... key is getting overwritten (can't have duplicate keys).
-        transferPoints.put( Scene.Id.HOUSE_01, new Rect(5*TILE_WIDTH, 8*TILE_HEIGHT, (5*TILE_WIDTH)+(1*TILE_WIDTH), (8*TILE_HEIGHT)+(1*TILE_HEIGHT)) );
         transferPoints.put( Scene.Id.HOUSE_01, new Rect(5*TILE_WIDTH, 11*TILE_HEIGHT, (5*TILE_WIDTH)+(1*TILE_WIDTH), (11*TILE_HEIGHT)+(1*TILE_HEIGHT)) );
     }
 

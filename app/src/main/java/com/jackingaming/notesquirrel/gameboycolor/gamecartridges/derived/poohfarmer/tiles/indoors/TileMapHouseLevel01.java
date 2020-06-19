@@ -37,7 +37,7 @@ public class TileMapHouseLevel01 extends TileMap {
         transferPoints = new HashMap<Scene.Id, Rect>();
 
         //TODO: Use tileWidth and tileHeight instance member instead of constant.
-        transferPoints.put( Scene.Id.FARM, new Rect(5*TILE_WIDTH, 13*TILE_HEIGHT, (5*TILE_WIDTH)+(2*TILE_WIDTH), (13*TILE_HEIGHT)+(1*TILE_HEIGHT)) );
+        transferPoints.put( Scene.Id.FARM, new Rect(4*TILE_WIDTH, 9*TILE_HEIGHT, (4*TILE_WIDTH)+(2*TILE_WIDTH), (9*TILE_HEIGHT)+(1*TILE_HEIGHT)) );
     }
 
     @Override

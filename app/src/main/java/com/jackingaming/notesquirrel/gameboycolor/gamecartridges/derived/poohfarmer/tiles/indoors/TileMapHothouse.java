@@ -31,8 +31,8 @@ public class TileMapHothouse extends TileMap {
 
     @Override
     protected void initSpawnPosition() {
-        xSpawnIndex = 6;
-        ySpawnIndex = 11;
+        xSpawnIndex = 5;
+        ySpawnIndex = 12;
     }
 
     @Override
