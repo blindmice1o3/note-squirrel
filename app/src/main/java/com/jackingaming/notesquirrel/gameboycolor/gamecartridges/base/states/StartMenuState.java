@@ -50,8 +50,6 @@ public class StartMenuState
         widthViewport = handler.getGameCartridge().getWidthViewport();
         heightViewport = handler.getGameCartridge().getHeightViewport();
 
-        sceneManager = handler.getGameCartridge().getSceneManager();
-
         indexMenu = 0;
         startMenuState = Assets.cropStartMenuState(context.getResources());
         startMenuStateCursor = Assets.cropStartMenuStateCursor(context.getResources());
@@ -270,6 +268,8 @@ public class StartMenuState
     @Override
     public void enter(Object[] args) {
         Log.d(MainActivity.DEBUG_TAG, "StartMenuState.enter(Object[]) State.Id: " + id);
+
+        sceneManager = handler.getGameCartridge().getSceneManager();
     }
 
     @Override

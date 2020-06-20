@@ -39,7 +39,6 @@ public class TextboxState
         inputManager = handler.getGameCartridge().getInputManager();
         widthViewport = handler.getGameCartridge().getWidthViewport();
         heightViewport = handler.getGameCartridge().getHeightViewport();
-        sceneManager = handler.getGameCartridge().getSceneManager();
 
         initTextbox();
     }
@@ -170,6 +169,8 @@ public class TextboxState
     @Override
     public void enter(Object[] args) {
         Log.d(MainActivity.DEBUG_TAG, "TextboxState.enter(Object[]) State.Id: " + id);
+
+        sceneManager = handler.getGameCartridge().getSceneManager();
 
         if (args != null) {
             if (args[0] instanceof String) {

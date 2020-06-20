@@ -7,15 +7,39 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.scenes.SceneFrogger;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.SceneFarm;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.scenes.indoors.SceneHome01;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.scenes.indoors.SceneHome02;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.scenes.indoors.SceneHomeRival;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.scenes.indoors.SceneLab;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.scenes.outdoors.ScenePart01;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneChickenCoop;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneCowBarn;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneHothouse;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneHouseLevel01;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneHouseLevel02;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneHouseLevel03;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneSheepPen;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.outdoors.SceneFarm;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.CHICKEN_COOP;
+import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.COW_BARN;
 import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.FARM;
 import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.FROGGER;
+import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.HOME_01;
+import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.HOME_02;
+import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.HOME_RIVAL;
+import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.HOTHOUSE;
+import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.HOUSE_01;
+import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.HOUSE_02;
+import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.HOUSE_03;
+import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.LAB;
+import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.PART_01;
+import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.SHEEP_PEN;
 
 public class SceneManager {
 
@@ -64,7 +88,7 @@ public class SceneManager {
 
         Scene startScene = sceneCollection.get(id);
         ////////////////////////////////////
-        startScene.init(player, gameCamera);
+        startScene.init(player, gameCamera, this);
         ////////////////////////////////////
 
         ///////////////////
@@ -84,18 +108,65 @@ public class SceneManager {
         sceneCollection = new HashMap<Scene.Id, Scene>();
         /////////////////////////////////////////////////
 
+        //TODO: redo this.
         // IMAGEs are not loaded yet (not until Scene.init() is called).
         // This should help with memory issues (on-the-fly loading).
         for (Scene.Id id : Scene.Id.values()) {
-            if ( (id != FROGGER) && (id != FARM) ) {
-                sceneCollection.put(id, new Scene(handler, id));
-            } else if (id == FROGGER) {
+            if (id == FROGGER) {
                 ///////////////////////////////////////////////////////
                 sceneCollection.put(id, new SceneFrogger(handler, id));
                 ///////////////////////////////////////////////////////
             } else if (id == FARM) {
                 ////////////////////////////////////////////////////
                 sceneCollection.put(id, new SceneFarm(handler, id));
+                ////////////////////////////////////////////////////
+            } else if (id == HOTHOUSE) {
+                ////////////////////////////////////////////////////
+                sceneCollection.put(id, new SceneHothouse(handler, id));
+                ////////////////////////////////////////////////////
+            } else if (id == SHEEP_PEN) {
+                ////////////////////////////////////////////////////
+                sceneCollection.put(id, new SceneSheepPen(handler, id));
+                ////////////////////////////////////////////////////
+            } else if (id == CHICKEN_COOP) {
+                ////////////////////////////////////////////////////
+                sceneCollection.put(id, new SceneChickenCoop(handler, id));
+                ////////////////////////////////////////////////////
+            } else if (id == COW_BARN) {
+                ////////////////////////////////////////////////////
+                sceneCollection.put(id, new SceneCowBarn(handler, id));
+                ////////////////////////////////////////////////////
+            } else if (id == HOUSE_01) {
+                ////////////////////////////////////////////////////
+                sceneCollection.put(id, new SceneHouseLevel01(handler, id));
+                ////////////////////////////////////////////////////
+            } else if (id == HOUSE_02) {
+                ////////////////////////////////////////////////////
+                sceneCollection.put(id, new SceneHouseLevel02(handler, id));
+                ////////////////////////////////////////////////////
+            } else if (id == HOUSE_03) {
+                ////////////////////////////////////////////////////
+                sceneCollection.put(id, new SceneHouseLevel03(handler, id));
+                ////////////////////////////////////////////////////
+            } else if (id == PART_01) {
+                ////////////////////////////////////////////////////
+                sceneCollection.put(id, new ScenePart01(handler, id));
+                ////////////////////////////////////////////////////
+            } else if (id == HOME_01) {
+                ////////////////////////////////////////////////////
+                sceneCollection.put(id, new SceneHome01(handler, id));
+                ////////////////////////////////////////////////////
+            } else if (id == HOME_02) {
+                ////////////////////////////////////////////////////
+                sceneCollection.put(id, new SceneHome02(handler, id));
+                ////////////////////////////////////////////////////
+            } else if (id == HOME_RIVAL) {
+                ////////////////////////////////////////////////////
+                sceneCollection.put(id, new SceneHomeRival(handler, id));
+                ////////////////////////////////////////////////////
+            } else if (id == LAB) {
+                ////////////////////////////////////////////////////
+                sceneCollection.put(id, new SceneLab(handler, id));
                 ////////////////////////////////////////////////////
             }
         }
@@ -123,7 +194,7 @@ public class SceneManager {
         //TODO: improve on the if-condition.
         if (nextScene.getTileMap() == null) {
             ///////////////////////////////////
-            nextScene.init(player, gameCamera);
+            nextScene.init(player, gameCamera, this);
             ///////////////////////////////////
         }
 
@@ -146,7 +217,7 @@ public class SceneManager {
         //TODO: improve on the if-condition.
         if (getCurrentScene().getTileMap() == null) {
             ///////////////////////////////////////////
-            getCurrentScene().init(player, gameCamera);
+            getCurrentScene().init(player, gameCamera, this);
             ///////////////////////////////////////////
         }
 
@@ -206,7 +277,7 @@ public class SceneManager {
 
             Scene scene = sceneCollection.get(id);
             ///////////////////////////////
-            scene.init(player, gameCamera);
+            scene.init(player, gameCamera, this);
             scene.enter();
             ///////////////////////////////
 

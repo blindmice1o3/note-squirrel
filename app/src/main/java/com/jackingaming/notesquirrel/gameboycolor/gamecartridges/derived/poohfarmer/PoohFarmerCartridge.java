@@ -13,6 +13,8 @@ import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.GameState;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.StateManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Player;
@@ -43,7 +45,6 @@ public class PoohFarmerCartridge
     private Handler handler;
     private Player player;
     private GameCamera gameCamera;
-    private SceneManager sceneManager;
     private StateManager stateManager;
 
     public PoohFarmerCartridge(Context context, Id idGameCartridge) {
@@ -78,7 +79,6 @@ public class PoohFarmerCartridge
         gameCamera.setHeightClipInPixel((9*TileMap.TILE_HEIGHT));
         /////////////////////////////////////////////////////////
         player = new Player(handler);
-        sceneManager = new SceneManager(handler);
         /////////////////////////////////////////
         stateManager = new StateManager(handler);
         /////////////////////////////////////////
@@ -179,24 +179,7 @@ public class PoohFarmerCartridge
 
     @Override
     public void render() {
-        //synchronize?
-        ////////////////////////////////////
-        Canvas canvas = surfaceHolder.lockCanvas();
-        ////////////////////////////////////
-
-        if (canvas != null) {
-            //Clear the canvas by painting the background white.
-            canvas.drawColor(Color.WHITE);
-
-            //@@@@@@@@@@@@@@@@@@@@@@@@@@
-            sceneManager.getCurrentScene().render(canvas);
-            //@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-            //unlock it and post our updated drawing to it.
-            ///////////////////////////////////
-            surfaceHolder.unlockCanvasAndPost(canvas);
-            ///////////////////////////////////
-        }
+        stateManager.getCurrentState().render();
     }
 
     @Override
@@ -256,7 +239,7 @@ public class PoohFarmerCartridge
 
     @Override
     public SceneManager getSceneManager() {
-        return sceneManager;
+        return ((GameState)stateManager.getState(State.Id.GAME)).getSceneManager();
     }
 
     @Override

@@ -24,6 +24,8 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Serializat
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.FroggerCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.PocketCrittersCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.GameState;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.scenes.indoors.SceneHome01;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.scenes.indoors.SceneHome02;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pong.PongCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.PoohFarmerCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.BackpackActivity;
@@ -260,11 +262,11 @@ public class JackInActivity extends AppCompatActivity {
 
             //TODO: set a boolean isReturningFromActivity = true and use this at end of PocketCritterCartridge.init().
             isReturningFromActivity = true;
-        } else if (requestCode == GameState.REQUEST_CODE_TELEVISION_ACTIVITY) {
+        } else if (requestCode == SceneHome01.REQUEST_CODE_TELEVISION_ACTIVITY) {
             Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onActivityResult(int, int, Intent) RETURNING FROM TelevisionActivity (LOADING SAVED STATE)");
 
             isReturningFromActivity = true;
-        } else if (requestCode == GameState.REQUEST_CODE_COMPUTER_ACTIVITY) {
+        } else if (requestCode == SceneHome02.REQUEST_CODE_COMPUTER_ACTIVITY) {
             Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onActivityResult(int, int, Intent) RETURNING FROM ComputerActivity (LOADING SAVED STATE)");
 
             isReturningFromActivity = true;

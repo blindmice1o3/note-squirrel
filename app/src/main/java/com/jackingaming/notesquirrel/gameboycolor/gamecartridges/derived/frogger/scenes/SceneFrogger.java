@@ -1,5 +1,6 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.scenes;
 
+import android.content.Intent;
 import android.graphics.Rect;
 import android.util.Log;
 
@@ -10,6 +11,8 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.E
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.Car;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.tiles.TileMapFrogger;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.ListFragmentDvdParentActivity;
 
 public class SceneFrogger extends Scene {
 
@@ -25,6 +28,34 @@ public class SceneFrogger extends Scene {
         numOfCarLanes = 5;
         numOfRiverLanes = 4;
         chanceToInstantiate = 0;
+    }
+
+    @Override
+    public void getInputButtonPad() {
+        //a button
+        if (inputManager.isaButtonPad()) {
+            Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() a-button-justPressed");
+
+
+        }
+        //b button
+        else if (inputManager.isbButtonPad()) {
+            Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() b-button-justPressed");
+
+
+        }
+        //menu button (push State.START_MENU)
+        else if (inputManager.isMenuButtonPad()) {
+            Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() menu-button-justPressed");
+
+            Intent fragmentParentDvdIntent = new Intent(context, ListFragmentDvdParentActivity.class);
+            context.startActivity(fragmentParentDvdIntent);
+        }
+    }
+
+    @Override
+    public void initTileMap() {
+        tileMap = new TileMapFrogger(handler, sceneID);
     }
 
     @Override

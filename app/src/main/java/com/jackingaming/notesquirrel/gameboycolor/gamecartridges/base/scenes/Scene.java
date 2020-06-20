@@ -1,5 +1,6 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -11,6 +12,8 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.EntityManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Player;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.GameState;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.tiles.TileMapFrogger;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.indoors.TileMapHome01;
@@ -26,13 +29,14 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfar
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.indoors.TileMapHouseLevel03;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.indoors.TileMapSheepPen;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.outdoors.TileMapFarm;
+import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 
 import java.io.Serializable;
 
 import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap.TILE_HEIGHT;
 import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap.TILE_WIDTH;
 
-public class Scene
+public abstract class Scene
         implements Serializable {
 
     public enum Id { FARM, HOTHOUSE, SHEEP_PEN, CHICKEN_COOP, COW_BARN, HOUSE_01, HOUSE_02, HOUSE_03,
@@ -41,6 +45,10 @@ public class Scene
 
     transient protected Handler handler;
     protected Id sceneID;
+
+    protected Context context;
+    protected InputManager inputManager;
+    protected SceneManager sceneManager;
 
     transient protected TileMap tileMap;
     transient protected EntityManager entityManager;
@@ -55,9 +63,13 @@ public class Scene
         this.sceneID = sceneID;
     }
 
-    public void init(Player player, GameCamera gameCamera) {
+    public void init(Player player, GameCamera gameCamera, SceneManager sceneManager) {
         Log.d(MainActivity.DEBUG_TAG, "Scene.init(Player, GameCamera)");
         this.player = player;
+
+        context = handler.getGameCartridge().getContext();
+        inputManager = handler.getGameCartridge().getInputManager();
+        this.sceneManager = sceneManager;
 
         initTileMap();
         initGameCamera(gameCamera);
@@ -119,59 +131,8 @@ public class Scene
         }
     }
 
-    //TODO: move some of these to Scene.enter(Object[])
-    public void initTileMap() {
-        Log.d(MainActivity.DEBUG_TAG, "Scene.initTileMap()");
-
-        switch (sceneID) {
-            case FARM:
-                tileMap = new TileMapFarm(handler, sceneID);
-                break;
-            case HOTHOUSE:
-                tileMap = new TileMapHothouse(handler, sceneID);
-                break;
-            case SHEEP_PEN:
-                tileMap = new TileMapSheepPen(handler, sceneID);
-                break;
-            case CHICKEN_COOP:
-                tileMap = new TileMapChickenCoop(handler, sceneID);
-                break;
-            case COW_BARN:
-                tileMap = new TileMapCowBarn(handler, sceneID);
-                break;
-            case HOUSE_01:
-                tileMap = new TileMapHouseLevel01(handler, sceneID);
-                break;
-            case HOUSE_02:
-                tileMap = new TileMapHouseLevel02(handler, sceneID);
-                break;
-            case HOUSE_03:
-                tileMap = new TileMapHouseLevel03(handler, sceneID);
-                break;
-            case PART_01:
-                tileMap = new TileMapPart01(handler, sceneID);
-                break;
-            case HOME_01:
-                tileMap = new TileMapHome01(handler, sceneID);
-                break;
-            case HOME_02:
-                tileMap = new TileMapHome02(handler, sceneID);
-                break;
-            case HOME_RIVAL:
-                tileMap = new TileMapHomeRival(handler, sceneID);
-                break;
-            case LAB:
-                tileMap = new TileMapLab(handler, sceneID);
-                break;
-            case FROGGER:
-                tileMap = new TileMapFrogger(handler, sceneID);
-                break;
-            default:
-                Log.d(MainActivity.DEBUG_TAG, "Scene.initTileMap() switch-construct's default block.");
-                tileMap = new TileMapPart01(handler, sceneID);
-                break;
-        }
-    }
+    public abstract void getInputButtonPad();
+    public abstract void initTileMap();
 
     //TODO: move some of these to Scene.enter(Object[])
     public void initEntityManager(Player player) {
