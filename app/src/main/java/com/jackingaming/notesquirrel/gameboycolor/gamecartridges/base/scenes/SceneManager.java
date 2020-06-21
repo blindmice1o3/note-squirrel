@@ -88,7 +88,7 @@ public class SceneManager {
 
         Scene startScene = sceneCollection.get(id);
         ////////////////////////////////////
-        startScene.init(player, gameCamera, this);
+        startScene.init(handler, player, gameCamera, this);
         ////////////////////////////////////
 
         ///////////////////
@@ -211,7 +211,7 @@ public class SceneManager {
         //TODO: improve on the if-condition.
         if (nextScene.getTileMap() == null) {
             ///////////////////////////////////
-            nextScene.init(player, gameCamera, this);
+            nextScene.init(handler, player, gameCamera, this);
             ///////////////////////////////////
         }
 
@@ -234,7 +234,7 @@ public class SceneManager {
         //TODO: improve on the if-condition.
         if (getCurrentScene().getTileMap() == null) {
             ///////////////////////////////////////////
-            getCurrentScene().init(player, gameCamera, this);
+            getCurrentScene().init(handler, player, gameCamera, this);
             ///////////////////////////////////////////
         }
 
@@ -301,10 +301,9 @@ public class SceneManager {
             Scene.Id id = sceneIdsFromSceneStack.get(i);
 
             Scene scene = sceneCollection.get(id);
-            ///////////////////////////////
-            scene.init(player, gameCamera, this);
+            //////////////
             scene.enter();
-            ///////////////////////////////
+            //////////////
 
             sceneStack.add(scene);
         }

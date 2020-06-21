@@ -28,18 +28,27 @@ public class TextboxState
     private int widthViewport;
     private int heightViewport;
 
-    transient private SceneManager sceneManager;      //initialize in enter(Object[])
+    transient private SceneManager sceneManager;
 
     transient private Textbox textbox;
 
-    public TextboxState(Handler handler) {
-        this.handler = handler;
+    public TextboxState(Handler handler, SceneManager sceneManager) {
+        ////////////////
         id = Id.TEXTBOX;
+        ////////////////
+
+        widthViewport = handler.getGameCartridge().getWidthViewport();
+        heightViewport = handler.getGameCartridge().getHeightViewport();
+
+        init(handler, sceneManager);
+    }
+
+    public void init(Handler handler, SceneManager sceneManager) {
+        this.handler = handler;
+        this.sceneManager = sceneManager;
 
         inputManager = handler.getGameCartridge().getInputManager();
         surfaceHolder = handler.getGameCartridge().getSurfaceHolder();
-        widthViewport = handler.getGameCartridge().getWidthViewport();
-        heightViewport = handler.getGameCartridge().getHeightViewport();
 
         initTextbox();
     }
@@ -170,8 +179,6 @@ public class TextboxState
     @Override
     public void enter(Object[] args) {
         Log.d(MainActivity.DEBUG_TAG, "TextboxState.enter(Object[]) State.Id: " + id);
-
-        sceneManager = ((GameState)handler.getGameCartridge().getStateManager().getState(State.Id.GAME)).getSceneManager();
 
         if (args != null) {
             if (args[0] instanceof String) {

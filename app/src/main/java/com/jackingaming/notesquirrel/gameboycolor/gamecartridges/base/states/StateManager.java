@@ -29,9 +29,10 @@ public class StateManager {
     public void initStateCollection() {
         stateCollection = new HashMap<State.Id, State>();
 
-        stateCollection.put(State.Id.GAME, new GameState(handler));
-        stateCollection.put(State.Id.START_MENU, new StartMenuState(handler));
-        stateCollection.put(State.Id.TEXTBOX, new TextboxState(handler));
+        GameState gameState = new GameState(handler);
+        stateCollection.put(State.Id.GAME, gameState);
+        stateCollection.put(State.Id.START_MENU, new StartMenuState(handler, gameState.getSceneManager()));
+        stateCollection.put(State.Id.TEXTBOX, new TextboxState(handler, gameState.getSceneManager()));
     }
 
     public State getState(State.Id id) {

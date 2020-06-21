@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.GameState;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.StartMenuState;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
@@ -180,15 +181,15 @@ public class SerializationDoer {
             //STATE (stateCollection)
             int sizeOfStateCollection = (int) os.readInt();
             Map<State.Id, State> stateCollection = new HashMap<State.Id, State>();
+            GameState gameState = null;
             for (int i = 0; i < sizeOfStateCollection; i++) {
                 State.Id id = State.Id.values()[i];
                 switch (id) {
                     case GAME:
                         //////////////////////////////////////////////////
-                        GameState gameState = (GameState) os.readObject();
+                        gameState = (GameState) os.readObject();
                         //////////////////////////////////////////////////
-                        gameState.setHandler(handler);
-                        gameState.setPlayer(player);
+                        gameState.init(handler);
                         ///////////////////////////////////
                         stateCollection.put(id, gameState);
                         ///////////////////////////////////
@@ -197,7 +198,8 @@ public class SerializationDoer {
                         /////////////////////////////////////////////////////////////////
                         StartMenuState startMenuState = (StartMenuState) os.readObject();
                         /////////////////////////////////////////////////////////////////
-                        startMenuState.setHandler(handler);
+                        gameState = (GameState) stateCollection.get(State.Id.GAME);
+                        startMenuState.init(handler, gameState.getSceneManager());
                         ////////////////////////////////////////
                         stateCollection.put(id, startMenuState);
                         ////////////////////////////////////////
@@ -206,7 +208,8 @@ public class SerializationDoer {
                         ///////////////////////////////////////////////////////////
                         TextboxState textboxState = (TextboxState) os.readObject();
                         ///////////////////////////////////////////////////////////
-                        textboxState.setHandler(handler);
+                        gameState = (GameState) stateCollection.get(State.Id.GAME);
+                        textboxState.init(handler, gameState.getSceneManager());
                         //////////////////////////////////////
                         stateCollection.put(id, textboxState);
                         //////////////////////////////////////
@@ -222,132 +225,105 @@ public class SerializationDoer {
 
             //SCENE (sceneCollection)
             int sizeOfSceneCollection = (int) os.readInt();
+            SceneManager sceneManager = ((GameState)gameCartridge.getStateManager().getState(State.Id.GAME)).getSceneManager();
             Map<Scene.Id, Scene> sceneCollection = new HashMap<Scene.Id, Scene>();
             for (int i = 0; i < sizeOfSceneCollection; i++) {
                 Scene.Id id = Scene.Id.values()[i];
                 switch (id) {
                     case FROGGER:
                         SceneFrogger sceneFrogger = (SceneFrogger) os.readObject();
-                        sceneFrogger.setHandler(handler);
-                        sceneFrogger.setGameCamera(gameCamera);
-                        sceneFrogger.setPlayer(player);
+                        sceneFrogger.init(handler, player, gameCamera, sceneManager);
                         //////////////////////////////////////
                         sceneCollection.put(id, sceneFrogger);
                         //////////////////////////////////////
                         break;
                     case FARM:
                         SceneFarm sceneFarm = (SceneFarm) os.readObject();
-                        sceneFarm.setHandler(handler);
-                        sceneFarm.setGameCamera(gameCamera);
-                        sceneFarm.setPlayer(player);
+                        sceneFarm.init(handler, player, gameCamera, sceneManager);
                         ////////////////////////////////////////////////////
                         sceneCollection.put(id, sceneFarm);
                         ////////////////////////////////////////////////////
                         break;
                     case HOTHOUSE:
                         SceneHothouse sceneHothouse = (SceneHothouse) os.readObject();
-                        sceneHothouse.setHandler(handler);
-                        sceneHothouse.setGameCamera(gameCamera);
-                        sceneHothouse.setPlayer(player);
+                        sceneHothouse.init(handler, player, gameCamera, sceneManager);
                         ////////////////////////////////////////////////////
                         sceneCollection.put(id, sceneHothouse);
                         ////////////////////////////////////////////////////
                         break;
                     case SHEEP_PEN:
                         SceneSheepPen sceneSheepPen = (SceneSheepPen) os.readObject();
-                        sceneSheepPen.setHandler(handler);
-                        sceneSheepPen.setGameCamera(gameCamera);
-                        sceneSheepPen.setPlayer(player);
+                        sceneSheepPen.init(handler, player, gameCamera, sceneManager);
                         ////////////////////////////////////////////////////
                         sceneCollection.put(id, sceneSheepPen);
                         ////////////////////////////////////////////////////
                         break;
                     case CHICKEN_COOP:
                         SceneChickenCoop sceneChickenCoop = (SceneChickenCoop) os.readObject();
-                        sceneChickenCoop.setHandler(handler);
-                        sceneChickenCoop.setGameCamera(gameCamera);
-                        sceneChickenCoop.setPlayer(player);
+                        sceneChickenCoop.init(handler, player, gameCamera, sceneManager);
                         ////////////////////////////////////////////////////
                         sceneCollection.put(id, sceneChickenCoop);
                         ////////////////////////////////////////////////////
                         break;
                     case COW_BARN:
                         SceneCowBarn sceneCowBarn = (SceneCowBarn) os.readObject();
-                        sceneCowBarn.setHandler(handler);
-                        sceneCowBarn.setGameCamera(gameCamera);
-                        sceneCowBarn.setPlayer(player);
+                        sceneCowBarn.init(handler, player, gameCamera, sceneManager);
                         ////////////////////////////////////////////////////
                         sceneCollection.put(id, sceneCowBarn);
                         ////////////////////////////////////////////////////
                         break;
                     case HOUSE_01:
                         SceneHouseLevel01 sceneHouseLevel01 = (SceneHouseLevel01) os.readObject();
-                        sceneHouseLevel01.setHandler(handler);
-                        sceneHouseLevel01.setGameCamera(gameCamera);
-                        sceneHouseLevel01.setPlayer(player);
+                        sceneHouseLevel01.init(handler, player, gameCamera, sceneManager);
                         ////////////////////////////////////////////////////
                         sceneCollection.put(id, sceneHouseLevel01);
                         ////////////////////////////////////////////////////
                         break;
                     case HOUSE_02:
                         SceneHouseLevel02 sceneHouseLevel02 = (SceneHouseLevel02) os.readObject();
-                        sceneHouseLevel02.setHandler(handler);
-                        sceneHouseLevel02.setGameCamera(gameCamera);
-                        sceneHouseLevel02.setPlayer(player);
+                        sceneHouseLevel02.init(handler, player, gameCamera, sceneManager);
                         ////////////////////////////////////////////////////
                         sceneCollection.put(id, sceneHouseLevel02);
                         ////////////////////////////////////////////////////
                         break;
                     case HOUSE_03:
                         SceneHouseLevel03 sceneHouseLevel03 = (SceneHouseLevel03) os.readObject();
-                        sceneHouseLevel03.setHandler(handler);
-                        sceneHouseLevel03.setGameCamera(gameCamera);
-                        sceneHouseLevel03.setPlayer(player);
+                        sceneHouseLevel03.init(handler, player, gameCamera, sceneManager);
                         ////////////////////////////////////////////////////
                         sceneCollection.put(id, sceneHouseLevel03);
                         ////////////////////////////////////////////////////
                         break;
                     case PART_01:
                         ScenePart01 scenePart01 = (ScenePart01) os.readObject();
-                        scenePart01.setHandler(handler);
-                        scenePart01.setGameCamera(gameCamera);
-                        scenePart01.setPlayer(player);
+                        scenePart01.init(handler, player, gameCamera, sceneManager);
                         ////////////////////////////////////////////////////
                         sceneCollection.put(id, scenePart01);
                         ////////////////////////////////////////////////////
                         break;
                     case HOME_01:
                         SceneHome01 sceneHome01 = (SceneHome01) os.readObject();
-                        sceneHome01.setHandler(handler);
-                        sceneHome01.setGameCamera(gameCamera);
-                        sceneHome01.setPlayer(player);
+                        sceneHome01.init(handler, player, gameCamera, sceneManager);
                         ////////////////////////////////////////////////////
                         sceneCollection.put(id, sceneHome01);
                         ////////////////////////////////////////////////////
                         break;
                     case HOME_02:
                         SceneHome02 sceneHome02 = (SceneHome02) os.readObject();
-                        sceneHome02.setHandler(handler);
-                        sceneHome02.setGameCamera(gameCamera);
-                        sceneHome02.setPlayer(player);
+                        sceneHome02.init(handler, player, gameCamera, sceneManager);
                         ////////////////////////////////////////////////////
                         sceneCollection.put(id, sceneHome02);
                         ////////////////////////////////////////////////////
                         break;
                     case HOME_RIVAL:
                         SceneHomeRival sceneHomeRival = (SceneHomeRival) os.readObject();
-                        sceneHomeRival.setHandler(handler);
-                        sceneHomeRival.setGameCamera(gameCamera);
-                        sceneHomeRival.setPlayer(player);
+                        sceneHomeRival.init(handler, player, gameCamera, sceneManager);
                         ////////////////////////////////////////////////////
                         sceneCollection.put(id, sceneHomeRival);
                         ////////////////////////////////////////////////////
                         break;
                     case LAB:
                         SceneLab sceneLab = (SceneLab) os.readObject();
-                        sceneLab.setHandler(handler);
-                        sceneLab.setGameCamera(gameCamera);
-                        sceneLab.setPlayer(player);
+                        sceneLab.init(handler, player, gameCamera, sceneManager);
                         ////////////////////////////////////////////////////
                         sceneCollection.put(id, sceneLab);
                         ////////////////////////////////////////////////////

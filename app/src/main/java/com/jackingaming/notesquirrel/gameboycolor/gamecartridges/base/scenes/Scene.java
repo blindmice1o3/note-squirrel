@@ -2,8 +2,6 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
 
@@ -15,26 +13,9 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.P
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.GameState;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.tiles.TileMapFrogger;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.indoors.TileMapHome01;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.indoors.TileMapHome02;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.indoors.TileMapHomeRival;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.indoors.TileMapLab;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.outdoors.worldmap.TileMapPart01;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.indoors.TileMapChickenCoop;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.indoors.TileMapCowBarn;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.indoors.TileMapHothouse;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.indoors.TileMapHouseLevel01;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.indoors.TileMapHouseLevel02;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.indoors.TileMapHouseLevel03;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.indoors.TileMapSheepPen;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.outdoors.TileMapFarm;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 
 import java.io.Serializable;
-
-import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap.TILE_HEIGHT;
-import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap.TILE_WIDTH;
 
 public abstract class Scene
         implements Serializable {
@@ -59,12 +40,12 @@ public abstract class Scene
     protected float yPriorScene;
 
     public Scene(Handler handler, Id sceneID) {
-        this.handler = handler;
         this.sceneID = sceneID;
     }
 
-    public void init(Player player, GameCamera gameCamera, SceneManager sceneManager) {
-        Log.d(MainActivity.DEBUG_TAG, "Scene.init(Player, GameCamera)");
+    public void init(Handler handler, Player player, GameCamera gameCamera, SceneManager sceneManager) {
+        Log.d(MainActivity.DEBUG_TAG, "Scene.init(Handler, Player, GameCamera, SceneManager)");
+        this.handler = handler;
         this.player = player;
 
         context = handler.getGameCartridge().getContext();

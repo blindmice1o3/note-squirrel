@@ -35,23 +35,33 @@ public class StartMenuState
     private int widthViewport;
     private int heightViewport;
 
-    transient private SceneManager sceneManager;      //initialize in enter(Object[])
+    transient private SceneManager sceneManager;
 
     private int indexMenu;
     transient private Bitmap startMenuState;
     transient private Bitmap startMenuStateCursor;
 
-    public StartMenuState(Handler handler) {
-        this.handler = handler;
+    public StartMenuState(Handler handler, SceneManager sceneManager) {
+        ///////////////////
         id = Id.START_MENU;
+        ///////////////////
 
-        context = handler.getGameCartridge().getContext();
-        inputManager = handler.getGameCartridge().getInputManager();
-        surfaceHolder = handler.getGameCartridge().getSurfaceHolder();
         widthViewport = handler.getGameCartridge().getWidthViewport();
         heightViewport = handler.getGameCartridge().getHeightViewport();
 
         indexMenu = 0;
+
+        init(handler, sceneManager);
+    }
+
+    public void init(Handler handler, SceneManager sceneManager) {
+        this.handler = handler;
+        this.sceneManager = sceneManager;
+
+        context = handler.getGameCartridge().getContext();
+        inputManager = handler.getGameCartridge().getInputManager();
+        surfaceHolder = handler.getGameCartridge().getSurfaceHolder();
+
         startMenuState = Assets.cropStartMenuState(context.getResources());
         startMenuStateCursor = Assets.cropStartMenuStateCursor(context.getResources());
     }
@@ -269,8 +279,6 @@ public class StartMenuState
     @Override
     public void enter(Object[] args) {
         Log.d(MainActivity.DEBUG_TAG, "StartMenuState.enter(Object[]) State.Id: " + id);
-
-        sceneManager = ((GameState)handler.getGameCartridge().getStateManager().getState(State.Id.GAME)).getSceneManager();
     }
 
     @Override

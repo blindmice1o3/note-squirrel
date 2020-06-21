@@ -30,14 +30,22 @@ public class GameState
     transient private SceneManager sceneManager;
 
     public GameState(Handler handler) {
-        this.handler = handler;
+        /////////////
         id = Id.GAME;
+        /////////////
+
+        widthViewport = handler.getGameCartridge().getWidthViewport();
+        heightViewport = handler.getGameCartridge().getHeightViewport();
+
+        init(handler);
+    }
+
+    public void init(Handler handler) {
+        this.handler = handler;
 
         context = handler.getGameCartridge().getContext();
         inputManager = handler.getGameCartridge().getInputManager();
         surfaceHolder = handler.getGameCartridge().getSurfaceHolder();
-        widthViewport = handler.getGameCartridge().getWidthViewport();
-        heightViewport = handler.getGameCartridge().getHeightViewport();
 
         player = handler.getGameCartridge().getPlayer();
         sceneManager = new SceneManager(handler);
