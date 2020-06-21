@@ -12,28 +12,30 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.P
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 
-public class GameState
-        implements State {
+import java.io.Serializable;
 
-    private Handler handler;
-    private Context context;
+public class GameState
+        implements State, Serializable {
+
+    transient private Handler handler;
     private Id id;
 
-    private SurfaceHolder surfaceHolder;   //used to get Canvas
-    private InputManager inputManager;
+    transient private Context context;
+    transient private InputManager inputManager;
+    transient private SurfaceHolder surfaceHolder;   //used to get Canvas
     private int widthViewport;
     private int heightViewport;
 
     private Player player;
-    private SceneManager sceneManager;
+    transient private SceneManager sceneManager;
 
     public GameState(Handler handler) {
         this.handler = handler;
-        context = handler.getGameCartridge().getContext();
         id = Id.GAME;
 
-        surfaceHolder = handler.getGameCartridge().getSurfaceHolder();
+        context = handler.getGameCartridge().getContext();
         inputManager = handler.getGameCartridge().getInputManager();
+        surfaceHolder = handler.getGameCartridge().getSurfaceHolder();
         widthViewport = handler.getGameCartridge().getWidthViewport();
         heightViewport = handler.getGameCartridge().getHeightViewport();
 
@@ -138,12 +140,21 @@ public class GameState
         return id;
     }
 
+    @Override
+    public void setHandler(Handler handler) {
+        this.handler = handler;
+    }
+
     public void setPlayer(Player player) {
         this.player = player;
     }
 
     public SceneManager getSceneManager() {
         return sceneManager;
+    }
+
+    public void setSceneManager(SceneManager sceneManager) {
+        this.sceneManager = sceneManager;
     }
 
 }

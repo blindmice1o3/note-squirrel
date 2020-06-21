@@ -108,6 +108,23 @@ public class SceneManager {
         sceneCollection = new HashMap<Scene.Id, Scene>();
         /////////////////////////////////////////////////
 
+        /*
+        //TODO: instead of instantiating all scenes from ALL games... only load what's needed.
+        switch (handler.getGameCartridge().getIdGameCartridge()) {
+            case POOH_FARMER:
+                //store POOH_FARMER scenes
+                break;
+            case POCKET_CRITTERS:
+                //store POCKET_CRITTERS scenes
+                break;
+            case FROGGER:
+                //store FROGGER scenes
+                break;
+            default:
+                Log.d(MainActivity.DEBUG_TAG, "SceneManager() constructor's switch construct's default block.");
+        }
+        */
+
         //TODO: redo this.
         // IMAGEs are not loaded yet (not until Scene.init() is called).
         // This should help with memory issues (on-the-fly loading).
@@ -230,19 +247,19 @@ public class SceneManager {
         return (sceneStack.size() - 1);
     }
 
+    /**
+     * Retrieves most recent scene (top of sceneStack).
+     */
+    public Scene getCurrentScene() {
+        return sceneStack.get( getIndexOfTop() );
+    }
+
     public Scene getScene(Scene.Id id) {
         return sceneCollection.get(id);
     }
 
     public void putScene(Scene.Id id, Scene scene) {
         sceneCollection.put(id, scene);
-    }
-
-    /**
-     * Retrieves most recent scene (top of sceneStack).
-     */
-    public Scene getCurrentScene() {
-        return sceneStack.get( getIndexOfTop() );
     }
 
     public void setGameCamera(GameCamera gameCamera) {
@@ -253,8 +270,16 @@ public class SceneManager {
         this.player = player;
     }
 
+    public Map<Scene.Id, Scene> getSceneCollection() {
+        return sceneCollection;
+    }
+
+    public void setSceneCollection(Map<Scene.Id, Scene> sceneCollection) {
+        this.sceneCollection = sceneCollection;
+    }
+
     /**
-     * MAKE LIST OF Scene.ID CURRENTLY IN SceneManager.sceneStack
+     * MAKE LIST OF Scene.Id CURRENTLY IN SceneManager.sceneStack
      */
     public ArrayList<Scene.Id> retrieveSceneIdsFromSceneStack() {
         ArrayList<Scene.Id> sceneIdsFromSceneStack = new ArrayList<Scene.Id>();

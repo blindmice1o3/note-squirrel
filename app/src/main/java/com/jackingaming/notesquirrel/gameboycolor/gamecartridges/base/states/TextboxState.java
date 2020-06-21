@@ -10,33 +10,34 @@ import android.view.SurfaceHolder;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.PocketCrittersCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TextboxState
-        implements State {
+        implements State, Serializable {
 
-    private Handler handler;
+    transient private Handler handler;
     private Id id;
 
-    private SurfaceHolder surfaceHolder;   //used to get Canvas
-    private InputManager inputManager;
+    transient private InputManager inputManager;
+    transient private SurfaceHolder surfaceHolder;    //used to get Canvas
     private int widthViewport;
     private int heightViewport;
-    private SceneManager sceneManager;
 
-    private Textbox textbox;
+    transient private SceneManager sceneManager;      //initialize in enter(Object[])
+
+    transient private Textbox textbox;
 
     public TextboxState(Handler handler) {
         this.handler = handler;
         id = Id.TEXTBOX;
 
-        surfaceHolder = handler.getGameCartridge().getSurfaceHolder();
         inputManager = handler.getGameCartridge().getInputManager();
+        surfaceHolder = handler.getGameCartridge().getSurfaceHolder();
         widthViewport = handler.getGameCartridge().getWidthViewport();
         heightViewport = handler.getGameCartridge().getHeightViewport();
 
@@ -170,7 +171,7 @@ public class TextboxState
     public void enter(Object[] args) {
         Log.d(MainActivity.DEBUG_TAG, "TextboxState.enter(Object[]) State.Id: " + id);
 
-        sceneManager = handler.getGameCartridge().getSceneManager();
+        sceneManager = ((GameState)handler.getGameCartridge().getStateManager().getState(State.Id.GAME)).getSceneManager();
 
         if (args != null) {
             if (args[0] instanceof String) {
@@ -190,6 +191,11 @@ public class TextboxState
     @Override
     public Id getId() {
         return id;
+    }
+
+    @Override
+    public void setHandler(Handler handler) {
+        this.handler = handler;
     }
 
     class Textbox {

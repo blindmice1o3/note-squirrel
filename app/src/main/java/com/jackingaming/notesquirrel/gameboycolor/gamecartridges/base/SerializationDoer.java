@@ -5,9 +5,25 @@ import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.GameState;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.StartMenuState;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.TextboxState;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.scenes.SceneFrogger;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.scenes.indoors.SceneHome01;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.scenes.indoors.SceneHome02;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.scenes.indoors.SceneHomeRival;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.scenes.indoors.SceneLab;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.scenes.outdoors.ScenePart01;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneChickenCoop;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneCowBarn;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneHothouse;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneHouseLevel01;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneHouseLevel02;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneHouseLevel03;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneSheepPen;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.outdoors.SceneFarm;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,12 +32,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SerializationDoer {
 
     public static void saveWriteToFile(GameCartridge gameCartridge, boolean isViaPlayerChoice) {
 
-        String fileName = (isViaPlayerChoice) ? ("savedStateFileViaMenu") : ("savedStateFileViaOS.ser");
+        String fileName = (isViaPlayerChoice) ? ("savedStateFileViaMenu.ser") : ("savedStateFileViaOS.ser");
 
         Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(GameCartridge, boolean): " + fileName);
         try {
@@ -40,26 +58,72 @@ public class SerializationDoer {
             os.writeObject(gameCartridge.getPlayer());
             //////////////////////////////////////////////
 
-            //SCENE_MANAGER (list of scenes from sceneStack)
-            ArrayList<Scene.Id> sceneIdsFromSceneStack = gameCartridge.getSceneManager().retrieveSceneIdsFromSceneStack();
-            ///////////////////////////////////////
-            os.writeObject(sceneIdsFromSceneStack);
-            ///////////////////////////////////////
 
-            //SCENE
-            for (int i = 0; i < sceneIdsFromSceneStack.size(); i++) {
-                Scene.Id id = sceneIdsFromSceneStack.get(i);
-                Scene scene = gameCartridge.getSceneManager().getScene(id);
+
+            //STATE (stateCollection)
+            int sizeOfStateCollection = gameCartridge.getStateManager().getStateCollection().size();
+            ///////////////////////////////////
+            os.writeInt(sizeOfStateCollection);
+            ///////////////////////////////////
+            for (int i = 0; i < sizeOfStateCollection; i++) {
+                State.Id id = State.Id.values()[i];
+                switch (id) {
+                    case GAME:
+                        GameState gameState = (GameState) gameCartridge.getStateManager().getStateCollection().get(id);
+                        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(GameCartridge, boolean) saving state that has id: " + id);
+                        //////////////////////////
+                        os.writeObject(gameState);
+                        //////////////////////////
+                        break;
+                    case START_MENU:
+                        StartMenuState startMenuState = (StartMenuState) gameCartridge.getStateManager().getStateCollection().get(id);
+                        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(GameCartridge, boolean) saving state that has id: " + id);
+                        ///////////////////////////////
+                        os.writeObject(startMenuState);
+                        ///////////////////////////////
+                        break;
+                    case TEXTBOX:
+                        TextboxState textboxState = (TextboxState) gameCartridge.getStateManager().getStateCollection().get(id);
+                        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(GameCartridge, boolean) saving state that has id: " + id);
+                        /////////////////////////////
+                        os.writeObject(textboxState);
+                        /////////////////////////////
+                        break;
+                    default:
+                        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile() switch (State.Id) construct's default block.");
+                        break;
+                }
+            }
+
+            //SCENE (sceneCollection)
+            int sizeOfSceneCollection = ((GameState)gameCartridge.getStateManager().getStateCollection().get(State.Id.GAME)).getSceneManager().getSceneCollection().size();
+            ///////////////////////////////////
+            os.writeInt(sizeOfSceneCollection);
+            ///////////////////////////////////
+            for (int i = 0; i < sizeOfSceneCollection; i++) {
+                Scene.Id id = Scene.Id.values()[i];
+                Scene scene = ((GameState)gameCartridge.getStateManager().getStateCollection().get(State.Id.GAME)).getSceneManager().getScene(id);
+
                 Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(GameCartridge, boolean) saving scene that has id: " + id);
-
                 //////////////////////
                 os.writeObject(scene);
                 //////////////////////
             }
 
-            //TODO: STATE_MANAGER (list of states from stateStack)
 
-            //TODO: STATE
+
+            //STATE_MANAGER (list of State.Id from stateStack)
+            ArrayList<State.Id> stateIdsFromStateStack = gameCartridge.getStateManager().retrieveStateIdsFromStateStack();
+            ///////////////////////////////////////
+            os.writeObject(stateIdsFromStateStack);
+            ///////////////////////////////////////
+
+            //SCENE_MANAGER (list of Scene.Id from sceneStack)
+            //((GameState)stateManager.getState(State.Id.GAME)).getSceneManager()
+            ArrayList<Scene.Id> sceneIdsFromSceneStack = gameCartridge.getSceneManager().retrieveSceneIdsFromSceneStack();
+            ///////////////////////////////////////
+            os.writeObject(sceneIdsFromSceneStack);
+            ///////////////////////////////////////
 
 
 
@@ -78,7 +142,7 @@ public class SerializationDoer {
 
     public static void loadReadFromFile(GameCartridge gameCartridge, boolean isViaPlayerChoice) {
 
-        String fileName = (isViaPlayerChoice) ? ("savedStateFileViaMenu") : ("savedStateFileViaOS.ser");
+        String fileName = (isViaPlayerChoice) ? ("savedStateFileViaMenu.ser") : ("savedStateFileViaOS.ser");
 
         Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(GameCartridge, boolean): " + fileName);
         try {
@@ -95,7 +159,6 @@ public class SerializationDoer {
             //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             player.setName("EeyoreDeserialized");
             //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-            ArrayList<Scene.Id> sceneIdsFromSceneStack = (ArrayList<Scene.Id>) os.readObject();
             ///////////////////////////////////////////////////////////////////////////////////
 
             Handler handler = gameCartridge.getHandler();
@@ -112,34 +175,203 @@ public class SerializationDoer {
             gameCartridge.setGameCamera(gameCamera);
             gameCartridge.setPlayer(player);
 
-            //SCENE_MANAGER
-            gameCartridge.getSceneManager().setGameCamera(gameCamera);
-            gameCartridge.getSceneManager().setPlayer(player);
-            //////////////////////////////////////////////////////
-            gameCartridge.getSceneManager().initSceneCollection();
-            //////////////////////////////////////////////////////
 
-            //SCENE (CURRENT)
-            for (int i = 0; i < sceneIdsFromSceneStack.size(); i++) {
-                Scene.Id id = sceneIdsFromSceneStack.get(i);
-                //////////////////////////////////////
-                Scene scene = (Scene) os.readObject();
-                //////////////////////////////////////
-                Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(GameCartridge, boolean) loading scene that has id: " + id);
-                scene.setHandler(handler);
-//                scene.setGameCamera(gameCamera);
-//                scene.setPlayer(player);
-//                scene.initEntityManager(player);
-//                scene.initTileMap();
 
-                // Write-over the key-value pair of SceneManager.sceneCollection.
-                gameCartridge.getSceneManager().putScene(id, scene);
+            //STATE (stateCollection)
+            int sizeOfStateCollection = (int) os.readInt();
+            Map<State.Id, State> stateCollection = new HashMap<State.Id, State>();
+            for (int i = 0; i < sizeOfStateCollection; i++) {
+                State.Id id = State.Id.values()[i];
+                switch (id) {
+                    case GAME:
+                        //////////////////////////////////////////////////
+                        GameState gameState = (GameState) os.readObject();
+                        //////////////////////////////////////////////////
+                        gameState.setHandler(handler);
+                        gameState.setPlayer(player);
+                        ///////////////////////////////////
+                        stateCollection.put(id, gameState);
+                        ///////////////////////////////////
+                        break;
+                    case START_MENU:
+                        /////////////////////////////////////////////////////////////////
+                        StartMenuState startMenuState = (StartMenuState) os.readObject();
+                        /////////////////////////////////////////////////////////////////
+                        startMenuState.setHandler(handler);
+                        ////////////////////////////////////////
+                        stateCollection.put(id, startMenuState);
+                        ////////////////////////////////////////
+                        break;
+                    case TEXTBOX:
+                        ///////////////////////////////////////////////////////////
+                        TextboxState textboxState = (TextboxState) os.readObject();
+                        ///////////////////////////////////////////////////////////
+                        textboxState.setHandler(handler);
+                        //////////////////////////////////////
+                        stateCollection.put(id, textboxState);
+                        //////////////////////////////////////
+                        break;
+                    default:
+                        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile() switch (State.Id) construct's default block.");
+                        break;
+                }
             }
-            handler.getGameCartridge().getSceneManager().restoreSceneStack(sceneIdsFromSceneStack);
+            ////////////////////////////////////////////////////////////////////
+            gameCartridge.getStateManager().setStateCollection(stateCollection);
+            ////////////////////////////////////////////////////////////////////
 
-            //STATE (/STATE_MANAGER)
-            State gameState = handler.getGameCartridge().getStateManager().getState(State.Id.GAME);
-            ((GameState)gameState).setPlayer(player);
+            //SCENE (sceneCollection)
+            int sizeOfSceneCollection = (int) os.readInt();
+            Map<Scene.Id, Scene> sceneCollection = new HashMap<Scene.Id, Scene>();
+            for (int i = 0; i < sizeOfSceneCollection; i++) {
+                Scene.Id id = Scene.Id.values()[i];
+                switch (id) {
+                    case FROGGER:
+                        SceneFrogger sceneFrogger = (SceneFrogger) os.readObject();
+                        sceneFrogger.setHandler(handler);
+                        sceneFrogger.setGameCamera(gameCamera);
+                        sceneFrogger.setPlayer(player);
+                        //////////////////////////////////////
+                        sceneCollection.put(id, sceneFrogger);
+                        //////////////////////////////////////
+                        break;
+                    case FARM:
+                        SceneFarm sceneFarm = (SceneFarm) os.readObject();
+                        sceneFarm.setHandler(handler);
+                        sceneFarm.setGameCamera(gameCamera);
+                        sceneFarm.setPlayer(player);
+                        ////////////////////////////////////////////////////
+                        sceneCollection.put(id, sceneFarm);
+                        ////////////////////////////////////////////////////
+                        break;
+                    case HOTHOUSE:
+                        SceneHothouse sceneHothouse = (SceneHothouse) os.readObject();
+                        sceneHothouse.setHandler(handler);
+                        sceneHothouse.setGameCamera(gameCamera);
+                        sceneHothouse.setPlayer(player);
+                        ////////////////////////////////////////////////////
+                        sceneCollection.put(id, sceneHothouse);
+                        ////////////////////////////////////////////////////
+                        break;
+                    case SHEEP_PEN:
+                        SceneSheepPen sceneSheepPen = (SceneSheepPen) os.readObject();
+                        sceneSheepPen.setHandler(handler);
+                        sceneSheepPen.setGameCamera(gameCamera);
+                        sceneSheepPen.setPlayer(player);
+                        ////////////////////////////////////////////////////
+                        sceneCollection.put(id, sceneSheepPen);
+                        ////////////////////////////////////////////////////
+                        break;
+                    case CHICKEN_COOP:
+                        SceneChickenCoop sceneChickenCoop = (SceneChickenCoop) os.readObject();
+                        sceneChickenCoop.setHandler(handler);
+                        sceneChickenCoop.setGameCamera(gameCamera);
+                        sceneChickenCoop.setPlayer(player);
+                        ////////////////////////////////////////////////////
+                        sceneCollection.put(id, sceneChickenCoop);
+                        ////////////////////////////////////////////////////
+                        break;
+                    case COW_BARN:
+                        SceneCowBarn sceneCowBarn = (SceneCowBarn) os.readObject();
+                        sceneCowBarn.setHandler(handler);
+                        sceneCowBarn.setGameCamera(gameCamera);
+                        sceneCowBarn.setPlayer(player);
+                        ////////////////////////////////////////////////////
+                        sceneCollection.put(id, sceneCowBarn);
+                        ////////////////////////////////////////////////////
+                        break;
+                    case HOUSE_01:
+                        SceneHouseLevel01 sceneHouseLevel01 = (SceneHouseLevel01) os.readObject();
+                        sceneHouseLevel01.setHandler(handler);
+                        sceneHouseLevel01.setGameCamera(gameCamera);
+                        sceneHouseLevel01.setPlayer(player);
+                        ////////////////////////////////////////////////////
+                        sceneCollection.put(id, sceneHouseLevel01);
+                        ////////////////////////////////////////////////////
+                        break;
+                    case HOUSE_02:
+                        SceneHouseLevel02 sceneHouseLevel02 = (SceneHouseLevel02) os.readObject();
+                        sceneHouseLevel02.setHandler(handler);
+                        sceneHouseLevel02.setGameCamera(gameCamera);
+                        sceneHouseLevel02.setPlayer(player);
+                        ////////////////////////////////////////////////////
+                        sceneCollection.put(id, sceneHouseLevel02);
+                        ////////////////////////////////////////////////////
+                        break;
+                    case HOUSE_03:
+                        SceneHouseLevel03 sceneHouseLevel03 = (SceneHouseLevel03) os.readObject();
+                        sceneHouseLevel03.setHandler(handler);
+                        sceneHouseLevel03.setGameCamera(gameCamera);
+                        sceneHouseLevel03.setPlayer(player);
+                        ////////////////////////////////////////////////////
+                        sceneCollection.put(id, sceneHouseLevel03);
+                        ////////////////////////////////////////////////////
+                        break;
+                    case PART_01:
+                        ScenePart01 scenePart01 = (ScenePart01) os.readObject();
+                        scenePart01.setHandler(handler);
+                        scenePart01.setGameCamera(gameCamera);
+                        scenePart01.setPlayer(player);
+                        ////////////////////////////////////////////////////
+                        sceneCollection.put(id, scenePart01);
+                        ////////////////////////////////////////////////////
+                        break;
+                    case HOME_01:
+                        SceneHome01 sceneHome01 = (SceneHome01) os.readObject();
+                        sceneHome01.setHandler(handler);
+                        sceneHome01.setGameCamera(gameCamera);
+                        sceneHome01.setPlayer(player);
+                        ////////////////////////////////////////////////////
+                        sceneCollection.put(id, sceneHome01);
+                        ////////////////////////////////////////////////////
+                        break;
+                    case HOME_02:
+                        SceneHome02 sceneHome02 = (SceneHome02) os.readObject();
+                        sceneHome02.setHandler(handler);
+                        sceneHome02.setGameCamera(gameCamera);
+                        sceneHome02.setPlayer(player);
+                        ////////////////////////////////////////////////////
+                        sceneCollection.put(id, sceneHome02);
+                        ////////////////////////////////////////////////////
+                        break;
+                    case HOME_RIVAL:
+                        SceneHomeRival sceneHomeRival = (SceneHomeRival) os.readObject();
+                        sceneHomeRival.setHandler(handler);
+                        sceneHomeRival.setGameCamera(gameCamera);
+                        sceneHomeRival.setPlayer(player);
+                        ////////////////////////////////////////////////////
+                        sceneCollection.put(id, sceneHomeRival);
+                        ////////////////////////////////////////////////////
+                        break;
+                    case LAB:
+                        SceneLab sceneLab = (SceneLab) os.readObject();
+                        sceneLab.setHandler(handler);
+                        sceneLab.setGameCamera(gameCamera);
+                        sceneLab.setPlayer(player);
+                        ////////////////////////////////////////////////////
+                        sceneCollection.put(id, sceneLab);
+                        ////////////////////////////////////////////////////
+                        break;
+                    default:
+                        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile() switch (Scene.Id) construct's default block.");
+                        break;
+                }
+            }
+            ////////////////////////////////////////////////////////////////////////////////////////
+            ((GameState)gameCartridge.getStateManager().getStateCollection().get(State.Id.GAME)).getSceneManager().setSceneCollection(sceneCollection);
+            ////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+            //STATE_MANAGER (list of states from stateStack)
+            ArrayList<State.Id> stateIdsFromStateStack = (ArrayList<State.Id>) os.readObject();
+            gameCartridge.getStateManager().restoreStateStack(stateIdsFromStateStack);
+
+            //SCENE_MANAGER (list of scenes from sceneStack)
+            ArrayList<Scene.Id> sceneIdsFromSceneStack = (ArrayList<Scene.Id>) os.readObject();
+            ((GameState)gameCartridge.getStateManager().getStateCollection().get(State.Id.GAME)).getSceneManager().restoreSceneStack(sceneIdsFromSceneStack);
+            ((GameState)gameCartridge.getStateManager().getStateCollection().get(State.Id.GAME)).getSceneManager().setGameCamera(gameCamera);
+            ((GameState)gameCartridge.getStateManager().getStateCollection().get(State.Id.GAME)).getSceneManager().setPlayer(player);
 
 
 

@@ -46,9 +46,9 @@ public abstract class Scene
     transient protected Handler handler;
     protected Id sceneID;
 
-    protected Context context;
-    protected InputManager inputManager;
-    protected SceneManager sceneManager;
+    transient protected Context context;
+    transient protected InputManager inputManager;
+    transient protected SceneManager sceneManager;
 
     transient protected TileMap tileMap;
     transient protected EntityManager entityManager;

@@ -14,39 +14,40 @@ import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.SerializationDoer;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.PocketCrittersCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.BackpackActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
 
+import java.io.Serializable;
+
 public class StartMenuState
-        implements State {
+        implements State, Serializable {
 
     public enum MenuItem { CRITTER_DEX, BELT_LIST, BACKPACK_LIST, LOAD, SAVE, OPTION, EXIT; }
 
-    private Handler handler;
+    transient private Handler handler;
     private Id id;
 
-    private Context context;
-    private SurfaceHolder surfaceHolder;   //used to get Canvas
-    private InputManager inputManager;
+    transient private Context context;
+    transient private InputManager inputManager;
+    transient private SurfaceHolder surfaceHolder;    //used to get Canvas
     private int widthViewport;
     private int heightViewport;
 
-    private SceneManager sceneManager;
+    transient private SceneManager sceneManager;      //initialize in enter(Object[])
 
     private int indexMenu;
-    private Bitmap startMenuState;
-    private Bitmap startMenuStateCursor;
+    transient private Bitmap startMenuState;
+    transient private Bitmap startMenuStateCursor;
 
     public StartMenuState(Handler handler) {
         this.handler = handler;
         id = Id.START_MENU;
 
         context = handler.getGameCartridge().getContext();
-        surfaceHolder = handler.getGameCartridge().getSurfaceHolder();
         inputManager = handler.getGameCartridge().getInputManager();
+        surfaceHolder = handler.getGameCartridge().getSurfaceHolder();
         widthViewport = handler.getGameCartridge().getWidthViewport();
         heightViewport = handler.getGameCartridge().getHeightViewport();
 
@@ -269,7 +270,7 @@ public class StartMenuState
     public void enter(Object[] args) {
         Log.d(MainActivity.DEBUG_TAG, "StartMenuState.enter(Object[]) State.Id: " + id);
 
-        sceneManager = handler.getGameCartridge().getSceneManager();
+        sceneManager = ((GameState)handler.getGameCartridge().getStateManager().getState(State.Id.GAME)).getSceneManager();
     }
 
     @Override
@@ -280,6 +281,11 @@ public class StartMenuState
     @Override
     public Id getId() {
         return id;
+    }
+
+    @Override
+    public void setHandler(Handler handler) {
+        this.handler = handler;
     }
 
 }
