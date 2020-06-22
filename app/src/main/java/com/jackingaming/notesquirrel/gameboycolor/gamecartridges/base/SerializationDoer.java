@@ -362,6 +362,11 @@ public class SerializationDoer {
 
 
 
+            //TODO: [BUG] saving/loading not functioning properly when JackInActivity has
+            // a GameCartridge that isn't PocketCrittersCartridge.
+
+
+
             Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(GameCartridge, boolean) closing: " + fileName);
             ////////////
             os.close();
