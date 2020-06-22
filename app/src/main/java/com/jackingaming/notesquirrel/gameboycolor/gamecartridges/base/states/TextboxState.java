@@ -9,7 +9,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.jackingaming.notesquirrel.MainActivity;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 
@@ -20,7 +20,7 @@ import java.util.List;
 public class TextboxState
         implements State, Serializable {
 
-    transient private Handler handler;
+    transient private GameCartridge gameCartridge;
     private Id id;
 
     transient private InputManager inputManager;
@@ -32,23 +32,23 @@ public class TextboxState
 
     transient private Textbox textbox;
 
-    public TextboxState(Handler handler, SceneManager sceneManager) {
+    public TextboxState(GameCartridge gameCartridge, SceneManager sceneManager) {
         ////////////////
         id = Id.TEXTBOX;
         ////////////////
 
-        widthViewport = handler.getGameCartridge().getWidthViewport();
-        heightViewport = handler.getGameCartridge().getHeightViewport();
+        widthViewport = gameCartridge.getWidthViewport();
+        heightViewport = gameCartridge.getHeightViewport();
 
-        init(handler, sceneManager);
+        init(gameCartridge, sceneManager);
     }
 
-    public void init(Handler handler, SceneManager sceneManager) {
-        this.handler = handler;
+    public void init(GameCartridge gameCartridge, SceneManager sceneManager) {
+        this.gameCartridge = gameCartridge;
         this.sceneManager = sceneManager;
 
-        inputManager = handler.getGameCartridge().getInputManager();
-        surfaceHolder = handler.getGameCartridge().getSurfaceHolder();
+        inputManager = gameCartridge.getInputManager();
+        surfaceHolder = gameCartridge.getSurfaceHolder();
 
         initTextbox();
     }
@@ -132,7 +132,7 @@ public class TextboxState
 
             //TODO:
             if (textbox.getIndexPageCurrent() == 0) {
-                handler.getGameCartridge().getStateManager().pop();
+                gameCartridge.getStateManager().pop();
             } else {
                 textbox.turnToPreviousPage();
             }
@@ -198,11 +198,6 @@ public class TextboxState
     @Override
     public Id getId() {
         return id;
-    }
-
-    @Override
-    public void setHandler(Handler handler) {
-        this.handler = handler;
     }
 
     class Textbox {

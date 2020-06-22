@@ -1,7 +1,5 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states;
 
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
-
 public interface State {
 
     public enum Id { GAME, START_MENU, TEXTBOX; }
@@ -21,7 +19,5 @@ public interface State {
     public void exit();
 
     public Id getId();
-
-    public void setHandler(Handler handler);
 
 }

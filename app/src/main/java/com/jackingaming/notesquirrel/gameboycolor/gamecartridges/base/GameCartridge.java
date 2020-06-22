@@ -3,8 +3,6 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base;
 import android.content.Context;
 import android.view.SurfaceHolder;
 
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.StateManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
@@ -33,7 +31,6 @@ public interface GameCartridge {
     public int getWidthViewport();
     public int getHeightViewport();
 
-    public Handler getHandler();
     public Player getPlayer();
     public void setPlayer(Player player);
     public GameCamera getGameCamera();

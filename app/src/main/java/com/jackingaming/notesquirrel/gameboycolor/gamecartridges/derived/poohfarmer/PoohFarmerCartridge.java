@@ -1,31 +1,22 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.GameState;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.StateManager;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.entities.Robot;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.indoors.TileMapHothouse;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
-import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.ListFragmentDvdParentActivity;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -42,7 +33,6 @@ public class PoohFarmerCartridge
     private int widthViewport;
     private int heightViewport;
 
-    private Handler handler;
     private Player player;
     private GameCamera gameCamera;
     private StateManager stateManager;
@@ -69,18 +59,14 @@ public class PoohFarmerCartridge
 
         Assets.init(context);
 
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        handler = new Handler(this);
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
         gameCamera = new GameCamera(widthViewport, heightViewport);
         /////////////////////////////////////////////////////////
         gameCamera.setWidthClipInPixel((9*TileMap.TILE_WIDTH));
         gameCamera.setHeightClipInPixel((9*TileMap.TILE_HEIGHT));
         /////////////////////////////////////////////////////////
-        player = new Player(handler);
+        player = new Player(this);
         /////////////////////////////////////////
-        stateManager = new StateManager(handler);
+        stateManager = new StateManager(this);
         /////////////////////////////////////////
 
         //TODO: if isReturningFromActivity... then load
@@ -210,11 +196,6 @@ public class PoohFarmerCartridge
     @Override
     public int getHeightViewport() {
         return heightViewport;
-    }
-
-    @Override
-    public Handler getHandler() {
-        return handler;
     }
 
     @Override

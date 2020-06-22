@@ -4,7 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Rect;
 
 import com.jackingaming.notesquirrel.R;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
@@ -21,8 +21,8 @@ public class TileMapPart01 extends TileMap {
     private Map<Specs, Integer> specs; //ONLY USE FOR full-world-map related TEXTURE and TILES.
     private String stringOfTiles;
 
-    public TileMapPart01(Handler handler, Scene.Id sceneID) {
-        super(handler, sceneID);
+    public TileMapPart01(GameCartridge gameCartridge, Scene.Id sceneID) {
+        super(gameCartridge, sceneID);
     }
 
     @Override

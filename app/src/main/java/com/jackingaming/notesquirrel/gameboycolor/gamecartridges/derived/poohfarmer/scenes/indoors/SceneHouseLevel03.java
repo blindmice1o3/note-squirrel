@@ -4,20 +4,20 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.indoors.TileMapHouseLevel03;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.ListFragmentDvdParentActivity;
 
 public class SceneHouseLevel03 extends Scene {
 
-    public SceneHouseLevel03(Handler handler, Id sceneID) {
-        super(handler, sceneID);
+    public SceneHouseLevel03(GameCartridge gameCartridge, Id sceneID) {
+        super(gameCartridge, sceneID);
     }
 
     @Override
     public void initTileMap() {
-        tileMap = new TileMapHouseLevel03(handler, sceneID);
+        tileMap = new TileMapHouseLevel03(gameCartridge, sceneID);
     }
 
     @Override

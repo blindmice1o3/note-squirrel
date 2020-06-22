@@ -6,7 +6,7 @@ import android.graphics.Rect;
 import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
 
@@ -20,7 +20,7 @@ public abstract class TileMap {
     public static final int TILE_WIDTH = 16;
     public static final int TILE_HEIGHT = 16;
 
-    private Handler handler;
+    private GameCartridge gameCartridge;
     private Scene.Id sceneID;
 
     protected TileType[][] tiles;
@@ -35,15 +35,15 @@ public abstract class TileMap {
     protected int widthSceneMax;
     protected int heightSceneMax;
 
-    public TileMap(Handler handler, Scene.Id sceneID) {
-        this.handler = handler;
+    public TileMap(GameCartridge gameCartridge, Scene.Id sceneID) {
+        this.gameCartridge = gameCartridge;
         this.sceneID = sceneID;
 
         //@@@@@@@@@@@@@@@@@@@
         initTileSize();
         initSpawnPosition();
         initTransferPoints();
-        initTextureAndSourceFile(handler.getGameCartridge().getContext().getResources());
+        initTextureAndSourceFile(gameCartridge.getContext().getResources());
         initTiles();
         //@@@@@@@@@@@@@@@@@@@
     }
@@ -61,19 +61,19 @@ public abstract class TileMap {
         if (sceneID != Scene.Id.FROGGER) {
             for (Scene.Id id : transferPoints.keySet()) {
                 if (transferPoints.get(id).intersect(collisionBounds)) {
-                    SceneManager sceneManager = handler.getGameCartridge().getSceneManager();
+                    SceneManager sceneManager = gameCartridge.getSceneManager();
                     //POP
                     if ( (id == Scene.Id.PART_01) ||
                             ((id == Scene.Id.HOME_01) && (sceneManager.getCurrentScene().getSceneID() == Scene.Id.HOME_02)) ||
                             (id == Scene.Id.FARM) ) {
-                        Object[] directionFacing = { handler.getGameCartridge().getPlayer().getDirection(),
-                                handler.getGameCartridge().getPlayer().getMoveSpeed() };
+                        Object[] directionFacing = { gameCartridge.getPlayer().getDirection(),
+                                gameCartridge.getPlayer().getMoveSpeed() };
                         sceneManager.pop(directionFacing);
                     }
                     //PUSH
                     else {
-                        Object[] directionFacing = { handler.getGameCartridge().getPlayer().getDirection(),
-                                handler.getGameCartridge().getPlayer().getMoveSpeed() };
+                        Object[] directionFacing = { gameCartridge.getPlayer().getDirection(),
+                                gameCartridge.getPlayer().getMoveSpeed() };
                         sceneManager.push(id, directionFacing);
                     }
                     //////
@@ -400,10 +400,6 @@ public abstract class TileMap {
 //        );
 
         return nonWalkableTileSpriteTargets;
-    }
-
-    public void setHandler(Handler handler) {
-        this.handler = handler;
     }
 
 }

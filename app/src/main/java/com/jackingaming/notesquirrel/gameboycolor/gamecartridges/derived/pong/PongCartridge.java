@@ -14,7 +14,6 @@ import android.view.SurfaceHolder;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.StateManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pong.sprites.Bat;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pong.sprites.Ball;
@@ -276,11 +275,6 @@ public class PongCartridge
     @Override
     public int getHeightViewport() {
         return heightViewport;
-    }
-
-    @Override
-    public Handler getHandler() {
-        return null;
     }
 
     @Override

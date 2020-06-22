@@ -4,20 +4,20 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.indoors.TileMapChickenCoop;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.ListFragmentDvdParentActivity;
 
 public class SceneChickenCoop extends Scene {
 
-    public SceneChickenCoop(Handler handler, Id sceneID) {
-        super(handler, sceneID);
+    public SceneChickenCoop(GameCartridge gameCartridge, Id sceneID) {
+        super(gameCartridge, sceneID);
     }
 
     @Override
     public void initTileMap() {
-        tileMap = new TileMapChickenCoop(handler, sceneID);
+        tileMap = new TileMapChickenCoop(gameCartridge, sceneID);
     }
 
     @Override

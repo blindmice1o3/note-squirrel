@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.jackingaming.notesquirrel.MainActivity;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
@@ -17,7 +17,7 @@ import java.io.Serializable;
 public class GameState
         implements State, Serializable {
 
-    transient private Handler handler;
+    transient private GameCartridge gameCartridge;
     private Id id;
 
     transient private Context context;
@@ -29,26 +29,26 @@ public class GameState
     private Player player;
     transient private SceneManager sceneManager;
 
-    public GameState(Handler handler) {
+    public GameState(GameCartridge gameCartridge) {
         /////////////
         id = Id.GAME;
         /////////////
 
-        widthViewport = handler.getGameCartridge().getWidthViewport();
-        heightViewport = handler.getGameCartridge().getHeightViewport();
+        widthViewport = gameCartridge.getWidthViewport();
+        heightViewport = gameCartridge.getHeightViewport();
 
-        init(handler);
+        init(gameCartridge);
     }
 
-    public void init(Handler handler) {
-        this.handler = handler;
+    public void init(GameCartridge gameCartridge) {
+        this.gameCartridge = gameCartridge;
 
-        context = handler.getGameCartridge().getContext();
-        inputManager = handler.getGameCartridge().getInputManager();
-        surfaceHolder = handler.getGameCartridge().getSurfaceHolder();
+        context = gameCartridge.getContext();
+        inputManager = gameCartridge.getInputManager();
+        surfaceHolder = gameCartridge.getSurfaceHolder();
 
-        player = handler.getGameCartridge().getPlayer();
-        sceneManager = new SceneManager(handler);
+        player = gameCartridge.getPlayer();
+        sceneManager = new SceneManager(gameCartridge);
     }
 
     @Override
@@ -146,11 +146,6 @@ public class GameState
     @Override
     public Id getId() {
         return id;
-    }
-
-    @Override
-    public void setHandler(Handler handler) {
-        this.handler = handler;
     }
 
     public void setPlayer(Player player) {

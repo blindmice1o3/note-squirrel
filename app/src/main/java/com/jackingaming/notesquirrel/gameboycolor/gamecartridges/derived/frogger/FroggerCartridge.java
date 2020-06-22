@@ -9,7 +9,6 @@ import android.view.SurfaceHolder;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.StateManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
@@ -30,7 +29,6 @@ public class FroggerCartridge
     private int widthViewport;
     private int heightViewport;
 
-    private Handler handler;
     private Player player;
     private GameCamera gameCamera;
     private SceneManager sceneManager;
@@ -57,10 +55,6 @@ public class FroggerCartridge
 
         //Assets.init(context);
 
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        handler = new Handler(this);
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
         gameCamera = new GameCamera(widthViewport, heightViewport);
         int clipWidthInTile = 20;
         int clipHeightInTile = 15;
@@ -69,8 +63,8 @@ public class FroggerCartridge
         gameCamera.setWidthClipInPixel(clipWidthInTile * tileWidthFrogger);
         gameCamera.setHeightClipInPixel(clipHeightInTile * tileHeightFrogger);
 
-        player = new Player(handler);
-        sceneManager = new SceneManager(handler);
+        player = new Player(this);
+        sceneManager = new SceneManager(this);
     }
 
     @Override
@@ -214,12 +208,6 @@ public class FroggerCartridge
     public int getHeightViewport() {
         Log.d(MainActivity.DEBUG_TAG, "FroggerCartridge.getHeightViewport()");
         return heightViewport;
-    }
-
-    @Override
-    public Handler getHandler() {
-        Log.d(MainActivity.DEBUG_TAG, "FroggerCartridge.getHandler()");
-        return handler;
     }
 
     @Override

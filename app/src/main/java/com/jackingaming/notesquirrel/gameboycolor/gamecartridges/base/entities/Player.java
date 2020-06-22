@@ -7,7 +7,6 @@ import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.PocketCrittersCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.Item;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
@@ -38,18 +37,18 @@ public class Player extends Creature {
         this.name = name;
     }
 
-    public Player(Handler handler) {
-        super(handler,0f, 0f);
+    public Player(GameCartridge gameCartridge) {
+        super(gameCartridge,0f, 0f);
 
-        gameCamera = handler.getGameCartridge().getGameCamera();
-        widthPixelToViewportRatio = ((float) handler.getGameCartridge().getWidthViewport()) /
+        gameCamera = gameCartridge.getGameCamera();
+        widthPixelToViewportRatio = ((float) gameCartridge.getWidthViewport()) /
                 gameCamera.getWidthClipInPixel();
-        heightPixelToViewportRatio = ((float) handler.getGameCartridge().getHeightViewport()) /
+        heightPixelToViewportRatio = ((float) gameCartridge.getHeightViewport()) /
                 gameCamera.getHeightClipInPixel();
 
         inventory = new ArrayList<Item>();
-        inventory.add(new Item(handler.getGameCartridge().getContext().getResources(), Item.Id.BUG_NET));
-        inventory.add(new Item(handler.getGameCartridge().getContext().getResources(), Item.Id.FISHING_POLE));
+        inventory.add(new Item(gameCartridge.getContext().getResources(), Item.Id.BUG_NET));
+        inventory.add(new Item(gameCartridge.getContext().getResources(), Item.Id.FISHING_POLE));
     }
 
     public ArrayList<Item> getInventory() {
@@ -68,7 +67,7 @@ public class Player extends Creature {
         Log.d(MainActivity.DEBUG_TAG, "Player.adjustSizeAndBounds()");
 
         //TODO: WORK-AROUND (FROGGER TILE_WIDTH and TILE_HEIGHT)
-        if (handler.getGameCartridge().getIdGameCartridge() == GameCartridge.Id.FROGGER) {
+        if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.FROGGER) {
             int tileWidthFrogger = 48;
             int tileHeightFrogger = 48;
 
@@ -93,7 +92,6 @@ public class Player extends Creature {
 
     @Override
     protected void moveX() {
-        GameCartridge gameCartridge = handler.getGameCartridge();
         TileMap tileMap = gameCartridge.getSceneManager().getCurrentScene().getTileMap();
 
         //LEFT
@@ -138,7 +136,6 @@ public class Player extends Creature {
 
     @Override
     protected void moveY() {
-        GameCartridge gameCartridge = handler.getGameCartridge();
         TileMap tileMap = gameCartridge.getSceneManager().getCurrentScene().getTileMap();
 
         //UP
@@ -184,7 +181,7 @@ public class Player extends Creature {
     //TODO: have FroggerCartridge use a subclass of Player.
     @Override
     public boolean checkEntityCollision(float xOffset, float yOffset) {
-        for (Entity e : handler.getGameCartridge().getSceneManager().getCurrentScene().getEntityManager().getEntities()) {
+        for (Entity e : gameCartridge.getSceneManager().getCurrentScene().getEntityManager().getEntities()) {
             //if the entity calling checkEntityCollision(float, float) finds ITSELF in the collection, skip by continue.
             if (e.equals(this)) {
                 continue;
@@ -309,7 +306,7 @@ public class Player extends Creature {
                 break;
         }
 
-        for (Entity e : handler.getGameCartridge().getSceneManager().getCurrentScene().getEntityManager().getEntities()) {
+        for (Entity e : gameCartridge.getSceneManager().getCurrentScene().getEntityManager().getEntities()) {
             if (e.equals(this)) {
                 continue;
             }
@@ -331,7 +328,6 @@ public class Player extends Creature {
     public TileMap.TileType getTileTypeCurrentlyFacing() {
         Log.d(MainActivity.DEBUG_TAG, "Player.getTileTypeCurrentlyFacing()");
 
-        GameCartridge gameCartridge = handler.getGameCartridge();
         TileMap tileMap = gameCartridge.getSceneManager().getCurrentScene().getTileMap();
 
         /////////////////////////////////////////////////////
