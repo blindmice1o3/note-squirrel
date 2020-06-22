@@ -157,9 +157,16 @@ public class SerializationDoer {
             ///////////////////////////////////////////////////////////////////////////////////
             GameCamera gameCamera = (GameCamera) os.readObject();
             Player player = (Player) os.readObject();
-            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             player.setName("EeyoreDeserialized");
-            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            //TODO: [BUG] loading of ACTUAL/CURRENT position being overwritten
+            // when Scene.restoreSceneStack(ArrayList<Scene.Id>) (it calls
+            // Scene.enter() which sets player's position to xPriorScene and
+            // yPriorScene) gets called.
+            //Will restore ACTUAL/CURRENT position at the end of this loading method.
+            float xCurrent = player.getxCurrent();
+            float yCurrent = player.getyCurrent();
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             ///////////////////////////////////////////////////////////////////////////////////
 
             //PLAYER AND GAME_CAMERA
@@ -344,6 +351,14 @@ public class SerializationDoer {
             ((GameState)gameCartridge.getStateManager().getStateCollection().get(State.Id.GAME)).getSceneManager().restoreSceneStack(sceneIdsFromSceneStack);
             ((GameState)gameCartridge.getStateManager().getStateCollection().get(State.Id.GAME)).getSceneManager().setGameCamera(gameCamera);
             ((GameState)gameCartridge.getStateManager().getStateCollection().get(State.Id.GAME)).getSceneManager().setPlayer(player);
+
+
+
+            //[FIX] position-bug, player's ACTUAL/CURRENT was set to xPriorScene and yPriorScene.
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            gameCartridge.getPlayer().setxCurrent(xCurrent);
+            gameCartridge.getPlayer().setyCurrent(yCurrent);
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 
 
