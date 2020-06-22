@@ -6,7 +6,6 @@ import android.graphics.Rect;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Creature;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Player;
@@ -25,9 +24,9 @@ public class Log extends Creature {
 
     private Bitmap image;
 
-    public Log(Handler handler, float xCurrent, float yCurrent,
+    public Log(GameCartridge gameCartridge, float xCurrent, float yCurrent,
                Direction direction, Size size) {
-        super(handler, xCurrent, yCurrent);
+        super(gameCartridge, xCurrent, yCurrent);
 
         //Do NOT allow Direction.UP or Direction.DOWN (default is Direction.RIGHT).
         if ((direction == Direction.LEFT) || (direction == Direction.RIGHT)) {
@@ -38,10 +37,10 @@ public class Log extends Creature {
 
         this.size = size;
 
-        gameCamera = handler.getGameCartridge().getGameCamera();
-        widthPixelToViewportRatio = ((float) handler.getGameCartridge().getWidthViewport()) /
+        gameCamera = gameCartridge.getGameCamera();
+        widthPixelToViewportRatio = ((float) gameCartridge.getWidthViewport()) /
                 gameCamera.getWidthClipInPixel();
-        heightPixelToViewportRatio = ((float) handler.getGameCartridge().getHeightViewport()) /
+        heightPixelToViewportRatio = ((float) gameCartridge.getHeightViewport()) /
                 gameCamera.getHeightClipInPixel();
 
         init();
@@ -59,7 +58,7 @@ public class Log extends Creature {
         android.util.Log.d(MainActivity.DEBUG_TAG, "Log.adjustSizeSpeedAndBounds()");
 
         //TODO: WORK-AROUND (FROGGER TILE_WIDTH and TILE_HEIGHT)
-        if (handler.getGameCartridge().getIdGameCartridge() == GameCartridge.Id.FROGGER) {
+        if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.FROGGER) {
             int tileWidthFrogger = 48;
             int tileHeightFrogger = 48;
 
@@ -113,7 +112,7 @@ public class Log extends Creature {
 
     @Override
     public boolean checkEntityCollision(float xOffset, float yOffset) {
-        for (Entity e : handler.getGameCartridge().getSceneManager().getCurrentScene().getEntityManager().getEntities()) {
+        for (Entity e : gameCartridge.getSceneManager().getCurrentScene().getEntityManager().getEntities()) {
             //if the entity calling checkEntityCollision(float, float) finds ITSELF in the collection, skip by continue.
             if (e.equals(this)) {
                 continue;
@@ -156,7 +155,7 @@ public class Log extends Creature {
 
                 break;
             case RIGHT:
-                int widthSceneMax = handler.getGameCartridge().getSceneManager().getCurrentScene().getTileMap().getWidthSceneMax();
+                int widthSceneMax = gameCartridge.getSceneManager().getCurrentScene().getTileMap().getWidthSceneMax();
                 if ( (xCurrent+width+moveSpeed) < widthSceneMax ) {
                     xMove = moveSpeed;
                 } else {

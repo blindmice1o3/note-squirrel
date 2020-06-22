@@ -3,7 +3,7 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
 
 import java.io.Serializable;
@@ -11,7 +11,7 @@ import java.io.Serializable;
 public abstract class Entity
         implements Serializable {
 
-    transient protected Handler handler;
+    transient protected GameCartridge gameCartridge;
 
     protected float xCurrent;
     protected float yCurrent;
@@ -22,8 +22,8 @@ public abstract class Entity
 
     protected boolean active;
 
-    public Entity(Handler handler, float xCurrent, float yCurrent) {
-        this.handler = handler;
+    public Entity(GameCartridge gameCartridge, float xCurrent, float yCurrent) {
+        this.gameCartridge = gameCartridge;
 
         this.xCurrent = xCurrent;
         this.yCurrent = yCurrent;
@@ -40,7 +40,7 @@ public abstract class Entity
     public abstract void render(Canvas canvas);
 
     public boolean checkEntityCollision(float xOffset, float yOffset) {
-        for (Entity e : handler.getGameCartridge().getSceneManager().getCurrentScene().getEntityManager().getEntities()) {
+        for (Entity e : gameCartridge.getSceneManager().getCurrentScene().getEntityManager().getEntities()) {
             if (e.equals(this)) {
                 continue;
             }
@@ -58,10 +58,6 @@ public abstract class Entity
                 (int)(yCurrent + bounds.top + yOffset),
                 (int)(xCurrent + bounds.left + xOffset) + bounds.right,
                 (int)(yCurrent + bounds.top + yOffset) + bounds.bottom);
-    }
-
-    public void setHandler(Handler handler) {
-        this.handler = handler;
     }
 
     public float getxCurrent() {
@@ -98,6 +94,10 @@ public abstract class Entity
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public void setGameCartridge(GameCartridge gameCartridge) {
+        this.gameCartridge = gameCartridge;
     }
 
 }

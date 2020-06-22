@@ -12,8 +12,8 @@ import android.view.SurfaceHolder;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.SerializationDoer;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.BackpackActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
@@ -26,7 +26,7 @@ public class StartMenuState
 
     public enum MenuItem { CRITTER_DEX, BELT_LIST, BACKPACK_LIST, LOAD, SAVE, OPTION, EXIT; }
 
-    transient private Handler handler;
+    transient private GameCartridge gameCartridge;
     private Id id;
 
     transient private Context context;
@@ -41,26 +41,26 @@ public class StartMenuState
     transient private Bitmap startMenuState;
     transient private Bitmap startMenuStateCursor;
 
-    public StartMenuState(Handler handler, SceneManager sceneManager) {
+    public StartMenuState(GameCartridge gameCartridge, SceneManager sceneManager) {
         ///////////////////
         id = Id.START_MENU;
         ///////////////////
 
-        widthViewport = handler.getGameCartridge().getWidthViewport();
-        heightViewport = handler.getGameCartridge().getHeightViewport();
+        widthViewport = gameCartridge.getWidthViewport();
+        heightViewport = gameCartridge.getHeightViewport();
 
         indexMenu = 0;
 
-        init(handler, sceneManager);
+        init(gameCartridge, sceneManager);
     }
 
-    public void init(Handler handler, SceneManager sceneManager) {
-        this.handler = handler;
+    public void init(GameCartridge gameCartridge, SceneManager sceneManager) {
+        this.gameCartridge = gameCartridge;
         this.sceneManager = sceneManager;
 
-        context = handler.getGameCartridge().getContext();
-        inputManager = handler.getGameCartridge().getInputManager();
-        surfaceHolder = handler.getGameCartridge().getSurfaceHolder();
+        context = gameCartridge.getContext();
+        inputManager = gameCartridge.getInputManager();
+        surfaceHolder = gameCartridge.getSurfaceHolder();
 
         startMenuState = Assets.cropStartMenuState(context.getResources());
         startMenuStateCursor = Assets.cropStartMenuStateCursor(context.getResources());
@@ -133,18 +133,18 @@ public class StartMenuState
             switch (selectedMenuItem) {
                 case CRITTER_DEX:
                     Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() a-button-justPressed CRITTER_DEX");
-                    handler.getGameCartridge().getStateManager().pop();
+                    gameCartridge.getStateManager().pop();
                     break;
                 case BELT_LIST:
                     Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() a-button-justPressed BELT_LIST");
-                    handler.getGameCartridge().getStateManager().pop();
+                    gameCartridge.getStateManager().pop();
                     break;
                 case BACKPACK_LIST:
                     Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() a-button-justPressed BACKPACK_LIST");
-                    handler.getGameCartridge().getStateManager().pop();
+                    gameCartridge.getStateManager().pop();
                     ////////////////////////////////////////////////////////////////////////////////////
                     Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() saved present state");
-                    handler.getGameCartridge().savePresentState();
+                    gameCartridge.savePresentState();
                     Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() starting BackpackActivity for result...");
                     Intent backpackIntent = new Intent(context, BackpackActivity.class);
                     ((JackInActivity)context).startActivityForResult(backpackIntent, JackInActivity.REQUEST_CODE_BACKPACK_ACTIVITY);
@@ -152,26 +152,26 @@ public class StartMenuState
                     break;
                 case LOAD:
                     Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() a-button-justPressed LOAD");
-                    handler.getGameCartridge().getStateManager().pop();
+                    gameCartridge.getStateManager().pop();
                     ////////////////////////////////////////////////////////////////////////////////////
-                    SerializationDoer.loadReadFromFile(handler.getGameCartridge(), true);
+                    SerializationDoer.loadReadFromFile(gameCartridge, true);
                     ////////////////////////////////////////////////////////////////////////////////////
                     break;
                 case SAVE:
                     Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() a-button-justPressed SAVE");
-                    handler.getGameCartridge().getStateManager().pop();
+                    gameCartridge.getStateManager().pop();
                     ///////////////////////////////////////////////////////////////////////////////////
-                    SerializationDoer.saveWriteToFile(handler.getGameCartridge(), true);
+                    SerializationDoer.saveWriteToFile(gameCartridge, true);
                     ///////////////////////////////////////////////////////////////////////////////////
                     break;
                 case OPTION:
                     Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() a-button-justPressed OPTION");
-                    handler.getGameCartridge().getStateManager().pop();
+                    gameCartridge.getStateManager().pop();
                     break;
                 case EXIT:
                     Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() a-button-justPressed EXIT");
                     ///////////////////////////////////////////////////
-                    handler.getGameCartridge().getStateManager().pop();
+                    gameCartridge.getStateManager().pop();
                     ///////////////////////////////////////////////////
                     break;
             }
@@ -179,12 +179,12 @@ public class StartMenuState
         //b button
         else if (inputManager.isbButtonPad()) {
             Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() b-button-justPressed");
-            handler.getGameCartridge().getStateManager().pop();
+            gameCartridge.getStateManager().pop();
         }
         //menu button (pop State.START_MENU)
         else if (inputManager.isMenuButtonPad()) {
             Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() menu-button-justPressed");
-            handler.getGameCartridge().getStateManager().pop();
+            gameCartridge.getStateManager().pop();
         }
     }
 
@@ -289,11 +289,6 @@ public class StartMenuState
     @Override
     public Id getId() {
         return id;
-    }
-
-    @Override
-    public void setHandler(Handler handler) {
-        this.handler = handler;
     }
 
 }

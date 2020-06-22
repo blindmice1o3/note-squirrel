@@ -162,12 +162,8 @@ public class SerializationDoer {
             //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             ///////////////////////////////////////////////////////////////////////////////////
 
-            Handler handler = gameCartridge.getHandler();
-
-            //HANDLER
-            player.setHandler(handler);
-
             //PLAYER AND GAME_CAMERA
+            player.setGameCartridge(gameCartridge);
             player.init();
             player.setGameCamera(gameCamera);
             gameCamera.setEntity(player);
@@ -189,7 +185,7 @@ public class SerializationDoer {
                         //////////////////////////////////////////////////
                         gameState = (GameState) os.readObject();
                         //////////////////////////////////////////////////
-                        gameState.init(handler);
+                        gameState.init(gameCartridge);
                         ///////////////////////////////////
                         stateCollection.put(id, gameState);
                         ///////////////////////////////////
@@ -199,7 +195,7 @@ public class SerializationDoer {
                         StartMenuState startMenuState = (StartMenuState) os.readObject();
                         /////////////////////////////////////////////////////////////////
                         gameState = (GameState) stateCollection.get(State.Id.GAME);
-                        startMenuState.init(handler, gameState.getSceneManager());
+                        startMenuState.init(gameCartridge, gameState.getSceneManager());
                         ////////////////////////////////////////
                         stateCollection.put(id, startMenuState);
                         ////////////////////////////////////////
@@ -209,7 +205,7 @@ public class SerializationDoer {
                         TextboxState textboxState = (TextboxState) os.readObject();
                         ///////////////////////////////////////////////////////////
                         gameState = (GameState) stateCollection.get(State.Id.GAME);
-                        textboxState.init(handler, gameState.getSceneManager());
+                        textboxState.init(gameCartridge, gameState.getSceneManager());
                         //////////////////////////////////////
                         stateCollection.put(id, textboxState);
                         //////////////////////////////////////
@@ -232,98 +228,98 @@ public class SerializationDoer {
                 switch (id) {
                     case FROGGER:
                         SceneFrogger sceneFrogger = (SceneFrogger) os.readObject();
-                        sceneFrogger.init(handler, player, gameCamera, sceneManager);
+                        sceneFrogger.init(gameCartridge, player, gameCamera, sceneManager);
                         //////////////////////////////////////
                         sceneCollection.put(id, sceneFrogger);
                         //////////////////////////////////////
                         break;
                     case FARM:
                         SceneFarm sceneFarm = (SceneFarm) os.readObject();
-                        sceneFarm.init(handler, player, gameCamera, sceneManager);
+                        sceneFarm.init(gameCartridge, player, gameCamera, sceneManager);
                         ////////////////////////////////////////////////////
                         sceneCollection.put(id, sceneFarm);
                         ////////////////////////////////////////////////////
                         break;
                     case HOTHOUSE:
                         SceneHothouse sceneHothouse = (SceneHothouse) os.readObject();
-                        sceneHothouse.init(handler, player, gameCamera, sceneManager);
+                        sceneHothouse.init(gameCartridge, player, gameCamera, sceneManager);
                         ////////////////////////////////////////////////////
                         sceneCollection.put(id, sceneHothouse);
                         ////////////////////////////////////////////////////
                         break;
                     case SHEEP_PEN:
                         SceneSheepPen sceneSheepPen = (SceneSheepPen) os.readObject();
-                        sceneSheepPen.init(handler, player, gameCamera, sceneManager);
+                        sceneSheepPen.init(gameCartridge, player, gameCamera, sceneManager);
                         ////////////////////////////////////////////////////
                         sceneCollection.put(id, sceneSheepPen);
                         ////////////////////////////////////////////////////
                         break;
                     case CHICKEN_COOP:
                         SceneChickenCoop sceneChickenCoop = (SceneChickenCoop) os.readObject();
-                        sceneChickenCoop.init(handler, player, gameCamera, sceneManager);
+                        sceneChickenCoop.init(gameCartridge, player, gameCamera, sceneManager);
                         ////////////////////////////////////////////////////
                         sceneCollection.put(id, sceneChickenCoop);
                         ////////////////////////////////////////////////////
                         break;
                     case COW_BARN:
                         SceneCowBarn sceneCowBarn = (SceneCowBarn) os.readObject();
-                        sceneCowBarn.init(handler, player, gameCamera, sceneManager);
+                        sceneCowBarn.init(gameCartridge, player, gameCamera, sceneManager);
                         ////////////////////////////////////////////////////
                         sceneCollection.put(id, sceneCowBarn);
                         ////////////////////////////////////////////////////
                         break;
                     case HOUSE_01:
                         SceneHouseLevel01 sceneHouseLevel01 = (SceneHouseLevel01) os.readObject();
-                        sceneHouseLevel01.init(handler, player, gameCamera, sceneManager);
+                        sceneHouseLevel01.init(gameCartridge, player, gameCamera, sceneManager);
                         ////////////////////////////////////////////////////
                         sceneCollection.put(id, sceneHouseLevel01);
                         ////////////////////////////////////////////////////
                         break;
                     case HOUSE_02:
                         SceneHouseLevel02 sceneHouseLevel02 = (SceneHouseLevel02) os.readObject();
-                        sceneHouseLevel02.init(handler, player, gameCamera, sceneManager);
+                        sceneHouseLevel02.init(gameCartridge, player, gameCamera, sceneManager);
                         ////////////////////////////////////////////////////
                         sceneCollection.put(id, sceneHouseLevel02);
                         ////////////////////////////////////////////////////
                         break;
                     case HOUSE_03:
                         SceneHouseLevel03 sceneHouseLevel03 = (SceneHouseLevel03) os.readObject();
-                        sceneHouseLevel03.init(handler, player, gameCamera, sceneManager);
+                        sceneHouseLevel03.init(gameCartridge, player, gameCamera, sceneManager);
                         ////////////////////////////////////////////////////
                         sceneCollection.put(id, sceneHouseLevel03);
                         ////////////////////////////////////////////////////
                         break;
                     case PART_01:
                         ScenePart01 scenePart01 = (ScenePart01) os.readObject();
-                        scenePart01.init(handler, player, gameCamera, sceneManager);
+                        scenePart01.init(gameCartridge, player, gameCamera, sceneManager);
                         ////////////////////////////////////////////////////
                         sceneCollection.put(id, scenePart01);
                         ////////////////////////////////////////////////////
                         break;
                     case HOME_01:
                         SceneHome01 sceneHome01 = (SceneHome01) os.readObject();
-                        sceneHome01.init(handler, player, gameCamera, sceneManager);
+                        sceneHome01.init(gameCartridge, player, gameCamera, sceneManager);
                         ////////////////////////////////////////////////////
                         sceneCollection.put(id, sceneHome01);
                         ////////////////////////////////////////////////////
                         break;
                     case HOME_02:
                         SceneHome02 sceneHome02 = (SceneHome02) os.readObject();
-                        sceneHome02.init(handler, player, gameCamera, sceneManager);
+                        sceneHome02.init(gameCartridge, player, gameCamera, sceneManager);
                         ////////////////////////////////////////////////////
                         sceneCollection.put(id, sceneHome02);
                         ////////////////////////////////////////////////////
                         break;
                     case HOME_RIVAL:
                         SceneHomeRival sceneHomeRival = (SceneHomeRival) os.readObject();
-                        sceneHomeRival.init(handler, player, gameCamera, sceneManager);
+                        sceneHomeRival.init(gameCartridge, player, gameCamera, sceneManager);
                         ////////////////////////////////////////////////////
                         sceneCollection.put(id, sceneHomeRival);
                         ////////////////////////////////////////////////////
                         break;
                     case LAB:
                         SceneLab sceneLab = (SceneLab) os.readObject();
-                        sceneLab.init(handler, player, gameCamera, sceneManager);
+                        sceneLab.init(gameCartridge, player, gameCamera, sceneManager);
                         ////////////////////////////////////////////////////
                         sceneCollection.put(id, sceneLab);
                         ////////////////////////////////////////////////////

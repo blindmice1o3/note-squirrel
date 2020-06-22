@@ -5,7 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 
 import com.jackingaming.notesquirrel.R;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
 
@@ -16,8 +16,8 @@ public class TileMapFrogger extends TileMap {
     public static final int TILE_WIDTH_48 = 48;
     public static final int TILE_HEIGHT_48 = 48;
 
-    public TileMapFrogger(Handler handler, Scene.Id sceneID) {
-        super(handler, sceneID);
+    public TileMapFrogger(GameCartridge gameCartridge, Scene.Id sceneID) {
+        super(gameCartridge, sceneID);
     }
 
     @Override

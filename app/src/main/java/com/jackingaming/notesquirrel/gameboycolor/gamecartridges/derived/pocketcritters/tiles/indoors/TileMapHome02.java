@@ -4,7 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Rect;
 
 import com.jackingaming.notesquirrel.R;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
@@ -16,8 +16,8 @@ public class TileMapHome02 extends TileMap {
 
     private String stringOfTiles;
 
-    public TileMapHome02(Handler handler, Scene.Id sceneID) {
-        super(handler, sceneID);
+    public TileMapHome02(GameCartridge gameCartridge, Scene.Id sceneID) {
+        super(gameCartridge, sceneID);
     }
 
     @Override

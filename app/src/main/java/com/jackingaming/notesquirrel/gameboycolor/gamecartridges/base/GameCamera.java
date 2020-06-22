@@ -28,7 +28,7 @@ public class GameCamera
     private int heightSceneMax;
 
     public GameCamera(int widthViewport, int heightViewport) {
-        Log.d(MainActivity.DEBUG_TAG, "GameCamera(Handler) constructor");
+        Log.d(MainActivity.DEBUG_TAG, "GameCamera(int, int) constructor");
 
         x = 0f;
         y = 0f;

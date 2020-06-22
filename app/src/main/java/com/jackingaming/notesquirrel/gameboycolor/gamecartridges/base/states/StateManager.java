@@ -3,7 +3,7 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states;
 import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,27 +12,23 @@ import java.util.Map;
 
 public class StateManager {
 
-    private Handler handler;
-
     private Map<State.Id, State> stateCollection;
     private List<State> stateStack;
 
-    public StateManager(Handler handler) {
-        this.handler = handler;
-
-        initStateCollection();
+    public StateManager(GameCartridge gameCartridge) {
+        initStateCollection(gameCartridge);
 
         stateStack = new ArrayList<State>();
         stateStack.add(stateCollection.get(State.Id.GAME));
     }
 
-    public void initStateCollection() {
+    public void initStateCollection(GameCartridge gameCartridge) {
         stateCollection = new HashMap<State.Id, State>();
 
-        GameState gameState = new GameState(handler);
+        GameState gameState = new GameState(gameCartridge);
         stateCollection.put(State.Id.GAME, gameState);
-        stateCollection.put(State.Id.START_MENU, new StartMenuState(handler, gameState.getSceneManager()));
-        stateCollection.put(State.Id.TEXTBOX, new TextboxState(handler, gameState.getSceneManager()));
+        stateCollection.put(State.Id.START_MENU, new StartMenuState(gameCartridge, gameState.getSceneManager()));
+        stateCollection.put(State.Id.TEXTBOX, new TextboxState(gameCartridge, gameState.getSceneManager()));
     }
 
     public State getState(State.Id id) {

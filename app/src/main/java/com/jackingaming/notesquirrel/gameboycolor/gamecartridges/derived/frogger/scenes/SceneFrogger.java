@@ -5,7 +5,7 @@ import android.graphics.Rect;
 import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Creature;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
@@ -21,8 +21,8 @@ public class SceneFrogger extends Scene {
     private int numOfRiverLanes;
     private int chanceToInstantiate;
 
-    public SceneFrogger(Handler handler, Id sceneID) {
-        super(handler, sceneID);
+    public SceneFrogger(GameCartridge gameCartridge, Id sceneID) {
+        super(gameCartridge, sceneID);
 
         controllerForNextEntityInstantiation = 0;
         numOfCarLanes = 5;
@@ -55,7 +55,7 @@ public class SceneFrogger extends Scene {
 
     @Override
     public void initTileMap() {
-        tileMap = new TileMapFrogger(handler, sceneID);
+        tileMap = new TileMapFrogger(gameCartridge, sceneID);
     }
 
     @Override
@@ -93,7 +93,7 @@ public class SceneFrogger extends Scene {
                         }
 
                         //add new right Car instance.
-                        entityManager.addEntity(new Car(handler, x, y,
+                        entityManager.addEntity(new Car(gameCartridge, x, y,
                                 Creature.Direction.RIGHT, Car.Type.PINK));
 
                         break;
@@ -112,7 +112,7 @@ public class SceneFrogger extends Scene {
                         }
 
                         //add new left Car instance.
-                        entityManager.addEntity(new Car(handler, x, y,
+                        entityManager.addEntity(new Car(gameCartridge, x, y,
                                 Creature.Direction.LEFT, Car.Type.PINK));
 
                         break;
@@ -131,7 +131,7 @@ public class SceneFrogger extends Scene {
                         }
 
                         //add new right Car instance.
-                        entityManager.addEntity(new Car(handler, x, y,
+                        entityManager.addEntity(new Car(gameCartridge, x, y,
                                 Creature.Direction.RIGHT, Car.Type.WHITE));
 
                         break;
@@ -150,7 +150,7 @@ public class SceneFrogger extends Scene {
                         }
 
                         //add new left Car instance.
-                        entityManager.addEntity(new Car(handler, x, y,
+                        entityManager.addEntity(new Car(gameCartridge, x, y,
                                 Creature.Direction.LEFT, Car.Type.WHITE));
 
                         break;
@@ -169,7 +169,7 @@ public class SceneFrogger extends Scene {
                         }
 
                         //add new right Car instance.
-                        entityManager.addEntity(new Car(handler, x, y,
+                        entityManager.addEntity(new Car(gameCartridge, x, y,
                                 Creature.Direction.RIGHT, Car.Type.YELLOW));
 
                         break;
@@ -188,7 +188,7 @@ public class SceneFrogger extends Scene {
                         }
 
                         //add new right, small Log instance.
-                        entityManager.addEntity(new com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.Log(handler, x, y,
+                        entityManager.addEntity(new com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.Log(gameCartridge, x, y,
                                 Creature.Direction.RIGHT, com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.Log.Size.SMALL));
 
                         break;
@@ -207,7 +207,7 @@ public class SceneFrogger extends Scene {
                         }
 
                         //add new left, medium Log instance.
-                        entityManager.addEntity(new com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.Log(handler, x, y,
+                        entityManager.addEntity(new com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.Log(gameCartridge, x, y,
                                 Creature.Direction.LEFT, com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.Log.Size.MEDIUM));
 
                         break;
@@ -226,7 +226,7 @@ public class SceneFrogger extends Scene {
                         }
 
                         //add new right, large Log instance.
-                        entityManager.addEntity(new com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.Log(handler, x, y,
+                        entityManager.addEntity(new com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.Log(gameCartridge, x, y,
                                 Creature.Direction.RIGHT, com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.Log.Size.LARGE));
 
                         break;
@@ -245,7 +245,7 @@ public class SceneFrogger extends Scene {
                         }
 
                         //add new left, small Log instance.
-                        entityManager.addEntity(new com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.Log(handler, x, y,
+                        entityManager.addEntity(new com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.Log(gameCartridge, x, y,
                                 Creature.Direction.LEFT, com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.Log.Size.SMALL));
 
                         break;

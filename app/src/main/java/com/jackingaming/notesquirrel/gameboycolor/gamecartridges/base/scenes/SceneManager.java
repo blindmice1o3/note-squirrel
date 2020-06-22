@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.scenes.SceneFrogger;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.scenes.indoors.SceneHome01;
@@ -43,7 +43,7 @@ import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sce
 
 public class SceneManager {
 
-    private Handler handler;
+    private GameCartridge gameCartridge;
 
     private Player player;
     private GameCamera gameCamera;
@@ -53,18 +53,18 @@ public class SceneManager {
     private List<Scene> sceneStack;
     /////////////////////////////////////////////
 
-    public SceneManager(Handler handler) {
-        Log.d(MainActivity.DEBUG_TAG, "SceneManager(Handler) constructor");
+    public SceneManager(GameCartridge gameCartridge) {
+        Log.d(MainActivity.DEBUG_TAG, "SceneManager(GameCartridge) constructor");
 
-        this.handler = handler;
+        this.gameCartridge = gameCartridge;
 
         //////////////////////////////////////////////////////////////////////////////////////////
         // Must call initSceneCollection() before Scene.init() (starting scene instantiated here).
         initSceneCollection();
         //////////////////////////////////////////////////////////////////////////////////////////
 
-        player = handler.getGameCartridge().getPlayer();
-        gameCamera = handler.getGameCartridge().getGameCamera();
+        player = gameCartridge.getPlayer();
+        gameCamera = gameCartridge.getGameCamera();
 
         ////////////////////////////////////
         sceneStack = new ArrayList<Scene>();
@@ -72,7 +72,7 @@ public class SceneManager {
 
         // Determine starting scene based on GameCartridge.Id.
         Scene.Id id = null;
-        switch (handler.getGameCartridge().getIdGameCartridge()) {
+        switch (gameCartridge.getIdGameCartridge()) {
             case POOH_FARMER:
                 id = Scene.Id.FARM;
                 break;
@@ -88,7 +88,7 @@ public class SceneManager {
 
         Scene startScene = sceneCollection.get(id);
         ////////////////////////////////////
-        startScene.init(handler, player, gameCamera, this);
+        startScene.init(gameCartridge, player, gameCamera, this);
         ////////////////////////////////////
 
         ///////////////////
@@ -131,59 +131,59 @@ public class SceneManager {
         for (Scene.Id id : Scene.Id.values()) {
             if (id == FROGGER) {
                 ///////////////////////////////////////////////////////
-                sceneCollection.put(id, new SceneFrogger(handler, id));
+                sceneCollection.put(id, new SceneFrogger(gameCartridge, id));
                 ///////////////////////////////////////////////////////
             } else if (id == FARM) {
                 ////////////////////////////////////////////////////
-                sceneCollection.put(id, new SceneFarm(handler, id));
+                sceneCollection.put(id, new SceneFarm(gameCartridge, id));
                 ////////////////////////////////////////////////////
             } else if (id == HOTHOUSE) {
                 ////////////////////////////////////////////////////
-                sceneCollection.put(id, new SceneHothouse(handler, id));
+                sceneCollection.put(id, new SceneHothouse(gameCartridge, id));
                 ////////////////////////////////////////////////////
             } else if (id == SHEEP_PEN) {
                 ////////////////////////////////////////////////////
-                sceneCollection.put(id, new SceneSheepPen(handler, id));
+                sceneCollection.put(id, new SceneSheepPen(gameCartridge, id));
                 ////////////////////////////////////////////////////
             } else if (id == CHICKEN_COOP) {
                 ////////////////////////////////////////////////////
-                sceneCollection.put(id, new SceneChickenCoop(handler, id));
+                sceneCollection.put(id, new SceneChickenCoop(gameCartridge, id));
                 ////////////////////////////////////////////////////
             } else if (id == COW_BARN) {
                 ////////////////////////////////////////////////////
-                sceneCollection.put(id, new SceneCowBarn(handler, id));
+                sceneCollection.put(id, new SceneCowBarn(gameCartridge, id));
                 ////////////////////////////////////////////////////
             } else if (id == HOUSE_01) {
                 ////////////////////////////////////////////////////
-                sceneCollection.put(id, new SceneHouseLevel01(handler, id));
+                sceneCollection.put(id, new SceneHouseLevel01(gameCartridge, id));
                 ////////////////////////////////////////////////////
             } else if (id == HOUSE_02) {
                 ////////////////////////////////////////////////////
-                sceneCollection.put(id, new SceneHouseLevel02(handler, id));
+                sceneCollection.put(id, new SceneHouseLevel02(gameCartridge, id));
                 ////////////////////////////////////////////////////
             } else if (id == HOUSE_03) {
                 ////////////////////////////////////////////////////
-                sceneCollection.put(id, new SceneHouseLevel03(handler, id));
+                sceneCollection.put(id, new SceneHouseLevel03(gameCartridge, id));
                 ////////////////////////////////////////////////////
             } else if (id == PART_01) {
                 ////////////////////////////////////////////////////
-                sceneCollection.put(id, new ScenePart01(handler, id));
+                sceneCollection.put(id, new ScenePart01(gameCartridge, id));
                 ////////////////////////////////////////////////////
             } else if (id == HOME_01) {
                 ////////////////////////////////////////////////////
-                sceneCollection.put(id, new SceneHome01(handler, id));
+                sceneCollection.put(id, new SceneHome01(gameCartridge, id));
                 ////////////////////////////////////////////////////
             } else if (id == HOME_02) {
                 ////////////////////////////////////////////////////
-                sceneCollection.put(id, new SceneHome02(handler, id));
+                sceneCollection.put(id, new SceneHome02(gameCartridge, id));
                 ////////////////////////////////////////////////////
             } else if (id == HOME_RIVAL) {
                 ////////////////////////////////////////////////////
-                sceneCollection.put(id, new SceneHomeRival(handler, id));
+                sceneCollection.put(id, new SceneHomeRival(gameCartridge, id));
                 ////////////////////////////////////////////////////
             } else if (id == LAB) {
                 ////////////////////////////////////////////////////
-                sceneCollection.put(id, new SceneLab(handler, id));
+                sceneCollection.put(id, new SceneLab(gameCartridge, id));
                 ////////////////////////////////////////////////////
             }
         }
@@ -211,7 +211,7 @@ public class SceneManager {
         //TODO: improve on the if-condition.
         if (nextScene.getTileMap() == null) {
             ///////////////////////////////////
-            nextScene.init(handler, player, gameCamera, this);
+            nextScene.init(gameCartridge, player, gameCamera, this);
             ///////////////////////////////////
         }
 
@@ -234,7 +234,7 @@ public class SceneManager {
         //TODO: improve on the if-condition.
         if (getCurrentScene().getTileMap() == null) {
             ///////////////////////////////////////////
-            getCurrentScene().init(handler, player, gameCamera, this);
+            getCurrentScene().init(gameCartridge, player, gameCamera, this);
             ///////////////////////////////////////////
         }
 

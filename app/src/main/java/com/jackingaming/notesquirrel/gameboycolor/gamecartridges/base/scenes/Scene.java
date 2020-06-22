@@ -7,11 +7,9 @@ import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.EntityManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Player;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.GameState;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 
@@ -24,7 +22,7 @@ public abstract class Scene
         PART_01, HOME_01, HOME_02, HOME_RIVAL, LAB,
         FROGGER; }
 
-    transient protected Handler handler;
+    transient protected GameCartridge gameCartridge;
     protected Id sceneID;
 
     transient protected Context context;
@@ -39,17 +37,17 @@ public abstract class Scene
     protected float xPriorScene;
     protected float yPriorScene;
 
-    public Scene(Handler handler, Id sceneID) {
+    public Scene(GameCartridge gameCartridge, Id sceneID) {
         this.sceneID = sceneID;
     }
 
-    public void init(Handler handler, Player player, GameCamera gameCamera, SceneManager sceneManager) {
-        Log.d(MainActivity.DEBUG_TAG, "Scene.init(Handler, Player, GameCamera, SceneManager)");
-        this.handler = handler;
+    public void init(GameCartridge gameCartridge, Player player, GameCamera gameCamera, SceneManager sceneManager) {
+        Log.d(MainActivity.DEBUG_TAG, "Scene.init(GameCartridge, Player, GameCamera, SceneManager)");
+        this.gameCartridge = gameCartridge;
         this.player = player;
 
-        context = handler.getGameCartridge().getContext();
-        inputManager = handler.getGameCartridge().getInputManager();
+        context = gameCartridge.getContext();
+        inputManager = gameCartridge.getInputManager();
         this.sceneManager = sceneManager;
 
         initTileMap();
@@ -120,7 +118,7 @@ public abstract class Scene
         Log.d(MainActivity.DEBUG_TAG, "Scene.initEntityManager(Player)");
 
         ///////////////////////////////////////////////////
-        entityManager = new EntityManager(handler, player);
+        entityManager = new EntityManager(player);
         ///////////////////////////////////////////////////
     }
 
@@ -158,8 +156,6 @@ public abstract class Scene
     public EntityManager getEntityManager() {
         return entityManager;
     }
-
-    public void setHandler(Handler handler) { this.handler = handler; }
 
     public void setGameCamera(GameCamera gameCamera) {
         this.gameCamera = gameCamera;

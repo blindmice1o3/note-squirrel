@@ -4,20 +4,20 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.indoors.TileMapCowBarn;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.ListFragmentDvdParentActivity;
 
 public class SceneCowBarn extends Scene {
 
-    public SceneCowBarn(Handler handler, Id sceneID) {
-        super(handler, sceneID);
+    public SceneCowBarn(GameCartridge gameCartridge, Id sceneID) {
+        super(gameCartridge, sceneID);
     }
 
     @Override
     public void initTileMap() {
-        tileMap = new TileMapCowBarn(handler, sceneID);
+        tileMap = new TileMapCowBarn(gameCartridge, sceneID);
     }
 
     @Override

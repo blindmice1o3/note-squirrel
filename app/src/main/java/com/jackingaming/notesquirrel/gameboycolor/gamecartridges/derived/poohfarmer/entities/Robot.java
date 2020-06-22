@@ -7,7 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 
 import com.jackingaming.notesquirrel.R;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Creature;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Animation;
@@ -30,18 +30,18 @@ public class Robot extends Creature {
     private Map<Direction, Animation> animationWalk;
     private Map<Direction, Animation> animationRun;
 
-    public Robot(Handler handler, float xCurrent, float yCurrent) {
-        super(handler, xCurrent, yCurrent);
+    public Robot(GameCartridge gameCartridge, float xCurrent, float yCurrent) {
+        super(gameCartridge, xCurrent, yCurrent);
 
-        gameCamera = handler.getGameCartridge().getGameCamera();
-        widthPixelToViewportRatio = ((float) handler.getGameCartridge().getWidthViewport()) /
+        gameCamera = gameCartridge.getGameCamera();
+        widthPixelToViewportRatio = ((float) gameCartridge.getWidthViewport()) /
                 gameCamera.getWidthClipInPixel();
-        heightPixelToViewportRatio = ((float) handler.getGameCartridge().getHeightViewport()) /
+        heightPixelToViewportRatio = ((float) gameCartridge.getHeightViewport()) /
                 gameCamera.getHeightClipInPixel();
 
         state = State.OFF;
 
-        initImage(handler.getGameCartridge().getContext().getResources());
+        initImage(gameCartridge.getContext().getResources());
     }
 
     @Override

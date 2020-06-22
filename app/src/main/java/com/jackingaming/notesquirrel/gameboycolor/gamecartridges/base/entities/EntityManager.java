@@ -5,7 +5,6 @@ import android.os.Build;
 import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -13,7 +12,6 @@ import java.util.Iterator;
 
 public class EntityManager {
 
-    private Handler handler;
     private Player player;
 
     private ArrayList<Entity> entities;
@@ -34,8 +32,7 @@ public class EntityManager {
         }
     };
 
-    public EntityManager(Handler handler, Player player) {
-        this.handler = handler;
+    public EntityManager(Player player) {
         this.player = player;
 
         entities = new ArrayList<Entity>();
@@ -98,10 +95,6 @@ public class EntityManager {
 
     public void setEntities(ArrayList<Entity> entities) {
         this.entities = entities;
-    }
-
-    public void setHandler(Handler handler) {
-        this.handler = handler;
     }
 
     public Player getPlayer() {

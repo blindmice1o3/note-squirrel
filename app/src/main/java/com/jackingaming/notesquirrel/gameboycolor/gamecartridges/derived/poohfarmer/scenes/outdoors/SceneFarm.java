@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
@@ -16,20 +15,20 @@ import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.Lis
 
 public class SceneFarm extends Scene {
 
-    public SceneFarm(Handler handler, Id sceneID) {
-        super(handler, sceneID);
+    public SceneFarm(GameCartridge gameCartridge, Id sceneID) {
+        super(gameCartridge, sceneID);
     }
 
     @Override
     public void initTileMap() {
-        tileMap = new TileMapFarm(handler, sceneID);
+        tileMap = new TileMapFarm(gameCartridge, sceneID);
     }
 
     @Override
     public void initEntityManager(Player player) {
         super.initEntityManager(player);
 
-        Entity robot = new Robot(handler, (7 * tileMap.getTileWidth()), (5 * tileMap.getTileHeight()));
+        Entity robot = new Robot(gameCartridge, (7 * tileMap.getTileWidth()), (5 * tileMap.getTileHeight()));
         entityManager.addEntity(robot);
     }
 
@@ -64,7 +63,7 @@ public class SceneFarm extends Scene {
         else if (inputManager.isbButtonPad()) {
             Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() b-button-justPressed");
 
-            if (handler.getGameCartridge().getIdGameCartridge() == GameCartridge.Id.POCKET_CRITTERS) {
+            if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.POCKET_CRITTERS) {
                 Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() b-button: POP PoohFarmerCartridge's scene!!!");
 
                 ////////////////////////////////
@@ -80,7 +79,7 @@ public class SceneFarm extends Scene {
                 Object[] extra = new Object[10];
                 extra[0] = "The cat in the hat will never give a fish what it desires most, the key to the city of moonlight. This is true for fall, winter, and spring... but NOT summer. In the summer, the fashionable feline's generosity crests before breaking into a surge of outward actions which benefit the entire animal community, far more than just that of fishes who desire the key to the city of moonlight. Unfortunately, summer passes quicker than most fishes would like.";
                 ////////////////////////////////
-                handler.getGameCartridge().getStateManager().push(State.Id.TEXTBOX, extra);
+                gameCartridge.getStateManager().push(State.Id.TEXTBOX, extra);
             }
         }
         //menu button (push State.START_MENU)

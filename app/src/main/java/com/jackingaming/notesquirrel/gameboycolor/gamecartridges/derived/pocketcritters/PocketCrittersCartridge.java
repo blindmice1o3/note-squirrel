@@ -1,27 +1,19 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.SurfaceHolder;
-import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.SerializationDoer;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.GameState;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.StateManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.computer.ComputerActivity;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.television.TelevisionActivity;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
 
@@ -38,7 +30,6 @@ public class PocketCrittersCartridge
     private int widthViewport;
     private int heightViewport;
 
-    private Handler handler;
     private Player player;
     private GameCamera gameCamera;
     private StateManager stateManager;
@@ -65,14 +56,10 @@ public class PocketCrittersCartridge
 
         Assets.init(context);
 
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        handler = new Handler(this);
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
         gameCamera = new GameCamera(widthViewport, heightViewport);
-        player = new Player(handler);
+        player = new Player(this);
         /////////////////////////////////////////
-        stateManager = new StateManager(handler);
+        stateManager = new StateManager(this);
         /////////////////////////////////////////
 
         //TODO: if isReturningFromActivity... then load
@@ -95,9 +82,9 @@ public class PocketCrittersCartridge
         Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.loadSavedState()");
 
         // !!!THIS CHECKING FOR NULL IS NECESSARY!!!
-        if (handler != null) {
+        //if (handler != null) {
             SerializationDoer.loadReadFromFile(this, false);
-        }
+        //}
     }
 
     @Override
@@ -165,11 +152,6 @@ public class PocketCrittersCartridge
     @Override
     public int getHeightViewport() {
         return heightViewport;
-    }
-
-    @Override
-    public Handler getHandler() {
-        return handler;
     }
 
     @Override

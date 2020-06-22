@@ -1,6 +1,5 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.util.Log;
 

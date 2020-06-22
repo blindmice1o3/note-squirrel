@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Handler;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
 
 public abstract class Creature extends Entity {
@@ -17,8 +16,8 @@ public abstract class Creature extends Entity {
     protected float xMove;
     protected float yMove;
 
-    public Creature(Handler handler, float xCurrent, float yCurrent) {
-        super(handler, xCurrent, yCurrent);
+    public Creature(GameCartridge gameCartridge, float xCurrent, float yCurrent) {
+        super(gameCartridge, xCurrent, yCurrent);
 
         direction = Direction.DOWN;
 
@@ -60,7 +59,6 @@ public abstract class Creature extends Entity {
     }
 
     protected void moveX() {
-        GameCartridge gameCartridge = handler.getGameCartridge();
         TileMap tileMap = gameCartridge.getSceneManager().getCurrentScene().getTileMap();
 
         //LEFT
@@ -94,7 +92,6 @@ public abstract class Creature extends Entity {
     }
 
     protected void moveY() {
-        GameCartridge gameCartridge = handler.getGameCartridge();
         TileMap tileMap = gameCartridge.getSceneManager().getCurrentScene().getTileMap();
 
         //UP
