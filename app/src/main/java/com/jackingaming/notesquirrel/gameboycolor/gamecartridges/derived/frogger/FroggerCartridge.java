@@ -90,7 +90,7 @@ public class FroggerCartridge
         editor.commit();
         /////////////////////////////////////////////////////////////////////////////////
 
-        SerializationDoer.saveWriteToFile(this, false);
+        SerializationDoer.saveViaOS(this);
     }
 
     @Override
@@ -99,7 +99,7 @@ public class FroggerCartridge
 
         // !!!THIS CHECKING FOR NULL IS NECESSARY!!!
         //if (handler != null) {
-            SerializationDoer.loadReadFromFile(this, false);
+            SerializationDoer.loadViaOS(this);
         //}
     }
 

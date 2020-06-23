@@ -38,13 +38,52 @@ import java.util.Map;
 
 public class SerializationDoer {
 
-    public static void saveWriteToFile(GameCartridge gameCartridge, boolean isViaPlayerChoice) {
+    public static final String FILE_NAME_VIA_OS = "savedFileViaOS.ser";
 
-        String fileName = (isViaPlayerChoice) ? ("savedStateFileViaMenu.ser") : ("savedStateFileViaOS.ser");
+    public static void saveViaOS(GameCartridge gameCartridge) {
+        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveViaOS(GameCartridge)");
+        ///////////////////////////////////////////////////////////
+        String fileName = "savedFileViaOS" +
+                gameCartridge.getIdGameCartridge().name() + ".ser";
+        ///////////////////////////////////////////////////////////
+        saveWriteToFile(gameCartridge, fileName);
+    }
 
-        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(GameCartridge, boolean): " + fileName);
+    public static void loadViaOS(GameCartridge gameCartridge) {
+        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadViaOS(GameCartridge)");
+        ///////////////////////////////////////////////////////////
+        String fileName = "savedFileViaOS" +
+                gameCartridge.getIdGameCartridge().name() + ".ser";
+        ///////////////////////////////////////////////////////////
+        loadReadFromFile(gameCartridge, fileName);
+    }
+
+    //==============================================================================================
+
+    public static void saveViaPlayerChoice(GameCartridge gameCartridge) {
+        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveViaPlayerChoice(GameCartridge)");
+        ///////////////////////////////////////////////////////////
+        String fileName = "savedFileViaPlayerChoice" +
+                gameCartridge.getIdGameCartridge().name() + ".ser";
+        ///////////////////////////////////////////////////////////
+        saveWriteToFile(gameCartridge, fileName);
+    }
+
+    public static void loadViaPlayerChoice(GameCartridge gameCartridge) {
+        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadViaPlayerChoice(GameCartridge)");
+        ///////////////////////////////////////////////////////////
+        String fileName = "savedFileViaPlayerChoice" +
+                gameCartridge.getIdGameCartridge().name() + ".ser";
+        ///////////////////////////////////////////////////////////
+        loadReadFromFile(gameCartridge, fileName);
+    }
+
+    //==============================================================================================
+
+    private static void saveWriteToFile(GameCartridge gameCartridge, String fileName) {
+        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(GameCartridge, String): " + fileName);
         try {
-            Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(GameCartridge, boolean) beginning.");
+            Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(GameCartridge, String) beginning.");
             ////////////////////////////////////////////////////////////////////////////////////////
             //FileOutputStream fs = new FileOutputStream("savedStateFile.ser");
             FileOutputStream fs = gameCartridge.getContext().openFileOutput(fileName, Context.MODE_PRIVATE);
@@ -52,13 +91,11 @@ public class SerializationDoer {
             ////////////////////////////////////////////////////////////////////////////////////////
 
 
-
             //PLAYER AND GAME_CAMERA
             //////////////////////////////////////////////
             os.writeObject(gameCartridge.getGameCamera());
             os.writeObject(gameCartridge.getPlayer());
             //////////////////////////////////////////////
-
 
 
             //STATE (stateCollection)
@@ -71,46 +108,45 @@ public class SerializationDoer {
                 switch (id) {
                     case GAME:
                         GameState gameState = (GameState) gameCartridge.getStateManager().getStateCollection().get(id);
-                        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(GameCartridge, boolean) saving state that has id: " + id);
+                        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(GameCartridge, String) saving state that has id: " + id);
                         //////////////////////////
                         os.writeObject(gameState);
                         //////////////////////////
                         break;
                     case START_MENU:
                         StartMenuState startMenuState = (StartMenuState) gameCartridge.getStateManager().getStateCollection().get(id);
-                        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(GameCartridge, boolean) saving state that has id: " + id);
+                        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(GameCartridge, String) saving state that has id: " + id);
                         ///////////////////////////////
                         os.writeObject(startMenuState);
                         ///////////////////////////////
                         break;
                     case TEXTBOX:
                         TextboxState textboxState = (TextboxState) gameCartridge.getStateManager().getStateCollection().get(id);
-                        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(GameCartridge, boolean) saving state that has id: " + id);
+                        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(GameCartridge, String) saving state that has id: " + id);
                         /////////////////////////////
                         os.writeObject(textboxState);
                         /////////////////////////////
                         break;
                     default:
-                        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile() switch (State.Id) construct's default block.");
+                        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(GameCartridge, String) switch (State.Id) construct's default block.");
                         break;
                 }
             }
 
             //SCENE (sceneCollection)
-            int sizeOfSceneCollection = ((GameState)gameCartridge.getStateManager().getStateCollection().get(State.Id.GAME)).getSceneManager().getSceneCollection().size();
+            int sizeOfSceneCollection = ((GameState) gameCartridge.getStateManager().getStateCollection().get(State.Id.GAME)).getSceneManager().getSceneCollection().size();
             ///////////////////////////////////
             os.writeInt(sizeOfSceneCollection);
             ///////////////////////////////////
             for (int i = 0; i < sizeOfSceneCollection; i++) {
                 Scene.Id id = Scene.Id.values()[i];
-                Scene scene = ((GameState)gameCartridge.getStateManager().getStateCollection().get(State.Id.GAME)).getSceneManager().getScene(id);
+                Scene scene = ((GameState) gameCartridge.getStateManager().getStateCollection().get(State.Id.GAME)).getSceneManager().getScene(id);
 
-                Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(GameCartridge, boolean) saving scene that has id: " + id);
+                Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(GameCartridge, String) saving scene that has id: " + id);
                 //////////////////////
                 os.writeObject(scene);
                 //////////////////////
             }
-
 
 
             //STATE_MANAGER (list of State.Id from stateStack)
@@ -127,13 +163,12 @@ public class SerializationDoer {
             ///////////////////////////////////////
 
 
-
-            Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(GameCartridge, boolean) closing: " + fileName);
+            Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(GameCartridge, String) closing: " + fileName);
             ///////////
             os.close();
             fs.close();
             ///////////
-            Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(GameCartridge, boolean) ending.");
+            Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(GameCartridge, String) ending.");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -141,13 +176,10 @@ public class SerializationDoer {
         }
     }
 
-    public static void loadReadFromFile(GameCartridge gameCartridge, boolean isViaPlayerChoice) {
-
-        String fileName = (isViaPlayerChoice) ? ("savedStateFileViaMenu.ser") : ("savedStateFileViaOS.ser");
-
-        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(GameCartridge, boolean): " + fileName);
+    private static void loadReadFromFile(GameCartridge gameCartridge, String fileName) {
+        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(GameCartridge, String): " + fileName);
         try {
-            Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(GameCartridge, boolean) beginning.");
+            Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(GameCartridge, String) beginning.");
             ////////////////////////////////////////////////////////////////////////////////////////
             FileInputStream fi = gameCartridge.getContext().openFileInput(fileName);
             ObjectInputStream os = new ObjectInputStream(fi);
@@ -218,7 +250,7 @@ public class SerializationDoer {
                         //////////////////////////////////////
                         break;
                     default:
-                        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile() switch (State.Id) construct's default block.");
+                        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(GameCartridge, String) switch (State.Id) construct's default block.");
                         break;
                 }
             }
@@ -332,7 +364,7 @@ public class SerializationDoer {
                         ////////////////////////////////////////////////////
                         break;
                     default:
-                        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile() switch (Scene.Id) construct's default block.");
+                        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(GameCartridge, String) switch (Scene.Id) construct's default block.");
                         break;
                 }
             }
@@ -368,12 +400,12 @@ public class SerializationDoer {
 
 
 
-            Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(GameCartridge, boolean) closing: " + fileName);
+            Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(GameCartridge, String) closing: " + fileName);
             ////////////
             os.close();
             fi.close();
             ////////////
-            Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(GameCartridge, boolean) ending.");
+            Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(GameCartridge, String) ending.");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

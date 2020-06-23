@@ -97,7 +97,7 @@ public class PoohFarmerCartridge
             editor.commit();
             /////////////////////////////////////////////////////////////////////////////////
 
-            SerializationDoer.saveWriteToFile(this, false);
+            SerializationDoer.saveViaOS(this);
         }
     }
 
@@ -108,7 +108,7 @@ public class PoohFarmerCartridge
         if (idGameCartridge == Id.POOH_FARMER) {
             // !!!THIS CHECKING FOR NULL IS NECESSARY!!!
             //if (handler != null) {
-                SerializationDoer.loadReadFromFile(this, false);
+                SerializationDoer.loadViaOS(this);
             //}
         }
     }

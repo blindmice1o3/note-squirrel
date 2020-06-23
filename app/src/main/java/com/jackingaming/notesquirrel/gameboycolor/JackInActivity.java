@@ -236,11 +236,9 @@ public class JackInActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Toast.makeText(JackInActivity.this, "Load", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
-                    ////////////////////////////////////////////////////////////////////////////////////
-                    if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.POCKET_CRITTERS) {
-                        SerializationDoer.loadReadFromFile(gameCartridge, true);
-                    }
-                    ////////////////////////////////////////////////////////////////////////////////////
+                    /////////////////////////////////////////////////////
+                    SerializationDoer.loadViaPlayerChoice(gameCartridge);
+                    /////////////////////////////////////////////////////
                 }
             });
 
@@ -250,11 +248,9 @@ public class JackInActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Toast.makeText(JackInActivity.this, "Save", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
-                    ////////////////////////////////////////////////////////////////////////////////////
-                    if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.POCKET_CRITTERS) {
-                        SerializationDoer.saveWriteToFile(gameCartridge, true);
-                    }
-                    ////////////////////////////////////////////////////////////////////////////////////
+                    /////////////////////////////////////////////////////
+                    SerializationDoer.saveViaPlayerChoice(gameCartridge);
+                    /////////////////////////////////////////////////////
                 }
             });
 
