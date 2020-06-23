@@ -10,7 +10,6 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartri
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.PocketCrittersCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.outdoors.worldmap.TileMapPart01;
 
 public class ScenePart01 extends Scene {
@@ -28,7 +27,7 @@ public class ScenePart01 extends Scene {
     public void getInputButtonPad() {
         //a button
         if (inputManager.isaButtonPad()) {
-            Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() a-button-justPressed");
+            Log.d(MainActivity.DEBUG_TAG, "ScenePart01.getInputButtonPad() a-button-justPressed");
 
             //@@@@@TILES@@@@@
             TileMap.TileType tileFacing = player.getTileTypeCurrentlyFacing();  //currently only using for pocket_critters
@@ -53,7 +52,7 @@ public class ScenePart01 extends Scene {
         }
         //b button
         else if (inputManager.isbButtonPad()) {
-            Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() b-button-justPressed");
+            Log.d(MainActivity.DEBUG_TAG, "ScenePart01.getInputButtonPad() b-button-justPressed");
 
             //TODO: temporary; to test TextboxState.
             ////////////////////////////////
@@ -64,9 +63,9 @@ public class ScenePart01 extends Scene {
         }
         //menu button (push State.START_MENU)
         else if (inputManager.isMenuButtonPad()) {
-            Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() menu-button-justPressed");
+            Log.d(MainActivity.DEBUG_TAG, "ScenePart01.getInputButtonPad() menu-button-justPressed");
 
-            ((PocketCrittersCartridge) gameCartridge).getStateManager().push(State.Id.START_MENU, null);
+            gameCartridge.getStateManager().push(State.Id.START_MENU, null);
         }
     }
 

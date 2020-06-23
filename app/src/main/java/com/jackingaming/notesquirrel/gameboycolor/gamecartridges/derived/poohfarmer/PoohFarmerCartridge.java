@@ -8,6 +8,7 @@ import android.view.SurfaceHolder;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.SerializationDoer;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.GameState;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.StateManager;
@@ -92,21 +93,11 @@ public class PoohFarmerCartridge
             //!!!Used in JackInActivity's constructor (orientation change)!!!
             editor.putInt("idGameCartridge", idGameCartridge.ordinal());
             //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-
-
-            editor.putFloat("xCurrentPlayer", player.getxCurrent());
-            editor.putFloat("yCurrentPlayer", player.getyCurrent());
-            editor.putInt("directionOrdinalPlayer", player.getDirection().ordinal());
-            editor.putFloat("xGameCamera", gameCamera.getX());
-            editor.putFloat("yGameCamera", gameCamera.getY());
-
-
-
-
             //HAVE TO tell editor to actually save the values we'd put into it.
             editor.commit();
             /////////////////////////////////////////////////////////////////////////////////
+
+            SerializationDoer.saveWriteToFile(this, false);
         }
     }
 
@@ -115,34 +106,10 @@ public class PoohFarmerCartridge
         Log.d(MainActivity.DEBUG_TAG, "PoohFarmerCartridge.loadSavedState()");
 
         if (idGameCartridge == Id.POOH_FARMER) {
-            /////////////////////////////////////////////////////////////////////////////////////
-            //retrieving PERSISTENT data (values stored between "runs").
-            SharedPreferences prefs = ((JackInActivity) context).getPreferences(MODE_PRIVATE);
-            //checking if the key-value pair exists,
-            //if does NOT exist (haven't done a put() and commit())...
-            //it uses the default value (the second argument).
-            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-            //THIS IS HANDLED IN JackInActivity's constructor.
-//            int idGameCartridgeAsInt = prefs.getInt("idGameCartridge", GameCartridge.Id.values()[0].ordinal());
-            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-            float xCurrentPlayer = prefs.getFloat("xCurrentPlayer", 3f * 16f);
-            float yCurrentPlayer = prefs.getFloat("yCurrentPlayer", 10f * 16f);
-            int directionOrdinalPlayer = prefs.getInt("directionOrdinalPlayer", 1);
-            float xGameCamera = prefs.getFloat("xGameCamera", 2f * 16f);
-            float yGameCamera = prefs.getFloat("yGameCamera", 8f * 16f);
-            /////////////////////////////////////////////////////////////////////////////////////
-
-            ////////////////////maybe possible to remove if-checks////////////////////
-            if (player != null) {
-                player.setxCurrent(xCurrentPlayer);
-                player.setyCurrent(yCurrentPlayer);
-                player.setDirection(Player.Direction.values()[directionOrdinalPlayer]);
-            }
-            if (gameCamera != null) {
-                gameCamera.setX(xGameCamera);
-                gameCamera.setY(yGameCamera);
-            }
-            //////////////////////////////////////////////////////////////////////////
+            // !!!THIS CHECKING FOR NULL IS NECESSARY!!!
+            //if (handler != null) {
+                SerializationDoer.loadReadFromFile(this, false);
+            //}
         }
     }
 
@@ -169,11 +136,11 @@ public class PoohFarmerCartridge
 
     @Override
     public void update(long elapsed) {
-        ////////////////////////////////////////////////////
+        //////////////////////////
         getInputViewport();
         getInputDirectionalPad();
         getInputButtonPad();
-        ////////////////////////////////////////////////////
+        //////////////////////////
 
         stateManager.getCurrentState().update(elapsed);
     }

@@ -1,22 +1,21 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.SerializationDoer;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.GameState;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.StateManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
-import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.ListFragmentDvdParentActivity;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -35,7 +34,7 @@ public class FroggerCartridge
 
     private Player player;
     private GameCamera gameCamera;
-    private SceneManager sceneManager;
+    private StateManager stateManager;
 
     public FroggerCartridge(Context context, Id idGameCartridge) {
         Log.d(MainActivity.DEBUG_TAG, "FroggerCartridge(Context, Id) constructor");
@@ -68,7 +67,9 @@ public class FroggerCartridge
         gameCamera.setHeightClipInPixel(clipHeightInTile * tileHeightFrogger);
 
         player = new Player(this);
-        sceneManager = new SceneManager(this);
+        ///////////////////////////////////////////////////
+        stateManager = new StateManager(this);
+        ///////////////////////////////////////////////////
     }
 
     @Override
@@ -88,108 +89,55 @@ public class FroggerCartridge
         //HAVE TO tell editor to actually save the values we'd put into it.
         editor.commit();
         /////////////////////////////////////////////////////////////////////////////////
+
+        SerializationDoer.saveWriteToFile(this, false);
     }
 
     @Override
     public void loadSavedState() {
         Log.d(MainActivity.DEBUG_TAG, "FroggerCartridge.loadSavedState()");
+
+        // !!!THIS CHECKING FOR NULL IS NECESSARY!!!
+        //if (handler != null) {
+            SerializationDoer.loadReadFromFile(this, false);
+        //}
     }
 
     @Override
     public void getInputViewport() {
         if (inputManager.isJustPressedViewport()) {
-            //left
-            if (inputManager.isLeftViewport()) {
-                player.move(Player.Direction.LEFT);
-            }
-            //right
-            else if (inputManager.isRightViewport()) {
-                player.move(Player.Direction.RIGHT);
-            }
-            //up
-            else if (inputManager.isUpViewport()) {
-                player.move(Player.Direction.UP);
-            }
-            //down
-            else if (inputManager.isDownViewport()) {
-                player.move(Player.Direction.DOWN);
-            }
+            stateManager.getCurrentState().getInputViewport();
         }
     }
 
     @Override
     public void getInputDirectionalPad() {
         if (inputManager.isPressingDirectionalPad()) {
-            //up
-            if (inputManager.isUpDirectionalPad()) {
-                player.move(Player.Direction.UP);
-            }
-            //down
-            else if (inputManager.isDownDirectionalPad()) {
-                player.move(Player.Direction.DOWN);
-            }
-            //left
-            else if (inputManager.isLeftDirectionalPad()) {
-                player.move(Player.Direction.LEFT);
-            }
-            //right
-            else if (inputManager.isRightDirectionalPad()) {
-                player.move(Player.Direction.RIGHT);
-            }
+            stateManager.getCurrentState().getInputDirectionalPad();
         }
     }
 
     @Override
     public void getInputButtonPad() {
         if (inputManager.isJustPressedButtonPad()) {
-            //menu button (will launch ListFragmentDvdParentActivity)
-            if (inputManager.isMenuButtonPad()) {
-                Log.d(MainActivity.DEBUG_TAG, "menu-button");
-                Intent fragmentParentDvdIntent = new Intent(context, ListFragmentDvdParentActivity.class);
-                context.startActivity(fragmentParentDvdIntent);
-            }
-            //a button
-            else if (inputManager.isaButtonPad()) {
-                Log.d(MainActivity.DEBUG_TAG, "a-button");
-            }
-            //b button
-            else if (inputManager.isbButtonPad()) {
-                Log.d(MainActivity.DEBUG_TAG, "b-button");
-            }
+            stateManager.getCurrentState().getInputButtonPad();
         }
     }
 
     @Override
     public void update(long elapsed) {
-        ////////////////////////////////////////////////////
+        //////////////////////////
         getInputViewport();
         getInputDirectionalPad();
         getInputButtonPad();
-        ////////////////////////////////////////////////////
+        //////////////////////////
 
-        sceneManager.getCurrentScene().update(elapsed);
+        stateManager.getCurrentState().update(elapsed);
     }
 
     @Override
     public void render() {
-        //synchronize?
-        ////////////////////////////////////
-        Canvas canvas = surfaceHolder.lockCanvas();
-        ////////////////////////////////////
-
-        if (canvas != null) {
-            //Clear the canvas by painting the background white.
-            canvas.drawColor(Color.WHITE);
-
-            //@@@@@@@@@@@@@@@@@@@@@@@@@@
-            sceneManager.getCurrentScene().render(canvas);
-            //@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-            //unlock it and post our updated drawing to it.
-            ///////////////////////////////////
-            surfaceHolder.unlockCanvasAndPost(canvas);
-            ///////////////////////////////////
-        }
+        stateManager.getCurrentState().render();
     }
 
     @Override
@@ -255,13 +203,13 @@ public class FroggerCartridge
     @Override
     public SceneManager getSceneManager() {
         Log.d(MainActivity.DEBUG_TAG, "FroggerCartridge.getSceneManager()");
-        return sceneManager;
+        return ((GameState)stateManager.getState(State.Id.GAME)).getSceneManager();
     }
 
     @Override
     public StateManager getStateManager() {
-        Log.d(MainActivity.DEBUG_TAG, "FroggerCartridge.getStateManager()... currently returning \"null\".");
-        return null;
+        Log.d(MainActivity.DEBUG_TAG, "FroggerCartridge.getStateManager()");
+        return stateManager;
     }
 
 }
