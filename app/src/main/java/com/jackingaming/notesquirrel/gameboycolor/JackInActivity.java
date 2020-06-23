@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -23,7 +24,6 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartri
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.SerializationDoer;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.FroggerCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.PocketCrittersCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.GameState;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.scenes.indoors.SceneHome01;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.scenes.indoors.SceneHome02;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pong.PongCartridge;
@@ -73,17 +73,78 @@ public class JackInActivity extends AppCompatActivity {
         buttonPadFragment.setOnButtonPadTouchListener(inputManager);
 
 
-        //////////////////////////////////////////////////////
-        cartridgeID = GameCartridge.Id.POCKET_CRITTERS;
-        gameCartridge = new PocketCrittersCartridge(this, cartridgeID);
-        //////////////////////////////////////////////////////
+
+        /////////////////////////////////////////////
+        this.savedInstanceState = savedInstanceState;
+        /////////////////////////////////////////////
+        //TODO: this is the solution to a new GameCartridge being instantiated from configuration (orientation or keyboard) changes.
+        //Will probably have to move GameCartridge and GameRunner here.
+        //https://stackoverflow.com/questions/456211/activity-restart-on-rotation-android?rq=1
+        if (savedInstanceState == null) {
+            Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreate(Bundle) Bundle savedInstanceState is null: " + savedInstanceState);
+            ///////////////////////////////////////////////////////////////////////
+            cartridgeID = GameCartridge.Id.POCKET_CRITTERS;
+            gameCartridge = new PocketCrittersCartridge(this, cartridgeID);
+            ///////////////////////////////////////////////////////////////////////
+        } else {
+            Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreate(Bundle) Bundle savedInstanceState is NOT null: " + savedInstanceState);
+
+            /////////////////////////////////////////////////////////////////////////////////////
+            //retrieving PERSISTENT data (values stored between "runs").
+            SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+            //checking if the key-value pair exists,
+            //if does NOT exist (haven't done a put() and commit())...
+            //it uses the default value (the second argument).
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            //Load integer (its index value) as enum.
+            int idGameCartridgeAsInt = prefs.getInt("idGameCartridge", GameCartridge.Id.values()[0].ordinal());
+            cartridgeID = GameCartridge.Id.values()[idGameCartridgeAsInt];
+            //Clear the key-value pair.
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.remove("idGameCartridge");
+            editor.commit();
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            /////////////////////////////////////////////////////////////////////////////////////
+
+            switch (cartridgeID) {
+                case POCKET_CRITTERS:
+                    ///////////////////////////////////////////////////////////////////////
+                    gameCartridge = new PocketCrittersCartridge(this, cartridgeID);
+                    ///////////////////////////////////////////////////////////////////////
+                    break;
+                case POOH_FARMER:
+                    ///////////////////////////////////////////////////////////////////////
+                    gameCartridge = new PoohFarmerCartridge(this, cartridgeID);
+                    ///////////////////////////////////////////////////////////////////////
+                    break;
+                case PONG:
+                    ///////////////////////////////////////////////////////////////////////
+                    gameCartridge = new PongCartridge(this, cartridgeID);
+                    ///////////////////////////////////////////////////////////////////////
+                    break;
+                case FROGGER:
+                    ///////////////////////////////////////////////////////////////////////
+                    gameCartridge = new FroggerCartridge(this, cartridgeID);
+                    ///////////////////////////////////////////////////////////////////////
+                    break;
+                default:
+                    Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreate(Bundle) switch (cartridgeID) construct's default block.");
+                    ///////////////////////////////////////////////////////////////////////
+                    gameCartridge = new PocketCrittersCartridge(this, cartridgeID);
+                    ///////////////////////////////////////////////////////////////////////
+                    break;
+            }
+        }
+
+
+
+
         swapGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 swapGame();
             }
         });
-
 
         // Click event will launch ListFragmentDvdParentActivity.
         launchDvdActivityButton.setOnClickListener(new View.OnClickListener() {
@@ -95,17 +156,6 @@ public class JackInActivity extends AppCompatActivity {
         });
 
 
-        /////////////////////////////////////////////
-        this.savedInstanceState = savedInstanceState;
-        /////////////////////////////////////////////
-        //TODO: this is the solution to a new GameCartridge being instantiated from configuration (orientation or keyboard) changes.
-        //Will probably have to move GameCartridge and GameRunner here.
-        //https://stackoverflow.com/questions/456211/activity-restart-on-rotation-android?rq=1
-        if (savedInstanceState == null) {
-            Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreate(Bundle) Bundle savedInstanceState is null: " + savedInstanceState);
-        } else {
-            Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreate(Bundle) Bundle savedInstanceState is NOT null: " + savedInstanceState);
-        }
 
         //@@@@@@@CONTEXT_MENU@@@@@@@
         if (cartridgeID == GameCartridge.Id.POCKET_CRITTERS) {

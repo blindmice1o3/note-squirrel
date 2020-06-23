@@ -1,6 +1,7 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
@@ -16,6 +17,8 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class PocketCrittersCartridge
         implements GameCartridge {
@@ -73,6 +76,20 @@ public class PocketCrittersCartridge
     @Override
     public void savePresentState() {
         Log.d(MainActivity.DEBUG_TAG, "PocketCrittersCartridge.savePresentState()");
+
+        //HANDLES JackInActivity.gameCartridge/////////////////////////////////////////
+        //only THIS activity can get access to THIS preference file.
+        SharedPreferences prefs = ((JackInActivity) context).getPreferences(MODE_PRIVATE);
+        //Editor is an inner-class of the SharedPreferences class.
+        SharedPreferences.Editor editor = prefs.edit();
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //Save enum as integer (its index value).
+        //!!!Used in JackInActivity's constructor (orientation change)!!!
+        editor.putInt("idGameCartridge", idGameCartridge.ordinal());
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //HAVE TO tell editor to actually save the values we'd put into it.
+        editor.commit();
+        /////////////////////////////////////////////////////////////////////////////////
 
         SerializationDoer.saveWriteToFile(this, false);
     }

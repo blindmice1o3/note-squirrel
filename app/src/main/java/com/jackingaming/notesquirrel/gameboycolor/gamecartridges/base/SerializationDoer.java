@@ -364,6 +364,7 @@ public class SerializationDoer {
 
             //TODO: [BUG] saving/loading not functioning properly when JackInActivity has
             // a GameCartridge that isn't PocketCrittersCartridge.
+            // [SOLUTION] they're all drawing from the same source file.
 
 
 

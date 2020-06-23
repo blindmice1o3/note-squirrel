@@ -82,16 +82,27 @@ public class PoohFarmerCartridge
         Log.d(MainActivity.DEBUG_TAG, "PoohFarmerCartridge.savePresentState()");
 
         if (idGameCartridge == Id.POOH_FARMER) {
-            /////////////////////////////////////////////////////////////////////////////////
+            //HANDLES JackInActivity.gameCartridge/////////////////////////////////////////
             //only THIS activity can get access to THIS preference file.
             SharedPreferences prefs = ((JackInActivity) context).getPreferences(MODE_PRIVATE);
             //Editor is an inner-class of the SharedPreferences class.
             SharedPreferences.Editor editor = prefs.edit();
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            //Save enum as integer (its index value).
+            //!!!Used in JackInActivity's constructor (orientation change)!!!
+            editor.putInt("idGameCartridge", idGameCartridge.ordinal());
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+
             editor.putFloat("xCurrentPlayer", player.getxCurrent());
             editor.putFloat("yCurrentPlayer", player.getyCurrent());
             editor.putInt("directionOrdinalPlayer", player.getDirection().ordinal());
             editor.putFloat("xGameCamera", gameCamera.getX());
             editor.putFloat("yGameCamera", gameCamera.getY());
+
+
+
 
             //HAVE TO tell editor to actually save the values we'd put into it.
             editor.commit();
@@ -110,6 +121,10 @@ public class PoohFarmerCartridge
             //checking if the key-value pair exists,
             //if does NOT exist (haven't done a put() and commit())...
             //it uses the default value (the second argument).
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            //THIS IS HANDLED IN JackInActivity's constructor.
+//            int idGameCartridgeAsInt = prefs.getInt("idGameCartridge", GameCartridge.Id.values()[0].ordinal());
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             float xCurrentPlayer = prefs.getFloat("xCurrentPlayer", 3f * 16f);
             float yCurrentPlayer = prefs.getFloat("yCurrentPlayer", 10f * 16f);
             int directionOrdinalPlayer = prefs.getInt("directionOrdinalPlayer", 1);

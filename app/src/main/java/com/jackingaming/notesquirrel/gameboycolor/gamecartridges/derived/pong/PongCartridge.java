@@ -1,6 +1,7 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pong;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -13,6 +14,7 @@ import android.view.SurfaceHolder;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.StateManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pong.sprites.Bat;
@@ -21,6 +23,8 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.P
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class PongCartridge
         implements GameCartridge {
@@ -96,6 +100,20 @@ public class PongCartridge
     @Override
     public void savePresentState() {
         Log.d(MainActivity.DEBUG_TAG, "PongCartridge.savePresentState()");
+
+        //HANDLES JackInActivity.gameCartridge/////////////////////////////////////////
+        //only THIS activity can get access to THIS preference file.
+        SharedPreferences prefs = ((JackInActivity) context).getPreferences(MODE_PRIVATE);
+        //Editor is an inner-class of the SharedPreferences class.
+        SharedPreferences.Editor editor = prefs.edit();
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //Save enum as integer (its index value).
+        //!!!Used in JackInActivity's constructor (orientation change)!!!
+        editor.putInt("idGameCartridge", idGameCartridge.ordinal());
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //HAVE TO tell editor to actually save the values we'd put into it.
+        editor.commit();
+        /////////////////////////////////////////////////////////////////////////////////
     }
 
     @Override
