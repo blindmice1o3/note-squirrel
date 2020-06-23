@@ -11,7 +11,6 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartri
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.PocketCrittersCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.computer.ComputerActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.indoors.TileMapHome02;
 
@@ -32,7 +31,7 @@ public class SceneHome02 extends Scene {
     public void getInputButtonPad() {
         //a button
         if (inputManager.isaButtonPad()) {
-            Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() a-button-justPressed");
+            Log.d(MainActivity.DEBUG_TAG, "SceneHome02.getInputButtonPad() a-button-justPressed");
 
             //@@@@@TILES@@@@@
             TileMap.TileType tileFacing = player.getTileTypeCurrentlyFacing();  //currently only using for pocket_critters
@@ -66,9 +65,9 @@ public class SceneHome02 extends Scene {
                 ////////////////////////////////////////
             } else if (tileFacing == TileMap.TileType.COMPUTER) {
                 gameCartridge.savePresentState();
-                Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() saved present state");
+                Log.d(MainActivity.DEBUG_TAG, "SceneHome02.getInputButtonPad() saved present state");
 
-                Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() starting ComputerActivity for result...");
+                Log.d(MainActivity.DEBUG_TAG, "SceneHome02.getInputButtonPad() starting ComputerActivity for result...");
                 Intent computerIntent = new Intent(context, ComputerActivity.class);
                 ((JackInActivity) context).startActivityForResult(computerIntent, REQUEST_CODE_COMPUTER_ACTIVITY);
             } else {
@@ -88,7 +87,7 @@ public class SceneHome02 extends Scene {
         }
         //b button
         else if (inputManager.isbButtonPad()) {
-            Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() b-button-justPressed");
+            Log.d(MainActivity.DEBUG_TAG, "SceneHome02.getInputButtonPad() b-button-justPressed");
 
             //TODO: temporary; to test TextboxState.
             ////////////////////////////////
@@ -99,9 +98,9 @@ public class SceneHome02 extends Scene {
         }
         //menu button (push State.START_MENU)
         else if (inputManager.isMenuButtonPad()) {
-            Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() menu-button-justPressed");
+            Log.d(MainActivity.DEBUG_TAG, "SceneHome02.getInputButtonPad() menu-button-justPressed");
 
-            ((PocketCrittersCartridge) gameCartridge).getStateManager().push(State.Id.START_MENU, null);
+            gameCartridge.getStateManager().push(State.Id.START_MENU, null);
         }
     }
 

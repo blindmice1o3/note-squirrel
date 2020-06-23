@@ -1,6 +1,5 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.scenes;
 
-import android.content.Intent;
 import android.graphics.Rect;
 import android.util.Log;
 
@@ -10,9 +9,9 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.C
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.Car;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.tiles.TileMapFrogger;
-import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.ListFragmentDvdParentActivity;
 
 public class SceneFrogger extends Scene {
 
@@ -34,22 +33,21 @@ public class SceneFrogger extends Scene {
     public void getInputButtonPad() {
         //a button
         if (inputManager.isaButtonPad()) {
-            Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() a-button-justPressed");
+            Log.d(MainActivity.DEBUG_TAG, "SceneFrogger.getInputButtonPad() a-button-justPressed");
 
 
         }
         //b button
         else if (inputManager.isbButtonPad()) {
-            Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() b-button-justPressed");
+            Log.d(MainActivity.DEBUG_TAG, "SceneFrogger.getInputButtonPad() b-button-justPressed");
 
 
         }
         //menu button (push State.START_MENU)
         else if (inputManager.isMenuButtonPad()) {
-            Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() menu-button-justPressed");
+            Log.d(MainActivity.DEBUG_TAG, "SceneFrogger.getInputButtonPad() menu-button-justPressed");
 
-            Intent fragmentParentDvdIntent = new Intent(context, ListFragmentDvdParentActivity.class);
-            context.startActivity(fragmentParentDvdIntent);
+            gameCartridge.getStateManager().push(State.Id.START_MENU, null);
         }
     }
 
@@ -250,7 +248,7 @@ public class SceneFrogger extends Scene {
 
                         break;
                     default:
-                        Log.d(MainActivity.DEBUG_TAG, "Scene.update(), switch (Id.FROGGER)'s default.");
+                        Log.d(MainActivity.DEBUG_TAG, "SceneFrogger.update(), switch (controllerForNextEntityInstantiation) construct's default block.");
                         break;
                 }
             }

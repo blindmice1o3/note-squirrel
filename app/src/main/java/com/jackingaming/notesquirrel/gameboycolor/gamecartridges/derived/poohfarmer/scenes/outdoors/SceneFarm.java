@@ -1,6 +1,5 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.outdoors;
 
-import android.content.Intent;
 import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
@@ -11,7 +10,6 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Sce
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.entities.Robot;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.outdoors.TileMapFarm;
-import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.ListFragmentDvdParentActivity;
 
 public class SceneFarm extends Scene {
 
@@ -36,7 +34,7 @@ public class SceneFarm extends Scene {
     public void getInputButtonPad() {
         //a button
         if (inputManager.isaButtonPad()) {
-            Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() a-button-justPressed");
+            Log.d(MainActivity.DEBUG_TAG, "SceneFarm.getInputButtonPad() a-button-justPressed");
 
             //TODO:
             //@@@@@TILES@@@@@
@@ -61,10 +59,10 @@ public class SceneFarm extends Scene {
         }
         //b button
         else if (inputManager.isbButtonPad()) {
-            Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() b-button-justPressed");
+            Log.d(MainActivity.DEBUG_TAG, "SceneFarm.getInputButtonPad() b-button-justPressed");
 
             if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.POCKET_CRITTERS) {
-                Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() b-button: POP PoohFarmerCartridge's scene!!!");
+                Log.d(MainActivity.DEBUG_TAG, "SceneFarm.getInputButtonPad() b-button: POP PoohFarmerCartridge's scene!!!");
 
                 ////////////////////////////////
                 Object[] extra = new Object[10];
@@ -84,10 +82,9 @@ public class SceneFarm extends Scene {
         }
         //menu button (push State.START_MENU)
         else if (inputManager.isMenuButtonPad()) {
-            Log.d(MainActivity.DEBUG_TAG, "GameState.getInputButtonPad() menu-button-justPressed");
+            Log.d(MainActivity.DEBUG_TAG, "SceneFarm.getInputButtonPad() menu-button-justPressed");
 
-            Intent fragmentParentDvdIntent = new Intent(context, ListFragmentDvdParentActivity.class);
-            context.startActivity(fragmentParentDvdIntent);
+            gameCartridge.getStateManager().push(State.Id.START_MENU, null);
         }
     }
 

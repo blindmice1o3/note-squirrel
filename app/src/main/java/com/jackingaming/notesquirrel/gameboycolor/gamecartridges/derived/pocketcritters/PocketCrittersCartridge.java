@@ -61,9 +61,9 @@ public class PocketCrittersCartridge
 
         gameCamera = new GameCamera(widthViewport, heightViewport);
         player = new Player(this);
-        /////////////////////////////////////////
+        ///////////////////////////////////////////////////
         stateManager = new StateManager(this);
-        /////////////////////////////////////////
+        ///////////////////////////////////////////////////
 
         //TODO: if isReturningFromActivity... then load
         if ( ((JackInActivity)context).isReturningFromActivity() ) {
