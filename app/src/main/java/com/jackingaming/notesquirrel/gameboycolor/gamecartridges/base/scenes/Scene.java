@@ -20,7 +20,7 @@ public abstract class Scene
 
     public enum Id { FARM, HOTHOUSE, SHEEP_PEN, CHICKEN_COOP, COW_BARN, HOUSE_01, HOUSE_02, HOUSE_03,
         PART_01, HOME_01, HOME_02, HOME_RIVAL, LAB,
-        FROGGER; }
+        FROGGER, PONG; }
 
     transient protected GameCartridge gameCartridge;
     protected Id sceneID;

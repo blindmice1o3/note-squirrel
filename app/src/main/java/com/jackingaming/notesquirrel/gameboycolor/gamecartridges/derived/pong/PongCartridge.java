@@ -16,6 +16,8 @@ import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.GameState;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.StateManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pong.sprites.Bat;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pong.sprites.Ball;
@@ -29,10 +31,10 @@ import static android.content.Context.MODE_PRIVATE;
 public class PongCartridge
         implements GameCartridge {
 
-    public enum State {
+    public enum Mode {
         PAUSED, RUNNING, WON, LOST;
     }
-    private State state = State.PAUSED;
+    private Mode mode = Mode.PAUSED;
 
     private Context context;
     private Id idGameCartridge;
@@ -44,8 +46,12 @@ public class PongCartridge
     private int widthViewport;
     private int heightViewport;
 
+    private Player player;
+    private GameCamera gameCamera;
+    private StateManager stateManager;
+
     private Ball ball;
-    private Bat player;
+    private Bat playerAsSprite;
     private Bat opponent;
 
     private Paint textPaint;
@@ -89,12 +95,18 @@ public class PongCartridge
         Bitmap spriteSheetYokoTileset = BitmapFactory.decodeResource(context.getResources(), R.drawable.pc_yoko_tileset);
 
         ball = new Ball(widthViewport, heightViewport);
-        player = new Bat(widthViewport, heightViewport, Bat.Position.LEFT);
+        playerAsSprite = new Bat(widthViewport, heightViewport, Bat.Position.LEFT);
         opponent = new Bat(widthViewport, heightViewport, Bat.Position.RIGHT);
 
         ball.init(spriteSheetCorgiCrusade);
-        player.init(spriteSheetYokoTileset);
+        playerAsSprite.init(spriteSheetYokoTileset);
         opponent.init(spriteSheetYokoTileset);
+
+        gameCamera = new GameCamera(widthViewport, heightViewport);
+        player = new Player(this);
+        ///////////////////////////////////////////////////
+        stateManager = new StateManager(this);
+        ///////////////////////////////////////////////////
     }
 
     @Override
@@ -114,11 +126,20 @@ public class PongCartridge
         //HAVE TO tell editor to actually save the values we'd put into it.
         editor.commit();
         /////////////////////////////////////////////////////////////////////////////////
+
+        //TODO:
+        //SerializationDoer.saveViaOS(this);
     }
 
     @Override
     public void loadSavedState() {
         Log.d(MainActivity.DEBUG_TAG, "PongCartridge.loadSavedState()");
+
+        // !!!THIS CHECKING FOR NULL IS NECESSARY!!!
+        //if (handler != null) {
+        //TODO:
+        //SerializationDoer.loadViaOS(this);
+        //}
     }
 
     /**
@@ -130,35 +151,53 @@ public class PongCartridge
     public void getInputViewport() {
         Log.d(MainActivity.DEBUG_TAG, "PongCartridge.getInputViewport()");
 
-        if (state == State.RUNNING) {
+        if (mode == Mode.RUNNING) {
             if ( (inputManager.getEvent() != null) &&
                     (inputManager.getEvent().getY() <= heightViewport) )
-            player.setBatPosition(inputManager.getEvent().getY());
+            playerAsSprite.setBatPosition(inputManager.getEvent().getY());
         } else {
             //FIXING BUG (unreleased touch WAS immediately reinitializing the game).
             if (inputManager.isJustPressedViewport()) {
-                state = State.RUNNING;
+                mode = Mode.RUNNING;
             }
         }
+
+        //TODO:
+//        if (inputManager.isJustPressedViewport()) {
+//            stateManager.getCurrentState().getInputViewport();
+//        }
     }
 
     @Override
     public void getInputDirectionalPad() {
         Log.d(MainActivity.DEBUG_TAG, "PongCartridge.getInputDirectionalPad()");
-        //TODO:
+
+        if (inputManager.isPressingDirectionalPad()) {
+            stateManager.getCurrentState().getInputDirectionalPad();
+        }
     }
 
     @Override
     public void getInputButtonPad() {
         Log.d(MainActivity.DEBUG_TAG, "PongCartridge.getInputButtonPad()");
-        //TODO:
+
+        if (inputManager.isJustPressedButtonPad()) {
+            stateManager.getCurrentState().getInputButtonPad();
+        }
     }
 
     @Override
     public void update(long elapsed) {
+        //////////////////////////
         getInputViewport();
+        getInputDirectionalPad();
+        getInputButtonPad();
+        //////////////////////////
 
-        if (state == State.RUNNING) {
+        //TODO:
+        //stateManager.getCurrentState().update(elapsed);
+
+        if (mode == Mode.RUNNING) {
             updateGame(elapsed);
         }
     }
@@ -167,7 +206,7 @@ public class PongCartridge
         Log.d(MainActivity.DEBUG_TAG, "PongCartridge.initSpritePositions()");
 
         ball.initPosition();
-        player.initPosition();
+        playerAsSprite.initPosition();
         opponent.initPosition();
     }
 
@@ -177,8 +216,8 @@ public class PongCartridge
         ///////////////////////////////////////////
         //player (rectangle) and ball (point)
         //(x is left side of ball, y is top of ball) OR (x is left side of ball, y is bottom of ball)
-        if (player.getRectOnScreen().contains(ball.getRectOnScreen().left, ball.getRectOnScreen().top) ||
-                player.getRectOnScreen().contains(ball.getRectOnScreen().left, ball.getRectOnScreen().bottom)) {
+        if (playerAsSprite.getRectOnScreen().contains(ball.getRectOnScreen().left, ball.getRectOnScreen().top) ||
+                playerAsSprite.getRectOnScreen().contains(ball.getRectOnScreen().left, ball.getRectOnScreen().bottom)) {
             ball.moveRight();
         }
         //opponent (rectangle) and ball (point)
@@ -191,15 +230,15 @@ public class PongCartridge
         //CHECK FOR WINNING CONDITION (can only reach here IF BALL HAVE NOT BOUNCED OFF BAT)
         ////////////////////////////////////////////////////////////////////////////////////
         //ball moved left passed player
-        else if (ball.getRectOnScreen().left < player.getRectOnScreen().right) {
+        else if (ball.getRectOnScreen().left < playerAsSprite.getRectOnScreen().right) {
             Log.d(MainActivity.DEBUG_TAG, "PongCartridge.updateGame(): LOST");
-            state = State.LOST;
+            mode = Mode.LOST;
             initSpritePositions();
         }
         //ball moved right passed opponent
         else if (ball.getRectOnScreen().right > opponent.getRectOnScreen().left) {
             Log.d(MainActivity.DEBUG_TAG, "PongCartridge.updateGame(): WON");
-            state = State.WON;
+            mode = Mode.WON;
             initSpritePositions();
         }
 
@@ -212,6 +251,9 @@ public class PongCartridge
 
     @Override
     public void render() {
+        //TODO:
+        //stateManager.getCurrentState().render();
+
         //synchronize?
         ////////////////////////////////////
         Canvas canvas = surfaceHolder.lockCanvas();
@@ -224,7 +266,7 @@ public class PongCartridge
             //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             //@@@@@@@@@@@@@@@ DRAWING-RELATED-CODE @@@@@@@@@@@@@@@
             //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-            switch (state) {
+            switch (mode) {
                 case PAUSED:
                     drawText(canvas, "Tap screen to start...");
                     break;
@@ -254,7 +296,7 @@ public class PongCartridge
         //SPRITES
         //////////////////////
         ball.draw(canvas);
-        player.draw(canvas);
+        playerAsSprite.draw(canvas);
         opponent.draw(canvas);
         //////////////////////
     }
@@ -297,32 +339,32 @@ public class PongCartridge
 
     @Override
     public Player getPlayer() {
-        return null;
+        return player;
     }
 
     @Override
     public void setPlayer(Player player) {
-        //intentionally blank.
+        this.player = player;
     }
 
     @Override
     public GameCamera getGameCamera() {
-        return null;
+        return gameCamera;
     }
 
     @Override
     public void setGameCamera(GameCamera gameCamera) {
-        //intentionally blank.
+        this.gameCamera = gameCamera;
     }
 
     @Override
     public SceneManager getSceneManager() {
-        return null;
+        return ((GameState)stateManager.getState(State.Id.GAME)).getSceneManager();
     }
 
     @Override
     public StateManager getStateManager() {
-        return null;
+        return stateManager;
     }
 
 }
