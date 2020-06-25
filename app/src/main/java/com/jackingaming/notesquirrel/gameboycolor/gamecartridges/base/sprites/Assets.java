@@ -22,7 +22,7 @@ public class Assets {
 
     public static Bitmap[][] hm3Farm;
     public static Bitmap[][] items;
-    public static Bitmap[][] corgiCrusade;
+    //public static Bitmap[][] corgiCrusade;
     public static Bitmap[][] wintermute;  //MS Clippit (aka Wintermute)
     public static Bitmap[][] gobi;
 
@@ -100,7 +100,7 @@ public class Assets {
 
         //initHm3Farm(resources);
         //////////////////////////////
-        initFroggerSprites(resources);
+        //initFroggerSprites(resources);
         //////////////////////////////
         initItems(resources);
         initEntities(resources);
@@ -115,9 +115,51 @@ public class Assets {
 
     private static void initEntities(Resources resources) {
         Log.d(MainActivity.DEBUG_TAG, "Assets.initEntities(Resources)");
-        loadCorgiCrusade(resources);
+        //loadCorgiCrusade(resources);
         loadWintermute(resources);
         loadGobi(resources);
+    }
+
+    public static Bitmap[][] cropCorgiCrusade(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropCorgiCrusade(Resources)");
+
+        //LOAD SPRITESHEET
+        Bitmap spriteSheet = BitmapFactory.decodeResource(resources, R.drawable.corgi_crusade_editted);
+
+        //UNPACKING THE SPRITESHEET (logic is specific to each spritesheet's layout)
+        int column = 3;
+        int row = 4;
+
+        Bitmap[][] corgiCrusade = new Bitmap[row][column];
+
+        int xCurrent = 0;
+        int yCurrent = 0;
+        int tileWidth = 114;
+        int tileHeight = 188;
+
+        for (int y = 0; y < (row-1); y++) {
+
+            if (y == 1) {
+                tileHeight = 185;
+            } else if (y == 2) {
+                tileWidth = 185;
+                tileHeight = 164;
+            }
+
+            for (int x = 0; x < column; x++) {
+                corgiCrusade[y][x] = Bitmap.createBitmap(spriteSheet, xCurrent, yCurrent, tileWidth, tileHeight);
+                xCurrent += (tileWidth);
+            }
+
+            xCurrent = 0;
+            yCurrent += (tileHeight);
+        }
+
+        for (int x = 0; x < column; x++) {
+            corgiCrusade[3][x] = flipHorizontally(corgiCrusade[2][x]);
+        }
+
+        return corgiCrusade;
     }
 
     public static Bitmap cropHome01(Resources resources) {
@@ -843,45 +885,6 @@ public class Assets {
             }
             xCurrent = margin;
             yCurrent += (tileHeight + margin);
-        }
-    }
-
-    private static void loadCorgiCrusade(Resources resources) {
-        Log.d(MainActivity.DEBUG_TAG, "Assets.loadCorgiCrusade(Resources)");
-        //LOAD SPRITESHEET
-        Bitmap spriteSheet = BitmapFactory.decodeResource(resources, R.drawable.corgi_crusade_editted);
-
-        //UNPACKING THE SPRITESHEET (logic is specific to each spritesheet's layout)
-        int column = 3;
-        int row = 4;
-
-        corgiCrusade = new Bitmap[row][column];
-
-        int xCurrent = 0;
-        int yCurrent = 0;
-        int tileWidth = 114;
-        int tileHeight = 188;
-
-        for (int y = 0; y < (row-1); y++) {
-
-            if (y == 1) {
-                tileHeight = 185;
-            } else if (y == 2) {
-                tileWidth = 185;
-                tileHeight = 164;
-            }
-
-            for (int x = 0; x < column; x++) {
-                corgiCrusade[y][x] = Bitmap.createBitmap(spriteSheet, xCurrent, yCurrent, tileWidth, tileHeight);
-                xCurrent += (tileWidth);
-            }
-
-            xCurrent = 0;
-            yCurrent += (tileHeight);
-        }
-
-        for (int x = 0; x < column; x++) {
-            corgiCrusade[3][x] = flipHorizontally(corgiCrusade[2][x]);
         }
     }
 

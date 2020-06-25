@@ -84,10 +84,11 @@ public class Player extends Creature {
 
         animation = new HashMap<Direction, Animation>();
 
-        animation.put(Direction.DOWN, new Animation(420, Assets.corgiCrusade[0]));
-        animation.put(Direction.UP, new Animation(420, Assets.corgiCrusade[1]));
-        animation.put(Direction.LEFT, new Animation(420, Assets.corgiCrusade[2]));
-        animation.put(Direction.RIGHT, new Animation(420, Assets.corgiCrusade[3]));
+        Bitmap[][] corgiCrusade = Assets.cropCorgiCrusade(gameCartridge.getContext().getResources());
+        animation.put(Direction.DOWN, new Animation(420, corgiCrusade[0]));
+        animation.put(Direction.UP, new Animation(420, corgiCrusade[1]));
+        animation.put(Direction.LEFT, new Animation(420, corgiCrusade[2]));
+        animation.put(Direction.RIGHT, new Animation(420, corgiCrusade[3]));
     }
 
     @Override
@@ -253,7 +254,8 @@ public class Player extends Creature {
                 currentFrame = animation.get(Direction.RIGHT).getCurrentFrame();
                 break;
             default:
-                currentFrame = Assets.corgiCrusade[0][0];
+                Log.d(MainActivity.DEBUG_TAG, "@@@@@Player.currentAnimationFrame() switch (direction) construct's default block.@@@@@");
+                currentFrame = animation.get(Direction.DOWN).getCurrentFrame();
                 break;
         }
 

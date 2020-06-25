@@ -16,7 +16,7 @@ public class Item
     private Id id;
     transient private Bitmap image;
 
-    public Item (Resources resources, Id id) {
+    public Item(Resources resources, Id id) {
         this.id = id;
         initImage(resources);
     }
