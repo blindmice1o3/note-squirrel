@@ -3,12 +3,13 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base;
 import android.content.Context;
 import android.view.SurfaceHolder;
 
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.StateManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 
-public interface GameCartridge {
+public interface IGameCartridge {
 
     enum Id { POCKET_CRITTERS, POOH_FARMER, PONG, FROGGER; }
 

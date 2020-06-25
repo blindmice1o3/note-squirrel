@@ -7,7 +7,7 @@ import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.PocketCrittersCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.IGameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.Item;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
@@ -333,7 +333,7 @@ public class Player extends Creature {
         TileMap tileMap = gameCartridge.getSceneManager().getCurrentScene().getTileMap();
 
         /////////////////////////////////////////////////////
-        if (gameCartridge instanceof PocketCrittersCartridge) {
+        if (gameCartridge.getIdGameCartridge() == IGameCartridge.Id.POCKET_CRITTERS) {
         /////////////////////////////////////////////////////
             float xPlayerCenter = xCurrent + (width / 2);
             float yPlayerCenter = yCurrent + (height / 2);

@@ -21,9 +21,9 @@ import android.widget.Toast;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.IGameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.SerializationDoer;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.FroggerCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.PocketCrittersCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.scenes.indoors.SceneHome01;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.scenes.indoors.SceneHome02;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pong.PongCartridge;
@@ -84,7 +84,7 @@ public class JackInActivity extends AppCompatActivity {
             Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreate(Bundle) Bundle savedInstanceState is null: " + savedInstanceState);
             ///////////////////////////////////////////////////////////////////////
             cartridgeID = GameCartridge.Id.POCKET_CRITTERS;
-            gameCartridge = new PocketCrittersCartridge(this, cartridgeID);
+            gameCartridge = new GameCartridge(this, cartridgeID);
             ///////////////////////////////////////////////////////////////////////
         } else {
             Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreate(Bundle) Bundle savedInstanceState is NOT null: " + savedInstanceState);
@@ -109,7 +109,7 @@ public class JackInActivity extends AppCompatActivity {
             switch (cartridgeID) {
                 case POCKET_CRITTERS:
                     ///////////////////////////////////////////////////////////////////////
-                    gameCartridge = new PocketCrittersCartridge(this, cartridgeID);
+                    gameCartridge = new GameCartridge(this, cartridgeID);
                     ///////////////////////////////////////////////////////////////////////
                     break;
                 case POOH_FARMER:
@@ -128,9 +128,9 @@ public class JackInActivity extends AppCompatActivity {
                     ///////////////////////////////////////////////////////////////////////
                     break;
                 default:
-                    Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreate(Bundle) switch (cartridgeID) construct's default block.");
+                    Log.d(MainActivity.DEBUG_TAG, "@@@@@JackInActivity.onCreate(Bundle) switch (cartridgeID) construct's default block.@@@@@");
                     ///////////////////////////////////////////////////////////////////////
-                    gameCartridge = new PocketCrittersCartridge(this, cartridgeID);
+                    gameCartridge = new GameCartridge(this, cartridgeID);
                     ///////////////////////////////////////////////////////////////////////
                     break;
             }
@@ -206,13 +206,13 @@ public class JackInActivity extends AppCompatActivity {
                     dialog.dismiss();
                     ////////////////////////////////////////////////////////////////////////////////////
                     Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreateContextMenu.OnClickListener.onClick(View) saved present state");
-                    if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.POCKET_CRITTERS) {
-                        ((PocketCrittersCartridge) gameCartridge).savePresentState();
+                    if (gameCartridge.getIdGameCartridge() == IGameCartridge.Id.POCKET_CRITTERS) {
+                        gameCartridge.savePresentState();
                     }
                     Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreateContextMenu.OnClickListener.onClick(View) starting BackpackActivity for result...)");
                     Intent backpackIntent = new Intent(JackInActivity.this, BackpackActivity.class);
-                    if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.POCKET_CRITTERS) {
-                        ArrayList<Item> inventory = ((PocketCrittersCartridge) gameCartridge).getPlayer().getInventory();
+                    if (gameCartridge.getIdGameCartridge() == IGameCartridge.Id.POCKET_CRITTERS) {
+                        ArrayList<Item> inventory = gameCartridge.getPlayer().getInventory();
                         backpackIntent.putExtra(INVENTORY, inventory);
                         Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreateContextMenu.OnClickListener.onClick(View) passing ArrayList<Item> into BackpackActivity");
                     }
@@ -371,7 +371,7 @@ public class JackInActivity extends AppCompatActivity {
 
         switch (cartridgeID) {
             case POCKET_CRITTERS:
-                gameCartridge = new PocketCrittersCartridge(this, GameCartridge.Id.POCKET_CRITTERS);
+                gameCartridge = new GameCartridge(this, GameCartridge.Id.POCKET_CRITTERS);
                 break;
             case POOH_FARMER:
                 gameCartridge = new PoohFarmerCartridge(this, GameCartridge.Id.POOH_FARMER);
