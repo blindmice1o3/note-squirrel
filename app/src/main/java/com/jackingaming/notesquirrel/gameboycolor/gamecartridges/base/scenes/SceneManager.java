@@ -12,6 +12,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketc
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.scenes.indoors.SceneHomeRival;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.scenes.indoors.SceneLab;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.scenes.outdoors.ScenePart01;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pong.scenes.ScenePong;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneChickenCoop;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneCowBarn;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneHothouse;
@@ -39,6 +40,7 @@ import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sce
 import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.HOUSE_03;
 import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.LAB;
 import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.PART_01;
+import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.PONG;
 import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.SHEEP_PEN;
 
 public class SceneManager {
@@ -78,6 +80,9 @@ public class SceneManager {
                 break;
             case POCKET_CRITTERS:
                 id = Scene.Id.PART_01;
+                break;
+            case PONG:
+                id = Scene.Id.PONG;
                 break;
             case FROGGER:
                 id = Scene.Id.FROGGER;
@@ -133,6 +138,10 @@ public class SceneManager {
                 ///////////////////////////////////////////////////////
                 sceneCollection.put(id, new SceneFrogger(gameCartridge, id));
                 ///////////////////////////////////////////////////////
+            } else if (id == PONG) {
+                ////////////////////////////////////////////////////
+                sceneCollection.put(id, new ScenePong(gameCartridge, id));
+                ////////////////////////////////////////////////////
             } else if (id == FARM) {
                 ////////////////////////////////////////////////////
                 sceneCollection.put(id, new SceneFarm(gameCartridge, id));

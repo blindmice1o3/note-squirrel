@@ -17,6 +17,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketc
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.scenes.indoors.SceneHomeRival;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.scenes.indoors.SceneLab;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.scenes.outdoors.ScenePart01;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pong.scenes.ScenePong;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneChickenCoop;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneCowBarn;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneHothouse;
@@ -91,11 +92,13 @@ public class SerializationDoer {
             ////////////////////////////////////////////////////////////////////////////////////////
 
 
+
             //PLAYER AND GAME_CAMERA
             //////////////////////////////////////////////
             os.writeObject(gameCartridge.getGameCamera());
             os.writeObject(gameCartridge.getPlayer());
             //////////////////////////////////////////////
+
 
 
             //STATE (stateCollection)
@@ -128,7 +131,7 @@ public class SerializationDoer {
                         /////////////////////////////
                         break;
                     default:
-                        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(GameCartridge, String) switch (State.Id) construct's default block.");
+                        Log.d(MainActivity.DEBUG_TAG, "@@@@@SerializationDoer.saveWriteToFile(GameCartridge, String) switch (State.Id) construct's default block.@@@@@");
                         break;
                 }
             }
@@ -149,6 +152,7 @@ public class SerializationDoer {
             }
 
 
+
             //STATE_MANAGER (list of State.Id from stateStack)
             ArrayList<State.Id> stateIdsFromStateStack = gameCartridge.getStateManager().retrieveStateIdsFromStateStack();
             ///////////////////////////////////////
@@ -161,6 +165,7 @@ public class SerializationDoer {
             ///////////////////////////////////////
             os.writeObject(sceneIdsFromSceneStack);
             ///////////////////////////////////////
+
 
 
             Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.saveWriteToFile(GameCartridge, String) closing: " + fileName);
@@ -184,6 +189,7 @@ public class SerializationDoer {
             FileInputStream fi = gameCartridge.getContext().openFileInput(fileName);
             ObjectInputStream os = new ObjectInputStream(fi);
             ////////////////////////////////////////////////////////////////////////////////////////
+
 
 
             ///////////////////////////////////////////////////////////////////////////////////
@@ -250,7 +256,7 @@ public class SerializationDoer {
                         //////////////////////////////////////
                         break;
                     default:
-                        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(GameCartridge, String) switch (State.Id) construct's default block.");
+                        Log.d(MainActivity.DEBUG_TAG, "@@@@@SerializationDoer.loadReadFromFile(GameCartridge, String) switch (State.Id) construct's default block.@@@@@");
                         break;
                 }
             }
@@ -270,6 +276,13 @@ public class SerializationDoer {
                         sceneFrogger.init(gameCartridge, player, gameCamera, sceneManager);
                         //////////////////////////////////////
                         sceneCollection.put(id, sceneFrogger);
+                        //////////////////////////////////////
+                        break;
+                    case PONG:
+                        ScenePong scenePong = (ScenePong) os.readObject();
+                        scenePong.init(gameCartridge, player, gameCamera, sceneManager);
+                        //////////////////////////////////////
+                        sceneCollection.put(id, scenePong);
                         //////////////////////////////////////
                         break;
                     case FARM:
@@ -364,7 +377,7 @@ public class SerializationDoer {
                         ////////////////////////////////////////////////////
                         break;
                     default:
-                        Log.d(MainActivity.DEBUG_TAG, "SerializationDoer.loadReadFromFile(GameCartridge, String) switch (Scene.Id) construct's default block.");
+                        Log.d(MainActivity.DEBUG_TAG, "@@@@@SerializationDoer.loadReadFromFile(GameCartridge, String) switch (Scene.Id) construct's default block.@@@@@");
                         break;
                 }
             }
@@ -391,12 +404,6 @@ public class SerializationDoer {
             gameCartridge.getPlayer().setxCurrent(xCurrent);
             gameCartridge.getPlayer().setyCurrent(yCurrent);
             //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-
-
-            //TODO: [BUG] saving/loading not functioning properly when JackInActivity has
-            // a GameCartridge that isn't PocketCrittersCartridge.
-            // [SOLUTION] they're all drawing from the same source file.
 
 
 

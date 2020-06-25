@@ -20,7 +20,7 @@ public abstract class TileMap {
     public static final int TILE_WIDTH = 16;
     public static final int TILE_HEIGHT = 16;
 
-    private GameCartridge gameCartridge;
+    protected GameCartridge gameCartridge;
     private Scene.Id sceneID;
 
     protected TileType[][] tiles;
