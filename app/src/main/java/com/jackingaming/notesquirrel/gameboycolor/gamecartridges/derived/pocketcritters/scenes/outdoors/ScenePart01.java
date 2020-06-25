@@ -6,8 +6,11 @@ import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.outdoors.worldmap.TileMapPart01;
@@ -16,6 +19,30 @@ public class ScenePart01 extends Scene {
 
     public ScenePart01(GameCartridge gameCartridge, Id sceneID) {
         super(gameCartridge, sceneID);
+    }
+
+    @Override
+    public void init(GameCartridge gameCartridge, Player player, GameCamera gameCamera, SceneManager sceneManager) {
+        Log.d(MainActivity.DEBUG_TAG, "SceneFarm.init(GameCartridge, Player, GameCamera, SceneManager)");
+        this.gameCartridge = gameCartridge;
+        this.player = player;
+
+        context = gameCartridge.getContext();
+        inputManager = gameCartridge.getInputManager();
+        this.sceneManager = sceneManager;
+
+        /////////////////////////////////////////////////////////
+        gameCartridge.getGameCamera().setWidthClipInPixel((GameCamera.CLIP_WIDTH_IN_TILE*TileMap.TILE_WIDTH));
+        gameCartridge.getGameCamera().setHeightClipInPixel((GameCamera.CLIP_HEIGHT_IN_TILE*TileMap.TILE_HEIGHT));
+        /////////////////////////////////////////////////////////
+
+        initTileMap();
+        initGameCamera(gameCamera);
+        initEntityManager(player);
+
+        //fixing bug... the game camera need to use the player's spawn
+        //position (which is set after "initGameCamera(GameCamera)").
+        gameCamera.update(0L);
     }
 
     @Override

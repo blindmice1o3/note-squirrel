@@ -27,7 +27,6 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.scenes.indoors.SceneHome01;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.scenes.indoors.SceneHome02;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pong.PongCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.PoohFarmerCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.BackpackActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.Item;
 import com.jackingaming.notesquirrel.gameboycolor.input.ButtonPadFragment;
@@ -114,7 +113,7 @@ public class JackInActivity extends AppCompatActivity {
                     break;
                 case POOH_FARMER:
                     ///////////////////////////////////////////////////////////////////////
-                    gameCartridge = new PoohFarmerCartridge(this, cartridgeID);
+                    gameCartridge = new GameCartridge(this, cartridgeID);
                     ///////////////////////////////////////////////////////////////////////
                     break;
                 case PONG:
@@ -346,6 +345,7 @@ public class JackInActivity extends AppCompatActivity {
                 Toast.makeText(this, "Exit", Toast.LENGTH_SHORT).show();
                 return true;
             default:
+                Log.d(MainActivity.DEBUG_TAG, "@@@@@JackInActivity.onContextItemSelected() switch (item) construct's default block.@@@@@");
                 return super.onContextItemSelected(item);
         }
     }
@@ -371,20 +371,20 @@ public class JackInActivity extends AppCompatActivity {
 
         switch (cartridgeID) {
             case POCKET_CRITTERS:
-                gameCartridge = new GameCartridge(this, GameCartridge.Id.POCKET_CRITTERS);
+                gameCartridge = new GameCartridge(this, IGameCartridge.Id.POCKET_CRITTERS);
                 break;
             case POOH_FARMER:
-                gameCartridge = new PoohFarmerCartridge(this, GameCartridge.Id.POOH_FARMER);
+                gameCartridge = new GameCartridge(this, IGameCartridge.Id.POOH_FARMER);
                 break;
             case PONG:
-                gameCartridge = new PongCartridge(this, GameCartridge.Id.PONG);
+                gameCartridge = new PongCartridge(this, IGameCartridge.Id.PONG);
                 break;
             case FROGGER:
-                gameCartridge = new FroggerCartridge(this, GameCartridge.Id.FROGGER);
+                gameCartridge = new FroggerCartridge(this, IGameCartridge.Id.FROGGER);
                 break;
             default:
-                Log.d(MainActivity.DEBUG_TAG, "JackInActivity.swapGame() switch's default block.");
-                gameCartridge = new PoohFarmerCartridge(this, GameCartridge.Id.POOH_FARMER);
+                Log.d(MainActivity.DEBUG_TAG, "@@@@@JackInActivity.swapGame() switch (cartridgeID) construct's default block.@@@@@");
+                gameCartridge = new GameCartridge(this, cartridgeID);
                 break;
         }
 

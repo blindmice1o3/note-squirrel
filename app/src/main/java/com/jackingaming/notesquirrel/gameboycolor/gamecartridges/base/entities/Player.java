@@ -40,15 +40,11 @@ public class Player extends Creature {
     public Player(GameCartridge gameCartridge) {
         super(gameCartridge,0f, 0f);
 
-        gameCamera = gameCartridge.getGameCamera();
-        widthPixelToViewportRatio = ((float) gameCartridge.getWidthViewport()) /
-                gameCamera.getWidthClipInPixel();
-        heightPixelToViewportRatio = ((float) gameCartridge.getHeightViewport()) /
-                gameCamera.getHeightClipInPixel();
-
         inventory = new ArrayList<Item>();
         inventory.add(new Item(gameCartridge.getContext().getResources(), Item.Id.BUG_NET));
         inventory.add(new Item(gameCartridge.getContext().getResources(), Item.Id.FISHING_POLE));
+
+        init();
     }
 
     public ArrayList<Item> getInventory() {
@@ -58,6 +54,12 @@ public class Player extends Creature {
     @Override
     public void init() {
         Log.d(MainActivity.DEBUG_TAG, "Player.init()");
+
+        gameCamera = gameCartridge.getGameCamera();
+        widthPixelToViewportRatio = ((float) gameCartridge.getWidthViewport()) /
+                gameCamera.getWidthClipInPixel();
+        heightPixelToViewportRatio = ((float) gameCartridge.getHeightViewport()) /
+                gameCamera.getHeightClipInPixel();
 
         initAnimation();
         adjustSizeAndBounds();

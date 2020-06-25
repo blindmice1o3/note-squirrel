@@ -26,27 +26,27 @@ public class Robot extends Creature {
 
     private State state;
 
-    private Bitmap image;
-    private Map<Direction, Animation> animationWalk;
-    private Map<Direction, Animation> animationRun;
+    transient private Bitmap image;
+    transient private Map<Direction, Animation> animationWalk;
+    transient private Map<Direction, Animation> animationRun;
 
     public Robot(GameCartridge gameCartridge, float xCurrent, float yCurrent) {
         super(gameCartridge, xCurrent, yCurrent);
 
+        state = State.OFF;
+
+        init();
+    }
+
+    @Override
+    public void init() {
         gameCamera = gameCartridge.getGameCamera();
         widthPixelToViewportRatio = ((float) gameCartridge.getWidthViewport()) /
                 gameCamera.getWidthClipInPixel();
         heightPixelToViewportRatio = ((float) gameCartridge.getHeightViewport()) /
                 gameCamera.getHeightClipInPixel();
 
-        state = State.OFF;
-
         initImage(gameCartridge.getContext().getResources());
-    }
-
-    @Override
-    public void init() {
-
     }
 
     private void initImage(Resources resources) {
