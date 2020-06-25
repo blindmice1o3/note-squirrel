@@ -31,7 +31,7 @@ public class ScenePong extends Scene {
     private Bat playerAsSprite;
     private Bat opponent;
 
-    private Paint textPaint;
+    transient private Paint textPaint;
 
     //private SoundPool soundPool;
     private MediaPlayer mediaPlayer;

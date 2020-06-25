@@ -4,7 +4,10 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-public class Sprite {
+import java.io.Serializable;
+
+public class Sprite
+        implements Serializable {
 
     private float xCurrent;
     private float yCurrent;
@@ -14,9 +17,9 @@ public class Sprite {
     private int widthViewport;
     private int heightViewport;
 
-    private Bitmap image;
+    transient private Bitmap image;
 
-    private Rect rectOfImage;
+    transient private Rect rectOfImage;
 
     public Sprite(int widthViewport, int heightViewport) {
         this.widthViewport = widthViewport;

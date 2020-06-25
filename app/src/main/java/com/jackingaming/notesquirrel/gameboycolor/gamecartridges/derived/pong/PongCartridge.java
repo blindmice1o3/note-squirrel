@@ -19,8 +19,7 @@ import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class PongCartridge
-        implements GameCartridge {
+public class PongCartridge extends GameCartridge {
 
     private Context context;
     private Id idGameCartridge;
@@ -37,6 +36,7 @@ public class PongCartridge
     private StateManager stateManager;
 
     public PongCartridge(Context context, Id idGameCartridge) {
+        super(context, idGameCartridge);
         Log.d(MainActivity.DEBUG_TAG, "PongCartridge(Context, Id) constructor");
 
         this.context = context;
