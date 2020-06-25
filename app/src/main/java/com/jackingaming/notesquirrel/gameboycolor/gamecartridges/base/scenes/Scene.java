@@ -10,6 +10,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.EntityManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Player;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 
@@ -110,7 +111,6 @@ public abstract class Scene
         }
     }
 
-    public abstract void getInputButtonPad();
     public abstract void initTileMap();
 
     //TODO: move some of these to Scene.enter(Object[])
@@ -128,6 +128,72 @@ public abstract class Scene
 
         this.gameCamera = gameCamera;
         gameCamera.init(player, tileMap.getWidthSceneMax(), tileMap.getHeightSceneMax());
+    }
+
+    public void getInputViewport() {
+        //up
+        if (inputManager.isUpViewport()) {
+            Log.d(MainActivity.DEBUG_TAG, "Scene.getInputViewport() up-button-justPressed");
+            player.move(Player.Direction.UP);
+        }
+        //down
+        else if (inputManager.isDownViewport()) {
+            Log.d(MainActivity.DEBUG_TAG, "Scene.getInputViewport() down-button-justPressed");
+            player.move(Player.Direction.DOWN);
+        }
+        //left
+        else if (inputManager.isLeftViewport()) {
+            Log.d(MainActivity.DEBUG_TAG, "Scene.getInputViewport() left-button-justPressed");
+            player.move(Player.Direction.LEFT);
+        }
+        //right
+        else if (inputManager.isRightViewport()) {
+            Log.d(MainActivity.DEBUG_TAG, "Scene.getInputViewport() right-button-justPressed");
+            player.move(Player.Direction.RIGHT);
+        }
+    }
+
+    public void getInputDirectionalPad() {
+        //up
+        if (inputManager.isUpDirectionalPad()) {
+            Log.d(MainActivity.DEBUG_TAG, "Scene.getInputDirectionalPad() up-button-pressing");
+            player.move(Player.Direction.UP);
+        }
+        //down
+        else if (inputManager.isDownDirectionalPad()) {
+            Log.d(MainActivity.DEBUG_TAG, "Scene.getInputDirectionalPad() down-button-pressing");
+            player.move(Player.Direction.DOWN);
+        }
+        //left
+        else if (inputManager.isLeftDirectionalPad()) {
+            Log.d(MainActivity.DEBUG_TAG, "Scene.getInputDirectionalPad() left-button-pressing");
+            player.move(Player.Direction.LEFT);
+        }
+        //right
+        else if (inputManager.isRightDirectionalPad()) {
+            Log.d(MainActivity.DEBUG_TAG, "Scene.getInputDirectionalPad() right-button-pressing");
+            player.move(Player.Direction.RIGHT);
+        }
+    }
+
+    public void getInputButtonPad() {
+        //TODO: so far each subclass of Scene has overridden (no default).
+        //a button
+        if (inputManager.isaButtonPad()) {
+            Log.d(MainActivity.DEBUG_TAG, "Scene.getInputButtonPad() a-button-justPressed");
+            //TODO:
+        }
+        //b button
+        else if (inputManager.isbButtonPad()) {
+            Log.d(MainActivity.DEBUG_TAG, "Scene.getInputButtonPad() b-button-justPressed");
+            //TODO:
+        }
+        //menu button (push State.START_MENU)
+        else if (inputManager.isMenuButtonPad()) {
+            Log.d(MainActivity.DEBUG_TAG, "Scene.getInputButtonPad() menu-button-justPressed");
+
+            gameCartridge.getStateManager().push(State.Id.START_MENU, null);
+        }
     }
 
     public void update(long elapsed) {

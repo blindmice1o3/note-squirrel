@@ -53,50 +53,16 @@ public class GameState
 
     @Override
     public void getInputViewport() {
-        //left
-        if (inputManager.isLeftViewport()) {
-            Log.d(MainActivity.DEBUG_TAG, "GameState.getInputViewport() left-button-justPressed");
-            player.move(Player.Direction.LEFT);
-        }
-        //right
-        else if (inputManager.isRightViewport()) {
-            Log.d(MainActivity.DEBUG_TAG, "GameState.getInputViewport() right-button-justPressed");
-            player.move(Player.Direction.RIGHT);
-        }
-        //up
-        else if (inputManager.isUpViewport()) {
-            Log.d(MainActivity.DEBUG_TAG, "GameState.getInputViewport() up-button-justPressed");
-            player.move(Player.Direction.UP);
-        }
-        //down
-        else if (inputManager.isDownViewport()) {
-            Log.d(MainActivity.DEBUG_TAG, "GameState.getInputViewport() down-button-justPressed");
-            player.move(Player.Direction.DOWN);
-        }
+        //////////////////////////////////////////////////
+        sceneManager.getCurrentScene().getInputViewport();
+        //////////////////////////////////////////////////
     }
 
     @Override
     public void getInputDirectionalPad() {
-        //up
-        if (inputManager.isUpDirectionalPad()) {
-            Log.d(MainActivity.DEBUG_TAG, "GameState.getInputDirectionalPad() up-button-pressing");
-            player.move(Player.Direction.UP);
-        }
-        //down
-        else if (inputManager.isDownDirectionalPad()) {
-            Log.d(MainActivity.DEBUG_TAG, "GameState.getInputDirectionalPad() down-button-pressing");
-            player.move(Player.Direction.DOWN);
-        }
-        //left
-        else if (inputManager.isLeftDirectionalPad()) {
-            Log.d(MainActivity.DEBUG_TAG, "GameState.getInputDirectionalPad() left-button-pressing");
-            player.move(Player.Direction.LEFT);
-        }
-        //right
-        else if (inputManager.isRightDirectionalPad()) {
-            Log.d(MainActivity.DEBUG_TAG, "GameState.getInputDirectionalPad() right-button-pressing");
-            player.move(Player.Direction.RIGHT);
-        }
+        ////////////////////////////////////////////////////////
+        sceneManager.getCurrentScene().getInputDirectionalPad();
+        ////////////////////////////////////////////////////////
     }
 
     @Override
