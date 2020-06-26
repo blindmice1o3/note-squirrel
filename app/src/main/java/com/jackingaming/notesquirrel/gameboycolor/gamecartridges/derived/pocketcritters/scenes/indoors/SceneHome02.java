@@ -20,6 +20,9 @@ public class SceneHome02 extends Scene {
 
     public SceneHome02(GameCartridge gameCartridge, Id sceneID) {
         super(gameCartridge, sceneID);
+
+        widthClipInTile = 8;
+        heightClipInTile = 8;
     }
 
     @Override

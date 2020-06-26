@@ -20,6 +20,9 @@ public class SceneFarm extends Scene {
     public SceneFarm(GameCartridge gameCartridge, Id sceneID) {
         super(gameCartridge, sceneID);
         Log.d(MainActivity.DEBUG_TAG, "SceneFarm(GameCartridge, Id) constructor");
+
+        widthClipInTile = 9;
+        heightClipInTile = 9;
     }
 
     @Override
@@ -32,11 +35,6 @@ public class SceneFarm extends Scene {
         inputManager = gameCartridge.getInputManager();
         this.sceneManager = sceneManager;
 
-        /////////////////////////////////////////////////////////
-        gameCartridge.getGameCamera().setWidthClipInPixel((9*TileMap.TILE_WIDTH));
-        gameCartridge.getGameCamera().setHeightClipInPixel((9*TileMap.TILE_HEIGHT));
-        /////////////////////////////////////////////////////////
-
         initTileMap();
         initGameCamera(gameCamera);
         initEntityManager(player);
@@ -44,19 +42,6 @@ public class SceneFarm extends Scene {
         //fixing bug... the game camera need to use the player's spawn
         //position (which is set after "initGameCamera(GameCamera)").
         gameCamera.update(0L);
-    }
-
-    @Override
-    public void exit(Object[] extra) {
-        super.exit(extra);
-
-        //SOMETIMES POPPING OFF POOH_FARMER's SceneFarm TO GO BACK TO POCKET_CRITTERS's SceneHome02.
-        if (gameCartridge.getIdGameCartridge() != IGameCartridge.Id.POOH_FARMER) {
-            /////////////////////////////////////////////////////////
-            gameCartridge.getGameCamera().setWidthClipInPixel((GameCamera.CLIP_WIDTH_IN_TILE*TileMap.TILE_WIDTH));
-            gameCartridge.getGameCamera().setHeightClipInPixel((GameCamera.CLIP_HEIGHT_IN_TILE*TileMap.TILE_HEIGHT));
-            /////////////////////////////////////////////////////////
-        }
     }
 
     @Override

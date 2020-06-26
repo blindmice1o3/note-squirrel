@@ -16,6 +16,9 @@ public class SceneHomeRival extends Scene {
 
     public SceneHomeRival(GameCartridge gameCartridge, Id sceneID) {
         super(gameCartridge, sceneID);
+
+        widthClipInTile = 8;
+        heightClipInTile = 8;
     }
 
     @Override

@@ -26,6 +26,9 @@ public class SceneFrogger extends Scene {
     public SceneFrogger(GameCartridge gameCartridge, Id sceneID) {
         super(gameCartridge, sceneID);
 
+        widthClipInTile = 15;
+        heightClipInTile = 15;
+
         controllerForNextEntityInstantiation = 0;
         numOfCarLanes = 5;
         numOfRiverLanes = 4;
@@ -42,18 +45,9 @@ public class SceneFrogger extends Scene {
         inputManager = gameCartridge.getInputManager();
         this.sceneManager = sceneManager;
 
-        /////////////////////////////////////////////////////////
         //////////////////////////////////////////////////
         Assets.initFroggerSprites(context.getResources());
         //////////////////////////////////////////////////
-
-        int clipWidthInTile = 20;
-        int clipHeightInTile = 15;
-        int tileWidthFrogger = (int)((48f) * (15f/20f));
-        int tileHeightFrogger = 48;
-        gameCamera.setWidthClipInPixel(clipWidthInTile * tileWidthFrogger);
-        gameCamera.setHeightClipInPixel(clipHeightInTile * tileHeightFrogger);
-        /////////////////////////////////////////////////////////
 
         initTileMap();
         initGameCamera(gameCamera);

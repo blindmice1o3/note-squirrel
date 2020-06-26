@@ -12,6 +12,9 @@ public class SceneSheepPen extends Scene {
 
     public SceneSheepPen(GameCartridge gameCartridge, Id sceneID) {
         super(gameCartridge, sceneID);
+
+        widthClipInTile = 9;
+        heightClipInTile = 9;
     }
 
     @Override

@@ -12,6 +12,9 @@ public class SceneChickenCoop extends Scene {
 
     public SceneChickenCoop(GameCartridge gameCartridge, Id sceneID) {
         super(gameCartridge, sceneID);
+
+        widthClipInTile = 9;
+        heightClipInTile = 9;
     }
 
     @Override

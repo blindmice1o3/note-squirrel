@@ -8,6 +8,7 @@ import android.util.Log;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.EntityManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
@@ -19,9 +20,11 @@ import java.io.Serializable;
 public abstract class Scene
         implements Serializable {
 
-    public enum Id { FARM, HOTHOUSE, SHEEP_PEN, CHICKEN_COOP, COW_BARN, HOUSE_01, HOUSE_02, HOUSE_03,
+    public enum Id {
+        FARM, HOTHOUSE, SHEEP_PEN, CHICKEN_COOP, COW_BARN, HOUSE_01, HOUSE_02, HOUSE_03,
         PART_01, HOME_01, HOME_02, HOME_RIVAL, LAB,
-        FROGGER, PONG; }
+        FROGGER, PONG;
+    }
 
     transient protected GameCartridge gameCartridge;
     protected Id sceneID;
@@ -29,6 +32,9 @@ public abstract class Scene
     transient protected Context context;
     transient protected InputManager inputManager;
     transient protected SceneManager sceneManager;
+
+    protected int widthClipInTile;
+    protected int heightClipInTile;
 
     transient protected TileMap tileMap;
     transient protected EntityManager entityManager;
@@ -40,6 +46,9 @@ public abstract class Scene
 
     public Scene(GameCartridge gameCartridge, Id sceneID) {
         this.sceneID = sceneID;
+
+        widthClipInTile = 8;
+        heightClipInTile = 8;
     }
 
     public void init(GameCartridge gameCartridge, Player player, GameCamera gameCamera, SceneManager sceneManager) {
@@ -62,9 +71,6 @@ public abstract class Scene
 
     public void enter() {
         Log.d(MainActivity.DEBUG_TAG, "Scene.enter()");
-
-        player.init();
-
         Log.d(MainActivity.DEBUG_TAG, "Scene.enter() player.xCurrent, player.yCurrent: " + player.getxCurrent() + ", " + player.getyCurrent());
         Log.d(MainActivity.DEBUG_TAG, "Scene.enter() xPriorScene, yPriorScene: " + xPriorScene + ", " + yPriorScene);
 
@@ -76,8 +82,18 @@ public abstract class Scene
             player.setyCurrent(yPriorScene);
         }
 
-        Log.d(MainActivity.DEBUG_TAG, "Scene.enter() player.xCurrent, player.yCurrent: " + player.getxCurrent() + ", " + player.getyCurrent());
+        //EACH SUBCLASS OF Scene CAN OVERWRITE ITS CLIP SIZE WITHIN THE CONSTRUCTOR/////
+        if ((widthClipInTile != 0) && (heightClipInTile != 0)) {
+            gameCamera.setWidthClipInPixel(widthClipInTile * tileMap.getTileWidth());
+            gameCamera.setHeightClipInPixel(heightClipInTile * tileMap.getTileHeight());
+        }
+        ////////////////////////////////////////////////////////////////////////////////
+
         gameCamera.init(player, tileMap.getWidthSceneMax(), tileMap.getHeightSceneMax());
+        for (Entity e : entityManager.getEntities()) {
+            e.init();
+        }
+        Log.d(MainActivity.DEBUG_TAG, "Scene.enter() player.xCurrent, player.yCurrent: " + player.getxCurrent() + ", " + player.getyCurrent());
     }
 
     public void exit(Object[] extra) {
@@ -89,8 +105,8 @@ public abstract class Scene
         ///////////////
 
         //Record position IMMEDIATELY BEFORE colliding with transfer point.
-        Player.Direction direction = (Player.Direction)extra[0];
-        float moveSpeed = (float)extra[1];
+        Player.Direction direction = (Player.Direction) extra[0];
+        float moveSpeed = (float) extra[1];
         switch (direction) {
             case LEFT:
                 xPriorScene = player.getxCurrent() + moveSpeed;

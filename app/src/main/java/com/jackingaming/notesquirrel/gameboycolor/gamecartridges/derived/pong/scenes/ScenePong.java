@@ -38,6 +38,9 @@ public class ScenePong extends Scene {
 
     public ScenePong(GameCartridge gameCartridge, Id sceneID) {
         super(gameCartridge, sceneID);
+
+        widthClipInTile = 8;
+        heightClipInTile = 8;
     }
 
     @Override

@@ -16,6 +16,9 @@ public class SceneLab extends Scene {
 
     public SceneLab(GameCartridge gameCartridge, Id sceneID) {
         super(gameCartridge, sceneID);
+
+        widthClipInTile = 8;
+        heightClipInTile = 8;
     }
 
     @Override

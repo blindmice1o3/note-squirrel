@@ -19,6 +19,9 @@ public class ScenePart01 extends Scene {
 
     public ScenePart01(GameCartridge gameCartridge, Id sceneID) {
         super(gameCartridge, sceneID);
+
+        widthClipInTile = 8;
+        heightClipInTile = 8;
     }
 
     @Override

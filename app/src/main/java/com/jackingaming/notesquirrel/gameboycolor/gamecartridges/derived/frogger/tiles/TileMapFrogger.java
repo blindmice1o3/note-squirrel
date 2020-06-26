@@ -13,17 +13,14 @@ import java.util.HashMap;
 
 public class TileMapFrogger extends TileMap {
 
-    public static final int TILE_WIDTH_48 = 48;
-    public static final int TILE_HEIGHT_48 = 48;
-
     public TileMapFrogger(GameCartridge gameCartridge, Scene.Id sceneID) {
         super(gameCartridge, sceneID);
     }
 
     @Override
     protected void initTileSize() {
-        tileWidth = TILE_WIDTH_48;
-        tileHeight = TILE_HEIGHT_48;
+        tileWidth = 48;
+        tileHeight = 48;
     }
 
     @Override
