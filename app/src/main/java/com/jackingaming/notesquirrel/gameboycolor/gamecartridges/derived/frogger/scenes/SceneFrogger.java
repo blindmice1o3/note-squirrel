@@ -4,10 +4,13 @@ import android.graphics.Rect;
 import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Creature;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.Car;
@@ -27,6 +30,38 @@ public class SceneFrogger extends Scene {
         numOfCarLanes = 5;
         numOfRiverLanes = 4;
         chanceToInstantiate = 0;
+    }
+
+    @Override
+    public void init(GameCartridge gameCartridge, Player player, GameCamera gameCamera, SceneManager sceneManager) {
+        Log.d(MainActivity.DEBUG_TAG, "SceneFrogger.init(GameCartridge, Player, GameCamera, SceneManager)");
+        this.gameCartridge = gameCartridge;
+        this.player = player;
+
+        context = gameCartridge.getContext();
+        inputManager = gameCartridge.getInputManager();
+        this.sceneManager = sceneManager;
+
+        /////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////
+        Assets.initFroggerSprites(context.getResources());
+        //////////////////////////////////////////////////
+
+        int clipWidthInTile = 20;
+        int clipHeightInTile = 15;
+        int tileWidthFrogger = (int)((48f) * (15f/20f));
+        int tileHeightFrogger = 48;
+        gameCamera.setWidthClipInPixel(clipWidthInTile * tileWidthFrogger);
+        gameCamera.setHeightClipInPixel(clipHeightInTile * tileHeightFrogger);
+        /////////////////////////////////////////////////////////
+
+        initTileMap();
+        initGameCamera(gameCamera);
+        initEntityManager(player);
+
+        //fixing bug... the game camera need to use the player's spawn
+        //position (which is set after "initGameCamera(GameCamera)").
+        gameCamera.update(0L);
     }
 
     @Override

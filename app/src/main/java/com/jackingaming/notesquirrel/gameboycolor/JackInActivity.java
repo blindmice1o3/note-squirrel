@@ -23,7 +23,6 @@ import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.IGameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.SerializationDoer;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.FroggerCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.scenes.indoors.SceneHome01;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.scenes.indoors.SceneHome02;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.BackpackActivity;
@@ -87,7 +86,6 @@ public class JackInActivity extends AppCompatActivity {
         } else {
             Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreate(Bundle) Bundle savedInstanceState is NOT null: " + savedInstanceState);
 
-            /////////////////////////////////////////////////////////////////////////////////////
             //retrieving PERSISTENT data (values stored between "runs").
             SharedPreferences prefs = getPreferences(MODE_PRIVATE);
             //checking if the key-value pair exists,
@@ -96,44 +94,17 @@ public class JackInActivity extends AppCompatActivity {
             //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             //Load integer (its index value) as enum.
             int idGameCartridgeAsInt = prefs.getInt("idGameCartridge", GameCartridge.Id.values()[0].ordinal());
+            ///////////////////////////////////////////////////////////////////////
             cartridgeID = GameCartridge.Id.values()[idGameCartridgeAsInt];
+            gameCartridge = new GameCartridge(this, cartridgeID);
+            ///////////////////////////////////////////////////////////////////////
+
             //Clear the key-value pair.
             SharedPreferences.Editor editor = prefs.edit();
             editor.remove("idGameCartridge");
             editor.commit();
             //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-            /////////////////////////////////////////////////////////////////////////////////////
-
-            switch (cartridgeID) {
-                case POCKET_CRITTERS:
-                    ///////////////////////////////////////////////////////////////////////
-                    gameCartridge = new GameCartridge(this, cartridgeID);
-                    ///////////////////////////////////////////////////////////////////////
-                    break;
-                case POOH_FARMER:
-                    ///////////////////////////////////////////////////////////////////////
-                    gameCartridge = new GameCartridge(this, cartridgeID);
-                    ///////////////////////////////////////////////////////////////////////
-                    break;
-                case PONG:
-                    ///////////////////////////////////////////////////////////////////////
-                    gameCartridge = new GameCartridge(this, cartridgeID);
-                    ///////////////////////////////////////////////////////////////////////
-                    break;
-                case FROGGER:
-                    ///////////////////////////////////////////////////////////////////////
-                    gameCartridge = new FroggerCartridge(this, cartridgeID);
-                    ///////////////////////////////////////////////////////////////////////
-                    break;
-                default:
-                    Log.d(MainActivity.DEBUG_TAG, "@@@@@JackInActivity.onCreate(Bundle) switch (cartridgeID) construct's default block.@@@@@");
-                    ///////////////////////////////////////////////////////////////////////
-                    gameCartridge = new GameCartridge(this, cartridgeID);
-                    ///////////////////////////////////////////////////////////////////////
-                    break;
-            }
         }
-
 
 
 
@@ -364,28 +335,10 @@ public class JackInActivity extends AppCompatActivity {
             index = 0;
         }
 
-        ///////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////
         cartridgeID = GameCartridge.Id.values()[index];
-        ///////////////////////////////////////////////
-
-        switch (cartridgeID) {
-            case POCKET_CRITTERS:
-                gameCartridge = new GameCartridge(this, cartridgeID);
-                break;
-            case POOH_FARMER:
-                gameCartridge = new GameCartridge(this, cartridgeID);
-                break;
-            case PONG:
-                gameCartridge = new GameCartridge(this, cartridgeID);
-                break;
-            case FROGGER:
-                gameCartridge = new FroggerCartridge(this, cartridgeID);
-                break;
-            default:
-                Log.d(MainActivity.DEBUG_TAG, "@@@@@JackInActivity.swapGame() switch (cartridgeID) construct's default block.@@@@@");
-                gameCartridge = new GameCartridge(this, cartridgeID);
-                break;
-        }
+        gameCartridge = new GameCartridge(this, cartridgeID);
+        ///////////////////////////////////////////////////////////////
 
         ///////////////////////////////////////////////////////////////
         gameView.runGameCartridge(gameCartridge, inputManager,

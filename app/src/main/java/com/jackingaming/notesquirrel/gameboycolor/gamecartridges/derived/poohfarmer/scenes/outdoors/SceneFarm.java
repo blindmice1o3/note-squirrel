@@ -19,6 +19,7 @@ public class SceneFarm extends Scene {
 
     public SceneFarm(GameCartridge gameCartridge, Id sceneID) {
         super(gameCartridge, sceneID);
+        Log.d(MainActivity.DEBUG_TAG, "SceneFarm(GameCartridge, Id) constructor");
     }
 
     @Override
