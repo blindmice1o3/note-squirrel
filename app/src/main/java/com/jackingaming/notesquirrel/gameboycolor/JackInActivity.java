@@ -26,7 +26,6 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Serializat
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.FroggerCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.scenes.indoors.SceneHome01;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.scenes.indoors.SceneHome02;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pong.PongCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.BackpackActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.Item;
 import com.jackingaming.notesquirrel.gameboycolor.input.ButtonPadFragment;
@@ -118,7 +117,7 @@ public class JackInActivity extends AppCompatActivity {
                     break;
                 case PONG:
                     ///////////////////////////////////////////////////////////////////////
-                    gameCartridge = new PongCartridge(this, cartridgeID);
+                    gameCartridge = new GameCartridge(this, cartridgeID);
                     ///////////////////////////////////////////////////////////////////////
                     break;
                 case FROGGER:
@@ -371,16 +370,16 @@ public class JackInActivity extends AppCompatActivity {
 
         switch (cartridgeID) {
             case POCKET_CRITTERS:
-                gameCartridge = new GameCartridge(this, IGameCartridge.Id.POCKET_CRITTERS);
+                gameCartridge = new GameCartridge(this, cartridgeID);
                 break;
             case POOH_FARMER:
-                gameCartridge = new GameCartridge(this, IGameCartridge.Id.POOH_FARMER);
+                gameCartridge = new GameCartridge(this, cartridgeID);
                 break;
             case PONG:
-                gameCartridge = new PongCartridge(this, IGameCartridge.Id.PONG);
+                gameCartridge = new GameCartridge(this, cartridgeID);
                 break;
             case FROGGER:
-                gameCartridge = new FroggerCartridge(this, IGameCartridge.Id.FROGGER);
+                gameCartridge = new FroggerCartridge(this, cartridgeID);
                 break;
             default:
                 Log.d(MainActivity.DEBUG_TAG, "@@@@@JackInActivity.swapGame() switch (cartridgeID) construct's default block.@@@@@");
