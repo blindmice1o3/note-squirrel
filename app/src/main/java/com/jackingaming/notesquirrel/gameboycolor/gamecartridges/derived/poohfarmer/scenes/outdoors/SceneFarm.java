@@ -23,38 +23,14 @@ public class SceneFarm extends Scene {
 
         widthClipInTile = 9;
         heightClipInTile = 9;
-    }
 
-    @Override
-    public void init(GameCartridge gameCartridge, Player player, GameCamera gameCamera, SceneManager sceneManager) {
-        Log.d(MainActivity.DEBUG_TAG, "SceneFarm.init(GameCartridge, Player, GameCamera, SceneManager)");
-        this.gameCartridge = gameCartridge;
-        this.player = player;
-
-        context = gameCartridge.getContext();
-        inputManager = gameCartridge.getInputManager();
-        this.sceneManager = sceneManager;
-
-        initTileMap();
-        initGameCamera(gameCamera);
-        initEntityManager(player);
-
-        //fixing bug... the game camera need to use the player's spawn
-        //position (which is set after "initGameCamera(GameCamera)").
-        gameCamera.update(0L);
+        Entity robot = new Robot(gameCartridge, (7 * TileMap.TILE_WIDTH), (5 * TileMap.TILE_HEIGHT));
+        entityManager.addEntity(robot);
     }
 
     @Override
     public void initTileMap() {
         tileMap = new TileMapFarm(gameCartridge, sceneID);
-    }
-
-    @Override
-    public void initEntityManager(Player player) {
-        super.initEntityManager(player);
-
-        Entity robot = new Robot(gameCartridge, (7 * tileMap.getTileWidth()), (5 * tileMap.getTileHeight()));
-        entityManager.addEntity(robot);
     }
 
     @Override

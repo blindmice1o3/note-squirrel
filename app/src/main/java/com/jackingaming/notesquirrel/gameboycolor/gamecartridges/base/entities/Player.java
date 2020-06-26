@@ -44,7 +44,7 @@ public class Player extends Creature {
         inventory.add(new Item(gameCartridge.getContext().getResources(), Item.Id.BUG_NET));
         inventory.add(new Item(gameCartridge.getContext().getResources(), Item.Id.FISHING_POLE));
 
-        init();
+        init(gameCartridge);
     }
 
     public ArrayList<Item> getInventory() {
@@ -52,8 +52,9 @@ public class Player extends Creature {
     }
 
     @Override
-    public void init() {
-        Log.d(MainActivity.DEBUG_TAG, "Player.init()");
+    public void init(GameCartridge gameCartridge) {
+        Log.d(MainActivity.DEBUG_TAG, "Player.init(GameCartridge)");
+        this.gameCartridge = gameCartridge;
 
         gameCamera = gameCartridge.getGameCamera();
         widthPixelToViewportRatio = ((float) gameCartridge.getWidthViewport()) /
@@ -62,11 +63,12 @@ public class Player extends Creature {
                 gameCamera.getHeightClipInPixel();
 
         initAnimation();
-        adjustSizeAndBounds();
+        initBounds();
     }
 
-    private void adjustSizeAndBounds() {
-        Log.d(MainActivity.DEBUG_TAG, "Player.adjustSizeAndBounds()");
+    @Override
+    public void initBounds() {
+        Log.d(MainActivity.DEBUG_TAG, "Player.initBounds()");
 
         //TODO: WORK-AROUND (FROGGER TILE_WIDTH and TILE_HEIGHT)
         if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.FROGGER) {

@@ -6,31 +6,41 @@ import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 
-public class EntityManager {
+public class EntityManager
+        implements Serializable {
 
     private Player player;
 
     private ArrayList<Entity> entities;
 
-    private Comparator<Entity> renderSorter = new Comparator<Entity>() {
+    private Comparator<Entity> renderSorter = new ComparatorRenderSorter<Entity>();
+//    private Comparator<Entity> renderSorter = new Comparator<Entity>() {
+//        @Override
+//        public int compare(Entity a, Entity b) {
+//            return (a instanceof Player) ? (1) : (-1);
+//
+//            /*
+//            //compare based on the y-value of the Entity's BOTTOM-left corner.
+//            if ( (a.getyCurrent() + a.getHeight()) < (b.getyCurrent() + b.getHeight()) ) {
+//                return -1;
+//            } else {
+//                return 1;
+//            }
+//            */
+//        }
+//    };
+
+    class ComparatorRenderSorter<Entity> implements Comparator<Entity>, Serializable {
         @Override
         public int compare(Entity a, Entity b) {
             return (a instanceof Player) ? (1) : (-1);
-
-            /*
-            //compare based on the y-value of the Entity's BOTTOM-left corner.
-            if ( (a.getyCurrent() + a.getHeight()) < (b.getyCurrent() + b.getHeight()) ) {
-                return -1;
-            } else {
-                return 1;
-            }
-            */
         }
-    };
+    }
 
     public EntityManager(Player player) {
         this.player = player;

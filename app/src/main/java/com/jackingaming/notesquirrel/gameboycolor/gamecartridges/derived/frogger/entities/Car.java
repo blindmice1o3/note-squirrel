@@ -21,7 +21,7 @@ public class Car extends Creature {
 
     private Type type;
 
-    private Bitmap image;
+    transient private Bitmap image;
 
     public Car(GameCartridge gameCartridge, float xCurrent, float yCurrent,
                Direction direction, Type type) {
@@ -36,25 +36,27 @@ public class Car extends Creature {
 
         this.type = type;
 
+        init(gameCartridge);
+    }
+
+    @Override
+    public void init(GameCartridge gameCartridge) {
+        Log.d(MainActivity.DEBUG_TAG, "Car.init(GameCartridge)");
+        this.gameCartridge = gameCartridge;
+
         gameCamera = gameCartridge.getGameCamera();
         widthPixelToViewportRatio = ((float) gameCartridge.getWidthViewport()) /
                 gameCamera.getWidthClipInPixel();
         heightPixelToViewportRatio = ((float) gameCartridge.getHeightViewport()) /
                 gameCamera.getHeightClipInPixel();
 
-        init();
+        initImage();
+        initBounds();
     }
 
     @Override
-    public void init() {
-        Log.d(MainActivity.DEBUG_TAG, "Car.init()");
-
-        initImage();
-        adjustSizeAndBounds();
-    }
-
-    private void adjustSizeAndBounds() {
-        Log.d(MainActivity.DEBUG_TAG, "Car.adjustSizeAndBounds()");
+    public void initBounds() {
+        Log.d(MainActivity.DEBUG_TAG, "Car.initBounds()");
 
         //TODO: WORK-AROUND (FROGGER TILE_WIDTH and TILE_HEIGHT)
         if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.FROGGER) {

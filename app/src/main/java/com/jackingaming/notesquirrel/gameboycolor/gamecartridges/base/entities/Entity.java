@@ -35,7 +35,8 @@ public abstract class Entity
         active = true;
     }
 
-    public abstract void init();
+    public abstract void init(GameCartridge gameCartridge);
+    public abstract void initBounds();
     public abstract void update(long elapsed);
     public abstract void render(Canvas canvas);
 

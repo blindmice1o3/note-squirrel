@@ -37,7 +37,7 @@ public abstract class Scene
     protected int heightClipInTile;
 
     transient protected TileMap tileMap;
-    transient protected EntityManager entityManager;
+    protected EntityManager entityManager;
     protected Player player;
     protected GameCamera gameCamera;
 
@@ -49,6 +49,10 @@ public abstract class Scene
 
         widthClipInTile = 8;
         heightClipInTile = 8;
+
+        ///////////////////////////////////////////////////
+        entityManager = new EntityManager(gameCartridge.getPlayer());
+        ///////////////////////////////////////////////////
     }
 
     public void init(GameCartridge gameCartridge, Player player, GameCamera gameCamera, SceneManager sceneManager) {
@@ -91,7 +95,7 @@ public abstract class Scene
 
         gameCamera.init(player, tileMap.getWidthSceneMax(), tileMap.getHeightSceneMax());
         for (Entity e : entityManager.getEntities()) {
-            e.init();
+            e.init(gameCartridge);
         }
         Log.d(MainActivity.DEBUG_TAG, "Scene.enter() player.xCurrent, player.yCurrent: " + player.getxCurrent() + ", " + player.getyCurrent());
     }
@@ -133,9 +137,8 @@ public abstract class Scene
     public void initEntityManager(Player player) {
         Log.d(MainActivity.DEBUG_TAG, "Scene.initEntityManager(Player)");
 
-        ///////////////////////////////////////////////////
-        entityManager = new EntityManager(player);
-        ///////////////////////////////////////////////////
+        entityManager.removePreviousPlayer();
+        entityManager.addEntity(player);
     }
 
     //TODO: move some of these to Scene.enter(Object[])

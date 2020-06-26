@@ -5,7 +5,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.util.Log;
 
+import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
@@ -35,11 +37,15 @@ public class Robot extends Creature {
 
         state = State.OFF;
 
-        init();
+        init(gameCartridge);
     }
 
     @Override
-    public void init() {
+    public void init(GameCartridge gameCartridge) {
+        Log.d(MainActivity.DEBUG_TAG, "Robot.init(GameCartridge)");
+        this.gameCartridge = gameCartridge;
+
+
         gameCamera = gameCartridge.getGameCamera();
         widthPixelToViewportRatio = ((float) gameCartridge.getWidthViewport()) /
                 gameCamera.getWidthClipInPixel();
@@ -47,6 +53,13 @@ public class Robot extends Creature {
                 gameCamera.getHeightClipInPixel();
 
         initImage(gameCartridge.getContext().getResources());
+        initBounds();
+    }
+
+    @Override
+    public void initBounds() {
+        Log.d(MainActivity.DEBUG_TAG, "Robot.initBounds()");
+        bounds = new Rect(0, 0, width, height);
     }
 
     private void initImage(Resources resources) {

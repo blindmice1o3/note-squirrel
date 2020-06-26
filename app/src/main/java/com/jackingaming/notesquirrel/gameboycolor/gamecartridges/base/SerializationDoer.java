@@ -208,8 +208,7 @@ public class SerializationDoer {
             ///////////////////////////////////////////////////////////////////////////////////
 
             //PLAYER AND GAME_CAMERA
-            player.setGameCartridge(gameCartridge);
-            player.init();
+            player.init(gameCartridge);
             player.setGameCamera(gameCamera);
             gameCamera.setEntity(player);
 
@@ -381,9 +380,9 @@ public class SerializationDoer {
                         break;
                 }
             }
-            ////////////////////////////////////////////////////////////////////////////////////////
-            ((GameState)gameCartridge.getStateManager().getStateCollection().get(State.Id.GAME)).getSceneManager().setSceneCollection(sceneCollection);
-            ////////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////
+            sceneManager.setSceneCollection(sceneCollection);
+            /////////////////////////////////////////////////
 
 
 

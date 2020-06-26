@@ -22,7 +22,7 @@ public class Log extends Creature {
 
     private Size size;
 
-    private Bitmap image;
+    transient private Bitmap image;
 
     public Log(GameCartridge gameCartridge, float xCurrent, float yCurrent,
                Direction direction, Size size) {
@@ -37,25 +37,27 @@ public class Log extends Creature {
 
         this.size = size;
 
+        init(gameCartridge);
+    }
+
+    @Override
+    public void init(GameCartridge gameCartridge) {
+        android.util.Log.d(MainActivity.DEBUG_TAG, "Log.init(GameCartridge)");
+        this.gameCartridge = gameCartridge;
+
         gameCamera = gameCartridge.getGameCamera();
         widthPixelToViewportRatio = ((float) gameCartridge.getWidthViewport()) /
                 gameCamera.getWidthClipInPixel();
         heightPixelToViewportRatio = ((float) gameCartridge.getHeightViewport()) /
                 gameCamera.getHeightClipInPixel();
 
-        init();
+        initImage();
+        initBounds();
     }
 
     @Override
-    public void init() {
-        android.util.Log.d(MainActivity.DEBUG_TAG, "Log.init()");
-
-        initImage();
-        adjustSizeSpeedAndBounds();
-    }
-
-    private void adjustSizeSpeedAndBounds() {
-        android.util.Log.d(MainActivity.DEBUG_TAG, "Log.adjustSizeSpeedAndBounds()");
+    public void initBounds() {
+        android.util.Log.d(MainActivity.DEBUG_TAG, "Log.initBounds()");
 
         //TODO: WORK-AROUND (FROGGER TILE_WIDTH and TILE_HEIGHT)
         if (gameCartridge.getIdGameCartridge() == GameCartridge.Id.FROGGER) {
