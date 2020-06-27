@@ -8,6 +8,7 @@ import android.view.SurfaceHolder;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.HeadUpDisplay;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
@@ -28,6 +29,7 @@ public class GameState
 
     private Player player;
     transient private SceneManager sceneManager;
+    private HeadUpDisplay headUpDisplay;
 
     public GameState(GameCartridge gameCartridge) {
         /////////////
@@ -49,6 +51,7 @@ public class GameState
 
         player = gameCartridge.getPlayer();
         sceneManager = new SceneManager(gameCartridge);
+        headUpDisplay = new HeadUpDisplay(gameCartridge);
     }
 
     @Override
@@ -75,6 +78,7 @@ public class GameState
     @Override
     public void update(long elapsed) {
         sceneManager.getCurrentScene().update(elapsed);
+        headUpDisplay.update(elapsed);
     }
 
     @Override
@@ -90,6 +94,7 @@ public class GameState
 
             //@@@@@@@@@@@@@@@@@@@@@@@@@@
             sceneManager.getCurrentScene().render(canvas);
+            headUpDisplay.render(canvas);
             //@@@@@@@@@@@@@@@@@@@@@@@@@@
 
             //unlock it and post our updated drawing to it.
