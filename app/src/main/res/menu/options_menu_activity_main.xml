@@ -30,6 +30,9 @@
         android:id="@+id/menu_sprite_sheet_verifier2"
         android:title="@string/menu_sprite_sheet_verifier2" />
     <item
+        android:id="@+id/menu_count_zero"
+        android:title="@string/menu_count_zero" />
+    <item
         android:id="@+id/menu_jack_in"
         android:title="@string/menu_jack_in" />
 </menu>

@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.passpoints.ImageActivity;
+import com.jackingaming.notesquirrel.sandbox.countzero.CountZeroActivity;
 import com.jackingaming.notesquirrel.sandbox.downloadhtml.DownloadHtmlFragmentParentActivity;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.RecyclerViewActivity;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.ListFragmentDvdParentActivity;
@@ -313,6 +314,14 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent spriteSheetVerifier2Intent = new Intent(this, SpriteSheetVerifier2Activity.class);
                 startActivity(spriteSheetVerifier2Intent);
+
+                return true;
+            case R.id.menu_count_zero:
+                //TODO: implement menu_count_zero
+                Toast.makeText(this, R.string.menu_count_zero, Toast.LENGTH_SHORT).show();
+
+                Intent countZeroIntent = new Intent(this, CountZeroActivity.class);
+                startActivity(countZeroIntent);
 
                 return true;
             case R.id.menu_jack_in:

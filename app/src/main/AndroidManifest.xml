@@ -39,6 +39,7 @@
         <activity
             android:name=".gameboycolor.JackInActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity android:name=".sandbox.countzero.CountZeroActivity" />
         <activity android:name=".gameboycolor.gamecartridges.base.items.BackpackActivity" />
         <activity android:name=".gameboycolor.gamecartridges.derived.pocketcritters.computer.ComputerActivity" />
         <activity
