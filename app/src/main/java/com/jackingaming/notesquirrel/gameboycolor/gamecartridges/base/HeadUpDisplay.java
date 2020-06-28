@@ -5,8 +5,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
 
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.Item;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
+
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
 
 import java.io.Serializable;
@@ -53,22 +56,32 @@ public class HeadUpDisplay
         int y1 = (int)(MARGIN * heightPixelToViewportRatio) + (int)(TileMap.TILE_HEIGHT * heightPixelToViewportRatio);
         Rect screenPosition = new Rect(x0, y0, x1, y1);
 
+        //border paint (BACKGROUND COLOR)
+        Paint paintBorder = new Paint();
+        paintBorder.setAntiAlias(true);
+        paintBorder.setColor(Color.BLUE);
+
         //border position
         int x0Border = x0 - BORDER;
         int y0Border = y0 - BORDER;
         int x1Border = x1 + BORDER;
         int y1Border = y1 + BORDER;
-        Rect border = new Rect(x0Border, y0Border, x1Border, y1Border);
-        Paint paintBorder = new Paint();
-        paintBorder.setAntiAlias(true);
-        paintBorder.setColor(Color.BLUE);
+        //Rect border = new Rect(x0Border, y0Border, x1Border, y1Border);
+        RectF border = new RectF(x0Border, y0Border, x1Border, y1Border);
 
-        //border's IMAGE
-        canvas.drawRect(border, paintBorder);
+        //border's IMAGE (ROUNDED CORNERS)
+        //canvas.drawRect(border, paintBorder);
+        canvas.drawRoundRect(border, (16f+BORDER), (16f+BORDER), paintBorder);
 
-        //selectedItem's IMAGE
+
+        //selectedItem's IMAGE (ROUNDED CORNERS)
         //////////////////////////////////////////////////////////////////////////////
-        canvas.drawBitmap(selectedItem, selectedItemClip, screenPosition, null);
+        //canvas.drawBitmap(selectedItem, selectedItemClip, screenPosition, null);
+        RoundedBitmapDrawable roundedBitmapDrawable =
+                RoundedBitmapDrawableFactory.create(gameCartridge.getContext().getResources(), selectedItem);
+        roundedBitmapDrawable.setCornerRadius(16f);
+        roundedBitmapDrawable.setBounds(screenPosition);
+        roundedBitmapDrawable.draw(canvas);
         //////////////////////////////////////////////////////////////////////////////
     }
 
