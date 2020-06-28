@@ -181,8 +181,9 @@ public class JackInActivity extends AppCompatActivity {
                     Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreateContextMenu.OnClickListener.onClick(View) starting BackpackActivity for result...)");
                     Intent backpackIntent = new Intent(JackInActivity.this, BackpackActivity.class);
                     if (gameCartridge.getIdGameCartridge() == IGameCartridge.Id.POCKET_CRITTERS) {
-                        ArrayList<Item> inventory = gameCartridge.getPlayer().getInventory();
-                        backpackIntent.putExtra(INVENTORY, inventory);
+                        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                        backpackIntent.putExtra(INVENTORY, gameCartridge.getPlayer().getInventory());
+                        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                         Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreateContextMenu.OnClickListener.onClick(View) passing ArrayList<Item> into BackpackActivity");
                     }
                     startActivityForResult(backpackIntent, REQUEST_CODE_BACKPACK_ACTIVITY);
@@ -248,11 +249,22 @@ public class JackInActivity extends AppCompatActivity {
     }
 
     private boolean isReturningFromActivity = false;
-    public void setReturningFromActivity(boolean returningFromActivity) {
-        isReturningFromActivity = returningFromActivity;
-    }
     public boolean isReturningFromActivity() {
         return isReturningFromActivity;
+    }
+    public void setIsReturningFromActivity(boolean isReturningFromActivity) {
+        this.isReturningFromActivity = isReturningFromActivity;
+    }
+    private boolean isReturningFromBackpackActivity = false;
+    public boolean isReturningFromBackpackActivity() {
+        return isReturningFromBackpackActivity;
+    }
+    public void setIsReturningFromBackpackActivity(boolean isReturningFromBackpackActivity) {
+        this.isReturningFromBackpackActivity = isReturningFromBackpackActivity;
+    }
+    private int indexSelectedItem = -1;
+    public int getIndexSelectedItem() {
+        return indexSelectedItem;
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -269,8 +281,11 @@ public class JackInActivity extends AppCompatActivity {
 
             //Prevents crashing if BACK was pressed instead of clicking an item.
             if (resultCode == RESULT_OK) {
-                int position = data.getIntExtra(BackpackActivity.SELECTED_ITEM, -1);
-                Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onActivityResult(int, int, Intent) BackpackActivity... position (-1 is defaultValue): " + position);
+                indexSelectedItem = data.getIntExtra(BackpackActivity.SELECTED_ITEM, -1);
+                Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onActivityResult(int, int, Intent) BackpackActivity... indexSelectedItem (-1 is defaultValue): " + indexSelectedItem);
+                if (indexSelectedItem != -1) {
+                    isReturningFromBackpackActivity = true;
+                }
             } else {
                 Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onActivityResult(int, int, Intent) BackpackActivity... resultCode is NOT \"RESULT_OK\"... BACK was pressed instead of clicking an item!!!");
             }

@@ -52,6 +52,7 @@ public class GameState
         player = gameCartridge.getPlayer();
         sceneManager = new SceneManager(gameCartridge);
         headUpDisplay = new HeadUpDisplay(gameCartridge);
+        headUpDisplay.init(gameCartridge);
     }
 
     @Override

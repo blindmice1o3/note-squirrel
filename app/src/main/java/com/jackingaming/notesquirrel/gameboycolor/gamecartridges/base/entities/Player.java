@@ -28,6 +28,7 @@ public class Player extends Creature {
 
     private String name = "EeyoreDefault";
     private ArrayList<Item> inventory;
+    private int indexSelectedItem;
 
     public String getName() {
         return name;
@@ -40,11 +41,11 @@ public class Player extends Creature {
     public Player(GameCartridge gameCartridge) {
         super(gameCartridge,0f, 0f);
 
-        inventory = new ArrayList<Item>();
-        inventory.add(new Item(gameCartridge.getContext().getResources(), Item.Id.BUG_NET));
-        inventory.add(new Item(gameCartridge.getContext().getResources(), Item.Id.FISHING_POLE));
-
         init(gameCartridge);
+
+        //////////////////////
+        indexSelectedItem = 0;
+        //////////////////////
     }
 
     public ArrayList<Item> getInventory() {
@@ -64,6 +65,17 @@ public class Player extends Creature {
 
         initAnimation();
         initBounds();
+
+        /////////////////////////////////////////////////////////////////////////////////////////
+        inventory = new ArrayList<Item>();
+        inventory.add(new Item(gameCartridge.getContext().getResources(), Item.Id.BUG_NET));
+        inventory.add(new Item(gameCartridge.getContext().getResources(), Item.Id.FISHING_POLE));
+        inventory.add(new Item(gameCartridge.getContext().getResources(), Item.Id.WATERING_CAN));
+        inventory.add(new Item(gameCartridge.getContext().getResources(), Item.Id.SHOVEL));
+        inventory.add(new Item(gameCartridge.getContext().getResources(), Item.Id.HAMMER));
+        inventory.add(new Item(gameCartridge.getContext().getResources(), Item.Id.SICKLE));
+        inventory.add(new Item(gameCartridge.getContext().getResources(), Item.Id.AX));
+        /////////////////////////////////////////////////////////////////////////////////////////
     }
 
     @Override
@@ -377,6 +389,14 @@ public class Player extends Creature {
 
     public void setGameCamera(GameCamera gameCamera) {
         this.gameCamera = gameCamera;
+    }
+
+    public void setIndexSelectedItem(int indexSelectedItem) {
+        this.indexSelectedItem = indexSelectedItem;
+    }
+
+    public Item getSelectedItem() {
+        return inventory.get(indexSelectedItem);
     }
 
 }

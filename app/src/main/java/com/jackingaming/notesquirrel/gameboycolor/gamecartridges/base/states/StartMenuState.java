@@ -147,6 +147,9 @@ public class StartMenuState
                     gameCartridge.savePresentState();
                     Log.d(MainActivity.DEBUG_TAG, "StartMenuState.getInputButtonPad() starting BackpackActivity for result...");
                     Intent backpackIntent = new Intent(context, BackpackActivity.class);
+                    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                    backpackIntent.putExtra(JackInActivity.INVENTORY, gameCartridge.getPlayer().getInventory());
+                    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                     ((JackInActivity)context).startActivityForResult(backpackIntent, JackInActivity.REQUEST_CODE_BACKPACK_ACTIVITY);
                     ////////////////////////////////////////////////////////////////////////////////////
                     break;

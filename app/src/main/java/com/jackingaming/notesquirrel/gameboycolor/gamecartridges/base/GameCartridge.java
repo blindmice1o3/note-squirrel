@@ -63,7 +63,17 @@ public class GameCartridge
         if ( ((JackInActivity)context).isReturningFromActivity() ) {
             loadSavedState();
 
-            ((JackInActivity)context).setReturningFromActivity(false);
+            //TODO: if isReturningFromBackpackActivity... then set player's indexSelectedItem
+            if ( ((JackInActivity)context).isReturningFromBackpackActivity() ) {
+                //////////////////////////////////////
+                int indexSelectedItem = ((JackInActivity)context).getIndexSelectedItem();
+                Log.d(MainActivity.DEBUG_TAG, "GameCartridge.init() returning from BackpackActivity... indexSelectedItem: " + indexSelectedItem);
+                player.setIndexSelectedItem(indexSelectedItem);
+                //////////////////////////////////////
+                ((JackInActivity)context).setIsReturningFromBackpackActivity(false);
+            }
+
+            ((JackInActivity)context).setIsReturningFromActivity(false);
         }
     }
 
