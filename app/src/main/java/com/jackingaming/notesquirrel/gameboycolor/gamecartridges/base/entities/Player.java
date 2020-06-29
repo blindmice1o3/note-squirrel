@@ -391,6 +391,14 @@ public class Player extends Creature {
         this.gameCamera = gameCamera;
     }
 
+    public void incrementIndexSelectedItem() {
+        indexSelectedItem++;
+
+        if (indexSelectedItem >= inventory.size()) {
+            indexSelectedItem = 0;
+        }
+    }
+
     public void setIndexSelectedItem(int indexSelectedItem) {
         this.indexSelectedItem = indexSelectedItem;
     }
