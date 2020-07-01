@@ -1,5 +1,7 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states;
 
+import android.graphics.Canvas;
+
 public interface State {
 
     public enum Id { GAME, START_MENU, TEXTBOX; }
@@ -12,7 +14,7 @@ public interface State {
 
     public void update(long elapsed);
 
-    public void render();
+    public void render(Canvas canvas);
 
     public void enter(Object[] args);
 

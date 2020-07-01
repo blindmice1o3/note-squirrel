@@ -2,6 +2,8 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
@@ -31,6 +33,7 @@ public class GameCartridge
 
     protected Player player;
     protected GameCamera gameCamera;
+    private HeadUpDisplay headUpDisplay;
     protected StateManager stateManager;
 
     public GameCartridge(Context context, Id idGameCartridge) {
@@ -55,6 +58,7 @@ public class GameCartridge
 
         gameCamera = new GameCamera(widthViewport, heightViewport);
         player = new Player(this);
+        headUpDisplay = new HeadUpDisplay(this);
         ///////////////////////////////////////////////////
         stateManager = new StateManager(this);
         ///////////////////////////////////////////////////
@@ -138,11 +142,33 @@ public class GameCartridge
         //////////////////////////
 
         stateManager.getCurrentState().update(elapsed);
+
+        if (headUpDisplay.getIsVisible()) {
+            headUpDisplay.update(elapsed);
+        }
     }
 
     @Override
     public void render() {
-        stateManager.getCurrentState().render();
+        //synchronize?
+        ////////////////////////////////////
+        Canvas canvas = surfaceHolder.lockCanvas();
+        ////////////////////////////////////
+
+        if (canvas != null) {
+            //Clear the canvas by painting the background white.
+            canvas.drawColor(Color.WHITE);
+
+            stateManager.getCurrentState().render(canvas);
+            if (headUpDisplay.getIsVisible()) {
+                headUpDisplay.render(canvas);
+            }
+
+            //unlock it and post our updated drawing to it.
+            ///////////////////////////////////
+            surfaceHolder.unlockCanvasAndPost(canvas);
+            ///////////////////////////////////
+        }
     }
 
     @Override
@@ -193,6 +219,16 @@ public class GameCartridge
     @Override
     public void setGameCamera(GameCamera gameCamera) {
         this.gameCamera = gameCamera;
+    }
+
+    @Override
+    public HeadUpDisplay getHeadUpDisplay() {
+        return headUpDisplay;
+    }
+
+    @Override
+    public void setHeadUpDisplay(HeadUpDisplay headUpDisplay) {
+        this.headUpDisplay= headUpDisplay;
     }
 
     @Override

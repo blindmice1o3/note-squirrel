@@ -93,10 +93,11 @@ public class SerializationDoer {
 
 
 
-            //PLAYER AND GAME_CAMERA
+            //PLAYER, GAME_CAMERA, HEAD_UP_DISPLAY
             //////////////////////////////////////////////
             os.writeObject(gameCartridge.getGameCamera());
             os.writeObject(gameCartridge.getPlayer());
+            os.writeObject(gameCartridge.getHeadUpDisplay());
             //////////////////////////////////////////////
 
 
@@ -205,16 +206,19 @@ public class SerializationDoer {
             float xCurrent = player.getxCurrent();
             float yCurrent = player.getyCurrent();
             //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            HeadUpDisplay headUpDisplay = (HeadUpDisplay) os.readObject();
             ///////////////////////////////////////////////////////////////////////////////////
 
-            //PLAYER AND GAME_CAMERA
+            //PLAYER, GAME_CAMERA, HEAD_UP_DISPLAY
             player.init(gameCartridge);
             player.setGameCamera(gameCamera);
             gameCamera.setEntity(player);
+            headUpDisplay.init(gameCartridge);
 
             //GAME_CARTRIDGE
             gameCartridge.setGameCamera(gameCamera);
             gameCartridge.setPlayer(player);
+            gameCartridge.setHeadUpDisplay(headUpDisplay);
 
 
 
@@ -239,7 +243,7 @@ public class SerializationDoer {
                         StartMenuState startMenuState = (StartMenuState) os.readObject();
                         /////////////////////////////////////////////////////////////////
                         gameState = (GameState) stateCollection.get(State.Id.GAME);
-                        startMenuState.init(gameCartridge, gameState.getSceneManager());
+                        startMenuState.init(gameCartridge);
                         ////////////////////////////////////////
                         stateCollection.put(id, startMenuState);
                         ////////////////////////////////////////
@@ -249,7 +253,7 @@ public class SerializationDoer {
                         TextboxState textboxState = (TextboxState) os.readObject();
                         ///////////////////////////////////////////////////////////
                         gameState = (GameState) stateCollection.get(State.Id.GAME);
-                        textboxState.init(gameCartridge, gameState.getSceneManager());
+                        textboxState.init(gameCartridge);
                         //////////////////////////////////////
                         stateCollection.put(id, textboxState);
                         //////////////////////////////////////
@@ -392,9 +396,10 @@ public class SerializationDoer {
 
             //SCENE_MANAGER (list of scenes from sceneStack)
             ArrayList<Scene.Id> sceneIdsFromSceneStack = (ArrayList<Scene.Id>) os.readObject();
-            ((GameState)gameCartridge.getStateManager().getStateCollection().get(State.Id.GAME)).getSceneManager().restoreSceneStack(sceneIdsFromSceneStack);
             ((GameState)gameCartridge.getStateManager().getStateCollection().get(State.Id.GAME)).getSceneManager().setGameCamera(gameCamera);
             ((GameState)gameCartridge.getStateManager().getStateCollection().get(State.Id.GAME)).getSceneManager().setPlayer(player);
+            ((GameState)gameCartridge.getStateManager().getStateCollection().get(State.Id.GAME)).getSceneManager().restoreSceneStack(sceneIdsFromSceneStack);
+
 
 
 

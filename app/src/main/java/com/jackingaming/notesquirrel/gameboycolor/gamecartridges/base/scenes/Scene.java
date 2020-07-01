@@ -98,6 +98,9 @@ public abstract class Scene
             e.init(gameCartridge);
         }
         Log.d(MainActivity.DEBUG_TAG, "Scene.enter() player.xCurrent, player.yCurrent: " + player.getxCurrent() + ", " + player.getyCurrent());
+
+        //TODO: base this from what's saved via StartMenuState's OPTION (settings).
+        gameCartridge.getHeadUpDisplay().setIsVisible(true);
     }
 
     public void exit(Object[] extra) {

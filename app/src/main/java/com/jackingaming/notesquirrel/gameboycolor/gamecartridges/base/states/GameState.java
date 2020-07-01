@@ -2,13 +2,10 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.util.Log;
-import android.view.SurfaceHolder;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.HeadUpDisplay;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
@@ -23,13 +20,11 @@ public class GameState
 
     transient private Context context;
     transient private InputManager inputManager;
-    transient private SurfaceHolder surfaceHolder;   //used to get Canvas
     private int widthViewport;
     private int heightViewport;
 
     private Player player;
     transient private SceneManager sceneManager;
-    private HeadUpDisplay headUpDisplay;
 
     public GameState(GameCartridge gameCartridge) {
         /////////////
@@ -47,12 +42,9 @@ public class GameState
 
         context = gameCartridge.getContext();
         inputManager = gameCartridge.getInputManager();
-        surfaceHolder = gameCartridge.getSurfaceHolder();
 
         player = gameCartridge.getPlayer();
         sceneManager = new SceneManager(gameCartridge);
-        headUpDisplay = new HeadUpDisplay(gameCartridge);
-        headUpDisplay.init(gameCartridge);
     }
 
     @Override
@@ -79,30 +71,13 @@ public class GameState
     @Override
     public void update(long elapsed) {
         sceneManager.getCurrentScene().update(elapsed);
-        headUpDisplay.update(elapsed);
     }
 
     @Override
-    public void render() {
-        //synchronize?
-        ////////////////////////////////////
-        Canvas canvas = surfaceHolder.lockCanvas();
-        ////////////////////////////////////
-
-        if (canvas != null) {
-            //Clear the canvas by painting the background white.
-            canvas.drawColor(Color.WHITE);
-
-            //@@@@@@@@@@@@@@@@@@@@@@@@@@
-            sceneManager.getCurrentScene().render(canvas);
-            headUpDisplay.render(canvas);
-            //@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-            //unlock it and post our updated drawing to it.
-            ///////////////////////////////////
-            surfaceHolder.unlockCanvasAndPost(canvas);
-            ///////////////////////////////////
-        }
+    public void render(Canvas canvas) {
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@
+        sceneManager.getCurrentScene().render(canvas);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@
     }
 
     @Override

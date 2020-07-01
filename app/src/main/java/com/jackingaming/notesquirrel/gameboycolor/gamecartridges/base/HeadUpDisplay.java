@@ -21,6 +21,7 @@ public class HeadUpDisplay
     public static final int BORDER = 3;
 
     transient private GameCartridge gameCartridge;
+    private boolean isVisible;
 
     private int widthViewport;
     private int heightViewport;
@@ -30,16 +31,20 @@ public class HeadUpDisplay
     transient private Bitmap selectedItem;
 
     public HeadUpDisplay(GameCartridge gameCartridge) {
+        init(gameCartridge);
+    }
+
+    public void init(GameCartridge gameCartridge) {
+        this.gameCartridge = gameCartridge;
+
+        isVisible = true;
         widthViewport = gameCartridge.getWidthViewport();
         heightViewport = gameCartridge.getHeightViewport();
         widthPixelToViewportRatio = ((float) widthViewport) /
                 gameCartridge.getGameCamera().getWidthClipInPixel();
         heightPixelToViewportRatio = ((float) heightViewport) /
                 gameCartridge.getGameCamera().getHeightClipInPixel();
-    }
 
-    public void init(GameCartridge gameCartridge) {
-        this.gameCartridge = gameCartridge;
         selectedItem = gameCartridge.getPlayer().getSelectedItem().getImage();
     }
 
@@ -83,6 +88,14 @@ public class HeadUpDisplay
         roundedBitmapDrawable.setBounds(screenPosition);
         roundedBitmapDrawable.draw(canvas);
         //////////////////////////////////////////////////////////////////////////////
+    }
+
+    public boolean getIsVisible() {
+        return isVisible;
+    }
+
+    public void setIsVisible(boolean isVisible) {
+        this.isVisible = isVisible;
     }
 
 }

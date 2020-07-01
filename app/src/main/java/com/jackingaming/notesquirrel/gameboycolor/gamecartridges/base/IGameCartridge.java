@@ -36,6 +36,8 @@ public interface IGameCartridge {
     public void setPlayer(Player player);
     public GameCamera getGameCamera();
     public void setGameCamera(GameCamera gameCamera);
+    public HeadUpDisplay getHeadUpDisplay();
+    public void setHeadUpDisplay(HeadUpDisplay headUpDisplay);
     public SceneManager getSceneManager();
     public StateManager getStateManager();
 

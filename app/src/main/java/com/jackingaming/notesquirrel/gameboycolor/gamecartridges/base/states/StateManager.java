@@ -25,10 +25,9 @@ public class StateManager {
     public void initStateCollection(GameCartridge gameCartridge) {
         stateCollection = new HashMap<State.Id, State>();
 
-        GameState gameState = new GameState(gameCartridge);
-        stateCollection.put(State.Id.GAME, gameState);
-        stateCollection.put(State.Id.START_MENU, new StartMenuState(gameCartridge, gameState.getSceneManager()));
-        stateCollection.put(State.Id.TEXTBOX, new TextboxState(gameCartridge, gameState.getSceneManager()));
+        stateCollection.put(State.Id.GAME, new GameState(gameCartridge));
+        stateCollection.put(State.Id.START_MENU, new StartMenuState(gameCartridge));
+        stateCollection.put(State.Id.TEXTBOX, new TextboxState(gameCartridge));
     }
 
     public State getState(State.Id id) {

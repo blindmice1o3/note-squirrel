@@ -75,6 +75,14 @@ public class ScenePong extends Scene {
         opponent.init(spriteSheetYokoTileset);
     }
 
+    @Override
+    public void enter() {
+        super.enter();
+
+        //TODO: base this from what's saved via StartMenuState's OPTION (settings).
+        gameCartridge.getHeadUpDisplay().setIsVisible(false);
+    }
+
     /**
      * Update the user's bat position.
      * <p>

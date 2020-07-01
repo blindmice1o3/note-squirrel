@@ -6,11 +6,9 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.util.Log;
-import android.view.SurfaceHolder;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 
 import java.io.Serializable;
@@ -24,15 +22,12 @@ public class TextboxState
     private Id id;
 
     transient private InputManager inputManager;
-    transient private SurfaceHolder surfaceHolder;    //used to get Canvas
     private int widthViewport;
     private int heightViewport;
 
-    transient private SceneManager sceneManager;
-
     transient private Textbox textbox;
 
-    public TextboxState(GameCartridge gameCartridge, SceneManager sceneManager) {
+    public TextboxState(GameCartridge gameCartridge) {
         ////////////////
         id = Id.TEXTBOX;
         ////////////////
@@ -40,15 +35,13 @@ public class TextboxState
         widthViewport = gameCartridge.getWidthViewport();
         heightViewport = gameCartridge.getHeightViewport();
 
-        init(gameCartridge, sceneManager);
+        init(gameCartridge);
     }
 
-    public void init(GameCartridge gameCartridge, SceneManager sceneManager) {
+    public void init(GameCartridge gameCartridge) {
         this.gameCartridge = gameCartridge;
-        this.sceneManager = sceneManager;
 
         inputManager = gameCartridge.getInputManager();
-        surfaceHolder = gameCartridge.getSurfaceHolder();
 
         initTextbox();
     }
@@ -151,29 +144,14 @@ public class TextboxState
     }
 
     @Override
-    public void render() {
-        //synchronize?
-        ////////////////////////////////////
-        Canvas canvas = surfaceHolder.lockCanvas();
-        ////////////////////////////////////
+    public void render(Canvas canvas) {
+        //@@@RE-DRAW GameState as background@@@
+        // (otherwise white background because we'd cleared earlier)
+        ((GameState)gameCartridge.getStateManager().getState(Id.GAME)).getSceneManager().getCurrentScene().render(canvas);
 
-        if (canvas != null) {
-            //Clear the canvas by painting the background white.
-            canvas.drawColor(Color.WHITE);
-
-            //@@@RE-DRAW state.GAME as background@@@
-            // (otherwise white background because we'd cleared earlier)
-            sceneManager.getCurrentScene().render(canvas);
-
-            ///////////////////////
-            textbox.render(canvas);
-            ///////////////////////
-
-            //unlock it and post our updated drawing to it.
-            ///////////////////////////////////
-            surfaceHolder.unlockCanvasAndPost(canvas);
-            ///////////////////////////////////
-        }
+        ///////////////////////
+        textbox.render(canvas);
+        ///////////////////////
     }
 
     @Override

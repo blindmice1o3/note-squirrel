@@ -59,6 +59,14 @@ public class SceneFrogger extends Scene {
     }
 
     @Override
+    public void enter() {
+        super.enter();
+
+        //TODO: base this from what's saved via StartMenuState's OPTION (settings).
+        gameCartridge.getHeadUpDisplay().setIsVisible(false);
+    }
+
+    @Override
     public void getInputButtonPad() {
         //a button
         if (inputManager.isaButtonPad()) {
