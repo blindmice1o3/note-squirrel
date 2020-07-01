@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles;
+package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -9,13 +9,14 @@ import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
 
 import java.util.ArrayList;
 import java.util.Map;
 
 public abstract class TileMap {
 
-    public enum TileType { SOLID, WALKABLE, TELEVISION, COMPUTER, GAME_CONSOLE, SIGN_POST, TRANSFER_POINT; }
+//    public enum TileType { SOLID, WALKABLE, TELEVISION, COMPUTER, GAME_CONSOLE, SIGN_POST, TRANSFER_POINT; }
 
     public static final int TILE_WIDTH = 16;
     public static final int TILE_HEIGHT = 16;
@@ -23,7 +24,7 @@ public abstract class TileMap {
     protected GameCartridge gameCartridge;
     private Scene.Id sceneID;
 
-    protected TileType[][] tiles;
+    protected Tile[][] tiles;
     protected Bitmap texture;
 
     protected int tileWidth;
@@ -84,7 +85,7 @@ public abstract class TileMap {
         }
     }
 
-    public TileType checkTile(int xIndex, int yIndex) {
+    public Tile checkTile(int xIndex, int yIndex) {
         //CHECK BEYOND SCENE BOUND (e.g. inspecting off map)
         if ((xIndex < 0) ||(xIndex >= (widthSceneMax / tileWidth)) ||
                 (yIndex < 0) || (yIndex >= (heightSceneMax / tileHeight))) {
@@ -107,8 +108,8 @@ public abstract class TileMap {
         int indexRow = yPosition / tileHeight;
 
         //CHECK FOR TileType.WALKABLE
-        if ( (tiles[indexRow][indexColumn] == TileType.WALKABLE) ||
-                (tiles[indexRow][indexColumn] == TileType.TRANSFER_POINT) ) {
+        Tile.Walkability walkability = tiles[indexRow][indexColumn].getWalkability();
+        if (walkability == Tile.Walkability.WALKABLE) {
             return false;
         }
 

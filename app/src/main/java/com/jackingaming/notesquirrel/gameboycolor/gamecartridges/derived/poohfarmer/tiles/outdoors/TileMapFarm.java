@@ -10,7 +10,12 @@ import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.GenericSolidTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.SignPostTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.walkables.GenericWalkableTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.walkables.TransferPointTile;
 
 import java.util.HashMap;
 
@@ -66,7 +71,7 @@ public class TileMapFarm extends TileMap {
         heightSceneMax = rows * tileHeight;             //Always need.
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        tiles = new TileType[rows][columns];            //Always need.
+        tiles = new Tile[rows][columns];            //Always need.
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
         //DEFINE EACH ELEMENT.
@@ -75,17 +80,17 @@ public class TileMapFarm extends TileMap {
                 int pixel = rgbTileMap.getPixel(x, y);
 
                 if (pixel == Color.BLACK) {
-                    tiles[y][x] = TileType.SOLID;
+                    tiles[y][x] = new GenericSolidTile();
                 } else if (pixel == Color.WHITE) {
-                    tiles[y][x] = TileType.WALKABLE;
+                    tiles[y][x] = new GenericWalkableTile();
                 } else if (pixel == Color.RED) {
-                    tiles[y][x] = TileType.SIGN_POST;
+                    tiles[y][x] = new SignPostTile();
                 } else if (pixel == Color.GREEN) {
-                    tiles[y][x] = TileType.TRANSFER_POINT;
+                    tiles[y][x] = new TransferPointTile();
                 }
                 //TODO: handle special tiles (stashWood, flowerPlot, hotSpring)
                 else if (pixel == Color.BLUE) {
-                    tiles[y][x] = TileType.SOLID;
+                    tiles[y][x] = new GenericSolidTile();
                 }
             }
         }

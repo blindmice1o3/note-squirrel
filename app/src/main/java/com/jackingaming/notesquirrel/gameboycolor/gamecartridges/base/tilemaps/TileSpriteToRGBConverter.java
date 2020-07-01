@@ -1,8 +1,11 @@
-package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles;
+package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps;
 
 import android.graphics.Bitmap;
 
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.GenericSolidTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.walkables.GenericWalkableTile;
 
 import java.util.ArrayList;
 
@@ -42,9 +45,9 @@ public class TileSpriteToRGBConverter {
         return returner;
     }
 
-    public TileMap.TileType[][] generateTileMapForCollisionDetection(Bitmap worldBackground,
-                                                                     ArrayList<Bitmap> nonWalkableTileSpriteTargets,
-                                                                     ArrayList<Bitmap> walkableTileSpriteTargets) {
+    public Tile[][] generateTileMapForCollisionDetection(Bitmap worldBackground,
+                                                         ArrayList<Bitmap> nonWalkableTileSpriteTargets,
+                                                         ArrayList<Bitmap> walkableTileSpriteTargets) {
         //////////////////////////////////////////////////////////////////////////
         this.worldBackground = worldBackground;
         //Used in translateTileSpriteToRGBImage() for its final for-loop.
@@ -59,18 +62,18 @@ public class TileSpriteToRGBConverter {
         System.out.println("TileSpriteToRGBConverter.generateTileMapForCollisionDetection(BufferedImage)'s widthWorld: " + widthNumberOfTile);
         System.out.println("TileSpriteToRGBConverter.generateTileMapForCollisionDetection(BufferedImage)'s heightWorld: " + heightNumberOfTile);
 
-        TileMap.TileType[][] returner = new TileMap.TileType[heightNumberOfTile][widthNumberOfTile];
+        Tile[][] returner = new Tile[heightNumberOfTile][widthNumberOfTile];
 
         for (int y = 0; y < heightNumberOfTile; y++) {
             for (int x = 0; x < widthNumberOfTile; x++) {
                 if (rgbImage[y][x][0] == 1) {
-                    returner[y][x] = TileMap.TileType.SOLID;
+                    returner[y][x] = new GenericSolidTile();
                 } else if (rgbImage[y][x][0] == 0) {
-                    returner[y][x] = TileMap.TileType.WALKABLE;
+                    returner[y][x] = new GenericWalkableTile();
                 } else if (rgbImage[y][x][0] == 2) {
                     //TODO: "2" might mean special TileType (MIXED!! some solid, others not!).
                     if (this.worldBackground == Assets.pokemonWorldMapPart1) {
-                        returner[y][x] = TileMap.TileType.WALKABLE;
+                        returner[y][x] = new GenericWalkableTile();
                         //returner[y][x] = new TallGrassTile(x, y);
                     } /* else if (this.worldBackground == Assets.homePlayer) {
                         returner[y][x] = new TelevisionTile(x, y);
@@ -87,7 +90,7 @@ public class TileSpriteToRGBConverter {
                     */
                 } else if (rgbImage[y][x][0] == 9) {
                     //TODO: "9" is probably the blank/white space in world map.
-                    returner[y][x] = TileMap.TileType.SOLID;
+                    returner[y][x] = new GenericSolidTile();
 
                     /*
                     returner[y][x] = new NullTile(x, y);

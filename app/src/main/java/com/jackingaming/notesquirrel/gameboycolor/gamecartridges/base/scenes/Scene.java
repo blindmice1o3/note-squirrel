@@ -12,7 +12,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.E
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.EntityManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 
 import java.io.Serializable;

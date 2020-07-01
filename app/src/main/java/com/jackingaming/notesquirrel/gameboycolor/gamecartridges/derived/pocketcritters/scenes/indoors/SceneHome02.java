@@ -10,7 +10,10 @@ import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.ComputerTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.GameConsoleTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.computer.ComputerActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.indoors.TileMapHome02;
 
@@ -37,7 +40,7 @@ public class SceneHome02 extends Scene {
             Log.d(MainActivity.DEBUG_TAG, "SceneHome02.getInputButtonPad() a-button-justPressed");
 
             //@@@@@TILES@@@@@
-            TileMap.TileType tileFacing = player.getTileTypeCurrentlyFacing();  //currently only using for pocket_critters
+            Tile tileFacing = player.getTileTypeCurrentlyFacing();  //currently only using for pocket_critters
 
             //TODO: may not be needed (was intended for tiles at edge of TileMap)
             if (tileFacing == null) {
@@ -45,9 +48,9 @@ public class SceneHome02 extends Scene {
                 return;
             }
 
-            Log.d(MainActivity.DEBUG_TAG, "tileFacing is: " + tileFacing.name());
+            Log.d(MainActivity.DEBUG_TAG, "tileFacing is: " + tileFacing.getClass().getSimpleName());
             //TODO: change game cartridge or change scene or start new Activity???
-            if (tileFacing == TileMap.TileType.GAME_CONSOLE) {
+            if (tileFacing instanceof GameConsoleTile) {
                 final String message = "GaMeCoNsOlE tile.";
                 /////////////////////////////////////////////////////////////////////////////////
                 ((JackInActivity) gameCartridge.getContext()).runOnUiThread(new Runnable() {
@@ -66,7 +69,7 @@ public class SceneHome02 extends Scene {
                 extra[1] = player.getMoveSpeed();
                 sceneManager.push(Scene.Id.FARM, extra);
                 ////////////////////////////////////////
-            } else if (tileFacing == TileMap.TileType.COMPUTER) {
+            } else if (tileFacing instanceof ComputerTile) {
                 gameCartridge.savePresentState();
                 Log.d(MainActivity.DEBUG_TAG, "SceneHome02.getInputButtonPad() saved present state");
 
@@ -74,9 +77,9 @@ public class SceneHome02 extends Scene {
                 Intent computerIntent = new Intent(context, ComputerActivity.class);
                 ((JackInActivity) context).startActivityForResult(computerIntent, REQUEST_CODE_COMPUTER_ACTIVITY);
             } else {
-                Log.d(MainActivity.DEBUG_TAG, "tileFacing is: " + tileFacing.name());
+                Log.d(MainActivity.DEBUG_TAG, "tileFacing is: " + tileFacing.getClass().getSimpleName());
 
-                final String message = tileFacing.name();
+                final String message = tileFacing.getClass().getSimpleName();
                 /////////////////////////////////////////////////////////////////////////////////
                 ((JackInActivity) context).runOnUiThread(new Runnable() {
                     public void run() {
