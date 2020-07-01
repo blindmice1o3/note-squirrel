@@ -7,8 +7,9 @@ import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMapLoader;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMapLoader;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -67,7 +68,7 @@ public class TileMapPart01 extends TileMap {
     @Override
     protected void initTiles() {
         //FULL world map (280-tiles by 270-tiles).
-        TileType[][] fullWorldMap = TileMapLoader.convertStringToTiles(stringOfTiles);
+        Tile[][] fullWorldMap = TileMapLoader.convertStringToTiles(stringOfTiles);
 
         //DEFINE EACH ELEMENT. (TO CROP TO PROPER SIZE)
         //TODO: these values should be used to crop the full map IMAGE from Assets class.
@@ -83,7 +84,7 @@ public class TileMapPart01 extends TileMap {
 
         //CROPPED world map.
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        tiles = new TileType[rows][columns];            //Always need.
+        tiles = new Tile[rows][columns];            //Always need.
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
         for (int y = yStartTileIndex; y < yEndTileIndex; y++) {

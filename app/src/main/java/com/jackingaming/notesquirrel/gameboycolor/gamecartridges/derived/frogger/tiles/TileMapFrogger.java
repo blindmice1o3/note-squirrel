@@ -7,7 +7,9 @@ import android.graphics.Rect;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.walkables.GenericWalkableTile;
 
 import java.util.HashMap;
 
@@ -49,12 +51,12 @@ public class TileMapFrogger extends TileMap {
         int rows = heightSceneMax / tileHeight;     //Always need.
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        tiles = new TileType[rows][columns];        //Always need.
+        tiles = new Tile[rows][columns];        //Always need.
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
         for (int y = 0; y < rows; y++) {
             for (int x = 0; x < columns; x++) {
-                tiles[y][x] = TileType.WALKABLE;
+                tiles[y][x] = new GenericWalkableTile();
             }
         }
     }

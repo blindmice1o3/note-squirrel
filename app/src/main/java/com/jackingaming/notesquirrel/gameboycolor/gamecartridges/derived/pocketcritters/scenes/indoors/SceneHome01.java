@@ -10,7 +10,9 @@ import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.TelevisionTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.television.TelevisionActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.indoors.TileMapHome01;
 
@@ -37,7 +39,7 @@ public class SceneHome01 extends Scene {
             Log.d(MainActivity.DEBUG_TAG, "SceneHome01.getInputButtonPad() a-button-justPressed");
 
             //@@@@@TILES@@@@@
-            TileMap.TileType tileFacing = player.getTileTypeCurrentlyFacing();  //currently only using for pocket_critters
+            Tile tileFacing = player.getTileTypeCurrentlyFacing();  //currently only using for pocket_critters
 
             //TODO: may not be needed (was intended for tiles at edge of TileMap)
             if (tileFacing == null) {
@@ -45,9 +47,9 @@ public class SceneHome01 extends Scene {
                 return;
             }
 
-            Log.d(MainActivity.DEBUG_TAG, "tileFacing is: " + tileFacing.name());
+            Log.d(MainActivity.DEBUG_TAG, "tileFacing is: " + tileFacing.getClass());
             //TODO: change game cartridge or change scene or start new Activity???
-            if (tileFacing == TileMap.TileType.TELEVISION) {
+            if (tileFacing instanceof TelevisionTile) {
                 gameCartridge.savePresentState();
                 Log.d(MainActivity.DEBUG_TAG, "SceneHome01.getInputButtonPad() saved present state");
 
@@ -55,9 +57,9 @@ public class SceneHome01 extends Scene {
                 Intent televisionIntent = new Intent(context, TelevisionActivity.class);
                 ((JackInActivity) context).startActivityForResult(televisionIntent, REQUEST_CODE_TELEVISION_ACTIVITY);
             } else {
-                Log.d(MainActivity.DEBUG_TAG, "tileFacing is: " + tileFacing.name());
+                Log.d(MainActivity.DEBUG_TAG, "tileFacing is: " + tileFacing.getClass());
 
-                final String message = tileFacing.name();
+                final String message = tileFacing.getClass().getSimpleName();
                 /////////////////////////////////////////////////////////////////////////////////
                 ((JackInActivity) context).runOnUiThread(new Runnable() {
                     public void run() {

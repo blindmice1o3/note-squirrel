@@ -10,9 +10,10 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartri
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.IGameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.Item;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Animation;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -343,7 +344,7 @@ public class Player extends Creature {
         return tempEntityReturner;
     }
 
-    public TileMap.TileType getTileTypeCurrentlyFacing() {
+    public Tile getTileTypeCurrentlyFacing() {
         Log.d(MainActivity.DEBUG_TAG, "Player.getTileTypeCurrentlyFacing()");
 
         TileMap tileMap = gameCartridge.getSceneManager().getCurrentScene().getTileMap();

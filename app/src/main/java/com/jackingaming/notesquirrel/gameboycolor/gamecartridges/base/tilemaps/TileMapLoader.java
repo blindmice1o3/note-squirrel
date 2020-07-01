@@ -1,9 +1,16 @@
-package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles;
+package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps;
 
 import android.content.res.Resources;
 import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.ComputerTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.GameConsoleTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.GenericSolidTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.TelevisionTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.walkables.GenericWalkableTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.walkables.TallGrassTile;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -60,7 +67,7 @@ public class TileMapLoader {
 
     /**
      * Responsible for converting the result of "loadFileAsString(Context, int)" into
-     * a multi-dimensional array of TileType that represents the scene.
+     * a multi-dimensional array of Tile that represents the scene.
      *
      * In the "tiles_world_map.txt" file, we separated each tile sprite by
      * a "space" or a "newline character".
@@ -70,7 +77,7 @@ public class TileMapLoader {
      *
      * To split on any amount of white space, use "\\s+" as the argument to "split()".
      */
-    public static TileMap.TileType[][] convertStringToTiles(String stringOfTiles) {
+    public static Tile[][] convertStringToTiles(String stringOfTiles) {
         Log.d(MainActivity.DEBUG_TAG, "TileMapLoader.convertStringToTiles(String)");
 
         String[] tokens = stringOfTiles.split("\\s+");
@@ -80,8 +87,8 @@ public class TileMapLoader {
         int rows = Integer.parseInt( tokens[1] );
 
         // Now every single number after this is actual world-data. We have to read all
-        // of this data into a TileMap.TileType[][] and return it to the TileMap class.
-        TileMap.TileType[][] tiles = new TileMap.TileType[rows][columns];
+        // of this data into a Tile[][] and return it to the TileMap class.
+        Tile[][] tiles = new Tile[rows][columns];
 
         // Here's where it gets a bit tricky. The "tokens" array is 1-D while "tiles" is 2-D.
         //
@@ -94,33 +101,33 @@ public class TileMapLoader {
         // "tiles_world_map.txt" file (array indexes [0] and [1]) as width and height values.
         for (int y = 0; y < rows; y++) {
             for (int x = 0; x < columns; x++) {
-                //SolidTile
-                if (tokens[((y * columns) + x) + 2].equals("1")) {
-                    tiles[y][x] = TileMap.TileType.SOLID;
-                }
-                //NonSolidTile
-                else if (tokens[((y * columns) + x) + 2].equals("0")) {
-                    tiles[y][x] = TileMap.TileType.WALKABLE;
-                }
-                //TallGrassTile
-                else if (tokens[((y * columns) + x) + 2].equals("2")) {
-                    tiles[y][x] = TileMap.TileType.WALKABLE;
-                }
                 //TelevisionTile
-                else if (tokens[((y * columns) + x) + 2].equals("3")) {
-                    tiles[y][x] = TileMap.TileType.TELEVISION;
+                if (tokens[((y * columns) + x) + 2].equals("3")) {
+                    tiles[y][x] = new TelevisionTile();
                 }
                 //ComputerTile
                 else if (tokens[((y * columns) + x) + 2].equals("4")) {
-                    tiles[y][x] = TileMap.TileType.COMPUTER;
+                    tiles[y][x] = new ComputerTile();
                 }
                 //GameConsoleTile
                 else if (tokens[((y * columns) + x) + 2].equals("5")) {
-                    tiles[y][x] = TileMap.TileType.GAME_CONSOLE;
+                    tiles[y][x] = new GameConsoleTile();
+                }
+                //TallGrassTile
+                else if (tokens[((y * columns) + x) + 2].equals("2")) {
+                    tiles[y][x] = new TallGrassTile();
+                }
+                //SolidTile
+                else if (tokens[((y * columns) + x) + 2].equals("1")) {
+                    tiles[y][x] = new GenericSolidTile();
+                }
+                //NonSolidTile
+                else if (tokens[((y * columns) + x) + 2].equals("0")) {
+                    tiles[y][x] = new GenericWalkableTile();
                 }
                 //NullTile (blank tile)
                 else if (tokens[((y * columns) + x) + 2].equals("9")) {
-                    tiles[y][x] = TileMap.TileType.SOLID;
+                    tiles[y][x] = new GenericSolidTile();
                 }
             }
         }

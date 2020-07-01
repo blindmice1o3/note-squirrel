@@ -12,7 +12,8 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.P
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.outdoors.worldmap.TileMapPart01;
 
 public class ScenePart01 extends Scene {
@@ -60,7 +61,7 @@ public class ScenePart01 extends Scene {
             Log.d(MainActivity.DEBUG_TAG, "ScenePart01.getInputButtonPad() a-button-justPressed");
 
             //@@@@@TILES@@@@@
-            TileMap.TileType tileFacing = player.getTileTypeCurrentlyFacing();  //currently only using for pocket_critters
+            Tile tileFacing = player.getTileTypeCurrentlyFacing();  //currently only using for pocket_critters
 
             //TODO: may not be needed (was intended for tiles at edge of TileMap)
             if (tileFacing == null) {
@@ -68,8 +69,8 @@ public class ScenePart01 extends Scene {
                 return;
             }
 
-            Log.d(MainActivity.DEBUG_TAG, "tileFacing is: " + tileFacing.name());
-            final String message = tileFacing.name();
+            Log.d(MainActivity.DEBUG_TAG, "tileFacing is: " + tileFacing.getClass().getSimpleName());
+            final String message = tileFacing.getClass().getSimpleName();
             /////////////////////////////////////////////////////////////////////////////////
             ((JackInActivity) context).runOnUiThread(new Runnable() {
                 public void run() {

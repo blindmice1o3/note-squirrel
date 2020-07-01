@@ -3,15 +3,11 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfa
 import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.IGameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.entities.Robot;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.outdoors.TileMapFarm;
 

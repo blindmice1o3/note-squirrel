@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tiles.TileMap;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
 
 import java.io.Serializable;
 
