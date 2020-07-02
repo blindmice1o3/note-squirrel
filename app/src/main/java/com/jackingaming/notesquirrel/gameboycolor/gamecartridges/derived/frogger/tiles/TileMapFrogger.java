@@ -56,7 +56,7 @@ public class TileMapFrogger extends TileMap {
 
         for (int y = 0; y < rows; y++) {
             for (int x = 0; x < columns; x++) {
-                tiles[y][x] = new GenericWalkableTile();
+                tiles[y][x] = new GenericWalkableTile(gameCartridge, x, y);
             }
         }
     }

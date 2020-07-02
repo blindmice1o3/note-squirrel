@@ -2,6 +2,7 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps;
 
 import android.graphics.Bitmap;
 
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.GenericSolidTile;
@@ -45,7 +46,7 @@ public class TileSpriteToRGBConverter {
         return returner;
     }
 
-    public Tile[][] generateTileMapForCollisionDetection(Bitmap worldBackground,
+    public Tile[][] generateTileMapForCollisionDetection(GameCartridge gameCartridge, Bitmap worldBackground,
                                                          ArrayList<Bitmap> nonWalkableTileSpriteTargets,
                                                          ArrayList<Bitmap> walkableTileSpriteTargets) {
         //////////////////////////////////////////////////////////////////////////
@@ -67,13 +68,13 @@ public class TileSpriteToRGBConverter {
         for (int y = 0; y < heightNumberOfTile; y++) {
             for (int x = 0; x < widthNumberOfTile; x++) {
                 if (rgbImage[y][x][0] == 1) {
-                    returner[y][x] = new GenericSolidTile();
+                    returner[y][x] = new GenericSolidTile(gameCartridge, x, y);
                 } else if (rgbImage[y][x][0] == 0) {
-                    returner[y][x] = new GenericWalkableTile();
+                    returner[y][x] = new GenericWalkableTile(gameCartridge, x, y);
                 } else if (rgbImage[y][x][0] == 2) {
                     //TODO: "2" might mean special TileType (MIXED!! some solid, others not!).
                     if (this.worldBackground == Assets.pokemonWorldMapPart1) {
-                        returner[y][x] = new GenericWalkableTile();
+                        returner[y][x] = new GenericWalkableTile(gameCartridge, x, y);
                         //returner[y][x] = new TallGrassTile(x, y);
                     } /* else if (this.worldBackground == Assets.homePlayer) {
                         returner[y][x] = new TelevisionTile(x, y);
@@ -90,7 +91,7 @@ public class TileSpriteToRGBConverter {
                     */
                 } else if (rgbImage[y][x][0] == 9) {
                     //TODO: "9" is probably the blank/white space in world map.
-                    returner[y][x] = new GenericSolidTile();
+                    returner[y][x] = new GenericSolidTile(gameCartridge, x, y);
 
                     /*
                     returner[y][x] = new NullTile(x, y);

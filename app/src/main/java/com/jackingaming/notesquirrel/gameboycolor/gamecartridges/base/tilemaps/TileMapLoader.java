@@ -4,7 +4,9 @@ import android.content.res.Resources;
 import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.PotTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.ComputerTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.GameConsoleTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.GenericSolidTile;
@@ -77,7 +79,7 @@ public class TileMapLoader {
      *
      * To split on any amount of white space, use "\\s+" as the argument to "split()".
      */
-    public static Tile[][] convertStringToTiles(String stringOfTiles) {
+    public static Tile[][] convertStringToTiles(GameCartridge gameCartridge, String stringOfTiles) {
         Log.d(MainActivity.DEBUG_TAG, "TileMapLoader.convertStringToTiles(String)");
 
         String[] tokens = stringOfTiles.split("\\s+");
@@ -103,31 +105,35 @@ public class TileMapLoader {
             for (int x = 0; x < columns; x++) {
                 //TelevisionTile
                 if (tokens[((y * columns) + x) + 2].equals("3")) {
-                    tiles[y][x] = new TelevisionTile();
+                    tiles[y][x] = new TelevisionTile(gameCartridge, x, y);
                 }
                 //ComputerTile
                 else if (tokens[((y * columns) + x) + 2].equals("4")) {
-                    tiles[y][x] = new ComputerTile();
+                    tiles[y][x] = new ComputerTile(gameCartridge, x, y);
                 }
                 //GameConsoleTile
                 else if (tokens[((y * columns) + x) + 2].equals("5")) {
-                    tiles[y][x] = new GameConsoleTile();
+                    tiles[y][x] = new GameConsoleTile(gameCartridge, x, y);
                 }
                 //TallGrassTile
                 else if (tokens[((y * columns) + x) + 2].equals("2")) {
-                    tiles[y][x] = new TallGrassTile();
+                    tiles[y][x] = new TallGrassTile(gameCartridge, x, y);
+                }
+                //PotTile
+                else if (tokens[((y * columns) + x) + 2].equals("p")) {
+                    tiles[y][x] = new PotTile(gameCartridge, x, y);
                 }
                 //SolidTile
                 else if (tokens[((y * columns) + x) + 2].equals("1")) {
-                    tiles[y][x] = new GenericSolidTile();
+                    tiles[y][x] = new GenericSolidTile(gameCartridge, x, y);
                 }
                 //NonSolidTile
                 else if (tokens[((y * columns) + x) + 2].equals("0")) {
-                    tiles[y][x] = new GenericWalkableTile();
+                    tiles[y][x] = new GenericWalkableTile(gameCartridge, x, y);
                 }
                 //NullTile (blank tile)
                 else if (tokens[((y * columns) + x) + 2].equals("9")) {
-                    tiles[y][x] = new GenericSolidTile();
+                    tiles[y][x] = new GenericSolidTile(gameCartridge, x, y);
                 }
             }
         }

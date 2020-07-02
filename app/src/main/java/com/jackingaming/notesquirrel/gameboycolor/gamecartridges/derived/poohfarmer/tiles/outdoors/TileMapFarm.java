@@ -80,17 +80,17 @@ public class TileMapFarm extends TileMap {
                 int pixel = rgbTileMap.getPixel(x, y);
 
                 if (pixel == Color.BLACK) {
-                    tiles[y][x] = new GenericSolidTile();
+                    tiles[y][x] = new GenericSolidTile(gameCartridge, x, y);
                 } else if (pixel == Color.WHITE) {
-                    tiles[y][x] = new GenericWalkableTile();
+                    tiles[y][x] = new GenericWalkableTile(gameCartridge, x, y);
                 } else if (pixel == Color.RED) {
-                    tiles[y][x] = new SignPostTile();
+                    tiles[y][x] = new SignPostTile(gameCartridge, x, y);
                 } else if (pixel == Color.GREEN) {
-                    tiles[y][x] = new TransferPointTile();
+                    tiles[y][x] = new TransferPointTile(gameCartridge, x, y);
                 }
                 //TODO: handle special tiles (stashWood, flowerPlot, hotSpring)
                 else if (pixel == Color.BLUE) {
-                    tiles[y][x] = new GenericSolidTile();
+                    tiles[y][x] = new GenericSolidTile(gameCartridge, x, y);
                 }
             }
         }

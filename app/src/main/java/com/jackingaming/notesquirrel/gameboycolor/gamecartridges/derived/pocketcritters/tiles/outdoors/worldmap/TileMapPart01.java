@@ -68,7 +68,7 @@ public class TileMapPart01 extends TileMap {
     @Override
     protected void initTiles() {
         //FULL world map (280-tiles by 270-tiles).
-        Tile[][] fullWorldMap = TileMapLoader.convertStringToTiles(stringOfTiles);
+        Tile[][] fullWorldMap = TileMapLoader.convertStringToTiles(gameCartridge, stringOfTiles);
 
         //DEFINE EACH ELEMENT. (TO CROP TO PROPER SIZE)
         //TODO: these values should be used to crop the full map IMAGE from Assets class.

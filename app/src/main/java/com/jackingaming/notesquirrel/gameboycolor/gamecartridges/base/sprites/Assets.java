@@ -282,6 +282,26 @@ public class Assets {
         return hothouseFull;
     }
 
+    public static Bitmap cropPotTileWatered(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropPotTileWatered(Resources)");
+
+        Bitmap plantsHothouseHM2 = BitmapFactory.decodeResource(resources, R.drawable.hm2_hothouse_plants);
+        Bitmap potTileWatered = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        potTileWatered = Bitmap.createBitmap(plantsHothouseHM2, 8, 120, 16, 16);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "potTileWatered: " + potTileWatered.getWidth() + ", " + potTileWatered.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        plantsHothouseHM2 = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropPotTileWatered(Resources)... plantsHothouseHM2 is null? " + plantsHothouseHM2);
+
+        return potTileWatered;
+    }
+
     public static Bitmap cropSheepPenEmpty(Resources resources) {
         Log.d(MainActivity.DEBUG_TAG, "Assets.cropSheepPenEmpty(Resources)");
 

@@ -350,6 +350,7 @@ public class Player extends Creature {
         TileMap tileMap = gameCartridge.getSceneManager().getCurrentScene().getTileMap();
 
         /////////////////////////////////////////////////////
+        //TODO: remove so other games can return identify individual instances of Tile.
         if (gameCartridge.getIdGameCartridge() == IGameCartridge.Id.POCKET_CRITTERS) {
         /////////////////////////////////////////////////////
             float xPlayerCenter = xCurrent + (width / 2);
@@ -380,9 +381,9 @@ public class Player extends Creature {
             }
 
             Log.d(MainActivity.DEBUG_TAG, "getTileTypeCurrentlyFacing at: (" + xInspectIndex + ", " + yInspectIndex + ").");
-            ///////////////////////////////////////////////////////
-            return tileMap.checkTile(xInspectIndex, yInspectIndex);
-            ///////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////
+            return tileMap.getTile(xInspectIndex, yInspectIndex);
+            /////////////////////////////////////////////////////
         }
 
         return null;

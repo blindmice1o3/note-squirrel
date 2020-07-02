@@ -233,7 +233,10 @@ public abstract class Scene
         canvas.drawBitmap(tileMap.getTexture(), rectOfClip, rectOfViewport, null);
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-        //FOREGROUND
+        //TILES
+        tileMap.render(canvas);
+
+        //ENTITIES
         entityManager.render(canvas);
     }
 

@@ -2,6 +2,7 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.Log;
 
@@ -55,6 +56,38 @@ public abstract class TileMap {
     protected abstract void initTextureAndSourceFile(Resources resources);
     protected abstract void initTiles();
 
+    public void render(Canvas canvas) {
+        //TODO:
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        // RENDERING EFFICIENCY from youtube's CodeNMore NEW Beginner 2D Game Programming series. //
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        int columns = tiles[0].length;
+        int rows = tiles.length;
+
+        int xStart = (int)Math.max(0, gameCartridge.getGameCamera().getX() / tileWidth);
+        int xEnd = (int)Math.min(columns, ((gameCartridge.getGameCamera().getX() +
+                gameCartridge.getGameCamera().getWidthClipInPixel()) / tileWidth) + 1);
+        int yStart = (int)Math.max(0, gameCartridge.getGameCamera().getY() / tileHeight);
+        int yEnd = (int)Math.min(rows, (gameCartridge.getGameCamera().getY() +
+                gameCartridge.getGameCamera().getHeightClipInPixel()) / tileHeight + 1);
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        // RENDERING EFFICIENCY from youtube's CodeNMore NEW Beginner 2D Game Programming series. //
+        ////////////////////////////////////////////////////////////////////////////////////////////
+
+        // RENDER TILES
+        for (int y = yStart; y < yEnd; y++) {
+            for (int x = xStart; x < xEnd; x++) {
+                Tile tileCurrent = getTile(x, y);
+
+                if (tileCurrent != null) {
+                    // Multiple to convert from x,y indexes to tile-size.
+                    tileCurrent.render(canvas, (int)(x * tileWidth - gameCartridge.getGameCamera().getX()),
+                            (int)(y * tileHeight - gameCartridge.getGameCamera().getY()));
+                }
+            }
+        }
+    }
+
     //TODO: do "recordLocationPriorToTransfer()" and "loadLocationPriorToTransfer()"
     // within TileMap instead of Scene's "enter()" and "exit()"
     // (e.g. instead of just having spawnPosition... also store enterPosition and exitPosition).
@@ -85,14 +118,12 @@ public abstract class TileMap {
         }
     }
 
-    public Tile checkTile(int xIndex, int yIndex) {
+    public Tile getTile(int xIndex, int yIndex) {
         //CHECK BEYOND SCENE BOUND (e.g. inspecting off map)
         if ((xIndex < 0) ||(xIndex >= (widthSceneMax / tileWidth)) ||
                 (yIndex < 0) || (yIndex >= (heightSceneMax / tileHeight))) {
             return null;
         }
-
-        Log.d(MainActivity.DEBUG_TAG, "TileMap.checkTile(int, int) (xIndex, yIndex): (" + xIndex + ", " + yIndex + ").");
 
         return tiles[yIndex][xIndex];
     }

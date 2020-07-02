@@ -55,7 +55,7 @@ public class TileMapHothouse extends TileMap {
 
     @Override
     protected void initTiles() {
-        tiles = TileMapLoader.convertStringToTiles(stringOfTiles);
+        tiles = TileMapLoader.convertStringToTiles(gameCartridge, stringOfTiles);
 
         int columns = tiles[0].length;          //Always need.
         int rows = tiles.length;                //Always need.
