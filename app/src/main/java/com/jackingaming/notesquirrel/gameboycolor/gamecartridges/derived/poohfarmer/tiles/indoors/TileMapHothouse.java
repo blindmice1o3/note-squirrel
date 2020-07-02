@@ -44,11 +44,14 @@ public class TileMapHothouse extends TileMap {
     }
 
     @Override
-    protected void initTextureAndSourceFile(Resources resources) {
+    protected void initTexture(Resources resources) {
         //////////////////////////////////////////////////////////////////////////////////////////////
         texture = (isFull) ? Assets.cropHothouseFull(resources) : Assets.cropHothouseEmpty(resources);
         //////////////////////////////////////////////////////////////////////////////////////////////
+    }
 
+    @Override
+    protected void initSourceFile(Resources resources) {
         //text-source-file of HOTHOUSE stored as String.
         stringOfTiles = TileMapLoader.loadFileAsString(resources, R.raw.tile_hothouse);
     }

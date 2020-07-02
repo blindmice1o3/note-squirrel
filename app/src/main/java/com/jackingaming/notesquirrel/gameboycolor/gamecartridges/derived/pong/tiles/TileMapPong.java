@@ -39,9 +39,14 @@ public class TileMapPong extends TileMap {
     }
 
     @Override
-    protected void initTextureAndSourceFile(Resources resources) {
+    protected void initTexture(Resources resources) {
         texture = Bitmap.createBitmap(gameCartridge.getWidthViewport(),
                 gameCartridge.getHeightViewport(), Bitmap.Config.ALPHA_8);
+    }
+
+    @Override
+    protected void initSourceFile(Resources resources) {
+        //intentionally blank.
     }
 
     @Override

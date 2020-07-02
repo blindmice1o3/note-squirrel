@@ -44,11 +44,14 @@ public class TileMapCowBarn extends TileMap {
     }
 
     @Override
-    protected void initTextureAndSourceFile(Resources resources) {
+    protected void initTexture(Resources resources) {
         //////////////////////////////////////////////////////////////////////////////////////////////
         texture = (isFull) ? Assets.cropCowBarnFull(resources) : Assets.cropCowBarnEmpty(resources);
         //////////////////////////////////////////////////////////////////////////////////////////////
+    }
 
+    @Override
+    protected void initSourceFile(Resources resources) {
         //text-source-file of COW_BARN stored as String.
         stringOfTiles = TileMapLoader.loadFileAsString(resources, R.raw.tile_cow_barn);
     }

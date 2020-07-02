@@ -22,10 +22,17 @@ import java.util.HashMap;
 public class TileMapFarm extends TileMap {
 
     // Each pixel represents a tile.
-    private Bitmap rgbTileMap;
+    transient private Bitmap rgbTileMap;
 
     public TileMapFarm(GameCartridge gameCartridge, Scene.Id sceneID) {
         super(gameCartridge, sceneID);
+    }
+
+    @Override
+    public void init(GameCartridge gameCartridge) {
+        super.init(gameCartridge);
+
+        initSourceFile(gameCartridge.getContext().getResources());
     }
 
     @Override
@@ -55,9 +62,12 @@ public class TileMapFarm extends TileMap {
     }
 
     @Override
-    protected void initTextureAndSourceFile(Resources resources) {
+    protected void initTexture(Resources resources) {
         texture = Assets.cropFarmSpring(resources);
+    }
 
+    @Override
+    protected void initSourceFile(Resources resources) {
         //image-source-file of the farm's tiles stored as pixels.
         rgbTileMap = BitmapFactory.decodeResource(resources, R.drawable.tile_map_farm);;
     }

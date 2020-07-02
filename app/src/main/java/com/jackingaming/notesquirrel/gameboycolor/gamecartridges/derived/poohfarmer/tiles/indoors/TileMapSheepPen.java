@@ -44,11 +44,14 @@ public class TileMapSheepPen extends TileMap {
     }
 
     @Override
-    protected void initTextureAndSourceFile(Resources resources) {
+    protected void initTexture(Resources resources) {
         //////////////////////////////////////////////////////////////////////////////////////////////
         texture = (isFull) ? Assets.cropSheepPenFull(resources) : Assets.cropSheepPenEmpty(resources);
         //////////////////////////////////////////////////////////////////////////////////////////////
+    }
 
+    @Override
+    protected void initSourceFile(Resources resources) {
         //text-source-file of SHEEP_PEN stored as String.
         stringOfTiles = TileMapLoader.loadFileAsString(resources, R.raw.tile_sheep_pen);
     }

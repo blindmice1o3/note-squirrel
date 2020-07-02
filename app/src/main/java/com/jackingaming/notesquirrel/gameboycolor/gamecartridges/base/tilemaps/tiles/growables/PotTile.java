@@ -19,6 +19,13 @@ public class PotTile extends GrowableTile {
         isPlanted = false;
     }
 
+    @Override
+    public void init(GameCartridge gameCartridge) {
+        super.init(gameCartridge);
+
+        image = (isEmptyTable) ? (null) : (Assets.cropPotTileWatered(gameCartridge.getContext().getResources()));
+    }
+
     public void toggleIsEmptyTable() {
         isEmptyTable = !isEmptyTable;
 

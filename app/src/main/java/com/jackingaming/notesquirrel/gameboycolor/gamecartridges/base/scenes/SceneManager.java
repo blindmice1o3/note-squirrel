@@ -218,7 +218,7 @@ public class SceneManager {
 
         Scene nextScene = sceneCollection.get(id);
         //TODO: improve on the if-condition.
-        if (nextScene.getTileMap() == null) {
+        if (nextScene.getTileMap().getTexture() == null) {
             ///////////////////////////////////
             nextScene.init(gameCartridge, player, gameCamera, this);
             ///////////////////////////////////
@@ -241,7 +241,7 @@ public class SceneManager {
         sceneStack.remove( getIndexOfTop() );
 
         //TODO: improve on the if-condition.
-        if (getCurrentScene().getTileMap() == null) {
+        if (getCurrentScene().getTileMap().getTexture() == null) {
             ///////////////////////////////////////////
             getCurrentScene().init(gameCartridge, player, gameCamera, this);
             ///////////////////////////////////////////

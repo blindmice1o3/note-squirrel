@@ -58,9 +58,12 @@ public class TileMapPart01 extends TileMap {
     }
 
     @Override
-    protected void initTextureAndSourceFile(Resources resources) {
+    protected void initTexture(Resources resources) {
         texture = Assets.cropWorldMapPart01(resources, specs);
+    }
 
+    @Override
+    protected void initSourceFile(Resources resources) {
         //text-source-file of the FULL world map stored as String.
         stringOfTiles = TileMapLoader.loadFileAsString(resources, R.raw.tiles_world_map);
     }

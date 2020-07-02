@@ -41,11 +41,14 @@ public class TileMapHouseLevel01 extends TileMap {
     }
 
     @Override
-    protected void initTextureAndSourceFile(Resources resources) {
+    protected void initTexture(Resources resources) {
         /////////////////////////////////////////////
         texture = Assets.cropHouseLevel01(resources);
         /////////////////////////////////////////////
+    }
 
+    @Override
+    protected void initSourceFile(Resources resources) {
         //text-source-file of HOUSE_LEVEL_01 stored as String.
         stringOfTiles = TileMapLoader.loadFileAsString(resources, R.raw.tile_house_level_01);
     }

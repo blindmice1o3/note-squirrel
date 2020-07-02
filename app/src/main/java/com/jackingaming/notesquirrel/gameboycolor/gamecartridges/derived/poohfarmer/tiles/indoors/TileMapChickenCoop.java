@@ -44,11 +44,14 @@ public class TileMapChickenCoop extends TileMap {
     }
 
     @Override
-    protected void initTextureAndSourceFile(Resources resources) {
+    protected void initTexture(Resources resources) {
         //////////////////////////////////////////////////////////////////////////////////////////////
         texture = (isFull) ? Assets.cropChickenCoopFull(resources) : Assets.cropChickenCoopEmpty(resources);
         //////////////////////////////////////////////////////////////////////////////////////////////
+    }
 
+    @Override
+    protected void initSourceFile(Resources resources) {
         //text-source-file of CHICKEN_COOP stored as String.
         stringOfTiles = TileMapLoader.loadFileAsString(resources, R.raw.tile_chicken_coop);
     }

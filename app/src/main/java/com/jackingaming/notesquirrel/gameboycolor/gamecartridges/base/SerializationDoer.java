@@ -213,11 +213,13 @@ public class SerializationDoer {
             player.init(gameCartridge);
             player.setGameCamera(gameCamera);
             gameCamera.setEntity(player);
-            headUpDisplay.init(gameCartridge);
 
             //GAME_CARTRIDGE
             gameCartridge.setGameCamera(gameCamera);
             gameCartridge.setPlayer(player);
+
+            //!!!THIS MUST COME AFTER gameCartridge.setPlayer()!!!
+            headUpDisplay.init(gameCartridge);
             gameCartridge.setHeadUpDisplay(headUpDisplay);
 
 

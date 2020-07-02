@@ -36,7 +36,7 @@ public abstract class Scene
     protected int widthClipInTile;
     protected int heightClipInTile;
 
-    transient protected TileMap tileMap;
+    protected TileMap tileMap;
     protected EntityManager entityManager;
     protected Player player;
     protected GameCamera gameCamera;
@@ -45,14 +45,16 @@ public abstract class Scene
     protected float yPriorScene;
 
     public Scene(GameCartridge gameCartridge, Id sceneID) {
+        this.gameCartridge = gameCartridge;
         this.sceneID = sceneID;
 
         widthClipInTile = 8;
         heightClipInTile = 8;
 
-        ///////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////
         entityManager = new EntityManager(gameCartridge.getPlayer());
-        ///////////////////////////////////////////////////
+        initTileMap();
+        /////////////////////////////////////////////////////////////
     }
 
     public void init(GameCartridge gameCartridge, Player player, GameCamera gameCamera, SceneManager sceneManager) {
@@ -64,7 +66,7 @@ public abstract class Scene
         inputManager = gameCartridge.getInputManager();
         this.sceneManager = sceneManager;
 
-        initTileMap();
+//        tileMap.init(gameCartridge);
         initGameCamera(gameCamera);
         initEntityManager(player);
 
@@ -93,6 +95,7 @@ public abstract class Scene
         }
         ////////////////////////////////////////////////////////////////////////////////
 
+        tileMap.init(gameCartridge);
         gameCamera.init(player, tileMap.getWidthSceneMax(), tileMap.getHeightSceneMax());
         for (Entity e : entityManager.getEntities()) {
             e.init(gameCartridge);
@@ -107,9 +110,9 @@ public abstract class Scene
         Log.d(MainActivity.DEBUG_TAG, "Scene.exit(Object[])");
 
         //TODO: work-around for bug to get it working.
-        ///////////////
-        tileMap = null;
-        ///////////////
+        /////////////////////////
+        tileMap.setTexture(null);
+        /////////////////////////
 
         //Record position IMMEDIATELY BEFORE colliding with transfer point.
         Player.Direction direction = (Player.Direction) extra[0];
@@ -238,6 +241,10 @@ public abstract class Scene
 
         //ENTITIES
         entityManager.render(canvas);
+    }
+
+    public InputManager getInputManager() {
+        return inputManager;
     }
 
     public TileMap getTileMap() {

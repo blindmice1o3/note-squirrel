@@ -12,27 +12,27 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Sce
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 
-public abstract class TileMap {
-
-//    public enum TileType { SOLID, WALKABLE, TELEVISION, COMPUTER, GAME_CONSOLE, SIGN_POST, TRANSFER_POINT; }
+public abstract class TileMap
+        implements Serializable {
 
     public static final int TILE_WIDTH = 16;
     public static final int TILE_HEIGHT = 16;
 
-    protected GameCartridge gameCartridge;
+    transient protected GameCartridge gameCartridge;
     private Scene.Id sceneID;
 
     protected Tile[][] tiles;
-    protected Bitmap texture;
+    transient protected Bitmap texture;
 
     protected int tileWidth;
     protected int tileHeight;
     protected int xSpawnIndex;
     protected int ySpawnIndex;
-    protected Map<Scene.Id, Rect> transferPoints;
+    transient protected Map<Scene.Id, Rect> transferPoints;
 
     protected int widthSceneMax;
     protected int heightSceneMax;
@@ -45,15 +45,29 @@ public abstract class TileMap {
         initTileSize();
         initSpawnPosition();
         initTransferPoints();
-        initTextureAndSourceFile(gameCartridge.getContext().getResources());
+//        initTexture(gameCartridge.getContext().getResources());
+        initSourceFile(gameCartridge.getContext().getResources());
         initTiles();
         //@@@@@@@@@@@@@@@@@@@
+    }
+
+    public void init(GameCartridge gameCartridge) {
+        this.gameCartridge = gameCartridge;
+        initTransferPoints();
+        initTexture(gameCartridge.getContext().getResources());
+
+        for (Tile[] rows : tiles) {
+            for (Tile tile : rows) {
+                tile.init(gameCartridge);
+            }
+        }
     }
 
     protected abstract void initTileSize();
     protected abstract void initSpawnPosition();
     protected abstract void initTransferPoints();
-    protected abstract void initTextureAndSourceFile(Resources resources);
+    protected abstract void initTexture(Resources resources);
+    protected abstract void initSourceFile(Resources resources);
     protected abstract void initTiles();
 
     public void render(Canvas canvas) {
@@ -154,6 +168,10 @@ public abstract class TileMap {
 
     public Bitmap getTexture() {
         return texture;
+    }
+
+    public void setTexture(Bitmap texture) {
+        this.texture = texture;
     }
 
     public int getTileWidth() {

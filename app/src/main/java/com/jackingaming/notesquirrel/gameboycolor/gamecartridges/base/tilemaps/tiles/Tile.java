@@ -29,9 +29,8 @@ public class Tile
         this.image = null;
     }
 
-    public void init(GameCartridge gameCartridge, Bitmap image) {
+    public void init(GameCartridge gameCartridge) {
         this.gameCartridge = gameCartridge;
-        this.image = image;
     }
 
     public Walkability getWalkability() {

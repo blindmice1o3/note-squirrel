@@ -41,9 +41,12 @@ public class TileMapLab extends TileMap {
     }
 
     @Override
-    protected void initTextureAndSourceFile(Resources resources) {
+    protected void initTexture(Resources resources) {
         texture = Assets.cropLab(resources);
+    }
 
+    @Override
+    protected void initSourceFile(Resources resources) {
         //text-source-file of LAB stored as String.
         stringOfTiles = TileMapLoader.loadFileAsString(resources, R.raw.tile_lab);
     }

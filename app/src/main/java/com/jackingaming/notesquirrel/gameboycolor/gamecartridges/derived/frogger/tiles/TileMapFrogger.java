@@ -39,14 +39,19 @@ public class TileMapFrogger extends TileMap {
     }
 
     @Override
-    protected void initTextureAndSourceFile(Resources resources) {
+    protected void initTexture(Resources resources) {
         texture = BitmapFactory.decodeResource(resources, R.drawable.frogger_background);
     }
 
     @Override
+    protected void initSourceFile(Resources resources) {
+        //intentionally blank.
+    }
+
+    @Override
     protected void initTiles() {
-        widthSceneMax = texture.getWidth();         //Always need.
-        heightSceneMax = texture.getHeight();       //Always need.
+        widthSceneMax = 960;                        //Always need.
+        heightSceneMax = 720;                       //Always need.
         int columns = widthSceneMax / tileWidth;    //Always need.
         int rows = heightSceneMax / tileHeight;     //Always need.
 
