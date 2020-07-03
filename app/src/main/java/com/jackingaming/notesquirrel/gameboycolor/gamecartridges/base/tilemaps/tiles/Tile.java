@@ -57,4 +57,12 @@ public class Tile
         }
     }
 
+    public int getxIndex() {
+        return xIndex;
+    }
+
+    public int getyIndex() {
+        return yIndex;
+    }
+
 }

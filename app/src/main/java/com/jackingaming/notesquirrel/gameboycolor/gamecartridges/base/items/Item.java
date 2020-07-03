@@ -5,13 +5,17 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.CropEntity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableGroundTile;
 
 import java.io.Serializable;
 
 public class Item
         implements Serializable {
 
-    public enum Id { AX, HAMMER, SHOVEL, SICKLE, WATERING_CAN, FISHING_POLE, BUG_NET; }
+    public enum Id { AX, HAMMER, SHOVEL, SICKLE, WATERING_CAN, FISHING_POLE, BUG_NET, SEED_BAG; }
 
     private Id id;
     transient private Bitmap image;
@@ -44,6 +48,50 @@ public class Item
             case BUG_NET:
                 image = cropImage(resources, 7, 4);
                 break;
+            case SEED_BAG:
+                image = cropImageSeedBag(resources);
+                break;
+        }
+    }
+
+    public void execute(Tile tile) {
+        switch (id) {
+            case AX:
+                //TODO:
+                break;
+            case HAMMER:
+                //TODO:
+                break;
+            case SHOVEL:
+                if (tile instanceof GrowableGroundTile) {
+                    ((GrowableGroundTile)tile).toggleIsTilled();
+                }
+                break;
+            case SICKLE:
+                //TODO:
+                break;
+            case WATERING_CAN:
+                if (tile instanceof GrowableGroundTile) {
+                    if ( ((GrowableGroundTile)tile).getIsTilled() ) {
+                        ((GrowableGroundTile)tile).toggleIsWatered();
+                    }
+                }
+                break;
+            case FISHING_POLE:
+                //TODO:
+                break;
+            case BUG_NET:
+                //TODO:
+                break;
+            case SEED_BAG:
+                if (tile instanceof GrowableGroundTile) {
+                    if ( ((GrowableGroundTile)tile).getIsTilled() ){
+                        if ( ((GrowableGroundTile)tile).getCropEntity() == null ) {
+                            ((GrowableGroundTile)tile).plantCropEntity(CropEntity.Id.POTATO);
+                        }
+                    }
+                }
+                break;
         }
     }
 
@@ -69,6 +117,13 @@ public class Item
         Bitmap spriteSheetItems = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm2_spritesheet_items);
 
         return Bitmap.createBitmap(spriteSheetItems, xStart, yStart, widthItem, heightItem);
+    }
+
+    private Bitmap cropImageSeedBag(Resources resources) {
+        Bitmap originalBitmap = BitmapFactory.decodeResource(resources, R.drawable.seed_bag);
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, 16, 16, false);
+
+        return resizedBitmap;
     }
 
     public Id getId() {

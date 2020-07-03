@@ -77,6 +77,7 @@ public class Player extends Creature {
         inventory.add(new Item(gameCartridge.getContext().getResources(), Item.Id.HAMMER));
         inventory.add(new Item(gameCartridge.getContext().getResources(), Item.Id.SICKLE));
         inventory.add(new Item(gameCartridge.getContext().getResources(), Item.Id.AX));
+        inventory.add(new Item(gameCartridge.getContext().getResources(), Item.Id.SEED_BAG));
         /////////////////////////////////////////////////////////////////////////////////////////
     }
 

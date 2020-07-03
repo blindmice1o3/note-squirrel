@@ -59,15 +59,7 @@ public class SceneFarm extends Scene {
 
             //@@@@@TILES@@@@@
             Tile tileFacing = player.getTileTypeCurrentlyFacing();  //currently only using for pocket_critters
-            Item.Id idSelectedItem = player.getSelectedItem().getId();
-            if (tileFacing instanceof GrowableGroundTile) {
-                if (idSelectedItem == Item.Id.SHOVEL) {
-                    ((GrowableGroundTile) tileFacing).toggleIsTilled();
-                } else if (idSelectedItem == Item.Id.WATERING_CAN &&
-                        ((GrowableGroundTile)tileFacing).getIsTilled()) {
-                    ((GrowableGroundTile) tileFacing).toggleIsWatered();
-                }
-            }
+            player.getSelectedItem().execute(tileFacing);
         }
         //b button
         else if (inputManager.isbButtonPad()) {
