@@ -5,6 +5,7 @@ import android.util.Log;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.Item;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
@@ -37,14 +38,6 @@ public class SceneFarm extends Scene {
         if (inputManager.isaButtonPad()) {
             Log.d(MainActivity.DEBUG_TAG, "SceneFarm.getInputButtonPad() a-button-justPressed");
 
-
-            //@@@@@TILES@@@@@
-            Tile tileFacing = player.getTileTypeCurrentlyFacing();  //currently only using for pocket_critters
-            if (tileFacing instanceof GrowableGroundTile) {
-                //TODO:
-                ((GrowableGroundTile)tileFacing).toggleIsTilled();
-            }
-
             //@@@@@ENTITIES@@@@@
             Entity entity = player.getEntityCurrentlyFacing();
             //CHANGES robot's State (cycles incrementally)
@@ -60,6 +53,16 @@ public class SceneFarm extends Scene {
                 ////////////////////////////////////////////////////////////////
                 ((Robot) entity).setState(Robot.State.values()[robotStateIndex]);
                 ////////////////////////////////////////////////////////////////
+
+                return;
+            }
+
+            //@@@@@TILES@@@@@
+            Tile tileFacing = player.getTileTypeCurrentlyFacing();  //currently only using for pocket_critters
+            Item.Id idSelectedItem = player.getSelectedItem().getId();
+            if (tileFacing instanceof GrowableGroundTile &&
+                    idSelectedItem == Item.Id.SHOVEL) {
+                ((GrowableGroundTile)tileFacing).toggleIsTilled();
             }
         }
         //b button
