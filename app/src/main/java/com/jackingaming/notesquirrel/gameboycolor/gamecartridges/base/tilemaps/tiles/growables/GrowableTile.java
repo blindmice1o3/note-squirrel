@@ -5,8 +5,22 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.t
 
 public abstract class GrowableTile extends Tile {
 
+    protected boolean isWatered;
+    protected boolean isPlanted;
+
     public GrowableTile(GameCartridge gameCartridge, int xIndex, int yIndex) {
         super(gameCartridge, xIndex, yIndex);
+
+        isWatered = false;
+        isPlanted = false;
+    }
+
+    public void toggleIsWatered() {
+        isWatered = !isWatered;
+    }
+
+    public void toggleIsPlanted() {
+        isPlanted = !isPlanted;
     }
 
 }

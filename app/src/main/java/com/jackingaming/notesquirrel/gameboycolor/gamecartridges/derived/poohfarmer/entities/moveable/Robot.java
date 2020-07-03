@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.entities;
+package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.entities.moveable;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -11,7 +11,7 @@ import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Creature;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.moveable.Creature;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Animation;
 
 import java.util.HashMap;

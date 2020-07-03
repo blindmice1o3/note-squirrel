@@ -1,9 +1,10 @@
-package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities;
+package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.moveable;
 
 import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
 
 public abstract class Creature extends Entity {

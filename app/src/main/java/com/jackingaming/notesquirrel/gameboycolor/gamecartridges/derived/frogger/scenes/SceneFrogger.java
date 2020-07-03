@@ -6,14 +6,14 @@ import android.util.Log;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Creature;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.moveable.Creature;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Player;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.moveable.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.Car;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.moveable.Car;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.tiles.TileMapFrogger;
 
 public class SceneFrogger extends Scene {
@@ -223,8 +223,8 @@ public class SceneFrogger extends Scene {
                         }
 
                         //add new right, small Log instance.
-                        entityManager.addEntity(new com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.Log(gameCartridge, x, y,
-                                Creature.Direction.RIGHT, com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.Log.Size.SMALL));
+                        entityManager.addEntity(new com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.moveable.Log(gameCartridge, x, y,
+                                Creature.Direction.RIGHT, com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.moveable.Log.Size.SMALL));
 
                         break;
                     case 7:
@@ -242,8 +242,8 @@ public class SceneFrogger extends Scene {
                         }
 
                         //add new left, medium Log instance.
-                        entityManager.addEntity(new com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.Log(gameCartridge, x, y,
-                                Creature.Direction.LEFT, com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.Log.Size.MEDIUM));
+                        entityManager.addEntity(new com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.moveable.Log(gameCartridge, x, y,
+                                Creature.Direction.LEFT, com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.moveable.Log.Size.MEDIUM));
 
                         break;
                     case 8:
@@ -261,8 +261,8 @@ public class SceneFrogger extends Scene {
                         }
 
                         //add new right, large Log instance.
-                        entityManager.addEntity(new com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.Log(gameCartridge, x, y,
-                                Creature.Direction.RIGHT, com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.Log.Size.LARGE));
+                        entityManager.addEntity(new com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.moveable.Log(gameCartridge, x, y,
+                                Creature.Direction.RIGHT, com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.moveable.Log.Size.LARGE));
 
                         break;
                     case 9:
@@ -280,8 +280,8 @@ public class SceneFrogger extends Scene {
                         }
 
                         //add new left, small Log instance.
-                        entityManager.addEntity(new com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.Log(gameCartridge, x, y,
-                                Creature.Direction.LEFT, com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.Log.Size.SMALL));
+                        entityManager.addEntity(new com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.moveable.Log(gameCartridge, x, y,
+                                Creature.Direction.LEFT, com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.moveable.Log.Size.SMALL));
 
                         break;
                     default:

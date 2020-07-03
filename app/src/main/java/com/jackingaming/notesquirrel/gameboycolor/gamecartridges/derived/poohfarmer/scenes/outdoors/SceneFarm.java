@@ -8,7 +8,9 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.E
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.entities.Robot;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableGroundTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.entities.moveable.Robot;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.outdoors.TileMapFarm;
 
 public class SceneFarm extends Scene {
@@ -35,9 +37,13 @@ public class SceneFarm extends Scene {
         if (inputManager.isaButtonPad()) {
             Log.d(MainActivity.DEBUG_TAG, "SceneFarm.getInputButtonPad() a-button-justPressed");
 
-            //TODO:
+
             //@@@@@TILES@@@@@
-            player.getTileTypeCurrentlyFacing();   //currently only using for pocket_critters
+            Tile tileFacing = player.getTileTypeCurrentlyFacing();  //currently only using for pocket_critters
+            if (tileFacing instanceof GrowableGroundTile) {
+                //TODO:
+                ((GrowableGroundTile)tileFacing).toggleIsTilled();
+            }
 
             //@@@@@ENTITIES@@@@@
             Entity entity = player.getEntityCurrentlyFacing();

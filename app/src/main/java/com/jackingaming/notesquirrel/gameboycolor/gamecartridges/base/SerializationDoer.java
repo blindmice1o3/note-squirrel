@@ -8,7 +8,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Sce
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.GameState;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.StartMenuState;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Player;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.moveable.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.TextboxState;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.scenes.SceneFrogger;

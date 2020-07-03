@@ -9,6 +9,8 @@ import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.TimeManager;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.CropEntity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.outdoors.worldmap.TileMapPart01;
 
@@ -300,6 +302,311 @@ public class Assets {
         Log.d(MainActivity.DEBUG_TAG, "Assets.cropPotTileWatered(Resources)... plantsHothouseHM2 is null? " + plantsHothouseHM2);
 
         return potTileWatered;
+    }
+
+    //TODO: crop, tile, time system (growing system)
+    //tile (GrowableGroundTile - TILLED)
+    public static Bitmap cropTileTilled(Resources resources, boolean isWatered) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropTileTilled(Resources, boolean)");
+
+        Bitmap cropsAndItemsSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm_crops_and_items);
+        Bitmap tileTilled = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        if (isWatered) {
+            tileTilled = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 24, 19, 16, 16);
+        } else {
+            tileTilled = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 7, 19, 16, 16);
+        }
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "tileTilled: " + tileTilled.getWidth() + ", " + tileTilled.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        cropsAndItemsSpriteSheet = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropTileTilled(Resources, boolean)... cropsAndItemsSpriteSheet is null? " + cropsAndItemsSpriteSheet);
+
+        return tileTilled;
+    }
+
+    //crop_entity
+    public static Bitmap cropCropEntity(Resources resources, CropEntity.Id id, CropEntity.Stage stage, boolean isWatered) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropCropEntity(Resources, CropEntity.Id, CropEntity.Stage, boolean)");
+
+        Bitmap cropsAndItemsSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm_crops_and_items);
+        Bitmap cropEntity = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //TODO: determine which coordinates based on season, crop, stage, watered
+        switch (id) {
+            case GRASS:
+
+                switch(TimeManager.season) {
+                    case SPRING:
+                    case SUMMER:
+                        if (stage == CropEntity.Stage.SEEDED) {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 7, 60, 16, 16);
+                        } else if (stage == CropEntity.Stage.ONE) {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 24, 60, 16, 16);
+                        } else if (stage == CropEntity.Stage.HARVESTABLE) {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 41, 60, 16, 16);
+                        }
+                        break;
+                    case FALL:
+                        if (stage == CropEntity.Stage.SEEDED) {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 7, 60, 16, 16);
+                        } else if (stage == CropEntity.Stage.ONE) {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 82, 60, 16, 16);
+                        } else if (stage == CropEntity.Stage.HARVESTABLE) {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 99, 60, 16, 16);
+                        }
+                        break;
+                    case WINTER:
+                        if (stage == CropEntity.Stage.SEEDED) {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 125, 60, 16, 16);
+                        }
+                        break;
+                }
+                break;
+
+            case TURNIP:
+
+                switch (stage) {
+                    case SEEDED:
+                        if (isWatered) {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 24, 106, 16, 16);
+                        } else {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 7, 106, 16, 16);
+                        }
+                        break;
+                    case ONE:
+                        if (isWatered) {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 58, 106, 16, 16);
+                        } else {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 41, 106, 16, 16);
+                        }
+                        break;
+                    case HARVESTABLE:
+                        cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 75, 106, 16, 16);
+                        break;
+                }
+                break;
+
+            case POTATO:
+
+                switch (stage) {
+                    case SEEDED:
+                        if (isWatered) {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 24, 106, 16, 16);
+                        } else {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 7, 106, 16, 16);
+                        }
+                        break;
+                    case ONE:
+                        if (isWatered) {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 58, 125, 16, 16);
+                        } else {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 41, 125, 16, 16);
+                        }
+                        break;
+                    case HARVESTABLE:
+                        cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 75, 125, 16, 16);
+                        break;
+                }
+                break;
+
+            case TOMATO:
+
+                switch (stage) {
+                    case SEEDED:
+                        if (isWatered) {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 24, 106, 16, 16);
+                        } else {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 7, 106, 16, 16);
+                        }
+                        break;
+                    case ONE:
+                        if (isWatered) {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 58, 166, 16, 16);
+                        } else {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 41, 166, 16, 16);
+                        }
+                        break;
+                    case TWO:
+                        if (isWatered) {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 92, 166, 16, 16);
+                        } else {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 75, 166, 16, 16);
+                        }
+                        break;
+                    case THREE:
+                        if (isWatered) {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 126, 166, 16, 16);
+                        } else {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 109, 166, 16, 16);
+                        }
+                        break;
+                    case HARVESTABLE:
+                        cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 143, 166, 16, 16);
+                        break;
+                }
+                break;
+
+            case CORN:
+
+                switch (stage) {
+                    case SEEDED:
+                        if (isWatered) {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 24, 106, 16, 16);
+                        } else {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 7, 106, 16, 16);
+                        }
+                        break;
+                    case ONE:
+                        if (isWatered) {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 58, 185, 16, 16);
+                        } else {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 41, 185, 16, 16);
+                        }
+                        break;
+                    case TWO:
+                        if (isWatered) {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 92, 185, 16, 16);
+                        } else {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 75, 185, 16, 16);
+                        }
+                        break;
+                    case THREE:
+                        if (isWatered) {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 126, 185, 16, 16);
+                        } else {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 109, 185, 16, 16);
+                        }
+                        break;
+                    case HARVESTABLE:
+                        cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 143, 185, 16, 16);
+                        break;
+                }
+                break;
+
+            case EGGPLANT:
+
+                switch (stage) {
+                    case SEEDED:
+                        if (isWatered) {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 24, 106, 16, 16);
+                        } else {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 7, 106, 16, 16);
+                        }
+                        break;
+                    case ONE:
+                        if (isWatered) {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 58, 230, 16, 16);
+                        } else {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 41, 230, 16, 16);
+                        }
+                        break;
+                    case HARVESTABLE:
+                        cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 75, 230, 16, 16);
+                        break;
+                }
+                break;
+
+            case PEANUT:
+
+                switch (stage) {
+                    case SEEDED:
+                        if (isWatered) {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 24, 106, 16, 16);
+                        } else {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 7, 106, 16, 16);
+                        }
+                        break;
+                    case ONE:
+                        if (isWatered) {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 58, 249, 16, 16);
+                        } else {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 41, 249, 16, 16);
+                        }
+                        break;
+                    case HARVESTABLE:
+                        cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 75, 249, 16, 16);
+                        break;
+                }
+                break;
+
+            case CARROT:
+
+                switch (stage) {
+                    case SEEDED:
+                        if (isWatered) {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 24, 289, 16, 16);
+                        } else {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 7, 289, 16, 16);
+                        }
+                        break;
+                    case ONE:
+                        if (isWatered) {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 58, 289, 16, 16);
+                        } else {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 41, 289, 16, 16);
+                        }
+                        break;
+                    case HARVESTABLE:
+                        cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 75, 289, 16, 16);
+                        break;
+                }
+                break;
+
+            case BROCCOLI:
+
+                switch (stage) {
+                    case SEEDED:
+                        if (isWatered) {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 24, 289, 16, 16);
+                        } else {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 7, 289, 16, 16);
+                        }
+                        break;
+                    case ONE:
+                        if (isWatered) {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 58, 308, 16, 16);
+                        } else {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 41, 308, 16, 16);
+                        }
+                        break;
+                    case TWO:
+                        if (isWatered) {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 92, 308, 16, 16);
+                        } else {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 75, 308, 16, 16);
+                        }
+                        break;
+                    case THREE:
+                        if (isWatered) {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 126, 308, 16, 16);
+                        } else {
+                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 109, 308, 16, 16);
+                        }
+                        break;
+                    case HARVESTABLE:
+                        cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 143, 308, 16, 16);
+                        break;
+                }
+                break;
+
+        }
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "cropEntity: " + cropEntity.getWidth() + ", " + cropEntity.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        cropsAndItemsSpriteSheet = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropCropEntity(Resources, CropEntity.Id, CropEntity.Stage, boolean)... cropsAndItemsSpriteSheet is null? " + cropsAndItemsSpriteSheet);
+
+        return cropEntity;
     }
 
     public static Bitmap cropSheepPenEmpty(Resources resources) {

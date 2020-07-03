@@ -7,7 +7,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartri
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.PotTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableTableTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.indoors.TileMapHothouse;
 
 public class SceneHothouse extends Scene {
@@ -33,8 +33,8 @@ public class SceneHothouse extends Scene {
             //TODO:
             //@@@@@TILES@@@@@
             Tile tileFacing = player.getTileTypeCurrentlyFacing();  //currently only using for pocket_critters
-            if (tileFacing instanceof PotTile) {
-                ((PotTile)tileFacing).toggleIsEmptyTable();
+            if (tileFacing instanceof GrowableTableTile) {
+                ((GrowableTableTile)tileFacing).toggleHasPot();
             }
         }
         //b button

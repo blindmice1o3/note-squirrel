@@ -5,6 +5,7 @@ import android.os.Build;
 import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.moveable.Player;
 
 import java.io.Serializable;
 import java.util.ArrayList;

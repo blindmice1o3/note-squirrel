@@ -12,6 +12,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Sce
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableGroundTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.GenericSolidTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.SignPostTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.walkables.GenericWalkableTile;
@@ -92,7 +93,8 @@ public class TileMapFarm extends TileMap {
                 if (pixel == Color.BLACK) {
                     tiles[y][x] = new GenericSolidTile(gameCartridge, x, y);
                 } else if (pixel == Color.WHITE) {
-                    tiles[y][x] = new GenericWalkableTile(gameCartridge, x, y);
+                    tiles[y][x] = new GrowableGroundTile(gameCartridge, x, y);
+                    //tiles[y][x] = new GenericWalkableTile(gameCartridge, x, y);
                 } else if (pixel == Color.RED) {
                     tiles[y][x] = new SignPostTile(gameCartridge, x, y);
                 } else if (pixel == Color.GREEN) {

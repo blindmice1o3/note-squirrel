@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities;
+package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.moveable;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -8,6 +8,7 @@ import android.util.Log;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.IGameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.Item;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
@@ -209,7 +210,7 @@ public class Player extends Creature {
             if (e.getCollisionBounds(0f, 0f).intersect(getCollisionBounds(xOffset, yOffset))) {
                 //Frog can walk on Log instances.
                 ////////////////////////
-                if (e instanceof com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.Log) {
+                if (e instanceof com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.moveable.Log) {
                     return false;
                 } else {
                     return true;
