@@ -1,5 +1,7 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables;
 
+import android.content.res.Resources;
+
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
 
@@ -16,16 +18,33 @@ public class GrowableGroundTile extends GrowableTile {
     }
 
     @Override
+    public void updateImage(Resources resources) {
+        if (isTilled) {
+            if (isWatered) {
+                image = Assets.cropTileTilled(resources, true);
+            } else {
+                image = Assets.cropTileTilled(resources, false);
+            }
+        } else {
+            image = null;
+        }
+    }
+
+    @Override
     public void init(GameCartridge gameCartridge) {
         super.init(gameCartridge);
 
-        image = (isTilled) ? (Assets.cropTileTilled(gameCartridge.getContext().getResources(), false)) : (null);
+        updateImage(gameCartridge.getContext().getResources());
     }
 
     public void toggleIsTilled() {
         isTilled = !isTilled;
 
-        image = (isTilled) ? (Assets.cropTileTilled(gameCartridge.getContext().getResources(), false)) : (null);
+        updateImage(gameCartridge.getContext().getResources());
+    }
+
+    public boolean getIsTilled() {
+        return isTilled;
     }
 
 }

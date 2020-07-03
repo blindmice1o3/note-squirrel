@@ -1,6 +1,9 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables;
 
+import android.content.res.Resources;
+
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
 
 public abstract class GrowableTile extends Tile {
@@ -15,8 +18,12 @@ public abstract class GrowableTile extends Tile {
         isPlanted = false;
     }
 
+    public abstract void updateImage(Resources resources);
+
     public void toggleIsWatered() {
         isWatered = !isWatered;
+
+        updateImage(gameCartridge.getContext().getResources());
     }
 
     public void toggleIsPlanted() {
