@@ -9,7 +9,6 @@ import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.indoors.TileMapLab;
 
@@ -34,7 +33,7 @@ public class SceneLab extends Scene {
             Log.d(MainActivity.DEBUG_TAG, "SceneLab.getInputButtonPad() a-button-justPressed");
 
             //@@@@@TILES@@@@@
-            Tile tileFacing = player.getTileTypeCurrentlyFacing();  //currently only using for pocket_critters
+            Tile tileFacing = player.getTileCurrentlyFacing();
 
             //TODO: may not be needed (was intended for tiles at edge of TileMap)
             if (tileFacing == null) {

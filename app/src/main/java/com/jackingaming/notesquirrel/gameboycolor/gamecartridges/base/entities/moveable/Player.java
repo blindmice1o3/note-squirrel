@@ -346,49 +346,42 @@ public class Player extends Creature {
         return tempEntityReturner;
     }
 
-    public Tile getTileTypeCurrentlyFacing() {
-        Log.d(MainActivity.DEBUG_TAG, "Player.getTileTypeCurrentlyFacing()");
-
+    public Tile getTileCurrentlyFacing() {
         TileMap tileMap = gameCartridge.getSceneManager().getCurrentScene().getTileMap();
+        int tileWidth = tileMap.getTileWidth();
+        int tileHeight = tileMap.getTileHeight();
 
-        /////////////////////////////////////////////////////
-        //TODO: remove so other games can return identify individual instances of Tile.
-        if (gameCartridge.getIdGameCartridge() == IGameCartridge.Id.POCKET_CRITTERS) {
-        /////////////////////////////////////////////////////
-            float xPlayerCenter = xCurrent + (width / 2);
-            float yPlayerCenter = yCurrent + (height / 2);
+        float xPlayerCenter = xCurrent + (width / 2);
+        float yPlayerCenter = yCurrent + (height / 2);
 
-            int xInspectIndex = 0;
-            int yInspectIndex = 0;
-            switch (direction) {
-                case UP:
-                    xInspectIndex = (int) (xPlayerCenter / TileMap.TILE_WIDTH);
-                    yInspectIndex = (int) ((yPlayerCenter - TileMap.TILE_HEIGHT) / TileMap.TILE_HEIGHT);
-                    break;
-                case DOWN:
-                    xInspectIndex = (int) (xPlayerCenter / TileMap.TILE_WIDTH);
-                    yInspectIndex = (int) ((yPlayerCenter + TileMap.TILE_HEIGHT) / TileMap.TILE_HEIGHT);
-                    break;
-                case LEFT:
-                    xInspectIndex = (int) ((xPlayerCenter - TileMap.TILE_WIDTH) / TileMap.TILE_WIDTH);
-                    yInspectIndex = (int) (yPlayerCenter / TileMap.TILE_HEIGHT);
-                    break;
-                case RIGHT:
-                    xInspectIndex = (int) ((xPlayerCenter + TileMap.TILE_WIDTH) / TileMap.TILE_WIDTH);
-                    yInspectIndex = (int) (yPlayerCenter / TileMap.TILE_HEIGHT);
-                    break;
-                default:
-                    Log.d(MainActivity.DEBUG_TAG, "Player.getTileTypeCurrentlyFacing() switch construct's default block.");
-                    break;
-            }
-
-            Log.d(MainActivity.DEBUG_TAG, "getTileTypeCurrentlyFacing at: (" + xInspectIndex + ", " + yInspectIndex + ").");
-            /////////////////////////////////////////////////////
-            return tileMap.getTile(xInspectIndex, yInspectIndex);
-            /////////////////////////////////////////////////////
+        int xInspectIndex = 0;
+        int yInspectIndex = 0;
+        switch (direction) {
+            case UP:
+                xInspectIndex = (int) (xPlayerCenter / tileWidth);
+                yInspectIndex = (int) ((yPlayerCenter - tileHeight) / tileHeight);
+                break;
+            case DOWN:
+                xInspectIndex = (int) (xPlayerCenter / tileWidth);
+                yInspectIndex = (int) ((yPlayerCenter + tileHeight) / tileHeight);
+                break;
+            case LEFT:
+                xInspectIndex = (int) ((xPlayerCenter - tileWidth) / tileWidth);
+                yInspectIndex = (int) (yPlayerCenter / tileHeight);
+                break;
+            case RIGHT:
+                xInspectIndex = (int) ((xPlayerCenter + tileWidth) / tileWidth);
+                yInspectIndex = (int) (yPlayerCenter / tileHeight);
+                break;
+            default:
+                Log.d(MainActivity.DEBUG_TAG, "@@@@@Player.getTileCurrentlyFacing() switch construct's default block.@@@@@");
+                break;
         }
 
-        return null;
+        Log.d(MainActivity.DEBUG_TAG, "Player.getTileCurrentlyFacing at: (" + xInspectIndex + ", " + yInspectIndex + ").");
+        /////////////////////////////////////////////////////
+        return tileMap.getTile(xInspectIndex, yInspectIndex);
+        /////////////////////////////////////////////////////
     }
 
     public void setGameCamera(GameCamera gameCamera) {

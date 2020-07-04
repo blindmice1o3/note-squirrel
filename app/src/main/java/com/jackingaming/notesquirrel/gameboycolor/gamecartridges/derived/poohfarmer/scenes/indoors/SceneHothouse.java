@@ -32,7 +32,7 @@ public class SceneHothouse extends Scene {
 
             //TODO:
             //@@@@@TILES@@@@@
-            Tile tileFacing = player.getTileTypeCurrentlyFacing();  //currently only using for pocket_critters
+            Tile tileFacing = player.getTileCurrentlyFacing();
             if (tileFacing instanceof GrowableTableTile) {
                 ((GrowableTableTile)tileFacing).toggleHasPot();
             }

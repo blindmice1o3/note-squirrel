@@ -61,7 +61,7 @@ public class ScenePart01 extends Scene {
             Log.d(MainActivity.DEBUG_TAG, "ScenePart01.getInputButtonPad() a-button-justPressed");
 
             //@@@@@TILES@@@@@
-            Tile tileFacing = player.getTileTypeCurrentlyFacing();  //currently only using for pocket_critters
+            Tile tileFacing = player.getTileCurrentlyFacing();
 
             //TODO: may not be needed (was intended for tiles at edge of TileMap)
             if (tileFacing == null) {

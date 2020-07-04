@@ -133,7 +133,7 @@ public abstract class TileMap
     }
 
     public Tile getTile(int xIndex, int yIndex) {
-        //CHECK BEYOND SCENE BOUND (e.g. inspecting off map)
+        //DO NOT CHECK BEYOND SCENE'S BOUND (e.g. prevent inspecting off-map)
         if ((xIndex < 0) ||(xIndex >= (widthSceneMax / tileWidth)) ||
                 (yIndex < 0) || (yIndex >= (heightSceneMax / tileHeight))) {
             return null;
