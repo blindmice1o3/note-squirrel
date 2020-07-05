@@ -1,11 +1,16 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors;
 
 import android.util.Log;
+import android.view.Gravity;
+import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
+import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.BedTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.indoors.TileMapHouseLevel01;
 
 public class SceneHouseLevel01 extends Scene {
@@ -28,7 +33,16 @@ public class SceneHouseLevel01 extends Scene {
         if (inputManager.isaButtonPad()) {
             Log.d(MainActivity.DEBUG_TAG, "SceneHouseLevel01.getInputButtonPad() a-button-justPressed");
 
+            //@@@@@TILES@@@@@
+            Tile tileFacing = player.getTileCurrentlyFacing();
+            if (tileFacing == null) {
+                return;
+            } else if (tileFacing instanceof BedTile) {
+                //TODO: sleep, TimeManager increment day, check all GrowableTile for isWatered,
+                // if GrowableTile has state as SEEDED -> instantiate CropEntity/GrassEntity (revert state to INITIAL)
+                // if GrowableGroundTile.cropEntity is not null -> increment that CropEntity's age and update its stage.
 
+            }
         }
         //b button
         else if (inputManager.isbButtonPad()) {

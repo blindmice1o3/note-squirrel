@@ -7,6 +7,7 @@ import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableTableTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.BedTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.ComputerTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.GameConsoleTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.GenericSolidTile;
@@ -122,6 +123,10 @@ public class TileMapLoader {
                 //PotTile
                 else if (tokens[((y * columns) + x) + 2].equals("p")) {
                     tiles[y][x] = new GrowableTableTile(gameCartridge, x, y);
+                }
+                //BedTile
+                else if (tokens[((y * columns) + x) + 2].equals("b")) {
+                    tiles[y][x] = new BedTile(gameCartridge, x, y);
                 }
                 //SolidTile
                 else if (tokens[((y * columns) + x) + 2].equals("1")) {

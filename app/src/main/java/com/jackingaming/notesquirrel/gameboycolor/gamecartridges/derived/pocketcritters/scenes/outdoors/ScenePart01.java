@@ -61,25 +61,7 @@ public class ScenePart01 extends Scene {
             Log.d(MainActivity.DEBUG_TAG, "ScenePart01.getInputButtonPad() a-button-justPressed");
 
             //@@@@@TILES@@@@@
-            Tile tileFacing = player.getTileCurrentlyFacing();
-
-            //TODO: may not be needed (was intended for tiles at edge of TileMap)
-            if (tileFacing == null) {
-                Log.d(MainActivity.DEBUG_TAG, "tileFacing is null");
-                return;
-            }
-
-            Log.d(MainActivity.DEBUG_TAG, "tileFacing is: " + tileFacing.getClass().getSimpleName());
-            final String message = tileFacing.getClass().getSimpleName();
-            /////////////////////////////////////////////////////////////////////////////////
-            ((JackInActivity) context).runOnUiThread(new Runnable() {
-                public void run() {
-                    final Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-                    toast.show();
-                }
-            });
-            /////////////////////////////////////////////////////////////////////////////////
+            player.getTileCurrentlyFacing();
         }
         //b button
         else if (inputManager.isbButtonPad()) {

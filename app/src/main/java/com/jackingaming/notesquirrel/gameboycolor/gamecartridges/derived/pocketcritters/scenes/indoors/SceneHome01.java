@@ -39,35 +39,15 @@ public class SceneHome01 extends Scene {
 
             //@@@@@TILES@@@@@
             Tile tileFacing = player.getTileCurrentlyFacing();
-
-            //TODO: may not be needed (was intended for tiles at edge of TileMap)
             if (tileFacing == null) {
-                Log.d(MainActivity.DEBUG_TAG, "tileFacing is null");
                 return;
-            }
-
-            Log.d(MainActivity.DEBUG_TAG, "tileFacing is: " + tileFacing.getClass());
-            //TODO: change game cartridge or change scene or start new Activity???
-            if (tileFacing instanceof TelevisionTile) {
+            } else if (tileFacing instanceof TelevisionTile) {
                 gameCartridge.savePresentState();
                 Log.d(MainActivity.DEBUG_TAG, "SceneHome01.getInputButtonPad() saved present state");
 
                 Log.d(MainActivity.DEBUG_TAG, "SceneHome01.getInputButtonPad() starting TelevisionActivity for result...");
                 Intent televisionIntent = new Intent(context, TelevisionActivity.class);
                 ((JackInActivity) context).startActivityForResult(televisionIntent, REQUEST_CODE_TELEVISION_ACTIVITY);
-            } else {
-                Log.d(MainActivity.DEBUG_TAG, "tileFacing is: " + tileFacing.getClass());
-
-                final String message = tileFacing.getClass().getSimpleName();
-                /////////////////////////////////////////////////////////////////////////////////
-                ((JackInActivity) context).runOnUiThread(new Runnable() {
-                    public void run() {
-                        final Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-                        toast.show();
-                    }
-                });
-                /////////////////////////////////////////////////////////////////////////////////
             }
         }
         //b button

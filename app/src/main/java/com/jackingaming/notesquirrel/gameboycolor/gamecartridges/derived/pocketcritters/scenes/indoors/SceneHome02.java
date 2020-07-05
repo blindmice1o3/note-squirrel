@@ -40,27 +40,9 @@ public class SceneHome02 extends Scene {
 
             //@@@@@TILES@@@@@
             Tile tileFacing = player.getTileCurrentlyFacing();
-
-            //TODO: may not be needed (was intended for tiles at edge of TileMap)
             if (tileFacing == null) {
-                Log.d(MainActivity.DEBUG_TAG, "tileFacing is null");
                 return;
-            }
-
-            Log.d(MainActivity.DEBUG_TAG, "tileFacing is: " + tileFacing.getClass().getSimpleName());
-            //TODO: change game cartridge or change scene or start new Activity???
-            if (tileFacing instanceof GameConsoleTile) {
-                final String message = "GaMeCoNsOlE tile.";
-                /////////////////////////////////////////////////////////////////////////////////
-                ((JackInActivity) gameCartridge.getContext()).runOnUiThread(new Runnable() {
-                    public void run() {
-                        final Toast toast = Toast.makeText(gameCartridge.getContext(), message, Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-                        toast.show();
-                    }
-                });
-                /////////////////////////////////////////////////////////////////////////////////
-
+            } else if (tileFacing instanceof GameConsoleTile) {
                 //TODO: PocketCrittersCartridge.sceneManager will use PoohFarmerCartridge's scene.
                 ////////////////////////////////////////
                 Object[] extra = new Object[10];
@@ -75,19 +57,6 @@ public class SceneHome02 extends Scene {
                 Log.d(MainActivity.DEBUG_TAG, "SceneHome02.getInputButtonPad() starting ComputerActivity for result...");
                 Intent computerIntent = new Intent(context, ComputerActivity.class);
                 ((JackInActivity) context).startActivityForResult(computerIntent, REQUEST_CODE_COMPUTER_ACTIVITY);
-            } else {
-                Log.d(MainActivity.DEBUG_TAG, "tileFacing is: " + tileFacing.getClass().getSimpleName());
-
-                final String message = tileFacing.getClass().getSimpleName();
-                /////////////////////////////////////////////////////////////////////////////////
-                ((JackInActivity) context).runOnUiThread(new Runnable() {
-                    public void run() {
-                        final Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-                        toast.show();
-                    }
-                });
-                /////////////////////////////////////////////////////////////////////////////////
             }
         }
         //b button

@@ -57,7 +57,9 @@ public class SceneFarm extends Scene {
 
             //@@@@@TILES@@@@@
             Tile tileFacing = player.getTileCurrentlyFacing();
-            player.getSelectedItem().execute(tileFacing);
+            if (tileFacing != null) {
+                player.getSelectedItem().execute(tileFacing);
+            }
         }
         //b button
         else if (inputManager.isbButtonPad()) {

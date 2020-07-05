@@ -4,8 +4,11 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.Log;
+import android.view.Gravity;
+import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
+import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.IGameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
@@ -354,6 +357,7 @@ public class Player extends Creature {
         float xPlayerCenter = xCurrent + (width / 2);
         float yPlayerCenter = yCurrent + (height / 2);
 
+        Tile tileFacing = null;
         int xInspectIndex = 0;
         int yInspectIndex = 0;
         switch (direction) {
@@ -378,10 +382,38 @@ public class Player extends Creature {
                 break;
         }
 
+        ///////////////////////////////////////////////////////////
+        tileFacing = tileMap.getTile(xInspectIndex, yInspectIndex);
+        ///////////////////////////////////////////////////////////
+
         Log.d(MainActivity.DEBUG_TAG, "Player.getTileCurrentlyFacing at: (" + xInspectIndex + ", " + yInspectIndex + ").");
-        /////////////////////////////////////////////////////
-        return tileMap.getTile(xInspectIndex, yInspectIndex);
-        /////////////////////////////////////////////////////
+        if (tileFacing != null) {
+            final String message = tileFacing.getClass().getSimpleName();
+            Log.d(MainActivity.DEBUG_TAG, "tileFacing is: " + message);
+            /////////////////////////////////////////////////////////////////////////////////
+            ((JackInActivity) gameCartridge.getContext()).runOnUiThread(new Runnable() {
+                public void run() {
+                    final Toast toast = Toast.makeText(gameCartridge.getContext(), message, Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
+                }
+            });
+            /////////////////////////////////////////////////////////////////////////////////
+        } else {
+            final String message = "tileFacing is null";
+            Log.d(MainActivity.DEBUG_TAG, message);
+            /////////////////////////////////////////////////////////////////////////////////
+            ((JackInActivity) gameCartridge.getContext()).runOnUiThread(new Runnable() {
+                public void run() {
+                    final Toast toast = Toast.makeText(gameCartridge.getContext(), message, Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
+                }
+            });
+            /////////////////////////////////////////////////////////////////////////////////
+        }
+
+        return tileFacing;
     }
 
     public void setGameCamera(GameCamera gameCamera) {
