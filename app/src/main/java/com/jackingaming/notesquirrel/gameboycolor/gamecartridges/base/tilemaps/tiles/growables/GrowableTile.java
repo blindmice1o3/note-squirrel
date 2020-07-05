@@ -35,4 +35,11 @@ public abstract class GrowableTile extends Tile {
         this.state = state;
     }
 
+    public boolean getIsWatered() {
+        return isWatered;
+    }
+
+    public void setIsWatered(boolean isWatered) {
+        this.isWatered = isWatered;
+    }
 }

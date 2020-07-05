@@ -44,10 +44,6 @@ public class GrowableGroundTile extends GrowableTile {
         updateImage(gameCartridge.getContext().getResources());
     }
 
-    public CropEntity getCropEntity() {
-        return cropEntity;
-    }
-
     //TODO: update it to seed-being-a-tile instead of seed-being-a-crop-entity
     public void changeToStateSeeded(Type type) {
 //    public void plantCropEntity(CropEntity.Id idCropEntity) {
@@ -57,17 +53,19 @@ public class GrowableGroundTile extends GrowableTile {
         updateImage(gameCartridge.getContext().getResources());
         //TODO: move instantiation of CropEntity to another method that's
         // post-watering-and-sleeping. Would have to know what kind of CropEntity.Id was planted.
-//        int tileWidth = gameCartridge.getSceneManager().getCurrentScene().getTileMap().getTileWidth();
-//        int tileHeight = gameCartridge.getSceneManager().getCurrentScene().getTileMap().getTileHeight();
-//        /////////////////////////////////////////////////////////////
-//        CropEntity seed = new CropEntity(gameCartridge, idCropEntity,
-//                (xIndex * tileWidth), (yIndex * tileHeight));
-//        /////////////////////////////////////////////////////////////
-//
-//        //this tile's CROP_ENTITY
-//        cropEntity = seed;
-//        //Scene's ENTITY_MANAGER
-//        gameCartridge.getSceneManager().getCurrentScene().getEntityManager().addEntity(seed);
+
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public CropEntity getCropEntity() {
+        return cropEntity;
+    }
+
+    public void setCropEntity(CropEntity cropEntity) {
+        this.cropEntity = cropEntity;
     }
 
 }
