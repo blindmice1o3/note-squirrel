@@ -164,6 +164,7 @@ public class GameCartridge
             stateManager.getCurrentState().render(canvas);
             if (headUpDisplay.getIsVisible()) {
                 headUpDisplay.render(canvas);
+                TimeManager.render(canvas);
             }
 
             //unlock it and post our updated drawing to it.
