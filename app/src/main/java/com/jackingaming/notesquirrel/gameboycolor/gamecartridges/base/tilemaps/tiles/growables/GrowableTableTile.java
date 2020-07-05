@@ -7,23 +7,15 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.As
 
 public class GrowableTableTile extends GrowableTile {
 
-    private boolean hasPot;
-
     public GrowableTableTile(GameCartridge gameCartridge, int xIndex, int yIndex) {
         super(gameCartridge, xIndex, yIndex);
 
         walkability = Walkability.SOLID;
-
-        hasPot = false;
     }
 
     @Override
     public void updateImage(Resources resources) {
-        if (hasPot) {
-            image = Assets.cropPotTileWatered(gameCartridge.getContext().getResources());
-        } else {
-            image = null;
-        }
+        image = Assets.cropGrowableTableTile(resources, state, isWatered);
     }
 
     @Override
@@ -34,7 +26,11 @@ public class GrowableTableTile extends GrowableTile {
     }
 
     public void toggleHasPot() {
-        hasPot = !hasPot;
+        if (state == State.INITIAL) {
+            state = State.PREPARED;
+        } else if (state == State.PREPARED) {
+            state = State.INITIAL;
+        }
 
         updateImage(gameCartridge.getContext().getResources());
     }

@@ -12,6 +12,8 @@ import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.TimeManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.CropEntity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableGroundTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.outdoors.worldmap.TileMapPart01;
 
 import java.util.HashMap;
@@ -284,50 +286,133 @@ public class Assets {
         return hothouseFull;
     }
 
-    public static Bitmap cropPotTileWatered(Resources resources) {
-        Log.d(MainActivity.DEBUG_TAG, "Assets.cropPotTileWatered(Resources)");
+    public static Bitmap cropGrowableTableTile(Resources resources, GrowableTile.State state,
+                                               boolean isWatered) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropGrowableTableTile(Resources, GrowableTile.State, boolean)... (state: " + state + "), (isWatered: " + isWatered + ").");
 
-        Bitmap plantsHothouseHM2 = BitmapFactory.decodeResource(resources, R.drawable.hm2_hothouse_plants);
-        Bitmap potTileWatered = null;
+        Bitmap spriteSheetPlantsHothouseHM2 = null;
+        Bitmap spriteTableTile = null;
 
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        potTileWatered = Bitmap.createBitmap(plantsHothouseHM2, 8, 120, 16, 16);
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        Log.d(MainActivity.DEBUG_TAG, "potTileWatered: " + potTileWatered.getWidth() + ", " + potTileWatered.getHeight());
+        //SELECT SPRITE_SHEET
+        if (isWatered) {
+            spriteSheetPlantsHothouseHM2 = BitmapFactory.decodeResource(resources, R.drawable.hm2_hothouse_plants1);
+        } else {
+            spriteSheetPlantsHothouseHM2 = BitmapFactory.decodeResource(resources, R.drawable.hm2_hothouse_plants2);
+        }
 
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        //May be redundant because local variable.
-        plantsHothouseHM2 = null;
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        Log.d(MainActivity.DEBUG_TAG, "Assets.cropPotTileWatered(Resources)... plantsHothouseHM2 is null? " + plantsHothouseHM2);
+        //CROP SPRITE
+        switch (state) {
+            case INITIAL:
+                spriteTableTile = null;
+                break;
+            case PREPARED:
+                if (isWatered) {
+                    spriteTableTile = Bitmap.createBitmap(spriteSheetPlantsHothouseHM2, 8, 120, 16, 16);
+                } else {
+                    spriteTableTile = Bitmap.createBitmap(spriteSheetPlantsHothouseHM2, 24, 56, 16, 16);
+                }
+                break;
+            case SEEDED:
+                if (isWatered) {
+                    spriteTableTile = Bitmap.createBitmap(spriteSheetPlantsHothouseHM2, 120, 120, 16, 16);
+                } else {
+                    spriteTableTile = Bitmap.createBitmap(spriteSheetPlantsHothouseHM2, 56, 120, 16, 16);
+                }
+                break;
+        }
 
-        return potTileWatered;
+        return spriteTableTile;
     }
 
     //TODO: crop, tile, time system (growing system)
-    //tile (GrowableGroundTile - TILLED)
-    public static Bitmap cropTileTilled(Resources resources, boolean isWatered) {
-        Log.d(MainActivity.DEBUG_TAG, "Assets.cropTileTilled(Resources, boolean)");
+    public static Bitmap cropGrowableGroundTile(Resources resources, GrowableTile.State state,
+                                                boolean isWatered, GrowableGroundTile.Type type) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropGrowableGroundTile(Resources, GrowableTile.State, boolean, GrowableGroundTile.Type)... (state: " + state + "), (isWatered: " + isWatered + "), (type: " + type + ").");
 
-        Bitmap cropsAndItemsSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm_crops_and_items);
-        Bitmap tileTilled = null;
+        Bitmap spriteSheetCropsAndItems = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm_crops_and_items);
+        Bitmap spriteGroundTile = null;
 
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        if (isWatered) {
-            tileTilled = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 24, 19, 16, 16);
-        } else {
-            tileTilled = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 7, 19, 16, 16);
+
+        switch (state) {
+            case INITIAL:
+                spriteGroundTile = null;
+                break;
+            case PREPARED:
+                if (isWatered) {
+                    spriteGroundTile = Bitmap.createBitmap(spriteSheetCropsAndItems, 24, 19, 16, 16);
+                } else {
+                    spriteGroundTile = Bitmap.createBitmap(spriteSheetCropsAndItems, 7, 19, 16, 16);
+                }
+                break;
+            case SEEDED:
+                switch (type) {
+                    case CROP_SEEDED:
+                        switch (TimeManager.season) {
+                            case SPRING:
+                            case SUMMER:
+                            case FALL:
+                                if (isWatered) {
+                                    spriteGroundTile = Bitmap.createBitmap(spriteSheetCropsAndItems, 24, 106, 16, 16);
+                                } else {
+                                    spriteGroundTile = Bitmap.createBitmap(spriteSheetCropsAndItems, 7, 106, 16, 16);
+                                }
+                                break;
+                            case WINTER:
+                                if (isWatered) {
+                                    spriteGroundTile = Bitmap.createBitmap(spriteSheetCropsAndItems, 24, 289, 16, 16);
+                                } else {
+                                    spriteGroundTile = Bitmap.createBitmap(spriteSheetCropsAndItems, 7, 289, 16, 16);
+                                }
+                                break;
+                        }
+                        break;
+                    case GRASS_SEEDED:
+                        switch (TimeManager.season) {
+                            case SPRING:
+                            case SUMMER:
+                            case FALL:
+                                spriteGroundTile = Bitmap.createBitmap(spriteSheetCropsAndItems, 7, 60, 16, 16);
+                                break;
+                            case WINTER:
+                                spriteGroundTile = Bitmap.createBitmap(spriteSheetCropsAndItems, 125, 60, 16, 16);
+                                break;
+                        }
+                        break;
+                    case GRASS_SPROUTED:
+                        switch (TimeManager.season) {
+                            case SPRING:
+                            case SUMMER:
+                                spriteGroundTile = Bitmap.createBitmap(spriteSheetCropsAndItems, 24, 60, 16, 16);
+                                break;
+                            case FALL:
+                                spriteGroundTile = Bitmap.createBitmap(spriteSheetCropsAndItems, 82, 60, 16, 16);
+                                break;
+                            case WINTER:
+                                //same as GRASS_SEEDED
+                                spriteGroundTile = Bitmap.createBitmap(spriteSheetCropsAndItems, 125, 60, 16, 16);
+                                break;
+                        }
+                        break;
+                    case GRASS_HARVESTABLE:
+                        switch (TimeManager.season) {
+                            case SPRING:
+                            case SUMMER:
+                                spriteGroundTile = Bitmap.createBitmap(spriteSheetCropsAndItems, 41, 60, 16, 16);
+                                break;
+                            case FALL:
+                                spriteGroundTile = Bitmap.createBitmap(spriteSheetCropsAndItems, 99, 60, 16, 16);
+                                break;
+                            case WINTER:
+                                //same as GRASS_SEEDED
+                                spriteGroundTile = Bitmap.createBitmap(spriteSheetCropsAndItems, 125, 60, 16, 16);
+                                break;
+                        }
+                        break;
+                }
+                break;
         }
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        Log.d(MainActivity.DEBUG_TAG, "tileTilled: " + tileTilled.getWidth() + ", " + tileTilled.getHeight());
 
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        //May be redundant because local variable.
-        cropsAndItemsSpriteSheet = null;
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        Log.d(MainActivity.DEBUG_TAG, "Assets.cropTileTilled(Resources, boolean)... cropsAndItemsSpriteSheet is null? " + cropsAndItemsSpriteSheet);
-
-        return tileTilled;
+        return spriteGroundTile;
     }
 
     //crop_entity
@@ -340,46 +425,9 @@ public class Assets {
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         //TODO: determine which coordinates based on season, crop, stage, watered
         switch (id) {
-            case GRASS:
-
-                switch(TimeManager.season) {
-                    case SPRING:
-                    case SUMMER:
-                        if (stage == CropEntity.Stage.SEEDED) {
-                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 7, 60, 16, 16);
-                        } else if (stage == CropEntity.Stage.ONE) {
-                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 24, 60, 16, 16);
-                        } else if (stage == CropEntity.Stage.HARVESTABLE) {
-                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 41, 60, 16, 16);
-                        }
-                        break;
-                    case FALL:
-                        if (stage == CropEntity.Stage.SEEDED) {
-                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 7, 60, 16, 16);
-                        } else if (stage == CropEntity.Stage.ONE) {
-                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 82, 60, 16, 16);
-                        } else if (stage == CropEntity.Stage.HARVESTABLE) {
-                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 99, 60, 16, 16);
-                        }
-                        break;
-                    case WINTER:
-                        if (stage == CropEntity.Stage.SEEDED) {
-                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 125, 60, 16, 16);
-                        }
-                        break;
-                }
-                break;
-
             case TURNIP:
 
                 switch (stage) {
-                    case SEEDED:
-                        if (isWatered) {
-                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 24, 106, 16, 16);
-                        } else {
-                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 7, 106, 16, 16);
-                        }
-                        break;
                     case ONE:
                         if (isWatered) {
                             cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 58, 106, 16, 16);
@@ -396,13 +444,6 @@ public class Assets {
             case POTATO:
 
                 switch (stage) {
-                    case SEEDED:
-                        if (isWatered) {
-                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 24, 106, 16, 16);
-                        } else {
-                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 7, 106, 16, 16);
-                        }
-                        break;
                     case ONE:
                         if (isWatered) {
                             cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 58, 125, 16, 16);
@@ -419,13 +460,6 @@ public class Assets {
             case TOMATO:
 
                 switch (stage) {
-                    case SEEDED:
-                        if (isWatered) {
-                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 24, 106, 16, 16);
-                        } else {
-                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 7, 106, 16, 16);
-                        }
-                        break;
                     case ONE:
                         if (isWatered) {
                             cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 58, 166, 16, 16);
@@ -456,13 +490,6 @@ public class Assets {
             case CORN:
 
                 switch (stage) {
-                    case SEEDED:
-                        if (isWatered) {
-                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 24, 106, 16, 16);
-                        } else {
-                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 7, 106, 16, 16);
-                        }
-                        break;
                     case ONE:
                         if (isWatered) {
                             cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 58, 185, 16, 16);
@@ -493,13 +520,6 @@ public class Assets {
             case EGGPLANT:
 
                 switch (stage) {
-                    case SEEDED:
-                        if (isWatered) {
-                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 24, 106, 16, 16);
-                        } else {
-                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 7, 106, 16, 16);
-                        }
-                        break;
                     case ONE:
                         if (isWatered) {
                             cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 58, 230, 16, 16);
@@ -516,13 +536,6 @@ public class Assets {
             case PEANUT:
 
                 switch (stage) {
-                    case SEEDED:
-                        if (isWatered) {
-                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 24, 106, 16, 16);
-                        } else {
-                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 7, 106, 16, 16);
-                        }
-                        break;
                     case ONE:
                         if (isWatered) {
                             cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 58, 249, 16, 16);
@@ -539,13 +552,6 @@ public class Assets {
             case CARROT:
 
                 switch (stage) {
-                    case SEEDED:
-                        if (isWatered) {
-                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 24, 289, 16, 16);
-                        } else {
-                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 7, 289, 16, 16);
-                        }
-                        break;
                     case ONE:
                         if (isWatered) {
                             cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 58, 289, 16, 16);
@@ -562,13 +568,6 @@ public class Assets {
             case BROCCOLI:
 
                 switch (stage) {
-                    case SEEDED:
-                        if (isWatered) {
-                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 24, 289, 16, 16);
-                        } else {
-                            cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 7, 289, 16, 16);
-                        }
-                        break;
                     case ONE:
                         if (isWatered) {
                             cropEntity = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 58, 308, 16, 16);

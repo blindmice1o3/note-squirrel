@@ -141,6 +141,8 @@ public class GameCartridge
         getInputButtonPad();
         //////////////////////////
 
+        TimeManager.update(elapsed);
+
         stateManager.getCurrentState().update(elapsed);
 
         if (headUpDisplay.getIsVisible()) {

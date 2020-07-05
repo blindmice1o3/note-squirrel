@@ -9,6 +9,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartri
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.CropEntity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableGroundTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableTile;
 
 import java.io.Serializable;
 
@@ -72,7 +73,13 @@ public class Item
                 break;
             case WATERING_CAN:
                 if (tile instanceof GrowableGroundTile) {
-                    if ( ((GrowableGroundTile)tile).getIsTilled() ) {
+                    //ENTITY
+                    if ( ((GrowableGroundTile)tile).getCropEntity() != null ) {
+                        ((GrowableGroundTile)tile).getCropEntity().toggleIsWatered();
+                    }
+                    //TILE
+                    else if ( (((GrowableGroundTile)tile).getState() == GrowableTile.State.PREPARED) ||
+                            (((GrowableGroundTile)tile).getState() == GrowableTile.State.SEEDED) ) {
                         ((GrowableGroundTile)tile).toggleIsWatered();
                     }
                 }
@@ -85,9 +92,11 @@ public class Item
                 break;
             case SEED_BAG:
                 if (tile instanceof GrowableGroundTile) {
-                    if ( ((GrowableGroundTile)tile).getIsTilled() ){
+                    if ( ((GrowableGroundTile)tile).getState() == GrowableTile.State.PREPARED ){
                         if ( ((GrowableGroundTile)tile).getCropEntity() == null ) {
-                            ((GrowableGroundTile)tile).plantCropEntity(CropEntity.Id.POTATO);
+                            //TODO: update it to seed-being-a-tile instead of seed-being-a-crop-entity
+                            ((GrowableGroundTile)tile).changeToStateSeeded(GrowableGroundTile.Type.CROP_SEEDED);
+//                            ((GrowableGroundTile)tile).plantCropEntity(CropEntity.Id.POTATO);
                         }
                     }
                 }

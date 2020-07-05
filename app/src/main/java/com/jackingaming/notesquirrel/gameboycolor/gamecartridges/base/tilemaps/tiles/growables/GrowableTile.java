@@ -3,19 +3,20 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.
 import android.content.res.Resources;
 
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
 
 public abstract class GrowableTile extends Tile {
 
+    public enum State { INITIAL, PREPARED, SEEDED; }
+
+    protected State state;
     protected boolean isWatered;
-    protected boolean isPlanted;
 
     public GrowableTile(GameCartridge gameCartridge, int xIndex, int yIndex) {
         super(gameCartridge, xIndex, yIndex);
 
+        state = State.INITIAL;
         isWatered = false;
-        isPlanted = false;
     }
 
     public abstract void updateImage(Resources resources);
@@ -26,8 +27,12 @@ public abstract class GrowableTile extends Tile {
         updateImage(gameCartridge.getContext().getResources());
     }
 
-    public void toggleIsPlanted() {
-        isPlanted = !isPlanted;
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
     }
 
 }

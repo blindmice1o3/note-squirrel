@@ -10,16 +10,17 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.As
 
 public class CropEntity extends Entity {
 
-    public enum Id { GRASS, TURNIP, POTATO, TOMATO, CORN, EGGPLANT, PEANUT, CARROT, BROCCOLI; }
-    public enum Stage { SEEDED, ONE, TWO, THREE, HARVESTABLE; }
+    public enum Id { TURNIP, POTATO, TOMATO, CORN, EGGPLANT, PEANUT, CARROT, BROCCOLI; }
+    public enum Stage { ONE, TWO, THREE, HARVESTABLE; }
 
     private CropEntity.Id id;
+
     private Stage stage;
+    private boolean isWatered;
+    transient private Bitmap image;
 
     private float widthPixelToViewportRatio;
     private float heightPixelToViewportRatio;
-
-    transient private Bitmap image;
 
     public CropEntity(GameCartridge gameCartridge, CropEntity.Id id, float xCurrent, float yCurrent) {
         super(gameCartridge, xCurrent, yCurrent);
@@ -30,7 +31,9 @@ public class CropEntity extends Entity {
                 gameCartridge.getGameCamera().getHeightClipInPixel();
 
         this.id = id;
-        stage = Stage.SEEDED;
+
+        stage = Stage.ONE;
+        isWatered = false;
 
         init(gameCartridge);
     }
@@ -38,8 +41,20 @@ public class CropEntity extends Entity {
     @Override
     public void init(GameCartridge gameCartridge) {
         this.gameCartridge = gameCartridge;
-        image = Assets.cropCropEntity(gameCartridge.getContext().getResources(), id, stage, false);
+        image = Assets.cropCropEntity(gameCartridge.getContext().getResources(), id, stage, isWatered);
         initBounds();
+    }
+
+    public void toggleIsWatered() {
+        isWatered = !isWatered;
+
+        image = Assets.cropCropEntity(gameCartridge.getContext().getResources(), id, stage, isWatered);
+    }
+
+    public void setIsWatered(boolean isWatered) {
+        this.isWatered = isWatered;
+
+        image = Assets.cropCropEntity(gameCartridge.getContext().getResources(), id, stage, isWatered);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables;
 
 import android.content.res.Resources;
-import android.graphics.Canvas;
 
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.CropEntity;
@@ -9,7 +8,9 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.As
 
 public class GrowableGroundTile extends GrowableTile {
 
-    private boolean isTilled;
+    public enum Type { EMPTY, CROP_SEEDED, GRASS_SEEDED, GRASS_SPROUTED, GRASS_HARVESTABLE; }
+
+    private Type type;
     private CropEntity cropEntity;
 
     public GrowableGroundTile(GameCartridge gameCartridge, int xIndex, int yIndex) {
@@ -17,21 +18,13 @@ public class GrowableGroundTile extends GrowableTile {
 
         walkability = Walkability.WALKABLE;
 
-        isTilled = false;
+        type = Type.EMPTY;
         cropEntity = null;
     }
 
     @Override
     public void updateImage(Resources resources) {
-        if (isTilled) {
-            if (isWatered) {
-                image = Assets.cropTileTilled(resources, true);
-            } else {
-                image = Assets.cropTileTilled(resources, false);
-            }
-        } else {
-            image = null;
-        }
+        image = Assets.cropGrowableGroundTile(resources, state, isWatered, type);
     }
 
     @Override
@@ -41,41 +34,40 @@ public class GrowableGroundTile extends GrowableTile {
         updateImage(gameCartridge.getContext().getResources());
     }
 
-    @Override
-    public void render(Canvas canvas, int x, int y) {
-        super.render(canvas, x, y);
-
-        if (cropEntity != null) {
-            cropEntity.render(canvas);
-        }
-    }
-
     public void toggleIsTilled() {
-        isTilled = !isTilled;
+        if (state == State.INITIAL) {
+            state = State.PREPARED;
+        } else if (state == State.PREPARED) {
+            state = State.INITIAL;
+        }
 
         updateImage(gameCartridge.getContext().getResources());
-    }
-
-    public boolean getIsTilled() {
-        return isTilled;
     }
 
     public CropEntity getCropEntity() {
         return cropEntity;
     }
 
-    public void plantCropEntity(CropEntity.Id idCropEntity) {
-        int tileWidth = gameCartridge.getSceneManager().getCurrentScene().getTileMap().getTileWidth();
-        int tileHeight = gameCartridge.getSceneManager().getCurrentScene().getTileMap().getTileHeight();
-        /////////////////////////////////////////////////////////////
-        CropEntity seed = new CropEntity(gameCartridge, idCropEntity,
-                (xIndex * tileWidth), (yIndex * tileHeight));
-        /////////////////////////////////////////////////////////////
+    //TODO: update it to seed-being-a-tile instead of seed-being-a-crop-entity
+    public void changeToStateSeeded(Type type) {
+//    public void plantCropEntity(CropEntity.Id idCropEntity) {
+        state = State.SEEDED;
+        this.type = type;
 
-        //this tile's CROP_ENTITY
-        cropEntity = seed;
-        //Scene's ENTITY_MANAGER
-        gameCartridge.getSceneManager().getCurrentScene().getEntityManager().addEntity(seed);
+        updateImage(gameCartridge.getContext().getResources());
+        //TODO: move instantiation of CropEntity to another method that's
+        // post-watering-and-sleeping. Would have to know what kind of CropEntity.Id was planted.
+//        int tileWidth = gameCartridge.getSceneManager().getCurrentScene().getTileMap().getTileWidth();
+//        int tileHeight = gameCartridge.getSceneManager().getCurrentScene().getTileMap().getTileHeight();
+//        /////////////////////////////////////////////////////////////
+//        CropEntity seed = new CropEntity(gameCartridge, idCropEntity,
+//                (xIndex * tileWidth), (yIndex * tileHeight));
+//        /////////////////////////////////////////////////////////////
+//
+//        //this tile's CROP_ENTITY
+//        cropEntity = seed;
+//        //Scene's ENTITY_MANAGER
+//        gameCartridge.getSceneManager().getCurrentScene().getEntityManager().addEntity(seed);
     }
 
 }

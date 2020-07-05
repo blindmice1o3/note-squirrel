@@ -6,23 +6,12 @@ public class TimeManager
         implements Serializable {
 
     public enum Season { SPRING, SUMMER, FALL, WINTER; }
-    public static Season season;
 
-    transient private GameCartridge gameCartridge;
+    public static Season season = Season.SPRING;
+    private static long timePlayed = 0L;
 
-    private long milliElapsed;
-    private long timePlayed;
-
-    public TimeManager(GameCartridge gameCartridge) {
-        season = Season.SPRING;
-
-        this.gameCartridge = gameCartridge;
-
-        timePlayed = 0L;
-    }
-
-    public void update(long elapsed) {
-
+    public static void update(long elapsed) {
+        timePlayed += elapsed;
     }
 
 }
