@@ -60,6 +60,10 @@ public class GrowableGroundTile extends GrowableTile {
         return type;
     }
 
+    public void setType(Type type) {
+        this.type = type;
+    }
+
     public CropEntity getCropEntity() {
         return cropEntity;
     }
