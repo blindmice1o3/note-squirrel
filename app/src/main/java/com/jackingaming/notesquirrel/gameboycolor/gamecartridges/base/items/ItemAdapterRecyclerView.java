@@ -95,7 +95,7 @@ public class ItemAdapterRecyclerView extends RecyclerView.Adapter<ItemAdapterRec
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.textView.setText(dataSet.get(position).getId().name());
+        holder.textView.setText(dataSet.get(position).getId());
         holder.imageView.setImageBitmap(dataSet.get(position).getImage());
     }
 

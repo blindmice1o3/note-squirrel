@@ -10,10 +10,17 @@ import android.widget.Toast;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.IGameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.Item;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.AxeItem;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.BugNetItem;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.FishingPoleItem;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.HammerItem;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.seeds.SeedBagItem;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.ShovelItem;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.SickleItem;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.WateringCanItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Animation;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
@@ -73,14 +80,14 @@ public class Player extends Creature {
 
         /////////////////////////////////////////////////////////////////////////////////////////
         inventory = new ArrayList<Item>();
-        inventory.add(new Item(gameCartridge.getContext().getResources(), Item.Id.BUG_NET));
-        inventory.add(new Item(gameCartridge.getContext().getResources(), Item.Id.FISHING_POLE));
-        inventory.add(new Item(gameCartridge.getContext().getResources(), Item.Id.WATERING_CAN));
-        inventory.add(new Item(gameCartridge.getContext().getResources(), Item.Id.SHOVEL));
-        inventory.add(new Item(gameCartridge.getContext().getResources(), Item.Id.HAMMER));
-        inventory.add(new Item(gameCartridge.getContext().getResources(), Item.Id.SICKLE));
-        inventory.add(new Item(gameCartridge.getContext().getResources(), Item.Id.AX));
-        inventory.add(new Item(gameCartridge.getContext().getResources(), Item.Id.SEED_BAG));
+        inventory.add(new BugNetItem(gameCartridge));
+        inventory.add(new FishingPoleItem(gameCartridge));
+        inventory.add(new WateringCanItem(gameCartridge));
+        inventory.add(new ShovelItem(gameCartridge));
+        inventory.add(new HammerItem(gameCartridge));
+        inventory.add(new SickleItem(gameCartridge));
+        inventory.add(new AxeItem(gameCartridge));
+        inventory.add(new SeedBagItem(gameCartridge));
         /////////////////////////////////////////////////////////////////////////////////////////
     }
 

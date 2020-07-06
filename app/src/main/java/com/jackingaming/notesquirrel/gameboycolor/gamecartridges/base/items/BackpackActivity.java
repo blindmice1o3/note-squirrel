@@ -45,27 +45,10 @@ public class BackpackActivity extends AppCompatActivity
         scrollPosition = 0;
         mode = Mode.GRID;
 
+        //DEFAULT is empty
         dataSet = new ArrayList<Item>();
-        dataSet.add(new Item(getResources(), Item.Id.BUG_NET));
-        dataSet.add(new Item(getResources(), Item.Id.SHOVEL));
-        dataSet.add(new Item(getResources(), Item.Id.SICKLE));
-        dataSet.add(new Item(getResources(), Item.Id.FISHING_POLE));
 
-        dataSet.add(new Item(getResources(), Item.Id.AX));
-        dataSet.add(new Item(getResources(), Item.Id.HAMMER));
-        dataSet.add(new Item(getResources(), Item.Id.BUG_NET));
-        dataSet.add(new Item(getResources(), Item.Id.WATERING_CAN));
-
-        dataSet.add(new Item(getResources(), Item.Id.BUG_NET));
-        dataSet.add(new Item(getResources(), Item.Id.SHOVEL));
-        dataSet.add(new Item(getResources(), Item.Id.SICKLE));
-        dataSet.add(new Item(getResources(), Item.Id.FISHING_POLE));
-
-        dataSet.add(new Item(getResources(), Item.Id.AX));
-        dataSet.add(new Item(getResources(), Item.Id.HAMMER));
-        dataSet.add(new Item(getResources(), Item.Id.BUG_NET));
-        dataSet.add(new Item(getResources(), Item.Id.WATERING_CAN));
-
+        //List of Item instances from Player's inventory.
         /////////////////////////////////////////////////////////////////////////
         if (getIntent().getSerializableExtra(JackInActivity.INVENTORY) != null) {
             dataSet = (ArrayList<Item>) getIntent().getSerializableExtra(JackInActivity.INVENTORY);
