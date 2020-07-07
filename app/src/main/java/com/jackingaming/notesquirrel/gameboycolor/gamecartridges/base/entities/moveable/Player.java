@@ -87,7 +87,15 @@ public class Player extends Creature {
         inventory.add(new HammerItem(gameCartridge));
         inventory.add(new SickleItem(gameCartridge));
         inventory.add(new AxeItem(gameCartridge));
-        inventory.add(new SeedBagItem(gameCartridge));
+        inventory.add(new SeedBagItem(gameCartridge, SeedBagItem.SeedType.GRASS));
+        inventory.add(new SeedBagItem(gameCartridge, SeedBagItem.SeedType.TURNIP));
+        inventory.add(new SeedBagItem(gameCartridge, SeedBagItem.SeedType.POTATO));
+        inventory.add(new SeedBagItem(gameCartridge, SeedBagItem.SeedType.TOMATO));
+        inventory.add(new SeedBagItem(gameCartridge, SeedBagItem.SeedType.CORN));
+        inventory.add(new SeedBagItem(gameCartridge, SeedBagItem.SeedType.EGGPLANT));
+        inventory.add(new SeedBagItem(gameCartridge, SeedBagItem.SeedType.PEANUT));
+        inventory.add(new SeedBagItem(gameCartridge, SeedBagItem.SeedType.CARROT));
+        inventory.add(new SeedBagItem(gameCartridge, SeedBagItem.SeedType.BROCCOLI));
         /////////////////////////////////////////////////////////////////////////////////////////
     }
 

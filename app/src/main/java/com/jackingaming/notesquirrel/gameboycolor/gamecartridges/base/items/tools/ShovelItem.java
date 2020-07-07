@@ -6,6 +6,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartri
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.Item;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableGroundTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableTile;
 
 public class ShovelItem extends Item {
 
@@ -23,7 +24,9 @@ public class ShovelItem extends Item {
     @Override
     public void execute(Tile tile) {
         if (tile instanceof GrowableGroundTile) {
-            ((GrowableGroundTile)tile).toggleIsTilled();
+            if (((GrowableGroundTile)tile).getState() == GrowableTile.State.INITIAL) {
+                ((GrowableGroundTile)tile).changeToStatePrepared();
+            }
         }
     }
 

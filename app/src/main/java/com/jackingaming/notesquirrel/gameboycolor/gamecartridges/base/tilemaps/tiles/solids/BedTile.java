@@ -29,35 +29,96 @@ public class BedTile extends Tile {
             for (int x = 0; x < column; x++) {
                 Tile tile = sceneFarm.getTileMap().getTile(x, y);
 
+                //TILES
                 if (tile instanceof GrowableGroundTile) {
                     GrowableGroundTile growableGroundTile = (GrowableGroundTile) tile;
 
-                    if ( (growableGroundTile.getState() == GrowableTile.State.SEEDED) &&
-                            (growableGroundTile.getIsWatered()) ) {
+                    switch (growableGroundTile.getType()) {
+                        case EMPTY:
+                            //TILLED TILES WATERED
+                            if ( (growableGroundTile.getState() == GrowableTile.State.PREPARED) &&
+                                    (growableGroundTile.getIsWatered())) {
+                                //RESET growableGroundTile
+                                ((GrowableGroundTile)tile).setIsWatered(false);
+                            }
+                            break;
+                        case CROP_SEEDED:
+                            //CROP TILES WATERED
+                            if (growableGroundTile.getIsWatered()) {
+                                int tileWidth = sceneFarm.getTileMap().getTileWidth();
+                                int tileHeight = sceneFarm.getTileMap().getTileHeight();
 
-                        if ( growableGroundTile.getType() == GrowableGroundTile.Type.CROP_SEEDED ) {
-                            int tileWidth = sceneFarm.getTileMap().getTileWidth();
-                            int tileHeight = sceneFarm.getTileMap().getTileHeight();
+                                CropEntity.Id id = null;
+                                switch (growableGroundTile.getSeedType()) {
+                                    case TURNIP:
+                                        id = CropEntity.Id.TURNIP;
+                                        break;
+                                    case POTATO:
+                                        id = CropEntity.Id.POTATO;
+                                        break;
+                                    case TOMATO:
+                                        id = CropEntity.Id.TOMATO;
+                                        break;
+                                    case CORN:
+                                        id = CropEntity.Id.CORN;
+                                        break;
+                                    case EGGPLANT:
+                                        id = CropEntity.Id.EGGPLANT;
+                                        break;
+                                    case PEANUT:
+                                        id = CropEntity.Id.PEANUT;
+                                        break;
+                                    case CARROT:
+                                        id = CropEntity.Id.CARROT;
+                                        break;
+                                    case BROCCOLI:
+                                        id = CropEntity.Id.BROCCOLI;
+                                        break;
+                                }
+                                ///////////////////////////////////////////////////////////////////////////
+                                CropEntity sproutling = new CropEntity(gameCartridge, id,
+                                        (tile.getxIndex() * tileWidth), (tile.getyIndex() * tileHeight));
+                                ///////////////////////////////////////////////////////////////////////////
 
-                            //TODO: currently default is POTATO CropEntity.
-                            ///////////////////////////////////////////////////////////////////////////
-                            CropEntity sproutling = new CropEntity(gameCartridge, CropEntity.Id.POTATO,
-                                    (tile.getxIndex() * tileWidth), (tile.getyIndex() * tileHeight));
-                            ///////////////////////////////////////////////////////////////////////////
+                                //Tile's CROP_ENTITY
+                                growableGroundTile.setCropEntity(sproutling);
+                                //Scene's ENTITY_MANAGER
+                                sceneFarm.getEntityManager().addEntity(sproutling);
 
-                            //Tile's CROP_ENTITY
-                            growableGroundTile.setCropEntity(sproutling);
-                            //Scene's ENTITY_MANAGER
-                            sceneFarm.getEntityManager().addEntity(sproutling);
+                                //RESET growableGroundTile
+                                growableGroundTile.changeToStateInitial();
+                                growableGroundTile.setIsWatered(false);
+                                growableGroundTile.setType(GrowableGroundTile.Type.EMPTY);
+                                growableGroundTile.setSeedType(null);
+                            }
+                            break;
+                        case GRASS_SEEDED:
+                            //TODO: track age and provide condition
+                            growableGroundTile.setType(GrowableGroundTile.Type.GRASS_SPROUTED);
 
                             //RESET growableGroundTile
-                            growableGroundTile.setState(GrowableTile.State.INITIAL);
                             growableGroundTile.setIsWatered(false);
-                            growableGroundTile.setType(GrowableGroundTile.Type.EMPTY);
-                        }
-                    } else {
-                        //may be GrowableTile.State.PREPARED (tilled, unseeded) that had been watered.
-                        ((GrowableGroundTile)tile).setIsWatered(false);
+                            break;
+                        case GRASS_SPROUTED:
+                            //TODO: track age and provide condition
+                            growableGroundTile.setType(GrowableGroundTile.Type.GRASS_HARVESTABLE);
+
+                            //RESET growableGroundTile
+                            growableGroundTile.setIsWatered(false);
+                            break;
+                        case GRASS_HARVESTABLE:
+                            //intentionally blank.
+
+                            //RESET growableGroundTile
+                            growableGroundTile.setIsWatered(false);
+                            break;
+                    }
+
+                    //ENTITIES
+                    if (growableGroundTile.getCropEntity() != null) {
+                        //TODO: check if isWatered... if so, increase ageInDay
+
+                        growableGroundTile.getCropEntity().setIsWatered(false);
                     }
                 }
             }
