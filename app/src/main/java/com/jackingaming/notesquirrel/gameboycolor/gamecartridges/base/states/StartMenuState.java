@@ -185,6 +185,16 @@ public class StartMenuState
     }
 
     @Override
+    public void getInputSelectButton() {
+        //TODO:
+    }
+
+    @Override
+    public void getInputStartButton() {
+        //TODO:
+    }
+
+    @Override
     public void update(long elapsed) {
         //TODO:
     }

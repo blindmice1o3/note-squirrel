@@ -69,6 +69,20 @@ public class GameState
     }
 
     @Override
+    public void getInputSelectButton() {
+        //////////////////////////////////////////////////////
+        sceneManager.getCurrentScene().getInputSelectButton();
+        //////////////////////////////////////////////////////
+    }
+
+    @Override
+    public void getInputStartButton() {
+        /////////////////////////////////////////////////////
+        sceneManager.getCurrentScene().getInputStartButton();
+        /////////////////////////////////////////////////////
+    }
+
+    @Override
     public void update(long elapsed) {
         sceneManager.getCurrentScene().update(elapsed);
     }

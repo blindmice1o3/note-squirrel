@@ -221,6 +221,16 @@ public abstract class Scene
         }
     }
 
+    public void getInputSelectButton() {
+        Log.d(MainActivity.DEBUG_TAG, "Scene.getInputSelectButton()");
+        //TODO:
+    }
+
+    public void getInputStartButton() {
+        Log.d(MainActivity.DEBUG_TAG, "Scene.getInputStartButton()");
+        //TODO:
+    }
+
     public void update(long elapsed) {
         //////////////////////////////
         entityManager.update(elapsed);

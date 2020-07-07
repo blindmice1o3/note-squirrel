@@ -57,8 +57,10 @@ public class JackInActivity extends AppCompatActivity {
         final ViewportFragment viewportFragment = (ViewportFragment) getSupportFragmentManager().findFragmentById(R.id.viewportfragment);
         DirectionalPadFragment directionalPadFragment = (DirectionalPadFragment) getSupportFragmentManager().findFragmentById(R.id.directionalPadFragment);
         ButtonPadFragment buttonPadFragment = (ButtonPadFragment) getSupportFragmentManager().findFragmentById(R.id.buttonPadFragment);
-        Button swapGameButton = (Button) findViewById(R.id.swap_game);
         Button launchDvdActivityButton = (Button) findViewById(R.id.launch_dvd_activity_button);
+        Button swapGameButton = (Button) findViewById(R.id.swap_game);
+        Button selectButton = (Button) findViewById(R.id.select_button);
+        Button startButton = (Button) findViewById(R.id.start_button);
 
 
         //////////////////////////////////
@@ -107,14 +109,6 @@ public class JackInActivity extends AppCompatActivity {
         }
 
 
-
-        swapGameButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                swapGame();
-            }
-        });
-
         // Click event will launch ListFragmentDvdParentActivity.
         launchDvdActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,6 +118,28 @@ public class JackInActivity extends AppCompatActivity {
             }
         });
 
+        swapGameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                swapGame();
+            }
+        });
+
+        //SELECT_BUTTON
+        selectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gameCartridge.getInputSelectButton();
+            }
+        });
+
+        //START_BUTTON
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gameCartridge.getInputStartButton();
+            }
+        });
 
 
         //@@@@@@@CONTEXT_MENU@@@@@@@

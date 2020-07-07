@@ -12,6 +12,10 @@ public interface State {
 
     public void getInputButtonPad();
 
+    public void getInputSelectButton();
+
+    public void getInputStartButton();
+
     public void update(long elapsed);
 
     public void render(Canvas canvas);

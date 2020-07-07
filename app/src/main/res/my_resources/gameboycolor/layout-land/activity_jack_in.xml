@@ -44,15 +44,6 @@
         android:layout_marginBottom="10dp" />
 
     <Button
-        android:id="@+id/swap_game"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"
-        android:text="swap game" />
-
-    <Button
         android:id="@+id/launch_dvd_activity_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -60,5 +51,32 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="10dp"
         android:text="dvd list" />
+
+    <Button
+        android:id="@+id/select_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/launch_dvd_activity_button"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:text="select" />
+
+    <Button
+        android:id="@+id/start_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/swap_game"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:text="start" />
+
+    <Button
+        android:id="@+id/swap_game"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:text="swap game" />
 
 </RelativeLayout>

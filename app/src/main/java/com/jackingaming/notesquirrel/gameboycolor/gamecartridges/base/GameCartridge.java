@@ -134,6 +134,16 @@ public class GameCartridge
     }
 
     @Override
+    public void getInputSelectButton() {
+        stateManager.getCurrentState().getInputSelectButton();
+    }
+
+    @Override
+    public void getInputStartButton() {
+        stateManager.getCurrentState().getInputStartButton();
+    }
+
+    @Override
     public void update(long elapsed) {
         //////////////////////////
         getInputViewport();

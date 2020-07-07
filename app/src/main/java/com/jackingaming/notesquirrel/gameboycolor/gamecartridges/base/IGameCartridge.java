@@ -20,6 +20,8 @@ public interface IGameCartridge {
     public void getInputViewport();
     public void getInputDirectionalPad();
     public void getInputButtonPad();
+    public void getInputSelectButton();
+    public void getInputStartButton();
 
     public void update(long elapsed);
     public void render();
