@@ -17,6 +17,7 @@ public class CropEntity extends Entity {
 
     private Stage stage;
     private boolean isWatered;
+    private short daysWatered;
     transient private Bitmap image;
 
     private float widthPixelToViewportRatio;
@@ -34,6 +35,7 @@ public class CropEntity extends Entity {
 
         stage = Stage.ONE;
         isWatered = false;
+        daysWatered = 0;
 
         init(gameCartridge);
     }
@@ -53,6 +55,44 @@ public class CropEntity extends Entity {
 
     public void setIsWatered(boolean isWatered) {
         this.isWatered = isWatered;
+
+        image = Assets.cropCropEntity(gameCartridge.getContext().getResources(), id, stage, isWatered);
+    }
+
+    public void incrementDaysWatered() {
+        daysWatered++;
+
+        //TODO: update stage based on daysWatered (update image afterwards?)
+        updateStage();
+    }
+
+    private void updateStage() {
+        switch (id) {
+            case TURNIP:
+                updateStageTurnip();
+                break;
+            case POTATO:
+                updateStagePotato();
+                break;
+            case TOMATO:
+                updateStageTomato();
+                break;
+            case CORN:
+                updateStageCorn();
+                break;
+            case EGGPLANT:
+                updateStageEggplant();
+                break;
+            case PEANUT:
+                updateStagePeanut();
+                break;
+            case CARROT:
+                updateStageCarrot();
+                break;
+            case BROCCOLI:
+                updateStageBroccoli();
+                break;
+        }
 
         image = Assets.cropCropEntity(gameCartridge.getContext().getResources(), id, stage, isWatered);
     }
@@ -79,6 +119,120 @@ public class CropEntity extends Entity {
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         canvas.drawBitmap(image, rectOfImage, rectOnScreen, null);
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    }
+
+    private void updateStageTurnip() {
+        switch (daysWatered) {
+            case 1:
+                stage = Stage.ONE;
+                break;
+            case 2:
+//            case 5:
+                stage = Stage.HARVESTABLE;
+                break;
+        }
+    }
+
+    private void updateStagePotato() {
+        switch (daysWatered) {
+            case 1:
+                stage = Stage.ONE;
+                break;
+            case 2:
+//            case 7:
+                stage = Stage.HARVESTABLE;
+                break;
+        }
+    }
+
+    private void updateStageTomato() {
+        switch (daysWatered) {
+            case 1:
+                stage = Stage.ONE;
+                break;
+            case 2:
+                stage = Stage.TWO;
+                break;
+            case 3:
+                stage = Stage.THREE;
+                break;
+            case 4:
+//            case 10:
+                stage = Stage.HARVESTABLE;
+                break;
+        }
+    }
+
+    private void updateStageCorn() {
+        switch (daysWatered) {
+            case 1:
+                stage = Stage.ONE;
+                break;
+            case 2:
+                stage = Stage.TWO;
+                break;
+            case 3:
+                stage = Stage.THREE;
+                break;
+            case 4:
+//            case 14:
+                stage = Stage.HARVESTABLE;
+                break;
+        }
+    }
+
+    private void updateStageEggplant() {
+        switch (daysWatered) {
+            case 1:
+                stage = Stage.ONE;
+                break;
+            case 2:
+//            case 5:
+                stage = Stage.HARVESTABLE;
+                break;
+        }
+    }
+
+    private void updateStagePeanut() {
+        switch (daysWatered) {
+            case 1:
+                stage = Stage.ONE;
+                break;
+            case 2:
+//            case 10:
+                stage = Stage.HARVESTABLE;
+                break;
+        }
+    }
+
+    private void updateStageCarrot() {
+        switch (daysWatered) {
+            case 1:
+                stage = Stage.ONE;
+                break;
+            case 2:
+//            case 7:
+                stage = Stage.HARVESTABLE;
+                break;
+        }
+    }
+
+    private void updateStageBroccoli() {
+        switch (daysWatered) {
+            case 1:
+                stage = Stage.ONE;
+                break;
+            case 2:
+                stage = Stage.TWO;
+                break;
+            case 3:
+                stage = Stage.THREE;
+                break;
+            case 4:
+//            case 14:
+                stage = Stage.HARVESTABLE;
+                break;
+        }
     }
 
 }
