@@ -15,11 +15,13 @@ public class TimeManager
 
     private static long timePlayed = 0L;
 
-    public static Season season = Season.SPRING;
-    public static short day = 1;
-    public static short hour = 0;
+    public static short year = 1;                   //4-season years (SPRING, SUMMER, FALL, WINTER)
+    public static Season season = Season.SPRING;    //30-day seasons
+    public static short day = 1;                    //18-hour days (6am-12am)
+    //DAYLIGHT==(6am-3pm), TWILIGHT==(3pm-6pm), NIGHT==(6pm-12am)
+    public static short hour = 0;   //20-real-time-second hours (average day lasts ~4 minutes)
     public static short minute = 0;
-    public static short second = 0;
+    public static short second = 0; //TIME STOPS WHEN INDOORS
 
     public static void update(long elapsed) {
         timePlayed += elapsed;
@@ -30,7 +32,7 @@ public class TimeManager
         Paint paintBackground = new Paint();
         paintBackground.setAntiAlias(true);
         paintBackground.setColor(Color.WHITE);
-        paintBackground.setAlpha(250);
+        paintBackground.setAlpha(240);
 
         //Paint (FONT)
         Paint paintFont = new Paint();

@@ -223,12 +223,15 @@ public abstract class Scene
 
     public void getInputSelectButton() {
         Log.d(MainActivity.DEBUG_TAG, "Scene.getInputSelectButton()");
-        //TODO:
+
+        //TODO: push unimplemented state (SystemNotebookState... date, time, stats of resources, etc).
     }
 
     public void getInputStartButton() {
         Log.d(MainActivity.DEBUG_TAG, "Scene.getInputStartButton()");
-        //TODO:
+
+        //TODO: remove from base-Scene
+        player.incrementIndexSelectedItem();
     }
 
     public void update(long elapsed) {
