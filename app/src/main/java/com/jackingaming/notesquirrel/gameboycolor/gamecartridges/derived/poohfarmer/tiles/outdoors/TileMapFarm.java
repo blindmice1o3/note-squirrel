@@ -15,6 +15,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.t
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableGroundTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.GenericSolidTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.SignPostTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.solids2x2.ShippingBinTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.walkables.GenericWalkableTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.walkables.TransferPointTile;
 
@@ -89,6 +90,9 @@ public class TileMapFarm extends TileMap {
         for (int y = 0; y < rows; y++) {
             for (int x = 0; x < columns; x++) {
                 int pixel = rgbTileMap.getPixel(x, y);
+                int red = Color.red(pixel);
+                int green = Color.green(pixel);
+                int blue = Color.blue(pixel);
 
                 if (pixel == Color.BLACK) {
                     tiles[y][x] = new GenericSolidTile(gameCartridge, x, y);
@@ -99,6 +103,16 @@ public class TileMapFarm extends TileMap {
                     tiles[y][x] = new SignPostTile(gameCartridge, x, y);
                 } else if (pixel == Color.GREEN) {
                     tiles[y][x] = new TransferPointTile(gameCartridge, x, y);
+                }
+                //SHIPPING_BIN_TILE
+                else if ( (red == 255) && (green == 255) && (blue == 1) ) {
+                    tiles[y][x] = new ShippingBinTile(gameCartridge, x, y, ShippingBinTile.Quadrant.TOP_LEFT);
+                } else if ( (red == 255) && (green == 255) && (blue == 2) ) {
+                    tiles[y][x] = new ShippingBinTile(gameCartridge, x, y, ShippingBinTile.Quadrant.TOP_RIGHT);
+                } else if ( (red == 255) && (green == 255) && (blue == 3) ) {
+                    tiles[y][x] = new ShippingBinTile(gameCartridge, x, y, ShippingBinTile.Quadrant.BOTTOM_LFET);
+                } else if ( (red == 255) && (green == 255) && (blue == 4) ) {
+                    tiles[y][x] = new ShippingBinTile(gameCartridge, x, y, ShippingBinTile.Quadrant.BOTTOM_RIGHT);
                 }
                 //TODO: handle special tiles (stashWood, flowerPlot, hotSpring)
                 else if (pixel == Color.BLUE) {

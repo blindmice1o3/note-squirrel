@@ -14,7 +14,9 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.s
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableGroundTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.solids2x2.ShippingBinTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.outdoors.worldmap.TileMapPart01;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.products.Product;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -415,6 +417,117 @@ public class Assets {
         return spriteGroundTile;
     }
 
+    public static Bitmap cropShippingBinTile(Resources resources, ShippingBinTile.Quadrant quadrant) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropShippingBinTile(Resources, ShippingBinTile.Quadrant)");
+
+        Bitmap customTilesSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.custom_hm_tile_sprites_sheet);
+        Bitmap shippingBinTile = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        switch (quadrant) {
+            case TOP_LEFT:
+                shippingBinTile = Bitmap.createBitmap(customTilesSpriteSheet, 0, 112, 16, 16);
+                break;
+            case TOP_RIGHT:
+                shippingBinTile = Bitmap.createBitmap(customTilesSpriteSheet, 16, 112, 16, 16);
+                break;
+            case BOTTOM_LFET:
+                shippingBinTile = Bitmap.createBitmap(customTilesSpriteSheet, 0, 128, 16, 16);
+                break;
+            case BOTTOM_RIGHT:
+                shippingBinTile = Bitmap.createBitmap(customTilesSpriteSheet, 16, 128, 16, 16);
+                break;
+        }
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "shippingBinTile: " + shippingBinTile.getWidth() + ", " + shippingBinTile.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        customTilesSpriteSheet = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropShippingBinTile(Resources, ShippingBinTile.Quadrant)... customTilesSpriteSheet is null? " + customTilesSpriteSheet);
+
+        return shippingBinTile;
+    }
+
+    //crop_product
+    public static Bitmap cropCropProduct(Resources resources, Product.Id id, boolean isPristine) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropCropProduct(Resources, Product.Id, boolean)");
+
+        Bitmap cropsAndItemsSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm_crops_and_items);
+        Bitmap cropProduct = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        switch (id) {
+            case TURNIP:
+                if (isPristine) {
+                    cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 92, 106, 16, 16);
+                } else {
+                    cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 109, 106, 16, 16);
+                }
+                break;
+            case POTATO:
+                if (isPristine) {
+                    cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 92, 125, 16, 16);
+                } else {
+                    cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 109, 125, 16, 16);
+                }
+                break;
+            case TOMATO:
+                if (isPristine) {
+                    cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 160, 166, 16, 16);
+                } else {
+                    cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 177, 166, 16, 16);
+                }
+                break;
+            case CORN:
+                if (isPristine) {
+                    cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 160, 185, 16, 16);
+                } else {
+                    cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 177, 185, 16, 16);
+                }
+                break;
+            case EGGPLANT:
+                if (isPristine) {
+                    cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 92, 230, 16, 16);
+                } else {
+                    cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 109, 230, 16, 16);
+                }
+                break;
+            case PEANUT:
+                if (isPristine) {
+                    cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 92, 249, 16, 16);
+                } else {
+                    cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 109, 249, 16, 16);
+                }
+                break;
+            case CARROT:
+                if (isPristine) {
+                    cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 92, 289, 16, 16);
+                } else {
+                    cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 109, 289, 16, 16);
+                }
+                break;
+            case BROCCOLI:
+                if (isPristine) {
+                    cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 160, 308, 16, 16);
+                } else {
+                    cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 177, 308, 16, 16);
+                }
+                break;
+        }
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "cropProduct: " + cropProduct.getWidth() + ", " + cropProduct.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        cropsAndItemsSpriteSheet = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropCropProduct(Resources, Product.Id, boolean)... cropsAndItemsSpriteSheet is null? " + cropsAndItemsSpriteSheet);
+
+        return cropProduct;
+    }
+
     //crop_entity
     public static Bitmap cropCropEntity(Resources resources, CropEntity.Id id, CropEntity.Stage stage, boolean isWatered) {
         Log.d(MainActivity.DEBUG_TAG, "Assets.cropCropEntity(Resources, CropEntity.Id, CropEntity.Stage, boolean)");
@@ -423,7 +536,6 @@ public class Assets {
         Bitmap cropEntity = null;
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        //TODO: determine which coordinates based on season, crop, stage, watered
         switch (id) {
             case TURNIP:
 
