@@ -235,4 +235,8 @@ public class CropEntity extends Entity {
         }
     }
 
+    public Stage getStage() {
+        return stage;
+    }
+
 }

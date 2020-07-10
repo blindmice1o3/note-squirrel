@@ -15,6 +15,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.Item
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.AxeItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.BugNetItem;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.EmptyHandsItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.FishingPoleItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.HammerItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.seeds.SeedBagItem;
@@ -80,6 +81,7 @@ public class Player extends Creature {
 
         /////////////////////////////////////////////////////////////////////////////////////////
         inventory = new ArrayList<Item>();
+        inventory.add(new EmptyHandsItem(gameCartridge));
         inventory.add(new BugNetItem(gameCartridge));
         inventory.add(new FishingPoleItem(gameCartridge));
         inventory.add(new WateringCanItem(gameCartridge));

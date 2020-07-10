@@ -2,10 +2,12 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfa
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.solids2x2.ShippingBinTile;
 
 import java.io.Serializable;
 
@@ -72,6 +74,10 @@ public class Product
         image = Assets.cropCropProduct(resources, id, isPristine);
     }
 
+    public void render(Canvas canvas) {
+
+    }
+
     @Override
     public void setPosition(int xCurrent, int yCurrent) {
         this.xCurrent = xCurrent;
@@ -90,11 +96,11 @@ public class Product
 
     @Override
     public int getPrice() {
-        return 0;
+        return price;
     }
 
     @Override
-    public void putInShippingBin(Tile shippingBin) {
+    public void putInShippingBin(ShippingBinTile shippingBin) {
 
     }
 
