@@ -24,6 +24,8 @@ public class ShippingBinTile extends Tile {
     }
 
     public void init(GameCartridge gameCartridge) {
+        super.init(gameCartridge);
+        
         image = Assets.cropShippingBinTile(gameCartridge.getContext().getResources(), quadrant);
     }
 

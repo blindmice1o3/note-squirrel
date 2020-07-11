@@ -451,7 +451,7 @@ public class Assets {
     }
 
     //crop_product
-    public static Bitmap cropCropProduct(Resources resources, Product.Id id, boolean isPristine) {
+    public static Bitmap cropCropProduct(Resources resources, Product.Id id, boolean isWhole) {
         Log.d(MainActivity.DEBUG_TAG, "Assets.cropCropProduct(Resources, Product.Id, boolean)");
 
         Bitmap cropsAndItemsSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm_crops_and_items);
@@ -460,56 +460,56 @@ public class Assets {
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         switch (id) {
             case TURNIP:
-                if (isPristine) {
+                if (isWhole) {
                     cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 92, 106, 16, 16);
                 } else {
                     cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 109, 106, 16, 16);
                 }
                 break;
             case POTATO:
-                if (isPristine) {
+                if (isWhole) {
                     cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 92, 125, 16, 16);
                 } else {
                     cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 109, 125, 16, 16);
                 }
                 break;
             case TOMATO:
-                if (isPristine) {
+                if (isWhole) {
                     cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 160, 166, 16, 16);
                 } else {
                     cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 177, 166, 16, 16);
                 }
                 break;
             case CORN:
-                if (isPristine) {
+                if (isWhole) {
                     cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 160, 185, 16, 16);
                 } else {
                     cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 177, 185, 16, 16);
                 }
                 break;
             case EGGPLANT:
-                if (isPristine) {
+                if (isWhole) {
                     cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 92, 230, 16, 16);
                 } else {
                     cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 109, 230, 16, 16);
                 }
                 break;
             case PEANUT:
-                if (isPristine) {
+                if (isWhole) {
                     cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 92, 249, 16, 16);
                 } else {
                     cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 109, 249, 16, 16);
                 }
                 break;
             case CARROT:
-                if (isPristine) {
+                if (isWhole) {
                     cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 92, 289, 16, 16);
                 } else {
                     cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 109, 289, 16, 16);
                 }
                 break;
             case BROCCOLI:
-                if (isPristine) {
+                if (isWhole) {
                     cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 160, 308, 16, 16);
                 } else {
                     cropProduct = Bitmap.createBitmap(cropsAndItemsSpriteSheet, 177, 308, 16, 16);

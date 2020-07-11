@@ -3,9 +3,11 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfa
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.solids2x2.ShippingBinTile;
 
@@ -16,26 +18,36 @@ public class Product
 
     public enum Id { TURNIP, POTATO, TOMATO, CORN, EGGPLANT, PEANUT, CARROT, BROCCOLI; }
 
-    transient private GameCartridge gameCartridge;
-
-    private int xCurrent;
-    private int yCurrent;
-
     private Product.Id id;
-    private boolean isPristine;
-    transient private Bitmap image;
-
+    private boolean isWhole;
     private int price;
 
-    public Product(GameCartridge gameCartridge, Product.Id id) {
+    transient private GameCartridge gameCartridge;
+    transient private Bitmap image;
+    private float xCurrent;
+    private float yCurrent;
+    private int width;
+    private int height;
+    private float widthPixelToViewportRatio;
+    private float heightPixelToViewportRatio;
+
+    public Product(GameCartridge gameCartridge, Product.Id id, float xCurrent, float yCurrent) {
         this.id = id;
-        isPristine = true;
-
-        init(gameCartridge);
-
+        isWhole = true;
         establishPrice();
+
+        this.xCurrent = xCurrent;
+        this.yCurrent = yCurrent;
+        width = TileMap.TILE_WIDTH;
+        height = TileMap.TILE_HEIGHT;
+        widthPixelToViewportRatio = ((float) gameCartridge.getWidthViewport()) /
+                gameCartridge.getGameCamera().getWidthClipInPixel();
+        heightPixelToViewportRatio = ((float) gameCartridge.getHeightViewport()) /
+                gameCartridge.getGameCamera().getHeightClipInPixel();
+        init(gameCartridge);
     }
 
+    @Override
     public void init(GameCartridge gameCartridge) {
         this.gameCartridge = gameCartridge;
         initImage(gameCartridge.getContext().getResources());
@@ -71,15 +83,25 @@ public class Product
     }
 
     public void initImage(Resources resources) {
-        image = Assets.cropCropProduct(resources, id, isPristine);
-    }
-
-    public void render(Canvas canvas) {
-
+        image = Assets.cropCropProduct(resources, id, isWhole);
     }
 
     @Override
-    public void setPosition(int xCurrent, int yCurrent) {
+    public void render(Canvas canvas) {
+        Rect rectOfImage = new Rect(0, 0, image.getWidth(), image.getHeight());
+        Rect rectOnScreen = new Rect(
+                (int)( (xCurrent - gameCartridge.getGameCamera().getX()) * widthPixelToViewportRatio ),
+                (int)( (yCurrent - gameCartridge.getGameCamera().getY()) * heightPixelToViewportRatio ),
+                (int)( ((xCurrent - gameCartridge.getGameCamera().getX()) + width) * widthPixelToViewportRatio ),
+                (int)( ((yCurrent - gameCartridge.getGameCamera().getY()) + height) * heightPixelToViewportRatio ) );
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        canvas.drawBitmap(image, rectOfImage, rectOnScreen, null);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    }
+
+    @Override
+    public void setPosition(float xCurrent, float yCurrent) {
         this.xCurrent = xCurrent;
         this.yCurrent = yCurrent;
     }

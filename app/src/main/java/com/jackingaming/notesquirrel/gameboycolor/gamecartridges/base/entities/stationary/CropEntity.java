@@ -7,6 +7,7 @@ import android.graphics.Rect;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.products.Product;
 
 public class CropEntity extends Entity {
 
@@ -14,29 +15,26 @@ public class CropEntity extends Entity {
     public enum Stage { ONE, TWO, THREE, HARVESTABLE; }
 
     private CropEntity.Id id;
-
     private Stage stage;
     private boolean isWatered;
     private short daysWatered;
-    transient private Bitmap image;
 
+    transient private Bitmap image;
     private float widthPixelToViewportRatio;
     private float heightPixelToViewportRatio;
 
     public CropEntity(GameCartridge gameCartridge, CropEntity.Id id, float xCurrent, float yCurrent) {
         super(gameCartridge, xCurrent, yCurrent);
 
-        widthPixelToViewportRatio = ((float) gameCartridge.getWidthViewport()) /
-                gameCartridge.getGameCamera().getWidthClipInPixel();
-        heightPixelToViewportRatio = ((float) gameCartridge.getHeightViewport()) /
-                gameCartridge.getGameCamera().getHeightClipInPixel();
-
         this.id = id;
-
         stage = Stage.ONE;
         isWatered = false;
         daysWatered = 0;
 
+        widthPixelToViewportRatio = ((float) gameCartridge.getWidthViewport()) /
+                gameCartridge.getGameCamera().getWidthClipInPixel();
+        heightPixelToViewportRatio = ((float) gameCartridge.getHeightViewport()) /
+                gameCartridge.getGameCamera().getHeightClipInPixel();
         init(gameCartridge);
     }
 
@@ -64,6 +62,41 @@ public class CropEntity extends Entity {
 
         //TODO: update stage based on daysWatered (update image afterwards?)
         updateStage();
+    }
+
+    public Product generateCropProduct() {
+        Product cropProduct = null;
+        Product.Id idProduct = null;
+        switch (id) {
+            case TURNIP:
+                idProduct = Product.Id.TURNIP;
+                break;
+            case POTATO:
+                idProduct = Product.Id.POTATO;
+                break;
+            case TOMATO:
+                idProduct = Product.Id.TOMATO;
+                break;
+            case CORN:
+                idProduct = Product.Id.CORN;
+                break;
+            case EGGPLANT:
+                idProduct = Product.Id.EGGPLANT;
+                break;
+            case PEANUT:
+                idProduct = Product.Id.PEANUT;
+                break;
+            case CARROT:
+                idProduct = Product.Id.CARROT;
+                break;
+            case BROCCOLI:
+                idProduct = Product.Id.BROCCOLI;
+                break;
+        }
+        if (idProduct != null) {
+            cropProduct = new Product(gameCartridge, idProduct, xCurrent, yCurrent);
+        }
+        return cropProduct;
     }
 
     private void updateStage() {

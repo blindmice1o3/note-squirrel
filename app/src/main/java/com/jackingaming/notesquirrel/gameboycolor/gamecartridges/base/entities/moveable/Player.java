@@ -15,7 +15,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.Item
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.AxeItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.BugNetItem;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.EmptyHandsItem;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.GlovedHandsItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.FishingPoleItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.HammerItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.seeds.SeedBagItem;
@@ -26,6 +26,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.T
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Animation;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.products.Holdable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,12 +37,13 @@ public class Player extends Creature {
     private GameCamera gameCamera;
     private float widthPixelToViewportRatio;
     private float heightPixelToViewportRatio;
-
     transient private Map<Direction, Animation> animation;
 
     private String name = "EeyoreDefault";
     private ArrayList<Item> inventory;
     private int indexSelectedItem;
+
+    private Holdable holdable;
 
     public String getName() {
         return name;
@@ -51,14 +53,23 @@ public class Player extends Creature {
         this.name = name;
     }
 
+    public Holdable getHoldable() {
+        return holdable;
+    }
+
+    public void setHoldable(Holdable holdable) {
+        this.holdable = holdable;
+    }
+
     public Player(GameCartridge gameCartridge) {
         super(gameCartridge,0f, 0f);
 
-        init(gameCartridge);
-
         //////////////////////
         indexSelectedItem = 0;
+        holdable = null;
         //////////////////////
+
+        init(gameCartridge);
     }
 
     public ArrayList<Item> getInventory() {
@@ -81,7 +92,7 @@ public class Player extends Creature {
 
         /////////////////////////////////////////////////////////////////////////////////////////
         inventory = new ArrayList<Item>();
-        inventory.add(new EmptyHandsItem(gameCartridge));
+        inventory.add(new GlovedHandsItem(gameCartridge));
         inventory.add(new BugNetItem(gameCartridge));
         inventory.add(new FishingPoleItem(gameCartridge));
         inventory.add(new WateringCanItem(gameCartridge));
@@ -99,6 +110,10 @@ public class Player extends Creature {
         inventory.add(new SeedBagItem(gameCartridge, SeedBagItem.SeedType.CARROT));
         inventory.add(new SeedBagItem(gameCartridge, SeedBagItem.SeedType.BROCCOLI));
         /////////////////////////////////////////////////////////////////////////////////////////
+
+        if (holdable != null) {
+            holdable.init(gameCartridge);
+        }
     }
 
     @Override
@@ -248,6 +263,10 @@ public class Player extends Creature {
         xMove = 0f;
         yMove = 0f;
 
+        if (holdable != null) {
+            holdable.setPosition(xCurrent-(width/2), yCurrent-(height/2));
+        }
+
         for (Animation anim : animation.values()) {
             anim.update(elapsed);
         }
@@ -274,6 +293,10 @@ public class Player extends Creature {
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         canvas.drawBitmap(currentFrame, rectOfImage, rectOnScreen, null);
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+        if (holdable != null) {
+            holdable.render(canvas);
+        }
     }
 
     private Bitmap currentAnimationFrame() {
