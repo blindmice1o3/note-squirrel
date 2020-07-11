@@ -24,14 +24,16 @@ public class WateringCanItem extends Item {
     @Override
     public void execute(Tile tile) {
         if (tile instanceof GrowableGroundTile) {
+            GrowableGroundTile growableGroundTile = (GrowableGroundTile) tile;
+
             //ENTITY
-            if ( ((GrowableGroundTile)tile).getCropEntity() != null ) {
-                ((GrowableGroundTile)tile).getCropEntity().toggleIsWatered();
+            if (growableGroundTile.getCropEntity() != null) {
+                growableGroundTile.getCropEntity().toggleIsWatered();
             }
             //TILE
-            else if ( (((GrowableGroundTile)tile).getState() == GrowableTile.State.PREPARED) ||
-                    (((GrowableGroundTile)tile).getState() == GrowableTile.State.SEEDED) ) {
-                ((GrowableGroundTile)tile).toggleIsWatered();
+            else if ( (growableGroundTile.getState() == GrowableTile.State.PREPARED) ||
+                    (growableGroundTile.getState() == GrowableTile.State.SEEDED) ) {
+                growableGroundTile.toggleIsWatered();
             }
         }
     }

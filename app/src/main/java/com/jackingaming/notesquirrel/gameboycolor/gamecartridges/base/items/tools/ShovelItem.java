@@ -24,8 +24,13 @@ public class ShovelItem extends Item {
     @Override
     public void execute(Tile tile) {
         if (tile instanceof GrowableGroundTile) {
-            if (((GrowableGroundTile)tile).getState() == GrowableTile.State.INITIAL) {
-                ((GrowableGroundTile)tile).changeToStatePrepared();
+            GrowableGroundTile growableGroundTile = (GrowableGroundTile) tile;
+
+            //untilled, not seeded/grass, and no occupied by CropEntity.
+            if ( (growableGroundTile.getState() == GrowableTile.State.INITIAL) &&
+                    (growableGroundTile.getType() == GrowableGroundTile.Type.EMPTY) &&
+                    (growableGroundTile.getCropEntity() == null) ) {
+                growableGroundTile.changeToStatePrepared();
             }
         }
     }

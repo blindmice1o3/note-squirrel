@@ -16,8 +16,9 @@ public class CropEntity extends Entity {
 
     private CropEntity.Id id;
     private Stage stage;
-    private boolean isWatered;
+    private boolean isRegrowable;
     private short daysWatered;
+    private boolean isWatered;
 
     transient private Bitmap image;
     private float widthPixelToViewportRatio;
@@ -28,6 +29,7 @@ public class CropEntity extends Entity {
 
         this.id = id;
         stage = Stage.ONE;
+        isRegrowable = false;
         isWatered = false;
         daysWatered = 0;
 
@@ -270,6 +272,10 @@ public class CropEntity extends Entity {
 
     public Stage getStage() {
         return stage;
+    }
+
+    public boolean getIsRegrowable() {
+        return isRegrowable;
     }
 
 }

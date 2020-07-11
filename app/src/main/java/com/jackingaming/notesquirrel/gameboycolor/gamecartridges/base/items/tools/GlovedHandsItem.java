@@ -25,20 +25,30 @@ public class GlovedHandsItem extends Item {
     @Override
     public void execute(Tile tile) {
         if (tile instanceof GrowableGroundTile) {
-            if ( ((GrowableGroundTile)tile).getCropEntity() != null ) {
-                if ( ((GrowableGroundTile)tile).getCropEntity().getStage() == CropEntity.Stage.HARVESTABLE ) {
+            GrowableGroundTile growableGroundTile = (GrowableGroundTile) tile;
+
+            if ( growableGroundTile.getCropEntity() != null ) {
+                CropEntity cropEntity = growableGroundTile.getCropEntity();
+
+                if ( cropEntity.getStage() == CropEntity.Stage.HARVESTABLE ) {
                     if (gameCartridge.getPlayer().getHoldable() == null) {
                         //instantiate Product based on CropEntity.Id.
-                        Product cropProduct = ((GrowableGroundTile) tile).getCropEntity().generateCropProduct();
+                        Product cropProduct = cropEntity.generateCropProduct();
                         //compose Player with Holdable field, set to newly instantiated Product.
                         gameCartridge.getPlayer().setHoldable(cropProduct);
-
-                        //TODO:
                         //compose CropEntity with boolean field named "regrow".
                         //if regrow is true, revert CropEntity's stage.
+                        if (cropEntity.getIsRegrowable()) {
+                            //TODO:
+                        }
                         //otherwise remove CropEntity from game (set tile's CropEntity to null
                         //and set CropEntity's active to false so it's removed from scene's
                         //EntityManager.
+                        else {
+                            growableGroundTile.setCropEntity(null);
+                            cropEntity.setActive(false);
+                        }
+                        //TODO:
                         //implement ShippingBinTile's adding to stash.
                     }
                 }

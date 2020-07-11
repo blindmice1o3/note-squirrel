@@ -29,23 +29,22 @@ public class SeedBagItem extends Item {
     @Override
     public void execute(Tile tile) {
         if (tile instanceof GrowableGroundTile) {
-            if (((GrowableGroundTile)tile).getState() == GrowableTile.State.PREPARED){
-                if (((GrowableGroundTile)tile).getCropEntity() == null) {
-                    switch (seedType) {
-                        case GRASS:
-                            ((GrowableGroundTile) tile).changeToStateSeeded(GrowableGroundTile.Type.GRASS_SEEDED, seedType);
-                            break;
-                        case TURNIP:
-                        case POTATO:
-                        case TOMATO:
-                        case CORN:
-                        case EGGPLANT:
-                        case PEANUT:
-                        case CARROT:
-                        case BROCCOLI:
-                            ((GrowableGroundTile) tile).changeToStateSeeded(GrowableGroundTile.Type.CROP_SEEDED, seedType);
-                            break;
+            GrowableGroundTile growableGroundTile = (GrowableGroundTile) tile;
+
+            if (growableGroundTile.getState() == GrowableTile.State.PREPARED){
+
+                if (growableGroundTile.getCropEntity() == null) {
+                    GrowableGroundTile.Type type = null;
+
+                    if (seedType == SeedType.GRASS) {
+                        type = GrowableGroundTile.Type.GRASS_SEEDED;
+                    } else {
+                        type = GrowableGroundTile.Type.CROP_SEEDED;
                     }
+
+                    ///////////////////////////////////////////////////////
+                    growableGroundTile.changeToStateSeeded(type, seedType);
+                    ///////////////////////////////////////////////////////
                 }
             }
         }
