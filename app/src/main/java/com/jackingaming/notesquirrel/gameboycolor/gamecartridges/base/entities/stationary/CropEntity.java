@@ -17,6 +17,7 @@ public class CropEntity extends Entity {
     private CropEntity.Id id;
     private Stage stage;
     private boolean isRegrowable;
+    private short daysToReachHarvestable;
     private short daysWatered;
     private boolean isWatered;
 
@@ -29,7 +30,8 @@ public class CropEntity extends Entity {
 
         this.id = id;
         stage = Stage.ONE;
-        isRegrowable = false;
+        initIsRegrowable();
+        initDaysToReachHarvestable();
         isWatered = false;
         daysWatered = 0;
 
@@ -47,6 +49,52 @@ public class CropEntity extends Entity {
         initBounds();
     }
 
+    public void initIsRegrowable() {
+        switch (id) {
+            case TURNIP:
+            case POTATO:
+            case EGGPLANT:
+            case CARROT:
+                isRegrowable = false;
+                break;
+            case TOMATO:
+            case CORN:
+            case PEANUT:
+            case BROCCOLI:
+                isRegrowable = true;
+                break;
+        }
+    }
+
+    public void initDaysToReachHarvestable() {
+        switch (id) {
+            case TURNIP:
+                daysToReachHarvestable = 5;
+                break;
+            case POTATO:
+                daysToReachHarvestable = 7;
+                break;
+            case TOMATO:
+                daysToReachHarvestable = 10;
+                break;
+            case CORN:
+                daysToReachHarvestable = 14;
+                break;
+            case EGGPLANT:
+                daysToReachHarvestable = 5;
+                break;
+            case PEANUT:
+                daysToReachHarvestable = 10;
+                break;
+            case CARROT:
+                daysToReachHarvestable = 7;
+                break;
+            case BROCCOLI:
+                daysToReachHarvestable = 14;
+                break;
+        }
+    }
+
     public void toggleIsWatered() {
         isWatered = !isWatered;
 
@@ -59,11 +107,44 @@ public class CropEntity extends Entity {
         image = Assets.cropCropEntity(gameCartridge.getContext().getResources(), id, stage, isWatered);
     }
 
+    public boolean getIsWatered() {
+        return isWatered;
+    }
+
     public void incrementDaysWatered() {
         daysWatered++;
 
-        //TODO: update stage based on daysWatered (update image afterwards?)
         updateStage();
+    }
+
+    public void revertToPriorStageByDecreasingDaysWatered() {
+        short daysFromSecondToLastStage = 0;
+        switch (id) {
+            case TURNIP:
+            case POTATO:
+            case EGGPLANT:
+            case CARROT:
+                //intentionally blank.
+                break;
+            case TOMATO:
+                daysFromSecondToLastStage = 3;
+                break;
+            case CORN:
+                daysFromSecondToLastStage = 4;
+                break;
+            case PEANUT:
+                daysFromSecondToLastStage = 3;
+                break;
+            case BROCCOLI:
+                daysFromSecondToLastStage = 4;
+                break;
+        }
+        ///////////////////////////////////////////////////////////////////////////
+        daysWatered = (short) (daysToReachHarvestable - daysFromSecondToLastStage);
+        ///////////////////////////////////////////////////////////////////////////
+
+        updateStage();
+        image = Assets.cropCropEntity(gameCartridge.getContext().getResources(), id, stage, isWatered);
     }
 
     public Product generateCropProduct() {
@@ -157,116 +238,78 @@ public class CropEntity extends Entity {
     }
 
     private void updateStageTurnip() {
-        switch (daysWatered) {
-            case 1:
-                stage = Stage.ONE;
-                break;
-            case 2:
-//            case 5:
-                stage = Stage.HARVESTABLE;
-                break;
+        if (daysWatered < daysToReachHarvestable) {
+            stage = Stage.ONE;
+        } else {
+            stage = Stage.HARVESTABLE;
         }
     }
 
     private void updateStagePotato() {
-        switch (daysWatered) {
-            case 1:
-                stage = Stage.ONE;
-                break;
-            case 2:
-//            case 7:
-                stage = Stage.HARVESTABLE;
-                break;
+        if (daysWatered < daysToReachHarvestable) {
+            stage = Stage.ONE;
+        } else {
+            stage = Stage.HARVESTABLE;
         }
     }
 
     private void updateStageTomato() {
-        switch (daysWatered) {
-            case 1:
-                stage = Stage.ONE;
-                break;
-            case 2:
-                stage = Stage.TWO;
-                break;
-            case 3:
-                stage = Stage.THREE;
-                break;
-            case 4:
-//            case 10:
-                stage = Stage.HARVESTABLE;
-                break;
+        if (daysWatered < 4) {
+            stage = Stage.ONE;
+        } else if ( (4 <= daysWatered) && (daysWatered < 7) ) {
+            stage = Stage.TWO;
+        } else if ( (7 <= daysWatered) && (daysWatered < daysToReachHarvestable) ) {
+            stage = Stage.THREE;
+        } else {
+            stage = Stage.HARVESTABLE;
         }
     }
 
     private void updateStageCorn() {
-        switch (daysWatered) {
-            case 1:
-                stage = Stage.ONE;
-                break;
-            case 2:
-                stage = Stage.TWO;
-                break;
-            case 3:
-                stage = Stage.THREE;
-                break;
-            case 4:
-//            case 14:
-                stage = Stage.HARVESTABLE;
-                break;
+        if (daysWatered < 4) {
+            stage = Stage.ONE;
+        } else if ( (4 <= daysWatered) && (daysWatered < 9) ) {
+            stage = Stage.TWO;
+        } else if ( (9 <= daysWatered) && (daysWatered < daysToReachHarvestable) ) {
+            stage = Stage.THREE;
+        } else {
+            stage = Stage.HARVESTABLE;
         }
     }
 
     private void updateStageEggplant() {
-        switch (daysWatered) {
-            case 1:
-                stage = Stage.ONE;
-                break;
-            case 2:
-//            case 5:
-                stage = Stage.HARVESTABLE;
-                break;
+        if (daysWatered < daysToReachHarvestable) {
+            stage = Stage.ONE;
+        } else {
+            stage = Stage.HARVESTABLE;
         }
     }
 
     private void updateStagePeanut() {
-        switch (daysWatered) {
-            case 1:
-                stage = Stage.ONE;
-                break;
-            case 2:
-//            case 10:
-                stage = Stage.HARVESTABLE;
-                break;
+        if (daysWatered < daysToReachHarvestable) {
+            stage = Stage.ONE;
+        } else {
+            stage = Stage.HARVESTABLE;
         }
     }
 
     private void updateStageCarrot() {
-        switch (daysWatered) {
-            case 1:
-                stage = Stage.ONE;
-                break;
-            case 2:
-//            case 7:
-                stage = Stage.HARVESTABLE;
-                break;
+        if (daysWatered < daysToReachHarvestable) {
+            stage = Stage.ONE;
+        } else {
+            stage = Stage.HARVESTABLE;
         }
     }
 
     private void updateStageBroccoli() {
-        switch (daysWatered) {
-            case 1:
-                stage = Stage.ONE;
-                break;
-            case 2:
-                stage = Stage.TWO;
-                break;
-            case 3:
-                stage = Stage.THREE;
-                break;
-            case 4:
-//            case 14:
-                stage = Stage.HARVESTABLE;
-                break;
+        if (daysWatered < 4) {
+            stage = Stage.ONE;
+        } else if ( (4 <= daysWatered) && (daysWatered < 9) ) {
+            stage = Stage.TWO;
+        } else if ( (9 <= daysWatered) && (daysWatered < daysToReachHarvestable) ) {
+            stage = Stage.THREE;
+        } else {
+            stage = Stage.HARVESTABLE;
         }
     }
 

@@ -116,10 +116,12 @@ public class BedTile extends Tile {
 
                     //ENTITIES
                     if (growableGroundTile.getCropEntity() != null) {
-                        //TODO: check if isWatered... if so, increase ageInDay
                         //CropEntity.incrementDaysWatered() will also updateStage() (which updates image).
-                        growableGroundTile.getCropEntity().incrementDaysWatered();
+                        if (growableGroundTile.getCropEntity().getIsWatered()) {
+                            growableGroundTile.getCropEntity().incrementDaysWatered();
+                        }
 
+                        //RESET cropEntity
                         growableGroundTile.getCropEntity().setIsWatered(false);
                     }
                 }

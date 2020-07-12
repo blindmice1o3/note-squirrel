@@ -41,7 +41,7 @@ public class GlovedHandsItem extends Item {
                         //compose CropEntity with boolean field named "regrow".
                         //if regrow is true, revert CropEntity's stage.
                         if (cropEntity.getIsRegrowable()) {
-                            //TODO:
+                            cropEntity.revertToPriorStageByDecreasingDaysWatered();
                         }
                         //otherwise remove CropEntity from game (set tile's CropEntity to null
                         //and set CropEntity's active to false so it's removed from scene's
@@ -50,9 +50,6 @@ public class GlovedHandsItem extends Item {
                             growableGroundTile.setCropEntity(null);
                             cropEntity.setActive(false);
                         }
-                        //TODO:
-                        //implement ShippingBinTile's adding to stash.
-
                     }
                 }
             }

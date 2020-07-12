@@ -3,6 +3,7 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.too
 import android.content.res.Resources;
 
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.CropEntity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.Item;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableGroundTile;
@@ -28,7 +29,9 @@ public class WateringCanItem extends Item {
 
             //ENTITY
             if (growableGroundTile.getCropEntity() != null) {
-                growableGroundTile.getCropEntity().toggleIsWatered();
+                if (growableGroundTile.getCropEntity().getStage() != CropEntity.Stage.HARVESTABLE) {
+                    growableGroundTile.getCropEntity().toggleIsWatered();
+                }
             }
             //TILE
             else if ( (growableGroundTile.getState() == GrowableTile.State.PREPARED) ||
