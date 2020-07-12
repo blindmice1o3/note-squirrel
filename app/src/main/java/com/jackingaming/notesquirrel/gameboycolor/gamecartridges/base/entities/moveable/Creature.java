@@ -6,6 +6,7 @@ import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.products.Product;
 
 public abstract class Creature extends Entity {
 
@@ -25,6 +26,15 @@ public abstract class Creature extends Entity {
         moveSpeed = 4f;
         xMove = 0f;
         yMove = 0f;
+    }
+
+    public boolean checkProductCollision(float xOffset, float yOffset) {
+        for (Product product : gameCartridge.getSceneManager().getCurrentScene().getProductManager().getProducts()) {
+            if (product.getCollisionBounds(0f, 0f).intersect(getCollisionBounds(xOffset, yOffset))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void move(Direction direction) {
@@ -51,11 +61,19 @@ public abstract class Creature extends Entity {
 
         //check entity collision.
         if (!checkEntityCollision(xMove, 0f)) {
-            moveX();    //check tile and transfer point collisions.
+            //check product collision.
+            if (!checkProductCollision(xMove, 0f)) {
+                moveX();    //check tile and transfer point collisions.
+            }
+
         }
         //check entity collision.
         if (!checkEntityCollision(0f, yMove)) {
-            moveY();    //check tile and transfer point collisions.
+            //check product collision.
+            if (!checkProductCollision(0f, yMove)) {
+                moveY();    //check tile and transfer point collisions.
+            }
+
         }
     }
 

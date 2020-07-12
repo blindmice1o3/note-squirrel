@@ -10,6 +10,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.Sta
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.entities.moveable.Robot;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.products.Product;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.outdoors.TileMapFarm;
 
 public class SceneFarm extends Scene {
@@ -51,6 +52,16 @@ public class SceneFarm extends Scene {
                 ////////////////////////////////////////////////////////////////
                 ((Robot) entity).setState(Robot.State.values()[robotStateIndex]);
                 ////////////////////////////////////////////////////////////////
+
+                return;
+            }
+
+            //@@@@@PRODUCT@@@@@
+            Product product = player.getProductCurrentlyFacing();
+            if ( (product != null) && (player.getHoldable() == null) ) {
+                player.setHoldable(product);
+                Log.d(MainActivity.DEBUG_TAG, "SceneFarm.getInputButtonPad() player's holdable: " + player.getHoldable().toString());
+                productManager.removeProduct(product);
 
                 return;
             }

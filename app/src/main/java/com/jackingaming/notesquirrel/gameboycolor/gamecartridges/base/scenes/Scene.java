@@ -13,6 +13,8 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.E
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.moveable.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.products.Product;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.products.ProductManager;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 
 import java.io.Serializable;
@@ -38,6 +40,7 @@ public abstract class Scene
 
     protected TileMap tileMap;
     protected EntityManager entityManager;
+    protected ProductManager productManager;
     protected Player player;
     protected GameCamera gameCamera;
 
@@ -53,6 +56,7 @@ public abstract class Scene
 
         /////////////////////////////////////////////////////////////
         entityManager = new EntityManager(gameCartridge.getPlayer());
+        productManager = new ProductManager();
         initTileMap();
         /////////////////////////////////////////////////////////////
     }
@@ -99,6 +103,9 @@ public abstract class Scene
         gameCamera.init(player, tileMap.getWidthSceneMax(), tileMap.getHeightSceneMax());
         for (Entity e : entityManager.getEntities()) {
             e.init(gameCartridge);
+        }
+        for (Product product : productManager.getProducts()) {
+            product.init(gameCartridge);
         }
         Log.d(MainActivity.DEBUG_TAG, "Scene.enter() player.xCurrent, player.yCurrent: " + player.getxCurrent() + ", " + player.getyCurrent());
 
@@ -254,6 +261,9 @@ public abstract class Scene
 
         //ENTITIES
         entityManager.render(canvas);
+
+        //PRODUCTS
+        productManager.render(canvas);
     }
 
     public InputManager getInputManager() {
@@ -266,6 +276,10 @@ public abstract class Scene
 
     public EntityManager getEntityManager() {
         return entityManager;
+    }
+
+    public ProductManager getProductManager() {
+        return productManager;
     }
 
     public void setGameCamera(GameCamera gameCamera) {

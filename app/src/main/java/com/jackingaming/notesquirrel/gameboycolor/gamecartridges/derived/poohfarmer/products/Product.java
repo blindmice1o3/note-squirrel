@@ -25,6 +25,7 @@ public class Product
 
     transient private GameCartridge gameCartridge;
     transient private Bitmap image;
+    transient private Rect bounds;
     private float xCurrent;
     private float yCurrent;
     private int width;
@@ -52,6 +53,21 @@ public class Product
     public void init(GameCartridge gameCartridge) {
         this.gameCartridge = gameCartridge;
         initImage(gameCartridge.getContext().getResources());
+        initBounds();
+    }
+
+    @Override
+    public void initBounds() {
+        bounds = new Rect(0, 0, width, height);
+    }
+
+    @Override
+    public Rect getCollisionBounds(float xOffset, float yOffset) {
+        return new Rect(
+                (int)(xCurrent + bounds.left + xOffset),
+                (int)(yCurrent + bounds.top + yOffset),
+                (int)(xCurrent + bounds.left + xOffset) + bounds.right,
+                (int)(yCurrent + bounds.top + yOffset) + bounds.bottom);
     }
 
     public void establishPrice() {
@@ -125,7 +141,7 @@ public class Product
                 yCurrent = yCurrentTile;
 
                 //TODO: ADD TO SCENE'S ITEM MANAGER FOR RENDERING AND COLLISION DETECTION
-
+                gameCartridge.getSceneManager().getCurrentScene().getProductManager().addProduct(this);
 
                 return true;
             }
