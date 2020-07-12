@@ -9,6 +9,5 @@ public interface Holdable {
     void init(GameCartridge gameCartridge);
     void render(Canvas canvas);
     void setPosition(float xCurrent, float yCurrent);
-    void pickUp();
-    void drop(Tile tile);
+    boolean drop(Tile tile);
 }

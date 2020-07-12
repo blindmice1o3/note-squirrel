@@ -9,6 +9,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartri
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableGroundTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.solids2x2.ShippingBinTile;
 
 import java.io.Serializable;
@@ -107,13 +108,30 @@ public class Product
     }
 
     @Override
-    public void pickUp() {
+    public boolean drop(Tile tile) {
+        if (tile instanceof ShippingBinTile) {
+            ShippingBinTile shippingBinTile = (ShippingBinTile) tile;
 
-    }
+            shippingBinTile.addSellable(this);
+            return true;
+        } else if (tile instanceof GrowableGroundTile) {
+            GrowableGroundTile growableGroundTile = (GrowableGroundTile) tile;
 
-    @Override
-    public void drop(Tile tile) {
+            if (growableGroundTile.getCropEntity() == null) {
+                int xCurrentTile = growableGroundTile.getxIndex() * TileMap.TILE_WIDTH;
+                int yCurrentTile = growableGroundTile.getyIndex() * TileMap.TILE_HEIGHT;
 
+                xCurrent = xCurrentTile;
+                yCurrent = yCurrentTile;
+
+                //TODO: ADD TO SCENE'S ITEM MANAGER FOR RENDERING AND COLLISION DETECTION
+
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override

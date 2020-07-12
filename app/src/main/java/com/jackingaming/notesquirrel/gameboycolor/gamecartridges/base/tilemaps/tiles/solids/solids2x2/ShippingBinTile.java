@@ -29,4 +29,8 @@ public class ShippingBinTile extends Tile {
         image = Assets.cropShippingBinTile(gameCartridge.getContext().getResources(), quadrant);
     }
 
+    public void addSellable(Sellable sellable) {
+        stash.add(sellable);
+    }
+
 }

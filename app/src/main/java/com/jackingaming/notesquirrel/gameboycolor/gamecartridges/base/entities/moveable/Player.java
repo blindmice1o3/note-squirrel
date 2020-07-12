@@ -26,7 +26,10 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.T
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Animation;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableGroundTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.solids2x2.ShippingBinTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.products.Holdable;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.products.Sellable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,6 +62,14 @@ public class Player extends Creature {
 
     public void setHoldable(Holdable holdable) {
         this.holdable = holdable;
+    }
+
+    public void dropHoldable(Tile tile) {
+        if (holdable.drop(tile)) {
+            ////////////////
+            holdable = null;
+            ////////////////
+        }
     }
 
     public Player(GameCartridge gameCartridge) {

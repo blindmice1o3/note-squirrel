@@ -36,6 +36,8 @@ public class GlovedHandsItem extends Item {
                         Product cropProduct = cropEntity.generateCropProduct();
                         //compose Player with Holdable field, set to newly instantiated Product.
                         gameCartridge.getPlayer().setHoldable(cropProduct);
+
+                        //TODO: move into a CropEntity method.
                         //compose CropEntity with boolean field named "regrow".
                         //if regrow is true, revert CropEntity's stage.
                         if (cropEntity.getIsRegrowable()) {
@@ -50,6 +52,7 @@ public class GlovedHandsItem extends Item {
                         }
                         //TODO:
                         //implement ShippingBinTile's adding to stash.
+
                     }
                 }
             }
