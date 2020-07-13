@@ -2,6 +2,8 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.LightingColorFilter;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
 
@@ -252,9 +254,13 @@ public abstract class Scene
         //BACKGROUND
         Rect rectOfClip = gameCamera.getRectOfClip();
         Rect rectOfViewport = gameCamera.getRectOfViewport();
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        canvas.drawBitmap(tileMap.getTexture(), rectOfClip, rectOfViewport, null);
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        /////////////////////////////////////////////////////////////////////////////////////
+        Paint paintTint = new Paint();
+        paintTint.setColorFilter(new LightingColorFilter(0xFF00FFFF, 0x00000000));
+        /////////////////////////////////////////////////////////////////////////////////////
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        canvas.drawBitmap(tileMap.getTexture(), rectOfClip, rectOfViewport, paintTint);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
         //TILES
         tileMap.render(canvas);
