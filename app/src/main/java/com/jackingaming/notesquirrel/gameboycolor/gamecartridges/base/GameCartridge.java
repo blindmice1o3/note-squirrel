@@ -35,6 +35,7 @@ public class GameCartridge
     protected GameCamera gameCamera;
     private HeadUpDisplay headUpDisplay;
     protected StateManager stateManager;
+    protected TimeManager timeManager;
 
     public GameCartridge(Context context, Id idGameCartridge) {
         Log.d(MainActivity.DEBUG_TAG, "GameCartridge(Context, Id) constructor");
@@ -59,6 +60,7 @@ public class GameCartridge
         gameCamera = new GameCamera(widthViewport, heightViewport);
         player = new Player(this);
         headUpDisplay = new HeadUpDisplay(this);
+        timeManager = new TimeManager(this);
         ///////////////////////////////////////////////////
         stateManager = new StateManager(this);
         ///////////////////////////////////////////////////
@@ -151,7 +153,7 @@ public class GameCartridge
         getInputButtonPad();
         //////////////////////////
 
-        TimeManager.update(elapsed);
+        timeManager.update(elapsed);
 
         stateManager.getCurrentState().update(elapsed);
 
@@ -174,7 +176,7 @@ public class GameCartridge
             stateManager.getCurrentState().render(canvas);
             if (headUpDisplay.getIsVisible()) {
                 headUpDisplay.render(canvas);
-                TimeManager.render(canvas);
+                timeManager.render(canvas);
             }
 
             //unlock it and post our updated drawing to it.
@@ -252,6 +254,16 @@ public class GameCartridge
     @Override
     public StateManager getStateManager() {
         return stateManager;
+    }
+
+    @Override
+    public TimeManager getTimeManager() {
+        return timeManager;
+    }
+
+    @Override
+    public void setTimeManager(TimeManager timeManager) {
+        this.timeManager = timeManager;
     }
 
 }

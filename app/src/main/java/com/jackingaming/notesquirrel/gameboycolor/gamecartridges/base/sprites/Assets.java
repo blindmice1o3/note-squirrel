@@ -328,7 +328,8 @@ public class Assets {
 
     //TODO: crop, tile, time system (growing system)
     public static Bitmap cropGrowableGroundTile(Resources resources, GrowableTile.State state,
-                                                boolean isWatered, GrowableGroundTile.Type type) {
+                                                boolean isWatered, GrowableGroundTile.Type type,
+                                                TimeManager.Season season) {
         Log.d(MainActivity.DEBUG_TAG, "Assets.cropGrowableGroundTile(Resources, GrowableTile.State, boolean, GrowableGroundTile.Type)... (state: " + state + "), (isWatered: " + isWatered + "), (type: " + type + ").");
 
         Bitmap spriteSheetCropsAndItems = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm_crops_and_items);
@@ -349,7 +350,7 @@ public class Assets {
             case SEEDED:
                 switch (type) {
                     case CROP_SEEDED:
-                        switch (TimeManager.season) {
+                        switch (season) {
                             case SPRING:
                             case SUMMER:
                             case FALL:
@@ -369,7 +370,7 @@ public class Assets {
                         }
                         break;
                     case GRASS_SEEDED:
-                        switch (TimeManager.season) {
+                        switch (season) {
                             case SPRING:
                             case SUMMER:
                             case FALL:
@@ -381,7 +382,7 @@ public class Assets {
                         }
                         break;
                     case GRASS_SPROUTED:
-                        switch (TimeManager.season) {
+                        switch (season) {
                             case SPRING:
                             case SUMMER:
                                 spriteGroundTile = Bitmap.createBitmap(spriteSheetCropsAndItems, 24, 60, 16, 16);
@@ -396,7 +397,7 @@ public class Assets {
                         }
                         break;
                     case GRASS_HARVESTABLE:
-                        switch (TimeManager.season) {
+                        switch (season) {
                             case SPRING:
                             case SUMMER:
                                 spriteGroundTile = Bitmap.createBitmap(spriteSheetCropsAndItems, 41, 60, 16, 16);

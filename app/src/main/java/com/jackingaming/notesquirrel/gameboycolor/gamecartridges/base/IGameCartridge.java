@@ -41,5 +41,7 @@ public interface IGameCartridge {
     public void setHeadUpDisplay(HeadUpDisplay headUpDisplay);
     public SceneManager getSceneManager();
     public StateManager getStateManager();
+    public TimeManager getTimeManager();
+    public void setTimeManager(TimeManager timeManager);
 
 }

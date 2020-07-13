@@ -255,11 +255,13 @@ public abstract class Scene
         Rect rectOfClip = gameCamera.getRectOfClip();
         Rect rectOfViewport = gameCamera.getRectOfViewport();
         /////////////////////////////////////////////////////////////////////////////////////
-        Paint paintTint = new Paint();
-        paintTint.setColorFilter(new LightingColorFilter(0xFF00FFFF, 0x00000000));
+        //TODO: night-time-tint
+//        Paint paintTint = new Paint();
+//        paintTint.setColorFilter(new LightingColorFilter(0xFF00FFFF, 0x00000000));
         /////////////////////////////////////////////////////////////////////////////////////
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        canvas.drawBitmap(tileMap.getTexture(), rectOfClip, rectOfViewport, paintTint);
+        canvas.drawBitmap(tileMap.getTexture(), rectOfClip, rectOfViewport, null);
+//        canvas.drawBitmap(tileMap.getTexture(), rectOfClip, rectOfViewport, paintTint);
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
         //TILES

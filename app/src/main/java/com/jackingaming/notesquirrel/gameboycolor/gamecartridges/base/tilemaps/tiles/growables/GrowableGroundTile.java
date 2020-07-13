@@ -26,15 +26,16 @@ public class GrowableGroundTile extends GrowableTile {
     }
 
     @Override
-    public void updateImage(Resources resources) {
-        image = Assets.cropGrowableGroundTile(resources, state, isWatered, type);
-    }
-
-    @Override
     public void init(GameCartridge gameCartridge) {
         super.init(gameCartridge);
 
         updateImage(gameCartridge.getContext().getResources());
+    }
+
+    @Override
+    public void updateImage(Resources resources) {
+        image = Assets.cropGrowableGroundTile(resources, state, isWatered, type,
+                gameCartridge.getTimeManager().getSeason());
     }
 
     //TODO: update it to seed-being-a-tile instead of seed-being-a-crop-entity

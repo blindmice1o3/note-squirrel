@@ -98,6 +98,7 @@ public class SerializationDoer {
             os.writeObject(gameCartridge.getGameCamera());
             os.writeObject(gameCartridge.getPlayer());
             os.writeObject(gameCartridge.getHeadUpDisplay());
+            os.writeObject(gameCartridge.getTimeManager());
             //////////////////////////////////////////////
 
 
@@ -207,6 +208,7 @@ public class SerializationDoer {
             float yCurrent = player.getyCurrent();
             //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             HeadUpDisplay headUpDisplay = (HeadUpDisplay) os.readObject();
+            TimeManager timeManager = (TimeManager) os.readObject();
             ///////////////////////////////////////////////////////////////////////////////////
 
             //PLAYER, GAME_CAMERA, HEAD_UP_DISPLAY
@@ -221,6 +223,8 @@ public class SerializationDoer {
             //!!!THIS MUST COME AFTER gameCartridge.setPlayer()!!!
             headUpDisplay.init(gameCartridge);
             gameCartridge.setHeadUpDisplay(headUpDisplay);
+            timeManager.init(gameCartridge);
+            gameCartridge.setTimeManager(timeManager);
 
 
 
