@@ -49,6 +49,8 @@ public class Player extends Creature {
 
     private Holdable holdable;
 
+    private int currencyNuggets;
+
     public String getName() {
         return name;
     }
@@ -63,6 +65,14 @@ public class Player extends Creature {
 
     public void setHoldable(Holdable holdable) {
         this.holdable = holdable;
+    }
+
+    public int getCurrencyNuggets() {
+        return currencyNuggets;
+    }
+
+    public void setCurrencyNuggets(int currencyNuggets) {
+        this.currencyNuggets = currencyNuggets;
     }
 
     public void dropHoldable(Tile tile) {
@@ -80,6 +90,7 @@ public class Player extends Creature {
         //////////////////////
         indexSelectedItem = 0;
         holdable = null;
+        currencyNuggets = 0;
         //////////////////////
 
         init(gameCartridge);

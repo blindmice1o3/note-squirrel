@@ -1,5 +1,8 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.solids2x2;
 
+import android.util.Log;
+
+import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
@@ -31,6 +34,20 @@ public class ShippingBinTile extends Tile {
 
     public void addSellable(Sellable sellable) {
         stash.add(sellable);
+    }
+
+    public static int sellStash() {
+        int total = 0;
+        for (Sellable sellable : stash) {
+            total += sellable.getPrice();
+            Log.d(MainActivity.DEBUG_TAG, "ShippingBinTile.sellStash()... " + sellable.getClass() + " " + sellable.getPrice());
+        }
+        //////////////
+        stash.clear();
+        //////////////
+        Log.d(MainActivity.DEBUG_TAG, "ShippingBinTile.sellStash()... POST stash.clear()!!!");
+
+        return total;
     }
 
 }

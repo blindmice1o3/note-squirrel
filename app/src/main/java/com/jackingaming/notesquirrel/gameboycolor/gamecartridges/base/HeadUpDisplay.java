@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
@@ -88,6 +89,24 @@ public class HeadUpDisplay
         roundedBitmapDrawable.setBounds(screenPosition);
         roundedBitmapDrawable.draw(canvas);
         //////////////////////////////////////////////////////////////////////////////
+
+        //@@@@@@@@@@@@@@@@@@@@@@
+        //player.currencyNuggets
+        //@@@@@@@@@@@@@@@@@@@@@@
+        //Paint (FONT)
+        Paint paintFont = new Paint();
+        paintFont.setAntiAlias(true);
+        paintFont.setColor(Color.GREEN);
+        paintFont.setAlpha(230);
+        paintFont.setTextSize(40f);
+        paintFont.setTypeface(Typeface.SANS_SERIF);
+        Paint.FontMetrics fm = paintFont.getFontMetrics();
+        int heightLine = (int) (fm.bottom - fm.top + fm.leading);
+        //starting position
+        String playerCurrencyNuggets = String.valueOf(gameCartridge.getPlayer().getCurrencyNuggets());
+        int xCurrencyNuggets = x0Border;
+        int yCurrencyNuggets = y1Border + 6 + heightLine;
+        canvas.drawText(playerCurrencyNuggets, xCurrencyNuggets, yCurrencyNuggets, paintFont);
     }
 
     public boolean getIsVisible() {

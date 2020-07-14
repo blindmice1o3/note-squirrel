@@ -1,19 +1,25 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.outdoors;
 
 import android.util.Log;
+import android.view.Gravity;
+import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
+import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.TimeManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.solids2x2.ShippingBinTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.entities.moveable.Robot;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.products.Product;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.outdoors.TileMapFarm;
 
-public class SceneFarm extends Scene {
+public class SceneFarm extends Scene
+        implements TimeManager.TimeManagerListener {
 
     public SceneFarm(GameCartridge gameCartridge, Id sceneID) {
         super(gameCartridge, sceneID);
@@ -24,6 +30,10 @@ public class SceneFarm extends Scene {
 
         Entity robot = new Robot(gameCartridge, (7 * TileMap.TILE_WIDTH), (5 * TileMap.TILE_HEIGHT));
         entityManager.addEntity(robot);
+
+        /////////////////////////////////////////////////////////////////
+        gameCartridge.getTimeManager().registerTimeManagerListener(this);
+        /////////////////////////////////////////////////////////////////
     }
 
     @Override
@@ -108,6 +118,39 @@ public class SceneFarm extends Scene {
 
             gameCartridge.getStateManager().push(State.Id.START_MENU, null);
         }
+    }
+
+    @Override
+    public void executeTimedEvent(int hour, int minute, boolean isPM) {
+        String hourFormatted = String.format("%02d", hour);
+        String minuteFormatted = String.format("%02d", minute);
+        String amOrPm = (isPM) ? "pm" : "am";
+        final String message = hourFormatted + ":" + minuteFormatted + amOrPm;
+        Log.d(MainActivity.DEBUG_TAG, message);
+        /////////////////////////////////////////////////////////////////////////////////
+        ((JackInActivity) gameCartridge.getContext()).runOnUiThread(new Runnable() {
+            public void run() {
+                final Toast toast = Toast.makeText(gameCartridge.getContext(), message, Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                toast.show();
+            }
+        });
+        /////////////////////////////////////////////////////////////////////////////////
+
+        //5pm
+        if ( (hour == 5) && (minute == 0) && (isPM) ) {
+            /////////////////
+            sellStashAt5pm();
+            /////////////////
+        }
+    }
+
+    private void sellStashAt5pm() {
+        int incomeFromShippingBinTile = ShippingBinTile.sellStash();
+
+        int newNetWorth = player.getCurrencyNuggets() + incomeFromShippingBinTile;
+
+        player.setCurrencyNuggets(newNetWorth);
     }
 
 }

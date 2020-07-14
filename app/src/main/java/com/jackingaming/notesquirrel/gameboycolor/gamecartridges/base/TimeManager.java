@@ -5,11 +5,24 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.util.Log;
+
+import com.jackingaming.notesquirrel.MainActivity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TimeManager
         implements Serializable {
+
+    public interface TimeManagerListener {
+        public void executeTimedEvent(int hour, int minute, boolean isPM);
+    }
+    private List<TimeManagerListener> timeManagerListeners;
+    public void registerTimeManagerListener(TimeManagerListener timeManagerListener) {
+        timeManagerListeners.add(timeManagerListener);
+    }
 
     public enum Season { SPRING, SUMMER, FALL, WINTER; }
     public enum ModeOfDay { DAYLIGHT, TWILIGHT, NIGHT; }
@@ -34,6 +47,8 @@ public class TimeManager
 
     public TimeManager(GameCartridge gameCartridge) {
         init(gameCartridge);
+
+        timeManagerListeners = new ArrayList<TimeManagerListener>();
 
         year = 1;
         season = Season.SPRING;
@@ -69,6 +84,14 @@ public class TimeManager
                 if (minute >= 60) {
                     hour++;
                     minute = 0;
+
+                    //ALERT ALL LISTENERS AT THE TOP OF EACH HOUR!
+                    for (TimeManagerListener timeManagerListener : timeManagerListeners) {
+                        Log.d(MainActivity.DEBUG_TAG, "TimeManager.update(long) alerting all registered TimeManagerListeners about NEW HOUR: " + timeManagerListener.getClass());
+                        //////////////////////////////////////////////////////////
+                        timeManagerListener.executeTimedEvent(hour, minute, isPM);
+                        //////////////////////////////////////////////////////////
+                    }
 
                     //noon
                     if ( (hour == 12) && (minute == 0) && (!isPM) ) {
