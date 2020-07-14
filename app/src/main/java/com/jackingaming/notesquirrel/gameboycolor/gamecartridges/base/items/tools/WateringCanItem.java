@@ -35,7 +35,7 @@ public class WateringCanItem extends Item {
             }
             //TILE
             else if ( (growableGroundTile.getState() == GrowableTile.State.PREPARED) ||
-                    (growableGroundTile.getState() == GrowableTile.State.SEEDED) ) {
+                    (growableGroundTile.getType() == GrowableGroundTile.Type.CROP_SEEDED) ) {
                 growableGroundTile.toggleIsWatered();
             }
         }

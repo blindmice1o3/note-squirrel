@@ -11,6 +11,7 @@ import android.graphics.Typeface;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.seeds.SeedBagItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
 
 import java.io.Serializable;
@@ -75,6 +76,18 @@ public class HeadUpDisplay
         //Rect border = new Rect(x0Border, y0Border, x1Border, y1Border);
         RectF border = new RectF(x0Border, y0Border, x1Border, y1Border);
 
+
+        //Paint (FONT)
+        Paint paintFont = new Paint();
+        paintFont.setAntiAlias(true);
+        paintFont.setColor(Color.GREEN);
+        paintFont.setAlpha(230);
+        paintFont.setTextSize(40f);
+        paintFont.setTypeface(Typeface.SANS_SERIF);
+        Paint.FontMetrics fm = paintFont.getFontMetrics();
+        int heightLine = (int) (fm.bottom - fm.top + fm.leading);
+
+
         //border's IMAGE (ROUNDED CORNERS)
         //canvas.drawRect(border, paintBorder);
         canvas.drawRoundRect(border, (16f+BORDER), (16f+BORDER), paintBorder);
@@ -90,23 +103,30 @@ public class HeadUpDisplay
         roundedBitmapDrawable.draw(canvas);
         //////////////////////////////////////////////////////////////////////////////
 
+        //SeedBagItem.SeedType
+        if (gameCartridge.getPlayer().getSelectedItem() instanceof SeedBagItem) {
+            String seedType = ((SeedBagItem)gameCartridge.getPlayer().getSelectedItem()).getSeedType().name();
+            int xSeedType = x0;
+            int ySeedType = y1 - heightLine;
+            canvas.drawText(seedType, xSeedType, ySeedType, paintFont);
+        }
+
+
         //@@@@@@@@@@@@@@@@@@@@@@
         //player.currencyNuggets
         //@@@@@@@@@@@@@@@@@@@@@@
-        //Paint (FONT)
-        Paint paintFont = new Paint();
-        paintFont.setAntiAlias(true);
-        paintFont.setColor(Color.GREEN);
-        paintFont.setAlpha(230);
-        paintFont.setTextSize(40f);
-        paintFont.setTypeface(Typeface.SANS_SERIF);
-        Paint.FontMetrics fm = paintFont.getFontMetrics();
-        int heightLine = (int) (fm.bottom - fm.top + fm.leading);
-        //starting position
         String playerCurrencyNuggets = String.valueOf(gameCartridge.getPlayer().getCurrencyNuggets());
         int xCurrencyNuggets = x0Border;
         int yCurrencyNuggets = y1Border + 6 + heightLine;
         canvas.drawText(playerCurrencyNuggets, xCurrencyNuggets, yCurrencyNuggets, paintFont);
+
+        //@@@@@@@@@@@@@@@@@@@@@
+        //player.fodderQuantity
+        //@@@@@@@@@@@@@@@@@@@@@
+        String playerFodderQuantity = String.valueOf(gameCartridge.getPlayer().getFodderQuantity());
+        int xFodderQuantity = x0Border;
+        int yFodderQuantity = y1Border + 6 + heightLine + heightLine;
+        canvas.drawText(playerFodderQuantity, xFodderQuantity, yFodderQuantity, paintFont);
     }
 
     public boolean getIsVisible() {

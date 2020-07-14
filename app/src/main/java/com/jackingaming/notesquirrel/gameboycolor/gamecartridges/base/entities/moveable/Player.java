@@ -20,17 +20,14 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tool
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.HammerItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.seeds.SeedBagItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.ShovelItem;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.SickleItem;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.ScytheItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.WateringCanItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Animation;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableGroundTile;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.solids2x2.ShippingBinTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.products.Holdable;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.products.Product;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.products.Sellable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,6 +47,7 @@ public class Player extends Creature {
     private Holdable holdable;
 
     private int currencyNuggets;
+    private int fodderQuantity;
 
     public String getName() {
         return name;
@@ -75,6 +73,14 @@ public class Player extends Creature {
         this.currencyNuggets = currencyNuggets;
     }
 
+    public int getFodderQuantity() {
+        return fodderQuantity;
+    }
+
+    public void setFodderQuantity(int fodderQuantity) {
+        this.fodderQuantity = fodderQuantity;
+    }
+
     public void dropHoldable(Tile tile) {
         if (holdable.drop(tile)) {
             ////////////////
@@ -91,6 +97,7 @@ public class Player extends Creature {
         indexSelectedItem = 0;
         holdable = null;
         currencyNuggets = 0;
+        fodderQuantity = 0;
         //////////////////////
 
         init(gameCartridge);
@@ -122,7 +129,7 @@ public class Player extends Creature {
         inventory.add(new WateringCanItem(gameCartridge));
         inventory.add(new ShovelItem(gameCartridge));
         inventory.add(new HammerItem(gameCartridge));
-        inventory.add(new SickleItem(gameCartridge));
+        inventory.add(new ScytheItem(gameCartridge));
         inventory.add(new AxeItem(gameCartridge));
         inventory.add(new SeedBagItem(gameCartridge, SeedBagItem.SeedType.GRASS));
         inventory.add(new SeedBagItem(gameCartridge, SeedBagItem.SeedType.TURNIP));
