@@ -12,26 +12,40 @@ public class TimeManager
         implements Serializable {
 
     public enum Season { SPRING, SUMMER, FALL, WINTER; }
+    public enum ModeOfDay { DAYLIGHT, TWILIGHT, NIGHT; }
     private static final float MILLISECOND_TO_MINUTE_RATIO = 20000f / 60;
 
     private static long timePlayed = 0L;
 
     private transient GameCartridge gameCartridge;
-    private short year = 1;                   //4-season years (SPRING, SUMMER, FALL, WINTER)
-    private Season season = Season.SPRING;    //30-day seasons
-    private short day = 1;                    //18-hour days (6am-12am)
+    private short year;     //4-season years (SPRING, SUMMER, FALL, WINTER)
+    private Season season;  //30-day seasons
+    private short day;      //18-hour days (6am-12am)
 
     //DAYLIGHT==(6am-3pm), TWILIGHT==(3pm-6pm), NIGHT==(6pm-12am)
-    private long ticker = 0L;
-    private short hour = 6;   //20-real-time-second hours (average day lasts ~4 minutes)
-    private short minute = 0;
-    private boolean isPM = false;
+    private long ticker;
+    private short hour;     //20-real-time-second hours (average day lasts ~4 minutes)
+    private short minute;
+    private boolean isPM;
+    private ModeOfDay modeOfDay;
 
     //TIME STOPS WHEN INDOORS
-    private boolean isPaused = false;
+    private boolean isPaused;
 
     public TimeManager(GameCartridge gameCartridge) {
         init(gameCartridge);
+
+        year = 1;
+        season = Season.SPRING;
+        day = 1;
+
+        ticker = 0L;
+        hour = 6;   //20-real-time-second hours (average day lasts ~4 minutes)
+        minute = 0;
+        isPM = false;
+        modeOfDay = ModeOfDay.DAYLIGHT;
+
+        isPaused = false;
     }
 
     public void init(GameCartridge gameCartridge) {
@@ -57,15 +71,23 @@ public class TimeManager
                     minute = 0;
 
                     //noon
-                    if ( (hour == 12) && (!isPM) ) {
+                    if ( (hour == 12) && (minute == 0) && (!isPM) ) {
                         isPM = true;
                     }
-                    //1pm
-                    else if ( (hour >= 13) && (isPM) ) {
+                    //1 o'clock (for both am and pm)
+                    else if ( (hour == 13) && (minute == 0) ) {
                         hour = 1;
                     }
+                    //3pm
+                    else if ( (hour == 3) && (minute == 0) && (isPM) ) {
+                        modeOfDay = ModeOfDay.TWILIGHT;
+                    }
+                    //6pm
+                    else if ( (hour == 6) && (minute == 0) && (isPM) ) {
+                        modeOfDay = ModeOfDay.NIGHT;
+                    }
                     //midnight => TimeManager stops in-game clock.
-                    else if ( (hour == 12) && (isPM) ) {
+                    else if ( (hour == 12) && (minute == 0) && (isPM) ) {
                         isPM = false;
                         ////////////////
                         isPaused = true;
@@ -125,6 +147,10 @@ public class TimeManager
 
     public Season getSeason() {
         return season;
+    }
+
+    public ModeOfDay getModeOfDay() {
+        return modeOfDay;
     }
 
 }

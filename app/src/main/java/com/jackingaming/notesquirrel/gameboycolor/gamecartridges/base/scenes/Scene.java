@@ -1,6 +1,7 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
@@ -49,6 +50,12 @@ public abstract class Scene
     protected float xPriorScene;
     protected float yPriorScene;
 
+    transient private Bitmap backgroundDaylight;
+    transient private Bitmap backgroundTwilight;
+    transient private Bitmap backgroundNight;
+    transient private Paint paintTintTwilight;
+    transient private Paint paintTintNight;
+
     public Scene(GameCartridge gameCartridge, Id sceneID) {
         this.gameCartridge = gameCartridge;
         this.sceneID = sceneID;
@@ -81,6 +88,32 @@ public abstract class Scene
         gameCamera.update(0L);
     }
 
+    private void initBackgroundImages() {
+        //DAYLIGHT BACKGROUND
+        Log.d(MainActivity.DEBUG_TAG, "Scene.initBackgroundImages() tileMap.getTexture()... is tileMap null? " + tileMap);
+        //////////////////////////////////////////
+        backgroundDaylight = tileMap.getTexture();
+        //////////////////////////////////////////
+
+        //TWILIGHT BACKGROUND
+        paintTintTwilight = new Paint();
+        paintTintTwilight.setColorFilter(new LightingColorFilter(0xFFFFF000, 0x00000000));
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        backgroundTwilight = Bitmap.createBitmap(backgroundDaylight.getWidth(), backgroundDaylight.getHeight(), Bitmap.Config.ARGB_8888);
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        Canvas canvasTwilight = new Canvas(backgroundTwilight);
+        canvasTwilight.drawBitmap(backgroundDaylight, 0, 0, paintTintTwilight);
+
+        //NIGHT BACKGROUND
+        paintTintNight = new Paint();
+        paintTintNight.setColorFilter(new LightingColorFilter(0xFF00FFFF, 0x00000000));
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        backgroundNight = Bitmap.createBitmap(backgroundDaylight.getWidth(), backgroundDaylight.getHeight(), Bitmap.Config.ARGB_8888);
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        Canvas canvasNight = new Canvas(backgroundNight);
+        canvasNight.drawBitmap(backgroundDaylight, 0, 0, paintTintNight);
+    }
+
     public void enter() {
         Log.d(MainActivity.DEBUG_TAG, "Scene.enter()");
         Log.d(MainActivity.DEBUG_TAG, "Scene.enter() player.xCurrent, player.yCurrent: " + player.getxCurrent() + ", " + player.getyCurrent());
@@ -102,6 +135,11 @@ public abstract class Scene
         ////////////////////////////////////////////////////////////////////////////////
 
         tileMap.init(gameCartridge);
+
+        ///////////////////////
+        initBackgroundImages();
+        ///////////////////////
+
         gameCamera.init(player, tileMap.getWidthSceneMax(), tileMap.getHeightSceneMax());
         for (Entity e : entityManager.getEntities()) {
             e.init(gameCartridge);
@@ -254,15 +292,23 @@ public abstract class Scene
         //BACKGROUND
         Rect rectOfClip = gameCamera.getRectOfClip();
         Rect rectOfViewport = gameCamera.getRectOfViewport();
-        /////////////////////////////////////////////////////////////////////////////////////
-        //TODO: night-time-tint
-//        Paint paintTint = new Paint();
-//        paintTint.setColorFilter(new LightingColorFilter(0xFF00FFFF, 0x00000000));
-        /////////////////////////////////////////////////////////////////////////////////////
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        canvas.drawBitmap(tileMap.getTexture(), rectOfClip, rectOfViewport, null);
-//        canvas.drawBitmap(tileMap.getTexture(), rectOfClip, rectOfViewport, paintTint);
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        switch (gameCartridge.getTimeManager().getModeOfDay()) {
+            case DAYLIGHT:
+                //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                canvas.drawBitmap(backgroundDaylight, rectOfClip, rectOfViewport, null);
+                //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                break;
+            case TWILIGHT:
+                //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                canvas.drawBitmap(backgroundTwilight, rectOfClip, rectOfViewport, null);
+                //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                break;
+            case NIGHT:
+                //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                canvas.drawBitmap(backgroundNight, rectOfClip, rectOfViewport, null);
+                //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                break;
+        }
 
         //TILES
         tileMap.render(canvas);
