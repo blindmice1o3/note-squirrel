@@ -11,18 +11,21 @@ import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.moveable.Player;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class TimeManager
         implements Serializable {
 
     public interface TimeManagerListener {
-        public void executeTimedEvent(int hour, int minute, boolean isPM);
+        public void executeTimedEvent(int hour, int minute, boolean isPM, Player player);
     }
-    private List<TimeManagerListener> timeManagerListeners;
+    private Set<TimeManagerListener> timeManagerListeners;
     public void registerTimeManagerListener(TimeManagerListener timeManagerListener) {
         timeManagerListeners.add(timeManagerListener);
     }
@@ -51,7 +54,7 @@ public class TimeManager
     public TimeManager(GameCartridge gameCartridge) {
         init(gameCartridge);
 
-        timeManagerListeners = new ArrayList<TimeManagerListener>();
+        timeManagerListeners = new HashSet<TimeManagerListener>();
 
         year = 1;
         season = Season.SPRING;
@@ -84,36 +87,36 @@ public class TimeManager
                     hour++;
                     minute = 0;
 
-                    //ALERT ALL LISTENERS AT THE TOP OF EACH HOUR!
-                    for (TimeManagerListener timeManagerListener : timeManagerListeners) {
-                        Log.d(MainActivity.DEBUG_TAG, "TimeManager.update(long) alerting all registered TimeManagerListeners about NEW HOUR: " + timeManagerListener.getClass());
-                        //////////////////////////////////////////////////////////
-                        timeManagerListener.executeTimedEvent(hour, minute, isPM);
-                        //////////////////////////////////////////////////////////
-                    }
-
                     //noon
-                    if ( (hour == 12) && (minute == 0) && (!isPM) ) {
+                    if ( (hour == 12) && (!isPM) ) {
                         isPM = true;
                     }
                     //1 o'clock (for both am and pm)
-                    else if ( (hour == 13) && (minute == 0) ) {
+                    else if (hour == 13) {
                         hour = 1;
                     }
                     //3pm
-                    else if ( (hour == 3) && (minute == 0) && (isPM) ) {
+                    else if ( (hour == 3) && (isPM) ) {
                         modeOfDay = ModeOfDay.TWILIGHT;
                     }
                     //6pm
-                    else if ( (hour == 6) && (minute == 0) && (isPM) ) {
+                    else if ( (hour == 6) && (isPM) ) {
                         modeOfDay = ModeOfDay.NIGHT;
                     }
                     //midnight => TimeManager stops in-game clock.
-                    else if ( (hour == 12) && (minute == 0) && (isPM) ) {
+                    else if ( (hour == 12) && (isPM) ) {
                         isPM = false;
                         ////////////////
                         isPaused = true;
                         ////////////////
+                    }
+
+                    //ALERT ALL LISTENERS AT THE TOP OF EACH HOUR!
+                    for (TimeManagerListener timeManagerListener : timeManagerListeners) {
+                        Log.d(MainActivity.DEBUG_TAG, "TimeManager.update(long) alerting all registered TimeManagerListeners about NEW HOUR: " + timeManagerListener.getClass());
+                        //////////////////////////////////////////////////////////
+                        timeManagerListener.executeTimedEvent(hour, minute, isPM, gameCartridge.getPlayer());
+                        //////////////////////////////////////////////////////////
                     }
                 }
             }
