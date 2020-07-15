@@ -26,20 +26,40 @@ public class GrowableTableTile extends GrowableTile {
     }
 
     public void toggleHasPot() {
-        if (state == State.INITIAL) {
-            state = State.PREPARED;
-        } else if (state == State.PREPARED) {
-            state = State.INITIAL;
+        switch (state) {
+            case INITIAL:
+                //when placing a pot, soil starts dry
+                isWatered = false;
+                state = State.PREPARED;
+                break;
+            case PREPARED:
+                //when placing a pot, soil starts dry
+                isWatered = false;
+                state = State.INITIAL;
+                break;
+            case SEEDED:
+                //intentionally blank.
+                break;
         }
 
         updateImage(gameCartridge.getContext().getResources());
     }
 
     public void toggleHasSeed() {
-        if (state == State.PREPARED) {
-            state = State.SEEDED;
-        } else if (state == State.SEEDED) {
-            state = State.PREPARED;
+        switch (state) {
+            case INITIAL:
+                //intentionally blank.
+                break;
+            case PREPARED:
+                //when seeding, soil starts dry
+                isWatered = false;
+                state = State.SEEDED;
+                break;
+            case SEEDED:
+                //when seeding, soil starts dry
+                isWatered = false;
+                state = State.PREPARED;
+                break;
         }
 
         updateImage(gameCartridge.getContext().getResources());

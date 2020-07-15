@@ -47,6 +47,8 @@ public class CropSeedItem extends Item {
                     }
 
                     ///////////////////////////////////////////////////////
+                    //this is for scenario: tilled/potted AND watered (when seeded, soil starts dry).
+                    growableGroundTile.setIsWatered(false);
                     growableGroundTile.changeToStateSeeded(type, seedType);
                     ///////////////////////////////////////////////////////
                 }

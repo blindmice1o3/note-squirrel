@@ -309,14 +309,14 @@ public class Assets {
                 break;
             case PREPARED:
                 if (isWatered) {
-                    spriteTableTile = Bitmap.createBitmap(spriteSheetPlantsHothouseHM2, 8, 120, 16, 16);
+                    spriteTableTile = Bitmap.createBitmap(spriteSheetPlantsHothouseHM2, 120, 120, 16, 16);
                 } else {
                     spriteTableTile = Bitmap.createBitmap(spriteSheetPlantsHothouseHM2, 24, 56, 16, 16);
                 }
                 break;
             case SEEDED:
                 if (isWatered) {
-                    spriteTableTile = Bitmap.createBitmap(spriteSheetPlantsHothouseHM2, 120, 120, 16, 16);
+                    spriteTableTile = Bitmap.createBitmap(spriteSheetPlantsHothouseHM2, 8, 120, 16, 16);
                 } else {
                     spriteTableTile = Bitmap.createBitmap(spriteSheetPlantsHothouseHM2, 56, 120, 16, 16);
                 }

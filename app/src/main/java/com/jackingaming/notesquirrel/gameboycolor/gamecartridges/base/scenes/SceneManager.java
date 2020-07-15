@@ -19,6 +19,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfar
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneHouseLevel01;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneHouseLevel02;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneHouseLevel03;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneSeedsShop;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneSheepPen;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.outdoors.SceneFarm;
 
@@ -41,6 +42,7 @@ import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sce
 import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.LAB;
 import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.PART_01;
 import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.PONG;
+import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.SEEDS_SHOP;
 import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.SHEEP_PEN;
 
 public class SceneManager {
@@ -161,6 +163,10 @@ public class SceneManager {
             } else if (id == COW_BARN) {
                 ////////////////////////////////////////////////////
                 sceneCollection.put(id, new SceneCowBarn(gameCartridge, id));
+                ////////////////////////////////////////////////////
+            } else if (id == SEEDS_SHOP) {
+                ////////////////////////////////////////////////////
+                sceneCollection.put(id, new SceneSeedsShop(gameCartridge, id));
                 ////////////////////////////////////////////////////
             } else if (id == HOUSE_01) {
                 ////////////////////////////////////////////////////

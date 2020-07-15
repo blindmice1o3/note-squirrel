@@ -26,7 +26,11 @@ public class FlowerSeedItem extends Item {
     @Override
     public void execute(Tile tile) {
         if (tile instanceof GrowableTableTile) {
-            ((GrowableTableTile)tile).toggleHasSeed();
+            GrowableTableTile growableTableTile = (GrowableTableTile) tile;
+
+            //////////////////////////////////
+            growableTableTile.toggleHasSeed();
+            //////////////////////////////////
         }
     }
 

@@ -23,7 +23,11 @@ public class FlowerPotItem extends Item {
     @Override
     public void execute(Tile tile) {
         if (tile instanceof GrowableTableTile) {
-            ((GrowableTableTile)tile).toggleHasPot();
+            GrowableTableTile growableTableTile = (GrowableTableTile) tile;
+
+            /////////////////////////////////
+            growableTableTile.toggleHasPot();
+            /////////////////////////////////
         }
     }
 

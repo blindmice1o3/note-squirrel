@@ -7,6 +7,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.s
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.Item;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableGroundTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableTableTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableTile;
 
 public class WateringCanItem extends Item {
@@ -37,6 +38,14 @@ public class WateringCanItem extends Item {
             else if ( (growableGroundTile.getState() == GrowableTile.State.PREPARED) ||
                     (growableGroundTile.getType() == GrowableGroundTile.Type.CROP_SEEDED) ) {
                 growableGroundTile.toggleIsWatered();
+            }
+        } else if (tile instanceof GrowableTableTile) {
+            GrowableTableTile growableTableTile = (GrowableTableTile) tile;
+
+            //TILE
+            if ( (growableTableTile.getState() == GrowableTile.State.PREPARED) ||
+                    (growableTableTile.getState() == GrowableTile.State.SEEDED) ) {
+                growableTableTile.toggleIsWatered();
             }
         }
     }

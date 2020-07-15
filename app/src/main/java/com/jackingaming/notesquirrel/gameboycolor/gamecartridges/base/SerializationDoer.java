@@ -24,6 +24,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfar
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneHouseLevel01;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneHouseLevel02;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneHouseLevel03;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneSeedsShop;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneSheepPen;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.outdoors.SceneFarm;
 
@@ -327,6 +328,13 @@ public class SerializationDoer {
                         sceneCowBarn.init(gameCartridge, player, gameCamera, sceneManager);
                         ////////////////////////////////////////////////////
                         sceneCollection.put(id, sceneCowBarn);
+                        ////////////////////////////////////////////////////
+                        break;
+                    case SEEDS_SHOP:
+                        SceneSeedsShop sceneSeedsShop = (SceneSeedsShop) os.readObject();
+                        sceneSeedsShop.init(gameCartridge, player, gameCamera, sceneManager);
+                        ////////////////////////////////////////////////////
+                        sceneCollection.put(id, sceneSeedsShop);
                         ////////////////////////////////////////////////////
                         break;
                     case HOUSE_01:
