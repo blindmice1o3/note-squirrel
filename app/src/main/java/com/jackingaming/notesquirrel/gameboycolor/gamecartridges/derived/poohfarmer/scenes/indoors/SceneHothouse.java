@@ -61,11 +61,7 @@ public class SceneHothouse extends Scene {
         else if (inputManager.isbButtonPad()) {
             Log.d(MainActivity.DEBUG_TAG, "SceneHothouse.getInputButtonPad() b-button-justPressed");
 
-            //TODO: temporary; to test toggling background of TileMapHothouse.
-            Log.d(MainActivity.DEBUG_TAG, "SceneHothouse.getInputButtonPad() b-button-justPressed Scene.Id.HOUTHOUSE");
-            ////////////////////////////////////////////////////////////////////////////////////
-            ((TileMapHothouse) sceneManager.getCurrentScene().getTileMap()).toggleIsFull(context.getResources());
-            ////////////////////////////////////////////////////////////////////////////////////
+
         }
         //menu button (push State.START_MENU)
         else if (inputManager.isMenuButtonPad()) {

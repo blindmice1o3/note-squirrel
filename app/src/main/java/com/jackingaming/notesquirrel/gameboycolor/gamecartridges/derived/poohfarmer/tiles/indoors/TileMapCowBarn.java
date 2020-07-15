@@ -14,13 +14,10 @@ import java.util.HashMap;
 
 public class TileMapCowBarn extends TileMap {
 
-    private boolean isFull;
     private String stringOfTiles;
 
     public TileMapCowBarn(GameCartridge gameCartridge, Scene.Id sceneID) {
         super(gameCartridge, sceneID);
-
-        isFull = false;
     }
 
     @Override
@@ -45,9 +42,9 @@ public class TileMapCowBarn extends TileMap {
 
     @Override
     protected void initTexture(Resources resources) {
-        //////////////////////////////////////////////////////////////////////////////////////////////
-        texture = (isFull) ? Assets.cropCowBarnFull(resources) : Assets.cropCowBarnEmpty(resources);
-        //////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////
+        texture = Assets.cropCowBarnEmpty(resources);
+        /////////////////////////////////////////////
     }
 
     @Override
@@ -64,16 +61,6 @@ public class TileMapCowBarn extends TileMap {
         int rows = tiles.length;                //Always need.
         widthSceneMax = columns * tileWidth;    //Always need.
         heightSceneMax = rows * tileHeight;     //Always need.
-    }
-
-    public void toggleIsFull(Resources resources) {
-        /////////////////
-        isFull = !isFull;
-        /////////////////
-
-        //////////////////////////////////////////////////////////////////////////////////////////////
-        texture = (isFull) ? Assets.cropCowBarnFull(resources) : Assets.cropCowBarnEmpty(resources);
-        //////////////////////////////////////////////////////////////////////////////////////////////
     }
 
 }

@@ -14,13 +14,10 @@ import java.util.HashMap;
 
 public class TileMapHothouse extends TileMap {
 
-    private boolean isFull;
     private String stringOfTiles;
 
     public TileMapHothouse(GameCartridge gameCartridge, Scene.Id sceneID) {
         super(gameCartridge, sceneID);
-
-        isFull = false;
     }
 
     @Override
@@ -45,9 +42,9 @@ public class TileMapHothouse extends TileMap {
 
     @Override
     protected void initTexture(Resources resources) {
-        //////////////////////////////////////////////////////////////////////////////////////////////
-        texture = (isFull) ? Assets.cropHothouseFull(resources) : Assets.cropHothouseEmpty(resources);
-        //////////////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////
+        texture = Assets.cropHothouseEmpty(resources);
+        //////////////////////////////////////////////
     }
 
     @Override
@@ -64,16 +61,6 @@ public class TileMapHothouse extends TileMap {
         int rows = tiles.length;                //Always need.
         widthSceneMax = columns * tileWidth;    //Always need.
         heightSceneMax = rows * tileHeight;     //Always need.
-    }
-
-    public void toggleIsFull(Resources resources) {
-        /////////////////
-        isFull = !isFull;
-        /////////////////
-
-        //////////////////////////////////////////////////////////////////////////////////////////////
-        texture = (isFull) ? Assets.cropHothouseFull(resources) : Assets.cropHothouseEmpty(resources);
-        //////////////////////////////////////////////////////////////////////////////////////////////
     }
 
 }
