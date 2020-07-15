@@ -15,8 +15,12 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfar
 
 public class SceneHouseLevel01 extends Scene {
 
+    private boolean hasLeftHouseToday;
+
     public SceneHouseLevel01(GameCartridge gameCartridge, Id sceneID) {
         super(gameCartridge, sceneID);
+
+        hasLeftHouseToday = true;
 
         widthClipInTile = 9;
         heightClipInTile = 9;
@@ -38,6 +42,7 @@ public class SceneHouseLevel01 extends Scene {
     public void exit(Object[] extra) {
         super.exit(extra);
 
+        hasLeftHouseToday = true;
         gameCartridge.getTimeManager().setIsPaused(false);
     }
 
@@ -55,7 +60,7 @@ public class SceneHouseLevel01 extends Scene {
                 //TODO: sleep, TimeManager increment day, check all GrowableTile for isWatered,
                 // if GrowableTile has state as SEEDED -> instantiate CropEntity/GrassEntity (revert state to INITIAL)
                 // if GrowableGroundTile.cropEntity is not null -> increment that CropEntity's age and update its stage.
-                ((BedTile)tileFacing).execute(gameCartridge);
+                ((BedTile)tileFacing).execute(gameCartridge, hasLeftHouseToday);
             }
         }
         //b button
@@ -70,6 +75,10 @@ public class SceneHouseLevel01 extends Scene {
 
             gameCartridge.getStateManager().push(State.Id.START_MENU, null);
         }
+    }
+
+    public void setHasLeftHouseToday(boolean hasLeftHouseToday) {
+        this.hasLeftHouseToday = hasLeftHouseToday;
     }
 
 }
