@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.TimeManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.CropEntity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
@@ -128,6 +129,10 @@ public class BedTile extends Tile {
             }
         }
 
+        //////////////////////////////////////////////////
+        gameCartridge.getTimeManager().resetInGameClock();
+        gameCartridge.getTimeManager().incrementDay();
+        //////////////////////////////////////////////////
     }
 
 }

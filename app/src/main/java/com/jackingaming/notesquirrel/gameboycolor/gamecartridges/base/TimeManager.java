@@ -6,8 +6,11 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.util.Log;
+import android.view.Gravity;
+import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
+import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -54,11 +57,7 @@ public class TimeManager
         season = Season.SPRING;
         day = 1;
 
-        ticker = 0L;
-        hour = 6;   //20-real-time-second hours (average day lasts ~4 minutes)
-        minute = 0;
-        isPM = false;
-        modeOfDay = ModeOfDay.DAYLIGHT;
+        resetInGameClock();
 
         isPaused = false;
     }
@@ -142,17 +141,24 @@ public class TimeManager
         //REFERENCE: https://stackoverflow.com/questions/3654321/measuring-text-height-to-be-drawn-on-canvas-android
         Paint.FontMetrics fm = paintFont.getFontMetrics();
         int heightLine = (int) (fm.bottom - fm.top + fm.leading);
-        Rect rectBackground = new Rect(8, (32+8+8)-heightLine+8+8, 250+8, (32+8+8)+heightLine+8);
+        Rect rectBackground = new Rect(0, (32+8+8)-heightLine+8+8, 250+8, (32+8+8)+heightLine+heightLine+8);
         /////////////////////////////////////////////////
         canvas.drawRect(rectBackground, paintBackground);
         /////////////////////////////////////////////////
 
-        //FONT
+        //TIME_PLAYED
         /////////////////////////////////////////////////////////////////////
         canvas.drawText(String.valueOf(timePlayed),
-                250 - paintFont.measureText(String.valueOf(timePlayed)),
+                255 - paintFont.measureText(String.valueOf(timePlayed)),
                 (32+8+8), paintFont);
         /////////////////////////////////////////////////////////////////////
+
+        //CALENDAR ((SEASON) DAY)
+        String dayFormatted = String.format("%02d", day);
+        String calendarText = "(" + season.name() + ") " + dayFormatted;
+        canvas.drawText(calendarText,
+                255 - paintFont.measureText(String.valueOf(calendarText)),
+                (32+8+8+heightLine), paintFont);
 
         //GAME-CLOCK (HOUR:MINUTE)
         String hourCurrent = String.format("%02d", hour);
@@ -160,12 +166,39 @@ public class TimeManager
         String amOrPM = (isPM) ? ("pm") : ("am");
         String inGameClockTime = hourCurrent + ":" + minuteCurrent + amOrPM;
         canvas.drawText(inGameClockTime,
-                250 - paintFont.measureText(String.valueOf(inGameClockTime)),
-                (32+8+8+heightLine), paintFont);
+                255 - paintFont.measureText(String.valueOf(inGameClockTime)),
+                (32+8+8+heightLine+heightLine), paintFont);
     }
 
     public void incrementDay() {
         day++;
+        if (day > 30) {
+            incrementSeason();
+            day = 1;
+        }
+    }
+
+    private void incrementSeason() {
+        int indexNextSeason = season.ordinal() + 1;
+        if (indexNextSeason >= Season.values().length) {
+            incrementYear();
+            indexNextSeason = 0;
+        }
+        season = Season.values()[indexNextSeason];
+    }
+
+    private void incrementYear() {
+        year++;
+
+        /////////////////////////////////////////////////////////////////////////////////
+        ((JackInActivity) gameCartridge.getContext()).runOnUiThread(new Runnable() {
+            public void run() {
+                final Toast toast = Toast.makeText(gameCartridge.getContext(), "year: " + year, Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                toast.show();
+            }
+        });
+        /////////////////////////////////////////////////////////////////////////////////
     }
 
     public Season getSeason() {
@@ -174,6 +207,18 @@ public class TimeManager
 
     public ModeOfDay getModeOfDay() {
         return modeOfDay;
+    }
+
+    public void setIsPaused(boolean isPaused) {
+        this.isPaused = isPaused;
+    }
+
+    public void resetInGameClock() {
+        ticker = 0L;
+        hour = 6;
+        minute = 0;
+        isPM = false;
+        modeOfDay = ModeOfDay.DAYLIGHT;
     }
 
 }

@@ -77,6 +77,12 @@ public class HeadUpDisplay
         RectF border = new RectF(x0Border, y0Border, x1Border, y1Border);
 
 
+        //Paint (BACKGROUND)
+        Paint paintBackground = new Paint();
+        paintBackground.setAntiAlias(true);
+        paintBackground.setColor(Color.WHITE);
+        paintBackground.setAlpha(230);
+
         //Paint (FONT)
         Paint paintFont = new Paint();
         paintFont.setAntiAlias(true);
@@ -84,24 +90,22 @@ public class HeadUpDisplay
         paintFont.setAlpha(230);
         paintFont.setTextSize(40f);
         paintFont.setTypeface(Typeface.SANS_SERIF);
+
         Paint.FontMetrics fm = paintFont.getFontMetrics();
         int heightLine = (int) (fm.bottom - fm.top + fm.leading);
 
-
+        //////////////////////////////////////////////////////////////////////////////
         //border's IMAGE (ROUNDED CORNERS)
         //canvas.drawRect(border, paintBorder);
         canvas.drawRoundRect(border, (16f+BORDER), (16f+BORDER), paintBorder);
 
-
         //selectedItem's IMAGE (ROUNDED CORNERS)
-        //////////////////////////////////////////////////////////////////////////////
         //canvas.drawBitmap(selectedItem, selectedItemClip, screenPosition, null);
         RoundedBitmapDrawable roundedBitmapDrawable =
                 RoundedBitmapDrawableFactory.create(gameCartridge.getContext().getResources(), selectedItem);
         roundedBitmapDrawable.setCornerRadius(16f);
         roundedBitmapDrawable.setBounds(screenPosition);
         roundedBitmapDrawable.draw(canvas);
-        //////////////////////////////////////////////////////////////////////////////
 
         //SeedBagItem.SeedType
         if (gameCartridge.getPlayer().getSelectedItem() instanceof SeedBagItem) {
@@ -110,12 +114,20 @@ public class HeadUpDisplay
             int ySeedType = y1 - heightLine;
             canvas.drawText(seedType, xSeedType, ySeedType, paintFont);
         }
+        //////////////////////////////////////////////////////////////////////////////
 
+
+
+        //WHITE BACKGROUND
+        Rect rectBackground = new Rect(x0-8, y1Border+20, x1+20+20, y1Border+heightLine+heightLine+16);
+        /////////////////////////////////////////////////
+        canvas.drawRect(rectBackground, paintBackground);
+        /////////////////////////////////////////////////
 
         //@@@@@@@@@@@@@@@@@@@@@@
         //player.currencyNuggets
         //@@@@@@@@@@@@@@@@@@@@@@
-        String playerCurrencyNuggets = String.valueOf(gameCartridge.getPlayer().getCurrencyNuggets());
+        String playerCurrencyNuggets = "$" + String.valueOf(gameCartridge.getPlayer().getCurrencyNuggets());
         int xCurrencyNuggets = x0Border;
         int yCurrencyNuggets = y1Border + 6 + heightLine;
         canvas.drawText(playerCurrencyNuggets, xCurrencyNuggets, yCurrencyNuggets, paintFont);
@@ -123,7 +135,7 @@ public class HeadUpDisplay
         //@@@@@@@@@@@@@@@@@@@@@
         //player.fodderQuantity
         //@@@@@@@@@@@@@@@@@@@@@
-        String playerFodderQuantity = String.valueOf(gameCartridge.getPlayer().getFodderQuantity());
+        String playerFodderQuantity = String.valueOf(gameCartridge.getPlayer().getFodderQuantity()) + " fodder";
         int xFodderQuantity = x0Border;
         int yFodderQuantity = y1Border + 6 + heightLine + heightLine;
         canvas.drawText(playerFodderQuantity, xFodderQuantity, yFodderQuantity, paintFont);
