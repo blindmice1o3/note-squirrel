@@ -53,13 +53,6 @@ public abstract class Item
         return Bitmap.createBitmap(spriteSheetItems, xStart, yStart, widthItem, heightItem);
     }
 
-    protected Bitmap cropImageSeedBag(Resources resources) {
-        Bitmap originalBitmap = BitmapFactory.decodeResource(resources, R.drawable.seed_bag);
-        Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, 16, 16, false);
-
-        return resizedBitmap;
-    }
-
     public Bitmap getImage() {
         return image;
     }

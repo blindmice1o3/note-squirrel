@@ -37,9 +37,12 @@ public class ShippingBinTile extends Tile
         
         image = Assets.cropShippingBinTile(gameCartridge.getContext().getResources(), quadrant);
 
-        /////////////////////////////////////////////////////////////////
-        gameCartridge.getTimeManager().registerTimeManagerListener(this);
-        /////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////
+        //ONLY WANT TO REGISTER ONE INSTANCE OF ShippingBinTile AS A LISTENER
+        if (quadrant == Quadrant.TOP_LEFT) {
+            gameCartridge.getTimeManager().registerTimeManagerListener(this);
+        }
+        /////////////////////////////////////////////////////////////////////
     }
 
     public void addSellable(Sellable sellable) {

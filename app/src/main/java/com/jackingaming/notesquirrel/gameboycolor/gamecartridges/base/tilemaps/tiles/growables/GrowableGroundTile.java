@@ -4,7 +4,7 @@ import android.content.res.Resources;
 
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.CropEntity;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.seeds.SeedBagItem;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.seeds.CropSeedItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
 
 public class GrowableGroundTile extends GrowableTile {
@@ -12,7 +12,7 @@ public class GrowableGroundTile extends GrowableTile {
     public enum Type { EMPTY, CROP_SEEDED, GRASS_SEEDED, GRASS_SPROUTED, GRASS_HARVESTABLE; }
 
     private Type type;
-    private SeedBagItem.SeedType seedType;
+    private CropSeedItem.SeedType seedType;
     private CropEntity cropEntity;
 
     public GrowableGroundTile(GameCartridge gameCartridge, int xIndex, int yIndex) {
@@ -39,7 +39,7 @@ public class GrowableGroundTile extends GrowableTile {
     }
 
     //TODO: update it to seed-being-a-tile instead of seed-being-a-crop-entity
-    public void changeToStateSeeded(Type type, SeedBagItem.SeedType seedType) {
+    public void changeToStateSeeded(Type type, CropSeedItem.SeedType seedType) {
 //    public void plantCropEntity(CropEntity.Id idCropEntity) {
         state = State.SEEDED;
         this.type = type;
@@ -73,11 +73,11 @@ public class GrowableGroundTile extends GrowableTile {
         updateImage(gameCartridge.getContext().getResources());
     }
 
-    public SeedBagItem.SeedType getSeedType() {
+    public CropSeedItem.SeedType getSeedType() {
         return seedType;
     }
 
-    public void setSeedType(SeedBagItem.SeedType seedType) {
+    public void setSeedType(CropSeedItem.SeedType seedType) {
         this.seedType = seedType;
     }
 

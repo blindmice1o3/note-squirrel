@@ -13,12 +13,14 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartri
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.Item;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.seeds.FlowerSeedItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.AxeItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.BugNetItem;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.FlowerPotItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.GlovedHandsItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.FishingPoleItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.HammerItem;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.seeds.SeedBagItem;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.seeds.CropSeedItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.ShovelItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.ScytheItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.WateringCanItem;
@@ -131,15 +133,17 @@ public class Player extends Creature {
         inventory.add(new HammerItem(gameCartridge));
         inventory.add(new ScytheItem(gameCartridge));
         inventory.add(new AxeItem(gameCartridge));
-        inventory.add(new SeedBagItem(gameCartridge, SeedBagItem.SeedType.GRASS));
-        inventory.add(new SeedBagItem(gameCartridge, SeedBagItem.SeedType.TURNIP));
-        inventory.add(new SeedBagItem(gameCartridge, SeedBagItem.SeedType.POTATO));
-        inventory.add(new SeedBagItem(gameCartridge, SeedBagItem.SeedType.TOMATO));
-        inventory.add(new SeedBagItem(gameCartridge, SeedBagItem.SeedType.CORN));
-        inventory.add(new SeedBagItem(gameCartridge, SeedBagItem.SeedType.EGGPLANT));
-        inventory.add(new SeedBagItem(gameCartridge, SeedBagItem.SeedType.PEANUT));
-        inventory.add(new SeedBagItem(gameCartridge, SeedBagItem.SeedType.CARROT));
-        inventory.add(new SeedBagItem(gameCartridge, SeedBagItem.SeedType.BROCCOLI));
+        inventory.add(new FlowerPotItem(gameCartridge));
+        inventory.add(new FlowerSeedItem(gameCartridge));
+        inventory.add(new CropSeedItem(gameCartridge, CropSeedItem.SeedType.GRASS));
+        inventory.add(new CropSeedItem(gameCartridge, CropSeedItem.SeedType.TURNIP));
+        inventory.add(new CropSeedItem(gameCartridge, CropSeedItem.SeedType.POTATO));
+        inventory.add(new CropSeedItem(gameCartridge, CropSeedItem.SeedType.TOMATO));
+        inventory.add(new CropSeedItem(gameCartridge, CropSeedItem.SeedType.CORN));
+        inventory.add(new CropSeedItem(gameCartridge, CropSeedItem.SeedType.EGGPLANT));
+        inventory.add(new CropSeedItem(gameCartridge, CropSeedItem.SeedType.PEANUT));
+        inventory.add(new CropSeedItem(gameCartridge, CropSeedItem.SeedType.CARROT));
+        inventory.add(new CropSeedItem(gameCartridge, CropSeedItem.SeedType.BROCCOLI));
         /////////////////////////////////////////////////////////////////////////////////////////
 
         if (holdable != null) {

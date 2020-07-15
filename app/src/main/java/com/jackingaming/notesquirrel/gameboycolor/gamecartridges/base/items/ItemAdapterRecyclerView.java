@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jackingaming.notesquirrel.R;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.seeds.SeedBagItem;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.seeds.CropSeedItem;
 
 import java.util.List;
 
@@ -97,8 +97,8 @@ public class ItemAdapterRecyclerView extends RecyclerView.Adapter<ItemAdapterRec
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         String text = dataSet.get(position).getId();
-        if (dataSet.get(position) instanceof SeedBagItem) {
-            text = text + ": " + ((SeedBagItem)dataSet.get(position)).getSeedType();
+        if (dataSet.get(position) instanceof CropSeedItem) {
+            text = text + ": " + ((CropSeedItem)dataSet.get(position)).getSeedType();
         }
         holder.textView.setText(text);
         holder.imageView.setImageBitmap(dataSet.get(position).getImage());

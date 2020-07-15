@@ -2,28 +2,32 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.see
 
 
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
+import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.Item;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableGroundTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableTile;
 
-public class SeedBagItem extends Item {
+public class CropSeedItem extends Item {
 
     public enum SeedType { GRASS, TURNIP, POTATO, TOMATO, CORN, EGGPLANT, PEANUT, CARROT, BROCCOLI; }
 
     private SeedType seedType;
 
-    public SeedBagItem(GameCartridge gameCartridge, SeedType seedType) {
+    public CropSeedItem(GameCartridge gameCartridge, SeedType seedType) {
         super(gameCartridge);
-        this.id = "Seed Bag";
+
+        this.id = "Crop Seed";
         this.seedType = seedType;
     }
 
     @Override
     public void initImage(Resources resources) {
-        image = cropImageSeedBag(resources);
+        image = cropImageCropSeedItem(resources);
     }
 
     @Override
@@ -48,6 +52,13 @@ public class SeedBagItem extends Item {
                 }
             }
         }
+    }
+
+    private Bitmap cropImageCropSeedItem(Resources resources) {
+        Bitmap originalBitmap = BitmapFactory.decodeResource(resources, R.drawable.seed_bag);
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, 16, 16, false);
+
+        return resizedBitmap;
     }
 
     public SeedType getSeedType() {

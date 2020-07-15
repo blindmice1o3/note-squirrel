@@ -8,6 +8,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Sce
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableTableTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.products.Product;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.indoors.TileMapHothouse;
 
 public class SceneHothouse extends Scene {
@@ -30,11 +31,30 @@ public class SceneHothouse extends Scene {
         if (inputManager.isaButtonPad()) {
             Log.d(MainActivity.DEBUG_TAG, "SceneHothouse.getInputButtonPad() a-button-justPressed");
 
-            //TODO:
+            //@@@@@ENTITIES@@@@@
+            //intentionally blank.
+
+            //@@@@@PRODUCT@@@@@
+            Product product = player.getProductCurrentlyFacing();
+            if ( (product != null) && (player.getHoldable() == null) ) {
+                player.setHoldable(product);
+                Log.d(MainActivity.DEBUG_TAG, "SceneHothouse.getInputButtonPad() player's holdable: " + player.getHoldable().toString());
+                productManager.removeProduct(product);
+
+                return;
+            }
+
             //@@@@@TILES@@@@@
             Tile tileFacing = player.getTileCurrentlyFacing();
-            if (tileFacing instanceof GrowableTableTile) {
-                ((GrowableTableTile)tileFacing).toggleHasPot();
+            if (tileFacing != null) {
+                //@@@@@HOLDING@@@@@
+                if (player.getHoldable() != null) {
+                    player.dropHoldable(tileFacing);
+                }
+                //@@@@@ITEM/TOOL@@@@@
+                else {
+                    player.getSelectedItem().execute(tileFacing);
+                }
             }
         }
         //b button

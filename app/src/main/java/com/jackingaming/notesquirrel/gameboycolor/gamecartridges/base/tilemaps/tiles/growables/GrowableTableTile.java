@@ -35,4 +35,14 @@ public class GrowableTableTile extends GrowableTile {
         updateImage(gameCartridge.getContext().getResources());
     }
 
+    public void toggleHasSeed() {
+        if (state == State.PREPARED) {
+            state = State.SEEDED;
+        } else if (state == State.SEEDED) {
+            state = State.PREPARED;
+        }
+
+        updateImage(gameCartridge.getContext().getResources());
+    }
+
 }

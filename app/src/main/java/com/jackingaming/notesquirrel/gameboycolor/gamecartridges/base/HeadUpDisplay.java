@@ -11,7 +11,7 @@ import android.graphics.Typeface;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.seeds.SeedBagItem;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.seeds.CropSeedItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
 
 import java.io.Serializable;
@@ -107,9 +107,9 @@ public class HeadUpDisplay
         roundedBitmapDrawable.setBounds(screenPosition);
         roundedBitmapDrawable.draw(canvas);
 
-        //SeedBagItem.SeedType
-        if (gameCartridge.getPlayer().getSelectedItem() instanceof SeedBagItem) {
-            String seedType = ((SeedBagItem)gameCartridge.getPlayer().getSelectedItem()).getSeedType().name();
+        //CropSeedItem.SeedType
+        if (gameCartridge.getPlayer().getSelectedItem() instanceof CropSeedItem) {
+            String seedType = ((CropSeedItem)gameCartridge.getPlayer().getSelectedItem()).getSeedType().name();
             int xSeedType = x0;
             int ySeedType = y1 - heightLine;
             canvas.drawText(seedType, xSeedType, ySeedType, paintFont);
