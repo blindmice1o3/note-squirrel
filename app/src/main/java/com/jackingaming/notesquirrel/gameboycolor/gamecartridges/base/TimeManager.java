@@ -14,18 +14,41 @@ import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.moveable.Player;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class TimeManager
         implements Serializable {
 
     public interface TimeManagerListener {
-        public void executeTimedEvent(int hour, int minute, boolean isPM, Player player);
+        public void executeTimedEvent();
     }
-    private Set<TimeManagerListener> timeManagerListeners;
-    public void registerTimeManagerListener(TimeManagerListener timeManagerListener) {
-        timeManagerListeners.add(timeManagerListener);
+    class EventTime implements Serializable {
+        private int hour;
+        private int minute;
+        private boolean isPM;
+        public EventTime(int hour, int minute, boolean isPM) {
+            this.hour = hour;
+            this.minute = minute;
+            this.isPM = isPM;
+        }
+        public int getHour() {
+            return hour;
+        }
+        public int getMinute() {
+            return minute;
+        }
+        public boolean getIsPM() {
+            return isPM;
+        }
+    }
+    private Map<EventTime, TimeManagerListener> timeManagerListeners;
+    public void registerTimeManagerListener(TimeManagerListener timeManagerListener,
+                                            int hour, int minute, boolean isPM) {
+        EventTime eventTime = new EventTime(hour, minute, isPM);
+        timeManagerListeners.put(eventTime, timeManagerListener);
     }
 
     public enum Season { SPRING, SUMMER, FALL, WINTER; }
@@ -58,7 +81,7 @@ public class TimeManager
     public TimeManager(GameCartridge gameCartridge) {
         init(gameCartridge);
 
-        timeManagerListeners = new HashSet<TimeManagerListener>();
+        timeManagerListeners = new HashMap<EventTime, TimeManagerListener>();
 
         year = 1;
         season = Season.SPRING;
@@ -133,12 +156,11 @@ public class TimeManager
                         ////////////////
                     }
 
-                    //ALERT ALL LISTENERS AT THE TOP OF EACH HOUR!
-                    for (TimeManagerListener timeManagerListener : timeManagerListeners) {
-                        Log.d(MainActivity.DEBUG_TAG, "TimeManager.update(long) alerting all registered TimeManagerListeners about NEW HOUR: " + timeManagerListener.getClass());
-                        //////////////////////////////////////////////////////////
-                        timeManagerListener.executeTimedEvent(hour, minute, isPM, gameCartridge.getPlayer());
-                        //////////////////////////////////////////////////////////
+                    //ALERT LISTENER DURING THEIR REGISTERED IN-GAME TIME (limited to hoursly checks)!
+                    for (EventTime eventTime : timeManagerListeners.keySet()) {
+                        if ( (eventTime.getIsPM() == isPM) && (hour == eventTime.getHour()) && (minute == eventTime.getMinute()) ) {
+                            timeManagerListeners.get(eventTime).executeTimedEvent();
+                        }
                     }
                 }
             }

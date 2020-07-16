@@ -5,19 +5,33 @@ import android.util.Log;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.TimeManager;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.moveable.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.CropEntity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableGroundTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.solids2x2.ShippingBinTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.products.Sellable;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneHouseLevel01;
 
-public class BedTile extends Tile {
+public class BedTile extends Tile
+        implements TimeManager.TimeManagerListener {
 
     public BedTile(GameCartridge gameCartridge, int xIndex, int yIndex) {
         super(gameCartridge, xIndex, yIndex);
 
         walkability = Walkability.SOLID;
+    }
+
+    @Override
+    public void init(GameCartridge gameCartridge) {
+        super.init(gameCartridge);
+
+        //////////////////////////////////////////////////////////////////////////////////
+        gameCartridge.getTimeManager().registerTimeManagerListener(this,
+                8, 0, false);
+        //////////////////////////////////////////////////////////////////////////////////
     }
 
     public void execute(GameCartridge gameCartridge, boolean hasLeftHouseToday) {
@@ -141,6 +155,13 @@ public class BedTile extends Tile {
             sceneHouseLevel01.setHasLeftHouseToday(false);
             ////////////////////////////////////////////////////////////////////////////////////////
         }
+    }
+
+    @Override
+    public void executeTimedEvent() {
+        /////////////////////////////////////////////////////
+        ShippingBinTile.sellStash(gameCartridge.getPlayer());
+        /////////////////////////////////////////////////////
     }
 
 }
