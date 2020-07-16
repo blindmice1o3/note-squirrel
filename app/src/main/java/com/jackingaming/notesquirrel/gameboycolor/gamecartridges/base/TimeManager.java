@@ -14,9 +14,7 @@ import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.moveable.Player;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class TimeManager
@@ -36,7 +34,7 @@ public class TimeManager
 
     private static long timePlayed = 0L;
 
-    private transient GameCartridge gameCartridge;
+    transient private GameCartridge gameCartridge;
     private short year;     //4-season years (SPRING, SUMMER, FALL, WINTER)
     private Season season;  //30-day seasons
     private short day;      //18-hour days (6am-12am)
@@ -50,6 +48,12 @@ public class TimeManager
 
     //TIME STOPS WHEN INDOORS
     private boolean isPaused;
+
+    //RENDERING-RELATED
+    transient private Paint paintBackground;
+    transient private Paint paintFont;
+    transient private Paint.FontMetrics fm;
+    private int heightLine;
 
     public TimeManager(GameCartridge gameCartridge) {
         init(gameCartridge);
@@ -67,6 +71,24 @@ public class TimeManager
 
     public void init(GameCartridge gameCartridge) {
         this.gameCartridge = gameCartridge;
+
+        //Paint (BACKGROUND)
+        paintBackground = new Paint();
+        paintBackground.setAntiAlias(true);
+        paintBackground.setColor(Color.WHITE);
+        paintBackground.setAlpha(230);
+
+        //Paint (FONT)
+        paintFont = new Paint();
+        paintFont.setAntiAlias(true);
+        paintFont.setColor(Color.GREEN);
+        paintFont.setAlpha(230);
+        paintFont.setTextSize(40f);
+        paintFont.setTypeface(Typeface.SANS_SERIF);
+
+        //REFERENCE: https://stackoverflow.com/questions/3654321/measuring-text-height-to-be-drawn-on-canvas-android
+        fm = paintFont.getFontMetrics();
+        heightLine = (int) (fm.bottom - fm.top + fm.leading);
     }
 
     public void update(long elapsed) {
@@ -126,24 +148,7 @@ public class TimeManager
     }
 
     public void render(Canvas canvas) {
-        //Paint (BACKGROUND)
-        Paint paintBackground = new Paint();
-        paintBackground.setAntiAlias(true);
-        paintBackground.setColor(Color.WHITE);
-        paintBackground.setAlpha(230);
-
-        //Paint (FONT)
-        Paint paintFont = new Paint();
-        paintFont.setAntiAlias(true);
-        paintFont.setColor(Color.GREEN);
-        paintFont.setAlpha(230);
-        paintFont.setTextSize(40f);
-        paintFont.setTypeface(Typeface.SANS_SERIF);
-
         //BACKGROUND
-        //REFERENCE: https://stackoverflow.com/questions/3654321/measuring-text-height-to-be-drawn-on-canvas-android
-        Paint.FontMetrics fm = paintFont.getFontMetrics();
-        int heightLine = (int) (fm.bottom - fm.top + fm.leading);
         Rect rectBackground = new Rect(0, (32+8+8)-heightLine+8+8, 250+8, (32+8+8)+heightLine+heightLine+8);
         /////////////////////////////////////////////////
         canvas.drawRect(rectBackground, paintBackground);

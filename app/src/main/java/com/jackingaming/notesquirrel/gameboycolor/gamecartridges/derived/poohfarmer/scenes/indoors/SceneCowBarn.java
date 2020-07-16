@@ -23,6 +23,20 @@ public class SceneCowBarn extends Scene {
     }
 
     @Override
+    public void enter() {
+        super.enter();
+
+        gameCartridge.getTimeManager().setIsPaused(true);
+    }
+
+    @Override
+    public void exit(Object[] extra) {
+        super.exit(extra);
+
+        gameCartridge.getTimeManager().setIsPaused(false);
+    }
+
+    @Override
     public void getInputButtonPad() {
         //a button
         if (inputManager.isaButtonPad()) {
