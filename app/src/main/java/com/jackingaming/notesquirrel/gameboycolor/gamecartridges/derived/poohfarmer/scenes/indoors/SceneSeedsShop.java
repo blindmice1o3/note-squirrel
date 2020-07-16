@@ -42,9 +42,9 @@ public class SceneSeedsShop extends Scene {
 
         //text-area bounds
         x0 = 0;
-        y0 = (int) (104 * heightPixelToViewportRatio);
+        y0 = (int) (93 * heightPixelToViewportRatio);
         x1 = (int) (160 * widthPixelToViewportRatio);
-        y1 = (int) ((104 + 56) * heightPixelToViewportRatio);
+        y1 = (int) ((93 + 67) * heightPixelToViewportRatio);
 
         //Paint (FONT)
         paintFont = new Paint();

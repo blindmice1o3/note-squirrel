@@ -30,7 +30,7 @@ public class BedTile extends Tile
 
         //////////////////////////////////////////////////////////////////////////////////
         gameCartridge.getTimeManager().registerTimeManagerListener(this,
-                8, 0, false);
+                5, 0, true);
         //////////////////////////////////////////////////////////////////////////////////
     }
 
@@ -145,12 +145,14 @@ public class BedTile extends Tile
                 }
             }
 
-            //////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////
+            gameCartridge.getTimeManager().callRemainingActiveEventTimeObjects();
+            gameCartridge.getTimeManager().setAllEventTimeObjectsToActive();
             gameCartridge.getTimeManager().resetInGameClock();
             gameCartridge.getTimeManager().incrementDay();
-            //////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////
 
-            ////////////////////////////////////////////////////////////////////////////////////////
+            //Have to leave the house before able to go to bed again////////////////////////////////
             SceneHouseLevel01 sceneHouseLevel01 = (SceneHouseLevel01) gameCartridge.getSceneManager().getScene(Scene.Id.HOUSE_01);
             sceneHouseLevel01.setHasLeftHouseToday(false);
             ////////////////////////////////////////////////////////////////////////////////////////
@@ -159,6 +161,7 @@ public class BedTile extends Tile
 
     @Override
     public void executeTimedEvent() {
+        Log.d(MainActivity.DEBUG_TAG, "BedTile.executeTimedEvent() sell stash");
         /////////////////////////////////////////////////////
         ShippingBinTile.sellStash(gameCartridge.getPlayer());
         /////////////////////////////////////////////////////

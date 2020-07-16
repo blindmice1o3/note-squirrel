@@ -29,10 +29,12 @@ public class TimeManager
         private int hour;
         private int minute;
         private boolean isPM;
+        private boolean isActive;
         public EventTime(int hour, int minute, boolean isPM) {
             this.hour = hour;
             this.minute = minute;
             this.isPM = isPM;
+            this.isActive = true;
         }
         public int getHour() {
             return hour;
@@ -43,12 +45,20 @@ public class TimeManager
         public boolean getIsPM() {
             return isPM;
         }
+        public boolean getIsActive() {
+            return isActive;
+        }
+        public void setIsActive(boolean isActive) {
+            this.isActive = isActive;
+        }
     }
     private Map<EventTime, TimeManagerListener> timeManagerListeners;
     public void registerTimeManagerListener(TimeManagerListener timeManagerListener,
                                             int hour, int minute, boolean isPM) {
-        EventTime eventTime = new EventTime(hour, minute, isPM);
-        timeManagerListeners.put(eventTime, timeManagerListener);
+        if (!timeManagerListeners.containsValue(timeManagerListener)) {
+            EventTime eventTime = new EventTime(hour, minute, isPM);
+            timeManagerListeners.put(eventTime, timeManagerListener);
+        }
     }
 
     public enum Season { SPRING, SUMMER, FALL, WINTER; }
@@ -160,6 +170,7 @@ public class TimeManager
                     for (EventTime eventTime : timeManagerListeners.keySet()) {
                         if ( (eventTime.getIsPM() == isPM) && (hour == eventTime.getHour()) && (minute == eventTime.getMinute()) ) {
                             timeManagerListeners.get(eventTime).executeTimedEvent();
+                            eventTime.setIsActive(false);
                         }
                     }
                 }
@@ -167,6 +178,21 @@ public class TimeManager
 
         }
         /////////////////////////////////////////////
+    }
+
+    public void callRemainingActiveEventTimeObjects() {
+        for (EventTime eventTime : timeManagerListeners.keySet()) {
+            if (eventTime.getIsActive()) {
+                timeManagerListeners.get(eventTime).executeTimedEvent();
+                eventTime.setIsActive(false);
+            }
+        }
+    }
+
+    public void setAllEventTimeObjectsToActive() {
+        for (EventTime eventTime : timeManagerListeners.keySet()) {
+            eventTime.setIsActive(true);
+        }
     }
 
     public void render(Canvas canvas) {
