@@ -14,15 +14,15 @@ public class GrowableTableTile extends GrowableTile {
     }
 
     @Override
-    public void updateImage(Resources resources) {
-        image = Assets.cropGrowableTableTile(resources, state, isWatered);
-    }
-
-    @Override
     public void init(GameCartridge gameCartridge) {
         super.init(gameCartridge);
 
         updateImage(gameCartridge.getContext().getResources());
+    }
+
+    @Override
+    public void updateImage(Resources resources) {
+        image = Assets.cropGrowableTableTile(resources, state, isWatered);
     }
 
     public void toggleHasPot() {

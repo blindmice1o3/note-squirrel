@@ -12,10 +12,15 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.t
 
 public class FlowerSeedItem extends Item {
 
-    public FlowerSeedItem(GameCartridge gameCartridge) {
+    public enum SeedType { GERANIUM, PRIMROSE, LAVENDER, ORCHID; }
+
+    private SeedType seedType;
+
+    public FlowerSeedItem(GameCartridge gameCartridge, SeedType seedType) {
         super(gameCartridge);
 
         this.id = "Flower Seed";
+        this.seedType = seedType;
     }
 
     @Override
@@ -39,6 +44,10 @@ public class FlowerSeedItem extends Item {
         Bitmap flowerSeedItem = Bitmap.createBitmap(seedsShopSpriteSheet, 156, 150, 16, 16);
 
         return flowerSeedItem;
+    }
+
+    public SeedType getSeedType() {
+        return seedType;
     }
 
 }

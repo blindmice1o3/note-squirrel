@@ -11,6 +11,7 @@ import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.TimeManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.CropEntity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.FlowerEntity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableGroundTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableTile;
@@ -527,6 +528,86 @@ public class Assets {
         Log.d(MainActivity.DEBUG_TAG, "Assets.cropCropProduct(Resources, Product.Id, boolean)... cropsAndItemsSpriteSheet is null? " + cropsAndItemsSpriteSheet);
 
         return cropProduct;
+    }
+
+    //flower_entity
+    public static Bitmap cropFlowerEntity(Resources resources, FlowerEntity.Id id, FlowerEntity.Stage stage, boolean isWatered) {
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropFlowerEntity(Resources, FlowerEntity.Id, FlowerEntity.Stage, boolean)");
+
+        Bitmap hothousePlants1SpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.hm2_hothouse_plants1);
+        Bitmap hothousePlants2SpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.hm2_hothouse_plants2);
+        Bitmap flowerEntity = null;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        switch (id) {
+            case GERANIUM:
+
+                //TODO:
+                switch (stage) {
+                    case ONE:
+                    case TWO:
+                    case THREE:
+                        if (isWatered) {
+                            //flowerEntity = Bitmap.createBitmap(h, , 16, 16);
+                        } else {
+                            //flowerEntity = Bitmap.createBitmap(h, , 16, 16);
+                        }
+                        break;
+                    case HARVESTABLE:
+                        if (isWatered) {
+                            //flowerEntity = Bitmap.createBitmap(h, , 16, 16);
+                        } else {
+                            //flowerEntity = Bitmap.createBitmap(h, , 16, 16);
+                        }
+                        break;
+                }
+                break;
+            case PRIMROSE:
+
+                switch (stage) {
+                    case ONE:
+                    case TWO:
+                    case THREE:
+                        break;
+                    case HARVESTABLE:
+                        break;
+                }
+                break;
+            case LAVENDER:
+
+                switch (stage) {
+                    case ONE:
+                    case TWO:
+                    case THREE:
+                        break;
+                    case HARVESTABLE:
+                        break;
+                }
+                break;
+            case ORCHID:
+
+                switch (stage) {
+                    case ONE:
+                    case TWO:
+                    case THREE:
+                        break;
+                    case HARVESTABLE:
+                        break;
+                }
+                break;
+        }
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "flowerEntity: " + flowerEntity.getWidth() + ", " + flowerEntity.getHeight());
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //May be redundant because local variable.
+        hothousePlants1SpriteSheet = null;
+        hothousePlants2SpriteSheet = null;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropFlowerEntity(Resources, FlowerEntity.Id, FlowerEntity.Stage, boolean)... hothousePlants1SpriteSheet is null? " + hothousePlants1SpriteSheet);
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropFlowerEntity(Resources, FlowerEntity.Id, FlowerEntity.Stage, boolean)... hothousePlants2SpriteSheet is null? " + hothousePlants2SpriteSheet);
+
+        return flowerEntity;
     }
 
     //crop_entity
