@@ -4,6 +4,7 @@ import android.content.res.Resources;
 
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.CropEntity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.FlowerEntity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.Item;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableGroundTile;
@@ -25,6 +26,7 @@ public class WateringCanItem extends Item {
 
     @Override
     public void execute(Tile tile) {
+        //GROUND
         if (tile instanceof GrowableGroundTile) {
             GrowableGroundTile growableGroundTile = (GrowableGroundTile) tile;
 
@@ -39,13 +41,22 @@ public class WateringCanItem extends Item {
                     (growableGroundTile.getType() == GrowableGroundTile.Type.CROP_SEEDED) ) {
                 growableGroundTile.toggleIsWatered();
             }
-        } else if (tile instanceof GrowableTableTile) {
+        }
+        //TABLE
+        else if (tile instanceof GrowableTableTile) {
             GrowableTableTile growableTableTile = (GrowableTableTile) tile;
 
             //TILE
             if ( (growableTableTile.getState() == GrowableTile.State.PREPARED) ||
                     (growableTableTile.getState() == GrowableTile.State.SEEDED) ) {
                 growableTableTile.toggleIsWatered();
+
+                //ENTITY
+                if (growableTableTile.getFlowerEntity() != null) {
+                    if (growableTableTile.getFlowerEntity().getStage() != FlowerEntity.Stage.HARVESTABLE) {
+                        growableTableTile.getFlowerEntity().toggleIsWatered();
+                    }
+                }
             }
         }
     }

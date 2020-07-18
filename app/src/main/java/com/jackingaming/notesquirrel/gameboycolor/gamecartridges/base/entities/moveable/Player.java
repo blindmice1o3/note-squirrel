@@ -135,6 +135,9 @@ public class Player extends Creature {
         inventory.add(new AxeItem(gameCartridge));
         inventory.add(new FlowerPotItem(gameCartridge));
         inventory.add(new FlowerSeedItem(gameCartridge, FlowerSeedItem.SeedType.GERANIUM));
+        inventory.add(new FlowerSeedItem(gameCartridge, FlowerSeedItem.SeedType.PRIMROSE));
+        inventory.add(new FlowerSeedItem(gameCartridge, FlowerSeedItem.SeedType.LAVENDER));
+        inventory.add(new FlowerSeedItem(gameCartridge, FlowerSeedItem.SeedType.ORCHID));
         inventory.add(new CropSeedItem(gameCartridge, CropSeedItem.SeedType.GRASS));
         inventory.add(new CropSeedItem(gameCartridge, CropSeedItem.SeedType.TURNIP));
         inventory.add(new CropSeedItem(gameCartridge, CropSeedItem.SeedType.POTATO));

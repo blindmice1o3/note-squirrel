@@ -534,64 +534,128 @@ public class Assets {
     public static Bitmap cropFlowerEntity(Resources resources, FlowerEntity.Id id, FlowerEntity.Stage stage, boolean isWatered) {
         Log.d(MainActivity.DEBUG_TAG, "Assets.cropFlowerEntity(Resources, FlowerEntity.Id, FlowerEntity.Stage, boolean)");
 
-        Bitmap hothousePlants1SpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.hm2_hothouse_plants1);
-        Bitmap hothousePlants2SpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.hm2_hothouse_plants2);
-        Bitmap flowerEntity = null;
+        //source file: "hm2_hothouse_plants1.png" (WATERED VERSION)
+        //source file: "hm2_hothouse_plants2.png" (DRY VERSION)
+        Bitmap hothousePlantsSpriteSheet = (isWatered) ?
+                (BitmapFactory.decodeResource(resources, R.drawable.hm2_hothouse_plants1)) :
+                (BitmapFactory.decodeResource(resources, R.drawable.hm2_hothouse_plants2));
 
+        Bitmap flowerEntity = null;
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         switch (id) {
             case GERANIUM:
-
-                //TODO:
+                //LEAFY StemSystem
                 switch (stage) {
                     case ONE:
+                        if (isWatered) {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 56, 48, 16, 16);
+                        } else {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 152, 112, 16, 16);
+                        }
+                        break;
                     case TWO:
+                        if (isWatered) {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 136, 112, 16, 16);
+                        } else {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 8, 48, 16, 16);
+                        }
+                        break;
                     case THREE:
                         if (isWatered) {
-                            //flowerEntity = Bitmap.createBitmap(h, , 16, 16);
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 152, 112, 16, 16);
                         } else {
-                            //flowerEntity = Bitmap.createBitmap(h, , 16, 16);
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 40, 48, 16, 16);
                         }
                         break;
                     case HARVESTABLE:
-                        if (isWatered) {
-                            //flowerEntity = Bitmap.createBitmap(h, , 16, 16);
-                        } else {
-                            //flowerEntity = Bitmap.createBitmap(h, , 16, 16);
-                        }
+                        flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 136, 48, 16, 16);
                         break;
                 }
                 break;
             case PRIMROSE:
-
+                //LEAFY StemSystem
                 switch (stage) {
                     case ONE:
+                        if (isWatered) {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 56, 48, 16, 16);
+                        } else {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 152, 112, 16, 16);
+                        }
+                        break;
                     case TWO:
+                        if (isWatered) {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 136, 112, 16, 16);
+                        } else {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 8, 48, 16, 16);
+                        }
+                        break;
                     case THREE:
+                        if (isWatered) {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 152, 112, 16, 16);
+                        } else {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 40, 48, 16, 16);
+                        }
                         break;
                     case HARVESTABLE:
+                        flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 24, 112, 16, 16);
                         break;
                 }
                 break;
             case LAVENDER:
-
+                //GRASSY StemSystem
                 switch (stage) {
                     case ONE:
+                        if (isWatered) {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 40, 48, 16, 16);
+                        } else {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 136, 112, 16, 16);
+                        }
+                        break;
                     case TWO:
+                        if (isWatered) {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 40, 112, 16, 16);
+                        } else {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 8, 112, 16, 16);
+                        }
+                        break;
                     case THREE:
+                        if (isWatered) {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 56, 112, 16, 16);
+                        } else {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 40, 112, 16, 16);
+                        }
                         break;
                     case HARVESTABLE:
+                        flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 120, 112, 16, 16);
                         break;
                 }
                 break;
             case ORCHID:
-
+                //BLADE StemSystem
                 switch (stage) {
                     case ONE:
+                        if (isWatered) {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 24, 48, 16, 16);
+                        } else {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 104, 112, 16, 16);
+                        }
+                        break;
                     case TWO:
+                        if (isWatered) {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 136, 48, 16, 16);
+                        } else {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 104, 48, 16, 16);
+                        }
+                        break;
                     case THREE:
+                        if (isWatered) {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 152, 48, 16, 16);
+                        } else {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 120, 48, 16, 16);
+                        }
                         break;
                     case HARVESTABLE:
+                        flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 56, 48, 16, 16);
                         break;
                 }
                 break;
@@ -601,11 +665,9 @@ public class Assets {
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         //May be redundant because local variable.
-        hothousePlants1SpriteSheet = null;
-        hothousePlants2SpriteSheet = null;
+        hothousePlantsSpriteSheet = null;
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        Log.d(MainActivity.DEBUG_TAG, "Assets.cropFlowerEntity(Resources, FlowerEntity.Id, FlowerEntity.Stage, boolean)... hothousePlants1SpriteSheet is null? " + hothousePlants1SpriteSheet);
-        Log.d(MainActivity.DEBUG_TAG, "Assets.cropFlowerEntity(Resources, FlowerEntity.Id, FlowerEntity.Stage, boolean)... hothousePlants2SpriteSheet is null? " + hothousePlants2SpriteSheet);
+        Log.d(MainActivity.DEBUG_TAG, "Assets.cropFlowerEntity(Resources, FlowerEntity.Id, FlowerEntity.Stage, boolean)... hothousePlantsSpriteSheet is null? " + hothousePlantsSpriteSheet);
 
         return flowerEntity;
     }

@@ -3,14 +3,22 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.
 import android.content.res.Resources;
 
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.FlowerEntity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.seeds.FlowerSeedItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
 
 public class GrowableTableTile extends GrowableTile {
+
+    private FlowerSeedItem.SeedType seedType;
+    private FlowerEntity flowerEntity;
 
     public GrowableTableTile(GameCartridge gameCartridge, int xIndex, int yIndex) {
         super(gameCartridge, xIndex, yIndex);
 
         walkability = Walkability.SOLID;
+
+        seedType = null;
+        flowerEntity = null;
     }
 
     @Override
@@ -25,44 +33,45 @@ public class GrowableTableTile extends GrowableTile {
         image = Assets.cropGrowableTableTile(resources, state, isWatered);
     }
 
-    public void toggleHasPot() {
-        switch (state) {
-            case INITIAL:
-                //when placing a pot, soil starts dry
-                isWatered = false;
-                state = State.PREPARED;
-                break;
-            case PREPARED:
-                //when placing a pot, soil starts dry
-                isWatered = false;
-                state = State.INITIAL;
-                break;
-            case SEEDED:
-                //intentionally blank.
-                break;
-        }
+    public void changeToStateSeeded(FlowerSeedItem.SeedType seedType) {
+        //when seeding a pot, soil starts dry
+        isWatered = false;
+        state = State.SEEDED;
+        this.seedType = seedType;
 
         updateImage(gameCartridge.getContext().getResources());
     }
 
-    public void toggleHasSeed() {
-        switch (state) {
-            case INITIAL:
-                //intentionally blank.
-                break;
-            case PREPARED:
-                //when seeding, soil starts dry
-                isWatered = false;
-                state = State.SEEDED;
-                break;
-            case SEEDED:
-                //when seeding, soil starts dry
-                isWatered = false;
-                state = State.PREPARED;
-                break;
-        }
+    public void changeToStatePrepared() {
+        //when placing a pot, soil starts dry
+        isWatered = false;
+        state = State.PREPARED;
 
         updateImage(gameCartridge.getContext().getResources());
+    }
+
+    public void changeToStateInitial() {
+        //when removing a pot, soil starts dry
+        isWatered = false;
+        state = State.INITIAL;
+
+        updateImage(gameCartridge.getContext().getResources());
+    }
+
+    public FlowerSeedItem.SeedType getSeedType() {
+        return seedType;
+    }
+
+    public void setSeedType(FlowerSeedItem.SeedType seedType) {
+        this.seedType = seedType;
+    }
+
+    public FlowerEntity getFlowerEntity() {
+        return flowerEntity;
+    }
+
+    public void setFlowerEntity(FlowerEntity flowerEntity) {
+        this.flowerEntity = flowerEntity;
     }
 
 }

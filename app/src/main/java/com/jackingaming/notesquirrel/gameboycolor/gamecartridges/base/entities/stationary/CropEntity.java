@@ -45,8 +45,12 @@ public class CropEntity extends Entity {
     @Override
     public void init(GameCartridge gameCartridge) {
         this.gameCartridge = gameCartridge;
-        image = Assets.cropCropEntity(gameCartridge.getContext().getResources(), id, stage, isWatered);
+        updateImage();
         initBounds();
+    }
+
+    public void updateImage() {
+        image = Assets.cropCropEntity(gameCartridge.getContext().getResources(), id, stage, isWatered);
     }
 
     public void initIsRegrowable() {
@@ -98,13 +102,13 @@ public class CropEntity extends Entity {
     public void toggleIsWatered() {
         isWatered = !isWatered;
 
-        image = Assets.cropCropEntity(gameCartridge.getContext().getResources(), id, stage, isWatered);
+        updateImage();
     }
 
     public void setIsWatered(boolean isWatered) {
         this.isWatered = isWatered;
 
-        image = Assets.cropCropEntity(gameCartridge.getContext().getResources(), id, stage, isWatered);
+        updateImage();
     }
 
     public boolean getIsWatered() {
@@ -144,7 +148,7 @@ public class CropEntity extends Entity {
         ///////////////////////////////////////////////////////////////////////////
 
         updateStage();
-        image = Assets.cropCropEntity(gameCartridge.getContext().getResources(), id, stage, isWatered);
+        updateImage();
     }
 
     public Product generateCropProduct() {
@@ -210,7 +214,7 @@ public class CropEntity extends Entity {
                 break;
         }
 
-        image = Assets.cropCropEntity(gameCartridge.getContext().getResources(), id, stage, isWatered);
+        updateImage();
     }
 
     @Override

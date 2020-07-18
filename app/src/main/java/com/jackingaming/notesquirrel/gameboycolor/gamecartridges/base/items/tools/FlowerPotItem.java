@@ -6,6 +6,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartri
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.Item;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableTableTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableTile;
 
 public class FlowerPotItem extends Item {
 
@@ -25,9 +26,13 @@ public class FlowerPotItem extends Item {
         if (tile instanceof GrowableTableTile) {
             GrowableTableTile growableTableTile = (GrowableTableTile) tile;
 
-            /////////////////////////////////
-            growableTableTile.toggleHasPot();
-            /////////////////////////////////
+            if ( (growableTableTile.getState() == GrowableTile.State.INITIAL) &&
+                    (growableTableTile.getSeedType() == null) &&
+                    (growableTableTile.getFlowerEntity() == null) ) {
+                //////////////////////////////////////////
+                growableTableTile.changeToStatePrepared();
+                //////////////////////////////////////////
+            }
         }
     }
 

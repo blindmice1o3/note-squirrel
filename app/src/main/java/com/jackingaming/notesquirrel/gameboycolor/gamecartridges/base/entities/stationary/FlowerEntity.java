@@ -42,8 +42,12 @@ public class FlowerEntity extends Entity {
     @Override
     public void init(GameCartridge gameCartridge) {
         this.gameCartridge = gameCartridge;
-        image = Assets.cropFlowerEntity(gameCartridge.getContext().getResources(), id, stage, isWatered);
+        updateImage();
         initBounds();
+    }
+
+    public void updateImage() {
+        image = Assets.cropFlowerEntity(gameCartridge.getContext().getResources(), id, stage, isWatered);
     }
 
     private void initDaysToReachHarvestable() {
@@ -61,6 +65,47 @@ public class FlowerEntity extends Entity {
                 daysToReachHarvestable = 9;
                 break;
         }
+    }
+
+    public void toggleIsWatered() {
+        isWatered = !isWatered;
+
+        updateImage();
+    }
+
+    public void setIsWatered(boolean isWatered) {
+        this.isWatered = isWatered;
+
+        updateImage();
+    }
+
+    public boolean getIsWatered() {
+        return isWatered;
+    }
+
+    public void incrementDaysWatered() {
+        daysWatered++;
+
+        updateStage();
+    }
+
+    private void updateStage() {
+        switch (id) {
+            case GERANIUM:
+                updateStageGeranium();
+                break;
+            case PRIMROSE:
+                updateStagePrimrose();
+                break;
+            case LAVENDER:
+                updateStageLavender();
+                break;
+            case ORCHID:
+                updateStageOrchid();
+                break;
+        }
+
+        updateImage();
     }
 
     @Override
@@ -85,6 +130,58 @@ public class FlowerEntity extends Entity {
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         canvas.drawBitmap(image, rectOfImage, rectOnScreen, null);
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    }
+
+    private void updateStageGeranium() {
+        if (daysWatered < 2) {
+            stage = Stage.ONE;
+        } else if ( (2 <= daysWatered) && (daysWatered < 4) ) {
+            stage = Stage.TWO;
+        } else if ( (4 <= daysWatered) && (daysWatered < daysToReachHarvestable) ) {
+            stage = Stage.THREE;
+        } else {
+            stage = Stage.HARVESTABLE;
+        }
+    }
+
+    private void updateStagePrimrose() {
+        if (daysWatered < 3) {
+            stage = Stage.ONE;
+        } else if ( (3 <= daysWatered) && (daysWatered < 6) ) {
+            stage = Stage.TWO;
+        } else if ( (6 <= daysWatered) && (daysWatered < daysToReachHarvestable) ) {
+            stage = Stage.THREE;
+        } else {
+            stage = Stage.HARVESTABLE;
+        }
+    }
+
+    private void updateStageLavender() {
+        if (daysWatered < 2) {
+            stage = Stage.ONE;
+        } else if ( (2 <= daysWatered) && (daysWatered < 4) ) {
+            stage = Stage.TWO;
+        } else if ( (4 <= daysWatered) && (daysWatered < daysToReachHarvestable) ) {
+            stage = Stage.THREE;
+        } else {
+            stage = Stage.HARVESTABLE;
+        }
+    }
+
+    private void updateStageOrchid() {
+        if (daysWatered < 3) {
+            stage = Stage.ONE;
+        } else if ( (3 <= daysWatered) && (daysWatered < 6) ) {
+            stage = Stage.TWO;
+        } else if ( (6 <= daysWatered) && (daysWatered < daysToReachHarvestable) ) {
+            stage = Stage.THREE;
+        } else {
+            stage = Stage.HARVESTABLE;
+        }
+    }
+
+    public Stage getStage() {
+        return stage;
     }
 
 }
