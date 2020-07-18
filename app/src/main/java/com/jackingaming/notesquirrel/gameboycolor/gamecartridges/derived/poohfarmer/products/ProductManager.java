@@ -1,6 +1,9 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.products;
 
 import android.graphics.Canvas;
+import android.util.Log;
+
+import com.jackingaming.notesquirrel.MainActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;

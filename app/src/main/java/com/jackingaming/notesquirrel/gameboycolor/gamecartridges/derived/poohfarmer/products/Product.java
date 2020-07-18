@@ -190,21 +190,25 @@ public class Product
     public boolean drop(Tile tile) {
         if (tile instanceof ShippingBinTile) {
             ShippingBinTile shippingBinTile = (ShippingBinTile) tile;
-
+            //////////////////////////////////
             putInShippingBin(shippingBinTile);
+            //////////////////////////////////
+
             return true;
         } else if (tile instanceof GrowableGroundTile) {
             GrowableGroundTile growableGroundTile = (GrowableGroundTile) tile;
 
             if (growableGroundTile.getCropEntity() == null) {
+                //Moving products from one scene to another.
+                //Scene.exit() will remove the holdable from the prior scene's productManager.
+                gameCartridge.getSceneManager().getCurrentScene().getProductManager().addProduct(this);
+
                 int xCurrentTile = growableGroundTile.getxIndex() * TileMap.TILE_WIDTH;
                 int yCurrentTile = growableGroundTile.getyIndex() * TileMap.TILE_HEIGHT;
-
+                ////////////////////////
                 xCurrent = xCurrentTile;
                 yCurrent = yCurrentTile;
-
-                //TODO: ADD TO SCENE'S ITEM MANAGER FOR RENDERING AND COLLISION DETECTION
-                gameCartridge.getSceneManager().getCurrentScene().getProductManager().addProduct(this);
+                ////////////////////////
 
                 return true;
             }

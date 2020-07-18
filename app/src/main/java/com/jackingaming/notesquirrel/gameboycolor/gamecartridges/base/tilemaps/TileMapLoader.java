@@ -11,7 +11,9 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.t
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.ComputerTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.GameConsoleTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.GenericSolidTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.SignPostTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.TelevisionTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.solids2x2.ShippingBinTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.walkables.GenericWalkableTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.walkables.TallGrassTile;
 
@@ -127,6 +129,20 @@ public class TileMapLoader {
                 //BedTile
                 else if (tokens[((y * columns) + x) + 2].equals("b")) {
                     tiles[y][x] = new BedTile(gameCartridge, x, y);
+                }
+                //SignPostTile
+                else if (tokens[((y * columns) + x) + 2].equals("a")) {
+                    tiles[y][x] = new SignPostTile(gameCartridge, x, y);
+                }
+                //ShippingBinTile
+                else if (tokens[((y * columns) + x) + 2].equals("c")) {
+                    tiles[y][x] = new ShippingBinTile(gameCartridge, x, y, ShippingBinTile.Quadrant.TOP_LEFT);
+                } else if (tokens[((y * columns) + x) + 2].equals("d")) {
+                    tiles[y][x] = new ShippingBinTile(gameCartridge, x, y, ShippingBinTile.Quadrant.TOP_RIGHT);
+                } else if (tokens[((y * columns) + x) + 2].equals("e")) {
+                    tiles[y][x] = new ShippingBinTile(gameCartridge, x, y, ShippingBinTile.Quadrant.BOTTOM_LFET);
+                } else if (tokens[((y * columns) + x) + 2].equals("f")) {
+                    tiles[y][x] = new ShippingBinTile(gameCartridge, x, y, ShippingBinTile.Quadrant.BOTTOM_RIGHT);
                 }
                 //SolidTile
                 else if (tokens[((y * columns) + x) + 2].equals("1")) {

@@ -156,6 +156,13 @@ public abstract class Scene
     public void exit(Object[] extra) {
         Log.d(MainActivity.DEBUG_TAG, "Scene.exit(Object[])");
 
+        //REMOVE PRODUCT FROM productManager (moving products from one scene to another).
+        //Product.drop(Tile) will add the holdable to the new scene's productManager.
+        if (player.getHoldable() instanceof Product) {
+            Product holdable = (Product) player.getHoldable();
+            gameCartridge.getSceneManager().getCurrentScene().getProductManager().removeProduct(holdable);
+        }
+
         //TODO: work-around for bug to get it working.
         /////////////////////////
         tileMap.setTexture(null);
