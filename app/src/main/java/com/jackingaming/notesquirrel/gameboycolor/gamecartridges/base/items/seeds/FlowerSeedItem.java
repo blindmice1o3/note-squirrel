@@ -39,6 +39,7 @@ public class FlowerSeedItem extends Item {
             case ROSEMARY:
             case CHAMOMILE:
                 isHerb = true;
+                initImage(gameCartridge.getContext().getResources());
                 break;
         }
     }
