@@ -89,6 +89,18 @@ public class BedTile extends Tile
                                     case ORCHID:
                                         id = FlowerEntity.Id.ORCHID;
                                         break;
+                                    case SAGE:
+                                        id = FlowerEntity.Id.SAGE;
+                                        break;
+                                    case SAFFRON:
+                                        id = FlowerEntity.Id.SAFFRON;
+                                        break;
+                                    case ROSEMARY:
+                                        id = FlowerEntity.Id.ROSEMARY;
+                                        break;
+                                    case CHAMOMILE:
+                                        id = FlowerEntity.Id.CHAMOMILE;
+                                        break;
                                 }
                                 ///////////////////////////////////////////////////////////////////////////
                                 FlowerEntity sproutling = new FlowerEntity(gameCartridge, id,

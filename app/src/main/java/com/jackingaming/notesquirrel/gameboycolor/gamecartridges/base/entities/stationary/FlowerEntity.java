@@ -10,7 +10,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.As
 
 public class FlowerEntity extends Entity {
 
-    public enum Id { GERANIUM, PRIMROSE, LAVENDER, ORCHID; }
+    public enum Id { GERANIUM, PRIMROSE, LAVENDER, ORCHID, SAGE, SAFFRON, ROSEMARY, CHAMOMILE; }
     public enum Stage { ONE, TWO, THREE, HARVESTABLE; }
 
     private FlowerEntity.Id id;
@@ -64,6 +64,18 @@ public class FlowerEntity extends Entity {
             case ORCHID:
                 daysToReachHarvestable = 9;
                 break;
+            case SAGE:
+                daysToReachHarvestable = 9;
+                break;
+            case SAFFRON:
+                daysToReachHarvestable = 9;
+                break;
+            case ROSEMARY:
+                daysToReachHarvestable = 6;
+                break;
+            case CHAMOMILE:
+                daysToReachHarvestable = 6;
+                break;
         }
     }
 
@@ -102,6 +114,18 @@ public class FlowerEntity extends Entity {
                 break;
             case ORCHID:
                 updateStageOrchid();
+                break;
+            case SAGE:
+                updateStageSage();
+                break;
+            case SAFFRON:
+                updateStageSaffron();
+                break;
+            case ROSEMARY:
+                updateStageRosemary();
+                break;
+            case CHAMOMILE:
+                updateStageChamomile();
                 break;
         }
 
@@ -174,6 +198,54 @@ public class FlowerEntity extends Entity {
         } else if ( (3 <= daysWatered) && (daysWatered < 6) ) {
             stage = Stage.TWO;
         } else if ( (6 <= daysWatered) && (daysWatered < daysToReachHarvestable) ) {
+            stage = Stage.THREE;
+        } else {
+            stage = Stage.HARVESTABLE;
+        }
+    }
+
+    private void updateStageSage() {
+        if (daysWatered < 3) {
+            stage = Stage.ONE;
+        } else if ( (3 <= daysWatered) && (daysWatered < 6) ) {
+            stage = Stage.TWO;
+        } else if ( (6 <= daysWatered) && (daysWatered < daysToReachHarvestable) ) {
+            stage = Stage.THREE;
+        } else {
+            stage = Stage.HARVESTABLE;
+        }
+    }
+
+    private void updateStageSaffron() {
+        if (daysWatered < 3) {
+            stage = Stage.ONE;
+        } else if ( (3 <= daysWatered) && (daysWatered < 6) ) {
+            stage = Stage.TWO;
+        } else if ( (6 <= daysWatered) && (daysWatered < daysToReachHarvestable) ) {
+            stage = Stage.THREE;
+        } else {
+            stage = Stage.HARVESTABLE;
+        }
+    }
+
+    private void updateStageRosemary() {
+        if (daysWatered < 2) {
+            stage = Stage.ONE;
+        } else if ( (2 <= daysWatered) && (daysWatered < 4) ) {
+            stage = Stage.TWO;
+        } else if ( (4 <= daysWatered) && (daysWatered < daysToReachHarvestable) ) {
+            stage = Stage.THREE;
+        } else {
+            stage = Stage.HARVESTABLE;
+        }
+    }
+
+    private void updateStageChamomile() {
+        if (daysWatered < 2) {
+            stage = Stage.ONE;
+        } else if ( (2 <= daysWatered) && (daysWatered < 4) ) {
+            stage = Stage.TWO;
+        } else if ( (4 <= daysWatered) && (daysWatered < daysToReachHarvestable) ) {
             stage = Stage.THREE;
         } else {
             stage = Stage.HARVESTABLE;

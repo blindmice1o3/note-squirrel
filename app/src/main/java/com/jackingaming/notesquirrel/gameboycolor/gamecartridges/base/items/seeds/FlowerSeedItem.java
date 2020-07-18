@@ -13,15 +13,34 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.t
 
 public class FlowerSeedItem extends Item {
 
-    public enum SeedType { GERANIUM, PRIMROSE, LAVENDER, ORCHID; }
+    public enum SeedType { GERANIUM, PRIMROSE, LAVENDER, ORCHID, SAGE, SAFFRON, ROSEMARY, CHAMOMILE; }
 
     private SeedType seedType;
+    private boolean isHerb;
 
     public FlowerSeedItem(GameCartridge gameCartridge, SeedType seedType) {
         super(gameCartridge);
 
         this.id = "Flower Seed";
         this.seedType = seedType;
+        initIsHerb();
+    }
+
+    private void initIsHerb() {
+        switch (seedType) {
+            case GERANIUM:
+            case PRIMROSE:
+            case LAVENDER:
+            case ORCHID:
+                isHerb = false;
+                break;
+            case SAGE:
+            case SAFFRON:
+            case ROSEMARY:
+            case CHAMOMILE:
+                isHerb = true;
+                break;
+        }
     }
 
     @Override
@@ -46,7 +65,12 @@ public class FlowerSeedItem extends Item {
 
     private Bitmap cropImageFlowerSeedItem(Resources resources) {
         Bitmap seedsShopSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm_seeds_shop);
-        Bitmap flowerSeedItem = Bitmap.createBitmap(seedsShopSpriteSheet, 156, 150, 16, 16);
+        Bitmap flowerSeedItem = null;
+        if (isHerb) {
+            flowerSeedItem = Bitmap.createBitmap(seedsShopSpriteSheet, 105, 150, 16, 16);
+        } else {
+            flowerSeedItem = Bitmap.createBitmap(seedsShopSpriteSheet, 156, 150, 16, 16);
+        }
 
         return flowerSeedItem;
     }

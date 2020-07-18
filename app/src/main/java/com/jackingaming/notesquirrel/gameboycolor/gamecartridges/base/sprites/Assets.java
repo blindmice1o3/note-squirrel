@@ -534,11 +534,23 @@ public class Assets {
     public static Bitmap cropFlowerEntity(Resources resources, FlowerEntity.Id id, FlowerEntity.Stage stage, boolean isWatered) {
         Log.d(MainActivity.DEBUG_TAG, "Assets.cropFlowerEntity(Resources, FlowerEntity.Id, FlowerEntity.Stage, boolean)");
 
-        //source file: "hm2_hothouse_plants1.png" (WATERED VERSION)
+        //source file: "hm2_hothouse_plants1.png" (WATERED VERSION) (HERBS)
         //source file: "hm2_hothouse_plants2.png" (DRY VERSION)
-        Bitmap hothousePlantsSpriteSheet = (isWatered) ?
-                (BitmapFactory.decodeResource(resources, R.drawable.hm2_hothouse_plants1)) :
-                (BitmapFactory.decodeResource(resources, R.drawable.hm2_hothouse_plants2));
+        Bitmap hothousePlantsSpriteSheet = null;
+        if (isWatered) {
+            hothousePlantsSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.hm2_hothouse_plants1);
+        } else {
+            hothousePlantsSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.hm2_hothouse_plants2);
+        }
+
+        if (stage == FlowerEntity.Stage.HARVESTABLE) {
+            if ( (id == FlowerEntity.Id.SAGE) ||
+                    (id == FlowerEntity.Id.SAFFRON) ||
+                    (id == FlowerEntity.Id.ROSEMARY) ||
+                    (id == FlowerEntity.Id.CHAMOMILE) ) {
+                hothousePlantsSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.hm2_hothouse_plants1);
+            }
+        }
 
         Bitmap flowerEntity = null;
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -656,6 +668,122 @@ public class Assets {
                         break;
                     case HARVESTABLE:
                         flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 56, 48, 16, 16);
+                        break;
+                }
+                break;
+            case SAGE:
+                //LEAFY StemSystem
+                switch (stage) {
+                    case ONE:
+                        if (isWatered) {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 56, 48, 16, 16);
+                        } else {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 152, 112, 16, 16);
+                        }
+                        break;
+                    case TWO:
+                        if (isWatered) {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 136, 112, 16, 16);
+                        } else {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 8, 48, 16, 16);
+                        }
+                        break;
+                    case THREE:
+                        if (isWatered) {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 152, 112, 16, 16);
+                        } else {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 40, 48, 16, 16);
+                        }
+                        break;
+                    case HARVESTABLE:
+                        flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 104, 112, 16, 16);
+                        break;
+                }
+                break;
+            case SAFFRON:
+                //BLADE StemSystem
+                switch (stage) {
+                    case ONE:
+                        if (isWatered) {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 24, 48, 16, 16);
+                        } else {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 104, 112, 16, 16);
+                        }
+                        break;
+                    case TWO:
+                        if (isWatered) {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 136, 48, 16, 16);
+                        } else {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 104, 48, 16, 16);
+                        }
+                        break;
+                    case THREE:
+                        if (isWatered) {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 152, 48, 16, 16);
+                        } else {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 120, 48, 16, 16);
+                        }
+                        break;
+                    case HARVESTABLE:
+                        flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 120, 48, 16, 16);
+                        break;
+                }
+                break;
+            case ROSEMARY:
+                //BLADE StemSystem
+                switch (stage) {
+                    case ONE:
+                        if (isWatered) {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 24, 48, 16, 16);
+                        } else {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 104, 112, 16, 16);
+                        }
+                        break;
+                    case TWO:
+                        if (isWatered) {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 136, 48, 16, 16);
+                        } else {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 104, 48, 16, 16);
+                        }
+                        break;
+                    case THREE:
+                        if (isWatered) {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 152, 48, 16, 16);
+                        } else {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 120, 48, 16, 16);
+                        }
+                        break;
+                    case HARVESTABLE:
+                        flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 8, 48, 16, 16);
+                        break;
+                }
+                break;
+            case CHAMOMILE:
+                //GRASSY StemSystem
+                switch (stage) {
+                    case ONE:
+                        if (isWatered) {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 40, 48, 16, 16);
+                        } else {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 136, 112, 16, 16);
+                        }
+                        break;
+                    case TWO:
+                        if (isWatered) {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 40, 112, 16, 16);
+                        } else {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 8, 112, 16, 16);
+                        }
+                        break;
+                    case THREE:
+                        if (isWatered) {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 56, 112, 16, 16);
+                        } else {
+                            flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 40, 112, 16, 16);
+                        }
+                        break;
+                    case HARVESTABLE:
+                        flowerEntity = Bitmap.createBitmap(hothousePlantsSpriteSheet, 104, 48, 16, 16);
                         break;
                 }
                 break;
