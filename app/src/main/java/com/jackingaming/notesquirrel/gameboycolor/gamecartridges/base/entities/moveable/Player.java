@@ -21,6 +21,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tool
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.FishingPoleItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.HammerItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.seeds.CropSeedItem;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.ScissorsItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.ShovelItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.ScytheItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.WateringCanItem;
@@ -125,14 +126,7 @@ public class Player extends Creature {
 
         /////////////////////////////////////////////////////////////////////////////////////////
         inventory = new ArrayList<Item>();
-        inventory.add(new GlovedHandsItem(gameCartridge));
-        inventory.add(new BugNetItem(gameCartridge));
-        inventory.add(new FishingPoleItem(gameCartridge));
-        inventory.add(new WateringCanItem(gameCartridge));
-        inventory.add(new ShovelItem(gameCartridge));
-        inventory.add(new HammerItem(gameCartridge));
-        inventory.add(new ScytheItem(gameCartridge));
-        inventory.add(new AxeItem(gameCartridge));
+        //INDOORS_CROP
         inventory.add(new FlowerPotItem(gameCartridge));
         inventory.add(new FlowerSeedItem(gameCartridge, FlowerSeedItem.SeedType.GERANIUM));
         inventory.add(new FlowerSeedItem(gameCartridge, FlowerSeedItem.SeedType.PRIMROSE));
@@ -142,6 +136,11 @@ public class Player extends Creature {
         inventory.add(new FlowerSeedItem(gameCartridge, FlowerSeedItem.SeedType.SAFFRON));
         inventory.add(new FlowerSeedItem(gameCartridge, FlowerSeedItem.SeedType.ROSEMARY));
         inventory.add(new FlowerSeedItem(gameCartridge, FlowerSeedItem.SeedType.CHAMOMILE));
+        inventory.add(new WateringCanItem(gameCartridge));
+        inventory.add(new ScissorsItem(gameCartridge));
+        //OUTDOORS_CROP
+        inventory.add(new ShovelItem(gameCartridge));
+        inventory.add(new ScytheItem(gameCartridge));
         inventory.add(new CropSeedItem(gameCartridge, CropSeedItem.SeedType.GRASS));
         inventory.add(new CropSeedItem(gameCartridge, CropSeedItem.SeedType.TURNIP));
         inventory.add(new CropSeedItem(gameCartridge, CropSeedItem.SeedType.POTATO));
@@ -151,6 +150,13 @@ public class Player extends Creature {
         inventory.add(new CropSeedItem(gameCartridge, CropSeedItem.SeedType.PEANUT));
         inventory.add(new CropSeedItem(gameCartridge, CropSeedItem.SeedType.CARROT));
         inventory.add(new CropSeedItem(gameCartridge, CropSeedItem.SeedType.BROCCOLI));
+        inventory.add(new WateringCanItem(gameCartridge));
+        inventory.add(new GlovedHandsItem(gameCartridge));
+        //UNIMPLEMENTED
+        inventory.add(new AxeItem(gameCartridge));
+        inventory.add(new HammerItem(gameCartridge));
+        inventory.add(new BugNetItem(gameCartridge));
+        inventory.add(new FishingPoleItem(gameCartridge));
         /////////////////////////////////////////////////////////////////////////////////////////
 
         if (holdable != null) {

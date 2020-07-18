@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.FlowerEntity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
@@ -17,7 +18,8 @@ import java.io.Serializable;
 public class Product
         implements Holdable, Sellable, Serializable {
 
-    public enum Id { TURNIP, POTATO, TOMATO, CORN, EGGPLANT, PEANUT, CARROT, BROCCOLI; }
+    public enum Id { TURNIP, POTATO, TOMATO, CORN, EGGPLANT, PEANUT, CARROT, BROCCOLI,
+        GERANIUM, PRIMROSE, LAVENDER, ORCHID, SAGE, SAFFRON, ROSEMARY, CHAMOMILE; }
 
     private Product.Id id;
     private boolean isWhole;
@@ -96,11 +98,72 @@ public class Product
             case BROCCOLI:
                 price = 100;
                 break;
+            case GERANIUM:
+                price = 250;
+                break;
+            case PRIMROSE:
+                price = 350;
+                break;
+            case LAVENDER:
+                price = 250;
+                break;
+            case ORCHID:
+                price = 500;
+                break;
+            case SAGE:
+                price = 200;
+                break;
+            case SAFFRON:
+                price = 200;
+                break;
+            case ROSEMARY:
+                price = 150;
+                break;
+            case CHAMOMILE:
+                price = 150;
+                break;
         }
     }
 
     public void initImage(Resources resources) {
-        image = Assets.cropCropProduct(resources, id, isWhole);
+        switch (id) {
+            //OUTDOORS
+            case TURNIP:
+            case POTATO:
+            case TOMATO:
+            case CORN:
+            case EGGPLANT:
+            case PEANUT:
+            case CARROT:
+            case BROCCOLI:
+                image = Assets.cropCropProduct(resources, id, isWhole);
+                break;
+            //INDOORS
+            case GERANIUM:
+                image = Assets.cropFlowerEntity(resources, FlowerEntity.Id.GERANIUM, FlowerEntity.Stage.HARVESTABLE, false);
+                break;
+            case PRIMROSE:
+                image = Assets.cropFlowerEntity(resources, FlowerEntity.Id.PRIMROSE, FlowerEntity.Stage.HARVESTABLE, false);
+                break;
+            case LAVENDER:
+                image = Assets.cropFlowerEntity(resources, FlowerEntity.Id.LAVENDER, FlowerEntity.Stage.HARVESTABLE, false);
+                break;
+            case ORCHID:
+                image = Assets.cropFlowerEntity(resources, FlowerEntity.Id.ORCHID, FlowerEntity.Stage.HARVESTABLE, false);
+                break;
+            case SAGE:
+                image = Assets.cropFlowerEntity(resources, FlowerEntity.Id.SAGE, FlowerEntity.Stage.HARVESTABLE, false);
+                break;
+            case SAFFRON:
+                image = Assets.cropFlowerEntity(resources, FlowerEntity.Id.SAFFRON, FlowerEntity.Stage.HARVESTABLE, false);
+                break;
+            case ROSEMARY:
+                image = Assets.cropFlowerEntity(resources, FlowerEntity.Id.ROSEMARY, FlowerEntity.Stage.HARVESTABLE, false);
+                break;
+            case CHAMOMILE:
+                image = Assets.cropFlowerEntity(resources, FlowerEntity.Id.CHAMOMILE, FlowerEntity.Stage.HARVESTABLE, false);
+                break;
+        }
     }
 
     @Override
@@ -128,7 +191,7 @@ public class Product
         if (tile instanceof ShippingBinTile) {
             ShippingBinTile shippingBinTile = (ShippingBinTile) tile;
 
-            shippingBinTile.addSellable(this);
+            putInShippingBin(shippingBinTile);
             return true;
         } else if (tile instanceof GrowableGroundTile) {
             GrowableGroundTile growableGroundTile = (GrowableGroundTile) tile;
@@ -157,7 +220,7 @@ public class Product
 
     @Override
     public void putInShippingBin(ShippingBinTile shippingBin) {
-
+        shippingBin.addSellable(this);
     }
 
 }
