@@ -1,5 +1,8 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors;
 
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -8,6 +11,7 @@ import android.graphics.Typeface;
 import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
+import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.moveable.Player;
@@ -21,6 +25,7 @@ public class SceneSeedsShop extends Scene {
     private float widthPixelToViewportRatio;
     private float heightPixelToViewportRatio;
 
+    transient private Bitmap cursorImage;
     transient private Paint paintFont;
     private int x0, y0, x1, y1;
 
@@ -45,6 +50,8 @@ public class SceneSeedsShop extends Scene {
         y0 = (int) (93 * heightPixelToViewportRatio);
         x1 = (int) (160 * widthPixelToViewportRatio);
         y1 = (int) ((93 + 67) * heightPixelToViewportRatio);
+
+        cursorImage = cropCursorImage(gameCartridge.getContext().getResources());
 
         //Paint (FONT)
         paintFont = new Paint();
@@ -124,21 +131,42 @@ public class SceneSeedsShop extends Scene {
         //text-area (background panel)
         canvas.drawRect(x0, y0, x1, y1, paintFont);
 
+
+
         //TILES (currently every tile's image == null)
         tileMap.render(canvas);
+
+
 
         //ROW TO DISPLAY SHOP'S MENU OPTION (TALK, ITEM1, ITEM2, ITEM3, ITEM4, SPILL-OVER-ARROW)
         int x0Wares = (int)((1 * tileMap.getTileWidth()) * widthPixelToViewportRatio);
         int y0Wares = (int)((4 * tileMap.getTileHeight()) * heightPixelToViewportRatio);
         int x1Wares = x0Wares + (int)((1 * tileMap.getTileWidth()) * widthPixelToViewportRatio);
         int y1Wares = y0Wares + (int)((1 * tileMap.getTileHeight()) * heightPixelToViewportRatio);
+        //CURSOR FOR MENU-ITEM1
+        Rect rectOfCursorImage = new Rect(0, 0, cursorImage.getWidth(), cursorImage.getHeight());
+        Rect rectOfCursorImageOnScreen = new Rect(
+                (int)(x0Wares - (4 * widthPixelToViewportRatio)),
+                (int)(y0Wares - (4 * heightPixelToViewportRatio)),
+                (int)(x1Wares + (4 * widthPixelToViewportRatio)),
+                (int)(y1Wares + (4 * heightPixelToViewportRatio)) );
+        canvas.drawBitmap(cursorImage, rectOfCursorImage, rectOfCursorImageOnScreen, null);
+        //MENU-ITEM1
         canvas.drawRect(x0Wares, y0Wares, x1Wares, y1Wares, paintFont);
+
+
 
         //ENTITIES
 //        entityManager.render(canvas);
 
         //PRODUCTS
         productManager.render(canvas);
+    }
+
+    private Bitmap cropCursorImage(Resources resources) {
+        Bitmap seedsShopSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm_seeds_shop);
+        Bitmap cursorImage = Bitmap.createBitmap(seedsShopSpriteSheet, 5, 150, 24, 24);
+        return cursorImage;
     }
 
 }
