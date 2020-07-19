@@ -139,18 +139,24 @@ public class SceneSeedsShop extends Scene {
 
 
         //ROW TO DISPLAY SHOP'S MENU OPTION (TALK, ITEM1, ITEM2, ITEM3, ITEM4, SPILL-OVER-ARROW)
-        int x0Wares = (int)((1 * tileMap.getTileWidth()) * widthPixelToViewportRatio);
-        int y0Wares = (int)((4 * tileMap.getTileHeight()) * heightPixelToViewportRatio);
+        int x0Wares = (int)((0.5f * tileMap.getTileWidth()) * widthPixelToViewportRatio);
+        int y0Wares = (int)(((4 * tileMap.getTileHeight()) * heightPixelToViewportRatio) + (1 * heightPixelToViewportRatio));
         int x1Wares = x0Wares + (int)((1 * tileMap.getTileWidth()) * widthPixelToViewportRatio);
         int y1Wares = y0Wares + (int)((1 * tileMap.getTileHeight()) * heightPixelToViewportRatio);
         //CURSOR FOR MENU-ITEM1
-        Rect rectOfCursorImage = new Rect(0, 0, cursorImage.getWidth(), cursorImage.getHeight());
-        Rect rectOfCursorImageOnScreen = new Rect(
-                (int)(x0Wares - (4 * widthPixelToViewportRatio)),
-                (int)(y0Wares - (4 * heightPixelToViewportRatio)),
-                (int)(x1Wares + (4 * widthPixelToViewportRatio)),
-                (int)(y1Wares + (4 * heightPixelToViewportRatio)) );
-        canvas.drawBitmap(cursorImage, rectOfCursorImage, rectOfCursorImageOnScreen, null);
+        int x0Current = (int)(x0Wares - (4 * widthPixelToViewportRatio));
+        int x1Current = (int)(x1Wares + (4 * widthPixelToViewportRatio));
+        for (int i = 0; i < 5; i++) {
+            Rect rectOfCursorImage = new Rect(0, 0, cursorImage.getWidth(), cursorImage.getHeight());
+            Rect rectOfCursorImageOnScreen = new Rect(
+                    x0Current,
+                    (int)(y0Wares - (4 * heightPixelToViewportRatio)),
+                    x1Current,
+                    (int)(y1Wares + (4 * heightPixelToViewportRatio)) );
+            canvas.drawBitmap(cursorImage, rectOfCursorImage, rectOfCursorImageOnScreen, null);
+            x0Current += (x1Wares - x0Wares + (8 * widthPixelToViewportRatio) + (4 * widthPixelToViewportRatio));
+            x1Current += (x1Wares - x0Wares + (8 * widthPixelToViewportRatio) + (4 * widthPixelToViewportRatio));
+        }
         //MENU-ITEM1
         canvas.drawRect(x0Wares, y0Wares, x1Wares, y1Wares, paintFont);
 
