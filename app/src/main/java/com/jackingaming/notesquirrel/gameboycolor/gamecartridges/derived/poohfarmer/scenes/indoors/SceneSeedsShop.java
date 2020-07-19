@@ -75,6 +75,18 @@ public class SceneSeedsShop extends Scene {
     }
 
     @Override
+    public void getInputViewport() {
+        //don't call super's getInputViewport()
+        //TODO:
+    }
+
+    @Override
+    public void getInputDirectionalPad() {
+        //don't call super's getInputDirectionalPad()
+        //TODO:
+    }
+
+    @Override
     public void getInputButtonPad() {
         //don't call super's getInputButtonPad()
         //a button
@@ -103,7 +115,7 @@ public class SceneSeedsShop extends Scene {
     @Override
     public void render(Canvas canvas) {
         //don't call super's render(Canvas)
-        //BACKGROUND
+        //BACKGROUND IMAGE
         Rect rectOfClip = gameCamera.getRectOfClip();
         Rect rectOfViewport = gameCamera.getRectOfViewport();
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -112,8 +124,15 @@ public class SceneSeedsShop extends Scene {
         //text-area (background panel)
         canvas.drawRect(x0, y0, x1, y1, paintFont);
 
-        //TILES
+        //TILES (currently every tile's image == null)
         tileMap.render(canvas);
+
+        //ROW TO DISPLAY SHOP'S MENU OPTION (TALK, ITEM1, ITEM2, ITEM3, ITEM4, SPILL-OVER-ARROW)
+        int x0Wares = (int)((1 * tileMap.getTileWidth()) * widthPixelToViewportRatio);
+        int y0Wares = (int)((4 * tileMap.getTileHeight()) * heightPixelToViewportRatio);
+        int x1Wares = x0Wares + (int)((1 * tileMap.getTileWidth()) * widthPixelToViewportRatio);
+        int y1Wares = y0Wares + (int)((1 * tileMap.getTileHeight()) * heightPixelToViewportRatio);
+        canvas.drawRect(x0Wares, y0Wares, x1Wares, y1Wares, paintFont);
 
         //ENTITIES
 //        entityManager.render(canvas);
