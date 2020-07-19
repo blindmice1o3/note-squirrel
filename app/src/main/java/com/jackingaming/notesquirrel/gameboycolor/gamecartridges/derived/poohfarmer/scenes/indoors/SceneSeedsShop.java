@@ -25,6 +25,7 @@ public class SceneSeedsShop extends Scene {
     private float widthPixelToViewportRatio;
     private float heightPixelToViewportRatio;
 
+    private int indexMenu;
     transient private Bitmap cursorImage;
     transient private Paint paintFont;
     private int x0, y0, x1, y1;
@@ -34,6 +35,8 @@ public class SceneSeedsShop extends Scene {
 
         widthClipInTile = 10;
         heightClipInTile = 10;
+
+        indexMenu = 0;
     }
 
     @Override
@@ -85,12 +88,38 @@ public class SceneSeedsShop extends Scene {
     public void getInputViewport() {
         //don't call super's getInputViewport()
         //TODO:
+        if (inputManager.isJustPressedViewport()) {
+            if (inputManager.isRightViewport()) {
+                indexMenu++;
+                if (indexMenu >= 5) {
+                    indexMenu = 0;
+                }
+            } else if (inputManager.isLeftViewport()) {
+                indexMenu--;
+                if (indexMenu < 0) {
+                    indexMenu = 4;
+                }
+            }
+        }
     }
 
     @Override
     public void getInputDirectionalPad() {
         //don't call super's getInputDirectionalPad()
         //TODO:
+        if (inputManager.isJustPressedDirectionalPad()) {
+            if (inputManager.isRightDirectionalPad()) {
+                indexMenu++;
+                if (indexMenu >= 5) {
+                    indexMenu = 0;
+                }
+            } else if (inputManager.isLeftDirectionalPad()) {
+                indexMenu--;
+                if (indexMenu < 0) {
+                    indexMenu = 4;
+                }
+            }
+        }
     }
 
     @Override
@@ -144,21 +173,30 @@ public class SceneSeedsShop extends Scene {
         int x1Wares = x0Wares + (int)((1 * tileMap.getTileWidth()) * widthPixelToViewportRatio);
         int y1Wares = y0Wares + (int)((1 * tileMap.getTileHeight()) * heightPixelToViewportRatio);
         //CURSOR FOR MENU-ITEM1
-        int x0Current = (int)(x0Wares - (4 * widthPixelToViewportRatio));
-        int x1Current = (int)(x1Wares + (4 * widthPixelToViewportRatio));
+        int x0Cursor = (int)(x0Wares - (4 * widthPixelToViewportRatio));
+        int x1Cursor = (int)(x1Wares + (4 * widthPixelToViewportRatio));
         for (int i = 0; i < 5; i++) {
-            Rect rectOfCursorImage = new Rect(0, 0, cursorImage.getWidth(), cursorImage.getHeight());
-            Rect rectOfCursorImageOnScreen = new Rect(
-                    x0Current,
-                    (int)(y0Wares - (4 * heightPixelToViewportRatio)),
-                    x1Current,
-                    (int)(y1Wares + (4 * heightPixelToViewportRatio)) );
-            canvas.drawBitmap(cursorImage, rectOfCursorImage, rectOfCursorImageOnScreen, null);
-            x0Current += (x1Wares - x0Wares + (8 * widthPixelToViewportRatio) + (4 * widthPixelToViewportRatio));
-            x1Current += (x1Wares - x0Wares + (8 * widthPixelToViewportRatio) + (4 * widthPixelToViewportRatio));
+            if (i == indexMenu) {
+                Rect rectOfCursorImage = new Rect(0, 0, cursorImage.getWidth(), cursorImage.getHeight());
+                Rect rectOfCursorImageOnScreen = new Rect(
+                        x0Cursor,
+                        (int) (y0Wares - (4 * heightPixelToViewportRatio)),
+                        x1Cursor,
+                        (int) (y1Wares + (4 * heightPixelToViewportRatio)));
+                //CURSOR////////////////////////////////////////////////////////////////////////////
+                canvas.drawBitmap(cursorImage, rectOfCursorImage, rectOfCursorImageOnScreen, null);
+                ////////////////////////////////////////////////////////////////////////////////////
+            }
+            //MENU-ITEM////////////////////////////////////////////////////
+            canvas.drawRect(x0Wares, y0Wares, x1Wares, y1Wares, paintFont);
+            ///////////////////////////////////////////////////////////////
+
+            //INCREMENT TO NEXT MENU-ITEM
+            x0Cursor += (int)(((1 * tileMap.getTileWidth()) + 12) * widthPixelToViewportRatio);
+            x1Cursor += (int)(((1 * tileMap.getTileWidth()) + 12) * widthPixelToViewportRatio);
+            x0Wares += (int)(((1 * tileMap.getTileWidth()) + 12) * widthPixelToViewportRatio);
+            x1Wares += (int)(((1 * tileMap.getTileWidth()) + 12) * widthPixelToViewportRatio);
         }
-        //MENU-ITEM1
-        canvas.drawRect(x0Wares, y0Wares, x1Wares, y1Wares, paintFont);
 
 
 
