@@ -23,8 +23,11 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tool
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.TextboxState;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.indoors.TileMapSeedsShop;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -122,16 +125,18 @@ public class SceneSeedsShop extends Scene {
     public void init(GameCartridge gameCartridge, Player player, GameCamera gameCamera, SceneManager sceneManager) {
         super.init(gameCartridge, player, gameCamera, sceneManager);
 
+        int widthClipInPixel = 10 * tileMap.getTileWidth();
+        int heightClipInPixel = 10 * tileMap.getTileHeight();
         widthPixelToViewportRatio = ((float) gameCartridge.getWidthViewport()) /
-                gameCamera.getWidthClipInPixel();
+                widthClipInPixel;
         heightPixelToViewportRatio = ((float) gameCartridge.getHeightViewport()) /
-                gameCamera.getHeightClipInPixel();
+                heightClipInPixel;
 
         //text-area bounds
         x0 = 0;
-        y0 = (int) (93 * heightPixelToViewportRatio);
+        y0 = (int) (104 * heightPixelToViewportRatio);
         x1 = (int) (160 * widthPixelToViewportRatio);
-        y1 = (int) ((93 + 67) * heightPixelToViewportRatio);
+        y1 = (int) ((104 + 56) * heightPixelToViewportRatio);
 
         cursorImage = cropCursorImage(gameCartridge.getContext().getResources());
 
@@ -142,6 +147,10 @@ public class SceneSeedsShop extends Scene {
         paintFont.setAlpha(230);
         paintFont.setTextSize(40f);
         paintFont.setTypeface(Typeface.SANS_SERIF);
+
+        for (MenuItemHolder menuItemHolder : menuItemHolders) {
+            menuItemHolder.init(gameCartridge);
+        }
     }
 
     @Override
@@ -250,8 +259,8 @@ public class SceneSeedsShop extends Scene {
 
 
         //ROW TO DISPLAY SHOP'S MENU OPTION (TALK, ITEM1, ITEM2, ITEM3, ITEM4, SPILL-OVER-ARROW)
-        int x0Wares = (int)((0.5f * tileMap.getTileWidth()) * widthPixelToViewportRatio);
-        int y0Wares = (int)(((4 * tileMap.getTileHeight()) * heightPixelToViewportRatio) + (1 * heightPixelToViewportRatio));
+        int x0Wares = (int)((1 * tileMap.getTileWidth()) * widthPixelToViewportRatio);
+        int y0Wares = (int)(((4.5f * tileMap.getTileHeight()) * heightPixelToViewportRatio));
         int x1Wares = x0Wares + (int)((1 * tileMap.getTileWidth()) * widthPixelToViewportRatio);
         int y1Wares = y0Wares + (int)((1 * tileMap.getTileHeight()) * heightPixelToViewportRatio);
         //CURSOR FOR MENU-ITEM1
@@ -302,18 +311,23 @@ public class SceneSeedsShop extends Scene {
 
 }
 
-class MenuItemHolder {
+class MenuItemHolder
+        implements Serializable {
     public enum Id { TALK, SEED_CROP1, SEED_CROP2, SEED_GRASS, SEED_FLOWER1, SEED_FLOWER2,
         SEED_HERB1, SEED_HERB2, EXIT, SPILL_OVER; }
     //public enum Id { TALK, BUY, CONTINUE, EXIT; }
-    private GameCartridge gameCartridge;
+    transient private GameCartridge gameCartridge;
     private MenuItemHolder.Id id;
     private boolean isEnabled;
-    private Bitmap image;
+    transient private Bitmap image;
     public MenuItemHolder(GameCartridge gameCartridge, MenuItemHolder.Id id, boolean isEnabled) {
         this.gameCartridge = gameCartridge;
         this.id = id;
         this.isEnabled = isEnabled;
+        initImage(gameCartridge.getContext().getResources());
+    }
+    public void init(GameCartridge gameCartridge) {
+        this.gameCartridge = gameCartridge;
         initImage(gameCartridge.getContext().getResources());
     }
     public void execute() {
@@ -321,6 +335,8 @@ class MenuItemHolder {
             case TALK:
                 Log.d(MainActivity.DEBUG_TAG, "MenuItemHolder.execute(MenuItemHolder.Id) TALK");
                 //TODO: create a TextboxState.Textbox,  size and position it, active its line-in animations.
+                Object[] args = { String.format("Hello, %s. What seeds are you buying today?", gameCartridge.getPlayer().getName()) };
+                gameCartridge.getStateManager().push(State.Id.TEXTBOX, args);
                 break;
             case SEED_CROP1:
                 Log.d(MainActivity.DEBUG_TAG, "MenuItemHolder.execute(MenuItemHolder.Id) SEED_CROP1");

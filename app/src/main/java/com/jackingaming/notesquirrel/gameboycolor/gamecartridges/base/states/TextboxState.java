@@ -46,7 +46,7 @@ public class TextboxState
         initTextbox();
     }
 
-    private void initTextbox() {
+    public void initTextbox() {
         int x0Background = 0;
         int y0Background = (int)((2/3f) * heightViewport);
         int x1Background = widthViewport;
