@@ -335,7 +335,15 @@ class MenuItemHolder
             case TALK:
                 Log.d(MainActivity.DEBUG_TAG, "MenuItemHolder.execute(MenuItemHolder.Id) TALK");
                 //TODO: create a TextboxState.Textbox,  size and position it, active its line-in animations.
-                Object[] args = { String.format("Hello, %s. What seeds are you buying today?", gameCartridge.getPlayer().getName()) };
+                Object[] args = new Object[10];
+                args[0] = String.format("Hello, %s. What seeds are you buying today?", gameCartridge.getPlayer().getName());
+                args[1] = Integer.valueOf(0);
+                float heightPixelToViewportRatio = ((float) gameCartridge.getHeightViewport()) /
+                        gameCartridge.getGameCamera().getHeightClipInPixel();
+                args[2] = Integer.valueOf((int)(104 * heightPixelToViewportRatio));
+                args[3] = Integer.valueOf(gameCartridge.getWidthViewport());
+                args[4] = Integer.valueOf(gameCartridge.getHeightViewport());
+                args[5] = Integer.valueOf(10);
                 gameCartridge.getStateManager().push(State.Id.TEXTBOX, args);
                 break;
             case SEED_CROP1:

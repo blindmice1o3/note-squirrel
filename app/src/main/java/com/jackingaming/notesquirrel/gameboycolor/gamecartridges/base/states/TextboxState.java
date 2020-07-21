@@ -43,16 +43,16 @@ public class TextboxState
 
         inputManager = gameCartridge.getInputManager();
 
-        initTextbox();
-    }
-
-    public void initTextbox() {
         int x0Background = 0;
         int y0Background = (int)((2/3f) * heightViewport);
         int x1Background = widthViewport;
         int y1Background = heightViewport;
         int margin = 10;
 
+        initTextbox(x0Background, y0Background, x1Background, y1Background, margin);
+    }
+
+    public void initTextbox(int x0Background, int y0Background, int x1Background, int y1Background, int margin) {
         Paint paintBackground = new Paint();
         paintBackground.setAntiAlias(true);
         paintBackground.setColor(Color.BLUE);
@@ -171,6 +171,24 @@ public class TextboxState
         if (args != null) {
             if (args[0] instanceof String) {
                 textbox.setTextFull( ((String)args[0]) );
+            }
+            if ( (args[1] != null) && (args[2] != null) && (args[3] != null) &&
+                    (args[4] != null) && (args[5] != null) ) {
+                if (args[1] instanceof Integer) {
+                    textbox.setX0Background( ((Integer)args[1]) );
+                }
+                if (args[2] instanceof Integer) {
+                    textbox.setY0Background( ((Integer)args[2]) );
+                }
+                if (args[3] instanceof Integer) {
+                    textbox.setX1Background( ((Integer)args[3]) );
+                }
+                if (args[4] instanceof Integer) {
+                    textbox.setY1Background( ((Integer)args[4]) );
+                }
+                if (args[5] instanceof Integer) {
+                    textbox.setMargin( ((Integer)args[5]) );
+                }
             }
         }
 
@@ -426,6 +444,26 @@ public class TextboxState
 
         public int getIndexPageCurrent() {
             return indexPageCurrent;
+        }
+
+        public void setX0Background(int x0Background) {
+            this.x0Background = x0Background;
+        }
+
+        public void setY0Background(int y0Background) {
+            this.y0Background = y0Background;
+        }
+
+        public void setX1Background(int x1Background) {
+            this.x1Background = x1Background;
+        }
+
+        public void setY1Background(int y1Background) {
+            this.y1Background = y1Background;
+        }
+
+        public void setMargin(int margin) {
+            this.margin = margin;
         }
 
     }
