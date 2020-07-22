@@ -103,27 +103,6 @@ public class Player extends Creature {
         fodderQuantity = 0;
         //////////////////////
 
-        init(gameCartridge);
-    }
-
-    public ArrayList<Item> getInventory() {
-        return inventory;
-    }
-
-    @Override
-    public void init(GameCartridge gameCartridge) {
-        Log.d(MainActivity.DEBUG_TAG, "Player.init(GameCartridge)");
-        this.gameCartridge = gameCartridge;
-
-        gameCamera = gameCartridge.getGameCamera();
-        widthPixelToViewportRatio = ((float) gameCartridge.getWidthViewport()) /
-                gameCamera.getWidthClipInPixel();
-        heightPixelToViewportRatio = ((float) gameCartridge.getHeightViewport()) /
-                gameCamera.getHeightClipInPixel();
-
-        initAnimation();
-        initBounds();
-
         /////////////////////////////////////////////////////////////////////////////////////////
         inventory = new ArrayList<Item>();
         //INDOORS_CROP
@@ -159,8 +138,37 @@ public class Player extends Creature {
         inventory.add(new FishingPoleItem(gameCartridge));
         /////////////////////////////////////////////////////////////////////////////////////////
 
+        init(gameCartridge);
+    }
+
+    public ArrayList<Item> getInventory() {
+        return inventory;
+    }
+
+    @Override
+    public void init(GameCartridge gameCartridge) {
+        Log.d(MainActivity.DEBUG_TAG, "Player.init(GameCartridge)");
+        this.gameCartridge = gameCartridge;
+
+        gameCamera = gameCartridge.getGameCamera();
+        widthPixelToViewportRatio = ((float) gameCartridge.getWidthViewport()) /
+                gameCamera.getWidthClipInPixel();
+        heightPixelToViewportRatio = ((float) gameCartridge.getHeightViewport()) /
+                gameCamera.getHeightClipInPixel();
+
+        initAnimation();
+        initBounds();
+
+        initInventory();
+
         if (holdable != null) {
             holdable.init(gameCartridge);
+        }
+    }
+
+    private void initInventory() {
+        for (Item item : inventory) {
+            item.init(gameCartridge);
         }
     }
 

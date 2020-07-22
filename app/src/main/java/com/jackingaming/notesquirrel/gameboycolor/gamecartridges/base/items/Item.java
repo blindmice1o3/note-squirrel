@@ -18,7 +18,7 @@ public abstract class Item
     protected String id;
 
     public Item(GameCartridge gameCartridge) {
-        init(gameCartridge);
+        this.gameCartridge = gameCartridge;
     }
 
     public void init(GameCartridge gameCartridge) {

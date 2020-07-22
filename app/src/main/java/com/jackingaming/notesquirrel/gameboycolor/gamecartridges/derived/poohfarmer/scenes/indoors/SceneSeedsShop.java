@@ -312,6 +312,11 @@ public class SceneSeedsShop extends Scene {
 
         cursorImage = cropCursorImage(gameCartridge.getContext().getResources());
 
+        //INVENTORY
+        for (Item item : inventory) {
+            item.init(gameCartridge);
+        }
+
         //Paint (BACKGROUND)
         paintBackground = new Paint();
         paintBackground.setAntiAlias(true);
@@ -573,57 +578,8 @@ class MenuItemHolder
                 image = Bitmap.createBitmap(seedsShopSpriteSheet, 9, 131, 16, 16);
                 break;
             case BUY:
-//                image = Bitmap.createBitmap(seedsShopSpriteSheet, 9, 154, 16, 16);
+                //intentionally blank.
                 break;
-//            case SEED_CROP1:
-//                if (isEnabled) {
-//                    image = Bitmap.createBitmap(seedsShopSpriteSheet, 33, 148, 16, 16);
-//                } else {
-//                    image = Bitmap.createBitmap(seedsShopSpriteSheet, 33, 132, 16, 16);
-//                }
-//                break;
-//            case SEED_CROP2:
-//                if (isEnabled) {
-//                    image = Bitmap.createBitmap(seedsShopSpriteSheet, 57, 148, 16, 16);
-//                } else {
-//                    image = Bitmap.createBitmap(seedsShopSpriteSheet, 57, 132, 16, 16);
-//                }
-//                break;
-//            case SEED_GRASS:
-//                if (isEnabled) {
-//                    image = Bitmap.createBitmap(seedsShopSpriteSheet, 81, 148, 16, 16);
-//                } else {
-//                    image = Bitmap.createBitmap(seedsShopSpriteSheet, 81, 132, 16, 16);
-//                }
-//                break;
-//            case SEED_HERB1:
-//                if (isEnabled) {
-//                    image = Bitmap.createBitmap(seedsShopSpriteSheet, 105, 149, 16, 16);
-//                } else {
-//                    image = Bitmap.createBitmap(seedsShopSpriteSheet, 105, 131, 16, 16);
-//                }
-//                break;
-//            case SEED_HERB2:
-//                if (isEnabled) {
-//                    image = Bitmap.createBitmap(seedsShopSpriteSheet, 133, 149, 16, 16);
-//                } else {
-//                    image = Bitmap.createBitmap(seedsShopSpriteSheet, 133, 131, 16, 16);
-//                }
-//                break;
-//            case SEED_FLOWER1:
-//                if (isEnabled) {
-//                    image = Bitmap.createBitmap(seedsShopSpriteSheet, 156, 150, 16, 16);
-//                } else {
-//                    image = Bitmap.createBitmap(seedsShopSpriteSheet, 156, 132, 16, 16);
-//                }
-//                break;
-//            case SEED_FLOWER2:
-//                if (isEnabled) {
-//                    image = Bitmap.createBitmap(seedsShopSpriteSheet, 180, 150, 16, 16);
-//                } else {
-//                    image = Bitmap.createBitmap(seedsShopSpriteSheet, 180, 132, 16, 16);
-//                }
-//                break;
             case EMPTY:
                 image = Bitmap.createBitmap(seedsShopSpriteSheet, 9, 154, 16, 16);
                 break;

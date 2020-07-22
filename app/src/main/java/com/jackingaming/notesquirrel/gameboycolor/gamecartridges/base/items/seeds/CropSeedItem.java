@@ -27,7 +27,34 @@ public class CropSeedItem extends Item {
 
     @Override
     public void initImage(Resources resources) {
-        image = cropImageCropSeedItem(resources);
+        Bitmap seedsShopSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm_seeds_shop);
+        //TODO: not enough sprites (using "disabled" version AND some are being re-used).
+        switch (seedType) {
+            case GRASS:
+                image = Bitmap.createBitmap(seedsShopSpriteSheet, 81, 148, 16, 16);
+                break;
+            case TURNIP:
+                image = Bitmap.createBitmap(seedsShopSpriteSheet, 33, 148, 16, 16);
+                break;
+            case POTATO:
+                image = Bitmap.createBitmap(seedsShopSpriteSheet, 33, 132, 16, 16);
+                break;
+            case TOMATO:
+                image = Bitmap.createBitmap(seedsShopSpriteSheet, 57, 148, 16, 16);
+                break;
+            case CORN:
+                image = Bitmap.createBitmap(seedsShopSpriteSheet, 57, 132, 16, 16);
+                break;
+            case EGGPLANT:
+                //grass disabled
+                image = Bitmap.createBitmap(seedsShopSpriteSheet, 81, 132, 16, 16);
+                break;
+            case PEANUT:
+            case CARROT:
+            case BROCCOLI:
+                image = cropImageCropSeedItem(resources);
+                break;
+        }
     }
 
     @Override

@@ -39,14 +39,47 @@ public class FlowerSeedItem extends Item {
             case ROSEMARY:
             case CHAMOMILE:
                 isHerb = true;
-                initImage(gameCartridge.getContext().getResources());
                 break;
         }
     }
 
     @Override
     public void initImage(Resources resources) {
-        image = cropImageFlowerSeedItem(resources);
+        Bitmap seedsShopSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm_seeds_shop);
+        //TODO: not enough sprites (using "disabled" version).
+        switch (seedType) {
+            //FLOWERS
+            case GERANIUM:
+                image = Bitmap.createBitmap(seedsShopSpriteSheet, 156, 150, 16, 16);
+                break;
+            case PRIMROSE:
+                image = Bitmap.createBitmap(seedsShopSpriteSheet, 156, 132, 16, 16);
+                break;
+            case LAVENDER:
+                image = Bitmap.createBitmap(seedsShopSpriteSheet, 180, 150, 16, 16);
+                break;
+            case ORCHID:
+                image = Bitmap.createBitmap(seedsShopSpriteSheet, 180, 132, 16, 16);
+                break;
+            //HERBS
+            case SAGE:
+                image = Bitmap.createBitmap(seedsShopSpriteSheet, 105, 149, 16, 16);
+                break;
+            case SAFFRON:
+                image = Bitmap.createBitmap(seedsShopSpriteSheet, 105, 131, 16, 16);
+                break;
+            case ROSEMARY:
+                image = Bitmap.createBitmap(seedsShopSpriteSheet, 133, 149, 16, 16);
+                break;
+            case CHAMOMILE:
+                image = Bitmap.createBitmap(seedsShopSpriteSheet, 133, 131, 16, 16);
+                break;
+        }
+        if (isHerb) {
+            image = Bitmap.createBitmap(seedsShopSpriteSheet, 105, 150, 16, 16);
+        } else {
+            image = Bitmap.createBitmap(seedsShopSpriteSheet, 156, 150, 16, 16);
+        }
     }
 
     @Override
@@ -62,18 +95,6 @@ public class FlowerSeedItem extends Item {
                 ////////////////////////////////////////////////
             }
         }
-    }
-
-    private Bitmap cropImageFlowerSeedItem(Resources resources) {
-        Bitmap seedsShopSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm_seeds_shop);
-        Bitmap flowerSeedItem = null;
-        if (isHerb) {
-            flowerSeedItem = Bitmap.createBitmap(seedsShopSpriteSheet, 105, 150, 16, 16);
-        } else {
-            flowerSeedItem = Bitmap.createBitmap(seedsShopSpriteSheet, 156, 150, 16, 16);
-        }
-
-        return flowerSeedItem;
     }
 
     public SeedType getSeedType() {
