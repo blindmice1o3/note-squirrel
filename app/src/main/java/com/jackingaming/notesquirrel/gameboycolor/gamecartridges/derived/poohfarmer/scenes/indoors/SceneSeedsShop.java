@@ -43,6 +43,8 @@ public class SceneSeedsShop extends Scene {
     private MenuItemHolder[] menuItemHolders;
     private int indexMenuItemHolders;
     transient private Bitmap cursorImage;
+    List<MenuItemHolder.Id> templateFirstPage;
+    List<MenuItemHolder.Id> templateNonFirstPage;
 
     transient private Paint paintFont;
     private int x0, y0, x1, y1;
@@ -57,6 +59,10 @@ public class SceneSeedsShop extends Scene {
         indexFirstVisibleItem = 0;
         initMenuItemHolders();
         indexMenuItemHolders = 0;
+        initTemplateFirstPage();
+        initTemplateNonFirstPage();
+
+        setTemplate();
     }
 
     public void initInventory() {
@@ -74,41 +80,100 @@ public class SceneSeedsShop extends Scene {
 
     }
 
-    private List<MenuItemHolder.Id> initTemplateFirstPage() {
-        List<MenuItemHolder.Id> templateFirstPage = new ArrayList<MenuItemHolder.Id>();
-        templateFirstPage.add(MenuItemHolder.Id.TALK);
-        templateFirstPage.add(MenuItemHolder.Id.SEED_CROP1);
-        templateFirstPage.add(MenuItemHolder.Id.SEED_GRASS);
-        templateFirstPage.add(MenuItemHolder.Id.SEED_FLOWER1);
-        templateFirstPage.add(MenuItemHolder.Id.SPILL_OVER);
 
-        //[0] WILL ALWAYS HAVE MenuItemHolder.Id.TALK
-        //[1] CAN THERE EVER BE AN EMPTY INVENTORY FOR SHOP?
-        //[2]
-        //[3] SOMETIMES exist, SOMETIMES does NOT exist
-        //[4] SOMETIMES MenuItemHolder.Id.SPILL_OVER, SOMETIMES MenuItemHolder.Id.EXIT
 
-        return templateFirstPage;
+    public int getIndexFirstVisibleItem() {
+        return indexFirstVisibleItem;
     }
 
-    private void templateLastPage() {
-        //[0]
-        //[1]
-        //[2]
-        //[3]
-        //[4] WILL ALWAYS HAVE MenuItemHolder.Id.EXIT
+    public void incrementIndexFirstVisibleItem(int numberOfMenuItemBuyInTemplate) {
+        indexFirstVisibleItem += numberOfMenuItemBuyInTemplate;
     }
 
-    private void templateMiddlePages() {
+    public void setTemplate() {
+        List<MenuItemHolder.Id> template = determineTemplateToUse();
 
-    }
-
-    public void setTemplate(List<MenuItemHolder.Id> template) {
         for (int i = 0; i < menuItemHolders.length; i++) {
             menuItemHolders[i].setId(template.get(i));
+            menuItemHolders[i].initImage(gameCartridge.getContext().getResources());
+            //TODO:
             //if (template.get(i) == MenuItemHolder.Id.BUY) {
-            //    menuItemHolders[i].updateDataSource();    //image, description, etc.
+            //    menuItemHolders[i].updateDataSource(inventory.get(indexFirstVisibleItem));    //image, description, etc.
             //}
+        }
+    }
+
+    private List<MenuItemHolder.Id> determineTemplateToUse() {
+        if (indexFirstVisibleItem == 0) {
+            return templateFirstPage;
+        } else {
+            return templateNonFirstPage;
+        }
+    }
+
+    private void initTemplateFirstPage() {
+        templateFirstPage = new ArrayList<MenuItemHolder.Id>();
+
+        //[0] WILL ALWAYS HAVE MenuItemHolder.Id.TALK
+        templateFirstPage.add(MenuItemHolder.Id.TALK);
+        ////////////////////////////////////////////////////////////////////
+        //[1] CAN THERE EVER BE AN EMPTY INVENTORY FOR SHOP?
+        if (indexFirstVisibleItem < inventory.size()) {
+            templateFirstPage.add(MenuItemHolder.Id.SEED_CROP1);
+        } else{
+            templateFirstPage.add(MenuItemHolder.Id.EMPTY);
+        }
+        //[2] SOMETIMES exist, SOMETIMES does NOT exist
+        if ( (indexFirstVisibleItem + 1) < inventory.size() ) {
+            templateFirstPage.add(MenuItemHolder.Id.SEED_FLOWER1);
+        } else{
+            templateFirstPage.add(MenuItemHolder.Id.EMPTY);
+        }
+        //[3] SOMETIMES exist, SOMETIMES does NOT exist
+        if ( (indexFirstVisibleItem + 2) < inventory.size() ) {
+            templateFirstPage.add(MenuItemHolder.Id.SEED_HERB1);
+        } else{
+            templateFirstPage.add(MenuItemHolder.Id.EMPTY);
+        }
+        ////////////////////////////////////////////////////////////////////
+        //[4] SOMETIMES MenuItemHolder.Id.SPILL_OVER, SOMETIMES MenuItemHolder.Id.EXIT
+        if ( (indexFirstVisibleItem + 3) < inventory.size() ) {
+            templateFirstPage.add(MenuItemHolder.Id.SPILL_OVER);
+        } else {
+            templateFirstPage.add(MenuItemHolder.Id.EXIT);
+        }
+    }
+
+    private void initTemplateNonFirstPage() {
+        templateNonFirstPage = new ArrayList<MenuItemHolder.Id>();
+
+        //[0] WILL ALWAYS HAVE MenuItemHolder.Id.BUY
+        templateNonFirstPage.add(MenuItemHolder.Id.SEED_CROP2);
+        ////////////////////////////////////////////////////////////////////
+        //[1] SOMETIMES exist, SOMETIMES does NOT exist
+        if (indexFirstVisibleItem + 1 < inventory.size()) {
+            templateNonFirstPage.add(MenuItemHolder.Id.SEED_FLOWER2);
+        } else{
+            templateNonFirstPage.add(MenuItemHolder.Id.EMPTY);
+        }
+        //[2] SOMETIMES exist, SOMETIMES does NOT exist
+        if ( (indexFirstVisibleItem + 2) < inventory.size() ) {
+            templateNonFirstPage.add(MenuItemHolder.Id.SEED_HERB2);
+        } else{
+            templateNonFirstPage.add(MenuItemHolder.Id.EMPTY);
+        }
+        //[3] SOMETIMES exist, SOMETIMES does NOT exist
+        if ( (indexFirstVisibleItem + 3) < inventory.size() ) {
+            templateNonFirstPage.add(MenuItemHolder.Id.SEED_GRASS);
+        } else{
+            templateNonFirstPage.add(MenuItemHolder.Id.EMPTY);
+        }
+        ////////////////////////////////////////////////////////////////////
+        //[4] SOMETIMES MenuItemHolder.Id.SPILL_OVER, SOMETIMES MenuItemHolder.Id.EXIT
+        if ( (indexFirstVisibleItem + 4) < inventory.size() ) {
+            templateNonFirstPage.add(MenuItemHolder.Id.SPILL_OVER);
+        } else {
+            templateNonFirstPage.add(MenuItemHolder.Id.EXIT);
         }
     }
 
@@ -169,6 +234,8 @@ public class SceneSeedsShop extends Scene {
     public void exit(Object[] extra) {
         super.exit(extra);
 
+        indexFirstVisibleItem = 0;
+        setTemplate();
         indexMenuItemHolders = 0;
         gameCartridge.getTimeManager().setIsPaused(false);
     }
@@ -219,7 +286,7 @@ public class SceneSeedsShop extends Scene {
             Log.d(MainActivity.DEBUG_TAG, "SceneSeedsShop.getInputButtonPad() a-button-justPressed");
             //TODO:
             MenuItemHolder menuItemHolder = menuItemHolders[indexMenuItemHolders];
-            menuItemHolder.execute();
+            menuItemHolder.execute(this);
         }
         //b button
         else if (inputManager.isbButtonPad()) {
@@ -314,7 +381,7 @@ public class SceneSeedsShop extends Scene {
 class MenuItemHolder
         implements Serializable {
     public enum Id { TALK, SEED_CROP1, SEED_CROP2, SEED_GRASS, SEED_FLOWER1, SEED_FLOWER2,
-        SEED_HERB1, SEED_HERB2, EXIT, SPILL_OVER; }
+        SEED_HERB1, SEED_HERB2, EMPTY, EXIT, SPILL_OVER; }
     //public enum Id { TALK, BUY, CONTINUE, EXIT; }
     transient private GameCartridge gameCartridge;
     private MenuItemHolder.Id id;
@@ -330,7 +397,7 @@ class MenuItemHolder
         this.gameCartridge = gameCartridge;
         initImage(gameCartridge.getContext().getResources());
     }
-    public void execute() {
+    public void execute(SceneSeedsShop sceneSeedsShop) {
         switch (id) {
             case TALK:
                 Log.d(MainActivity.DEBUG_TAG, "MenuItemHolder.execute(MenuItemHolder.Id) TALK");
@@ -338,8 +405,9 @@ class MenuItemHolder
                 Object[] args = new Object[10];
                 args[0] = String.format("Hello, %s. What seeds are you buying today?", gameCartridge.getPlayer().getName());
                 args[1] = Integer.valueOf(0);
+                int heightClipInPixel = 10 * 16;
                 float heightPixelToViewportRatio = ((float) gameCartridge.getHeightViewport()) /
-                        gameCartridge.getGameCamera().getHeightClipInPixel();
+                        heightClipInPixel;
                 args[2] = Integer.valueOf((int)(104 * heightPixelToViewportRatio));
                 args[3] = Integer.valueOf(gameCartridge.getWidthViewport());
                 args[4] = Integer.valueOf(gameCartridge.getHeightViewport());
@@ -367,6 +435,9 @@ class MenuItemHolder
             case SEED_HERB2:
                 Log.d(MainActivity.DEBUG_TAG, "MenuItemHolder.execute(MenuItemHolder.Id) SEED_HERB2");
                 break;
+            case EMPTY:
+                Log.d(MainActivity.DEBUG_TAG, "MenuItemHolder.execute(MenuItemHolder.Id) EMPTY");
+                break;
             case EXIT:
                 Log.d(MainActivity.DEBUG_TAG, "MenuItemHolder.execute(MenuItemHolder.Id) EXIT");
                 Object[] directionFacing = { gameCartridge.getPlayer().getDirection(),
@@ -378,6 +449,14 @@ class MenuItemHolder
             case SPILL_OVER:
                 Log.d(MainActivity.DEBUG_TAG, "MenuItemHolder.execute(MenuItemHolder.Id) SPILL_OVER");
                 //TODO: swap "ViewHolder" data to next page of inventory.
+                int numberOfMenuItemBuyInTemplate = 0;
+                if (sceneSeedsShop.getIndexFirstVisibleItem() == 0) {
+                    numberOfMenuItemBuyInTemplate = 3;
+                } else {
+                    numberOfMenuItemBuyInTemplate = 4;
+                }
+                sceneSeedsShop.incrementIndexFirstVisibleItem(numberOfMenuItemBuyInTemplate);
+                sceneSeedsShop.setTemplate();
                 break;
         }
     }
@@ -435,6 +514,9 @@ class MenuItemHolder
                 } else {
                     image = Bitmap.createBitmap(seedsShopSpriteSheet, 180, 132, 16, 16);
                 }
+                break;
+            case EMPTY:
+                image = Bitmap.createBitmap(seedsShopSpriteSheet, 9, 154, 16, 16);
                 break;
             case EXIT:
                 image = Bitmap.createBitmap(seedsShopSpriteSheet, 204, 131, 16, 16);
