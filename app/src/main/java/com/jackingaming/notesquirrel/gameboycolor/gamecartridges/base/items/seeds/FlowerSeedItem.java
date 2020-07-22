@@ -80,4 +80,8 @@ public class FlowerSeedItem extends Item {
         return seedType;
     }
 
+    public boolean getIsHerb() {
+        return isHerb;
+    }
+
 }
