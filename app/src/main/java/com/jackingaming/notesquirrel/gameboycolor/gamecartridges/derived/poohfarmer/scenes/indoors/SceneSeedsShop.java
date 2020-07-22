@@ -46,14 +46,21 @@ public class SceneSeedsShop extends Scene {
     List<MenuItemHolder.Id> templateFirstPage;
     List<MenuItemHolder.Id> templateNonFirstPage;
 
+    //TEXT-AREA
+    transient private Paint paintBackground;
     transient private Paint paintFont;
     private int x0, y0, x1, y1;
+    private String nameSelectedItem;
+    private String descriptionSelectedItem;
 
     public SceneSeedsShop(GameCartridge gameCartridge, Id sceneID) {
         super(gameCartridge, sceneID);
 
         widthClipInTile = 10;
         heightClipInTile = 10;
+
+        nameSelectedItem = "Seeds of Unknown Type";
+        descriptionSelectedItem = "30$$";
 
         initInventory();
         indexFirstVisibleItem = 0;
@@ -80,7 +87,28 @@ public class SceneSeedsShop extends Scene {
 
     }
 
-
+    private void updateTextArea() {
+        switch (menuItemHolders[indexMenuItemHolders].getId()) {
+            case TALK:
+            case EMPTY:
+            case EXIT:
+            case SPILL_OVER:
+                nameSelectedItem = "";
+                descriptionSelectedItem = "";
+                break;
+            case BUY:
+            case SEED_CROP1:
+            case SEED_CROP2:
+            case SEED_GRASS:
+            case SEED_FLOWER1:
+            case SEED_FLOWER2:
+            case SEED_HERB1:
+            case SEED_HERB2:
+                nameSelectedItem = menuItemHolders[indexMenuItemHolders].getName();
+                descriptionSelectedItem = menuItemHolders[indexMenuItemHolders].getDescription();
+                break;
+        }
+    }
 
     public int getIndexFirstVisibleItem() {
         return indexFirstVisibleItem;
@@ -100,6 +128,66 @@ public class SceneSeedsShop extends Scene {
             //if (template.get(i) == MenuItemHolder.Id.BUY) {
             //    menuItemHolders[i].updateDataSource(inventory.get(indexFirstVisibleItem));    //image, description, etc.
             //}
+            //FIRST_PAGE
+            if (indexFirstVisibleItem == 0) {
+                switch (template.get(i)) {
+                    case TALK:
+                    case EMPTY:
+                    case EXIT:
+                    case SPILL_OVER:
+                        break;
+                    case BUY:
+                    case SEED_CROP1:
+                    case SEED_CROP2:
+                    case SEED_GRASS:
+                    case SEED_FLOWER1:
+                    case SEED_FLOWER2:
+                    case SEED_HERB1:
+                    case SEED_HERB2:
+                        if ( (indexFirstVisibleItem+i-1 < inventory.size()) &&
+                                (indexFirstVisibleItem+i >= 0) ) {
+                            menuItemHolders[i].setImage(inventory.get(indexFirstVisibleItem + i - 1).getImage());
+                            menuItemHolders[i].setName(inventory.get(indexFirstVisibleItem + i - 1).getId());
+                            menuItemHolders[i].setDescription("40$$");
+                            if (inventory.get(indexFirstVisibleItem + i - 1) instanceof CropSeedItem) {
+                                menuItemHolders[i].setDescription(
+                                        ((CropSeedItem) inventory.get(indexFirstVisibleItem + i - 1)).getSeedType().name()
+                                );
+                            }
+                        }
+                        break;
+                }
+            }
+            //NON_FIRST_PAGE
+            else {
+                switch (template.get(i)) {
+                    case TALK:
+                    case EMPTY:
+                    case EXIT:
+                    case SPILL_OVER:
+                        break;
+                    case BUY:
+                    case SEED_CROP1:
+                    case SEED_CROP2:
+                    case SEED_GRASS:
+                    case SEED_FLOWER1:
+                    case SEED_FLOWER2:
+                    case SEED_HERB1:
+                    case SEED_HERB2:
+                        if ( (indexFirstVisibleItem+i < inventory.size()) &&
+                                (indexFirstVisibleItem+i >= 0) ) {
+                            menuItemHolders[i].setImage(inventory.get(indexFirstVisibleItem + i).getImage());
+                            menuItemHolders[i].setName(inventory.get(indexFirstVisibleItem + i).getId());
+                            menuItemHolders[i].setDescription("60$$");
+                            if (inventory.get(indexFirstVisibleItem + i) instanceof CropSeedItem) {
+                                menuItemHolders[i].setDescription(
+                                        ((CropSeedItem) inventory.get(indexFirstVisibleItem + i)).getSeedType().name()
+                                );
+                            }
+                        }
+                        break;
+                }
+            }
         }
     }
 
@@ -177,6 +265,10 @@ public class SceneSeedsShop extends Scene {
         }
     }
 
+    public void resetIndexMenuItemHolders() {
+        indexMenuItemHolders = 0;
+    }
+
     private void initMenuItemHolders() {
         menuItemHolders = new MenuItemHolder[5];
         menuItemHolders[0] = new MenuItemHolder(gameCartridge, MenuItemHolder.Id.TALK, true);
@@ -205,13 +297,18 @@ public class SceneSeedsShop extends Scene {
 
         cursorImage = cropCursorImage(gameCartridge.getContext().getResources());
 
+        //Paint (BACKGROUND)
+        paintBackground = new Paint();
+        paintBackground.setAntiAlias(true);
+        paintBackground.setColor(Color.BLUE);
+
         //Paint (FONT)
         paintFont = new Paint();
         paintFont.setAntiAlias(true);
-        paintFont.setColor(Color.CYAN);
-        paintFont.setAlpha(230);
-        paintFont.setTextSize(40f);
+        paintFont.setColor(Color.YELLOW);
+        paintFont.setTextSize(64);
         paintFont.setTypeface(Typeface.SANS_SERIF);
+        paintFont.setTypeface(Typeface.DEFAULT_BOLD);
 
         for (MenuItemHolder menuItemHolder : menuItemHolders) {
             menuItemHolder.init(gameCartridge);
@@ -250,11 +347,17 @@ public class SceneSeedsShop extends Scene {
                 if (indexMenuItemHolders >= NUMBER_OF_MENU_ITEM_HOLDERS) {
                     indexMenuItemHolders = 0;
                 }
+                /////////////////
+                updateTextArea();
+                /////////////////
             } else if (inputManager.isLeftViewport()) {
                 indexMenuItemHolders--;
                 if (indexMenuItemHolders < 0) {
                     indexMenuItemHolders = (NUMBER_OF_MENU_ITEM_HOLDERS - 1);
                 }
+                /////////////////
+                updateTextArea();
+                /////////////////
             }
         }
     }
@@ -269,11 +372,17 @@ public class SceneSeedsShop extends Scene {
                 if (indexMenuItemHolders >= NUMBER_OF_MENU_ITEM_HOLDERS) {
                     indexMenuItemHolders = 0;
                 }
+                /////////////////
+                updateTextArea();
+                /////////////////
             } else if (inputManager.isLeftDirectionalPad()) {
                 indexMenuItemHolders--;
                 if (indexMenuItemHolders < 0) {
                     indexMenuItemHolders = (NUMBER_OF_MENU_ITEM_HOLDERS - 1);
                 }
+                /////////////////
+                updateTextArea();
+                /////////////////
             }
         }
     }
@@ -316,8 +425,12 @@ public class SceneSeedsShop extends Scene {
         canvas.drawBitmap(tileMap.getTexture(), rectOfClip, rectOfViewport, null);
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         //text-area (background panel)
-        canvas.drawRect(x0, y0, x1, y1, paintFont);
-
+        canvas.drawRect(x0, y0, x1, y1, paintBackground);
+        //text-area (text)
+        Paint.FontMetrics fm = paintFont.getFontMetrics();
+        int heightLine = (int) (fm.bottom - fm.top + fm.leading);
+        canvas.drawText(nameSelectedItem,x0+10, y0+heightLine, paintFont);
+        canvas.drawText(descriptionSelectedItem,x0+10, y0+heightLine+heightLine, paintFont);
 
 
         //TILES (currently every tile's image == null)
@@ -380,17 +493,21 @@ public class SceneSeedsShop extends Scene {
 
 class MenuItemHolder
         implements Serializable {
-    public enum Id { TALK, SEED_CROP1, SEED_CROP2, SEED_GRASS, SEED_FLOWER1, SEED_FLOWER2,
+    public enum Id { TALK, BUY, SEED_CROP1, SEED_CROP2, SEED_GRASS, SEED_FLOWER1, SEED_FLOWER2,
         SEED_HERB1, SEED_HERB2, EMPTY, EXIT, SPILL_OVER; }
     //public enum Id { TALK, BUY, CONTINUE, EXIT; }
     transient private GameCartridge gameCartridge;
     private MenuItemHolder.Id id;
     private boolean isEnabled;
+    private String name;
+    private String description;
     transient private Bitmap image;
     public MenuItemHolder(GameCartridge gameCartridge, MenuItemHolder.Id id, boolean isEnabled) {
         this.gameCartridge = gameCartridge;
         this.id = id;
         this.isEnabled = isEnabled;
+        name = "";
+        description = "";
         initImage(gameCartridge.getContext().getResources());
     }
     public void init(GameCartridge gameCartridge) {
@@ -457,6 +574,7 @@ class MenuItemHolder
                 }
                 sceneSeedsShop.incrementIndexFirstVisibleItem(numberOfMenuItemBuyInTemplate);
                 sceneSeedsShop.setTemplate();
+                sceneSeedsShop.resetIndexMenuItemHolders();
                 break;
         }
     }
@@ -531,6 +649,18 @@ class MenuItemHolder
     }
     public void setId(Id id) {
         this.id = id;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
     }
     public boolean getIsEnabled() {
         return isEnabled;
