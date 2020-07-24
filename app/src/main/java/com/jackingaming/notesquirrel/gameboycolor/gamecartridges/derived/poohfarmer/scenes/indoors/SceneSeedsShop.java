@@ -145,24 +145,12 @@ public class SceneSeedsShop extends Scene {
                         menuItemHolders[i].setPrice("...");
                         break;
                     case BUY:
+                        Item item = inventory.get(indexFirstVisibleItem + i - 1);
+
                         if ( (indexFirstVisibleItem+i-1 < inventory.size()) &&
                                 (indexFirstVisibleItem+i-1 >= 0) ) {
-                            menuItemHolders[i].setImage(inventory.get(indexFirstVisibleItem + i - 1).getImage());
-                            menuItemHolders[i].setName(inventory.get(indexFirstVisibleItem + i - 1).getId());
-                            menuItemHolders[i].setPrice("(" + inventory.get(indexFirstVisibleItem + i - 1).getPrice() + ")");
-                            if (inventory.get(indexFirstVisibleItem + i - 1) instanceof CropSeedItem) {
-                                menuItemHolders[i].setPrice(
-                                        ((CropSeedItem) inventory.get(indexFirstVisibleItem + i - 1)).getSeedType().name() + " (" +
-                                                ((CropSeedItem) inventory.get(indexFirstVisibleItem + i - 1)).getPrice() + ")"
-                                );
-                            } else if (inventory.get(indexFirstVisibleItem + i - 1) instanceof FlowerSeedItem) {
-                                String isHerb = (((FlowerSeedItem) inventory.get(indexFirstVisibleItem + i - 1)).getIsHerb()) ? "Herb" : "Flower";
-                                menuItemHolders[i].setPrice(
-                                        isHerb + ": " +
-                                                ((FlowerSeedItem) inventory.get(indexFirstVisibleItem + i - 1)).getSeedType().name() + " (" +
-                                                ((FlowerSeedItem) inventory.get(indexFirstVisibleItem + i - 1)).getPrice() + ")"
-                                );
-                            }
+                            menuItemHolders[i].setItem(item);
+                            menuItemHolders[i].updateItem();
                         }
                         break;
                     case EMPTY:
@@ -191,24 +179,12 @@ public class SceneSeedsShop extends Scene {
                         menuItemHolders[i].setPrice("...");
                         break;
                     case BUY:
+                        Item item = inventory.get(indexFirstVisibleItem + i);
+
                         if ( (indexFirstVisibleItem+i < inventory.size()) &&
                                 (indexFirstVisibleItem+i >= 0) ) {
-                            menuItemHolders[i].setImage(inventory.get(indexFirstVisibleItem + i).getImage());
-                            menuItemHolders[i].setName(inventory.get(indexFirstVisibleItem + i).getId());
-                            menuItemHolders[i].setPrice("(" + inventory.get(indexFirstVisibleItem + i).getPrice() + ")");
-                            if (inventory.get(indexFirstVisibleItem + i) instanceof CropSeedItem) {
-                                menuItemHolders[i].setPrice(
-                                        ((CropSeedItem) inventory.get(indexFirstVisibleItem + i)).getSeedType().name() + " (" +
-                                                ((CropSeedItem) inventory.get(indexFirstVisibleItem + i)).getPrice() + ")"
-                                );
-                            } else if (inventory.get(indexFirstVisibleItem + i) instanceof FlowerSeedItem) {
-                                String isHerb = (((FlowerSeedItem) inventory.get(indexFirstVisibleItem + i)).getIsHerb()) ? "Herb" : "Flower";
-                                menuItemHolders[i].setPrice(
-                                        isHerb + ": " +
-                                                ((FlowerSeedItem) inventory.get(indexFirstVisibleItem + i)).getSeedType().name() + " (" +
-                                                ((FlowerSeedItem) inventory.get(indexFirstVisibleItem + i)).getPrice() + ")"
-                                );
-                            }
+                            menuItemHolders[i].setItem(item);
+                            menuItemHolders[i].updateItem();
                         }
                         break;
                     case EMPTY:
@@ -535,12 +511,14 @@ class MenuItemHolder
     transient private GameCartridge gameCartridge;
     private MenuItemHolder.Id id;
     private boolean isEnabled;
+    private Item item;
     private String name;
     private String price;
     transient private Bitmap image;
     public MenuItemHolder(GameCartridge gameCartridge, boolean isEnabled) {
         this.gameCartridge = gameCartridge;
         this.isEnabled = isEnabled;
+        item = null;
         name = "";
         price = "";
     }
@@ -635,11 +613,47 @@ class MenuItemHolder
                 break;
         }
     }
+
+    /**
+     * UPDATING: image, name, price.
+     */
+    public void updateItem() {
+        image = item.getImage();
+        name = item.getId();
+
+        //CropSeedItem have to distinguish its seedType
+        if (item instanceof CropSeedItem) {
+            price = ((CropSeedItem) item).getSeedType().name() +
+                    " (" + ((CropSeedItem) item).getPrice() + ")";
+        }
+        //FlowerSeedItem have to distinguish its seedType AND whether it's an herb or flower
+        else if (item instanceof FlowerSeedItem) {
+            String isHerb = (((FlowerSeedItem) item).getIsHerb()) ? "Herb" : "Flower";
+            price = ((FlowerSeedItem) item).getSeedType().name() +
+                    " (" + ((FlowerSeedItem) item).getPrice() + ") -> " + isHerb;
+        }
+        //Default
+        else {
+            price = "(" + item.getPrice() + ")";
+        }
+    }
     public Id getId() {
         return id;
     }
     public void setId(Id id) {
         this.id = id;
+    }
+    public boolean getIsEnabled() {
+        return isEnabled;
+    }
+    public void setIsEnabled(boolean isEnabled) {
+        this.isEnabled = isEnabled;
+    }
+    public Item getItem() {
+        return item;
+    }
+    public void setItem(Item item) {
+        this.item = item;
     }
     public String getName() {
         return name;
@@ -652,12 +666,6 @@ class MenuItemHolder
     }
     public void setPrice(String price) {
         this.price = price;
-    }
-    public boolean getIsEnabled() {
-        return isEnabled;
-    }
-    public void setIsEnabled(boolean isEnabled) {
-        this.isEnabled = isEnabled;
     }
     public Bitmap getImage() {
         return image;
