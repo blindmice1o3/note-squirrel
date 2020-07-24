@@ -14,6 +14,7 @@ public class FlowerPotItem extends Item {
         super(gameCartridge);
 
         this.id = "Flower Pot";
+        price = 200;
     }
 
     @Override

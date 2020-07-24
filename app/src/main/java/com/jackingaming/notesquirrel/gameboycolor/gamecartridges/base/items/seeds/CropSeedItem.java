@@ -23,6 +23,39 @@ public class CropSeedItem extends Item {
 
         this.id = "Crop Seed";
         this.seedType = seedType;
+        initPrice();
+    }
+
+    public void initPrice() {
+        switch (seedType) {
+            case GRASS:
+                price = 500;
+                break;
+            case TURNIP:
+                price = 120;
+                break;
+            case POTATO:
+                price = 150;
+                break;
+            case TOMATO:
+                price = 200;
+                break;
+            case CORN:
+                price = 300;
+                break;
+            case EGGPLANT:
+                price = 150;
+                break;
+            case PEANUT:
+                price = 200;
+                break;
+            case CARROT:
+                price = 300;
+                break;
+            case BROCCOLI:
+                price = 500;
+                break;
+        }
     }
 
     @Override

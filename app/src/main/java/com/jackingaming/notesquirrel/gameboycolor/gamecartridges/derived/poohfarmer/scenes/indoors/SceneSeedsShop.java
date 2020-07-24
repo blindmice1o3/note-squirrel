@@ -50,7 +50,7 @@ public class SceneSeedsShop extends Scene {
     transient private Paint paintFont;
     private int x0, y0, x1, y1;
     private String nameSelectedItem;
-    private String descriptionSelectedItem;
+    private String priceSelectedItem;
 
     public SceneSeedsShop(GameCartridge gameCartridge, Id sceneID) {
         super(gameCartridge, sceneID);
@@ -59,7 +59,7 @@ public class SceneSeedsShop extends Scene {
         heightClipInTile = 10;
 
         nameSelectedItem = "";
-        descriptionSelectedItem = "";
+        priceSelectedItem = "";
 
         initInventory();
         indexFirstVisibleItem = 0;
@@ -91,11 +91,25 @@ public class SceneSeedsShop extends Scene {
 
     public void updateTextArea() {
         nameSelectedItem = menuItemHolders[indexMenuItemHolders].getName();
-        descriptionSelectedItem = menuItemHolders[indexMenuItemHolders].getDescription();
+        priceSelectedItem = menuItemHolders[indexMenuItemHolders].getPrice();
     }
 
     public int getIndexFirstVisibleItem() {
         return indexFirstVisibleItem;
+    }
+
+    public int getIndexMenuItemHolders() {
+        return indexMenuItemHolders;
+    }
+
+    public Item getItem(int index) {
+        return inventory.get(index);
+    }
+
+    public void removeItem(Item item) {
+        if (inventory.contains(item)) {
+            inventory.remove(item);
+        }
     }
 
     public void incrementIndexFirstVisibleItem(int numberOfMenuItemBuyInTemplate) {
@@ -128,23 +142,25 @@ public class SceneSeedsShop extends Scene {
                     case TALK:
                         menuItemHolders[i].initImage(gameCartridge.getContext().getResources());
                         menuItemHolders[i].setName("Talk");
-                        menuItemHolders[i].setDescription("...");
+                        menuItemHolders[i].setPrice("...");
                         break;
                     case BUY:
                         if ( (indexFirstVisibleItem+i-1 < inventory.size()) &&
                                 (indexFirstVisibleItem+i-1 >= 0) ) {
                             menuItemHolders[i].setImage(inventory.get(indexFirstVisibleItem + i - 1).getImage());
                             menuItemHolders[i].setName(inventory.get(indexFirstVisibleItem + i - 1).getId());
-                            menuItemHolders[i].setDescription("...");
+                            menuItemHolders[i].setPrice("(" + inventory.get(indexFirstVisibleItem + i - 1).getPrice() + ")");
                             if (inventory.get(indexFirstVisibleItem + i - 1) instanceof CropSeedItem) {
-                                menuItemHolders[i].setDescription(
-                                        ((CropSeedItem) inventory.get(indexFirstVisibleItem + i - 1)).getSeedType().name()
+                                menuItemHolders[i].setPrice(
+                                        ((CropSeedItem) inventory.get(indexFirstVisibleItem + i - 1)).getSeedType().name() + " (" +
+                                                ((CropSeedItem) inventory.get(indexFirstVisibleItem + i - 1)).getPrice() + ")"
                                 );
-                            } else if (inventory.get(indexFirstVisibleItem + i) instanceof FlowerSeedItem) {
-                                String isHerb = (((FlowerSeedItem) inventory.get(indexFirstVisibleItem + i)).getIsHerb()) ? "Herb" : "Flower";
-                                menuItemHolders[i].setDescription(
+                            } else if (inventory.get(indexFirstVisibleItem + i - 1) instanceof FlowerSeedItem) {
+                                String isHerb = (((FlowerSeedItem) inventory.get(indexFirstVisibleItem + i - 1)).getIsHerb()) ? "Herb" : "Flower";
+                                menuItemHolders[i].setPrice(
                                         isHerb + ": " +
-                                                ((FlowerSeedItem) inventory.get(indexFirstVisibleItem + i)).getSeedType().name()
+                                                ((FlowerSeedItem) inventory.get(indexFirstVisibleItem + i - 1)).getSeedType().name() + " (" +
+                                                ((FlowerSeedItem) inventory.get(indexFirstVisibleItem + i - 1)).getPrice() + ")"
                                 );
                             }
                         }
@@ -152,17 +168,17 @@ public class SceneSeedsShop extends Scene {
                     case EMPTY:
                         menuItemHolders[i].initImage(gameCartridge.getContext().getResources());
                         menuItemHolders[i].setName("Empty");
-                        menuItemHolders[i].setDescription("...");
+                        menuItemHolders[i].setPrice("...");
                         break;
                     case SPILL_OVER:
                         menuItemHolders[i].initImage(gameCartridge.getContext().getResources());
                         menuItemHolders[i].setName("Spill Over");
-                        menuItemHolders[i].setDescription("...");
+                        menuItemHolders[i].setPrice("...");
                         break;
                     case EXIT:
                         menuItemHolders[i].initImage(gameCartridge.getContext().getResources());
                         menuItemHolders[i].setName("Exit");
-                        menuItemHolders[i].setDescription("...");
+                        menuItemHolders[i].setPrice("...");
                         break;
                 }
             }
@@ -172,23 +188,25 @@ public class SceneSeedsShop extends Scene {
                     case TALK:
                         menuItemHolders[i].initImage(gameCartridge.getContext().getResources());
                         menuItemHolders[i].setName("Talk");
-                        menuItemHolders[i].setDescription("...");
+                        menuItemHolders[i].setPrice("...");
                         break;
                     case BUY:
                         if ( (indexFirstVisibleItem+i < inventory.size()) &&
                                 (indexFirstVisibleItem+i >= 0) ) {
                             menuItemHolders[i].setImage(inventory.get(indexFirstVisibleItem + i).getImage());
                             menuItemHolders[i].setName(inventory.get(indexFirstVisibleItem + i).getId());
-                            menuItemHolders[i].setDescription("...");
+                            menuItemHolders[i].setPrice("(" + inventory.get(indexFirstVisibleItem + i).getPrice() + ")");
                             if (inventory.get(indexFirstVisibleItem + i) instanceof CropSeedItem) {
-                                menuItemHolders[i].setDescription(
-                                        ((CropSeedItem) inventory.get(indexFirstVisibleItem + i)).getSeedType().name()
+                                menuItemHolders[i].setPrice(
+                                        ((CropSeedItem) inventory.get(indexFirstVisibleItem + i)).getSeedType().name() + " (" +
+                                                ((CropSeedItem) inventory.get(indexFirstVisibleItem + i)).getPrice() + ")"
                                 );
                             } else if (inventory.get(indexFirstVisibleItem + i) instanceof FlowerSeedItem) {
                                 String isHerb = (((FlowerSeedItem) inventory.get(indexFirstVisibleItem + i)).getIsHerb()) ? "Herb" : "Flower";
-                                menuItemHolders[i].setDescription(
+                                menuItemHolders[i].setPrice(
                                         isHerb + ": " +
-                                        ((FlowerSeedItem) inventory.get(indexFirstVisibleItem + i)).getSeedType().name()
+                                                ((FlowerSeedItem) inventory.get(indexFirstVisibleItem + i)).getSeedType().name() + " (" +
+                                                ((FlowerSeedItem) inventory.get(indexFirstVisibleItem + i)).getPrice() + ")"
                                 );
                             }
                         }
@@ -196,17 +214,17 @@ public class SceneSeedsShop extends Scene {
                     case EMPTY:
                         menuItemHolders[i].initImage(gameCartridge.getContext().getResources());
                         menuItemHolders[i].setName("Empty");
-                        menuItemHolders[i].setDescription("...");
+                        menuItemHolders[i].setPrice("...");
                         break;
                     case SPILL_OVER:
                         menuItemHolders[i].initImage(gameCartridge.getContext().getResources());
                         menuItemHolders[i].setName("Spill over");
-                        menuItemHolders[i].setDescription("...");
+                        menuItemHolders[i].setPrice("...");
                         break;
                     case EXIT:
                         menuItemHolders[i].initImage(gameCartridge.getContext().getResources());
                         menuItemHolders[i].setName("Exit");
-                        menuItemHolders[i].setDescription("...");
+                        menuItemHolders[i].setPrice("...");
                         break;
                 }
             }
@@ -312,11 +330,6 @@ public class SceneSeedsShop extends Scene {
 
         cursorImage = cropCursorImage(gameCartridge.getContext().getResources());
 
-        //INVENTORY
-        for (Item item : inventory) {
-            item.init(gameCartridge);
-        }
-
         //Paint (BACKGROUND)
         paintBackground = new Paint();
         paintBackground.setAntiAlias(true);
@@ -330,6 +343,12 @@ public class SceneSeedsShop extends Scene {
         paintFont.setTypeface(Typeface.SANS_SERIF);
         paintFont.setTypeface(Typeface.DEFAULT_BOLD);
 
+        //INVENTORY
+        for (Item item : inventory) {
+            item.init(gameCartridge);
+        }
+
+        //MENU_ITEM_HOLDER
         setTemplate();
     }
 
@@ -352,6 +371,7 @@ public class SceneSeedsShop extends Scene {
         indexFirstVisibleItem = 0;
         setTemplate();
         indexMenuItemHolders = 0;
+        updateTextArea();
         gameCartridge.getTimeManager().setIsPaused(false);
     }
 
@@ -448,7 +468,7 @@ public class SceneSeedsShop extends Scene {
         Paint.FontMetrics fm = paintFont.getFontMetrics();
         int heightLine = (int) (fm.bottom - fm.top + fm.leading);
         canvas.drawText(nameSelectedItem,x0+10, y0+heightLine, paintFont);
-        canvas.drawText(descriptionSelectedItem,x0+10, y0+heightLine+heightLine, paintFont);
+        canvas.drawText(priceSelectedItem,x0+10, y0+heightLine+heightLine, paintFont);
 
 
         //TILES (currently every tile's image == null)
@@ -516,13 +536,13 @@ class MenuItemHolder
     private MenuItemHolder.Id id;
     private boolean isEnabled;
     private String name;
-    private String description;
+    private String price;
     transient private Bitmap image;
     public MenuItemHolder(GameCartridge gameCartridge, boolean isEnabled) {
         this.gameCartridge = gameCartridge;
         this.isEnabled = isEnabled;
         name = "";
-        description = "";
+        price = "";
     }
     public void execute(SceneSeedsShop sceneSeedsShop) {
         switch (id) {
@@ -543,6 +563,30 @@ class MenuItemHolder
                 break;
             case BUY:
                 Log.d(MainActivity.DEBUG_TAG, "MenuItemHolder.execute(SceneSeedsShop) BUY");
+                Player player = gameCartridge.getPlayer();
+                int indexSelectedItem = 0;
+                //first page
+                if (sceneSeedsShop.getIndexFirstVisibleItem() == 0) {
+                    indexSelectedItem = sceneSeedsShop.getIndexFirstVisibleItem() + sceneSeedsShop.getIndexMenuItemHolders() - 1;
+                }
+                //non first page
+                else {
+                    indexSelectedItem = sceneSeedsShop.getIndexFirstVisibleItem() + sceneSeedsShop.getIndexMenuItemHolders();
+                }
+
+                Item itemToBuy = sceneSeedsShop.getItem(indexSelectedItem);
+                Log.d(MainActivity.DEBUG_TAG, "MenuItemHolder.execute(SceneSeedsShop) itemToBuy, (price): " + itemToBuy + " (" + itemToBuy.getPrice() + ")");
+                if (player.getCurrencyNuggets() >= itemToBuy.getPrice()) {
+                    //TODO:
+                    int currentNuggetsAfterBuyingItem = player.getCurrencyNuggets() - itemToBuy.getPrice();
+                    /////////////////////////////////////////////////////////
+                    player.setCurrencyNuggets(currentNuggetsAfterBuyingItem);
+                    player.getInventory().add(itemToBuy);
+                    /////////////////////////////////////////////////////////
+                    sceneSeedsShop.removeItem(itemToBuy);
+                    sceneSeedsShop.setTemplate();
+                    sceneSeedsShop.updateTextArea();
+                }
                 break;
             case EMPTY:
                 Log.d(MainActivity.DEBUG_TAG, "MenuItemHolder.execute(SceneSeedsShop) EMPTY");
@@ -603,11 +647,11 @@ class MenuItemHolder
     public void setName(String name) {
         this.name = name;
     }
-    public String getDescription() {
-        return description;
+    public String getPrice() {
+        return price;
     }
-    public void setDescription(String description) {
-        this.description = description;
+    public void setPrice(String price) {
+        this.price = price;
     }
     public boolean getIsEnabled() {
         return isEnabled;

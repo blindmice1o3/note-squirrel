@@ -99,7 +99,7 @@ public class Player extends Creature {
         //////////////////////
         indexSelectedItem = 0;
         holdable = null;
-        currencyNuggets = 0;
+        currencyNuggets = 9000;
         fodderQuantity = 0;
         //////////////////////
 

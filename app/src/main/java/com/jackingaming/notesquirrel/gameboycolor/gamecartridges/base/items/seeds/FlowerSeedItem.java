@@ -24,6 +24,36 @@ public class FlowerSeedItem extends Item {
         this.id = "Flower Seed";
         this.seedType = seedType;
         initIsHerb();
+        initPrice();
+    }
+
+    private void initPrice() {
+        switch (seedType) {
+            case GERANIUM:
+                price = 100;
+                break;
+            case PRIMROSE:
+                price = 300;
+                break;
+            case LAVENDER:
+                price = 100;
+                break;
+            case ORCHID:
+                price = 300;
+                break;
+            case SAGE:
+                price = 100;
+                break;
+            case SAFFRON:
+                price = 100;
+                break;
+            case ROSEMARY:
+                price = 100;
+                break;
+            case CHAMOMILE:
+                price = 150;
+                break;
+        }
     }
 
     private void initIsHerb() {

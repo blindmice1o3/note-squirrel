@@ -15,6 +15,7 @@ public class ScissorsItem extends Item {
         super(gameCartridge);
 
         this.id = "Scissors";
+        price = 1200;
     }
 
     @Override

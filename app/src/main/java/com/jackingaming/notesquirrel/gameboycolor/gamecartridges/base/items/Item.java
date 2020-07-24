@@ -16,6 +16,7 @@ public abstract class Item
     transient protected GameCartridge gameCartridge;
     transient protected Bitmap image;
     protected String id;
+    protected int price;
 
     public Item(GameCartridge gameCartridge) {
         this.gameCartridge = gameCartridge;
@@ -59,6 +60,10 @@ public abstract class Item
 
     public String getId() {
         return id;
+    }
+
+    public int getPrice() {
+        return price;
     }
 
 }
