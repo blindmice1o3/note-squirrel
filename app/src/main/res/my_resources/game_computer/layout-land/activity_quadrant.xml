@@ -15,7 +15,12 @@
         app:layout_constraintBottom_toTopOf="@id/framelayout_quadrant_03_land"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/framelayout_quadrant_02_land"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+        <com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.computer.QuadrantSurfaceView
+            android:id="@+id/surfaceview_quadrant_01"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/framelayout_quadrant_02_land"
@@ -25,7 +30,12 @@
         app:layout_constraintBottom_toTopOf="@id/framelayout_quadrant_04_land"
         app:layout_constraintLeft_toRightOf="@id/framelayout_quadrant_01_land"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+        <com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.computer.QuadrantSurfaceView
+            android:id="@+id/surfaceview_quadrant_02"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/framelayout_quadrant_03_land"
@@ -35,7 +45,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/framelayout_quadrant_04_land"
-        app:layout_constraintTop_toBottomOf="@id/framelayout_quadrant_01_land" />
+        app:layout_constraintTop_toBottomOf="@id/framelayout_quadrant_01_land">
+        <com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.computer.QuadrantSurfaceView
+            android:id="@+id/surfaceview_quadrant_03"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/framelayout_quadrant_04_land"
@@ -45,6 +60,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/framelayout_quadrant_03_land"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/framelayout_quadrant_02_land" />
+        app:layout_constraintTop_toBottomOf="@id/framelayout_quadrant_02_land">
+        <com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.computer.QuadrantSurfaceView
+            android:id="@+id/surfaceview_quadrant_04"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
