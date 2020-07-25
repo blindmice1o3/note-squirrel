@@ -65,21 +65,23 @@ public class GameCartridge
         stateManager = new StateManager(this);
         ///////////////////////////////////////////////////
 
-        //TODO: if isReturningFromActivity... then load
-        if ( ((JackInActivity)context).isReturningFromActivity() ) {
-            loadSavedState();
+        if (context instanceof JackInActivity) {
+            //TODO: if isReturningFromActivity... then load
+            if (((JackInActivity) context).isReturningFromActivity()) {
+                loadSavedState();
 
-            //TODO: if isReturningFromBackpackActivity... then set player's indexSelectedItem
-            if ( ((JackInActivity)context).isReturningFromBackpackActivity() ) {
-                //////////////////////////////////////
-                int indexSelectedItem = ((JackInActivity)context).getIndexSelectedItem();
-                Log.d(MainActivity.DEBUG_TAG, "GameCartridge.init() returning from BackpackActivity... indexSelectedItem: " + indexSelectedItem);
-                player.setIndexSelectedItem(indexSelectedItem);
-                //////////////////////////////////////
-                ((JackInActivity)context).setIsReturningFromBackpackActivity(false);
+                //TODO: if isReturningFromBackpackActivity... then set player's indexSelectedItem
+                if (((JackInActivity) context).isReturningFromBackpackActivity()) {
+                    //////////////////////////////////////
+                    int indexSelectedItem = ((JackInActivity) context).getIndexSelectedItem();
+                    Log.d(MainActivity.DEBUG_TAG, "GameCartridge.init() returning from BackpackActivity... indexSelectedItem: " + indexSelectedItem);
+                    player.setIndexSelectedItem(indexSelectedItem);
+                    //////////////////////////////////////
+                    ((JackInActivity) context).setIsReturningFromBackpackActivity(false);
+                }
+
+                ((JackInActivity) context).setIsReturningFromActivity(false);
             }
-
-            ((JackInActivity)context).setIsReturningFromActivity(false);
         }
     }
 
@@ -87,31 +89,35 @@ public class GameCartridge
     public void savePresentState() {
         Log.d(MainActivity.DEBUG_TAG, "GameCartridge.savePresentState()");
 
-        //HANDLES JackInActivity.gameCartridge/////////////////////////////////////////
-        //only THIS activity can get access to THIS preference file.
-        SharedPreferences prefs = ((JackInActivity) context).getPreferences(MODE_PRIVATE);
-        //Editor is an inner-class of the SharedPreferences class.
-        SharedPreferences.Editor editor = prefs.edit();
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        //Save enum as integer (its index value).
-        //!!!Used in JackInActivity's constructor (orientation change)!!!
-        editor.putInt("idGameCartridge", idGameCartridge.ordinal());
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        //HAVE TO tell editor to actually save the values we'd put into it.
-        editor.commit();
-        /////////////////////////////////////////////////////////////////////////////////
+        if (context instanceof JackInActivity) {
+            //HANDLES JackInActivity.gameCartridge/////////////////////////////////////////
+            //only THIS activity can get access to THIS preference file.
+            SharedPreferences prefs = ((JackInActivity) context).getPreferences(MODE_PRIVATE);
+            //Editor is an inner-class of the SharedPreferences class.
+            SharedPreferences.Editor editor = prefs.edit();
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            //Save enum as integer (its index value).
+            //!!!Used in JackInActivity's constructor (orientation change)!!!
+            editor.putInt("idGameCartridge", idGameCartridge.ordinal());
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            //HAVE TO tell editor to actually save the values we'd put into it.
+            editor.commit();
+            /////////////////////////////////////////////////////////////////////////////////
 
-        SerializationDoer.saveViaOS(this);
+            SerializationDoer.saveViaOS(this);
+        }
     }
 
     @Override
     public void loadSavedState() {
         Log.d(MainActivity.DEBUG_TAG, "GameCartridge.loadSavedState()");
 
-        // !!!THIS CHECKING FOR NULL IS NECESSARY!!!
-        //if (handler != null) {
+        if (context instanceof JackInActivity) {
+            // !!!THIS CHECKING FOR NULL IS NECESSARY!!!
+            //if (handler != null) {
             SerializationDoer.loadViaOS(this);
-        //}
+            //}
+        }
     }
 
     @Override
