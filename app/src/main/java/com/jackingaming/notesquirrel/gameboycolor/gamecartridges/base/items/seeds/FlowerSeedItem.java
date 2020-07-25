@@ -13,7 +13,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.t
 
 public class FlowerSeedItem extends Item {
 
-    public enum SeedType { GERANIUM, PRIMROSE, LAVENDER, ORCHID, SAGE, SAFFRON, ROSEMARY, CHAMOMILE; }
+    public enum SeedType { MYSTERY, GERANIUM, PRIMROSE, LAVENDER, ORCHID, SAGE, SAFFRON, ROSEMARY, CHAMOMILE; }
 
     private SeedType seedType;
     private boolean isHerb;
@@ -29,6 +29,9 @@ public class FlowerSeedItem extends Item {
 
     private void initPrice() {
         switch (seedType) {
+            case MYSTERY:
+                price = 0;
+                break;
             case GERANIUM:
                 price = 100;
                 break;
@@ -58,6 +61,7 @@ public class FlowerSeedItem extends Item {
 
     private void initIsHerb() {
         switch (seedType) {
+            case MYSTERY:
             case GERANIUM:
             case PRIMROSE:
             case LAVENDER:
@@ -79,6 +83,9 @@ public class FlowerSeedItem extends Item {
         //TODO: not enough sprites (using "disabled" version).
         switch (seedType) {
             //FLOWERS
+            case MYSTERY:
+                image = BitmapFactory.decodeResource(resources, R.drawable.green2478);
+                break;
             case GERANIUM:
                 image = Bitmap.createBitmap(seedsShopSpriteSheet, 156, 150, 16, 16);
                 break;
@@ -104,11 +111,6 @@ public class FlowerSeedItem extends Item {
             case CHAMOMILE:
                 image = Bitmap.createBitmap(seedsShopSpriteSheet, 133, 131, 16, 16);
                 break;
-        }
-        if (isHerb) {
-            image = Bitmap.createBitmap(seedsShopSpriteSheet, 105, 150, 16, 16);
-        } else {
-            image = Bitmap.createBitmap(seedsShopSpriteSheet, 156, 150, 16, 16);
         }
     }
 

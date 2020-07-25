@@ -11,7 +11,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfar
 
 public class FlowerEntity extends Entity {
 
-    public enum Id { GERANIUM, PRIMROSE, LAVENDER, ORCHID, SAGE, SAFFRON, ROSEMARY, CHAMOMILE; }
+    public enum Id { MYSTERY, GERANIUM, PRIMROSE, LAVENDER, ORCHID, SAGE, SAFFRON, ROSEMARY, CHAMOMILE; }
     public enum Stage { ONE, TWO, THREE, HARVESTABLE; }
 
     private FlowerEntity.Id id;
@@ -53,6 +53,9 @@ public class FlowerEntity extends Entity {
 
     private void initDaysToReachHarvestable() {
         switch (id) {
+            case MYSTERY:
+                daysToReachHarvestable = 3;
+                break;
             case GERANIUM:
                 daysToReachHarvestable = 6;
                 break;
@@ -106,6 +109,9 @@ public class FlowerEntity extends Entity {
         Product flowerProduct = null;
         Product.Id idProduct = null;
         switch (id) {
+            case MYSTERY:
+                idProduct = Product.Id.MYSTERY;
+                break;
             case GERANIUM:
                 idProduct = Product.Id.GERANIUM;
                 break;
@@ -139,6 +145,9 @@ public class FlowerEntity extends Entity {
 
     private void updateStage() {
         switch (id) {
+            case MYSTERY:
+                updateStageMystery();
+                break;
             case GERANIUM:
                 updateStageGeranium();
                 break;
@@ -190,6 +199,18 @@ public class FlowerEntity extends Entity {
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         canvas.drawBitmap(image, rectOfImage, rectOnScreen, null);
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    }
+
+    private void updateStageMystery() {
+        if (daysWatered < 1) {
+            stage = Stage.ONE;
+        } else if ( (1 <= daysWatered) && (daysWatered < 2) ) {
+            stage = Stage.TWO;
+        } else if ( (2 <= daysWatered) && (daysWatered < daysToReachHarvestable) ) {
+            stage = Stage.THREE;
+        } else {
+            stage = Stage.HARVESTABLE;
+        }
     }
 
     private void updateStageGeranium() {

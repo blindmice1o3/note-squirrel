@@ -2,9 +2,11 @@ package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfa
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
+import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.FlowerEntity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
@@ -19,7 +21,7 @@ public class Product
         implements Holdable, Sellable, Serializable {
 
     public enum Id { TURNIP, POTATO, TOMATO, CORN, EGGPLANT, PEANUT, CARROT, BROCCOLI,
-        GERANIUM, PRIMROSE, LAVENDER, ORCHID, SAGE, SAFFRON, ROSEMARY, CHAMOMILE; }
+        MYSTERY, GERANIUM, PRIMROSE, LAVENDER, ORCHID, SAGE, SAFFRON, ROSEMARY, CHAMOMILE; }
 
     private Product.Id id;
     private boolean isWhole;
@@ -98,6 +100,9 @@ public class Product
             case BROCCOLI:
                 price = 100;
                 break;
+            case MYSTERY:
+                price = 9000;
+                break;
             case GERANIUM:
                 price = 250;
                 break;
@@ -139,6 +144,9 @@ public class Product
                 image = Assets.cropCropProduct(resources, id, isWhole);
                 break;
             //INDOORS
+            case MYSTERY:
+                image = BitmapFactory.decodeResource(resources, R.drawable.green2174);
+                break;
             case GERANIUM:
                 image = Assets.cropFlowerEntity(resources, FlowerEntity.Id.GERANIUM, FlowerEntity.Stage.HARVESTABLE, false);
                 break;
