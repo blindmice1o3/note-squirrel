@@ -77,6 +77,9 @@ public class BedTile extends Tile
 
                                 FlowerEntity.Id id = null;
                                 switch (growableTableTile.getSeedType()) {
+                                    case MYSTERY:
+                                        id = FlowerEntity.Id.MYSTERY;
+                                        break;
                                     case GERANIUM:
                                         id = FlowerEntity.Id.GERANIUM;
                                         break;

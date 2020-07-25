@@ -555,6 +555,22 @@ public class Assets {
         Bitmap flowerEntity = null;
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         switch (id) {
+            case MYSTERY:
+                switch (stage) {
+                    case ONE:
+                        flowerEntity = BitmapFactory.decodeResource(resources, R.drawable.green249);
+                        break;
+                    case TWO:
+                        flowerEntity = BitmapFactory.decodeResource(resources, R.drawable.green256);
+                        break;
+                    case THREE:
+                        flowerEntity = BitmapFactory.decodeResource(resources, R.drawable.green266);
+                        break;
+                    case HARVESTABLE:
+                        flowerEntity = BitmapFactory.decodeResource(resources, R.drawable.green280);
+                        break;
+                }
+                break;
             case GERANIUM:
                 //LEAFY StemSystem
                 switch (stage) {

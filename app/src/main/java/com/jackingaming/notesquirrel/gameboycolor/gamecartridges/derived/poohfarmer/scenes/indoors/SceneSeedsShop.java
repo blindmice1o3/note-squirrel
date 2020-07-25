@@ -70,6 +70,7 @@ public class SceneSeedsShop extends Scene {
 
     public void initInventory() {
         inventory = new ArrayList<Item>();
+        inventory.add(new FlowerSeedItem(gameCartridge, FlowerSeedItem.SeedType.MYSTERY));
         inventory.add(new CropSeedItem(gameCartridge, CropSeedItem.SeedType.TURNIP));
         inventory.add(new CropSeedItem(gameCartridge, CropSeedItem.SeedType.POTATO));
         inventory.add(new CropSeedItem(gameCartridge, CropSeedItem.SeedType.GRASS));
