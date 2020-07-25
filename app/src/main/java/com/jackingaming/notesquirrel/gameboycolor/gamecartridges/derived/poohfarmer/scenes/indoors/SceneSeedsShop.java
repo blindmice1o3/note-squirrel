@@ -42,8 +42,6 @@ public class SceneSeedsShop extends Scene {
     private MenuItemHolder[] menuItemHolders;
     private int indexMenuItemHolders;
     transient private Bitmap cursorImage;
-    List<MenuItemHolder.Id> templateFirstPage;
-    List<MenuItemHolder.Id> templateNonFirstPage;
 
     //TEXT-AREA
     transient private Paint paintBackground;
@@ -64,9 +62,6 @@ public class SceneSeedsShop extends Scene {
         initInventory();
         indexFirstVisibleItem = 0;
 
-        initTemplateFirstPage();
-        initTemplateNonFirstPage();
-
         initMenuItemHolders();
         indexMenuItemHolders = 0;
 
@@ -83,10 +78,6 @@ public class SceneSeedsShop extends Scene {
         inventory.add(new FlowerPotItem(gameCartridge));
         inventory.add(new GlovedHandsItem(gameCartridge));
         inventory.add(new ScissorsItem(gameCartridge));
-    }
-
-    private void updateMenuItemHolders() {
-
     }
 
     public void updateTextArea() {
@@ -119,167 +110,146 @@ public class SceneSeedsShop extends Scene {
     private void initMenuItemHolders() {
         menuItemHolders = new MenuItemHolder[NUMBER_OF_MENU_ITEM_HOLDERS];
 
-        menuItemHolders[0] = new MenuItemHolder(gameCartridge, true);
-        menuItemHolders[1] = new MenuItemHolder(gameCartridge, true);
-        menuItemHolders[2] = new MenuItemHolder(gameCartridge, true);
-        menuItemHolders[3] = new MenuItemHolder(gameCartridge, true);
-        menuItemHolders[4] = new MenuItemHolder(gameCartridge, true);
+        menuItemHolders[0] = new MenuItemHolder(gameCartridge);
+        menuItemHolders[1] = new MenuItemHolder(gameCartridge);
+        menuItemHolders[2] = new MenuItemHolder(gameCartridge);
+        menuItemHolders[3] = new MenuItemHolder(gameCartridge);
+        menuItemHolders[4] = new MenuItemHolder(gameCartridge);
 
-        //////////////
-        setTemplate();
-        //////////////
+        ////////////////////////
+        updateMenuItemHolders();
+        ////////////////////////
     }
 
-    public void setTemplate() {
-        List<MenuItemHolder.Id> template = determineTemplateToUse();
-
-        for (int i = 0; i < menuItemHolders.length; i++) {
-            menuItemHolders[i].setId(template.get(i));
-
-            //FIRST_PAGE
-            if (indexFirstVisibleItem == 0) {
-                switch (template.get(i)) {
-                    case TALK:
-                        menuItemHolders[i].initImage(gameCartridge.getContext().getResources());
-                        menuItemHolders[i].setName("Talk");
-                        menuItemHolders[i].setPrice("...");
-                        break;
-                    case BUY:
-                        Item item = inventory.get(indexFirstVisibleItem + i - 1);
-
-                        if ( (indexFirstVisibleItem+i-1 < inventory.size()) &&
-                                (indexFirstVisibleItem+i-1 >= 0) ) {
-                            menuItemHolders[i].setItem(item);
-                            menuItemHolders[i].updateItem();
-                        }
-                        break;
-                    case EMPTY:
-                        menuItemHolders[i].initImage(gameCartridge.getContext().getResources());
-                        menuItemHolders[i].setName("Empty");
-                        menuItemHolders[i].setPrice("...");
-                        break;
-                    case SPILL_OVER:
-                        menuItemHolders[i].initImage(gameCartridge.getContext().getResources());
-                        menuItemHolders[i].setName("Spill Over");
-                        menuItemHolders[i].setPrice("...");
-                        break;
-                    case EXIT:
-                        menuItemHolders[i].initImage(gameCartridge.getContext().getResources());
-                        menuItemHolders[i].setName("Exit");
-                        menuItemHolders[i].setPrice("...");
-                        break;
-                }
-            }
-            //NON_FIRST_PAGE
-            else {
-                switch (template.get(i)) {
-                    case TALK:
-                        menuItemHolders[i].initImage(gameCartridge.getContext().getResources());
-                        menuItemHolders[i].setName("Talk");
-                        menuItemHolders[i].setPrice("...");
-                        break;
-                    case BUY:
-                        Item item = inventory.get(indexFirstVisibleItem + i);
-
-                        if ( (indexFirstVisibleItem+i < inventory.size()) &&
-                                (indexFirstVisibleItem+i >= 0) ) {
-                            menuItemHolders[i].setItem(item);
-                            menuItemHolders[i].updateItem();
-                        }
-                        break;
-                    case EMPTY:
-                        menuItemHolders[i].initImage(gameCartridge.getContext().getResources());
-                        menuItemHolders[i].setName("Empty");
-                        menuItemHolders[i].setPrice("...");
-                        break;
-                    case SPILL_OVER:
-                        menuItemHolders[i].initImage(gameCartridge.getContext().getResources());
-                        menuItemHolders[i].setName("Spill over");
-                        menuItemHolders[i].setPrice("...");
-                        break;
-                    case EXIT:
-                        menuItemHolders[i].initImage(gameCartridge.getContext().getResources());
-                        menuItemHolders[i].setName("Exit");
-                        menuItemHolders[i].setPrice("...");
-                        break;
-                }
-            }
-        }
-    }
-
-    private List<MenuItemHolder.Id> determineTemplateToUse() {
+    public void updateMenuItemHolders() {
+        //FIRST_PAGE
         if (indexFirstVisibleItem == 0) {
-            initTemplateFirstPage();
-            return templateFirstPage;
-        } else {
-            initTemplateNonFirstPage();
-            return templateNonFirstPage;
-        }
-    }
+            //[0]
+            menuItemHolders[0].setId(MenuItemHolder.Id.TALK);
+            menuItemHolders[0].initImage(gameCartridge.getContext().getResources());
+            menuItemHolders[0].setName("Talk");
+            menuItemHolders[0].setPrice("");
 
-    private void initTemplateFirstPage() {
-        templateFirstPage = new ArrayList<MenuItemHolder.Id>();
+            //[1]
+            if ( (indexFirstVisibleItem + 0) < inventory.size() ) {
+                Item item = inventory.get(indexFirstVisibleItem + 0);
+                menuItemHolders[1].setId(MenuItemHolder.Id.BUY);
+                menuItemHolders[1].setItem(item);
+                menuItemHolders[1].updateItem();
+            } else {
+                menuItemHolders[1].setId(MenuItemHolder.Id.EMPTY);
+                menuItemHolders[1].initImage(gameCartridge.getContext().getResources());
+                menuItemHolders[1].setName("Empty");
+                menuItemHolders[1].setPrice("");
+            }
 
-        //[0] WILL ALWAYS HAVE MenuItemHolder.Id.TALK
-        templateFirstPage.add(MenuItemHolder.Id.TALK);
-        ////////////////////////////////////////////////////////////////////
-        //[1] CAN THERE EVER BE AN EMPTY INVENTORY FOR SHOP?
-        if (indexFirstVisibleItem < inventory.size()) {
-            templateFirstPage.add(MenuItemHolder.Id.BUY);
-        } else{
-            templateFirstPage.add(MenuItemHolder.Id.EMPTY);
-        }
-        //[2] SOMETIMES exist, SOMETIMES does NOT exist
-        if ( (indexFirstVisibleItem + 1) < inventory.size() ) {
-            templateFirstPage.add(MenuItemHolder.Id.BUY);
-        } else{
-            templateFirstPage.add(MenuItemHolder.Id.EMPTY);
-        }
-        //[3] SOMETIMES exist, SOMETIMES does NOT exist
-        if ( (indexFirstVisibleItem + 2) < inventory.size() ) {
-            templateFirstPage.add(MenuItemHolder.Id.BUY);
-        } else{
-            templateFirstPage.add(MenuItemHolder.Id.EMPTY);
-        }
-        ////////////////////////////////////////////////////////////////////
-        //[4] SOMETIMES MenuItemHolder.Id.SPILL_OVER, SOMETIMES MenuItemHolder.Id.EXIT
-        if ( (indexFirstVisibleItem + 3) < inventory.size() ) {
-            templateFirstPage.add(MenuItemHolder.Id.SPILL_OVER);
-        } else {
-            templateFirstPage.add(MenuItemHolder.Id.EXIT);
-        }
-    }
+            //[2]
+            if ( (indexFirstVisibleItem + 1) < inventory.size() ) {
+                Item item = inventory.get(indexFirstVisibleItem + 1);
+                menuItemHolders[2].setId(MenuItemHolder.Id.BUY);
+                menuItemHolders[2].setItem(item);
+                menuItemHolders[2].updateItem();
+            } else {
+                menuItemHolders[2].setId(MenuItemHolder.Id.EMPTY);
+                menuItemHolders[2].initImage(gameCartridge.getContext().getResources());
+                menuItemHolders[2].setName("Empty");
+                menuItemHolders[2].setPrice("");
+            }
 
-    private void initTemplateNonFirstPage() {
-        templateNonFirstPage = new ArrayList<MenuItemHolder.Id>();
+            //[3]
+            if ( (indexFirstVisibleItem + 2) < inventory.size() ) {
+                Item item = inventory.get(indexFirstVisibleItem + 2);
+                menuItemHolders[3].setId(MenuItemHolder.Id.BUY);
+                menuItemHolders[3].setItem(item);
+                menuItemHolders[3].updateItem();
+            } else {
+                menuItemHolders[3].setId(MenuItemHolder.Id.EMPTY);
+                menuItemHolders[3].initImage(gameCartridge.getContext().getResources());
+                menuItemHolders[3].setName("Empty");
+                menuItemHolders[3].setPrice("");
+            }
 
-        //[0] WILL ALWAYS HAVE MenuItemHolder.Id.BUY
-        templateNonFirstPage.add(MenuItemHolder.Id.BUY);
-        ////////////////////////////////////////////////////////////////////
-        //[1] SOMETIMES exist, SOMETIMES does NOT exist
-        if (indexFirstVisibleItem + 1 < inventory.size()) {
-            templateNonFirstPage.add(MenuItemHolder.Id.BUY);
-        } else{
-            templateNonFirstPage.add(MenuItemHolder.Id.EMPTY);
+            //[4]
+            if ( (indexFirstVisibleItem + 3) < inventory.size() ) {
+                menuItemHolders[4].setId(MenuItemHolder.Id.SPILL_OVER);
+                menuItemHolders[4].initImage(gameCartridge.getContext().getResources());
+                menuItemHolders[4].setName("Spill over");
+                menuItemHolders[4].setPrice("");
+
+            } else {
+                menuItemHolders[4].setId(MenuItemHolder.Id.EXIT);
+                menuItemHolders[4].initImage(gameCartridge.getContext().getResources());
+                menuItemHolders[4].setName("Exit");
+                menuItemHolders[4].setPrice("");
+
+            }
         }
-        //[2] SOMETIMES exist, SOMETIMES does NOT exist
-        if ( (indexFirstVisibleItem + 2) < inventory.size() ) {
-            templateNonFirstPage.add(MenuItemHolder.Id.BUY);
-        } else{
-            templateNonFirstPage.add(MenuItemHolder.Id.EMPTY);
-        }
-        //[3] SOMETIMES exist, SOMETIMES does NOT exist
-        if ( (indexFirstVisibleItem + 3) < inventory.size() ) {
-            templateNonFirstPage.add(MenuItemHolder.Id.BUY);
-        } else{
-            templateNonFirstPage.add(MenuItemHolder.Id.EMPTY);
-        }
-        ////////////////////////////////////////////////////////////////////
-        //[4] SOMETIMES MenuItemHolder.Id.SPILL_OVER, SOMETIMES MenuItemHolder.Id.EXIT
-        if ( (indexFirstVisibleItem + 4) < inventory.size() ) {
-            templateNonFirstPage.add(MenuItemHolder.Id.SPILL_OVER);
-        } else {
-            templateNonFirstPage.add(MenuItemHolder.Id.EXIT);
+        //NON_FIRST_PAGE
+        else {
+            //[0]
+            if ( (indexFirstVisibleItem + 0) < inventory.size() ) {
+                Item item = inventory.get(indexFirstVisibleItem + 0);
+                menuItemHolders[0].setId(MenuItemHolder.Id.BUY);
+                menuItemHolders[0].setItem(item);
+                menuItemHolders[0].updateItem();
+            } else {
+                menuItemHolders[1].setId(MenuItemHolder.Id.EMPTY);
+                menuItemHolders[1].initImage(gameCartridge.getContext().getResources());
+                menuItemHolders[1].setName("Empty");
+                menuItemHolders[1].setPrice("");
+            }
+
+            //[1]
+            if ( (indexFirstVisibleItem + 1) < inventory.size() ) {
+                Item item = inventory.get(indexFirstVisibleItem + 1);
+                menuItemHolders[1].setId(MenuItemHolder.Id.BUY);
+                menuItemHolders[1].setItem(item);
+                menuItemHolders[1].updateItem();
+            } else {
+                menuItemHolders[1].setId(MenuItemHolder.Id.EMPTY);
+                menuItemHolders[1].initImage(gameCartridge.getContext().getResources());
+                menuItemHolders[1].setName("Empty");
+                menuItemHolders[1].setPrice("");
+            }
+
+            //[2]
+            if ( (indexFirstVisibleItem + 2) < inventory.size() ) {
+                Item item = inventory.get(indexFirstVisibleItem + 2);
+                menuItemHolders[2].setId(MenuItemHolder.Id.BUY);
+                menuItemHolders[2].setItem(item);
+                menuItemHolders[2].updateItem();
+            } else {
+                menuItemHolders[2].setId(MenuItemHolder.Id.EMPTY);
+                menuItemHolders[2].initImage(gameCartridge.getContext().getResources());
+                menuItemHolders[2].setName("Empty");
+                menuItemHolders[2].setPrice("");
+            }
+
+            //[3]
+            if ( (indexFirstVisibleItem + 3) < inventory.size() ) {
+                Item item = inventory.get(indexFirstVisibleItem + 3);
+                menuItemHolders[3].setId(MenuItemHolder.Id.BUY);
+                menuItemHolders[3].setItem(item);
+                menuItemHolders[3].updateItem();
+            } else {
+                menuItemHolders[3].setId(MenuItemHolder.Id.EMPTY);
+                menuItemHolders[3].initImage(gameCartridge.getContext().getResources());
+                menuItemHolders[3].setName("Empty");
+                menuItemHolders[3].setPrice("");
+            }
+
+            //[4]
+            if ( (indexFirstVisibleItem + 4) < inventory.size() ) {
+                menuItemHolders[4].setId(MenuItemHolder.Id.SPILL_OVER);
+                menuItemHolders[4].initImage(gameCartridge.getContext().getResources());
+                menuItemHolders[4].setName("Spill over");
+                menuItemHolders[4].setPrice("");
+            } else {
+                menuItemHolders[4].setId(MenuItemHolder.Id.EXIT);
+                menuItemHolders[4].initImage(gameCartridge.getContext().getResources());
+                menuItemHolders[4].setName("Exit");
+                menuItemHolders[4].setPrice("");
+            }
         }
     }
 
@@ -325,7 +295,11 @@ public class SceneSeedsShop extends Scene {
         }
 
         //MENU_ITEM_HOLDER
-        setTemplate();
+        for (MenuItemHolder menuItemHolder : menuItemHolders) {
+            menuItemHolder.init(gameCartridge);
+        }
+
+        updateMenuItemHolders();
     }
 
     @Override
@@ -345,7 +319,7 @@ public class SceneSeedsShop extends Scene {
         super.exit(extra);
 
         indexFirstVisibleItem = 0;
-        setTemplate();
+        updateMenuItemHolders();
         indexMenuItemHolders = 0;
         updateTextArea();
         gameCartridge.getTimeManager().setIsPaused(false);
@@ -409,7 +383,11 @@ public class SceneSeedsShop extends Scene {
             Log.d(MainActivity.DEBUG_TAG, "SceneSeedsShop.getInputButtonPad() a-button-justPressed");
             //TODO:
             MenuItemHolder menuItemHolder = menuItemHolders[indexMenuItemHolders];
+            ////////////////////////////////////////////
             menuItemHolder.execute(this);
+            ////////////////////////////////////////////
+            updateMenuItemHolders();
+            updateTextArea();
         }
         //b button
         else if (inputManager.isbButtonPad()) {
@@ -510,17 +488,18 @@ class MenuItemHolder
     public enum Id { TALK, BUY, EMPTY, SPILL_OVER, EXIT; }
     transient private GameCartridge gameCartridge;
     private MenuItemHolder.Id id;
-    private boolean isEnabled;
     private Item item;
     private String name;
     private String price;
     transient private Bitmap image;
-    public MenuItemHolder(GameCartridge gameCartridge, boolean isEnabled) {
+    public MenuItemHolder(GameCartridge gameCartridge) {
         this.gameCartridge = gameCartridge;
-        this.isEnabled = isEnabled;
         item = null;
         name = "";
         price = "";
+    }
+    public void init(GameCartridge gameCartridge) {
+        this.gameCartridge = gameCartridge;
     }
     public void execute(SceneSeedsShop sceneSeedsShop) {
         switch (id) {
@@ -555,15 +534,12 @@ class MenuItemHolder
                 Item itemToBuy = sceneSeedsShop.getItem(indexSelectedItem);
                 Log.d(MainActivity.DEBUG_TAG, "MenuItemHolder.execute(SceneSeedsShop) itemToBuy, (price): " + itemToBuy + " (" + itemToBuy.getPrice() + ")");
                 if (player.getCurrencyNuggets() >= itemToBuy.getPrice()) {
-                    //TODO:
                     int currentNuggetsAfterBuyingItem = player.getCurrencyNuggets() - itemToBuy.getPrice();
                     /////////////////////////////////////////////////////////
                     player.setCurrencyNuggets(currentNuggetsAfterBuyingItem);
                     player.getInventory().add(itemToBuy);
                     /////////////////////////////////////////////////////////
                     sceneSeedsShop.removeItem(itemToBuy);
-                    sceneSeedsShop.setTemplate();
-                    sceneSeedsShop.updateTextArea();
                 }
                 break;
             case EMPTY:
@@ -579,7 +555,7 @@ class MenuItemHolder
                     numberOfBuyMenuItemInTemplate = 4;
                 }
                 sceneSeedsShop.incrementIndexFirstVisibleItem(numberOfBuyMenuItemInTemplate);
-                sceneSeedsShop.setTemplate();
+                sceneSeedsShop.updateMenuItemHolders();
                 sceneSeedsShop.resetIndexMenuItemHolders();
                 sceneSeedsShop.updateTextArea();
                 break;
@@ -613,7 +589,6 @@ class MenuItemHolder
                 break;
         }
     }
-
     /**
      * UPDATING: image, name, price.
      */
@@ -642,12 +617,6 @@ class MenuItemHolder
     }
     public void setId(Id id) {
         this.id = id;
-    }
-    public boolean getIsEnabled() {
-        return isEnabled;
-    }
-    public void setIsEnabled(boolean isEnabled) {
-        this.isEnabled = isEnabled;
     }
     public Item getItem() {
         return item;
