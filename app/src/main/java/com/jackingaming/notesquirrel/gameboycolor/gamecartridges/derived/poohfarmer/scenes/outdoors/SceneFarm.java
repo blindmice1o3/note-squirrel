@@ -9,6 +9,8 @@ import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.TimeManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.BushEntity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.RockEntity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
@@ -29,6 +31,11 @@ public class SceneFarm extends Scene {
 
         Entity robot = new Robot(gameCartridge, (7 * TileMap.TILE_WIDTH), (5 * TileMap.TILE_HEIGHT));
         entityManager.addEntity(robot);
+
+        Entity rock = new RockEntity(gameCartridge, (7 * TileMap.TILE_WIDTH), (6 * TileMap.TILE_HEIGHT));
+        entityManager.addEntity(rock);
+        Entity bush = new BushEntity(gameCartridge, (8 * TileMap.TILE_WIDTH), (6 * TileMap.TILE_HEIGHT));
+        entityManager.addEntity(bush);
     }
 
     @Override
