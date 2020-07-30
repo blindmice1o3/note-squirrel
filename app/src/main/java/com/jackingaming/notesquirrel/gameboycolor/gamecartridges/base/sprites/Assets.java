@@ -17,7 +17,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.t
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.solids2x2.ShippingBinTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.outdoors.worldmap.TileMapPart01;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.products.Product;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.Product;
 
 import java.util.HashMap;
 import java.util.Map;

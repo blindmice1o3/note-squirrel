@@ -1,13 +1,9 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.outdoors;
 
 import android.util.Log;
-import android.view.Gravity;
-import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
-import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.TimeManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.BushEntity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.RockEntity;
@@ -15,9 +11,9 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Sce
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.solids2x2.ShippingBinTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.Holdable;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.entities.moveable.Robot;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.products.Product;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.Product;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.outdoors.TileMapFarm;
 
 public class SceneFarm extends Scene {
@@ -66,14 +62,10 @@ public class SceneFarm extends Scene {
                 ////////////////////////////////////////////////////////////////
 
                 return;
-            }
-
-            //@@@@@PRODUCT@@@@@
-            Product product = player.getProductCurrentlyFacing();
-            if ( (product != null) && (player.getHoldable() == null) ) {
-                player.setHoldable(product);
-                Log.d(MainActivity.DEBUG_TAG, "SceneFarm.getInputButtonPad() player's holdable: " + player.getHoldable().toString());
-                productManager.removeProduct(product);
+            } else if ( (entity instanceof Holdable) && (player.getHoldable() == null) ) {
+                Holdable holdableEntity = (Holdable) entity;
+                player.setHoldable(holdableEntity);
+                Log.d(MainActivity.DEBUG_TAG, "SceneHothouse.getInputButtonPad() player's holdable: " + player.getHoldable().toString());
 
                 return;
             }

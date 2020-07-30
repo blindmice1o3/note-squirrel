@@ -100,6 +100,12 @@ public class EntityManager
         entities.add(e);
     }
 
+    public void removeEntity(Entity e) {
+        if (entities.contains(e)) {
+            entities.remove(e);
+        }
+    }
+
     public ArrayList<Entity> getEntities() {
         return entities;
     }

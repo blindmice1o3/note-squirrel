@@ -7,7 +7,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.s
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.Item;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableTableTile;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.products.Product;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.Product;
 
 public class ScissorsItem extends Item {
 
@@ -35,6 +35,8 @@ public class ScissorsItem extends Item {
                     if (gameCartridge.getPlayer().getHoldable() == null) {
                         //instantiate Product based on FlowerEntity.Id.
                         Product flowerProduct = flowerEntity.generateFlowerProduct();
+                        //ADD PRODUCT TO entityManager.
+                        gameCartridge.getSceneManager().getCurrentScene().getEntityManager().addEntity(flowerProduct);
                         //compose Player with Holdable field, set to newly instantiated Product.
                         gameCartridge.getPlayer().setHoldable(flowerProduct);
 

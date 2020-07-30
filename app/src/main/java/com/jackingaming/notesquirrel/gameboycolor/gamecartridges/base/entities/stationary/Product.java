@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.products;
+package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -8,54 +8,49 @@ import android.graphics.Rect;
 
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.FlowerEntity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableGroundTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.solids2x2.ShippingBinTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.Holdable;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.Sellable;
 
 import java.io.Serializable;
 
-public class Product
+public class Product extends Entity
         implements Holdable, Sellable, Serializable {
 
     public enum Id { TURNIP, POTATO, TOMATO, CORN, EGGPLANT, PEANUT, CARROT, BROCCOLI,
         MYSTERY, GERANIUM, PRIMROSE, LAVENDER, ORCHID, SAGE, SAFFRON, ROSEMARY, CHAMOMILE; }
 
+    transient private Bitmap image;
+    private float widthPixelToViewportRatio;
+    private float heightPixelToViewportRatio;
+
     private Product.Id id;
     private boolean isWhole;
     private int price;
 
-    transient private GameCartridge gameCartridge;
-    transient private Bitmap image;
-    transient private Rect bounds;
-    private float xCurrent;
-    private float yCurrent;
-    private int width;
-    private int height;
-    private float widthPixelToViewportRatio;
-    private float heightPixelToViewportRatio;
+    public Product(GameCartridge gameCartridge, float xCurrent, float yCurrent, Product.Id id) {
+        super(gameCartridge, xCurrent, yCurrent);
 
-    public Product(GameCartridge gameCartridge, Product.Id id, float xCurrent, float yCurrent) {
         this.id = id;
         isWhole = true;
         establishPrice();
 
-        this.xCurrent = xCurrent;
-        this.yCurrent = yCurrent;
-        width = TileMap.TILE_WIDTH;
-        height = TileMap.TILE_HEIGHT;
-        widthPixelToViewportRatio = ((float) gameCartridge.getWidthViewport()) /
-                gameCartridge.getGameCamera().getWidthClipInPixel();
-        heightPixelToViewportRatio = ((float) gameCartridge.getHeightViewport()) /
-                gameCartridge.getGameCamera().getHeightClipInPixel();
         init(gameCartridge);
     }
 
     @Override
     public void init(GameCartridge gameCartridge) {
         this.gameCartridge = gameCartridge;
+        widthPixelToViewportRatio = ((float) gameCartridge.getWidthViewport()) /
+                gameCartridge.getGameCamera().getWidthClipInPixel();
+        heightPixelToViewportRatio = ((float) gameCartridge.getHeightViewport()) /
+                gameCartridge.getGameCamera().getHeightClipInPixel();
+
         initImage(gameCartridge.getContext().getResources());
         initBounds();
     }
@@ -66,12 +61,8 @@ public class Product
     }
 
     @Override
-    public Rect getCollisionBounds(float xOffset, float yOffset) {
-        return new Rect(
-                (int)(xCurrent + bounds.left + xOffset),
-                (int)(yCurrent + bounds.top + yOffset),
-                (int)(xCurrent + bounds.left + xOffset) + bounds.right,
-                (int)(yCurrent + bounds.top + yOffset) + bounds.bottom);
+    public void update(long elapsed) {
+        //intentionally blank.
     }
 
     public void establishPrice() {
@@ -207,10 +198,6 @@ public class Product
             GrowableGroundTile growableGroundTile = (GrowableGroundTile) tile;
 
             if (growableGroundTile.getCropEntity() == null) {
-                //Moving products from one scene to another.
-                //Scene.exit() will remove the holdable from the prior scene's productManager.
-                gameCartridge.getSceneManager().getCurrentScene().getProductManager().addProduct(this);
-
                 int xCurrentTile = growableGroundTile.getxIndex() * TileMap.TILE_WIDTH;
                 int yCurrentTile = growableGroundTile.getyIndex() * TileMap.TILE_HEIGHT;
                 ////////////////////////
@@ -233,6 +220,8 @@ public class Product
     @Override
     public void putInShippingBin(ShippingBinTile shippingBin) {
         shippingBin.addSellable(this);
+        //REMOVE PRODUCT FROM entityManager.
+        gameCartridge.getSceneManager().getCurrentScene().getEntityManager().removeEntity(this);
     }
 
 }

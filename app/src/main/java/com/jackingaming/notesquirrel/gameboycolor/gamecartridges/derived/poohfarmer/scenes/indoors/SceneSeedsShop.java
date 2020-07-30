@@ -471,9 +471,6 @@ public class SceneSeedsShop extends Scene {
 
         //ENTITIES
 //        entityManager.render(canvas);
-
-        //PRODUCTS
-        productManager.render(canvas);
     }
 
     private Bitmap cropCursorImage(Resources resources) {

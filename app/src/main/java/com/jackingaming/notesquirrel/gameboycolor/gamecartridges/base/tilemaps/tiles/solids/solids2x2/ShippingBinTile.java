@@ -7,7 +7,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartri
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.moveable.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.products.Sellable;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.Sellable;
 
 import java.util.ArrayList;
 import java.util.List;

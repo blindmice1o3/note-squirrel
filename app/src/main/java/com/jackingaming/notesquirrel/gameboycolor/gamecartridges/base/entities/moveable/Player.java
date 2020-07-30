@@ -29,8 +29,8 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.T
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Animation;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.products.Holdable;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.products.Product;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.Holdable;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.Product;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -297,6 +297,12 @@ public class Player extends Creature {
             if (e.equals(this)) {
                 continue;
             }
+            //player's HOLDABLE, do NOT count as collision
+            else if (holdable != null) {
+                if (e.equals(holdable)) {
+                    continue;
+                }
+            }
 
             //check EACH entity to see if their collision bounds INTERSECTS with yours.
             if (e.getCollisionBounds(0f, 0f).intersect(getCollisionBounds(xOffset, yOffset))) {
@@ -349,10 +355,6 @@ public class Player extends Creature {
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         canvas.drawBitmap(currentFrame, rectOfImage, rectOnScreen, null);
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-        if (holdable != null) {
-            holdable.render(canvas);
-        }
     }
 
     private Bitmap currentAnimationFrame() {
@@ -443,67 +445,6 @@ public class Player extends Creature {
         }
 
         return tempEntityReturner;
-    }
-
-    public Product getProductCurrentlyFacing() {
-        Log.d(MainActivity.DEBUG_TAG, "Player.getProductCurrentlyFacing()");
-
-        Product tempProductReturner = null;
-
-        int creatureCenterX = (int)(xCurrent + (width / 2));
-        int creatureCenterY = (int)(yCurrent + (height / 2));
-
-        Rect productCollisionBox = new Rect();
-        switch (direction) {
-            case DOWN:
-                productCollisionBox.left = (creatureCenterX-(TileMap.TILE_WIDTH/4));
-                productCollisionBox.top = (creatureCenterY+(TileMap.TILE_HEIGHT/2)+((int)(0.3)*TileMap.TILE_HEIGHT));
-                productCollisionBox.right = (creatureCenterX-(TileMap.TILE_WIDTH/4)) +
-                        (TileMap.TILE_WIDTH/2);
-                productCollisionBox.bottom = (creatureCenterY+(TileMap.TILE_HEIGHT/2)+((int)(0.3)*TileMap.TILE_HEIGHT)) +
-                        (TileMap.TILE_HEIGHT/2);
-                break;
-            case UP:
-                productCollisionBox.left = (creatureCenterX-(TileMap.TILE_WIDTH/4));
-                productCollisionBox.top = (creatureCenterY-((int)(1.4)*TileMap.TILE_HEIGHT));
-                productCollisionBox.right = (creatureCenterX-(TileMap.TILE_WIDTH/4)) +
-                        (TileMap.TILE_WIDTH/2);
-                productCollisionBox.bottom = (creatureCenterY-((int)(1.4)*TileMap.TILE_HEIGHT)) +
-                        (TileMap.TILE_HEIGHT/2);
-                break;
-            case LEFT:
-                productCollisionBox.left = (creatureCenterX-((int)(1.4)*TileMap.TILE_WIDTH));
-                productCollisionBox.top = (creatureCenterY-(TileMap.TILE_HEIGHT/4));
-                productCollisionBox.right = (creatureCenterX-((int)(1.4)*TileMap.TILE_WIDTH)) +
-                        (TileMap.TILE_WIDTH/2);
-                productCollisionBox.bottom = (creatureCenterY-(TileMap.TILE_HEIGHT/4)) +
-                        (TileMap.TILE_HEIGHT/2);
-                break;
-            case RIGHT:
-                productCollisionBox.left = (creatureCenterX+(TileMap.TILE_WIDTH/2)+((int)(0.3)*TileMap.TILE_WIDTH));
-                productCollisionBox.top = (creatureCenterY-(TileMap.TILE_HEIGHT/4));
-                productCollisionBox.right = (creatureCenterX+(TileMap.TILE_WIDTH/2)+((int)(0.3)*TileMap.TILE_WIDTH)) +
-                        (TileMap.TILE_WIDTH/2);
-                productCollisionBox.bottom = (creatureCenterY-(TileMap.TILE_HEIGHT/4)) +
-                        (TileMap.TILE_HEIGHT/2);
-                break;
-            default:
-                break;
-        }
-
-        for (Product product : gameCartridge.getSceneManager().getCurrentScene().getProductManager().getProducts()) {
-            if (productCollisionBox.intersect(product.getCollisionBounds(0, 0))) {
-                tempProductReturner = product;
-            }
-        }
-
-        if (tempProductReturner != null) {
-            Log.d(MainActivity.DEBUG_TAG, "Player.getProductCurrentlyFacing() product: " + tempProductReturner.toString());
-        } else {
-            Log.d(MainActivity.DEBUG_TAG, "Player.getProductCurrentlyFacing() product is null");
-        }
-
-        return tempProductReturner;
     }
 
     public Tile getTileCurrentlyFacing() {

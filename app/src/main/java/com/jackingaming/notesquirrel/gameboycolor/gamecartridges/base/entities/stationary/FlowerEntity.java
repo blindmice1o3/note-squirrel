@@ -7,7 +7,6 @@ import android.graphics.Rect;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.products.Product;
 
 public class FlowerEntity extends Entity {
 
@@ -138,7 +137,7 @@ public class FlowerEntity extends Entity {
                 break;
         }
         if (idProduct != null) {
-            flowerProduct = new Product(gameCartridge, idProduct, xCurrent, yCurrent);
+            flowerProduct = new Product(gameCartridge, xCurrent, yCurrent, idProduct);
         }
         return flowerProduct;
     }

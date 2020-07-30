@@ -1,5 +1,6 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -29,12 +30,12 @@ public class BushEntity extends Entity {
         heightPixelToViewportRatio = ((float) gameCartridge.getHeightViewport()) /
                 gameCartridge.getGameCamera().getHeightClipInPixel();
 
-        updateImage();
+        initImage(gameCartridge.getContext().getResources());
         initBounds();
     }
 
-    public void updateImage() {
-        Bitmap spriteSheetItems = BitmapFactory.decodeResource(gameCartridge.getContext().getResources(), R.drawable.gbc_hm2_spritesheet_items);
+    public void initImage(Resources resources) {
+        Bitmap spriteSheetItems = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm2_spritesheet_items);
         image = Bitmap.createBitmap(spriteSheetItems, 120, 0, 16, 16);
     }
 
@@ -45,7 +46,7 @@ public class BushEntity extends Entity {
 
     @Override
     public void update(long elapsed) {
-
+        //intentionally blank.
     }
 
     @Override

@@ -7,7 +7,6 @@ import android.graphics.Rect;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.products.Product;
 
 public class CropEntity extends Entity {
 
@@ -181,7 +180,7 @@ public class CropEntity extends Entity {
                 break;
         }
         if (idProduct != null) {
-            cropProduct = new Product(gameCartridge, idProduct, xCurrent, yCurrent);
+            cropProduct = new Product(gameCartridge, xCurrent, yCurrent, idProduct);
         }
         return cropProduct;
     }

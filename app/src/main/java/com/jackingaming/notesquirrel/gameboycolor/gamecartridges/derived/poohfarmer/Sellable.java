@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.products;
+package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer;
 
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.solids2x2.ShippingBinTile;
 

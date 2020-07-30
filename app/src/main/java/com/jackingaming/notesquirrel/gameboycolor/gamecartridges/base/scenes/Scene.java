@@ -16,8 +16,6 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.E
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.moveable.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.products.Product;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.products.ProductManager;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 
 import java.io.Serializable;
@@ -43,7 +41,6 @@ public abstract class Scene
 
     protected TileMap tileMap;
     protected EntityManager entityManager;
-    protected ProductManager productManager;
     protected Player player;
     protected GameCamera gameCamera;
 
@@ -65,7 +62,6 @@ public abstract class Scene
 
         /////////////////////////////////////////////////////////////
         entityManager = new EntityManager(gameCartridge.getPlayer());
-        productManager = new ProductManager();
         initTileMap();
         /////////////////////////////////////////////////////////////
     }
@@ -116,6 +112,13 @@ public abstract class Scene
 
     public void enter() {
         Log.d(MainActivity.DEBUG_TAG, "Scene.enter()");
+
+        //ADD PRODUCT TO entityManager (moving products from one scene to another).
+        if ( (player.getHoldable() != null) && (player.getHoldable() instanceof Entity) ) {
+            Entity holdableEntity = (Entity) player.getHoldable();
+            entityManager.addEntity(holdableEntity);
+        }
+
         Log.d(MainActivity.DEBUG_TAG, "Scene.enter() player.xCurrent, player.yCurrent: " + player.getxCurrent() + ", " + player.getyCurrent());
         Log.d(MainActivity.DEBUG_TAG, "Scene.enter() xPriorScene, yPriorScene: " + xPriorScene + ", " + yPriorScene);
 
@@ -144,9 +147,6 @@ public abstract class Scene
         for (Entity e : entityManager.getEntities()) {
             e.init(gameCartridge);
         }
-        for (Product product : productManager.getProducts()) {
-            product.init(gameCartridge);
-        }
         Log.d(MainActivity.DEBUG_TAG, "Scene.enter() player.xCurrent, player.yCurrent: " + player.getxCurrent() + ", " + player.getyCurrent());
 
         //TODO: base this from what's saved via StartMenuState's OPTION (settings).
@@ -156,11 +156,10 @@ public abstract class Scene
     public void exit(Object[] extra) {
         Log.d(MainActivity.DEBUG_TAG, "Scene.exit(Object[])");
 
-        //REMOVE PRODUCT FROM productManager (moving products from one scene to another).
-        //Product.drop(Tile) will add the holdable to the new scene's productManager.
-        if (player.getHoldable() instanceof Product) {
-            Product holdable = (Product) player.getHoldable();
-            gameCartridge.getSceneManager().getCurrentScene().getProductManager().removeProduct(holdable);
+        //REMOVE PRODUCT FROM entityManager (moving products from one scene to another).
+        if ( (player.getHoldable() != null) && (player.getHoldable() instanceof Entity) ) {
+            Entity holdableEntity = (Entity) player.getHoldable();
+            entityManager.removeEntity(holdableEntity);
         }
 
         //TODO: work-around for bug to get it working.
@@ -322,9 +321,6 @@ public abstract class Scene
 
         //ENTITIES
         entityManager.render(canvas);
-
-        //PRODUCTS
-        productManager.render(canvas);
     }
 
     public InputManager getInputManager() {
@@ -337,10 +333,6 @@ public abstract class Scene
 
     public EntityManager getEntityManager() {
         return entityManager;
-    }
-
-    public ProductManager getProductManager() {
-        return productManager;
     }
 
     public void setGameCamera(GameCamera gameCamera) {

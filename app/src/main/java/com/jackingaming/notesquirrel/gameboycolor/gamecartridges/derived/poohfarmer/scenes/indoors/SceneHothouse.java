@@ -4,11 +4,12 @@ import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableTableTile;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.products.Product;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.Product;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.Holdable;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.indoors.TileMapHothouse;
 
 public class SceneHothouse extends Scene {
@@ -46,14 +47,11 @@ public class SceneHothouse extends Scene {
             Log.d(MainActivity.DEBUG_TAG, "SceneHothouse.getInputButtonPad() a-button-justPressed");
 
             //@@@@@ENTITIES@@@@@
-            //intentionally blank.
-
-            //@@@@@PRODUCT@@@@@
-            Product product = player.getProductCurrentlyFacing();
-            if ( (product != null) && (player.getHoldable() == null) ) {
-                player.setHoldable(product);
+            Entity entity = player.getEntityCurrentlyFacing();
+            if ( (entity instanceof Holdable) && (player.getHoldable() == null) ) {
+                Holdable holdableEntity = (Holdable) entity;
+                player.setHoldable(holdableEntity);
                 Log.d(MainActivity.DEBUG_TAG, "SceneHothouse.getInputButtonPad() player's holdable: " + player.getHoldable().toString());
-                productManager.removeProduct(product);
 
                 return;
             }
