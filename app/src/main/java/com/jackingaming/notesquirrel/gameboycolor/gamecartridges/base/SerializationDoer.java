@@ -214,7 +214,6 @@ public class SerializationDoer {
 
             //PLAYER, GAME_CAMERA, HEAD_UP_DISPLAY
             player.init(gameCartridge);
-            player.setGameCamera(gameCamera);
             gameCamera.setEntity(player);
 
             //GAME_CARTRIDGE

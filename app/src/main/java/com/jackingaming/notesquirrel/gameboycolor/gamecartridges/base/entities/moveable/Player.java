@@ -12,7 +12,6 @@ import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.Item;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.seeds.FlowerSeedItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.AxeItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.BugNetItem;
@@ -30,7 +29,6 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.An
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.Holdable;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.Product;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,7 +36,6 @@ import java.util.Map;
 
 public class Player extends Creature {
 
-    private GameCamera gameCamera;
     private float widthPixelToViewportRatio;
     private float heightPixelToViewportRatio;
     transient private Map<Direction, Animation> animation;
@@ -152,11 +149,10 @@ public class Player extends Creature {
         Log.d(MainActivity.DEBUG_TAG, "Player.init(GameCartridge)");
         this.gameCartridge = gameCartridge;
 
-        gameCamera = gameCartridge.getGameCamera();
         widthPixelToViewportRatio = ((float) gameCartridge.getWidthViewport()) /
-                gameCamera.getWidthClipInPixel();
+                gameCartridge.getGameCamera().getWidthClipInPixel();
         heightPixelToViewportRatio = ((float) gameCartridge.getHeightViewport()) /
-                gameCamera.getHeightClipInPixel();
+                gameCartridge.getGameCamera().getHeightClipInPixel();
 
         initAnimation();
         initBounds();
@@ -342,10 +338,10 @@ public class Player extends Creature {
 
         Rect rectOfImage = new Rect(0, 0, currentFrame.getWidth(), currentFrame.getHeight());
         Rect rectOnScreen = new Rect(
-                (int)( (xCurrent - gameCamera.getX()) * widthPixelToViewportRatio ),
-                (int)( (yCurrent - gameCamera.getY()) * heightPixelToViewportRatio ),
-                (int)( ((xCurrent - gameCamera.getX()) + width) * widthPixelToViewportRatio ),
-                (int)( ((yCurrent - gameCamera.getY()) + height) * heightPixelToViewportRatio ) );
+                (int)( (xCurrent - gameCartridge.getGameCamera().getX()) * widthPixelToViewportRatio ),
+                (int)( (yCurrent - gameCartridge.getGameCamera().getY()) * heightPixelToViewportRatio ),
+                (int)( ((xCurrent - gameCartridge.getGameCamera().getX()) + width) * widthPixelToViewportRatio ),
+                (int)( ((yCurrent - gameCartridge.getGameCamera().getY()) + height) * heightPixelToViewportRatio ) );
 
 //        Rect rectOnScreen = new Rect(
 //                (int)(64 * pixelToScreenRatio),
@@ -520,10 +516,6 @@ public class Player extends Creature {
         }
 
         return tileFacing;
-    }
-
-    public void setGameCamera(GameCamera gameCamera) {
-        this.gameCamera = gameCamera;
     }
 
     public void incrementIndexSelectedItem() {
