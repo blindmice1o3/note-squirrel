@@ -41,13 +41,13 @@ public class SceneFarm extends Scene {
 
     @Override
     public void getInputButtonPad() {
-        //a button
+        //a button (ENTITY, HOLDABLE, TOOL USAGE)
         if (inputManager.isaButtonPad()) {
             Log.d(MainActivity.DEBUG_TAG, "SceneFarm.getInputButtonPad() a-button-justPressed");
 
             //@@@@@ENTITIES@@@@@
             Entity entity = player.getEntityCurrentlyFacing();
-            //CHANGES robot's State (cycles incrementally)
+            //ENTITY FACING IS Robot (CHANGES robot's State)
             if (entity instanceof Robot) {
                 int robotStateIndex = ((Robot) entity).getState().ordinal();
 
@@ -60,26 +60,26 @@ public class SceneFarm extends Scene {
                 ////////////////////////////////////////////////////////////////
                 ((Robot) entity).setState(Robot.State.values()[robotStateIndex]);
                 ////////////////////////////////////////////////////////////////
-
-                return;
-            } else if ( (entity instanceof Holdable) && (player.getHoldable() == null) ) {
+            }
+            //ENTITY FACING IS Holdable (PICK UP [if currently NOT holding])
+            else if ( (entity instanceof Holdable) && (player.getHoldable() == null) ) {
                 Holdable holdableEntity = (Holdable) entity;
                 player.setHoldable(holdableEntity);
                 Log.d(MainActivity.DEBUG_TAG, "SceneHothouse.getInputButtonPad() player's holdable: " + player.getHoldable().toString());
-
-                return;
             }
-
-            //@@@@@TILES@@@@@
-            Tile tileFacing = player.getTileCurrentlyFacing();
-            if (tileFacing != null) {
+            //ENTITY FACING IS null (DROP [if currently holding])
+            else if (entity == null) {
+                //@@@@@TILES@@@@@
+                Tile tileFacing = player.getTileCurrentlyFacing();
                 //@@@@@HOLDING@@@@@
                 if (player.getHoldable() != null) {
                     player.dropHoldable(tileFacing);
                 }
                 //@@@@@ITEM/TOOL@@@@@
                 else {
+                    /////////////////////////////////////////////
                     player.getSelectedItem().execute(tileFacing);
+                    /////////////////////////////////////////////
                 }
             }
         }

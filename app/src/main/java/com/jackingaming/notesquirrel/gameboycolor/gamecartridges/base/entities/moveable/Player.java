@@ -85,6 +85,7 @@ public class Player extends Creature {
     }
 
     public void dropHoldable(Tile tile) {
+        //Holdable.drop(Tile) WILL CHECK FOR ACCEPTABLE TILE.
         if (holdable.drop(tile)) {
             ////////////////
             holdable = null;
@@ -107,6 +108,7 @@ public class Player extends Creature {
         inventory = new ArrayList<Item>();
         //INDOORS_CROP
         inventory.add(new FlowerPotItem(gameCartridge));
+        inventory.add(new FlowerSeedItem(gameCartridge, FlowerSeedItem.SeedType.MYSTERY));
         inventory.add(new FlowerSeedItem(gameCartridge, FlowerSeedItem.SeedType.GERANIUM));
         inventory.add(new FlowerSeedItem(gameCartridge, FlowerSeedItem.SeedType.PRIMROSE));
         inventory.add(new FlowerSeedItem(gameCartridge, FlowerSeedItem.SeedType.LAVENDER));
@@ -431,6 +433,12 @@ public class Player extends Creature {
         for (Entity e : gameCartridge.getSceneManager().getCurrentScene().getEntityManager().getEntities()) {
             if (e.equals(this)) {
                 continue;
+            }
+            //player's HOLDABLE, do NOT count as collision
+            else if (holdable != null) {
+                if (e.equals(holdable)) {
+                    continue;
+                }
             }
 
             if (entityCollisionBox.intersect(e.getCollisionBounds(0, 0))) {
