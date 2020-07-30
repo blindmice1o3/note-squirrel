@@ -9,8 +9,14 @@ import android.graphics.Rect;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableGroundTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.walkables.GenericWalkableTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.Holdable;
 
-public class BushEntity extends Entity {
+public class BushEntity extends Entity
+        implements Holdable {
 
     transient private Bitmap image;
     private float widthPixelToViewportRatio;
@@ -32,6 +38,30 @@ public class BushEntity extends Entity {
 
         initImage(gameCartridge.getContext().getResources());
         initBounds();
+    }
+
+    @Override
+    public void updatePosition(float xCurrent, float yCurrent) {
+        this.xCurrent = xCurrent;
+        this.yCurrent = yCurrent;
+    }
+
+    @Override
+    public boolean drop(Tile tile) {
+        if ( (tile instanceof GrowableGroundTile) || (tile instanceof GenericWalkableTile)) {
+            int xCurrentTile = tile.getxIndex() * TileMap.TILE_WIDTH;
+            int yCurrentTile = tile.getyIndex() * TileMap.TILE_HEIGHT;
+
+            ////////////////////////
+            xCurrent = xCurrentTile;
+            yCurrent = yCurrentTile;
+            ////////////////////////
+
+            return true;
+
+        }
+
+        return false;
     }
 
     public void initImage(Resources resources) {

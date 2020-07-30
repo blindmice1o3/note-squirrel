@@ -75,12 +75,21 @@ public class SceneFarm extends Scene {
                 if (player.getHoldable() != null) {
                     player.dropHoldable(tileFacing);
                 }
-                //@@@@@ITEM/TOOL@@@@@
+                //NO ENTITY and NOT HOLDING... (e.g. GroundGrowableTile that needs tilling) @@@@@ITEM/TOOL@@@@@
                 else {
+                    //@@@@@TILES@@@@@
                     /////////////////////////////////////////////
                     player.getSelectedItem().execute(tileFacing);
                     /////////////////////////////////////////////
                 }
+            }
+            //THERE IS AN ENTITY (e.g. CropEntity that needs watering) @@@@@ITEM/TOOL@@@@@
+            else {
+                //@@@@@TILES@@@@@
+                Tile tileFacing = player.getTileCurrentlyFacing();
+                /////////////////////////////////////////////
+                player.getSelectedItem().execute(tileFacing);
+                /////////////////////////////////////////////
             }
         }
         //b button

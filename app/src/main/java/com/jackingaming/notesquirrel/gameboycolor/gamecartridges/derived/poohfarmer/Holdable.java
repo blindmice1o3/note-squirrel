@@ -5,6 +5,6 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.t
 
 public interface Holdable {
     void init(GameCartridge gameCartridge);
-    void setPosition(float xCurrent, float yCurrent);
+    void updatePosition(float xCurrent, float yCurrent);
     boolean drop(Tile tile);
 }

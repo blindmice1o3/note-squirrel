@@ -324,7 +324,7 @@ public class Player extends Creature {
         yMove = 0f;
 
         if (holdable != null) {
-            holdable.setPosition(xCurrent-(width/2), yCurrent-(height/2));
+            holdable.updatePosition(xCurrent-(width/2), yCurrent-(height/2));
         }
 
         for (Animation anim : animation.values()) {

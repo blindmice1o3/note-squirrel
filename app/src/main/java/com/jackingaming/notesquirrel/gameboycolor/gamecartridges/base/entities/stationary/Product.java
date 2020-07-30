@@ -14,6 +14,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.T
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableGroundTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.solids2x2.ShippingBinTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.walkables.GenericWalkableTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.Holdable;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.Sellable;
 
@@ -180,7 +181,7 @@ public class Product extends Entity
     }
 
     @Override
-    public void setPosition(float xCurrent, float yCurrent) {
+    public void updatePosition(float xCurrent, float yCurrent) {
         this.xCurrent = xCurrent;
         this.yCurrent = yCurrent;
     }
@@ -194,19 +195,17 @@ public class Product extends Entity
             //////////////////////////////////
 
             return true;
-        } else if (tile instanceof GrowableGroundTile) {
-            GrowableGroundTile growableGroundTile = (GrowableGroundTile) tile;
+        } else if ( (tile instanceof GrowableGroundTile) || (tile instanceof GenericWalkableTile)) {
+            int xCurrentTile = tile.getxIndex() * TileMap.TILE_WIDTH;
+            int yCurrentTile = tile.getyIndex() * TileMap.TILE_HEIGHT;
 
-            if (growableGroundTile.getCropEntity() == null) {
-                int xCurrentTile = growableGroundTile.getxIndex() * TileMap.TILE_WIDTH;
-                int yCurrentTile = growableGroundTile.getyIndex() * TileMap.TILE_HEIGHT;
-                ////////////////////////
-                xCurrent = xCurrentTile;
-                yCurrent = yCurrentTile;
-                ////////////////////////
+            ////////////////////////
+            xCurrent = xCurrentTile;
+            yCurrent = yCurrentTile;
+            ////////////////////////
 
-                return true;
-            }
+            return true;
+
         }
 
         return false;

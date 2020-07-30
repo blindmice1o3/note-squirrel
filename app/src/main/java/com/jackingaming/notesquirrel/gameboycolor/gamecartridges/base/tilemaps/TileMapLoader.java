@@ -144,11 +144,11 @@ public class TileMapLoader {
                 } else if (tokens[((y * columns) + x) + 2].equals("f")) {
                     tiles[y][x] = new ShippingBinTile(gameCartridge, x, y, ShippingBinTile.Quadrant.BOTTOM_RIGHT);
                 }
-                //SolidTile
+                //GenericSolidTile
                 else if (tokens[((y * columns) + x) + 2].equals("1")) {
                     tiles[y][x] = new GenericSolidTile(gameCartridge, x, y);
                 }
-                //NonSolidTile
+                //GenericWalkableTile
                 else if (tokens[((y * columns) + x) + 2].equals("0")) {
                     tiles[y][x] = new GenericWalkableTile(gameCartridge, x, y);
                 }
