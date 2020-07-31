@@ -12,7 +12,6 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.m
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.entities.moveable.Car;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.frogger.tiles.TileMapFrogger;
 
@@ -67,25 +66,15 @@ public class SceneFrogger extends Scene {
     }
 
     @Override
-    public void getInputButtonPad() {
-        //a button
-        if (inputManager.isaButtonPad()) {
-            Log.d(MainActivity.DEBUG_TAG, "SceneFrogger.getInputButtonPad() a-button-justPressed");
+    protected void doButtonJustPressedA() {
+        Log.d(MainActivity.DEBUG_TAG, "SceneFrogger.doButtonJustPressedA()");
+        //intentionally blank.
+    }
 
-
-        }
-        //b button
-        else if (inputManager.isbButtonPad()) {
-            Log.d(MainActivity.DEBUG_TAG, "SceneFrogger.getInputButtonPad() b-button-justPressed");
-
-
-        }
-        //menu button (push State.START_MENU)
-        else if (inputManager.isMenuButtonPad()) {
-            Log.d(MainActivity.DEBUG_TAG, "SceneFrogger.getInputButtonPad() menu-button-justPressed");
-
-            gameCartridge.getStateManager().push(State.Id.START_MENU, null);
-        }
+    @Override
+    protected void doButtonJustPressedB() {
+        Log.d(MainActivity.DEBUG_TAG, "SceneFrogger.doButtonJustPressedB()");
+        //intentionally blank.
     }
 
     @Override

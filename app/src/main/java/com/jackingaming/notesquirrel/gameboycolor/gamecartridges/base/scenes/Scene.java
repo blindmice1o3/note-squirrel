@@ -16,6 +16,9 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.E
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.moveable.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.Holdable;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.entities.moveable.Robot;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 
 import java.io.Serializable;
@@ -255,23 +258,82 @@ public abstract class Scene
     }
 
     public void getInputButtonPad() {
-        //TODO: so far each subclass of Scene has overridden (no default).
         //a button
         if (inputManager.isaButtonPad()) {
             Log.d(MainActivity.DEBUG_TAG, "Scene.getInputButtonPad() a-button-justPressed");
-            //TODO:
+            doButtonJustPressedA();
         }
         //b button
         else if (inputManager.isbButtonPad()) {
             Log.d(MainActivity.DEBUG_TAG, "Scene.getInputButtonPad() b-button-justPressed");
-            //TODO:
+            doButtonJustPressedB();
         }
         //menu button (push State.START_MENU)
         else if (inputManager.isMenuButtonPad()) {
             Log.d(MainActivity.DEBUG_TAG, "Scene.getInputButtonPad() menu-button-justPressed");
-
-            gameCartridge.getStateManager().push(State.Id.START_MENU, null);
+            doButtonJustPressedMenu();
         }
+    }
+
+    protected void doButtonJustPressedA() {
+        Log.d(MainActivity.DEBUG_TAG, "Scene.doButtonJustPressedA()");
+        //@@@@@HOLDING@@@@@
+        if (player.getHoldable() != null) {
+            Entity entity = player.getEntityCurrentlyFacing();
+            //DROP (ENTITY FACING IS null)
+            if (entity == null) {
+                Tile tileFacing = player.getTileCurrentlyFacing();
+                player.dropHoldable(tileFacing);
+            }
+        }
+        //@@@@@NOT HOLDING@@@@@
+        else {
+            Entity entity = player.getEntityCurrentlyFacing();
+            //PICK UP (ENTITY FACING IS Holdable)
+            if (entity instanceof Holdable) {
+                Holdable holdableEntity = (Holdable) entity;
+                player.setHoldable(holdableEntity);
+                Log.d(MainActivity.DEBUG_TAG, "SceneHothouse.getInputButtonPad() player's holdable: " + player.getHoldable().toString());
+            }
+            //INTERACT WITH SPECIFIC Entity SUBTYPES (ENTITY FACING IS Robot)
+            else if (entity instanceof Robot) {
+                int robotStateIndex = ((Robot) entity).getState().ordinal();
+
+                //CHANGES robot's State
+                robotStateIndex++;
+
+                if (robotStateIndex >= Robot.State.values().length) {
+                    robotStateIndex = 0;
+                }
+
+                ////////////////////////////////////////////////////////////////
+                ((Robot) entity).setState(Robot.State.values()[robotStateIndex]);
+                ////////////////////////////////////////////////////////////////
+            }
+            //USE ITEM (can be ENTITY or NO ENTITY)
+            // (e.g. CropEntity that needs watering) or (e.g. GroundGrowableTile that needs tilling)
+            else {
+                Tile tileFacing = player.getTileCurrentlyFacing();
+                /////////////////////////////////////////////
+                player.getSelectedItem().execute(tileFacing);
+                /////////////////////////////////////////////
+            }
+        }
+    }
+
+    protected void doButtonJustPressedB() {
+        Log.d(MainActivity.DEBUG_TAG, "Scene.doButtonJustPressedB()");
+        //TODO: temporary; to test TextboxState.
+        ////////////////////////////////
+        Object[] extra = new Object[10];
+        extra[0] = "The cat in the hat will never give a fish what it desires most, the key to the city of moonlight. This is true for fall, winter, and spring... but NOT summer. In the summer, the fashionable feline's generosity crests before breaking into a surge of outward actions which benefit the entire animal community, far more than just that of fishes who desire the key to the city of moonlight. Unfortunately, summer passes quicker than most fishes would like.";
+        ////////////////////////////////
+        gameCartridge.getStateManager().push(State.Id.TEXTBOX, extra);
+    }
+
+    protected void doButtonJustPressedMenu() {
+        Log.d(MainActivity.DEBUG_TAG, "Scene.doButtonJustPressedMenu()");
+        gameCartridge.getStateManager().push(State.Id.START_MENU, null);
     }
 
     public void getInputSelectButton() {

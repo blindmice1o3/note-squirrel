@@ -377,35 +377,24 @@ public class SceneSeedsShop extends Scene {
     }
 
     @Override
-    public void getInputButtonPad() {
-        //don't call super's getInputButtonPad()
-        //a button
-        if (inputManager.isaButtonPad()) {
-            Log.d(MainActivity.DEBUG_TAG, "SceneSeedsShop.getInputButtonPad() a-button-justPressed");
-            //TODO:
-            MenuItemHolder menuItemHolder = menuItemHolders[indexMenuItemHolders];
-            ////////////////////////////////////////////
-            menuItemHolder.execute(this);
-            ////////////////////////////////////////////
-            updateMenuItemHolders();
-            updateTextArea();
-        }
-        //b button
-        else if (inputManager.isbButtonPad()) {
-            Log.d(MainActivity.DEBUG_TAG, "SceneSeedsShop.getInputButtonPad() b-button-justPressed");
+    protected void doButtonJustPressedA() {
+        Log.d(MainActivity.DEBUG_TAG, "SceneSeedsShop.doButtonJustPressedA()");
+        MenuItemHolder menuItemHolder = menuItemHolders[indexMenuItemHolders];
+        ////////////////////////////////////////////
+        menuItemHolder.execute(this);
+        ////////////////////////////////////////////
+        updateMenuItemHolders();
+        updateTextArea();
+    }
 
-            Object[] directionFacing = { gameCartridge.getPlayer().getDirection(),
-                    gameCartridge.getPlayer().getMoveSpeed() };
-            //////////////////////////////////
-            sceneManager.pop(directionFacing);
-            //////////////////////////////////
-        }
-        //menu button (push State.START_MENU)
-        else if (inputManager.isMenuButtonPad()) {
-            Log.d(MainActivity.DEBUG_TAG, "SceneSeedsShop.getInputButtonPad() menu-button-justPressed");
-
-            gameCartridge.getStateManager().push(State.Id.START_MENU, null);
-        }
+    @Override
+    protected void doButtonJustPressedB() {
+        Log.d(MainActivity.DEBUG_TAG, "SceneSeedsShop.doButtonJustPressedB()");
+        Object[] directionFacing = { gameCartridge.getPlayer().getDirection(),
+                gameCartridge.getPlayer().getMoveSpeed() };
+        //////////////////////////////////
+        sceneManager.pop(directionFacing);
+        //////////////////////////////////
     }
 
     @Override

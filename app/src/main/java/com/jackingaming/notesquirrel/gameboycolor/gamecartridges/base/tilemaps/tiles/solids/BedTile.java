@@ -236,6 +236,9 @@ public class BedTile extends Tile
         }
     }
 
+    //TODO: sleep, TimeManager increment day, check all GrowableTile for isWatered,
+    // if GrowableTile has state as SEEDED -> instantiate CropEntity/GrassEntity (revert state to INITIAL)
+    // if GrowableGroundTile.cropEntity is not null -> increment that CropEntity's age and update its stage.
     public void execute(GameCartridge gameCartridge, boolean hasLeftHouseToday) {
         Log.d(MainActivity.DEBUG_TAG, "BedTile.execute(GameCartridge)");
 

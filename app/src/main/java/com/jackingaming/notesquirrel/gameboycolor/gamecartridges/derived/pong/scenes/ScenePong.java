@@ -16,6 +16,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartri
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.moveable.Player;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pong.sprites.Ball;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pong.sprites.Bat;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pong.tiles.TileMapPong;
@@ -34,7 +35,7 @@ public class ScenePong extends Scene {
     transient private Paint textPaint;
 
     //private SoundPool soundPool;
-    private MediaPlayer mediaPlayer;
+    transient private MediaPlayer mediaPlayer;
 
     public ScenePong(GameCartridge gameCartridge, Id sceneID) {
         super(gameCartridge, sceneID);
@@ -104,8 +105,27 @@ public class ScenePong extends Scene {
     }
 
     @Override
-    public void getInputButtonPad() {
-        Log.d(MainActivity.DEBUG_TAG, "ScenePong.getInputButtonPad()");
+    public void getInputDirectionalPad() {
+        Log.d(MainActivity.DEBUG_TAG, "ScenePong.getInputDirectionalPad()");
+        //intentionally blank.
+    }
+
+    @Override
+    protected void doButtonJustPressedA() {
+        Log.d(MainActivity.DEBUG_TAG, "ScenePong.doButtonJustPressedA()");
+        //intentionally blank.
+    }
+
+    @Override
+    protected void doButtonJustPressedB() {
+        Log.d(MainActivity.DEBUG_TAG, "ScenePong.doButtonJustPressedB()");
+        //intentionally blank.
+    }
+
+    @Override
+    protected void doButtonJustPressedMenu() {
+        Log.d(MainActivity.DEBUG_TAG, "ScenePong.doButtonJustPressedMenu()");
+        //intentionally blank.
     }
 
     @Override
