@@ -14,6 +14,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartri
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.EntityManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.moveable.Player;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.ProductEntity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
@@ -292,8 +293,17 @@ public abstract class Scene
             //PICK UP (ENTITY FACING IS Holdable)
             if (entity instanceof Holdable) {
                 Holdable holdableEntity = (Holdable) entity;
-                player.setHoldable(holdableEntity);
-                Log.d(MainActivity.DEBUG_TAG, "SceneHothouse.getInputButtonPad() player's holdable: " + player.getHoldable().toString());
+
+                //ProductEntity (only NON-BROKEN)
+                if (holdableEntity instanceof ProductEntity) {
+                    if (((ProductEntity)holdableEntity).getIsWhole()) {
+                        player.setHoldable(holdableEntity);
+                    }
+                }
+                //ALL OTHER KINDS OF Holdable
+                else {
+                    player.setHoldable(holdableEntity);
+                }
             }
             //INTERACT WITH SPECIFIC Entity SUBTYPES (ENTITY FACING IS Robot)
             else if (entity instanceof Robot) {
