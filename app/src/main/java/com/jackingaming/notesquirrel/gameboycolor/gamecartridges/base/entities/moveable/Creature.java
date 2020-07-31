@@ -6,7 +6,6 @@ import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.Product;
 
 public abstract class Creature extends Entity {
 

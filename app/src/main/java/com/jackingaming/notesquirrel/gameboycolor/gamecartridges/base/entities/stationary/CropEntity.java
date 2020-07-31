@@ -150,37 +150,37 @@ public class CropEntity extends Entity {
         updateImage();
     }
 
-    public Product generateCropProduct() {
-        Product cropProduct = null;
-        Product.Id idProduct = null;
+    public ProductEntity generateCropProduct() {
+        ProductEntity cropProduct = null;
+        ProductEntity.Id idProduct = null;
         switch (id) {
             case TURNIP:
-                idProduct = Product.Id.TURNIP;
+                idProduct = ProductEntity.Id.TURNIP;
                 break;
             case POTATO:
-                idProduct = Product.Id.POTATO;
+                idProduct = ProductEntity.Id.POTATO;
                 break;
             case TOMATO:
-                idProduct = Product.Id.TOMATO;
+                idProduct = ProductEntity.Id.TOMATO;
                 break;
             case CORN:
-                idProduct = Product.Id.CORN;
+                idProduct = ProductEntity.Id.CORN;
                 break;
             case EGGPLANT:
-                idProduct = Product.Id.EGGPLANT;
+                idProduct = ProductEntity.Id.EGGPLANT;
                 break;
             case PEANUT:
-                idProduct = Product.Id.PEANUT;
+                idProduct = ProductEntity.Id.PEANUT;
                 break;
             case CARROT:
-                idProduct = Product.Id.CARROT;
+                idProduct = ProductEntity.Id.CARROT;
                 break;
             case BROCCOLI:
-                idProduct = Product.Id.BROCCOLI;
+                idProduct = ProductEntity.Id.BROCCOLI;
                 break;
         }
         if (idProduct != null) {
-            cropProduct = new Product(gameCartridge, xCurrent, yCurrent, idProduct);
+            cropProduct = new ProductEntity(gameCartridge, xCurrent, yCurrent, idProduct);
         }
         return cropProduct;
     }

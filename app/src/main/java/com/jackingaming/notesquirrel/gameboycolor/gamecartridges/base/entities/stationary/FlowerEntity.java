@@ -104,40 +104,40 @@ public class FlowerEntity extends Entity {
         updateStage();
     }
 
-    public Product generateFlowerProduct() {
-        Product flowerProduct = null;
-        Product.Id idProduct = null;
+    public ProductEntity generateFlowerProduct() {
+        ProductEntity flowerProduct = null;
+        ProductEntity.Id idProduct = null;
         switch (id) {
             case MYSTERY:
-                idProduct = Product.Id.MYSTERY;
+                idProduct = ProductEntity.Id.MYSTERY;
                 break;
             case GERANIUM:
-                idProduct = Product.Id.GERANIUM;
+                idProduct = ProductEntity.Id.GERANIUM;
                 break;
             case PRIMROSE:
-                idProduct = Product.Id.PRIMROSE;
+                idProduct = ProductEntity.Id.PRIMROSE;
                 break;
             case LAVENDER:
-                idProduct = Product.Id.LAVENDER;
+                idProduct = ProductEntity.Id.LAVENDER;
                 break;
             case ORCHID:
-                idProduct = Product.Id.ORCHID;
+                idProduct = ProductEntity.Id.ORCHID;
                 break;
             case SAGE:
-                idProduct = Product.Id.SAGE;
+                idProduct = ProductEntity.Id.SAGE;
                 break;
             case SAFFRON:
-                idProduct = Product.Id.SAFFRON;
+                idProduct = ProductEntity.Id.SAFFRON;
                 break;
             case ROSEMARY:
-                idProduct = Product.Id.ROSEMARY;
+                idProduct = ProductEntity.Id.ROSEMARY;
                 break;
             case CHAMOMILE:
-                idProduct = Product.Id.CHAMOMILE;
+                idProduct = ProductEntity.Id.CHAMOMILE;
                 break;
         }
         if (idProduct != null) {
-            flowerProduct = new Product(gameCartridge, xCurrent, yCurrent, idProduct);
+            flowerProduct = new ProductEntity(gameCartridge, xCurrent, yCurrent, idProduct);
         }
         return flowerProduct;
     }

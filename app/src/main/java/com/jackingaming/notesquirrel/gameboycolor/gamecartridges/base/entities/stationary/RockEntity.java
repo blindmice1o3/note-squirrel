@@ -40,6 +40,16 @@ public class RockEntity extends Entity
         initBounds();
     }
 
+    public void initImage(Resources resources) {
+        Bitmap spriteSheetItems = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm2_spritesheet_items);
+        image = Bitmap.createBitmap(spriteSheetItems, 137, 0, 16, 16);
+    }
+
+    @Override
+    public void initBounds() {
+        bounds = new Rect(0, 0, width, height);
+    }
+
     @Override
     public void updatePosition(float xCurrent, float yCurrent) {
         this.xCurrent = xCurrent;
@@ -62,16 +72,6 @@ public class RockEntity extends Entity
         }
 
         return false;
-    }
-
-    public void initImage(Resources resources) {
-        Bitmap spriteSheetItems = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm2_spritesheet_items);
-        image = Bitmap.createBitmap(spriteSheetItems, 137, 0, 16, 16);
-    }
-
-    @Override
-    public void initBounds() {
-        bounds = new Rect(0, 0, width, height);
     }
 
     @Override

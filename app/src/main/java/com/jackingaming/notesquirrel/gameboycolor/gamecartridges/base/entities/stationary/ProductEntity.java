@@ -20,7 +20,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfar
 
 import java.io.Serializable;
 
-public class Product extends Entity
+public class ProductEntity extends Entity
         implements Holdable, Sellable, Serializable {
 
     public enum Id { TURNIP, POTATO, TOMATO, CORN, EGGPLANT, PEANUT, CARROT, BROCCOLI,
@@ -30,11 +30,11 @@ public class Product extends Entity
     private float widthPixelToViewportRatio;
     private float heightPixelToViewportRatio;
 
-    private Product.Id id;
+    private ProductEntity.Id id;
     private boolean isWhole;
     private int price;
 
-    public Product(GameCartridge gameCartridge, float xCurrent, float yCurrent, Product.Id id) {
+    public ProductEntity(GameCartridge gameCartridge, float xCurrent, float yCurrent, ProductEntity.Id id) {
         super(gameCartridge, xCurrent, yCurrent);
 
         this.id = id;
@@ -42,28 +42,6 @@ public class Product extends Entity
         establishPrice();
 
         init(gameCartridge);
-    }
-
-    @Override
-    public void init(GameCartridge gameCartridge) {
-        this.gameCartridge = gameCartridge;
-        widthPixelToViewportRatio = ((float) gameCartridge.getWidthViewport()) /
-                gameCartridge.getGameCamera().getWidthClipInPixel();
-        heightPixelToViewportRatio = ((float) gameCartridge.getHeightViewport()) /
-                gameCartridge.getGameCamera().getHeightClipInPixel();
-
-        initImage(gameCartridge.getContext().getResources());
-        initBounds();
-    }
-
-    @Override
-    public void initBounds() {
-        bounds = new Rect(0, 0, width, height);
-    }
-
-    @Override
-    public void update(long elapsed) {
-        //intentionally blank.
     }
 
     public void establishPrice() {
@@ -122,6 +100,18 @@ public class Product extends Entity
         }
     }
 
+    @Override
+    public void init(GameCartridge gameCartridge) {
+        this.gameCartridge = gameCartridge;
+        widthPixelToViewportRatio = ((float) gameCartridge.getWidthViewport()) /
+                gameCartridge.getGameCamera().getWidthClipInPixel();
+        heightPixelToViewportRatio = ((float) gameCartridge.getHeightViewport()) /
+                gameCartridge.getGameCamera().getHeightClipInPixel();
+
+        initImage(gameCartridge.getContext().getResources());
+        initBounds();
+    }
+
     public void initImage(Resources resources) {
         switch (id) {
             //OUTDOORS
@@ -167,17 +157,8 @@ public class Product extends Entity
     }
 
     @Override
-    public void render(Canvas canvas) {
-        Rect rectOfImage = new Rect(0, 0, image.getWidth(), image.getHeight());
-        Rect rectOnScreen = new Rect(
-                (int)( (xCurrent - gameCartridge.getGameCamera().getX()) * widthPixelToViewportRatio ),
-                (int)( (yCurrent - gameCartridge.getGameCamera().getY()) * heightPixelToViewportRatio ),
-                (int)( ((xCurrent - gameCartridge.getGameCamera().getX()) + width) * widthPixelToViewportRatio ),
-                (int)( ((yCurrent - gameCartridge.getGameCamera().getY()) + height) * heightPixelToViewportRatio ) );
-
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        canvas.drawBitmap(image, rectOfImage, rectOnScreen, null);
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    public void initBounds() {
+        bounds = new Rect(0, 0, width, height);
     }
 
     @Override
@@ -204,11 +185,43 @@ public class Product extends Entity
             yCurrent = yCurrentTile;
             ////////////////////////
 
+            //TRIGGER countdown timer for removal.
+            isWhole = false;
+            //UPDATE image to broken.
+            initImage(gameCartridge.getContext().getResources());
+
             return true;
 
         }
 
         return false;
+    }
+
+    private static int COUNT_DOWN_START_TIME = 2000;
+    private int timeLeftBeforeRemoval = COUNT_DOWN_START_TIME;
+    @Override
+    public void update(long elapsed) {
+        //NO LONGER isWhole (it's now broken): UPDATE countdown timer for removal).
+        if (!isWhole) {
+            timeLeftBeforeRemoval -= elapsed;
+            if (timeLeftBeforeRemoval <= 0) {
+                active = false;
+            }
+        }
+    }
+
+    @Override
+    public void render(Canvas canvas) {
+        Rect rectOfImage = new Rect(0, 0, image.getWidth(), image.getHeight());
+        Rect rectOnScreen = new Rect(
+                (int)( (xCurrent - gameCartridge.getGameCamera().getX()) * widthPixelToViewportRatio ),
+                (int)( (yCurrent - gameCartridge.getGameCamera().getY()) * heightPixelToViewportRatio ),
+                (int)( ((xCurrent - gameCartridge.getGameCamera().getX()) + width) * widthPixelToViewportRatio ),
+                (int)( ((yCurrent - gameCartridge.getGameCamera().getY()) + height) * heightPixelToViewportRatio ) );
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        canvas.drawBitmap(image, rectOfImage, rectOnScreen, null);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     }
 
     @Override
@@ -221,6 +234,10 @@ public class Product extends Entity
         shippingBin.addSellable(this);
         //REMOVE PRODUCT FROM entityManager.
         gameCartridge.getSceneManager().getCurrentScene().getEntityManager().removeEntity(this);
+    }
+
+    public boolean getIsWhole() {
+        return isWhole;
     }
 
 }

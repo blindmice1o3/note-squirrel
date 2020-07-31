@@ -17,7 +17,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.t
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.solids2x2.ShippingBinTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.outdoors.worldmap.TileMapPart01;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.Product;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.ProductEntity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -453,7 +453,7 @@ public class Assets {
     }
 
     //crop_product
-    public static Bitmap cropCropProduct(Resources resources, Product.Id id, boolean isWhole) {
+    public static Bitmap cropCropProduct(Resources resources, ProductEntity.Id id, boolean isWhole) {
         Log.d(MainActivity.DEBUG_TAG, "Assets.cropCropProduct(Resources, Product.Id, boolean)");
 
         Bitmap cropsAndItemsSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm_crops_and_items);

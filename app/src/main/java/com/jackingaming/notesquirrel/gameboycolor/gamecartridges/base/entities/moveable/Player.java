@@ -11,6 +11,7 @@ import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.ProductEntity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.Item;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.seeds.FlowerSeedItem;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.tools.AxeItem;

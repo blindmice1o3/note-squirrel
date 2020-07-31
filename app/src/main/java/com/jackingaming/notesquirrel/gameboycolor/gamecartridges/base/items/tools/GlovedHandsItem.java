@@ -7,7 +7,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.s
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.Item;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableGroundTile;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.Product;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.ProductEntity;
 
 public class GlovedHandsItem extends Item {
 
@@ -33,8 +33,8 @@ public class GlovedHandsItem extends Item {
 
                 if ( cropEntity.getStage() == CropEntity.Stage.HARVESTABLE ) {
                     if (gameCartridge.getPlayer().getHoldable() == null) {
-                        //instantiate Product based on CropEntity.Id.
-                        Product cropProduct = cropEntity.generateCropProduct();
+                        //instantiate ProductEntity based on CropEntity.Id.
+                        ProductEntity cropProduct = cropEntity.generateCropProduct();
                         //ADD PRODUCT TO entityManager.
                         gameCartridge.getSceneManager().getCurrentScene().getEntityManager().addEntity(cropProduct);
                         //compose Player with Holdable field, set to newly instantiated Product.
