@@ -39,7 +39,25 @@ public class EntityManager
     class ComparatorRenderSorter<Entity> implements Comparator<Entity>, Serializable {
         @Override
         public int compare(Entity a, Entity b) {
-            return (a instanceof Player) ? (1) : (-1);
+            //player should always be at the end.
+            if (a instanceof Player) {
+                return 1;
+            }
+
+            //then player's holdable is second from the end.
+            if (a.equals(player.getHoldable())) {
+                //if b is NOT player, holdable should be sent toward the end.
+                if (!b.equals(player)) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+
+            //all other situations.
+            return -1;
+
+//            return (a instanceof Player) ? (1) : (-1);
         }
     }
 
