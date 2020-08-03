@@ -63,6 +63,20 @@ public class GrowableGroundTile extends GrowableTile {
         updateImage(gameCartridge.getContext().getResources());
     }
 
+    public void handleRockDrop() {
+        //Does NOT affect grass.
+        if (type == Type.EMPTY || type == Type.CROP_SEEDED) {
+            //Reset fields related to growing crops.
+            type = Type.EMPTY;
+            seedType = null;
+            cropEntity = null;
+            state = State.INITIAL;
+            isWatered = false;
+
+            updateImage(gameCartridge.getContext().getResources());
+        }
+    }
+
     public Type getType() {
         return type;
     }

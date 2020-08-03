@@ -58,19 +58,22 @@ public class RockEntity extends Entity
 
     @Override
     public boolean drop(Tile tile) {
-        if ( (tile instanceof GrowableGroundTile) || (tile instanceof GenericWalkableTile)) {
-            int xCurrentTile = tile.getxIndex() * TileMap.TILE_WIDTH;
-            int yCurrentTile = tile.getyIndex() * TileMap.TILE_HEIGHT;
+        int xTile = tile.getxIndex() * TileMap.TILE_WIDTH;
+        int yTile = tile.getyIndex() * TileMap.TILE_HEIGHT;
 
-            ////////////////////////
-            xCurrent = xCurrentTile;
-            yCurrent = yCurrentTile;
-            ////////////////////////
+        //ALLOWED TILE TYPES: (1) GrowableGroundTile, (2) GenericWalkableTile
+        if (tile instanceof GrowableGroundTile) {
+            GrowableGroundTile growableGroundTile = (GrowableGroundTile) tile;
 
+            growableGroundTile.handleRockDrop();
+            updatePosition(xTile, yTile);
             return true;
-
+        } else if (tile instanceof GenericWalkableTile) {
+            updatePosition(xTile, yTile);
+            return true;
         }
 
+        //OTHERWISE, DON'T ALLOW DROPPING OF HOLDABLE
         return false;
     }
 
