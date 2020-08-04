@@ -16,6 +16,9 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.t
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.solids2x2.ShippingBinTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.walkables.GenericWalkableTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.walkables.TallGrassTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.EggIncubatorTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.FeedingStallTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.FodderStashTile;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -133,6 +136,18 @@ public class TileMapLoader {
                 //SignPostTile
                 else if (tokens[((y * columns) + x) + 2].equals("a")) {
                     tiles[y][x] = new SignPostTile(gameCartridge, x, y);
+                }
+                //EggIncubatorTile
+                else if (tokens[((y * columns) + x) + 2].equals("g")) {
+                    tiles[y][x] = new EggIncubatorTile(gameCartridge, x, y);
+                }
+                //FodderStashTile
+                else if (tokens[((y * columns) + x) + 2].equals("h")) {
+                    tiles[y][x] = new FodderStashTile(gameCartridge, x, y);
+                }
+                //FeedingStallTile
+                else if (tokens[((y * columns) + x) + 2].equals("i")) {
+                    tiles[y][x] = new FeedingStallTile(gameCartridge, x, y);
                 }
                 //ShippingBinTile
                 else if (tokens[((y * columns) + x) + 2].equals("c")) {
