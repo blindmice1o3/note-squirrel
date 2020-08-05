@@ -42,7 +42,7 @@ public class BushEntity extends Entity
 
     public void initImage(Resources resources) {
         Bitmap spriteSheetItems = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm2_spritesheet_items);
-        image = Bitmap.createBitmap(spriteSheetItems, 120, 0, 16, 16);
+        image = Bitmap.createBitmap(spriteSheetItems, 120, 1, 16, 16);
     }
 
     @Override
@@ -68,7 +68,6 @@ public class BushEntity extends Entity
             ////////////////////////
 
             return true;
-
         }
 
         return false;

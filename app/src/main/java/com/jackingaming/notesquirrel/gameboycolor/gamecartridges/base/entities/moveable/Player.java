@@ -78,6 +78,13 @@ public class Player extends Creature {
         return fodderQuantity;
     }
 
+    public void decrementFodderQuantity() {
+        fodderQuantity--;
+        if (fodderQuantity < 0) {
+            fodderQuantity = 0;
+        }
+    }
+
     public void setFodderQuantity(int fodderQuantity) {
         this.fodderQuantity = fodderQuantity;
     }
@@ -99,7 +106,7 @@ public class Player extends Creature {
         indexSelectedItem = 0;
         holdable = null;
         currencyNuggets = 9000;
-        fodderQuantity = 0;
+        fodderQuantity = 3000;
         //////////////////////
 
         /////////////////////////////////////////////////////////////////////////////////////////

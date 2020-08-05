@@ -12,17 +12,18 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.E
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableGroundTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.FeedingStallTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.walkables.GenericWalkableTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.Holdable;
 
-public class RockEntity extends Entity
+public class FodderEntity extends Entity
         implements Holdable {
 
     transient private Bitmap image;
     private float widthPixelToViewportRatio;
     private float heightPixelToViewportRatio;
 
-    public RockEntity(GameCartridge gameCartridge, float xCurrent, float yCurrent) {
+    public FodderEntity(GameCartridge gameCartridge, float xCurrent, float yCurrent) {
         super(gameCartridge, xCurrent, yCurrent);
 
         init(gameCartridge);
@@ -42,7 +43,7 @@ public class RockEntity extends Entity
 
     public void initImage(Resources resources) {
         Bitmap spriteSheetItems = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm2_spritesheet_items);
-        image = Bitmap.createBitmap(spriteSheetItems, 137, 1, 16, 16);
+        image = Bitmap.createBitmap(spriteSheetItems, 103, 1, 16, 16);
     }
 
     @Override
@@ -58,22 +59,25 @@ public class RockEntity extends Entity
 
     @Override
     public boolean drop(Tile tile) {
-        int xTile = tile.getxIndex() * TileMap.TILE_WIDTH;
-        int yTile = tile.getyIndex() * TileMap.TILE_HEIGHT;
+        //Drop onto ground.
+        if ( (tile instanceof GrowableGroundTile) || (tile instanceof GenericWalkableTile)) {
+            int xCurrentTile = tile.getxIndex() * TileMap.TILE_WIDTH;
+            int yCurrentTile = tile.getyIndex() * TileMap.TILE_HEIGHT;
 
-        //ALLOWED TILE TYPES: (1) GrowableGroundTile, (2) GenericWalkableTile
-        if (tile instanceof GrowableGroundTile) {
-            GrowableGroundTile growableGroundTile = (GrowableGroundTile) tile;
+            ////////////////////////
+            xCurrent = xCurrentTile;
+            yCurrent = yCurrentTile;
+            ////////////////////////
 
-            growableGroundTile.handleRockDrop();
-            updatePosition(xTile, yTile);
             return true;
-        } else if (tile instanceof GenericWalkableTile) {
-            updatePosition(xTile, yTile);
+        }
+        //Drop into FeedingStallTile.
+        else if (tile instanceof FeedingStallTile) {
+            //TODO: increment SceneChickenCoop's fodderCount.
+
             return true;
         }
 
-        //OTHERWISE, DON'T ALLOW DROPPING OF HOLDABLE
         return false;
     }
 

@@ -14,10 +14,12 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartri
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.EntityManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.moveable.Player;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.FodderEntity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.ProductEntity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.FodderStashTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.Holdable;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.entities.moveable.Robot;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
@@ -278,21 +280,22 @@ public abstract class Scene
 
     protected void doButtonJustPressedA() {
         Log.d(MainActivity.DEBUG_TAG, "Scene.doButtonJustPressedA()");
+
+        Entity entityFacing = player.getEntityCurrentlyFacing();
+        Tile tileFacing = player.getTileCurrentlyFacing();
+
         //@@@@@HOLDING@@@@@
         if (player.getHoldable() != null) {
-            Entity entity = player.getEntityCurrentlyFacing();
             //DROP (ENTITY FACING IS null)
-            if (entity == null) {
-                Tile tileFacing = player.getTileCurrentlyFacing();
+            if (entityFacing == null) {
                 player.dropHoldable(tileFacing);
             }
         }
         //@@@@@NOT HOLDING@@@@@
         else {
-            Entity entity = player.getEntityCurrentlyFacing();
-            //PICK UP (ENTITY FACING IS Holdable)
-            if (entity instanceof Holdable) {
-                Holdable holdableEntity = (Holdable) entity;
+            //PICK UP (ENTITY_FACING IS Holdable)
+            if (entityFacing instanceof Holdable) {
+                Holdable holdableEntity = (Holdable) entityFacing;
 
                 //ProductEntity (only NON-BROKEN)
                 if (holdableEntity instanceof ProductEntity) {
@@ -305,25 +308,35 @@ public abstract class Scene
                     player.setHoldable(holdableEntity);
                 }
             }
+            //PICK UP (TILE_FACING IS FodderStashTile)
+            else if (tileFacing instanceof FodderStashTile) {
+                FodderStashTile fodderStashTile = (FodderStashTile) tileFacing;
+
+                //Player has fodder
+                if (player.getFodderQuantity() > 0) {
+                    FodderEntity fodderEntity = fodderStashTile.generateFodderEntity();
+                    gameCartridge.getSceneManager().getCurrentScene().getEntityManager().addEntity(fodderEntity);
+                    player.decrementFodderQuantity();
+                    player.setHoldable(fodderEntity);
+                }
+            }
             //INTERACT WITH SPECIFIC Entity SUBTYPES (ENTITY FACING IS Robot)
-            else if (entity instanceof Robot) {
-                int robotStateIndex = ((Robot) entity).getState().ordinal();
+            else if (entityFacing instanceof Robot) {
+                int robotStateIndex = ((Robot) entityFacing).getState().ordinal();
 
                 //CHANGES robot's State
                 robotStateIndex++;
-
                 if (robotStateIndex >= Robot.State.values().length) {
                     robotStateIndex = 0;
                 }
 
                 ////////////////////////////////////////////////////////////////
-                ((Robot) entity).setState(Robot.State.values()[robotStateIndex]);
+                ((Robot) entityFacing).setState(Robot.State.values()[robotStateIndex]);
                 ////////////////////////////////////////////////////////////////
             }
             //USE ITEM (can be ENTITY or NO ENTITY)
             // (e.g. CropEntity that needs watering) or (e.g. GroundGrowableTile that needs tilling)
             else {
-                Tile tileFacing = player.getTileCurrentlyFacing();
                 /////////////////////////////////////////////
                 player.getSelectedItem().execute(tileFacing);
                 /////////////////////////////////////////////
