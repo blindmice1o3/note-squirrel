@@ -6,11 +6,17 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfar
 
 public class SceneChickenCoop extends Scene {
 
+    public static final int FODDER_COUNTER_MAXIMUM = 4;
+
+    private int fodderCounter;
+
     public SceneChickenCoop(GameCartridge gameCartridge, Id sceneID) {
         super(gameCartridge, sceneID);
 
         widthClipInTile = 9;
         heightClipInTile = 9;
+
+        fodderCounter = 0;
     }
 
     @Override
@@ -30,6 +36,18 @@ public class SceneChickenCoop extends Scene {
         super.exit(extra);
 
         gameCartridge.getTimeManager().setIsPaused(false);
+    }
+
+    public int getFodderCounter() {
+        return fodderCounter;
+    }
+
+    public void incrementFodderCounter() {
+        fodderCounter++;
+    }
+
+    public void resetFodderCounter() {
+        fodderCounter = 0;
     }
 
 }

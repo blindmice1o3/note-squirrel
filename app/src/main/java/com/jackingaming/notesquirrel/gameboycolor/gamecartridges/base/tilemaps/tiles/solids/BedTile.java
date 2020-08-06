@@ -5,14 +5,17 @@ import android.util.Log;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.TimeManager;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.CropEntity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.FlowerEntity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.FodderEntity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableGroundTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableTableTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.solids2x2.ShippingBinTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneChickenCoop;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneHouseLevel01;
 
 public class BedTile extends Tile
@@ -32,6 +35,21 @@ public class BedTile extends Tile
         gameCartridge.getTimeManager().registerTimeManagerListener(this,
                 5, 0, true);
         //////////////////////////////////////////////////////////////////////////////////
+    }
+
+    private void newDaySceneChickenCoop() {
+        Scene sceneChickenCoop = gameCartridge.getSceneManager().getScene(Scene.Id.CHICKEN_COOP);
+
+        //ENTITIES (remove all instances of FodderEntity)
+        for (Entity entity : sceneChickenCoop.getEntityManager().getEntities()) {
+            if (entity instanceof FodderEntity) {
+                //TODO: implement feeding ChickenEntity.
+                entity.setActive(false);
+            }
+        }
+        //////////////////////////////////////////////////////////
+        ((SceneChickenCoop)sceneChickenCoop).resetFodderCounter();
+        //////////////////////////////////////////////////////////
     }
 
     private void newDaySceneHothouse() {
@@ -245,6 +263,7 @@ public class BedTile extends Tile
         if (hasLeftHouseToday) {
             newDaySceneFarm();
             newDaySceneHothouse();
+            newDaySceneChickenCoop();
 
             /////////////////////////////////////////////////////////////////////
             gameCartridge.getTimeManager().callRemainingActiveEventTimeObjects();
