@@ -32,7 +32,7 @@ public abstract class Scene
     public enum Id {
         FARM, HOTHOUSE, SHEEP_PEN, CHICKEN_COOP, COW_BARN, SEEDS_SHOP, HOUSE_01, HOUSE_02, HOUSE_03,
         PART_01, HOME_01, HOME_02, HOME_RIVAL, LAB,
-        FROGGER, PONG;
+        FROGGER, PONG, RETRO_GRID;
     }
 
     transient protected GameCartridge gameCartridge;
@@ -363,6 +363,11 @@ public abstract class Scene
         Log.d(MainActivity.DEBUG_TAG, "Scene.getInputSelectButton()");
 
         //TODO: push unimplemented state (SystemNotebookState... date, time, stats of resources, etc).
+
+        //TODO: remove later (tinkering).
+        Object[] directionFacing = { gameCartridge.getPlayer().getDirection(),
+                gameCartridge.getPlayer().getMoveSpeed() };
+        gameCartridge.getSceneManager().push(Scene.Id.RETRO_GRID, directionFacing);
     }
 
     public void getInputStartButton() {

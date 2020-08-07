@@ -42,6 +42,7 @@ import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sce
 import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.LAB;
 import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.PART_01;
 import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.PONG;
+import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.RETRO_GRID;
 import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.SEEDS_SHOP;
 import static com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene.Id.SHEEP_PEN;
 
@@ -200,6 +201,10 @@ public class SceneManager {
                 ////////////////////////////////////////////////////
                 sceneCollection.put(id, new SceneLab(gameCartridge, id));
                 ////////////////////////////////////////////////////
+            } else if (id == RETRO_GRID) {
+                ////////////////////////////////////////////////////
+                sceneCollection.put(id, new SceneRetroGrid(gameCartridge, id));
+                ////////////////////////////////////////////////////
             }
         }
     }
@@ -224,10 +229,12 @@ public class SceneManager {
 
         Scene nextScene = sceneCollection.get(id);
         //TODO: improve on the if-condition.
-        if (nextScene.getTileMap().getTexture() == null) {
-            ///////////////////////////////////
-            nextScene.init(gameCartridge, player, gameCamera, this);
-            ///////////////////////////////////
+        if (nextScene.getTileMap() != null) {
+            if (nextScene.getTileMap().getTexture() == null) {
+                ///////////////////////////////////
+                nextScene.init(gameCartridge, player, gameCamera, this);
+                ///////////////////////////////////
+            }
         }
 
         //////////////////

@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneRetroGrid;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.GameState;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.StartMenuState;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
@@ -390,6 +391,13 @@ public class SerializationDoer {
                         sceneLab.init(gameCartridge, player, gameCamera, sceneManager);
                         ////////////////////////////////////////////////////
                         sceneCollection.put(id, sceneLab);
+                        ////////////////////////////////////////////////////
+                        break;
+                    case RETRO_GRID:
+                        SceneRetroGrid sceneRetroGrid = (SceneRetroGrid) os.readObject();
+                        sceneRetroGrid.init(gameCartridge, player, gameCamera, sceneManager);
+                        ////////////////////////////////////////////////////
+                        sceneCollection.put(id, sceneRetroGrid);
                         ////////////////////////////////////////////////////
                         break;
                     default:
