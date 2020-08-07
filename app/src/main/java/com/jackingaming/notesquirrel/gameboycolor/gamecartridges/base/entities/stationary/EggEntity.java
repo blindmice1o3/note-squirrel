@@ -9,35 +9,32 @@ import android.graphics.Rect;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableGroundTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.EggIncubatorTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.solids.solids2x2.ShippingBinTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.walkables.GenericWalkableTile;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.Holdable;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.Sellable;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneChickenCoop;
 
 import java.io.Serializable;
 
-public class ProductEntity extends Entity
+public class EggEntity extends Entity
         implements Holdable, Sellable, Serializable {
-
-    public enum Id { TURNIP, POTATO, TOMATO, CORN, EGGPLANT, PEANUT, CARROT, BROCCOLI,
-        MYSTERY, GERANIUM, PRIMROSE, LAVENDER, ORCHID, SAGE, SAFFRON, ROSEMARY, CHAMOMILE; }
 
     transient private Bitmap image;
     private float widthPixelToViewportRatio;
     private float heightPixelToViewportRatio;
 
-    private ProductEntity.Id id;
     private boolean isWhole;
     private int price;
 
-    public ProductEntity(GameCartridge gameCartridge, float xCurrent, float yCurrent, ProductEntity.Id id) {
+    public EggEntity(GameCartridge gameCartridge, float xCurrent, float yCurrent) {
         super(gameCartridge, xCurrent, yCurrent);
 
-        this.id = id;
         isWhole = true;
         establishPrice();
 
@@ -45,59 +42,7 @@ public class ProductEntity extends Entity
     }
 
     public void establishPrice() {
-        switch (id) {
-            case TURNIP:
-                price = 40;
-                break;
-            case POTATO:
-                price = 60;
-                break;
-            case TOMATO:
-                price = 80;
-                break;
-            case CORN:
-                price = 100;
-                break;
-            case EGGPLANT:
-                price = 40;
-                break;
-            case PEANUT:
-                price = 40;
-                break;
-            case CARROT:
-                price = 100;
-                break;
-            case BROCCOLI:
-                price = 100;
-                break;
-            case MYSTERY:
-                price = 9000;
-                break;
-            case GERANIUM:
-                price = 250;
-                break;
-            case PRIMROSE:
-                price = 350;
-                break;
-            case LAVENDER:
-                price = 250;
-                break;
-            case ORCHID:
-                price = 500;
-                break;
-            case SAGE:
-                price = 200;
-                break;
-            case SAFFRON:
-                price = 200;
-                break;
-            case ROSEMARY:
-                price = 150;
-                break;
-            case CHAMOMILE:
-                price = 150;
-                break;
-        }
+        price = 50;
     }
 
     @Override
@@ -113,46 +58,12 @@ public class ProductEntity extends Entity
     }
 
     public void initImage(Resources resources) {
-        switch (id) {
-            //OUTDOORS
-            case TURNIP:
-            case POTATO:
-            case TOMATO:
-            case CORN:
-            case EGGPLANT:
-            case PEANUT:
-            case CARROT:
-            case BROCCOLI:
-                image = Assets.cropCropProduct(resources, id, isWhole);
-                break;
-            //INDOORS
-            case MYSTERY:
-                image = BitmapFactory.decodeResource(resources, R.drawable.green2174);
-                break;
-            case GERANIUM:
-                image = Assets.cropFlowerEntity(resources, FlowerEntity.Id.GERANIUM, FlowerEntity.Stage.HARVESTABLE, false);
-                break;
-            case PRIMROSE:
-                image = Assets.cropFlowerEntity(resources, FlowerEntity.Id.PRIMROSE, FlowerEntity.Stage.HARVESTABLE, false);
-                break;
-            case LAVENDER:
-                image = Assets.cropFlowerEntity(resources, FlowerEntity.Id.LAVENDER, FlowerEntity.Stage.HARVESTABLE, false);
-                break;
-            case ORCHID:
-                image = Assets.cropFlowerEntity(resources, FlowerEntity.Id.ORCHID, FlowerEntity.Stage.HARVESTABLE, false);
-                break;
-            case SAGE:
-                image = Assets.cropFlowerEntity(resources, FlowerEntity.Id.SAGE, FlowerEntity.Stage.HARVESTABLE, false);
-                break;
-            case SAFFRON:
-                image = Assets.cropFlowerEntity(resources, FlowerEntity.Id.SAFFRON, FlowerEntity.Stage.HARVESTABLE, false);
-                break;
-            case ROSEMARY:
-                image = Assets.cropFlowerEntity(resources, FlowerEntity.Id.ROSEMARY, FlowerEntity.Stage.HARVESTABLE, false);
-                break;
-            case CHAMOMILE:
-                image = Assets.cropFlowerEntity(resources, FlowerEntity.Id.CHAMOMILE, FlowerEntity.Stage.HARVESTABLE, false);
-                break;
+        if (isWhole) {
+            Bitmap spriteSheetItems = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm2_spritesheet_items);
+            image = Bitmap.createBitmap(spriteSheetItems, 69, 18, 16, 16);
+        } else {
+            Bitmap spriteSheetCustom = BitmapFactory.decodeResource(resources, R.drawable.custom_hm_tile_sprites_sheet);
+            image = Bitmap.createBitmap(spriteSheetCustom, 0, 32, 16, 16);
         }
     }
 
@@ -189,6 +100,13 @@ public class ProductEntity extends Entity
             isWhole = false;
             //UPDATE image to broken.
             initImage(gameCartridge.getContext().getResources());
+
+            return true;
+        } else if (tile instanceof EggIncubatorTile) {
+            SceneChickenCoop sceneChickenCoop = (SceneChickenCoop) gameCartridge.getSceneManager().getScene(Scene.Id.CHICKEN_COOP);
+
+            sceneChickenCoop.setIsEggIncubating(true);
+            setActive(false);
 
             return true;
         }
@@ -231,12 +149,8 @@ public class ProductEntity extends Entity
     @Override
     public void putInShippingBin(ShippingBinTile shippingBin) {
         shippingBin.addSellable(this);
-        //REMOVE PRODUCT FROM entityManager.
+        //REMOVE EggEntity FROM entityManager.
         gameCartridge.getSceneManager().getCurrentScene().getEntityManager().removeEntity(this);
-    }
-
-    public boolean getIsWhole() {
-        return isWhole;
     }
 
 }
