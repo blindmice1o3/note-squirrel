@@ -22,7 +22,6 @@ public class Robot extends Creature {
 
     public enum State { OFF, WALK, RUN; }
 
-    private GameCamera gameCamera;
     private float widthPixelToViewportRatio;
     private float heightPixelToViewportRatio;
 
@@ -45,8 +44,7 @@ public class Robot extends Creature {
         Log.d(MainActivity.DEBUG_TAG, "Robot.init(GameCartridge)");
         this.gameCartridge = gameCartridge;
 
-
-        gameCamera = gameCartridge.getGameCamera();
+        GameCamera gameCamera = gameCartridge.getGameCamera();
         widthPixelToViewportRatio = ((float) gameCartridge.getWidthViewport()) /
                 gameCamera.getWidthClipInPixel();
         heightPixelToViewportRatio = ((float) gameCartridge.getHeightViewport()) /
@@ -204,6 +202,7 @@ public class Robot extends Creature {
     @Override
     public void render(Canvas canvas) {
         Bitmap currentFrame = currentAnimationFrame();
+        GameCamera gameCamera = gameCartridge.getGameCamera();
 
         Rect rectOfImage = new Rect(0, 0, image.getWidth(), image.getHeight());
         Rect rectOnScreen = new Rect(
