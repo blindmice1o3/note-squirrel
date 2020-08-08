@@ -7,6 +7,7 @@ import android.graphics.Rect;
 
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.moveable.Chicken;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.EggEntity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.indoors.TileMapChickenCoop;
@@ -37,6 +38,9 @@ public class SceneChickenCoop extends Scene {
         entityManager.addEntity(new EggEntity(gameCartridge, 64, 96));
         entityManager.addEntity(new EggEntity(gameCartridge, 80, 96));
         entityManager.addEntity(new EggEntity(gameCartridge, 96, 96));
+
+        entityManager.addEntity(new Chicken(gameCartridge, 64, 112, Chicken.Stage.ADULT));
+        entityManager.addEntity(new Chicken(gameCartridge, 96, 112, Chicken.Stage.BABY));
     }
 
     @Override

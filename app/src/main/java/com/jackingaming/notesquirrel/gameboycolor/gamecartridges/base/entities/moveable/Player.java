@@ -342,7 +342,7 @@ public class Player extends Creature {
 
     @Override
     public void render(Canvas canvas) {
-        Bitmap currentFrame = currentAnimationFrame();
+        Bitmap currentFrame = determineCurrentAnimationFrame();
 
         Rect rectOfImage = new Rect(0, 0, currentFrame.getWidth(), currentFrame.getHeight());
         Rect rectOnScreen = new Rect(
@@ -363,7 +363,7 @@ public class Player extends Creature {
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     }
 
-    private Bitmap currentAnimationFrame() {
+    private Bitmap determineCurrentAnimationFrame() {
         Bitmap currentFrame = null;
 
         switch (direction) {

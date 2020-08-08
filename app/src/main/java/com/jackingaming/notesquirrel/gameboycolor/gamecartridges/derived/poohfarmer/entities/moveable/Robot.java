@@ -201,10 +201,10 @@ public class Robot extends Creature {
 
     @Override
     public void render(Canvas canvas) {
-        Bitmap currentFrame = currentAnimationFrame();
+        Bitmap currentFrame = determineCurrentAnimationFrame();
         GameCamera gameCamera = gameCartridge.getGameCamera();
 
-        Rect rectOfImage = new Rect(0, 0, image.getWidth(), image.getHeight());
+        Rect rectOfImage = new Rect(0, 0, currentFrame.getWidth(), currentFrame.getHeight());
         Rect rectOnScreen = new Rect(
                 (int)( (xCurrent - gameCamera.getX()) * widthPixelToViewportRatio ),
                 (int)( (yCurrent - gameCamera.getY()) * heightPixelToViewportRatio ),
@@ -216,7 +216,7 @@ public class Robot extends Creature {
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     }
 
-    private Bitmap currentAnimationFrame() {
+    private Bitmap determineCurrentAnimationFrame() {
         Bitmap currentFrame = null;
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
