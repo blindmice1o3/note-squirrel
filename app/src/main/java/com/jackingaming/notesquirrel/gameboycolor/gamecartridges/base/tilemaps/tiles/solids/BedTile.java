@@ -6,6 +6,7 @@ import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.TimeManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.moveable.Chicken;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.CropEntity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.FlowerEntity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.FodderEntity;
@@ -37,8 +38,22 @@ public class BedTile extends Tile
         //////////////////////////////////////////////////////////////////////////////////
     }
 
+    //TODO: move into SceneChickenCoop.
     private void newDaySceneChickenCoop() {
         Scene sceneChickenCoop = gameCartridge.getSceneManager().getScene(Scene.Id.CHICKEN_COOP);
+
+        //EGG_INCUBATOR
+        if (((SceneChickenCoop)sceneChickenCoop).getIsEggIncubating()) {
+            ((SceneChickenCoop)sceneChickenCoop).incrementDaysIncubating();
+
+            if (((SceneChickenCoop)sceneChickenCoop).getDaysIncubating() == 3) {
+                sceneChickenCoop.getEntityManager().addEntity(
+                        new Chicken(gameCartridge, 24, 80, Chicken.Stage.BABY)
+                );
+                ((SceneChickenCoop)sceneChickenCoop).setIsEggIncubating(false);
+                ((SceneChickenCoop)sceneChickenCoop).resetDaysIncubating();
+            }
+        }
 
         //ENTITIES (remove all instances of FodderEntity)
         for (Entity entity : sceneChickenCoop.getEntityManager().getEntities()) {

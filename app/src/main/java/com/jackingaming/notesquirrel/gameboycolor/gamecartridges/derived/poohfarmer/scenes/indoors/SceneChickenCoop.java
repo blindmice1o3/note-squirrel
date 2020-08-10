@@ -19,11 +19,13 @@ public class SceneChickenCoop extends Scene {
     private int fodderCounter;
 
     private boolean isEggIncubating;
+    private int daysIncubating;
+
+    transient private Bitmap imageEggIncubating;
     private float widthPixelToViewportRatio;
     private float heightPixelToViewportRatio;
     transient private Rect rectOfImage;
     transient private Rect rectOnScreen;
-    transient private Bitmap imageEggIncubating;
 
     public SceneChickenCoop(GameCartridge gameCartridge, Id sceneID) {
         super(gameCartridge, sceneID);
@@ -32,15 +34,18 @@ public class SceneChickenCoop extends Scene {
         heightClipInTile = 9;
 
         fodderCounter = 0;
+
         isEggIncubating = false;
+        daysIncubating = 0;
+
         imageEggIncubating = null;
 
         entityManager.addEntity(new EggEntity(gameCartridge, 64, 96));
         entityManager.addEntity(new EggEntity(gameCartridge, 80, 96));
         entityManager.addEntity(new EggEntity(gameCartridge, 96, 96));
 
-        entityManager.addEntity(new Chicken(gameCartridge, 64, 112, Chicken.Stage.ADULT));
-        entityManager.addEntity(new Chicken(gameCartridge, 96, 112, Chicken.Stage.BABY));
+//        entityManager.addEntity(new Chicken(gameCartridge, 64, 112, Chicken.Stage.ADULT));
+//        entityManager.addEntity(new Chicken(gameCartridge, 96, 112, Chicken.Stage.BABY));
     }
 
     @Override
@@ -88,6 +93,18 @@ public class SceneChickenCoop extends Scene {
             canvas.drawBitmap(imageEggIncubating, rectOfImage, rectOnScreen, null);
             /////////////////////////////////////////////////////////////////////////////
         }
+    }
+
+    public int getDaysIncubating() {
+        return daysIncubating;
+    }
+
+    public void incrementDaysIncubating() {
+        daysIncubating++;
+    }
+
+    public void resetDaysIncubating() {
+        daysIncubating = 0;
     }
 
     public int getFodderCounter() {
