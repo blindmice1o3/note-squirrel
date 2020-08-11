@@ -55,11 +55,16 @@ public class BedTile extends Tile
             }
         }
 
-        //ENTITIES (remove all instances of FodderEntity)
+        //ENTITIES
         for (Entity entity : sceneChickenCoop.getEntityManager().getEntities()) {
+            //Remove all instances of FodderEntity.
             if (entity instanceof FodderEntity) {
                 //TODO: implement feeding ChickenEntity.
                 entity.setActive(false);
+            }
+            //Increment daysAlive for all instances of Chicken.
+            else if (entity instanceof Chicken) {
+                ((Chicken)entity).incrementDaysAlive();
             }
         }
         //////////////////////////////////////////////////////////

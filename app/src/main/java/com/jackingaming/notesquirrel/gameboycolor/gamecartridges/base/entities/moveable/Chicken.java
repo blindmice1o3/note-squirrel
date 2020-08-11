@@ -26,6 +26,7 @@ public class Chicken extends Creature {
     private float heightPixelToViewportRatio;
 
     private Stage stage;
+    private int daysAlive;
 
     transient private Map<Direction, Animation> animationWalkBaby;
     transient private Map<Direction, Animation> animationWalkAdult;
@@ -34,6 +35,7 @@ public class Chicken extends Creature {
         super(gameCartridge, xCurrent, yCurrent);
 
         this.stage = stage;
+        daysAlive = 0;
 
         init(gameCartridge);
     }
@@ -213,6 +215,14 @@ public class Chicken extends Creature {
         }
 
         return currentFrame;
+    }
+
+    public void incrementDaysAlive() {
+        daysAlive++;
+
+        if (daysAlive >= 4) {
+            stage = Stage.ADULT;
+        }
     }
 
 }
