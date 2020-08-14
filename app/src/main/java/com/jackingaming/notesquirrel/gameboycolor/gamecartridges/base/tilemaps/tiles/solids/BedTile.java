@@ -19,6 +19,8 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.t
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneChickenCoop;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneHouseLevel01;
 
+import java.util.ArrayList;
+
 public class BedTile extends Tile
         implements TimeManager.TimeManagerListener {
 
@@ -47,24 +49,29 @@ public class BedTile extends Tile
             ((SceneChickenCoop)sceneChickenCoop).incrementDaysIncubating();
 
             if (((SceneChickenCoop)sceneChickenCoop).getDaysIncubating() == 3) {
-                sceneChickenCoop.getEntityManager().addEntity(
-                        new Chicken(gameCartridge, 24, 80, Chicken.Stage.BABY)
-                );
-                ((SceneChickenCoop)sceneChickenCoop).setIsEggIncubating(false);
-                ((SceneChickenCoop)sceneChickenCoop).resetDaysIncubating();
+                if (((SceneChickenCoop)sceneChickenCoop).getChickenCounter() <= SceneChickenCoop.CHICKEN_COUNTER_MAXIMUM) {
+                    //SceneChickenCoop.chickenCounter WAS AlREADY incremented in EggEntity.drop(Tile).
+                    sceneChickenCoop.getEntityManager().addEntity(
+                            new Chicken(gameCartridge, 24, 80, Chicken.Stage.BABY)
+                    );
+                    ((SceneChickenCoop)sceneChickenCoop).setIsEggIncubating(false);
+                    ((SceneChickenCoop)sceneChickenCoop).resetDaysIncubating();
+                }
             }
         }
 
+        //FEEDING
+        ((SceneChickenCoop)sceneChickenCoop).performFeeding();
+
         //ENTITIES
         for (Entity entity : sceneChickenCoop.getEntityManager().getEntities()) {
-            //Remove all instances of FodderEntity.
-            if (entity instanceof FodderEntity) {
-                //TODO: implement feeding ChickenEntity.
-                entity.setActive(false);
-            }
             //Increment daysAlive for all instances of Chicken.
-            else if (entity instanceof Chicken) {
+            if (entity instanceof Chicken) {
                 ((Chicken)entity).incrementDaysAlive();
+            }
+            //Remove all instances of FodderEntity.
+            else if (entity instanceof FodderEntity) {
+                entity.setActive(false);
             }
         }
         //////////////////////////////////////////////////////////

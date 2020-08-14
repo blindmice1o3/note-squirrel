@@ -11,14 +11,25 @@ import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.Entity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.EggEntity;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Animation;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneChickenCoop;
 
+import java.io.Serializable;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
 public class Chicken extends Creature {
+
+    private static final int DAYS_UNHAPPY_DUE_TO_MISSED_FEEDING = 3;
+    private static final int DAYS_ALIVE_THRESHOLD_FOR_ADULT_STAGE = 4;
 
     public enum Stage { BABY, ADULT; }
 
@@ -27,6 +38,7 @@ public class Chicken extends Creature {
 
     private Stage stage;
     private int daysAlive;
+    private int daysUnhappy;
 
     transient private Map<Direction, Animation> animationWalkBaby;
     transient private Map<Direction, Animation> animationWalkAdult;
@@ -36,6 +48,7 @@ public class Chicken extends Creature {
 
         this.stage = stage;
         daysAlive = 0;
+        daysUnhappy = 0;
 
         init(gameCartridge);
     }
@@ -220,8 +233,71 @@ public class Chicken extends Creature {
     public void incrementDaysAlive() {
         daysAlive++;
 
-        if (daysAlive >= 4) {
+        if ((stage == Stage.BABY) && (daysAlive >= DAYS_ALIVE_THRESHOLD_FOR_ADULT_STAGE)) {
             stage = Stage.ADULT;
+        }
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public void becomeUnhappyDueToMissedFeeding() {
+        daysUnhappy = DAYS_UNHAPPY_DUE_TO_MISSED_FEEDING;
+    }
+
+    public void decrementDaysUnhappy() {
+        daysUnhappy--;
+
+        if (daysUnhappy < 0) {
+            daysUnhappy = 0;
+        }
+    }
+
+    public int getDaysUnhappy() {
+        return daysUnhappy;
+    }
+
+    public int getDaysAlive() {
+        return daysAlive;
+    }
+
+    public void layEgg() {
+        SceneChickenCoop sceneChickenCoop = (SceneChickenCoop) gameCartridge.getSceneManager().getScene(Scene.Id.CHICKEN_COOP);
+        TileMap tileMap = sceneChickenCoop.getTileMap();
+
+        boolean hasLaidEgg = false;
+        while (!hasLaidEgg) {
+            //find RANDOM, walkable, unoccupied tile-space to instantiate egg.
+            Random random = new Random();
+            int numberOfColumns = tileMap.getWidthSceneMax() / tileMap.getTileWidth();
+            int numberOfRows = tileMap.getHeightSceneMax() / tileMap.getTileHeight();
+            int xIndexRandom = random.nextInt(numberOfColumns);
+            int yIndexRandom = random.nextInt(numberOfRows);
+            int xPositionRandom = xIndexRandom * tileMap.getTileWidth();
+            int yPositionRandom = yIndexRandom * tileMap.getTileHeight();
+            //EggEntity's bounding rectangle.
+            Rect collisionBoundsRandom = new Rect(xPositionRandom, yPositionRandom,
+                    xPositionRandom + tileMap.getTileWidth(), yPositionRandom + tileMap.getTileHeight());
+
+            //TILES (check for zero-tile-collision).
+            boolean isWalkable = (tileMap.getTile(xIndexRandom, yIndexRandom).getWalkability() == Tile.Walkability.WALKABLE);
+            if (isWalkable) {
+                boolean isUnoccupied = true;
+                for (Entity e : sceneChickenCoop.getEntityManager().getEntities()) {
+                    if (e.getCollisionBounds(0f, 0f).intersect(collisionBoundsRandom)) {
+                        isUnoccupied = false;
+                        break;
+                    }
+                }
+                //ENTITIES (check for zero-entity-collision).
+                if (isUnoccupied) {
+                    //LAY EGG.
+                    EggEntity eggEntity = new EggEntity(gameCartridge, xPositionRandom, yPositionRandom);
+                    sceneChickenCoop.getEntityManager().addEntity(eggEntity);
+                    hasLaidEgg = true;
+                }
+            }
         }
     }
 

@@ -105,7 +105,13 @@ public class EggEntity extends Entity
         } else if (tile instanceof EggIncubatorTile) {
             SceneChickenCoop sceneChickenCoop = (SceneChickenCoop) gameCartridge.getSceneManager().getScene(Scene.Id.CHICKEN_COOP);
 
+            //RETURN! EggIncubatorTile is OCCUPIED.
+            if (sceneChickenCoop.getIsEggIncubating()) {
+                return false;
+            }
+
             sceneChickenCoop.setIsEggIncubating(true);
+            sceneChickenCoop.incrementChickenCounter();
             setActive(false);
 
             return true;
