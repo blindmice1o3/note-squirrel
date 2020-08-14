@@ -19,7 +19,35 @@ public class EntityManager
 
     private ArrayList<Entity> entities;
 
-    private Comparator<Entity> renderSorter = new ComparatorRenderSorter<Entity>();
+    private Comparator<Entity> renderSorter = new Comparator<Entity>() {
+        @Override
+        public int compare(Entity firstEntity, Entity secondEntity) {
+            //player should always be at the end.
+            if (firstEntity instanceof Player) {
+                return 1;
+            }
+
+            //then player's holdable is second from the end.
+            if (firstEntity.equals(player.getHoldable())) {
+                //if secondEntity is NOT player, holdable should be sent toward the end.
+                if (!secondEntity.equals(player)) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+
+            //ALL OTHER SITUATIONS.
+            //(compare based on the y-value of the Entity's BOTTOM-left corner.)
+            if ( (firstEntity.getyCurrent() + firstEntity.getHeight()) <
+                    (secondEntity.getyCurrent() + secondEntity.getHeight()) ) {
+                return -1;
+            } else {
+                return 1;
+            }
+        }
+    };
+
 //    private Comparator<Entity> renderSorter = new Comparator<Entity>() {
 //        @Override
 //        public int compare(Entity a, Entity b) {
@@ -35,31 +63,6 @@ public class EntityManager
 //            */
 //        }
 //    };
-
-    class ComparatorRenderSorter<Entity> implements Comparator<Entity>, Serializable {
-        @Override
-        public int compare(Entity a, Entity b) {
-            //player should always be at the end.
-            if (a instanceof Player) {
-                return 1;
-            }
-
-            //then player's holdable is second from the end.
-            if (a.equals(player.getHoldable())) {
-                //if b is NOT player, holdable should be sent toward the end.
-                if (!b.equals(player)) {
-                    return 1;
-                } else {
-                    return -1;
-                }
-            }
-
-            //all other situations.
-            return -1;
-
-//            return (a instanceof Player) ? (1) : (-1);
-        }
-    }
 
     public EntityManager(Player player) {
         this.player = player;
