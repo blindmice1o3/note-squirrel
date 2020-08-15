@@ -19,7 +19,10 @@ public class EntityManager
 
     private ArrayList<Entity> entities;
 
-    private Comparator<Entity> renderSorter = new Comparator<Entity>() {
+    private Comparator<Entity> renderSorter = new RenderSorterComparator();
+
+    class RenderSorterComparator
+            implements Comparator<Entity>, Serializable {
         @Override
         public int compare(Entity firstEntity, Entity secondEntity) {
             //player should always be at the end.
@@ -46,7 +49,7 @@ public class EntityManager
                 return 1;
             }
         }
-    };
+    }
 
 //    private Comparator<Entity> renderSorter = new Comparator<Entity>() {
 //        @Override

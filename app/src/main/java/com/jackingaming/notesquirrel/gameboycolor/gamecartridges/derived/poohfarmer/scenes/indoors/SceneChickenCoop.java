@@ -12,7 +12,6 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.E
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.moveable.Chicken;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.stationary.EggEntity;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.indoors.TileMapChickenCoop;
 
 import java.io.Serializable;
@@ -28,8 +27,6 @@ public class SceneChickenCoop extends Scene {
     private int fodderCounter;
     private int chickenCounter;
 
-    private Comparator<Chicken> chickenFeedingSorter = new ComparatorChickenFeedingSorter();
-
     private boolean isEggIncubating;
     private int daysIncubating;
 
@@ -38,6 +35,33 @@ public class SceneChickenCoop extends Scene {
     private float heightPixelToViewportRatio;
     transient private Rect rectOfImage;
     transient private Rect rectOnScreen;
+
+    private Comparator<Chicken> chickenFeedingSorter = new ChickenFeedingSorterComparator();
+
+    class ChickenFeedingSorterComparator
+            implements Comparator<Chicken>, Serializable {
+        @Override
+        public int compare(Chicken firstChicken, Chicken secondChicken) {
+            //less daysUnhappy: to the front.
+            if (firstChicken.getDaysUnhappy() < secondChicken.getDaysUnhappy()) {
+                return -1;
+            }
+            //more daysUnhappy: to the back.
+            else if (firstChicken.getDaysUnhappy() > secondChicken.getDaysUnhappy()) {
+                return 1;
+            }
+            //equal daysUnhappy: check daysAlive (older to the front, younger to the back).
+            else {
+                if (firstChicken.getDaysAlive() > secondChicken.getDaysAlive()) {
+                    return -1;
+                } else if (firstChicken.getDaysAlive() < secondChicken.getDaysAlive()) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        }
+    }
 
     public SceneChickenCoop(GameCartridge gameCartridge, Id sceneID) {
         super(gameCartridge, sceneID);
@@ -108,30 +132,6 @@ public class SceneChickenCoop extends Scene {
             /////////////////////////////////////////////////////////////////////////////
             canvas.drawBitmap(imageEggIncubating, rectOfImage, rectOnScreen, null);
             /////////////////////////////////////////////////////////////////////////////
-        }
-    }
-
-    class ComparatorChickenFeedingSorter implements Comparator<Chicken>, Serializable {
-        @Override
-        public int compare(Chicken firstChicken, Chicken secondChicken) {
-            //less daysUnhappy: to the front.
-            if (firstChicken.getDaysUnhappy() < secondChicken.getDaysUnhappy()) {
-                return -1;
-            }
-            //more daysUnhappy: to the back.
-            else if (firstChicken.getDaysUnhappy() > secondChicken.getDaysUnhappy()) {
-                return 1;
-            }
-            //equal daysUnhappy: check daysAlive (older to the front, younger to the back).
-            else {
-                if (firstChicken.getDaysAlive() > secondChicken.getDaysAlive()) {
-                    return -1;
-                } else if (firstChicken.getDaysAlive() < secondChicken.getDaysAlive()) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            }
         }
     }
 

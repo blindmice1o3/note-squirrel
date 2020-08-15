@@ -18,15 +18,17 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.An
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Assets;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.Tile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.growables.GrowableGroundTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.tiles.walkables.GenericWalkableTile;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.Holdable;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneChickenCoop;
 
-import java.io.Serializable;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class Chicken extends Creature {
+public class Chicken extends Creature
+        implements Holdable {
 
     private static final int DAYS_UNHAPPY_DUE_TO_MISSED_FEEDING = 3;
     private static final int DAYS_ALIVE_THRESHOLD_FOR_ADULT_STAGE = 4;
@@ -66,12 +68,6 @@ public class Chicken extends Creature {
 
         initImage(gameCartridge.getContext().getResources());
         initBounds();
-    }
-
-    @Override
-    public void initBounds() {
-        Log.d(MainActivity.DEBUG_TAG, "Chicken.initBounds()");
-        bounds = new Rect(0, 0, width, height);
     }
 
     private void initImage(Resources resources) {
@@ -130,6 +126,35 @@ public class Chicken extends Creature {
         animationWalkAdult.put(Direction.DOWN, new Animation(500, walkDownAdult));
         animationWalkAdult.put(Direction.LEFT, new Animation(500, walkLeftAdult));
         animationWalkAdult.put(Direction.RIGHT, new Animation(500, walkRightAdult));
+    }
+
+    @Override
+    public void initBounds() {
+        Log.d(MainActivity.DEBUG_TAG, "Chicken.initBounds()");
+        bounds = new Rect(0, 0, width, height);
+    }
+
+    @Override
+    public void updatePosition(float xCurrent, float yCurrent) {
+        this.xCurrent = xCurrent;
+        this.yCurrent = yCurrent;
+    }
+
+    @Override
+    public boolean drop(Tile tile) {
+        if ( (tile instanceof GrowableGroundTile) || (tile instanceof GenericWalkableTile)) {
+            int xCurrentTile = tile.getxIndex() * TileMap.TILE_WIDTH;
+            int yCurrentTile = tile.getyIndex() * TileMap.TILE_HEIGHT;
+
+            ////////////////////////
+            xCurrent = xCurrentTile;
+            yCurrent = yCurrentTile;
+            ////////////////////////
+
+            return true;
+        }
+
+        return false;
     }
 
     @Override

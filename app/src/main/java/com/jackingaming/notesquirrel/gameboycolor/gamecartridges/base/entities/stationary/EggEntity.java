@@ -20,10 +20,8 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfar
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.Sellable;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.scenes.indoors.SceneChickenCoop;
 
-import java.io.Serializable;
-
 public class EggEntity extends Entity
-        implements Holdable, Sellable, Serializable {
+        implements Holdable, Sellable {
 
     transient private Bitmap image;
     private float widthPixelToViewportRatio;
