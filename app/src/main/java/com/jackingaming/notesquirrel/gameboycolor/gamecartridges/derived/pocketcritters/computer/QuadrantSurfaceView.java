@@ -57,16 +57,20 @@ public class QuadrantSurfaceView extends SurfaceView
         QuadrantActivity quadrantActivity = (QuadrantActivity) getContext();
         //////////////////////////////////////////////////////////////////////////////////////
         if (surfaceViewQuadrant01 == this) {
-            runGameCartridge(quadrantActivity.getGameCartridge01(), quadrantActivity.getInputManager(),
+            runGameCartridge(quadrantActivity.getGameCartridge01(), quadrantActivity.getInputManager01(),
+//            runGameCartridge(quadrantActivity.getGameCartridge01(), quadrantActivity.getInputManager(),
                     widthScreen, heightScreen);
         } else if (surfaceViewQuadrant02 == this) {
-            runGameCartridge(quadrantActivity.getGameCartridge02(), quadrantActivity.getInputManager(),
+            runGameCartridge(quadrantActivity.getGameCartridge02(), quadrantActivity.getInputManager02(),
+//            runGameCartridge(quadrantActivity.getGameCartridge02(), quadrantActivity.getInputManager(),
                     widthScreen, heightScreen);
         } else if (surfaceViewQuadrant03 == this) {
-            runGameCartridge(quadrantActivity.getGameCartridge03(), quadrantActivity.getInputManager(),
+            runGameCartridge(quadrantActivity.getGameCartridge03(), quadrantActivity.getInputManager03(),
+//            runGameCartridge(quadrantActivity.getGameCartridge03(), quadrantActivity.getInputManager(),
                     widthScreen, heightScreen);
         } else if (surfaceViewQuadrant04 == this) {
-            runGameCartridge(quadrantActivity.getGameCartridge04(), quadrantActivity.getInputManager(),
+            runGameCartridge(quadrantActivity.getGameCartridge04(), quadrantActivity.getInputManager04(),
+//            runGameCartridge(quadrantActivity.getGameCartridge04(), quadrantActivity.getInputManager(),
                     widthScreen, heightScreen);
         }
         //////////////////////////////////////////////////////////////////////////////////////

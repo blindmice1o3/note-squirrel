@@ -17,7 +17,11 @@ public class QuadrantActivity extends AppCompatActivity {
     private GameCartridge gameCartridge02;
     private GameCartridge gameCartridge03;
     private GameCartridge gameCartridge04;
-    private InputManager inputManager;
+//    private InputManager inputManager;
+    private InputManager inputManager01;
+    private InputManager inputManager02;
+    private InputManager inputManager03;
+    private InputManager inputManager04;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +36,20 @@ public class QuadrantActivity extends AppCompatActivity {
         gameCartridge02 = new GameCartridge(this, IGameCartridge.Id.POCKET_CRITTERS);
         gameCartridge03 = new GameCartridge(this, IGameCartridge.Id.POCKET_CRITTERS);
         gameCartridge04 = new GameCartridge(this, IGameCartridge.Id.POCKET_CRITTERS);
-        inputManager = new InputManager();
+
+//        inputManager = new InputManager();
+        inputManager01 = new InputManager();
+        QuadrantSurfaceView quadrantSurfaceView01 = findViewById(R.id.surfaceview_quadrant_01);
+        quadrantSurfaceView01.setOnTouchListener(inputManager01);
+        inputManager02 = new InputManager();
+        QuadrantSurfaceView quadrantSurfaceView02 = findViewById(R.id.surfaceview_quadrant_02);
+        quadrantSurfaceView02.setOnTouchListener(inputManager02);
+        inputManager03 = new InputManager();
+        QuadrantSurfaceView quadrantSurfaceView03 = findViewById(R.id.surfaceview_quadrant_03);
+        quadrantSurfaceView03.setOnTouchListener(inputManager03);
+        inputManager04 = new InputManager();
+        QuadrantSurfaceView quadrantSurfaceView04 = findViewById(R.id.surfaceview_quadrant_04);
+        quadrantSurfaceView04.setOnTouchListener(inputManager04);
     }
 
     public Bundle getSavedInstanceState() {
@@ -55,8 +72,24 @@ public class QuadrantActivity extends AppCompatActivity {
         return gameCartridge04;
     }
 
-    public InputManager getInputManager() {
-        return inputManager;
+//    public InputManager getInputManager() {
+//        return inputManager;
+//    }
+
+    public InputManager getInputManager01() {
+        return inputManager01;
+    }
+
+    public InputManager getInputManager02() {
+        return inputManager02;
+    }
+
+    public InputManager getInputManager03() {
+        return inputManager03;
+    }
+
+    public InputManager getInputManager04() {
+        return inputManager04;
     }
 
 }
