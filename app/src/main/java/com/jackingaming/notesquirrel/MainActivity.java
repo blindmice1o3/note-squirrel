@@ -24,6 +24,7 @@ import com.jackingaming.notesquirrel.sandbox.countzero.CountZeroActivity;
 import com.jackingaming.notesquirrel.sandbox.downloadhtml.DownloadHtmlFragmentParentActivity;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.RecyclerViewActivity;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.ListFragmentDvdParentActivity;
+import com.jackingaming.notesquirrel.sandbox.restclient.RestClientActivity;
 import com.jackingaming.notesquirrel.sandbox.spritesheetverifier1.SpriteSheetVerifier1Activity;
 import com.jackingaming.notesquirrel.sandbox.listviewemail.ListViewEmailActivity;
 import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.SpriteSheetVerifier2Activity;
@@ -314,6 +315,14 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent spriteSheetVerifier2Intent = new Intent(this, SpriteSheetVerifier2Activity.class);
                 startActivity(spriteSheetVerifier2Intent);
+
+                return true;
+            case R.id.menu_rest_client:
+                //TODO: implement menu_rest_client
+                Toast.makeText(this, R.string.menu_rest_client, Toast.LENGTH_SHORT).show();
+
+                Intent restClientIntent = new Intent(this, RestClientActivity.class);
+                startActivity(restClientIntent);
 
                 return true;
             case R.id.menu_count_zero:

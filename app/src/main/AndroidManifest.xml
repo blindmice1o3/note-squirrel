@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jackingaming.notesquirrel">
-
     <!-- Supporting different screen resolutions -->
     <supports-screens
         android:largeScreens="true"
         android:normalScreens="true"
         android:resizeable="true"
         android:smallScreens="false"
-        android:xlargeScreens="true" />
-
-    <!-- Features (optional): camera -->
+        android:xlargeScreens="true" /> <!-- Features (optional): camera -->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -40,6 +37,7 @@
             android:name=".gameboycolor.JackInActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity android:name=".sandbox.countzero.CountZeroActivity" />
+        <activity android:name=".sandbox.restclient.RestClientActivity" />
         <activity android:name=".gameboycolor.gamecartridges.base.items.BackpackActivity" />
         <activity android:name=".gameboycolor.gamecartridges.derived.pocketcritters.computer.ComputerActivity" />
         <activity

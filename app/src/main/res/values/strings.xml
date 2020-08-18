@@ -20,6 +20,7 @@
     <string name="menu_recycler_view_dvd">See a RecyclerView</string>
     <string name="menu_sprite_sheet_verifier1">Sprite Sheet Verifier 1 (MS Clippit)</string>
     <string name="menu_sprite_sheet_verifier2">Sprite Sheet Verifier 2 (R-Series)</string>
+    <string name="menu_rest_client">Rest Client</string>
     <string name="menu_count_zero">Count Zero</string>
     <string name="menu_jack_in">Jack In</string>
 
