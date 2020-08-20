@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.sandbox.restclient;
+package com.jackingaming.notesquirrel.sandbox.restclient.tutorial;
 
 public class DataRepresentation {
 

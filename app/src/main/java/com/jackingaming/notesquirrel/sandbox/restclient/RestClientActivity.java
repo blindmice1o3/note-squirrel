@@ -3,12 +3,18 @@ package com.jackingaming.notesquirrel.sandbox.restclient;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.sandbox.restclient.tutorial.DataRepresentation;
+
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
 
 public class RestClientActivity extends AppCompatActivity {
 
@@ -22,6 +28,13 @@ public class RestClientActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rest_client);
 
         Log.d(MainActivity.DEBUG_TAG, "RestClientActivity.onCreate(Bundle)");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //TODO: change url from HttpRequestTask.
+//        new HttpRequestTask().execute();
     }
 
     //Called after onStart(). It is only called if there is a saved state to restore
@@ -46,9 +59,46 @@ public class RestClientActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
-//    //As oppose to the application being started for the first time.
-//    private boolean isBeingReloaded(Bundle savedInstanceState) {
-//        return (savedInstanceState != null) ? true : false;
-//    }
+    private class HttpRequestTask extends AsyncTask<Void, Void, DataRepresentation> {
+
+        @Override
+        protected DataRepresentation doInBackground(Void... voids) {
+            try {
+                // the  url from where to fetch data(json)
+                final String url = "www.example.com";
+
+                ///////////////////////////////////////////////////////////////////////////////////
+                RestTemplate restTemplate = new RestTemplate();
+                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+                ///////////////////////////////////////////////////////////////////////////////////
+
+                ////////////////////////////////////////////////////////////////////////////////////////
+                DataRepresentation dataRepresentation = restTemplate.getForObject(url, DataRepresentation.class);
+                ////////////////////////////////////////////////////////////////////////////////////////
+
+                return dataRepresentation;
+            } catch (Exception e) {
+                Log.d(MainActivity.DEBUG_TAG, e.getMessage());
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(DataRepresentation dataRepresentation) {
+            TextView idLabel = (TextView) findViewById(R.id.id_label);
+            TextView contentLabel = (TextView) findViewById(R.id.content_label);
+            TextView nameLabel = (TextView) findViewById(R.id.name_label);
+            TextView phoneNumberLabel = (TextView) findViewById(R.id.phone_number_label);
+            TextView emailAddressLabel = (TextView) findViewById(R.id.email_address_label);
+
+            idLabel.setText(dataRepresentation.getId());
+            contentLabel.setText(dataRepresentation.getContent());
+            nameLabel.setText(dataRepresentation.getName());
+            phoneNumberLabel.setText(dataRepresentation.getPhoneNumber());
+            emailAddressLabel.setText(dataRepresentation.getEmailAddress());
+        }
+
+    }
 
 }
