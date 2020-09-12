@@ -64,15 +64,15 @@ public class RestClientActivity extends AppCompatActivity {
         @Override
         protected DataRepresentation doInBackground(Void... voids) {
             try {
-                // the  url from where to fetch data(json)
-                final String url = "www.example.com";
-
-                ///////////////////////////////////////////////////////////////////////////////////
-                RestTemplate restTemplate = new RestTemplate();
-                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-                ///////////////////////////////////////////////////////////////////////////////////
-
                 ////////////////////////////////////////////////////////////////////////////////////////
+                //https://projects.spring.io/spring-android/
+                // The connection URL (from where to fetch data [json])
+                final String url = "www.example.com";
+                // Create a new RestTemplate instance
+                RestTemplate restTemplate = new RestTemplate();
+                // Add the Jackson message converter
+                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+                // Make the HTTP GET request, marshaling the response to a DataRepresentation
                 DataRepresentation dataRepresentation = restTemplate.getForObject(url, DataRepresentation.class);
                 ////////////////////////////////////////////////////////////////////////////////////////
 

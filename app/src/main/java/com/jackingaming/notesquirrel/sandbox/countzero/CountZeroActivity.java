@@ -1,5 +1,6 @@
 package com.jackingaming.notesquirrel.sandbox.countzero;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
@@ -13,6 +14,9 @@ import java.util.List;
 
 public class CountZeroActivity extends AppCompatActivity {
 
+    private static final int START_OF_MONTH = 11;
+    private static final int END_OF_MONTH = 30;
+
     private List<Entry> dates;
 
     @Override
@@ -20,39 +24,35 @@ public class CountZeroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_count_zero);
 
-        initDates();
-        initListView();
+        initializeDates();
+        inflateListViewUsingDates();
 
         loadIsActiveColumn();
     }
 
-    private void initDates() {
+    private void initializeDates() {
         dates = new ArrayList<Entry>();
 
-        dates.add(new Entry("2020_07_26", false));
-        dates.add(new Entry("2020_07_27", false));
-        dates.add(new Entry("2020_07_28", false));
-        dates.add(new Entry("2020_07_29", false));
-        dates.add(new Entry("2020_07_30", false));
-        dates.add(new Entry("2020_07_31", false));
+        //SEPTEMBER
+        for (int i = START_OF_MONTH; i <= END_OF_MONTH; i++) {
+            String date = String.format("2020_09_%02d", i);
+            Entry entry = new Entry(date, false);
 
-        //AUGUST
-        for (int i = 1; i <= 31; i++) {
-            String day = String.format("2020_08_%02d", i);
-            dates.add(new Entry(day, false));
+            dates.add(entry);
         }
     }
 
-    private void initListView() {
+    private void inflateListViewUsingDates() {
         ListView listView = (ListView) findViewById(R.id.listview_count_zero_viewport);
 
         EntryToListItemAdapter entryToListItemAdapter = new EntryToListItemAdapter(this, dates);
         listView.setAdapter(entryToListItemAdapter);
     }
 
+    //Called before the activity is paused.
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
         saveIsActiveColumn();
     }
@@ -61,10 +61,11 @@ public class CountZeroActivity extends AppCompatActivity {
         SharedPreferences pref = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
 
-        for (int index = 0; index < dates.size(); index++) {
-            String date = dates.get(index).getDate();
+        for (Entry entry : dates) {
+            String date = entry.getDate();
+            boolean isActive = entry.isActive();
 
-            editor.putBoolean(date, dates.get(index).isActive());
+            editor.putBoolean(date, isActive);
         }
 
         ////////////////
@@ -75,12 +76,11 @@ public class CountZeroActivity extends AppCompatActivity {
     private void loadIsActiveColumn() {
         SharedPreferences pref = getPreferences(MODE_PRIVATE);
 
-        for (int index = 0; index < dates.size(); index++) {
-            String date = dates.get(index).getDate();
-
+        for (Entry entry : dates) {
+            String date = entry.getDate();
             boolean isActive = pref.getBoolean(date, false);
 
-            dates.get(index).setActive(isActive);
+            entry.setActive(isActive);
         }
     }
 
