@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,11 +13,17 @@ import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.datasource.Dvd;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class RecyclerViewActivity extends AppCompatActivity
         implements AdapterRecyclerView.ItemClickListener {
@@ -24,7 +31,8 @@ public class RecyclerViewActivity extends AppCompatActivity
     public enum Mode { GRID, LINEAR; }
 
     private RecyclerView recyclerView;
-    private String[] dataSet;
+//    private String[] dataSet;
+    private Dvd[] dvds;
     private AdapterRecyclerView adapter;
     private int scrollPosition;
     private Mode mode = Mode.GRID;
@@ -43,11 +51,46 @@ public class RecyclerViewActivity extends AppCompatActivity
         scrollPosition = 0;
         mode = Mode.GRID;
 
-        dataSet = loadCSV();
-        adapter = new AdapterRecyclerView(dataSet);
-        adapter.setClickListener(this);
+        //dataSet = loadCSV();
 
-        initRecyclerView();
+        final String url = "http://192.168.0.141:8080/dvds";
+        final RestTemplate restTemplate = new RestTemplate();
+        // TODO: getForObject() (the returned data will be used to replace dataSet).
+
+
+
+
+        // TODO: do in background (AsyncTask)
+        AsyncTask<Void, Void, Dvd[]> task = new AsyncTask<Void, Void, Dvd[]>() {
+            @Override
+            protected Dvd[] doInBackground(Void... voids) {
+                ResponseEntity<Dvd[]> response = restTemplate.getForEntity(url, Dvd[].class);
+                Dvd[] dvds = response.getBody();
+                return dvds;
+            }
+
+            @Override
+            protected void onPostExecute(Dvd[] dvds) {
+                super.onPostExecute(dvds);
+
+            }
+        };
+        //ACTUALLY RUNNING what we defined.
+        task.execute();
+
+        try {
+            dvds = task.get();
+            adapter = new AdapterRecyclerView(dvds);
+            adapter.setClickListener(this);
+            initRecyclerView();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+//        adapter = new AdapterRecyclerView(dataSet);
     }
 
     @Override

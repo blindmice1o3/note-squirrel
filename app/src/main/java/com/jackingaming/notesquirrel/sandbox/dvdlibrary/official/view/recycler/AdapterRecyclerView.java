@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.datasource.Dvd;
 
 public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerView.ItemViewHolder> {
 
@@ -24,7 +25,7 @@ public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerVie
     }
     ///////////////////////////////////////////////////////////////////////////////////////
 
-    private String[] dataSet;
+    private Dvd[] dvds;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -50,8 +51,8 @@ public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerVie
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public AdapterRecyclerView(String[] dataSet) {
-        this.dataSet = dataSet;
+    public AdapterRecyclerView(Dvd[] dvds) {
+        this.dvds = dvds;
     }
 
     // Create new views (invoked by the layout manager)
@@ -74,13 +75,13 @@ public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerVie
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.textView.setText( dataSet[position] );
+        holder.textView.setText( dvds[position].getTitle() );
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return dataSet.length;
+        return dvds.length;
     }
 
 }
