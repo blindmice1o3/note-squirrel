@@ -13,6 +13,8 @@ import android.widget.Toast;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 
+import org.springframework.web.client.RestTemplate;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,6 +46,11 @@ public class RecyclerViewActivity extends AppCompatActivity
         mode = Mode.GRID;
 
         dataSet = loadCSV();
+
+        String url = "192.168.0.141:8080/dvds";
+        RestTemplate restTemplate = new RestTemplate();
+        // TODO: getForObject() (the returned data will be used to replace dataSet).
+
         adapter = new AdapterRecyclerView(dataSet);
         adapter.setClickListener(this);
 
