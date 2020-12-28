@@ -22,7 +22,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class RecyclerViewActivity extends AppCompatActivity
@@ -95,7 +97,7 @@ public class RecyclerViewActivity extends AppCompatActivity
 
     @Override
     public void onItemClick(View view, int position) {
-        Toast.makeText(this, "position: " + position, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "position: " + position + " | available: " + dvds[position].isAvailable(), Toast.LENGTH_SHORT).show();
     }
 
     private void initRecyclerView() {
@@ -104,6 +106,72 @@ public class RecyclerViewActivity extends AppCompatActivity
 
         // specify an adapter
         recyclerView.setAdapter(adapter);
+    }
+
+    public void onGetByAvailableButtonClick(View view) {
+        Log.d(MainActivity.DEBUG_TAG, "RecyclerViewActivity.onGetByAvailableButtonClick(View)");
+
+        AsyncTask<Void, Void, Dvd[]> task = new AsyncTask<Void, Void, Dvd[]>() {
+            @Override
+            protected Dvd[] doInBackground(Void... voids) {
+                String url = "http://192.168.0.141:8080/foo?available=false";
+                RestTemplate restTemplate = new RestTemplate();
+
+//                Map<String, String> params = new HashMap<>();
+//                params.put("available", "false");
+
+                ResponseEntity<Dvd[]> response = restTemplate.getForEntity(url, Dvd[].class);
+                Dvd[] dvds = response.getBody();
+                return dvds;
+            }
+
+            @Override
+            protected void onPostExecute(Dvd[] dvds) {
+                super.onPostExecute(dvds);
+                Toast.makeText(RecyclerViewActivity.this, "onGetByAvailableButtonClick(View)", Toast.LENGTH_SHORT).show();
+            }
+        };
+        //ACTUALLY RUNNING what we defined.
+        task.execute();
+
+        try {
+            dvds = task.get();
+            adapter = new AdapterRecyclerView(dvds);
+            adapter.setClickListener(this);
+            initRecyclerView();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    boolean availableSwitcher = true;
+    public void onAddDvdButtonClick(View view) {
+        Log.d(MainActivity.DEBUG_TAG, "RecyclerViewActivity.onAddDvdButtonClick(View)");
+
+        availableSwitcher = !availableSwitcher;
+
+        AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                String url = "http://192.168.0.141:8080/dvds";
+                RestTemplate restTemplate = new RestTemplate();
+
+                Dvd newDvd = new Dvd("Escape from Poverty", availableSwitcher);
+
+                Dvd result = restTemplate.postForObject(url, newDvd, Dvd.class);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                Toast.makeText(RecyclerViewActivity.this, "onAddDvdButtonClick(View)", Toast.LENGTH_SHORT).show();
+            }
+        };
+        //ACTUALLY RUNNING what we defined.
+        task.execute();
     }
 
     public void onSwitchModeButtonClick(View view) {
