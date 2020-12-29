@@ -114,11 +114,9 @@ public class RecyclerViewActivity extends AppCompatActivity
         AsyncTask<Void, Void, Dvd[]> task = new AsyncTask<Void, Void, Dvd[]>() {
             @Override
             protected Dvd[] doInBackground(Void... voids) {
-                String url = "http://192.168.0.141:8080/foo?available=false";
+//                String url = "http://192.168.0.141:8080/foo?available=false";
+                String url = "http://192.168.0.141:8080/foo?searchText=guy";
                 RestTemplate restTemplate = new RestTemplate();
-
-//                Map<String, String> params = new HashMap<>();
-//                params.put("available", "false");
 
                 ResponseEntity<Dvd[]> response = restTemplate.getForEntity(url, Dvd[].class);
                 Dvd[] dvds = response.getBody();
