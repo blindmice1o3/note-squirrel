@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.datasource.Dvd;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.MyBottomSheetDialogFragment;
 
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -117,6 +118,13 @@ public class RecyclerViewActivity extends AppCompatActivity
     @Override
     public void onItemClick(View view, int position) {
         Toast.makeText(this, "position: " + position + " | available: " + dvds.get(position).isAvailable(), Toast.LENGTH_SHORT).show();
+
+        // TODO: show BottomSheetDialogFragment
+        MyBottomSheetDialogFragment myBottomSheetDialogFragment = new MyBottomSheetDialogFragment();
+        myBottomSheetDialogFragment.show(
+                getSupportFragmentManager(),
+                MyBottomSheetDialogFragment.TAG
+        );
     }
 
     public void onGetByAvailableButtonClick(View view) {
