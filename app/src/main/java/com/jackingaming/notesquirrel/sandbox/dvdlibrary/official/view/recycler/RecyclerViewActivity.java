@@ -15,6 +15,8 @@ import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.datasource.Dvd;
 
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
@@ -22,6 +24,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,11 +34,14 @@ import java.util.concurrent.ExecutionException;
 public class RecyclerViewActivity extends AppCompatActivity
         implements AdapterRecyclerView.ItemClickListener {
 
+    private static final String IP_ADDRESS = "http://192.168.0.141:8080";
+    private final RestTemplate restTemplate = new RestTemplate();
+
     public enum Mode { GRID, LINEAR; }
 
     private RecyclerView recyclerView;
 //    private String[] dataSet;
-    private Dvd[] dvds;
+    private List<Dvd> dvds;
     private AdapterRecyclerView adapter;
     private int scrollPosition;
     private Mode mode = Mode.GRID;
@@ -53,26 +60,29 @@ public class RecyclerViewActivity extends AppCompatActivity
         scrollPosition = 0;
         mode = Mode.GRID;
 
+
+        initRecyclerView();
+
         //dataSet = loadCSV();
 
-        final String url = "http://192.168.0.141:8080/dvds";
-        final RestTemplate restTemplate = new RestTemplate();
-        // TODO: getForObject() (the returned data will be used to replace dataSet).
+        String path = "/dvds";
+        final String url = IP_ADDRESS + path;
 
 
-
-
-        // TODO: do in background (AsyncTask)
-        AsyncTask<Void, Void, Dvd[]> task = new AsyncTask<Void, Void, Dvd[]>() {
+        AsyncTask<Void, Void, List<Dvd>> task = new AsyncTask<Void, Void, List<Dvd>>() {
             @Override
-            protected Dvd[] doInBackground(Void... voids) {
-                ResponseEntity<Dvd[]> response = restTemplate.getForEntity(url, Dvd[].class);
-                Dvd[] dvds = response.getBody();
+            protected List<Dvd> doInBackground(Void... voids) {
+                ResponseEntity<List<Dvd>> response = restTemplate.exchange(
+                        url,
+                        HttpMethod.GET,
+                        null,
+                        new ParameterizedTypeReference<List<Dvd>>(){});
+                List<Dvd> dvds = response.getBody();
                 return dvds;
             }
 
             @Override
-            protected void onPostExecute(Dvd[] dvds) {
+            protected void onPostExecute(List<Dvd> dvds) {
                 super.onPostExecute(dvds);
 
             }
@@ -81,10 +91,9 @@ public class RecyclerViewActivity extends AppCompatActivity
         task.execute();
 
         try {
-            dvds = task.get();
-            adapter = new AdapterRecyclerView(dvds);
-            adapter.setClickListener(this);
-            initRecyclerView();
+            dvds.clear();
+            dvds.addAll(task.get());
+            adapter.notifyDataSetChanged();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -97,10 +106,15 @@ public class RecyclerViewActivity extends AppCompatActivity
 
     @Override
     public void onItemClick(View view, int position) {
-        Toast.makeText(this, "position: " + position + " | available: " + dvds[position].isAvailable(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "position: " + position + " | available: " + dvds.get(position).isAvailable(), Toast.LENGTH_SHORT).show();
     }
 
     private void initRecyclerView() {
+        // DEFAULT data (not downloaded from database)
+        dvds = loadCSVAsDvd();
+        adapter = new AdapterRecyclerView(dvds);
+        adapter.setClickListener(this);
+
         // specify a layout manager
         recyclerView.setLayoutManager( instantiateLayoutManager() );
 
@@ -111,20 +125,23 @@ public class RecyclerViewActivity extends AppCompatActivity
     public void onGetByAvailableButtonClick(View view) {
         Log.d(MainActivity.DEBUG_TAG, "RecyclerViewActivity.onGetByAvailableButtonClick(View)");
 
-        AsyncTask<Void, Void, Dvd[]> task = new AsyncTask<Void, Void, Dvd[]>() {
+        AsyncTask<Void, Void, List<Dvd>> task = new AsyncTask<Void, Void, List<Dvd>>() {
             @Override
-            protected Dvd[] doInBackground(Void... voids) {
+            protected List<Dvd> doInBackground(Void... voids) {
 //                String url = "http://192.168.0.141:8080/foo?available=false";
                 String url = "http://192.168.0.141:8080/foo?searchText=guy";
-                RestTemplate restTemplate = new RestTemplate();
 
-                ResponseEntity<Dvd[]> response = restTemplate.getForEntity(url, Dvd[].class);
-                Dvd[] dvds = response.getBody();
+                ResponseEntity<List<Dvd>> response = restTemplate.exchange(
+                        url,
+                        HttpMethod.GET,
+                        null,
+                        new ParameterizedTypeReference<List<Dvd>>(){});
+                List<Dvd> dvds = response.getBody();
                 return dvds;
             }
 
             @Override
-            protected void onPostExecute(Dvd[] dvds) {
+            protected void onPostExecute(List<Dvd> dvds) {
                 super.onPostExecute(dvds);
                 Toast.makeText(RecyclerViewActivity.this, "onGetByAvailableButtonClick(View)", Toast.LENGTH_SHORT).show();
             }
@@ -133,10 +150,9 @@ public class RecyclerViewActivity extends AppCompatActivity
         task.execute();
 
         try {
-            dvds = task.get();
-            adapter = new AdapterRecyclerView(dvds);
-            adapter.setClickListener(this);
-            initRecyclerView();
+            dvds.clear();
+            dvds.addAll(task.get());
+            adapter.notifyDataSetChanged();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -154,7 +170,6 @@ public class RecyclerViewActivity extends AppCompatActivity
             @Override
             protected Void doInBackground(Void... voids) {
                 String url = "http://192.168.0.141:8080/dvds";
-                RestTemplate restTemplate = new RestTemplate();
 
                 Dvd newDvd = new Dvd("Escape from Poverty", availableSwitcher);
 
@@ -222,7 +237,7 @@ public class RecyclerViewActivity extends AppCompatActivity
         }
     }
 
-    private String[] loadCSV() {
+    private List<Dvd> loadCSVAsDvd() {
         BufferedReader bufferedReader = null;
         StringBuilder stringBuilder = new StringBuilder();
         String line = null;
@@ -238,14 +253,20 @@ public class RecyclerViewActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
-        String[] dvds = stringBuilder.toString().split(",");
-        Log.d(MainActivity.DEBUG_TAG, "number of dvds (via array's length): " + dvds.length);
+        String[] titles = stringBuilder.toString().split(",");
+        Log.d(MainActivity.DEBUG_TAG, "number of titles (via array's length): " + titles.length);
 
+        List<Dvd> dvds = new ArrayList<Dvd>();
         ///////////////////////////////////////////////////////////////////////////
         int counter = 0;
-        for (String dvd : dvds) {
+        for (int i = 0; i < titles.length; i++) {
             counter++;
-            Log.d(MainActivity.DEBUG_TAG, String.format("%3d: %s", counter, dvd));
+
+            String title = titles[i];
+            Log.d(MainActivity.DEBUG_TAG, String.format("%3d: %s", counter, title));
+
+            Dvd dvd = new Dvd(title, true);
+            dvds.add(dvd);
         }
         Toast.makeText(this, "number of dvds (via counter): " + counter, Toast.LENGTH_SHORT).show();
         ///////////////////////////////////////////////////////////////////////////
