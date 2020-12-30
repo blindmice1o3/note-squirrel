@@ -62,8 +62,13 @@ public class RecyclerViewActivity extends AppCompatActivity
         scrollPosition = 0;
         mode = Mode.GRID;
 
+        // DEFAULT data (not downloaded from database)
+        dvds = loadCSVAsDvd();
+        adapter = new AdapterRecyclerView(dvds);
+        adapter.setClickListener(this);
+        recyclerView.setAdapter(adapter);
 
-        initRecyclerView();
+        recyclerView.setLayoutManager( instantiateLayoutManager() );
 
         //dataSet = loadCSV();
 
@@ -112,19 +117,6 @@ public class RecyclerViewActivity extends AppCompatActivity
     @Override
     public void onItemClick(View view, int position) {
         Toast.makeText(this, "position: " + position + " | available: " + dvds.get(position).isAvailable(), Toast.LENGTH_SHORT).show();
-    }
-
-    private void initRecyclerView() {
-        // DEFAULT data (not downloaded from database)
-        dvds = loadCSVAsDvd();
-        adapter = new AdapterRecyclerView(dvds);
-        adapter.setClickListener(this);
-
-        // specify a layout manager
-        recyclerView.setLayoutManager( instantiateLayoutManager() );
-
-        // specify an adapter
-        recyclerView.setAdapter(adapter);
     }
 
     public void onGetByAvailableButtonClick(View view) {
@@ -184,7 +176,7 @@ public class RecyclerViewActivity extends AppCompatActivity
 
         toggleMode();
 
-        initRecyclerView();
+        recyclerView.setLayoutManager( instantiateLayoutManager() );
 
         loadScrollPosition();
     }
