@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,6 +37,7 @@ public class RecyclerViewActivity extends AppCompatActivity
 
     private static final String IP_ADDRESS = "http://192.168.0.141:8080";
     private final RestTemplate restTemplate = new RestTemplate();
+    private ProgressDialog progressDialog;
 
     public enum Mode { GRID, LINEAR; }
 
@@ -66,42 +68,45 @@ public class RecyclerViewActivity extends AppCompatActivity
         //dataSet = loadCSV();
 
         String path = "/dvds";
-        final String url = IP_ADDRESS + path;
+        String urlGetAll = IP_ADDRESS + path;
 
+        GetTask taskGetAll = new GetTask();
+        taskGetAll.execute(urlGetAll);
+    }
 
-        AsyncTask<Void, Void, List<Dvd>> task = new AsyncTask<Void, Void, List<Dvd>>() {
-            @Override
-            protected List<Dvd> doInBackground(Void... voids) {
-                ResponseEntity<List<Dvd>> response = restTemplate.exchange(
-                        url,
-                        HttpMethod.GET,
-                        null,
-                        new ParameterizedTypeReference<List<Dvd>>(){});
-                List<Dvd> dvds = response.getBody();
-                return dvds;
-            }
-
-            @Override
-            protected void onPostExecute(List<Dvd> dvds) {
-                super.onPostExecute(dvds);
-
-            }
-        };
-        //ACTUALLY RUNNING what we defined.
-        task.execute();
-
-        try {
-            dvds.clear();
-            dvds.addAll(task.get());
-            adapter.notifyDataSetChanged();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    private class GetTask extends AsyncTask<String, Void, List<Dvd>> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(RecyclerViewActivity.this);
+            progressDialog.setMessage("Please wait... It is downloading");
+            progressDialog.setIndeterminate(false);
+            progressDialog.setCancelable(false);
+            progressDialog.show();
         }
 
+        @Override
+        protected List<Dvd> doInBackground(String... strings) {
+            String url = strings[0];
 
-//        adapter = new AdapterRecyclerView(dataSet);
+            ResponseEntity<List<Dvd>> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<List<Dvd>>(){});
+            List<Dvd> dvdsUpdated = response.getBody();
+            return dvdsUpdated;
+        }
+
+        @Override
+        protected void onPostExecute(List<Dvd> dvdsUpdated) {
+            super.onPostExecute(dvdsUpdated);
+            dvds.clear();
+            dvds.addAll(dvdsUpdated);
+            adapter.notifyDataSetChanged();
+
+            progressDialog.hide();
+        }
     }
 
     @Override
@@ -125,39 +130,12 @@ public class RecyclerViewActivity extends AppCompatActivity
     public void onGetByAvailableButtonClick(View view) {
         Log.d(MainActivity.DEBUG_TAG, "RecyclerViewActivity.onGetByAvailableButtonClick(View)");
 
-        AsyncTask<Void, Void, List<Dvd>> task = new AsyncTask<Void, Void, List<Dvd>>() {
-            @Override
-            protected List<Dvd> doInBackground(Void... voids) {
-//                String url = "http://192.168.0.141:8080/foo?available=false";
-                String url = "http://192.168.0.141:8080/foo?searchText=guy";
+//        String path = "/foo?available=false";
+        String path = "/foo?searchText=guy";
+        String urlGetByAvailable = IP_ADDRESS + path;
 
-                ResponseEntity<List<Dvd>> response = restTemplate.exchange(
-                        url,
-                        HttpMethod.GET,
-                        null,
-                        new ParameterizedTypeReference<List<Dvd>>(){});
-                List<Dvd> dvds = response.getBody();
-                return dvds;
-            }
-
-            @Override
-            protected void onPostExecute(List<Dvd> dvds) {
-                super.onPostExecute(dvds);
-                Toast.makeText(RecyclerViewActivity.this, "onGetByAvailableButtonClick(View)", Toast.LENGTH_SHORT).show();
-            }
-        };
-        //ACTUALLY RUNNING what we defined.
-        task.execute();
-
-        try {
-            dvds.clear();
-            dvds.addAll(task.get());
-            adapter.notifyDataSetChanged();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        GetTask taskGetByAvailable = new GetTask();
+        taskGetByAvailable.execute(urlGetByAvailable);
     }
 
     boolean availableSwitcher = true;
@@ -166,25 +144,37 @@ public class RecyclerViewActivity extends AppCompatActivity
 
         availableSwitcher = !availableSwitcher;
 
-        AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... voids) {
-                String url = "http://192.168.0.141:8080/dvds";
+        String path = "/dvds";
+        String url = IP_ADDRESS + path;
+        Dvd newDvd = new Dvd("Escape from Poverty", availableSwitcher);
+        PostTaskParams params = new PostTaskParams(url, newDvd);
 
-                Dvd newDvd = new Dvd("Escape from Poverty", availableSwitcher);
+        PostTask taskPost = new PostTask();
+        taskPost.execute(params);
 
-                Dvd result = restTemplate.postForObject(url, newDvd, Dvd.class);
-                return null;
-            }
+        // update local data
+        GetTask taskGetAll = new GetTask();
+        taskGetAll.execute(url);
+    }
 
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                Toast.makeText(RecyclerViewActivity.this, "onAddDvdButtonClick(View)", Toast.LENGTH_SHORT).show();
-            }
-        };
-        //ACTUALLY RUNNING what we defined.
-        task.execute();
+    private class PostTask extends AsyncTask<PostTaskParams, Void, Void> {
+        @Override
+        protected Void doInBackground(PostTaskParams... postTaskParams) {
+            String url = postTaskParams[0].url;
+            Dvd newDvd = postTaskParams[0].dvd;
+
+            restTemplate.postForObject(url, newDvd, Dvd.class);
+            return null;
+        }
+    }
+
+    private class PostTaskParams {
+        String url;
+        Dvd dvd;
+        public PostTaskParams(String url, Dvd dvd) {
+            this.url = url;
+            this.dvd = dvd;
+        }
     }
 
     public void onSwitchModeButtonClick(View view) {
