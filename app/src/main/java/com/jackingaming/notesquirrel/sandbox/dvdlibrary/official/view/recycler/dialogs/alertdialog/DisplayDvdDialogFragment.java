@@ -15,6 +15,15 @@ import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.datasource.Dvd;
 public class DisplayDvdDialogFragment extends DialogFragment {
     public static final String TAG = "DisplayDvdDialog";
 
+    public interface DisplayDvdDialogTouchListener {
+        void onPositiveButtonClick(Dvd dvd);
+        void onNegativeButtonClick();
+    }
+    private DisplayDvdDialogTouchListener listener;
+    public void setListener(DisplayDvdDialogTouchListener listener) {
+        this.listener = listener;
+    }
+
     private Dvd dvd;
 
     public DisplayDvdDialogFragment(Dvd dvd) {
@@ -31,11 +40,13 @@ public class DisplayDvdDialogFragment extends DialogFragment {
                 .setPositiveButton("Add to cart", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getContext(),
-                                "\"Add to cart\" feature is still in development",
-                                Toast.LENGTH_SHORT).show();
-
-                        // TODO: add to [cart]
+                        listener.onPositiveButtonClick(dvd);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        listener.onNegativeButtonClick();
                     }
                 })
                 .create();

@@ -10,8 +10,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
@@ -37,35 +35,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerViewActivity extends AppCompatActivity
-        implements AdapterRecyclerView.ItemClickListener {
+        implements AdapterRecyclerView.ItemClickListener,
+        DisplayDvdDialogFragment.DisplayDvdDialogTouchListener {
+
+    public enum Mode { GRID, LINEAR; }
 
     private static final String IP_ADDRESS = "http://192.168.0.141:8080";
     private final RestTemplate restTemplate = new RestTemplate();
     private ProgressDialog progressDialog;
 
-    public enum Mode { GRID, LINEAR; }
-
     private RecyclerView recyclerView;
-    private ListView listViewBottomSheet;
-//    private String[] dataSet;
+    private Mode mode;
+    private int scrollPosition;
     private List<Dvd> dvds;
     private AdapterRecyclerView adapter;
-    private int scrollPosition;
-    private Mode mode = Mode.GRID;
+
+    private List<Command> commandsForBottomSheet;
+    private MyBottomSheetDialogFragment myBottomSheetDialogFragment;
+
+    private List<Dvd> cart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycler_view);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_tinkering);
+        progressDialog = new ProgressDialog(RecyclerViewActivity.this);
 
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_tinkering);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         recyclerView.setHasFixedSize(true);
-
-        scrollPosition = 0;
         mode = Mode.GRID;
+        scrollPosition = 0;
 
         // DEFAULT data (not downloaded from database)
         dvds = loadCSVAsDvd();
@@ -75,20 +77,24 @@ public class RecyclerViewActivity extends AppCompatActivity
 
         recyclerView.setLayoutManager( instantiateLayoutManager() );
 
-        //dataSet = loadCSV();
-
         String path = "/dvds";
         String urlGetAll = IP_ADDRESS + path;
-
         GetTask taskGetAll = new GetTask();
         taskGetAll.execute(urlGetAll);
+
+        commandsForBottomSheet = new ArrayList<Command>();
+        commandsForBottomSheet.add(new ViewContentOfCartCommand(this));
+        commandsForBottomSheet.add(new SearchByAvailableCommand(this));
+        commandsForBottomSheet.add(new SearchByTitleCommand(this));
+        myBottomSheetDialogFragment = new MyBottomSheetDialogFragment(commandsForBottomSheet);
+
+        cart = new ArrayList<Dvd>();
     }
 
     private class GetTask extends AsyncTask<String, Void, List<Dvd>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressDialog = new ProgressDialog(RecyclerViewActivity.this);
             progressDialog.setMessage("Please wait... It is downloading");
             progressDialog.setIndeterminate(false);
             progressDialog.setCancelable(false);
@@ -123,20 +129,29 @@ public class RecyclerViewActivity extends AppCompatActivity
     public void onItemClick(View view, int position) {
         Toast.makeText(this, "position: " + position + " | available: " + dvds.get(position).isAvailable(), Toast.LENGTH_SHORT).show();
 
-        // TODO: develop checkout-cart feature.
         DisplayDvdDialogFragment displayDvdDialogFragment = new DisplayDvdDialogFragment(dvds.get(position));
+        displayDvdDialogFragment.setListener(this);
         displayDvdDialogFragment.show(getSupportFragmentManager(), DisplayDvdDialogFragment.TAG);
+    }
+
+    @Override
+    public void onPositiveButtonClick(Dvd dvd) {
+        Toast.makeText(this, "[Add to cart] was clicked", Toast.LENGTH_SHORT).show();
+        cart.add(dvd);
+    }
+
+    @Override
+    public void onNegativeButtonClick() {
+        Toast.makeText(this, "[Cancel] was clicked", Toast.LENGTH_SHORT).show();
+    }
+
+    public List<Dvd> getCart() {
+        return cart;
     }
 
     public void onBottomSheetButtonClick(View view) {
         Log.d(MainActivity.DEBUG_TAG, "RecyclerViewActivity.onBottomSheetButtonClick(View)");
 
-        List<Command> commands = new ArrayList<Command>();
-        commands.add(new ViewContentOfCartCommand(this));
-        commands.add(new SearchByAvailableCommand(this));
-        commands.add(new SearchByTitleCommand(this));
-
-        MyBottomSheetDialogFragment myBottomSheetDialogFragment = new MyBottomSheetDialogFragment(commands);
         myBottomSheetDialogFragment.show(
                 getSupportFragmentManager(),
                 MyBottomSheetDialogFragment.TAG
