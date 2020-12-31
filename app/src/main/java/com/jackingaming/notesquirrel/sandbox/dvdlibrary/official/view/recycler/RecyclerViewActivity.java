@@ -10,12 +10,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.datasource.Dvd;
-import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.DisplayDvdDialogFragment;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.alertdialog.DisplayDvdDialogFragment;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.bottomsheet.MyBottomSheetDialogFragment;
 
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -39,6 +42,7 @@ public class RecyclerViewActivity extends AppCompatActivity
     public enum Mode { GRID, LINEAR; }
 
     private RecyclerView recyclerView;
+    private ListView listViewBottomSheet;
 //    private String[] dataSet;
     private List<Dvd> dvds;
     private AdapterRecyclerView adapter;
@@ -115,26 +119,27 @@ public class RecyclerViewActivity extends AppCompatActivity
     public void onItemClick(View view, int position) {
         Toast.makeText(this, "position: " + position + " | available: " + dvds.get(position).isAvailable(), Toast.LENGTH_SHORT).show();
 
-        // TODO: show BottomSheetDialogFragment
-//        MyBottomSheetDialogFragment myBottomSheetDialogFragment = new MyBottomSheetDialogFragment();
-//        myBottomSheetDialogFragment.show(
-//                getSupportFragmentManager(),
-//                MyBottomSheetDialogFragment.TAG
-//        );
-
+        // TODO: develop checkout-cart feature.
         DisplayDvdDialogFragment displayDvdDialogFragment = new DisplayDvdDialogFragment(dvds.get(position));
         displayDvdDialogFragment.show(getSupportFragmentManager(), DisplayDvdDialogFragment.TAG);
     }
 
-    public void onGetByAvailableButtonClick(View view) {
-        Log.d(MainActivity.DEBUG_TAG, "RecyclerViewActivity.onGetByAvailableButtonClick(View)");
+    public void onBottomSheetButtonClick(View view) {
+        Log.d(MainActivity.DEBUG_TAG, "RecyclerViewActivity.onBottomSheetButtonClick(View)");
 
+//        Log.d(MainActivity.DEBUG_TAG, "RecyclerViewActivity.onGetByAvailableButtonClick(View)");
 //        String path = "/foo?available=false";
-        String path = "/foo?searchText=guy";
-        String urlGetByAvailable = IP_ADDRESS + path;
+//        String path = "/foo?searchText=guy";
+//        String urlGetByAvailable = IP_ADDRESS + path;
+//
+//        GetTask taskGetByAvailable = new GetTask();
+//        taskGetByAvailable.execute(urlGetByAvailable);
 
-        GetTask taskGetByAvailable = new GetTask();
-        taskGetByAvailable.execute(urlGetByAvailable);
+        MyBottomSheetDialogFragment myBottomSheetDialogFragment = new MyBottomSheetDialogFragment();
+        myBottomSheetDialogFragment.show(
+                getSupportFragmentManager(),
+                MyBottomSheetDialogFragment.TAG
+        );
     }
 
     boolean availableSwitcher = true;

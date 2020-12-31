@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs;
+package com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.alertdialog;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
