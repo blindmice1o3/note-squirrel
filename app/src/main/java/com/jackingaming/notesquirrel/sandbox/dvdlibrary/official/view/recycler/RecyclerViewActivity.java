@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.datasource.Dvd;
-import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.MyBottomSheetDialogFragment;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.DisplayDvdDialogFragment;
 
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -27,11 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 public class RecyclerViewActivity extends AppCompatActivity
         implements AdapterRecyclerView.ItemClickListener {
@@ -120,11 +116,14 @@ public class RecyclerViewActivity extends AppCompatActivity
         Toast.makeText(this, "position: " + position + " | available: " + dvds.get(position).isAvailable(), Toast.LENGTH_SHORT).show();
 
         // TODO: show BottomSheetDialogFragment
-        MyBottomSheetDialogFragment myBottomSheetDialogFragment = new MyBottomSheetDialogFragment();
-        myBottomSheetDialogFragment.show(
-                getSupportFragmentManager(),
-                MyBottomSheetDialogFragment.TAG
-        );
+//        MyBottomSheetDialogFragment myBottomSheetDialogFragment = new MyBottomSheetDialogFragment();
+//        myBottomSheetDialogFragment.show(
+//                getSupportFragmentManager(),
+//                MyBottomSheetDialogFragment.TAG
+//        );
+
+        DisplayDvdDialogFragment displayDvdDialogFragment = new DisplayDvdDialogFragment(dvds.get(position));
+        displayDvdDialogFragment.show(getSupportFragmentManager(), DisplayDvdDialogFragment.TAG);
     }
 
     public void onGetByAvailableButtonClick(View view) {
