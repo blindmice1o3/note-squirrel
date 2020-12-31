@@ -6,16 +6,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.bottomsheet.commands.Command;
+
+import java.util.List;
 
 public class MyBottomSheetDialogFragment extends BottomSheetDialogFragment {
     public static final String TAG = "MyBottomSheetDialog";
+
+    private List<Command> commands;
+
+    public MyBottomSheetDialogFragment(List<Command> commands) {
+        this.commands = commands;
+    }
 
     @Nullable
     @Override
@@ -27,28 +35,9 @@ public class MyBottomSheetDialogFragment extends BottomSheetDialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         ListView listViewBottomSheet = (ListView) view.findViewById(R.id.listview_bottom_sheet);
-        listViewBottomSheet.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String[] menuItems = getResources().getStringArray(R.array.bottom_sheet_menu_items);
-                switch (position) {
-                    case 0:
-                        Toast.makeText(getContext(), menuItems[position], Toast.LENGTH_SHORT).show();
-                        break;
-                    case 1:
-                        Toast.makeText(getContext(), menuItems[position], Toast.LENGTH_SHORT).show();
-                        break;
-                    case 2:
-                        Toast.makeText(getContext(), menuItems[position], Toast.LENGTH_SHORT).show();
-                        break;
-                    default:
-                        Toast.makeText(getContext(),
-                                "RecyclerViewActivity.onCreate() setting listviewBottomSheet's OnItemClickListener's switch's default block",
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                }
-            }
-        });
+        listViewBottomSheet.setAdapter(new CommandToListItemAdapter(getContext(),
+                this, commands));
     }
 }

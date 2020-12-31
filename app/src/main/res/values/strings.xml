@@ -31,13 +31,6 @@
         <item>Mona Lisa Overdrive</item>
     </string-array>
 
-    <!-- bottom_sheet.xml -->
-    <string-array name="bottom_sheet_menu_items">
-        <item>view checkout-cart</item>
-        <item>search by title</item>
-        <item>search by available</item>
-    </string-array>
-
     <!-- activity_image.xml -->
     <string name="password_image">Password Image</string>
     <string name="storing_data">Storing passpoints...</string>

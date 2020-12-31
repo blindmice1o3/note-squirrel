@@ -19,6 +19,10 @@ import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.datasource.Dvd;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.alertdialog.DisplayDvdDialogFragment;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.bottomsheet.MyBottomSheetDialogFragment;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.bottomsheet.commands.Command;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.bottomsheet.commands.SearchByAvailableCommand;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.bottomsheet.commands.SearchByTitleCommand;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.bottomsheet.commands.ViewContentOfCartCommand;
 
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -127,19 +131,23 @@ public class RecyclerViewActivity extends AppCompatActivity
     public void onBottomSheetButtonClick(View view) {
         Log.d(MainActivity.DEBUG_TAG, "RecyclerViewActivity.onBottomSheetButtonClick(View)");
 
-//        Log.d(MainActivity.DEBUG_TAG, "RecyclerViewActivity.onGetByAvailableButtonClick(View)");
-//        String path = "/foo?available=false";
-//        String path = "/foo?searchText=guy";
-//        String urlGetByAvailable = IP_ADDRESS + path;
-//
-//        GetTask taskGetByAvailable = new GetTask();
-//        taskGetByAvailable.execute(urlGetByAvailable);
+        List<Command> commands = new ArrayList<Command>();
+        commands.add(new ViewContentOfCartCommand(this));
+        commands.add(new SearchByAvailableCommand(this));
+        commands.add(new SearchByTitleCommand(this));
 
-        MyBottomSheetDialogFragment myBottomSheetDialogFragment = new MyBottomSheetDialogFragment();
+        MyBottomSheetDialogFragment myBottomSheetDialogFragment = new MyBottomSheetDialogFragment(commands);
         myBottomSheetDialogFragment.show(
                 getSupportFragmentManager(),
                 MyBottomSheetDialogFragment.TAG
         );
+    }
+
+    public void performGetTask(String path) {
+        String urlGetByAvailable = IP_ADDRESS + path;
+
+        GetTask taskGetByAvailable = new GetTask();
+        taskGetByAvailable.execute(urlGetByAvailable);
     }
 
     boolean availableSwitcher = true;
