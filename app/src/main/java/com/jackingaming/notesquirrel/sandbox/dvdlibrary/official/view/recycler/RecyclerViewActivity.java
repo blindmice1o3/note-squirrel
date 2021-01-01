@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,12 +32,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerViewActivity extends AppCompatActivity
         implements AdapterRecyclerView.ItemClickListener,
         DisplayDvdDialogFragment.DisplayDvdDialogTouchListener {
+
+    public static final String CART_KEY = "CART";
+    public static final String BUNDLE_KEY = "BUNDLE";
 
     public enum Mode { GRID, LINEAR; }
 
@@ -145,8 +150,12 @@ public class RecyclerViewActivity extends AppCompatActivity
         Toast.makeText(this, "[Cancel] was clicked", Toast.LENGTH_SHORT).show();
     }
 
-    public List<Dvd> getCart() {
-        return cart;
+    public void launchViewCartActivity() {
+        Intent viewCartIntent = new Intent(this, ViewCartActivity.class);
+        Bundle cartBundle = new Bundle();
+        cartBundle.putSerializable(CART_KEY, (Serializable)cart);
+        viewCartIntent.putExtra(BUNDLE_KEY, cartBundle);
+        startActivity(viewCartIntent);
     }
 
     public void onBottomSheetButtonClick(View view) {

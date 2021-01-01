@@ -22,7 +22,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".gameboycolor.gamecartridges.derived.pocketcritters.television.VideoViewActivity"></activity>
+        <activity android:name=".sandbox.dvdlibrary.official.view.recycler.ViewCartActivity"></activity>
+        <activity android:name=".gameboycolor.gamecartridges.derived.pocketcritters.television.VideoViewActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

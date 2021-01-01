@@ -1,6 +1,9 @@
 package com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.datasource;
 
-public class Dvd {
+import java.io.Serializable;
+
+public class Dvd
+        implements Serializable {
     private int id;
     private String title;
     private boolean available;
