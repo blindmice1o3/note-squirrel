@@ -1,5 +1,6 @@
 package com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -43,6 +44,7 @@ public class RecyclerViewActivity extends AppCompatActivity
     public static final String IP_ADDRESS = "http://192.168.0.141:8080";
     public static final String CART_KEY = "CART";
     public static final String BUNDLE_KEY = "BUNDLE";
+    public static final int VIEW_CART_ACTIVITY_REQUEST_CODE = 1;
 
     public enum Mode { GRID, LINEAR; }
 
@@ -155,7 +157,23 @@ public class RecyclerViewActivity extends AppCompatActivity
         Bundle cartBundle = new Bundle();
         cartBundle.putSerializable(CART_KEY, (Serializable)cart);
         viewCartIntent.putExtra(BUNDLE_KEY, cartBundle);
-        startActivity(viewCartIntent);
+        startActivityForResult(viewCartIntent, VIEW_CART_ACTIVITY_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == VIEW_CART_ACTIVITY_REQUEST_CODE) {
+            cart.clear();
+            Toast.makeText(this, "cart.clear()", Toast.LENGTH_SHORT).show();
+
+            // update local data
+            String path = "/dvds";
+            String url = IP_ADDRESS + path;
+            GetTask taskGetAll = new GetTask();
+            taskGetAll.execute(url);
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     public void onBottomSheetButtonClick(View view) {

@@ -402,6 +402,8 @@ public class MainActivity extends AppCompatActivity {
             galleryResultIntent.putExtra("pathAddress", pathAddress);
             startActivity(galleryResultIntent);
             //TODO:
+        } else {
+            super.onActivityResult(requestCode, resultCode, intent);
         }
     }
 

@@ -54,7 +54,6 @@ public class ViewCartActivity extends AppCompatActivity
 
 
     public void onButtonCheckOutClick(View view) {
-        //TODO: handle checking out dvds from cart.
         Toast.makeText(this, "Check out button clicked", Toast.LENGTH_SHORT).show();
 
         String path = "/dvds/checkout";
@@ -63,7 +62,6 @@ public class ViewCartActivity extends AppCompatActivity
 
         PostTask taskPost = new PostTask();
         taskPost.execute(params);
-        //TODO: clear everything and call activity's finish().
     }
 
     private class PostTask extends AsyncTask<PostTaskParams, Void, Void> {
@@ -74,6 +72,12 @@ public class ViewCartActivity extends AppCompatActivity
 
             restTemplate.postForObject(url, cart, ResponseEntity.class);
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            finish();
         }
     }
 
