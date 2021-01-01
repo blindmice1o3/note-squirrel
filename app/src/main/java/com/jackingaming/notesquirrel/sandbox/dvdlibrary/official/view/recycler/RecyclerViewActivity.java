@@ -40,12 +40,12 @@ public class RecyclerViewActivity extends AppCompatActivity
         implements AdapterRecyclerView.ItemClickListener,
         DisplayDvdDialogFragment.DisplayDvdDialogTouchListener {
 
+    public static final String IP_ADDRESS = "http://192.168.0.141:8080";
     public static final String CART_KEY = "CART";
     public static final String BUNDLE_KEY = "BUNDLE";
 
     public enum Mode { GRID, LINEAR; }
 
-    private static final String IP_ADDRESS = "http://192.168.0.141:8080";
     private final RestTemplate restTemplate = new RestTemplate();
     private ProgressDialog progressDialog;
 

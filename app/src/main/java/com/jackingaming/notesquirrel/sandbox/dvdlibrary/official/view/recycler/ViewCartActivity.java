@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +14,9 @@ import android.widget.Toast;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.datasource.Dvd;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +24,8 @@ public class ViewCartActivity extends AppCompatActivity
         implements AdapterRecyclerView.ItemClickListener {
 
     private List<Dvd> cart;
+
+    private RestTemplate restTemplate = new RestTemplate();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,5 +56,33 @@ public class ViewCartActivity extends AppCompatActivity
     public void onButtonCheckOutClick(View view) {
         //TODO: handle checking out dvds from cart.
         Toast.makeText(this, "Check out button clicked", Toast.LENGTH_SHORT).show();
+
+        String path = "/dvds/checkout";
+        String url = RecyclerViewActivity.IP_ADDRESS + path;
+        PostTaskParams params = new PostTaskParams(url, cart);
+
+        PostTask taskPost = new PostTask();
+        taskPost.execute(params);
+        //TODO: clear everything and call activity's finish().
+    }
+
+    private class PostTask extends AsyncTask<PostTaskParams, Void, Void> {
+        @Override
+        protected Void doInBackground(PostTaskParams... postTaskParams) {
+            String url = postTaskParams[0].url;
+            List<Dvd> cart = postTaskParams[0].cart;
+
+            restTemplate.postForObject(url, cart, ResponseEntity.class);
+            return null;
+        }
+    }
+
+    private class PostTaskParams {
+        String url;
+        List<Dvd> cart;
+        public PostTaskParams(String url, List<Dvd> cart) {
+            this.url = url;
+            this.cart = cart;
+        }
     }
 }
