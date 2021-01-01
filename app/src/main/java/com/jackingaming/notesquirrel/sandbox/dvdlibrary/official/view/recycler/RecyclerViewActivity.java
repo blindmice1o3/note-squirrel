@@ -162,7 +162,7 @@ public class RecyclerViewActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == VIEW_CART_ACTIVITY_REQUEST_CODE) {
+        if (requestCode == VIEW_CART_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
             cart.clear();
             Toast.makeText(this, "cart.clear()", Toast.LENGTH_SHORT).show();
 
