@@ -14,6 +14,9 @@ import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.datasource.Dvd;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.AdapterRecyclerView;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.RecyclerViewActivity;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.alertdialog.RemoveFromCartConfirmationDialogFragment;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -22,8 +25,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ViewCartActivity extends AppCompatActivity
-        implements AdapterRecyclerView.ItemClickListener {
+        implements AdapterRecyclerView.ItemClickListener,
+        RemoveFromCartConfirmationDialogFragment.RemoveFromCartConfirmationDialogTouchListener {
 
+    private AdapterRecyclerView adapter;
     private List<Dvd> cart;
 
     private RestTemplate restTemplate = new RestTemplate();
@@ -39,7 +44,7 @@ public class ViewCartActivity extends AppCompatActivity
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view_view_cart);
         recyclerView.setHasFixedSize(true);
-        AdapterRecyclerView adapter = new AdapterRecyclerView(cart);
+        adapter = new AdapterRecyclerView(cart);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
@@ -51,8 +56,23 @@ public class ViewCartActivity extends AppCompatActivity
     public void onItemClick(View view, int position) {
         //TODO: show Dialog to confirm removing selected item from cart
         Toast.makeText(this, "Clicked " + cart.get(position), Toast.LENGTH_SHORT).show();
+
+        RemoveFromCartConfirmationDialogFragment removeFromCartConfirmationDialogFragment = new RemoveFromCartConfirmationDialogFragment(cart.get(position));
+        removeFromCartConfirmationDialogFragment.setListener(this);
+        removeFromCartConfirmationDialogFragment.show(getSupportFragmentManager(), RemoveFromCartConfirmationDialogFragment.TAG);
     }
 
+    @Override
+    public void onPositiveButtonClick(Dvd dvd) {
+        Toast.makeText(this, "[Remove from cart] was clicked", Toast.LENGTH_SHORT).show();
+        cart.remove(dvd);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onNegativeButtonClick() {
+        Toast.makeText(this, "[Cancel] was clicked", Toast.LENGTH_SHORT).show();
+    }
 
     public void onButtonCheckOutClick(View view) {
         Toast.makeText(this, "Check out button clicked", Toast.LENGTH_SHORT).show();
