@@ -9,6 +9,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.m
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.SceneManager;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.entities.stationary.FishermanOld;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.tiles.outdoors.worldmap.TileMapPart01;
 
 public class ScenePart01 extends Scene {
@@ -18,6 +19,12 @@ public class ScenePart01 extends Scene {
 
         widthClipInTile = 8;
         heightClipInTile = 8;
+
+        int xTransferPointHome01 = 1040;
+        int yTransferPointHome01 = (3248 - (104 * TileMap.TILE_HEIGHT));
+        int xFisherman = xTransferPointHome01;
+        int yFisherman = yTransferPointHome01 + (8 * TileMap.TILE_HEIGHT);
+        entityManager.addEntity(new FishermanOld(gameCartridge, xFisherman, yFisherman));
     }
 
     @Override

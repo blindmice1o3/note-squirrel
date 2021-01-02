@@ -10,7 +10,6 @@ import android.util.Log;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCartridge;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.GameCamera;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.moveable.Creature;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.sprites.Animation;
 
@@ -43,12 +42,10 @@ public class Robot extends Creature {
     public void init(GameCartridge gameCartridge) {
         Log.d(MainActivity.DEBUG_TAG, "Robot.init(GameCartridge)");
         this.gameCartridge = gameCartridge;
-
-        GameCamera gameCamera = gameCartridge.getGameCamera();
         widthPixelToViewportRatio = ((float) gameCartridge.getWidthViewport()) /
-                gameCamera.getWidthClipInPixel();
+                gameCartridge.getGameCamera().getWidthClipInPixel();
         heightPixelToViewportRatio = ((float) gameCartridge.getHeightViewport()) /
-                gameCamera.getHeightClipInPixel();
+                gameCartridge.getGameCamera().getHeightClipInPixel();
 
         initImage(gameCartridge.getContext().getResources());
         initBounds();
@@ -202,14 +199,13 @@ public class Robot extends Creature {
     @Override
     public void render(Canvas canvas) {
         Bitmap currentFrame = determineCurrentAnimationFrame();
-        GameCamera gameCamera = gameCartridge.getGameCamera();
 
         Rect rectOfImage = new Rect(0, 0, currentFrame.getWidth(), currentFrame.getHeight());
         Rect rectOnScreen = new Rect(
-                (int)( (xCurrent - gameCamera.getX()) * widthPixelToViewportRatio ),
-                (int)( (yCurrent - gameCamera.getY()) * heightPixelToViewportRatio ),
-                (int)( ((xCurrent - gameCamera.getX()) + width) * widthPixelToViewportRatio ),
-                (int)( ((yCurrent - gameCamera.getY()) + height) * heightPixelToViewportRatio ) );
+                (int)( (xCurrent - gameCartridge.getGameCamera().getX()) * widthPixelToViewportRatio ),
+                (int)( (yCurrent - gameCartridge.getGameCamera().getY()) * heightPixelToViewportRatio ),
+                (int)( ((xCurrent - gameCartridge.getGameCamera().getX()) + width) * widthPixelToViewportRatio ),
+                (int)( ((yCurrent - gameCartridge.getGameCamera().getY()) + height) * heightPixelToViewportRatio ) );
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         canvas.drawBitmap(currentFrame, rectOfImage, rectOnScreen, null);

@@ -10,6 +10,7 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.entities.s
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.scenes.Scene;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.states.State;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.tilemaps.TileMap;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.entities.moveable.FishermanYoung;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.entities.moveable.Robot;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.poohfarmer.tiles.outdoors.TileMapFarm;
 
@@ -29,6 +30,9 @@ public class SceneFarm extends Scene {
         entityManager.addEntity(rock);
         Entity bush = new BushEntity(gameCartridge, (8 * TileMap.TILE_WIDTH), (6 * TileMap.TILE_HEIGHT));
         entityManager.addEntity(bush);
+
+        Entity fishermanYoung = new FishermanYoung(gameCartridge, (10 * TileMap.TILE_WIDTH), (6 * TileMap.TILE_HEIGHT));
+        entityManager.addEntity(fishermanYoung);
     }
 
     @Override
