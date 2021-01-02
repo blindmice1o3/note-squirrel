@@ -41,7 +41,7 @@ public class RecyclerViewActivity extends AppCompatActivity
         implements AdapterRecyclerView.ItemClickListener,
         DisplayDvdDialogFragment.DisplayDvdDialogTouchListener {
 
-    public static final String IP_ADDRESS = "http://192.168.0.141:8080";
+    public static final String IP_ADDRESS = "http://192.168.1.121:8080";
     public static final String CART_KEY = "CART";
     public static final String BUNDLE_KEY = "BUNDLE";
     public static final int VIEW_CART_ACTIVITY_REQUEST_CODE = 1;
@@ -84,10 +84,14 @@ public class RecyclerViewActivity extends AppCompatActivity
 
         recyclerView.setLayoutManager( instantiateLayoutManager() );
 
+        System.out.println("RecyclerViewActivity's constructor: BEFORE executing GetTask");
+
         String path = "/dvds";
         String urlGetAll = IP_ADDRESS + path;
         GetTask taskGetAll = new GetTask();
         taskGetAll.execute(urlGetAll);
+
+        System.out.println("RecyclerViewActivity's constructor: AFTER executing GetTask");
 
         commandsForBottomSheet = new ArrayList<Command>();
         commandsForBottomSheet.add(new ViewContentOfCartCommand(this));
@@ -96,20 +100,28 @@ public class RecyclerViewActivity extends AppCompatActivity
         myBottomSheetDialogFragment = new MyBottomSheetDialogFragment(commandsForBottomSheet);
 
         cart = new ArrayList<Dvd>();
+        System.out.println("RecyclerViewActivity's constructor: END (after initializing bottom sheet and cart)");
     }
 
     private class GetTask extends AsyncTask<String, Void, List<Dvd>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
+            System.out.println("GetTask.onPreExecute(): BEFORE showing progressDialog");
+
             progressDialog.setMessage("Please wait... It is downloading");
             progressDialog.setIndeterminate(false);
             progressDialog.setCancelable(false);
             progressDialog.show();
+
+            System.out.println("GetTask.onPreExecute(): AFTER showing progressDialog");
         }
 
         @Override
         protected List<Dvd> doInBackground(String... strings) {
+            System.out.println("GetTask.doInBackground(): BEFORE restTemplate.exchange()");
+
             String url = strings[0];
 
             ResponseEntity<List<Dvd>> response = restTemplate.exchange(
@@ -118,17 +130,24 @@ public class RecyclerViewActivity extends AppCompatActivity
                     null,
                     new ParameterizedTypeReference<List<Dvd>>(){});
             List<Dvd> dvdsUpdated = response.getBody();
+
+            System.out.println("GetTask.doInBackground(): AFTER restTemplate.exchange()");
             return dvdsUpdated;
         }
 
         @Override
         protected void onPostExecute(List<Dvd> dvdsUpdated) {
             super.onPostExecute(dvdsUpdated);
+
+            System.out.println("GetTask.onPostExecute(): BEFORE clearing local data source");
+
             dvds.clear();
             dvds.addAll(dvdsUpdated);
             adapter.notifyDataSetChanged();
 
             progressDialog.hide();
+
+            System.out.println("GetTask.onPostExecute(): After hiding progressDialog");
         }
     }
 
