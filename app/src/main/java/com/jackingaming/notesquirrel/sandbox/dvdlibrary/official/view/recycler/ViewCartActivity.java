@@ -65,6 +65,7 @@ public class ViewCartActivity extends AppCompatActivity
     @Override
     public void onPositiveButtonClick(Dvd dvd) {
         Toast.makeText(this, "[Remove from cart] was clicked", Toast.LENGTH_SHORT).show();
+        //TODO: BUG!!! removing item from THIS copy of the cart... NOT removing from RecyclerViewActivity's cart!
         cart.remove(dvd);
         adapter.notifyDataSetChanged();
     }
