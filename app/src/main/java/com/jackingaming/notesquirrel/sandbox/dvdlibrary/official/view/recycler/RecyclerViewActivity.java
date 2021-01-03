@@ -6,7 +6,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,7 +20,8 @@ import android.widget.Toast;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.datasource.Dvd;
-import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.alertdialog.DisplayDvdDialogFragment;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.alertdialog.AddToCartDialogFragment;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.alertdialog.RemoveFromCartDialogFragment;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.bottomsheet.MyBottomSheetDialogFragment;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.bottomsheet.commands.Command;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.bottomsheet.commands.SearchByAvailableCommand;
@@ -33,13 +37,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerViewActivity extends AppCompatActivity
         implements AdapterRecyclerView.ItemClickListener,
-        DisplayDvdDialogFragment.DisplayDvdDialogTouchListener {
+        AddToCartDialogFragment.AddToCartAlertDialogListener,
+        RemoveFromCartDialogFragment.RemoveFromCartAlertDialogListener {
 
     public static final String IP_ADDRESS = "http://192.168.1.121:8080";
     public static final String CART_KEY = "CART";
@@ -55,7 +59,8 @@ public class RecyclerViewActivity extends AppCompatActivity
     private Mode mode;
     private int scrollPosition;
     private List<Dvd> dvds;
-    private AdapterRecyclerView adapter;
+    private AdapterRecyclerView adapterLibrary;
+    private AdapterRecyclerView adapterCart;
 
     private List<Command> commandsForBottomSheet;
     private MyBottomSheetDialogFragment myBottomSheetDialogFragment;
@@ -78,9 +83,9 @@ public class RecyclerViewActivity extends AppCompatActivity
 
         // DEFAULT data (not downloaded from database)
         dvds = loadCSVAsDvd();
-        adapter = new AdapterRecyclerView(dvds);
-        adapter.setClickListener(this);
-        recyclerView.setAdapter(adapter);
+        adapterLibrary = new AdapterRecyclerView(dvds);
+        adapterLibrary.setClickListener(this);
+        recyclerView.setAdapter(adapterLibrary);
 
         recyclerView.setLayoutManager( instantiateLayoutManager() );
 
@@ -143,7 +148,7 @@ public class RecyclerViewActivity extends AppCompatActivity
 
             dvds.clear();
             dvds.addAll(dvdsUpdated);
-            adapter.notifyDataSetChanged();
+            adapterLibrary.notifyDataSetChanged();
 
             progressDialog.hide();
 
@@ -155,28 +160,77 @@ public class RecyclerViewActivity extends AppCompatActivity
     public void onItemClick(View view, int position) {
         Toast.makeText(this, "position: " + position + " | available: " + dvds.get(position).isAvailable(), Toast.LENGTH_SHORT).show();
 
-        DisplayDvdDialogFragment displayDvdDialogFragment = new DisplayDvdDialogFragment(dvds.get(position));
-        displayDvdDialogFragment.setListener(this);
-        displayDvdDialogFragment.show(getSupportFragmentManager(), DisplayDvdDialogFragment.TAG);
+        AddToCartDialogFragment addToCartDialogFragment = new AddToCartDialogFragment(dvds.get(position));
+        addToCartDialogFragment.setAddToCartAlertDialogListener(this);
+        addToCartDialogFragment.show(getSupportFragmentManager(), AddToCartDialogFragment.TAG);
     }
 
     @Override
-    public void onPositiveButtonClick(Dvd dvd) {
+    public void onAddToCartAlertDialogPositiveClick(Dvd dvd) {
         Toast.makeText(this, "[Add to cart] was clicked", Toast.LENGTH_SHORT).show();
         cart.add(dvd);
     }
 
     @Override
-    public void onNegativeButtonClick() {
+    public void onAddToCartAlertDialogNegativeClick() {
         Toast.makeText(this, "[Cancel] was clicked", Toast.LENGTH_SHORT).show();
     }
 
-    public void launchViewCartActivity() {
-        Intent viewCartIntent = new Intent(this, ViewCartActivity.class);
-        Bundle cartBundle = new Bundle();
-        cartBundle.putSerializable(CART_KEY, (Serializable)cart);
-        viewCartIntent.putExtra(BUNDLE_KEY, cartBundle);
-        startActivityForResult(viewCartIntent, VIEW_CART_ACTIVITY_REQUEST_CODE);
+    public void onViewCartButtonClick() {
+//        Intent viewCartIntent = new Intent(this, ViewCartActivity.class);
+//        Bundle cartBundle = new Bundle();
+//        cartBundle.putSerializable(CART_KEY, (Serializable)cart);
+//        viewCartIntent.putExtra(BUNDLE_KEY, cartBundle);
+//        startActivityForResult(viewCartIntent, VIEW_CART_ACTIVITY_REQUEST_CODE);
+
+        View view = getLayoutInflater().inflate(R.layout.view_cart_recyclerview, null);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_view_cart);
+        adapterCart = new AdapterRecyclerView(cart);
+        AdapterRecyclerView.ItemClickListener viewCartItemClickListener = new AdapterRecyclerView.ItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                RemoveFromCartDialogFragment removeFromCartDialogFragment = new RemoveFromCartDialogFragment(cart.get(position));
+                removeFromCartDialogFragment.setListener(RecyclerViewActivity.this);
+                removeFromCartDialogFragment.show(getSupportFragmentManager(), RemoveFromCartDialogFragment.TAG);
+            }
+        };
+        adapterCart.setClickListener(viewCartItemClickListener);
+        recyclerView.setAdapter(adapterCart);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        Dialog viewCartDialog = new AlertDialog.Builder(this)
+                .setTitle("View cart")
+                .setView(view)
+                .setPositiveButton("Check out?", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(RecyclerViewActivity.this, "[Check out] button", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(RecyclerViewActivity.this, "[Cancel] button", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .create();
+        viewCartDialog.show();
+
+//        ViewCartDialogFragment viewCartDialogFragment = new ViewCartDialogFragment(cart);
+//        viewCartDialogFragment.setViewCartAlertDialogListener(this);
+//        viewCartDialogFragment.show(getSupportFragmentManager(), ViewCartDialogFragment.TAG);
+    }
+
+    @Override
+    public void onRemoveFromCartAlertDialogPositiveClick(Dvd dvd) {
+        Toast.makeText(this, "RecyclerViewActivity.onRemoveFromCartAlertDialogPositiveClick() [Remove from cart] was clicked", Toast.LENGTH_SHORT).show();
+        cart.remove(dvd);
+        adapterCart.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onRemoveFromCartAlertDialogNegativeClick() {
+        Toast.makeText(this, "RecyclerViewActivity.onRemoveFromCartAlertDialogNegativeClick() [Cancel] was clicked", Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -14,9 +14,7 @@ import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.datasource.Dvd;
-import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.AdapterRecyclerView;
-import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.RecyclerViewActivity;
-import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.alertdialog.RemoveFromCartConfirmationDialogFragment;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.alertdialog.RemoveFromCartDialogFragment;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -26,7 +24,7 @@ import java.util.List;
 
 public class ViewCartActivity extends AppCompatActivity
         implements AdapterRecyclerView.ItemClickListener,
-        RemoveFromCartConfirmationDialogFragment.RemoveFromCartConfirmationDialogTouchListener {
+        RemoveFromCartDialogFragment.RemoveFromCartAlertDialogListener {
 
     private AdapterRecyclerView adapter;
     private List<Dvd> cart;
@@ -57,13 +55,13 @@ public class ViewCartActivity extends AppCompatActivity
         //TODO: show Dialog to confirm removing selected item from cart
         Toast.makeText(this, "Clicked " + cart.get(position), Toast.LENGTH_SHORT).show();
 
-        RemoveFromCartConfirmationDialogFragment removeFromCartConfirmationDialogFragment = new RemoveFromCartConfirmationDialogFragment(cart.get(position));
-        removeFromCartConfirmationDialogFragment.setListener(this);
-        removeFromCartConfirmationDialogFragment.show(getSupportFragmentManager(), RemoveFromCartConfirmationDialogFragment.TAG);
+        RemoveFromCartDialogFragment removeFromCartDialogFragment = new RemoveFromCartDialogFragment(cart.get(position));
+        removeFromCartDialogFragment.setListener(this);
+        removeFromCartDialogFragment.show(getSupportFragmentManager(), RemoveFromCartDialogFragment.TAG);
     }
 
     @Override
-    public void onPositiveButtonClick(Dvd dvd) {
+    public void onRemoveFromCartAlertDialogPositiveClick(Dvd dvd) {
         Toast.makeText(this, "[Remove from cart] was clicked", Toast.LENGTH_SHORT).show();
         //TODO: BUG!!! removing item from THIS copy of the cart... NOT removing from RecyclerViewActivity's cart!
         cart.remove(dvd);
@@ -71,7 +69,7 @@ public class ViewCartActivity extends AppCompatActivity
     }
 
     @Override
-    public void onNegativeButtonClick() {
+    public void onRemoveFromCartAlertDialogNegativeClick() {
         Toast.makeText(this, "[Cancel] was clicked", Toast.LENGTH_SHORT).show();
     }
 

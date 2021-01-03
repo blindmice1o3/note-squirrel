@@ -11,42 +11,44 @@ import androidx.fragment.app.DialogFragment;
 
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.datasource.Dvd;
 
-public class RemoveFromCartConfirmationDialogFragment extends DialogFragment {
-    public static final String TAG = "RemoveFromCartConfirmationDialog";
+public class AddToCartDialogFragment extends DialogFragment {
+    public static final String TAG = "AddToCartDialog";
 
-    public interface RemoveFromCartConfirmationDialogTouchListener {
-        void onPositiveButtonClick(Dvd dvd);
-        void onNegativeButtonClick();
+    public interface AddToCartAlertDialogListener {
+        void onAddToCartAlertDialogPositiveClick(Dvd dvd);
+        void onAddToCartAlertDialogNegativeClick();
     }
-    private RemoveFromCartConfirmationDialogTouchListener listener;
-    public void setListener(RemoveFromCartConfirmationDialogTouchListener listener) {
+    private AddToCartAlertDialogListener listener;
+    public void setAddToCartAlertDialogListener(AddToCartAlertDialogListener listener) {
         this.listener = listener;
     }
 
     private Dvd dvd;
 
-    public RemoveFromCartConfirmationDialogFragment(Dvd dvd) {
+    public AddToCartDialogFragment(Dvd dvd) {
         this.dvd = dvd;
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        Dialog removeFromCartConfirmationDialog = new AlertDialog.Builder(requireContext())
-                .setMessage("Remove " + dvd.getTitle() + " from cart?")
-                .setPositiveButton("Remove from cart", new DialogInterface.OnClickListener() {
+        String message = dvd.getTitle() + " | available:" + dvd.isAvailable();
+        Dialog addToCartDialog = new AlertDialog.Builder(requireContext())
+                .setTitle("Add to cart?")
+                .setMessage(message)
+                .setPositiveButton("Add to cart", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        listener.onPositiveButtonClick(dvd);
+                        listener.onAddToCartAlertDialogPositiveClick(dvd);
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        listener.onNegativeButtonClick();
+                        listener.onAddToCartAlertDialogNegativeClick();
                     }
                 })
                 .create();
-        return removeFromCartConfirmationDialog;
+        return addToCartDialog;
     }
 }

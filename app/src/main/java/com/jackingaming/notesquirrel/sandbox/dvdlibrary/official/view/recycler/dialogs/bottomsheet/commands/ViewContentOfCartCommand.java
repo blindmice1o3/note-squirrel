@@ -20,7 +20,7 @@ public class ViewContentOfCartCommand
     public void execute() {
         Log.d(MainActivity.DEBUG_TAG, "ViewContentOfCartCommand.execute()");
 
-        recyclerViewActivity.launchViewCartActivity();
+        recyclerViewActivity.onViewCartButtonClick();
         //TODO: launch new activity? dialog with list?
         //TODO: develop checkout-cart feature.
     }
