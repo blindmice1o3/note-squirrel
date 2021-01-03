@@ -1,6 +1,5 @@
 package com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,7 +9,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +25,10 @@ import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.d
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.bottomsheet.commands.SearchByAvailableCommand;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.bottomsheet.commands.SearchByTitleCommand;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.bottomsheet.commands.ViewContentOfCartCommand;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.restmethods.PostDvdTask;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.restmethods.PostDvdTaskParams;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.restmethods.PostListOfDvdsTask;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.restmethods.PostListOfDvdsTaskParams;
 
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -41,14 +43,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerViewActivity extends AppCompatActivity
-        implements AdapterRecyclerView.ItemClickListener,
-        AddToCartDialogFragment.AddToCartAlertDialogListener,
+        implements AddToCartDialogFragment.AddToCartAlertDialogListener,
         RemoveFromCartDialogFragment.RemoveFromCartAlertDialogListener {
 
     public static final String IP_ADDRESS = "http://192.168.1.121:8080";
-    public static final String CART_KEY = "CART";
-    public static final String BUNDLE_KEY = "BUNDLE";
-    public static final int VIEW_CART_ACTIVITY_REQUEST_CODE = 1;
 
     public enum Mode { GRID, LINEAR; }
 
@@ -60,43 +58,48 @@ public class RecyclerViewActivity extends AppCompatActivity
     private int scrollPosition;
     private List<Dvd> dvds;
     private AdapterRecyclerView adapterLibrary;
-    private AdapterRecyclerView adapterCart;
 
     private List<Command> commandsForBottomSheet;
     private MyBottomSheetDialogFragment myBottomSheetDialogFragment;
 
     private List<Dvd> cart;
+    private AdapterRecyclerView adapterCart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycler_view);
 
-        progressDialog = new ProgressDialog(RecyclerViewActivity.this);
+        progressDialog = new ProgressDialog(this);
 
+        mode = Mode.GRID;
+        scrollPosition = 0;
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_tinkering);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         recyclerView.setHasFixedSize(true);
-        mode = Mode.GRID;
-        scrollPosition = 0;
+        recyclerView.setLayoutManager( instantiateLayoutManager() );
 
         // DEFAULT data (not downloaded from database)
         dvds = loadCSVAsDvd();
         adapterLibrary = new AdapterRecyclerView(dvds);
-        adapterLibrary.setClickListener(this);
+        AdapterRecyclerView.ItemClickListener addToCartItemClickListener = new AdapterRecyclerView.ItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Toast.makeText(RecyclerViewActivity.this, "position: " + position + " | available: " + dvds.get(position).isAvailable(), Toast.LENGTH_SHORT).show();
+
+                AddToCartDialogFragment addToCartDialogFragment = new AddToCartDialogFragment(dvds.get(position));
+                addToCartDialogFragment.setAddToCartAlertDialogListener(RecyclerViewActivity.this);
+                addToCartDialogFragment.show(getSupportFragmentManager(), AddToCartDialogFragment.TAG);
+            }
+        };
+        adapterLibrary.setClickListener(addToCartItemClickListener);
         recyclerView.setAdapter(adapterLibrary);
-
-        recyclerView.setLayoutManager( instantiateLayoutManager() );
-
-        System.out.println("RecyclerViewActivity's constructor: BEFORE executing GetTask");
 
         String path = "/dvds";
         String urlGetAll = IP_ADDRESS + path;
         GetTask taskGetAll = new GetTask();
         taskGetAll.execute(urlGetAll);
-
-        System.out.println("RecyclerViewActivity's constructor: AFTER executing GetTask");
 
         commandsForBottomSheet = new ArrayList<Command>();
         commandsForBottomSheet.add(new ViewContentOfCartCommand(this));
@@ -105,7 +108,6 @@ public class RecyclerViewActivity extends AppCompatActivity
         myBottomSheetDialogFragment = new MyBottomSheetDialogFragment(commandsForBottomSheet);
 
         cart = new ArrayList<Dvd>();
-        System.out.println("RecyclerViewActivity's constructor: END (after initializing bottom sheet and cart)");
     }
 
     private class GetTask extends AsyncTask<String, Void, List<Dvd>> {
@@ -113,20 +115,14 @@ public class RecyclerViewActivity extends AppCompatActivity
         protected void onPreExecute() {
             super.onPreExecute();
 
-            System.out.println("GetTask.onPreExecute(): BEFORE showing progressDialog");
-
             progressDialog.setMessage("Please wait... It is downloading");
             progressDialog.setIndeterminate(false);
             progressDialog.setCancelable(false);
             progressDialog.show();
-
-            System.out.println("GetTask.onPreExecute(): AFTER showing progressDialog");
         }
 
         @Override
         protected List<Dvd> doInBackground(String... strings) {
-            System.out.println("GetTask.doInBackground(): BEFORE restTemplate.exchange()");
-
             String url = strings[0];
 
             ResponseEntity<List<Dvd>> response = restTemplate.exchange(
@@ -136,53 +132,33 @@ public class RecyclerViewActivity extends AppCompatActivity
                     new ParameterizedTypeReference<List<Dvd>>(){});
             List<Dvd> dvdsUpdated = response.getBody();
 
-            System.out.println("GetTask.doInBackground(): AFTER restTemplate.exchange()");
             return dvdsUpdated;
         }
 
         @Override
         protected void onPostExecute(List<Dvd> dvdsUpdated) {
             super.onPostExecute(dvdsUpdated);
-
-            System.out.println("GetTask.onPostExecute(): BEFORE clearing local data source");
-
             dvds.clear();
             dvds.addAll(dvdsUpdated);
             adapterLibrary.notifyDataSetChanged();
 
             progressDialog.hide();
-
-            System.out.println("GetTask.onPostExecute(): After hiding progressDialog");
         }
     }
 
     @Override
-    public void onItemClick(View view, int position) {
-        Toast.makeText(this, "position: " + position + " | available: " + dvds.get(position).isAvailable(), Toast.LENGTH_SHORT).show();
-
-        AddToCartDialogFragment addToCartDialogFragment = new AddToCartDialogFragment(dvds.get(position));
-        addToCartDialogFragment.setAddToCartAlertDialogListener(this);
-        addToCartDialogFragment.show(getSupportFragmentManager(), AddToCartDialogFragment.TAG);
-    }
-
-    @Override
     public void onAddToCartAlertDialogPositiveClick(Dvd dvd) {
-        Toast.makeText(this, "[Add to cart] was clicked", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "RecyclerViewActivity.onAddToCartAlertDialogPositiveClick(Dvd): " + dvd.toString(), Toast.LENGTH_SHORT).show();
         cart.add(dvd);
     }
 
     @Override
     public void onAddToCartAlertDialogNegativeClick() {
-        Toast.makeText(this, "[Cancel] was clicked", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "RecyclerViewActivity.onAddToCartAlertDialogNegativeClick()", Toast.LENGTH_SHORT).show();
+        // Intentionally blank.
     }
 
     public void onViewCartButtonClick() {
-//        Intent viewCartIntent = new Intent(this, ViewCartActivity.class);
-//        Bundle cartBundle = new Bundle();
-//        cartBundle.putSerializable(CART_KEY, (Serializable)cart);
-//        viewCartIntent.putExtra(BUNDLE_KEY, cartBundle);
-//        startActivityForResult(viewCartIntent, VIEW_CART_ACTIVITY_REQUEST_CODE);
-
         View view = getLayoutInflater().inflate(R.layout.view_cart_recyclerview, null);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_view_cart);
         adapterCart = new AdapterRecyclerView(cart);
@@ -205,6 +181,14 @@ public class RecyclerViewActivity extends AppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Toast.makeText(RecyclerViewActivity.this, "[Check out] button", Toast.LENGTH_SHORT).show();
+
+                        String path = "/dvds/checkout";
+                        String url = IP_ADDRESS + path;
+                        PostListOfDvdsTaskParams postListOfDvdsTaskParams = new PostListOfDvdsTaskParams(restTemplate, url, cart);
+
+                        PostListOfDvdsTask postListOfDvdsTask = new PostListOfDvdsTask();
+                        postListOfDvdsTask.execute(postListOfDvdsTaskParams);
+                        //TODO: after successful check out... clear() the cart.
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -215,10 +199,6 @@ public class RecyclerViewActivity extends AppCompatActivity
                 })
                 .create();
         viewCartDialog.show();
-
-//        ViewCartDialogFragment viewCartDialogFragment = new ViewCartDialogFragment(cart);
-//        viewCartDialogFragment.setViewCartAlertDialogListener(this);
-//        viewCartDialogFragment.show(getSupportFragmentManager(), ViewCartDialogFragment.TAG);
     }
 
     @Override
@@ -231,22 +211,7 @@ public class RecyclerViewActivity extends AppCompatActivity
     @Override
     public void onRemoveFromCartAlertDialogNegativeClick() {
         Toast.makeText(this, "RecyclerViewActivity.onRemoveFromCartAlertDialogNegativeClick() [Cancel] was clicked", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == VIEW_CART_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            cart.clear();
-            Toast.makeText(this, "cart.clear()", Toast.LENGTH_SHORT).show();
-
-            // update local data
-            String path = "/dvds";
-            String url = IP_ADDRESS + path;
-            GetTask taskGetAll = new GetTask();
-            taskGetAll.execute(url);
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
+        // Intentionally blank.
     }
 
     public void onBottomSheetButtonClick(View view) {
@@ -259,10 +224,10 @@ public class RecyclerViewActivity extends AppCompatActivity
     }
 
     public void performGetTask(String path) {
-        String urlGetByAvailable = IP_ADDRESS + path;
+        String url = IP_ADDRESS + path;
 
-        GetTask taskGetByAvailable = new GetTask();
-        taskGetByAvailable.execute(urlGetByAvailable);
+        GetTask getTask = new GetTask();
+        getTask.execute(url);
     }
 
     boolean availableSwitcher = true;
@@ -274,34 +239,14 @@ public class RecyclerViewActivity extends AppCompatActivity
         String path = "/dvds";
         String url = IP_ADDRESS + path;
         Dvd newDvd = new Dvd("Escape from Poverty", availableSwitcher);
-        PostTaskParams params = new PostTaskParams(url, newDvd);
+        PostDvdTaskParams postDvdTaskParams = new PostDvdTaskParams(restTemplate, url, newDvd);
 
-        PostTask taskPost = new PostTask();
-        taskPost.execute(params);
+        PostDvdTask postDvdTask = new PostDvdTask();
+        postDvdTask.execute(postDvdTaskParams);
 
         // update local data
-        GetTask taskGetAll = new GetTask();
-        taskGetAll.execute(url);
-    }
-
-    private class PostTask extends AsyncTask<PostTaskParams, Void, Void> {
-        @Override
-        protected Void doInBackground(PostTaskParams... postTaskParams) {
-            String url = postTaskParams[0].url;
-            Dvd newDvd = postTaskParams[0].dvd;
-
-            restTemplate.postForObject(url, newDvd, Dvd.class);
-            return null;
-        }
-    }
-
-    private class PostTaskParams {
-        String url;
-        Dvd dvd;
-        public PostTaskParams(String url, Dvd dvd) {
-            this.url = url;
-            this.dvd = dvd;
-        }
+        GetTask getTaskDvdAll = new GetTask();
+        getTaskDvdAll.execute(url);
     }
 
     public void onSwitchModeButtonClick(View view) {
