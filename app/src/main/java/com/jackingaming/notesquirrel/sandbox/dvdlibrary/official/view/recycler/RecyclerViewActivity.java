@@ -9,7 +9,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,14 +24,13 @@ import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.d
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.bottomsheet.commands.SearchByAvailableCommand;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.bottomsheet.commands.SearchByTitleCommand;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.bottomsheet.commands.ViewContentOfCartCommand;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.restmethods.GetDvdTask;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.restmethods.GetDvdTaskParams;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.restmethods.PostDvdTask;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.restmethods.PostDvdTaskParams;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.restmethods.PostListOfDvdsTask;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.restmethods.PostListOfDvdsTaskParams;
 
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.BufferedReader;
@@ -97,9 +95,7 @@ public class RecyclerViewActivity extends AppCompatActivity
         recyclerView.setAdapter(adapterLibrary);
 
         String path = "/dvds";
-        String urlGetAll = IP_ADDRESS + path;
-        GetTask taskGetAll = new GetTask();
-        taskGetAll.execute(urlGetAll);
+        performGetTask(path);
 
         commandsForBottomSheet = new ArrayList<Command>();
         commandsForBottomSheet.add(new ViewContentOfCartCommand(this));
@@ -108,42 +104,6 @@ public class RecyclerViewActivity extends AppCompatActivity
         myBottomSheetDialogFragment = new MyBottomSheetDialogFragment(commandsForBottomSheet);
 
         cart = new ArrayList<Dvd>();
-    }
-
-    private class GetTask extends AsyncTask<String, Void, List<Dvd>> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            progressDialog.setMessage("Please wait... It is downloading");
-            progressDialog.setIndeterminate(false);
-            progressDialog.setCancelable(false);
-            progressDialog.show();
-        }
-
-        @Override
-        protected List<Dvd> doInBackground(String... strings) {
-            String url = strings[0];
-
-            ResponseEntity<List<Dvd>> response = restTemplate.exchange(
-                    url,
-                    HttpMethod.GET,
-                    null,
-                    new ParameterizedTypeReference<List<Dvd>>(){});
-            List<Dvd> dvdsUpdated = response.getBody();
-
-            return dvdsUpdated;
-        }
-
-        @Override
-        protected void onPostExecute(List<Dvd> dvdsUpdated) {
-            super.onPostExecute(dvdsUpdated);
-            dvds.clear();
-            dvds.addAll(dvdsUpdated);
-            adapterLibrary.notifyDataSetChanged();
-
-            progressDialog.hide();
-        }
     }
 
     @Override
@@ -186,15 +146,22 @@ public class RecyclerViewActivity extends AppCompatActivity
                         String url = IP_ADDRESS + path;
                         PostListOfDvdsTaskParams postListOfDvdsTaskParams = new PostListOfDvdsTaskParams(restTemplate, url, cart);
 
-                        PostListOfDvdsTask postListOfDvdsTask = new PostListOfDvdsTask();
+                        PostListOfDvdsTask postListOfDvdsTask = new PostListOfDvdsTask() {
+                            @Override
+                            protected void onPostExecute(Void aVoid) {
+                                super.onPostExecute(aVoid);
+                                // After successfully checking out, clear() the cart.
+                                cart.clear();
+                            }
+                        };
                         postListOfDvdsTask.execute(postListOfDvdsTaskParams);
-                        //TODO: after successful check out... clear() the cart.
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Toast.makeText(RecyclerViewActivity.this, "[Cancel] button", Toast.LENGTH_SHORT).show();
+                        // Intentionally blank.
                     }
                 })
                 .create();
@@ -226,8 +193,31 @@ public class RecyclerViewActivity extends AppCompatActivity
     public void performGetTask(String path) {
         String url = IP_ADDRESS + path;
 
-        GetTask getTask = new GetTask();
-        getTask.execute(url);
+        GetDvdTaskParams getDvdTaskParams = new GetDvdTaskParams(restTemplate, url);
+
+        GetDvdTask getDvdTask = new GetDvdTask() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+
+                progressDialog.setMessage("Please wait... It is downloading");
+                progressDialog.setIndeterminate(false);
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+            }
+
+            @Override
+            protected void onPostExecute(List<Dvd> dvdsUpdated) {
+                super.onPostExecute(dvdsUpdated);
+                dvds.clear();
+                dvds.addAll(dvdsUpdated);
+                adapterLibrary.notifyDataSetChanged();
+
+                progressDialog.hide();
+            }
+        };
+
+        getDvdTask.execute(getDvdTaskParams);
     }
 
     boolean availableSwitcher = true;
@@ -245,8 +235,7 @@ public class RecyclerViewActivity extends AppCompatActivity
         postDvdTask.execute(postDvdTaskParams);
 
         // update local data
-        GetTask getTaskDvdAll = new GetTask();
-        getTaskDvdAll.execute(url);
+        performGetTask(path);
     }
 
     public void onSwitchModeButtonClick(View view) {
