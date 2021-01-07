@@ -22,6 +22,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".sandbox.passingthrough.PassingThroughActivity"></activity>
         <activity android:name=".gameboycolor.gamecartridges.derived.pocketcritters.television.VideoViewActivity" />
 
         <provider

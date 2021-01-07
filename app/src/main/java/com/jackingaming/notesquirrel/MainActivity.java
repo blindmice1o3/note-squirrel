@@ -24,6 +24,7 @@ import com.jackingaming.notesquirrel.sandbox.countzero.CountZeroActivity;
 import com.jackingaming.notesquirrel.sandbox.downloadhtml.DownloadHtmlFragmentParentActivity;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.RecyclerViewActivity;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.ListFragmentDvdParentActivity;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.PassingThroughActivity;
 import com.jackingaming.notesquirrel.sandbox.restclient.RestClientActivity;
 import com.jackingaming.notesquirrel.sandbox.spritesheetverifier1.SpriteSheetVerifier1Activity;
 import com.jackingaming.notesquirrel.sandbox.listviewemail.ListViewEmailActivity;
@@ -299,6 +300,14 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent RecyclerViewIntent = new Intent(this, RecyclerViewActivity.class);
                 startActivity(RecyclerViewIntent);
+
+                return true;
+            case R.id.menu_passing_through:
+                //TODO: implement menu_passing_through
+                Toast.makeText(this, R.string.menu_passing_through, Toast.LENGTH_SHORT).show();
+
+                Intent passingThroughIntent = new Intent(this, PassingThroughActivity.class);
+                startActivity(passingThroughIntent);
 
                 return true;
             case R.id.menu_sprite_sheet_verifier1:

@@ -24,6 +24,9 @@
         android:id="@+id/menu_recycler_view_dvd"
         android:title="@string/menu_recycler_view_dvd" />
     <item
+        android:id="@+id/menu_passing_through"
+        android:title="@string/menu_passing_through" />
+    <item
         android:id="@+id/menu_sprite_sheet_verifier1"
         android:title="@string/menu_sprite_sheet_verifier1" />
     <item

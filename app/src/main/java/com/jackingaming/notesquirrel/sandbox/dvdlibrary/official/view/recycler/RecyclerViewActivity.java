@@ -44,7 +44,7 @@ public class RecyclerViewActivity extends AppCompatActivity
         implements AddToCartDialogFragment.AddToCartAlertDialogListener,
         RemoveFromCartDialogFragment.RemoveFromCartAlertDialogListener {
 
-    public static final String IP_ADDRESS = "http://192.168.1.121:8080";
+    public static final String IP_ADDRESS_REST_CONTROLLER = "http://192.168.1.121:8080";
 
     public enum Mode { GRID, LINEAR; }
 
@@ -143,7 +143,7 @@ public class RecyclerViewActivity extends AppCompatActivity
                         Toast.makeText(RecyclerViewActivity.this, "[Check out] button", Toast.LENGTH_SHORT).show();
 
                         String path = "/dvds/checkout";
-                        String url = IP_ADDRESS + path;
+                        String url = IP_ADDRESS_REST_CONTROLLER + path;
                         PostListOfDvdsTaskParams postListOfDvdsTaskParams = new PostListOfDvdsTaskParams(restTemplate, url, cart);
 
                         PostListOfDvdsTask postListOfDvdsTask = new PostListOfDvdsTask() {
@@ -191,8 +191,7 @@ public class RecyclerViewActivity extends AppCompatActivity
     }
 
     public void performGetTask(String path) {
-        String url = IP_ADDRESS + path;
-
+        String url = IP_ADDRESS_REST_CONTROLLER + path;
         GetDvdTaskParams getDvdTaskParams = new GetDvdTaskParams(restTemplate, url);
 
         GetDvdTask getDvdTask = new GetDvdTask() {
@@ -227,7 +226,7 @@ public class RecyclerViewActivity extends AppCompatActivity
         availableSwitcher = !availableSwitcher;
 
         String path = "/dvds";
-        String url = IP_ADDRESS + path;
+        String url = IP_ADDRESS_REST_CONTROLLER + path;
         Dvd newDvd = new Dvd("Escape from Poverty", availableSwitcher);
         PostDvdTaskParams postDvdTaskParams = new PostDvdTaskParams(restTemplate, url, newDvd);
 
