@@ -87,7 +87,6 @@ public class RecyclerViewActivity extends AppCompatActivity
                 Toast.makeText(RecyclerViewActivity.this, "position: " + position + " | available: " + dvds.get(position).isAvailable(), Toast.LENGTH_SHORT).show();
 
                 AddToCartDialogFragment addToCartDialogFragment = new AddToCartDialogFragment(dvds.get(position));
-                addToCartDialogFragment.setAddToCartAlertDialogListener(RecyclerViewActivity.this);
                 addToCartDialogFragment.show(getSupportFragmentManager(), AddToCartDialogFragment.TAG);
             }
         };
@@ -126,7 +125,6 @@ public class RecyclerViewActivity extends AppCompatActivity
             @Override
             public void onItemClick(View view, int position) {
                 RemoveFromCartDialogFragment removeFromCartDialogFragment = new RemoveFromCartDialogFragment(cart.get(position));
-                removeFromCartDialogFragment.setListener(RecyclerViewActivity.this);
                 removeFromCartDialogFragment.show(getSupportFragmentManager(), RemoveFromCartDialogFragment.TAG);
             }
         };

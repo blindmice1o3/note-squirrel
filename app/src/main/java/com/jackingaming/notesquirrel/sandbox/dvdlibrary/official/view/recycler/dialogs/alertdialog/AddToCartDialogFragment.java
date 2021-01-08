@@ -1,6 +1,7 @@
 package com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.alertdialog;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
@@ -19,14 +20,22 @@ public class AddToCartDialogFragment extends DialogFragment {
         void onAddToCartAlertDialogNegativeClick();
     }
     private AddToCartAlertDialogListener listener;
-    public void setAddToCartAlertDialogListener(AddToCartAlertDialogListener listener) {
-        this.listener = listener;
-    }
 
     private Dvd dvd;
 
     public AddToCartDialogFragment(Dvd dvd) {
         this.dvd = dvd;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof AddToCartAlertDialogListener) {
+            listener = (AddToCartAlertDialogListener) context;
+        } else {
+            throw new ClassCastException(context.toString()
+                    + " must implement AddToCartDialogFragment.AddToCartAlertDialogListener");
+        }
     }
 
     @NonNull
