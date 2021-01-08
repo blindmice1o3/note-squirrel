@@ -1,5 +1,6 @@
 package com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,6 +12,8 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -20,10 +23,10 @@ import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.datasource.Dvd;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.alertdialog.AddToCartDialogFragment;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.alertdialog.RemoveFromCartDialogFragment;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.bottomsheet.MyBottomSheetDialogFragment;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.bottomsheet.commands.AddNewDvdToDBCommand;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.bottomsheet.commands.Command;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.bottomsheet.commands.SearchByAvailableCommand;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.bottomsheet.commands.SearchByTitleCommand;
-import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.bottomsheet.commands.ViewContentOfCartCommand;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.restmethods.GetDvdTask;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.restmethods.GetDvdTaskParams;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.restmethods.PostDvdTask;
@@ -97,12 +100,33 @@ public class RecyclerViewActivity extends AppCompatActivity
         performGetTask(path);
 
         commandsForBottomSheet = new ArrayList<Command>();
-        commandsForBottomSheet.add(new ViewContentOfCartCommand(this));
+        commandsForBottomSheet.add(new AddNewDvdToDBCommand(this));
         commandsForBottomSheet.add(new SearchByAvailableCommand(this));
         commandsForBottomSheet.add(new SearchByTitleCommand(this));
         myBottomSheetDialogFragment = new MyBottomSheetDialogFragment(commandsForBottomSheet);
 
         cart = new ArrayList<Dvd>();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.options_menu_toggle_layout_manager, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_toggle_layout_manager:
+                performSwitchMode();
+
+                // update icon
+                int iconRes = (mode == Mode.GRID) ? (R.drawable.icon_listview) : (R.drawable.icon_gridview);
+                item.setIcon(iconRes);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -117,9 +141,9 @@ public class RecyclerViewActivity extends AppCompatActivity
         // Intentionally blank.
     }
 
-    public void onViewCartButtonClick() {
-        View view = getLayoutInflater().inflate(R.layout.view_cart_recyclerview, null);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_view_cart);
+    public void onViewCartButtonClick(View view) {
+        View viewContainingRecyclerView = getLayoutInflater().inflate(R.layout.view_cart_recyclerview, null);
+        RecyclerView recyclerView = (RecyclerView) viewContainingRecyclerView.findViewById(R.id.recyclerview_view_cart);
         adapterCart = new AdapterRecyclerView(cart);
         AdapterRecyclerView.ItemClickListener viewCartItemClickListener = new AdapterRecyclerView.ItemClickListener() {
             @Override
@@ -134,7 +158,7 @@ public class RecyclerViewActivity extends AppCompatActivity
 
         Dialog viewCartDialog = new AlertDialog.Builder(this)
                 .setTitle("View cart")
-                .setView(view)
+                .setView(viewContainingRecyclerView)
                 .setPositiveButton("Check out?", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -218,8 +242,8 @@ public class RecyclerViewActivity extends AppCompatActivity
     }
 
     boolean availableSwitcher = true;
-    public void onAddDvdButtonClick(View view) {
-        Log.d(MainActivity.DEBUG_TAG, "RecyclerViewActivity.onAddDvdButtonClick(View)");
+    public void performAddNewDvdToDB() {
+        Log.d(MainActivity.DEBUG_TAG, "RecyclerViewActivity.performAddNewDvdToDB()");
 
         availableSwitcher = !availableSwitcher;
 
@@ -235,9 +259,15 @@ public class RecyclerViewActivity extends AppCompatActivity
         performGetTask(path);
     }
 
-    public void onSwitchModeButtonClick(View view) {
-        Log.d(MainActivity.DEBUG_TAG, "RecyclerViewActivity.onSwitchModeButtonClick(View)");
+    public void onHomeButtonClick(View view) {
+        Log.d(MainActivity.DEBUG_TAG, "RecyclerViewActivity.onHomeButtonClick(View)");
 
+        // update local data
+        String path = "/dvds";
+        performGetTask(path);
+    }
+
+    private void performSwitchMode() {
         recordScrollPosition();
 
         toggleMode();

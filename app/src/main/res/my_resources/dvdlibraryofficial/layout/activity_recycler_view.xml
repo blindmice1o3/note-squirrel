@@ -11,7 +11,7 @@
         android:id="@+id/recycler_view_tinkering"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/button_switch_mode"
+        app:layout_constraintBottom_toTopOf="@id/button_home"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,28 +24,28 @@
         android:text="bottom sheet"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/button_switch_mode"
+        app:layout_constraintRight_toLeftOf="@id/button_home"
         app:layout_constraintTop_toBottomOf="@id/recycler_view_tinkering" />
 
     <Button
-        android:id="@+id/button_switch_mode"
+        android:id="@+id/button_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onSwitchModeButtonClick"
-        android:text="switch mode"
+        android:onClick="onHomeButtonClick"
+        android:text="home mode"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/button_bottom_sheet"
-        app:layout_constraintRight_toLeftOf="@id/button_add_dvd"
+        app:layout_constraintRight_toLeftOf="@id/button_view_cart"
         app:layout_constraintTop_toBottomOf="@id/recycler_view_tinkering" />
 
     <Button
-        android:id="@+id/button_add_dvd"
+        android:id="@+id/button_view_cart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onAddDvdButtonClick"
-        android:text="add dvd"
+        android:onClick="onViewCartButtonClick"
+        android:text="view cart"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/button_switch_mode"
+        app:layout_constraintLeft_toRightOf="@id/button_home"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/recycler_view_tinkering" />
 
