@@ -20,8 +20,9 @@ public class SearchByTitleCommand
     public void execute() {
         Log.d(MainActivity.DEBUG_TAG, "SearchByTitleCommand.execute()");
 
-        String path = "/foo?searchText=guy";
-        recyclerViewActivity.performGetTask(path);
+        //TODO: fragment transaction
+//        String path = "/foo?searchText=guy";
+//        recyclerViewActivity.performGetTask(path);
     }
 
     @NonNull

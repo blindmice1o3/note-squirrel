@@ -7,10 +7,11 @@
     android:layout_height="match_parent"
     tools:context=".sandbox.dvdlibrary.official.view.recycler.RecyclerViewActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_tinkering"
+    <FrameLayout
+        android:id="@+id/framelayout_placeholder_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@color/light_blue"
         app:layout_constraintBottom_toTopOf="@id/button_home"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -25,7 +26,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/button_home"
-        app:layout_constraintTop_toBottomOf="@id/recycler_view_tinkering" />
+        app:layout_constraintTop_toBottomOf="@id/framelayout_placeholder_recyclerview" />
 
     <Button
         android:id="@+id/button_home"
@@ -36,7 +37,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/button_bottom_sheet"
         app:layout_constraintRight_toLeftOf="@id/button_view_cart"
-        app:layout_constraintTop_toBottomOf="@id/recycler_view_tinkering" />
+        app:layout_constraintTop_toBottomOf="@id/framelayout_placeholder_recyclerview" />
 
     <Button
         android:id="@+id/button_view_cart"
@@ -47,6 +48,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/button_home"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recycler_view_tinkering" />
+        app:layout_constraintTop_toBottomOf="@id/framelayout_placeholder_recyclerview" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

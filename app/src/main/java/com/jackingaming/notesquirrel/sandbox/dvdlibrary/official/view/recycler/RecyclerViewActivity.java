@@ -2,6 +2,7 @@ package com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +28,8 @@ import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.d
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.bottomsheet.commands.Command;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.bottomsheet.commands.SearchByAvailableCommand;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.dialogs.bottomsheet.commands.SearchByTitleCommand;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.fragments.RecyclerViewFragment;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.fragments.SearchByTitleFragment;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.restmethods.GetDvdTask;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.restmethods.GetDvdTaskParams;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.restmethods.PostDvdTask;
@@ -45,7 +48,8 @@ import java.util.List;
 
 public class RecyclerViewActivity extends AppCompatActivity
         implements AddToCartDialogFragment.AddToCartAlertDialogListener,
-        RemoveFromCartDialogFragment.RemoveFromCartAlertDialogListener {
+        RemoveFromCartDialogFragment.RemoveFromCartAlertDialogListener,
+        SearchByTitleFragment.OnSearchByTitleFragmentListener {
 
     public static final String IP_ADDRESS_REST_CONTROLLER = "http://192.168.1.121:8080";
 
@@ -71,11 +75,32 @@ public class RecyclerViewActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycler_view);
 
+        //TODO: fragment transaction
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .add(R.id.framelayout_placeholder_recyclerview, new RecyclerViewFragment())
+                .setReorderingAllowed(true)
+                .commit();
+
         progressDialog = new ProgressDialog(this);
+
+        commandsForBottomSheet = new ArrayList<Command>();
+        commandsForBottomSheet.add(new AddNewDvdToDBCommand(this));
+        commandsForBottomSheet.add(new SearchByAvailableCommand(this));
+        commandsForBottomSheet.add(new SearchByTitleCommand(this));
+        myBottomSheetDialogFragment = new MyBottomSheetDialogFragment(commandsForBottomSheet);
+
+        cart = new ArrayList<Dvd>();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         mode = Mode.GRID;
         scrollPosition = 0;
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_tinkering);
+        //TODO: should now be referencing the RecyclerView from RecyclerViewFragment.
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_fragment);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         recyclerView.setHasFixedSize(true);
@@ -98,14 +123,6 @@ public class RecyclerViewActivity extends AppCompatActivity
 
         String path = "/dvds";
         performGetTask(path);
-
-        commandsForBottomSheet = new ArrayList<Command>();
-        commandsForBottomSheet.add(new AddNewDvdToDBCommand(this));
-        commandsForBottomSheet.add(new SearchByAvailableCommand(this));
-        commandsForBottomSheet.add(new SearchByTitleCommand(this));
-        myBottomSheetDialogFragment = new MyBottomSheetDialogFragment(commandsForBottomSheet);
-
-        cart = new ArrayList<Dvd>();
     }
 
     @Override
@@ -264,6 +281,14 @@ public class RecyclerViewActivity extends AppCompatActivity
 
         // update local data
         String path = "/dvds";
+        performGetTask(path);
+    }
+
+    @Override
+    public void onSearchByTitleFragmentButtonOkClick(String title) {
+        //TODO: fragment transaction
+
+        String path = "/foo?searchText=" + title;
         performGetTask(path);
     }
 
