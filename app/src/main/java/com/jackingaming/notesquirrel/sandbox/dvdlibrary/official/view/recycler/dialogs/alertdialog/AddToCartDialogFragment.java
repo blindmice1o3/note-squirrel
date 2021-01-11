@@ -13,7 +13,7 @@ import androidx.fragment.app.DialogFragment;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.datasource.Dvd;
 
 public class AddToCartDialogFragment extends DialogFragment {
-    public static final String TAG = "AddToCartDialog";
+    public static final String TAG = "AddToCartDialogFragment";
 
     public interface AddToCartAlertDialogListener {
         void onAddToCartAlertDialogPositiveClick(Dvd dvd);

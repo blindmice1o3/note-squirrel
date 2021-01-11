@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.jackingaming.notesquirrel.R;
 
 public class RecyclerViewFragment extends Fragment {
+    public static final String TAG = "RecyclerViewFragment";
 
     private RecyclerView recyclerView;
 
@@ -33,6 +34,7 @@ public class RecyclerViewFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+
     }
 
     @Override

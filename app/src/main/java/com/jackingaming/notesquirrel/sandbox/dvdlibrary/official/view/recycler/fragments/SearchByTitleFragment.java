@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ import com.jackingaming.notesquirrel.R;
  * to handle interaction events.
  */
 public class SearchByTitleFragment extends Fragment {
+    public static final String TAG = "SearchByTitleFragment";
 
     private OnSearchByTitleFragmentListener mListener;
     public interface OnSearchByTitleFragmentListener {
@@ -46,18 +48,25 @@ public class SearchByTitleFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         editTextTitle = view.findViewById(R.id.edittext_title);
-    }
+        Button buttonCancel = view.findViewById(R.id.button_cancel);
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "SearchByTitleFragment buttonCancel OnClickListener.onClick()", Toast.LENGTH_SHORT).show();
+                //TODO: fragment transaction
+            }
+        });
+        Button buttonOk = view.findViewById(R.id.button_ok);
+        buttonOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "SearchByTitleFragment buttonOk OnClickListener.onClick()", Toast.LENGTH_SHORT).show();
+                String title = editTextTitle.getText().toString();
+//                editTextTitle.setText("");
 
-    public void onButtonCancelClick(View view) {
-        Toast.makeText(getContext(), "SearchByTitleFragment.onButtonCancelClick()", Toast.LENGTH_SHORT).show();
-        //TODO: fragment transaction
-    }
-
-    public void onButtonOkClick(View view) {
-        Toast.makeText(getContext(), "SearchByTitleFragment.onButtonOkClick()", Toast.LENGTH_SHORT).show();
-        String title = editTextTitle.getText().toString();
-        editTextTitle.setText("");
-        mListener.onSearchByTitleFragmentButtonOkClick(title);
+                mListener.onSearchByTitleFragmentButtonOkClick(title);
+            }
+        });
     }
 
     @Override
