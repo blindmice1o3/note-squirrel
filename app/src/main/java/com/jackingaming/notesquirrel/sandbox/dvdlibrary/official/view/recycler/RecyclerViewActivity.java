@@ -3,9 +3,7 @@ package com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -51,22 +49,19 @@ import java.util.List;
 public class RecyclerViewActivity extends AppCompatActivity
         implements AddToCartDialogFragment.AddToCartAlertDialogListener,
         RemoveFromCartDialogFragment.RemoveFromCartAlertDialogListener,
-        SearchByTitleFragment.OnSearchByTitleFragmentListener {
+        SearchByTitleFragment.OnSearchByTitleFragmentListener,
+        RecyclerViewFragment.RecyclerViewFragmentListener {
 
     public static final String IP_ADDRESS_REST_CONTROLLER = "http://192.168.1.121:8080";
 
-    public enum Mode { GRID, LINEAR; }
-
     private final RestTemplate restTemplate = new RestTemplate();
     private ProgressDialog progressDialog;
+    private Menu menu;
 
     private RecyclerViewFragment recyclerViewFragment;
-    private RecyclerView recyclerView;
-    private Mode mode;
-    private int scrollPosition;
+
     private List<Dvd> dvds;
     private AdapterRecyclerView adapterLibrary;
-    private AdapterRecyclerView.ItemClickListener addToCartItemClickListener;
 
     private List<Command> commandsForBottomSheet;
     private MyBottomSheetDialogFragment myBottomSheetDialogFragment;
@@ -79,12 +74,6 @@ public class RecyclerViewActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycler_view);
 
-        recyclerViewFragment = new RecyclerViewFragment();
-        performFragmentTransactionAdd(
-                R.id.framelayout_placeholder_recyclerview,
-                recyclerViewFragment,
-                RecyclerViewFragment.TAG);
-
         progressDialog = new ProgressDialog(this);
 
         commandsForBottomSheet = new ArrayList<Command>();
@@ -96,6 +85,12 @@ public class RecyclerViewActivity extends AppCompatActivity
         // DEFAULT data (not downloaded from database)
         dvds = loadCSVAsDvd();
         cart = new ArrayList<Dvd>();
+
+        recyclerViewFragment = new RecyclerViewFragment();
+        performFragmentTransactionAdd(
+                R.id.framelayout_placeholder_recyclerview,
+                recyclerViewFragment,
+                RecyclerViewFragment.TAG);
     }
 
     public void performFragmentTransactionAdd(int containerViewId, Fragment fragment, String tag) {
@@ -117,20 +112,9 @@ public class RecyclerViewActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-
-        mode = Mode.GRID;
-        scrollPosition = 0;
-        //TODO: should now be referencing the RecyclerView from RecyclerViewFragment.
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_fragment);
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager( instantiateLayoutManager() );
-
+    public void initDataSource() {
         adapterLibrary = new AdapterRecyclerView(dvds);
-        addToCartItemClickListener = new AdapterRecyclerView.ItemClickListener() {
+        AdapterRecyclerView.ItemClickListener addToCartItemClickListener = new AdapterRecyclerView.ItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Toast.makeText(RecyclerViewActivity.this, "position: " + position + " | available: " + dvds.get(position).isAvailable(), Toast.LENGTH_SHORT).show();
@@ -140,6 +124,8 @@ public class RecyclerViewActivity extends AppCompatActivity
             }
         };
         adapterLibrary.setClickListener(addToCartItemClickListener);
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view_fragment);
         recyclerView.setAdapter(adapterLibrary);
 
         String path = "/dvds";
@@ -147,24 +133,8 @@ public class RecyclerViewActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.options_menu_toggle_layout_manager, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_item_toggle_layout_manager:
-                performSwitchMode();
-
-                // update icon
-                int iconRes = (mode == Mode.GRID) ? (R.drawable.icon_listview) : (R.drawable.icon_gridview);
-                item.setIcon(iconRes);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+        return recyclerViewFragment.onOptionsItemSelected(item);
     }
 
     @Override
@@ -314,78 +284,8 @@ public class RecyclerViewActivity extends AppCompatActivity
                 recyclerViewFragment,
                 RecyclerViewFragment.TAG);
 
-        mode = Mode.GRID;
-        scrollPosition = 0;
-        //TODO: should now be referencing the RecyclerView from RecyclerViewFragment.
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_fragment);
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager( instantiateLayoutManager() );
-
-        adapterLibrary = new AdapterRecyclerView(dvds);
-        addToCartItemClickListener = new AdapterRecyclerView.ItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Toast.makeText(RecyclerViewActivity.this, "position: " + position + " | available: " + dvds.get(position).isAvailable(), Toast.LENGTH_SHORT).show();
-
-                AddToCartDialogFragment addToCartDialogFragment = new AddToCartDialogFragment(dvds.get(position));
-                addToCartDialogFragment.show(getSupportFragmentManager(), AddToCartDialogFragment.TAG);
-            }
-        };
-        adapterLibrary.setClickListener(addToCartItemClickListener);
-        recyclerView.setAdapter(adapterLibrary);
-
         String path = "/foo?searchText=" + title;
         performGetTask(path);
-    }
-
-    private void performSwitchMode() {
-        recordScrollPosition();
-
-        toggleMode();
-
-        recyclerView.setLayoutManager( instantiateLayoutManager() );
-
-        loadScrollPosition();
-    }
-
-    private void recordScrollPosition() {
-        switch (mode) {
-            case GRID:
-                scrollPosition = ((GridLayoutManager)recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
-                break;
-            case LINEAR:
-                scrollPosition = ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
-                break;
-            default:
-                Log.d(MainActivity.DEBUG_TAG, "RecyclerViewActivity.recordScrollPosition() switch (mode)'s default block.");
-                break;
-        }
-    }
-
-    private void loadScrollPosition() {
-        recyclerView.scrollToPosition(scrollPosition);
-    }
-
-    /**
-     * Alternate current mode.
-     */
-    private void toggleMode() {
-        mode = (mode == Mode.GRID) ? (Mode.LINEAR) : (Mode.GRID);
-    }
-
-    private RecyclerView.LayoutManager instantiateLayoutManager() {
-        switch (mode) {
-            case GRID:
-                int numberOfColumns = 4;
-                return new GridLayoutManager(this, numberOfColumns);
-            case LINEAR:
-                return new LinearLayoutManager(this);
-            default:
-                Log.d(MainActivity.DEBUG_TAG, "RecyclerViewActivity.instantiateLayoutManager() switch (mode)'s default block.");
-                return null;
-        }
     }
 
     private List<Dvd> loadCSVAsDvd() {

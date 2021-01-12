@@ -25,17 +25,16 @@ import com.jackingaming.notesquirrel.R;
 public class SearchByTitleFragment extends Fragment {
     public static final String TAG = "SearchByTitleFragment";
 
-    private OnSearchByTitleFragmentListener mListener;
     public interface OnSearchByTitleFragmentListener {
         void onSearchByTitleFragmentButtonOkClick(String title);
     }
+    private OnSearchByTitleFragmentListener listener;
 
     private EditText editTextTitle;
 
     public SearchByTitleFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,7 +63,7 @@ public class SearchByTitleFragment extends Fragment {
                 String title = editTextTitle.getText().toString();
 //                editTextTitle.setText("");
 
-                mListener.onSearchByTitleFragmentButtonOkClick(title);
+                listener.onSearchByTitleFragmentButtonOkClick(title);
             }
         });
     }
@@ -73,16 +72,16 @@ public class SearchByTitleFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnSearchByTitleFragmentListener) {
-            mListener = (OnSearchByTitleFragmentListener) context;
+            listener = (OnSearchByTitleFragmentListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnSearchByTitleFragmentListener");
         }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        listener = null;
     }
 }
