@@ -47,10 +47,10 @@ public class RecyclerViewFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(MainActivity.DEBUG_TAG, "RecyclerViewFragment.onCreate()");
 
         setHasOptionsMenu(true);
 
-        // Initialize scroll position, default mode, and default layout manager
         mode = Mode.GRID;
         scrollPosition = 0;
     }
@@ -64,6 +64,8 @@ public class RecyclerViewFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_toggle_layout_manager:
+                Log.d(MainActivity.DEBUG_TAG, "RecyclerViewFragment.onOptionsItemSelected() R.id.menu_item_toggle_layout_manager");
+
                 performSwitchMode();
 
                 // update icon
