@@ -56,7 +56,6 @@ public class RecyclerViewActivity extends AppCompatActivity
 
     private final RestTemplate restTemplate = new RestTemplate();
     private ProgressDialog progressDialog;
-    private Menu menu;
 
     private RecyclerViewFragment recyclerViewFragment;
 
@@ -276,9 +275,17 @@ public class RecyclerViewActivity extends AppCompatActivity
     }
 
     @Override
+    public void onSearchByTitleFragmentButtonCancelClick() {
+        Log.d(MainActivity.DEBUG_TAG, "RecyclerViewActivity.onSearchByTitleFragmentButtonCancelClick() recyclerViewFragment: " + recyclerViewFragment);
+        performFragmentTransactionReplace(
+                R.id.framelayout_placeholder_recyclerview,
+                recyclerViewFragment,
+                RecyclerViewFragment.TAG);
+    }
+
+    @Override
     public void onSearchByTitleFragmentButtonOkClick(String title) {
-        //TODO: fragment transaction
-        Log.d(MainActivity.DEBUG_TAG, "RecyclerViewActivity.onSearchByTitleFragmentButtonOkClick() recyclerViewFragment: " + recyclerViewFragment);
+        Log.d(MainActivity.DEBUG_TAG, "RecyclerViewActivity.onSearchByTitleFragmentButtonOkClick(String) recyclerViewFragment: " + recyclerViewFragment);
         performFragmentTransactionReplace(
                 R.id.framelayout_placeholder_recyclerview,
                 recyclerViewFragment,

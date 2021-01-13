@@ -7,12 +7,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.R;
@@ -27,7 +30,9 @@ public class SearchByTitleFragment extends Fragment {
     public static final String TAG = "SearchByTitleFragment";
 
     public interface OnSearchByTitleFragmentListener {
+        void onSearchByTitleFragmentButtonCancelClick();
         void onSearchByTitleFragmentButtonOkClick(String title);
+
     }
     private OnSearchByTitleFragmentListener listener;
 
@@ -53,7 +58,14 @@ public class SearchByTitleFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "SearchByTitleFragment buttonCancel OnClickListener.onClick()", Toast.LENGTH_SHORT).show();
-                //TODO: fragment transaction
+
+                // close keyboard
+                InputMethodManager inputManager = (InputMethodManager) getContext().getSystemService(
+                        Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
+
+                listener.onSearchByTitleFragmentButtonCancelClick();
             }
         });
         Button buttonOk = view.findViewById(R.id.button_ok);

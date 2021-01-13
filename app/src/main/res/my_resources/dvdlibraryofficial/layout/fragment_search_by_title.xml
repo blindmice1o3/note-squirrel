@@ -22,6 +22,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:hint="title of dvd-to-be-added"
+        android:inputType="text"
         app:layout_constraintBottom_toTopOf="@id/button_ok"
         app:layout_constraintLeft_toRightOf="@id/label_for_edittext_title"
         app:layout_constraintRight_toRightOf="parent"
