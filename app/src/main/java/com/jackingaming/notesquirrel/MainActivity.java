@@ -22,7 +22,7 @@ import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.passpoints.ImageActivity;
 import com.jackingaming.notesquirrel.sandbox.countzero.CountZeroActivity;
 import com.jackingaming.notesquirrel.sandbox.downloadhtml.DownloadHtmlFragmentParentActivity;
-import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.RecyclerViewActivity;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.DvdLibraryActivity;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.ListFragmentDvdParentActivity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.PassingThroughActivity;
 import com.jackingaming.notesquirrel.sandbox.restclient.RestClientActivity;
@@ -294,12 +294,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(listFragmentDvdParentIntent);
 
                 return true;
-            case R.id.menu_recycler_view_dvd:
-                //TODO: implement menu_recycler_view_dvd
-                Toast.makeText(this, R.string.menu_recycler_view_dvd, Toast.LENGTH_SHORT).show();
+            case R.id.menu_dvd_library:
+                //TODO: implement menu_dvd_library
+                Toast.makeText(this, R.string.menu_dvd_library, Toast.LENGTH_SHORT).show();
 
-                Intent RecyclerViewIntent = new Intent(this, RecyclerViewActivity.class);
-                startActivity(RecyclerViewIntent);
+                Intent dvdLibraryIntent = new Intent(this, DvdLibraryActivity.class);
+                startActivity(dvdLibraryIntent);
 
                 return true;
             case R.id.menu_passing_through:

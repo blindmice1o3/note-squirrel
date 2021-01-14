@@ -5,13 +5,13 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.jackingaming.notesquirrel.MainActivity;
-import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.RecyclerViewActivity;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.DvdLibraryActivity;
 
 public class AddNewDvdToDBCommand implements Command {
 
-    private RecyclerViewActivity recyclerViewActivity;
+    private DvdLibraryActivity recyclerViewActivity;
 
-    public AddNewDvdToDBCommand(RecyclerViewActivity recyclerViewActivity) {
+    public AddNewDvdToDBCommand(DvdLibraryActivity recyclerViewActivity) {
         this.recyclerViewActivity = recyclerViewActivity;
     }
 

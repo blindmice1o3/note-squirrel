@@ -3,19 +3,18 @@ package com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
-import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.RecyclerViewActivity;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.DvdLibraryActivity;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.fragments.SearchByTitleFragment;
 
 public class SearchByTitleCommand
         implements Command {
 
-    private RecyclerViewActivity recyclerViewActivity;
+    private DvdLibraryActivity recyclerViewActivity;
 
-    public SearchByTitleCommand(RecyclerViewActivity recyclerViewActivity) {
+    public SearchByTitleCommand(DvdLibraryActivity recyclerViewActivity) {
         this.recyclerViewActivity = recyclerViewActivity;
     }
 

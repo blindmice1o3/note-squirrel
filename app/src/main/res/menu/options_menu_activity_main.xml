@@ -21,8 +21,8 @@
         android:id="@+id/menu_list_fragment_dvd"
         android:title="@string/menu_list_fragment_dvd" />
     <item
-        android:id="@+id/menu_recycler_view_dvd"
-        android:title="@string/menu_recycler_view_dvd" />
+        android:id="@+id/menu_dvd_library"
+        android:title="@string/menu_dvd_library" />
     <item
         android:id="@+id/menu_passing_through"
         android:title="@string/menu_passing_through" />

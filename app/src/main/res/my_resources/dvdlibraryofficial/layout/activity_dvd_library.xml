@@ -5,7 +5,7 @@
     android:id="@+id/constraintlayout_recycler_view_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".sandbox.dvdlibrary.official.view.recycler.RecyclerViewActivity">
+    tools:context=".sandbox.dvdlibrary.official.view.recycler.DvdLibraryActivity">
 
     <FrameLayout
         android:id="@+id/framelayout_placeholder_recyclerview"

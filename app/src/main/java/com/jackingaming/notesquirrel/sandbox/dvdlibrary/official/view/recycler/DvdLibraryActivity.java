@@ -13,7 +13,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -46,7 +45,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerViewActivity extends AppCompatActivity
+public class DvdLibraryActivity extends AppCompatActivity
         implements AddToCartDialogFragment.AddToCartAlertDialogListener,
         RemoveFromCartDialogFragment.RemoveFromCartAlertDialogListener,
         SearchByTitleFragment.OnSearchByTitleFragmentListener,
@@ -71,7 +70,7 @@ public class RecyclerViewActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recycler_view);
+        setContentView(R.layout.activity_dvd_library);
 
         progressDialog = new ProgressDialog(this);
 
@@ -116,7 +115,7 @@ public class RecyclerViewActivity extends AppCompatActivity
         AdapterRecyclerView.ItemClickListener addToCartItemClickListener = new AdapterRecyclerView.ItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(RecyclerViewActivity.this, "position: " + position + " | available: " + dvds.get(position).isAvailable(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(DvdLibraryActivity.this, "position: " + position + " | available: " + dvds.get(position).isAvailable(), Toast.LENGTH_SHORT).show();
 
                 AddToCartDialogFragment addToCartDialogFragment = new AddToCartDialogFragment(dvds.get(position));
                 addToCartDialogFragment.show(getSupportFragmentManager(), AddToCartDialogFragment.TAG);
@@ -169,7 +168,7 @@ public class RecyclerViewActivity extends AppCompatActivity
                 .setPositiveButton("Check out?", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(RecyclerViewActivity.this, "[Check out] button", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DvdLibraryActivity.this, "[Check out] button", Toast.LENGTH_SHORT).show();
 
                         String path = "/dvds/checkout";
                         String url = IP_ADDRESS_REST_CONTROLLER + path;
@@ -189,7 +188,7 @@ public class RecyclerViewActivity extends AppCompatActivity
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(RecyclerViewActivity.this, "[Cancel] button", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DvdLibraryActivity.this, "[Cancel] button", Toast.LENGTH_SHORT).show();
                         // Intentionally blank.
                     }
                 })

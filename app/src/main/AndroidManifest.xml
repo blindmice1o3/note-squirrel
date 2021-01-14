@@ -48,7 +48,7 @@
         <activity android:name=".gameboycolor.gamecartridges.derived.pocketcritters.television.TelevisionActivity" />
         <activity android:name=".sandbox.spritesheetverifier2.SpriteSheetVerifier2Activity" />
         <activity android:name=".sandbox.spritesheetverifier1.SpriteSheetVerifier1Activity" />
-        <activity android:name=".sandbox.dvdlibrary.official.view.recycler.RecyclerViewActivity" />
+        <activity android:name=".sandbox.dvdlibrary.official.view.recycler.DvdLibraryActivity" />
         <activity android:name=".sandbox.dvdlibrary.roughdraftwithimages.ListFragmentDvdParentActivity" />
         <activity android:name=".sandbox.dvdlibrary.official.view.grid.GridViewDvdActivity" />
         <activity android:name=".sandbox.downloadhtml.DownloadHtmlFragmentParentActivity" />
