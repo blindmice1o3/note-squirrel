@@ -51,7 +51,8 @@ public class DvdLibraryActivity extends AppCompatActivity
         SearchByTitleFragment.OnSearchByTitleFragmentListener,
         RecyclerViewFragment.RecyclerViewFragmentListener {
 
-    public static final String IP_ADDRESS_REST_CONTROLLER = "http://192.168.1.121:8080";
+    public static final String IP_ADDRESS_REST_CONTROLLER = "http://143.110.230.163:8080";
+//    public static final String IP_ADDRESS_REST_CONTROLLER = "http://192.168.1.121:8080";
 
     private final RestTemplate restTemplate = new RestTemplate();
     private ProgressDialog progressDialog;
