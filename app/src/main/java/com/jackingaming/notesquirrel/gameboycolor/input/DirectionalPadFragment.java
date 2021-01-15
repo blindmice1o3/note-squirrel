@@ -26,6 +26,8 @@ import java.util.Map;
 
 public class DirectionalPadFragment extends Fragment {
 
+    public static final String TAG = "DirectionalPadFragment";
+
     public enum Direction { UP, LEFT, CENTER, RIGHT, DOWN; }
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -51,6 +53,10 @@ public class DirectionalPadFragment extends Fragment {
     private Rect boundsOfDown;
 
     private ConstraintLayout constraintLayout;
+
+    public DirectionalPadFragment() {
+        // Intentionally blank.
+    }
 
     @Override
     public void onAttach(Context context) {

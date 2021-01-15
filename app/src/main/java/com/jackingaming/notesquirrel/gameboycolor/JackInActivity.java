@@ -53,20 +53,22 @@ public class JackInActivity extends AppCompatActivity {
         inputManager = new InputManager();
 
         final ViewportFragment viewportFragment = new ViewportFragment();
+        final DirectionalPadFragment directionalPadFragment = new DirectionalPadFragment();
+        directionalPadFragment.setOnDirectionalPadTouchListener(inputManager);
+        final ButtonPadFragment buttonPadFragment = new ButtonPadFragment();
+        buttonPadFragment.setOnButtonPadTouchListener(inputManager);
+
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.setReorderingAllowed(true);
         fragmentTransaction.add(R.id.framelayout_jackinactivity_viewport, viewportFragment, ViewportFragment.TAG);
+        fragmentTransaction.add(R.id.framelayout_jackinactivity_directionalpad, directionalPadFragment, DirectionalPadFragment.TAG);
+        fragmentTransaction.add(R.id.framelayout_jackinactivity_buttonpad, buttonPadFragment, ButtonPadFragment.TAG);
         fragmentTransaction.commitNow();
 
-        DirectionalPadFragment directionalPadFragment = (DirectionalPadFragment) getSupportFragmentManager().findFragmentById(R.id.directionalPadFragment);
-        ButtonPadFragment buttonPadFragment = (ButtonPadFragment) getSupportFragmentManager().findFragmentById(R.id.buttonPadFragment);
         Button launchDvdActivityButton = (Button) findViewById(R.id.launch_dvd_activity_button);
         Button swapGameButton = (Button) findViewById(R.id.swap_game);
         Button selectButton = (Button) findViewById(R.id.select_button);
         Button startButton = (Button) findViewById(R.id.start_button);
-
-        directionalPadFragment.setOnDirectionalPadTouchListener(inputManager);
-        buttonPadFragment.setOnButtonPadTouchListener(inputManager);
 
         /////////////////////////////////////////////
         this.savedInstanceState = savedInstanceState;

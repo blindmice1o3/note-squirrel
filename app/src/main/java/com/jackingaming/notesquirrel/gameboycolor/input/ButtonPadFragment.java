@@ -26,6 +26,8 @@ import java.util.Map;
 
 public class ButtonPadFragment extends Fragment {
 
+    public static final String TAG = "ButtonPadFragment";
+
     public enum InputButton { A_BUTTON, B_BUTTON, MENU_BUTTON; }
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -49,6 +51,10 @@ public class ButtonPadFragment extends Fragment {
     private Rect boundsOfB;
 
     private ConstraintLayout constraintLayout;
+
+    public ButtonPadFragment() {
+        // Intentionally blank.
+    }
 
     @Override
     public void onAttach(Context context) {
