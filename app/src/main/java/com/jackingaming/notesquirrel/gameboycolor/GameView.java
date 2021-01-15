@@ -39,9 +39,9 @@ public class GameView extends SurfaceView
         Log.d(MainActivity.DEBUG_TAG, "GameView.surfaceChanged(SurfaceHolder, int, int, int)");
 
         DirectionalPadFragment directionalPadFragment = (DirectionalPadFragment)
-                ((JackInActivity)getContext()).getSupportFragmentManager().findFragmentById(R.id.directionalPadFragment);
+                ((JackInActivity)getContext()).getSupportFragmentManager().findFragmentByTag(DirectionalPadFragment.TAG);
         ButtonPadFragment buttonPadFragment = (ButtonPadFragment)
-                ((JackInActivity)getContext()).getSupportFragmentManager().findFragmentById(R.id.buttonPadFragment);
+                ((JackInActivity)getContext()).getSupportFragmentManager().findFragmentByTag(ButtonPadFragment.TAG);
 
         ////////////////////////////////////
         directionalPadFragment.initBounds();

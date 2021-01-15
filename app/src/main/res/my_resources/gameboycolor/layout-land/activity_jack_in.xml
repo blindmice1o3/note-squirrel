@@ -8,24 +8,14 @@
     android:background="#00FF00"
     tools:context=".gameboycolor.JackInActivity">
 
-    <fragment
-        android:id="@+id/viewportfragment"
-        android:name="com.jackingaming.notesquirrel.gameboycolor.input.ViewportFragment"
+    <FrameLayout
+        android:id="@+id/framelayout_jackinactivity_viewport"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true" />
 
-    <!--
-    <com.jackingaming.notesquirrel.gameboycolor.GameView
-        android:id="@+id/gameView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true" />
-    -->
-
-    <fragment
-        android:id="@+id/directionalPadFragment"
-        android:name="com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment"
+    <FrameLayout
+        android:id="@+id/framelayout_jackinactivity_directionalpad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -33,9 +23,8 @@
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="10dp" />
 
-    <fragment
-        android:id="@+id/buttonPadFragment"
-        android:name="com.jackingaming.notesquirrel.gameboycolor.input.ButtonPadFragment"
+    <FrameLayout
+        android:id="@+id/framelayout_jackinactivity_buttonpad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
