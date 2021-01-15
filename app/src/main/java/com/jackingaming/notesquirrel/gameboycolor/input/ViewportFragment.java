@@ -27,6 +27,12 @@ import java.util.List;
 
 public class ViewportFragment extends Fragment {
 
+    public static final String TAG = "ViewportFragment";
+
+    public ViewportFragment() {
+        // Intentionally blank.
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -45,8 +51,6 @@ public class ViewportFragment extends Fragment {
         Log.d(MainActivity.DEBUG_TAG, "ViewportFragment.onCreateView(LayoutInflater, ViewGroup, Bundle)");
 
         View view = inflater.inflate(R.layout.viewport_fragment, container, false);
-
-        //TODO: do more stuff
 
         return view;
     }

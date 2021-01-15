@@ -3,6 +3,7 @@ package com.jackingaming.notesquirrel.gameboycolor;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -26,14 +27,11 @@ import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.Serializat
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.scenes.indoors.SceneHome01;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.scenes.indoors.SceneHome02;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.BackpackActivity;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.base.items.Item;
 import com.jackingaming.notesquirrel.gameboycolor.input.ButtonPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
 import com.jackingaming.notesquirrel.gameboycolor.input.InputManager;
 import com.jackingaming.notesquirrel.gameboycolor.input.ViewportFragment;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.ListFragmentDvdParentActivity;
-
-import java.util.ArrayList;
 
 public class JackInActivity extends AppCompatActivity {
 
@@ -52,9 +50,14 @@ public class JackInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_jack_in);
         Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onCreate(Bundle)");
 
+        inputManager = new InputManager();
 
-        //final GameView gameView = (GameView) findViewById(R.id.gameView);
-        final ViewportFragment viewportFragment = (ViewportFragment) getSupportFragmentManager().findFragmentById(R.id.viewportfragment);
+        final ViewportFragment viewportFragment = new ViewportFragment();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.setReorderingAllowed(true);
+        fragmentTransaction.add(R.id.framelayout_jackinactivity_viewport, viewportFragment, ViewportFragment.TAG);
+        fragmentTransaction.commitNow();
+
         DirectionalPadFragment directionalPadFragment = (DirectionalPadFragment) getSupportFragmentManager().findFragmentById(R.id.directionalPadFragment);
         ButtonPadFragment buttonPadFragment = (ButtonPadFragment) getSupportFragmentManager().findFragmentById(R.id.buttonPadFragment);
         Button launchDvdActivityButton = (Button) findViewById(R.id.launch_dvd_activity_button);
@@ -62,16 +65,8 @@ public class JackInActivity extends AppCompatActivity {
         Button selectButton = (Button) findViewById(R.id.select_button);
         Button startButton = (Button) findViewById(R.id.start_button);
 
-
-        //////////////////////////////////
-        inputManager = new InputManager();
-        //////////////////////////////////
-        GameView gameView = viewportFragment.getView().findViewById(R.id.viewportfragment_gameview);
-        gameView.setOnTouchListener(inputManager);
         directionalPadFragment.setOnDirectionalPadTouchListener(inputManager);
         buttonPadFragment.setOnButtonPadTouchListener(inputManager);
-
-
 
         /////////////////////////////////////////////
         this.savedInstanceState = savedInstanceState;
@@ -140,12 +135,6 @@ public class JackInActivity extends AppCompatActivity {
                 gameCartridge.getInputStartButton();
             }
         });
-
-
-        //@@@@@@@CONTEXT_MENU@@@@@@@
-        if (cartridgeID == GameCartridge.Id.POCKET_CRITTERS) {
-            registerForContextMenu(gameView);
-        }
     }
 
     @Override
@@ -316,6 +305,8 @@ public class JackInActivity extends AppCompatActivity {
             Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onActivityResult(int, int, Intent) RETURNING FROM ComputerActivity (LOADING SAVED STATE)");
 
             isReturningFromActivity = true;
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
@@ -381,6 +372,14 @@ public class JackInActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Log.d(MainActivity.DEBUG_TAG, "JackInActivity.onStart()");
+
+        GameView gameView = findViewById(R.id.viewportfragment_gameview);
+        gameView.setOnTouchListener(inputManager);
+
+        //@@@@@@@CONTEXT_MENU@@@@@@@
+        if (cartridgeID == GameCartridge.Id.POCKET_CRITTERS) {
+            registerForContextMenu(gameView);
+        }
     }
 
     @Override

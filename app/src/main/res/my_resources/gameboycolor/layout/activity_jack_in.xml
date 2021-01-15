@@ -8,10 +8,9 @@
     android:background="#00FF00"
     tools:context=".gameboycolor.JackInActivity">
 
-    <fragment
-        android:id="@+id/viewportfragment"
-        android:name="com.jackingaming.notesquirrel.gameboycolor.input.ViewportFragment"
-        android:layout_width="match_parent"
+    <FrameLayout
+        android:id="@+id/framelayout_jackinactivity_viewport"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
@@ -48,7 +47,7 @@
         android:id="@+id/launch_dvd_activity_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/viewportfragment"
+        android:layout_below="@id/framelayout_jackinactivity_viewport"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="10dp"
         android:text="dvd list" />
@@ -57,7 +56,7 @@
         android:id="@+id/select_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/viewportfragment"
+        android:layout_below="@id/framelayout_jackinactivity_viewport"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/launch_dvd_activity_button"
         android:text="select" />
@@ -66,7 +65,7 @@
         android:id="@+id/start_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/viewportfragment"
+        android:layout_below="@id/framelayout_jackinactivity_viewport"
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@id/swap_game"
         android:text="start" />
@@ -75,7 +74,7 @@
         android:id="@+id/swap_game"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/viewportfragment"
+        android:layout_below="@id/framelayout_jackinactivity_viewport"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
         android:text="swap game" />
