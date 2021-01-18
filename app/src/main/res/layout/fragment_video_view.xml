@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<VideoView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/videoview_video_view_fragment"
+    android:id="@+id/constraintlayout_video_view_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".gameboycolor.gamecartridges.derived.pocketcritters.television.fragments.VideoViewFragment">
 
-</VideoView>
+    <VideoView
+        android:id="@+id/videoview_video_view_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
