@@ -3,6 +3,7 @@ package com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -102,12 +103,15 @@ public class DvdLibraryActivity extends AppCompatActivity
     }
 
     public void performFragmentTransactionReplace(int containerViewId, Fragment fragment, String tag) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setReorderingAllowed(true);
 
         fragmentTransaction.replace(containerViewId, fragment, tag);
 
-        fragmentTransaction.commitNow();
+        // The following is compatible with addToBackStack(), whereas commitNow() is not.
+        fragmentTransaction.commit();
+        fragmentManager.executePendingTransactions();
     }
 
     @Override

@@ -1,29 +1,32 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.television;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
+import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.television.fragments.BreakingNewsFragment;
 
-public class TelevisionActivity extends AppCompatActivity {
+public class TelevisionActivity extends AppCompatActivity
+        implements BreakingNewsFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_television);
 
-        ConstraintLayout constraintLayout = (ConstraintLayout) findViewById(R.id.constraintlayout_television);
-        constraintLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent videoViewActivityIntent = new Intent(TelevisionActivity.this, VideoViewActivity.class);
-                startActivity(videoViewActivityIntent);
-            }
-        });
+        BreakingNewsFragment breakingNewsFragment = new BreakingNewsFragment();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.setReorderingAllowed(true);
+        fragmentTransaction.add(R.id.framelayout_television_activity, breakingNewsFragment, BreakingNewsFragment.TAG);
+        fragmentTransaction.commitNow();
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        Toast.makeText(this, "TelevisionActivity.onFragmentInteration() BreakingNewsFragment.OnFragmentInteractionListener", Toast.LENGTH_SHORT).show();
+    }
 }

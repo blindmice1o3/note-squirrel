@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintlayout_breaking_news_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".gameboycolor.gamecartridges.derived.pocketcritters.television.fragments.BreakingNewsFragment">
+
+    <TextView
+        android:id="@+id/tag_live_breaking_news_fragment"
+        style="@style/Header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
+        android:text="LIVE"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/tag_hd_breaking_news_fragment"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tag_hd_breaking_news_fragment"
+        style="@style/Content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
+        android:text="HD"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toRightOf="@id/tag_live_breaking_news_fragment"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
