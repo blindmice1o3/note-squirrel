@@ -9,9 +9,11 @@ import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.television.fragments.BreakingNewsFragment;
+import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.television.fragments.VideoViewFragment;
 
 public class TelevisionActivity extends AppCompatActivity
-        implements BreakingNewsFragment.OnFragmentInteractionListener {
+        implements BreakingNewsFragment.OnFragmentInteractionListener,
+        VideoViewFragment.OnVideoViewFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,5 +30,10 @@ public class TelevisionActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
         Toast.makeText(this, "TelevisionActivity.onFragmentInteration() BreakingNewsFragment.OnFragmentInteractionListener", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onVideoViewFragmentInteraction(Uri uri) {
+        Toast.makeText(this, "TelevisionActivity.onVideoViewFragmentInteration() VideoViewFragment.OnVideoViewFragmentInteractionListener", Toast.LENGTH_SHORT).show();
     }
 }

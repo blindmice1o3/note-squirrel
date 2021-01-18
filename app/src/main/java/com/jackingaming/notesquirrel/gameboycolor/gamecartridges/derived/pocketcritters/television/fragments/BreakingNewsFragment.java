@@ -1,7 +1,6 @@
 package com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.television.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -9,13 +8,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.jackingaming.notesquirrel.R;
-import com.jackingaming.notesquirrel.gameboycolor.gamecartridges.derived.pocketcritters.television.VideoViewActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -83,8 +83,14 @@ public class BreakingNewsFragment extends Fragment {
         constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent videoViewActivityIntent = new Intent(getContext(), VideoViewActivity.class);
-                startActivity(videoViewActivityIntent);
+                VideoViewFragment videoViewFragment = new VideoViewFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setReorderingAllowed(true);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.replace(R.id.framelayout_television_activity, videoViewFragment, VideoViewFragment.TAG);
+                fragmentTransaction.commit();
+                fragmentManager.executePendingTransactions();
             }
         });
     }
