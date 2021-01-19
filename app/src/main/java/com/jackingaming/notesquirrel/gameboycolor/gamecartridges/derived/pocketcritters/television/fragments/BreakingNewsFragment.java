@@ -100,6 +100,21 @@ public class BreakingNewsFragment extends Fragment {
             }
         });
 
+        Button matrixTransformationButton = view.findViewById(R.id.button_matrix_transformation_breaking_news_fragment);
+        matrixTransformationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MatrixTransformationFragment matrixTransformationFragment = new MatrixTransformationFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setReorderingAllowed(true);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.replace(R.id.framelayout_television_activity, matrixTransformationFragment, MatrixTransformationFragment.TAG);
+                fragmentTransaction.commit();
+                fragmentManager.executePendingTransactions();
+            }
+        });
+
         final TextView textViewTagHD = view.findViewById(R.id.tag_hd_breaking_news_fragment);
         Button removeViewButton = view.findViewById(R.id.button_remove_view_breaking_news_fragment);
         removeViewButton.setOnClickListener(new View.OnClickListener() {
