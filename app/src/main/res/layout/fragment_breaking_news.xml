@@ -36,4 +36,22 @@
         app:layout_constraintLeft_toRightOf="@id/tag_live_breaking_news_fragment"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/button_add_view_breaking_news_fragment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="add view"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/button_remove_view_breaking_news_fragment" />
+
+    <Button
+        android:id="@+id/button_remove_view_breaking_news_fragment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="remove view"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/button_add_view_breaking_news_fragment"
+        app:layout_constraintRight_toRightOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

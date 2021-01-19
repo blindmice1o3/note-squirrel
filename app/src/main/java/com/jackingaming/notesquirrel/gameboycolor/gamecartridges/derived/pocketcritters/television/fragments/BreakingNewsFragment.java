@@ -7,13 +7,19 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.transition.Fade;
+import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.R;
 
@@ -79,7 +85,7 @@ public class BreakingNewsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ConstraintLayout constraintLayout = (ConstraintLayout) view.findViewById(R.id.constraintlayout_breaking_news_fragment);
+        final ConstraintLayout constraintLayout = (ConstraintLayout) view.findViewById(R.id.constraintlayout_breaking_news_fragment);
         constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,6 +99,36 @@ public class BreakingNewsFragment extends Fragment {
                 fragmentManager.executePendingTransactions();
             }
         });
+
+        final TextView textViewTagHD = view.findViewById(R.id.tag_hd_breaking_news_fragment);
+        Button removeViewButton = view.findViewById(R.id.button_remove_view_breaking_news_fragment);
+        removeViewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (constraintLayout.indexOfChild(textViewTagHD) != -1) {
+                    Fade fadeOutEffect = new Fade(Fade.OUT);
+                    TransitionManager.beginDelayedTransition(constraintLayout, fadeOutEffect);
+                    constraintLayout.removeView(textViewTagHD);
+                } else {
+                    Toast.makeText(getContext(), "view NOT in layout", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        Button addViewButton = view.findViewById(R.id.button_add_view_breaking_news_fragment);
+        addViewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (constraintLayout.indexOfChild(textViewTagHD) == -1) {
+                    Fade fadeInEffect = new Fade(Fade.IN);
+                    TransitionManager.beginDelayedTransition(constraintLayout, fadeInEffect);
+                    constraintLayout.addView(textViewTagHD);
+                } else {
+                    Toast.makeText(getContext(), "view already in layout", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
