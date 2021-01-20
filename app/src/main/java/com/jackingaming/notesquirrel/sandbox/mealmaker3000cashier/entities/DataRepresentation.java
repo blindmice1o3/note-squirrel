@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.sandbox.restclient.tutorial;
+package com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.entities;
 
 public class DataRepresentation {
 

@@ -25,7 +25,7 @@ import com.jackingaming.notesquirrel.sandbox.downloadhtml.DownloadHtmlFragmentPa
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.DvdLibraryActivity;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.ListFragmentDvdParentActivity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.PassingThroughActivity;
-import com.jackingaming.notesquirrel.sandbox.restclient.RestClientActivity;
+import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.MealMaker3000CashierActivity;
 import com.jackingaming.notesquirrel.sandbox.spritesheetverifier1.SpriteSheetVerifier1Activity;
 import com.jackingaming.notesquirrel.sandbox.listviewemail.ListViewEmailActivity;
 import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.SpriteSheetVerifier2Activity;
@@ -326,12 +326,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(spriteSheetVerifier2Intent);
 
                 return true;
-            case R.id.menu_rest_client:
-                //TODO: implement menu_rest_client
-                Toast.makeText(this, R.string.menu_rest_client, Toast.LENGTH_SHORT).show();
+            case R.id.menu_meal_maker_3000_cashier:
+                //TODO: implement menu_meal_maker_3000_cashier
+                Toast.makeText(this, R.string.menu_meal_maker_3000_cashier, Toast.LENGTH_SHORT).show();
 
-                Intent restClientIntent = new Intent(this, RestClientActivity.class);
-                startActivity(restClientIntent);
+                Intent mealMaker3000CashierIntent = new Intent(this, MealMaker3000CashierActivity.class);
+                startActivity(mealMaker3000CashierIntent);
 
                 return true;
             case R.id.menu_count_zero:
