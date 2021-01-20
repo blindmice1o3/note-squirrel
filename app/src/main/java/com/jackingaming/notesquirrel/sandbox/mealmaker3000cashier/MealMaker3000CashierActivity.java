@@ -11,8 +11,8 @@ import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
-import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.CoarseGrainControlsFragment;
-import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.FineGrainControlsFragment;
+import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.coarse.CoarseGrainControlsFragment;
+import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.fine.FineGrainControlsFragment;
 
 public class MealMaker3000CashierActivity extends AppCompatActivity
         implements FineGrainControlsFragment.OnFragmentInteractionListener,

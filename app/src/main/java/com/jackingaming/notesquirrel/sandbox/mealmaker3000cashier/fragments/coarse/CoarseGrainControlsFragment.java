@@ -1,27 +1,33 @@
-package com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments;
+package com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.coarse;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.jackingaming.notesquirrel.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link FineGrainControlsFragment.OnFragmentInteractionListener} interface
+ * {@link CoarseGrainControlsFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link FineGrainControlsFragment#newInstance} factory method to
+ * Use the {@link CoarseGrainControlsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FineGrainControlsFragment extends Fragment {
-    public static final String TAG = "FineGrainControlsFragment";
+public class CoarseGrainControlsFragment extends Fragment {
+    public static final String TAG = "CoarseGrainControlsFragment";
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -31,9 +37,12 @@ public class FineGrainControlsFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private List<String> menuItems;
+    private CoarseGrainControlsListAdapter coarseGrainControlsListAdapter;
+
     private OnFragmentInteractionListener mListener;
 
-    public FineGrainControlsFragment() {
+    public CoarseGrainControlsFragment() {
         // Required empty public constructor
     }
 
@@ -43,11 +52,11 @@ public class FineGrainControlsFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FineGrainControlsFragment.
+     * @return A new instance of fragment CoarseGrainControlsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static FineGrainControlsFragment newInstance(String param1, String param2) {
-        FineGrainControlsFragment fragment = new FineGrainControlsFragment();
+    public static CoarseGrainControlsFragment newInstance(String param1, String param2) {
+        CoarseGrainControlsFragment fragment = new CoarseGrainControlsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -62,19 +71,38 @@ public class FineGrainControlsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        menuItems = new ArrayList<String>();
+        menuItems.add("Breakfast");
+        menuItems.add("Lunch & Dinner");
+        menuItems.add("Snacks & Sides");
+        menuItems.add("Drinks");
+        menuItems.add("Kids & Extras");
+        menuItems.add("Late Night Menu");
+        menuItems.add("Brunch");
+
+        coarseGrainControlsListAdapter = new CoarseGrainControlsListAdapter(getContext(), menuItems);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fine_grain_controls, container, false);
+        return inflater.inflate(R.layout.fragment_coarse_grain_controls, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        ListView listView = view.findViewById(R.id.listview_coarse_grain_controls);
+        listView.setAdapter(coarseGrainControlsListAdapter);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onFineGrainControlsFragmentInteraction(uri);
+            mListener.onCoarseGrainControlsFragmentInteraction(uri);
         }
     }
 
@@ -107,6 +135,6 @@ public class FineGrainControlsFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFineGrainControlsFragmentInteraction(Uri uri);
+        void onCoarseGrainControlsFragmentInteraction(Uri uri);
     }
 }
