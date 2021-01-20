@@ -19,6 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
@@ -28,11 +30,12 @@ import com.jackingaming.notesquirrel.R;
  */
 public class MatrixTransformationFragment extends Fragment {
     public static final String TAG = "MatrixTransformationFragment";
+    private static final float THETA = 30;
 
     private OnFragmentInteractionListener mListener;
 
     private ImageView imageView;
-    private static final float THETA = 30;
+    private SeekBar seekBar;
 
     public MatrixTransformationFragment() {
         // Required empty public constructor
@@ -48,15 +51,44 @@ public class MatrixTransformationFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_matrix_transformation, container, false);
 
+        // ImageView
         imageView = view.findViewById(R.id.imageview_matrix_transformation_fragment);
         Log.d(MainActivity.DEBUG_TAG, "imageView.getScaleType(): " + imageView.getScaleType().name());
         imageView.setScaleType(ImageView.ScaleType.MATRIX);
         Log.d(MainActivity.DEBUG_TAG, "imageView.getScaleType(): " + imageView.getScaleType().name());
-
         // Display clippitSprite
         Bitmap clippitSpriteSheet = BitmapFactory.decodeResource(getResources(), R.drawable.pc_ms_office_clippit);
         Bitmap clippitSprite = Bitmap.createBitmap(clippitSpriteSheet, 0, 0, 124, 93);
         imageView.setImageBitmap(clippitSprite);
+
+        // SeekBar
+        seekBar = view.findViewById(R.id.seekbar_matrix_transformation_fragment);
+        seekBar.setMax(360);
+        seekBar.setProgress(0);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int progressDelta = 0;
+            int progressPrevious = 0;
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                // Calculate difference between current progress and previous progress.
+                progressDelta = progress - progressPrevious;
+                progressPrevious = progress;
+
+                // Rotate
+                matrix.postRotate(progressDelta, pivotX, pivotY);
+                imageView.setImageMatrix(matrix);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO:
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                Toast.makeText(getContext(), "SeekBar's onStopTrackingTouch()", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         return view;
     }
@@ -68,8 +100,8 @@ public class MatrixTransformationFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // This method is called after all of ImageView's lifecycle methods are finished
-        // (e.g. after it is measured and laid out... has width and height values).
+        // Using this method to finish setting up (e.g. after all of ImageView's lifecycle
+        // methods have been called [measured and laid out], width and height have values).
         imageView.post(new Runnable() {
             @Override
             public void run() {

@@ -20,9 +20,20 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="rotate"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/seekbar_matrix_transformation_fragment"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imageview_matrix_transformation_fragment" />
+
+    <SeekBar
+        android:id="@+id/seekbar_matrix_transformation_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button_rotate_matrix_transformation_fragment" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
