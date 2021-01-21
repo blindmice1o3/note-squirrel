@@ -11,12 +11,12 @@ import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.fragments.RecyclerViewFragment;
 import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.coarse.CoarseGrainControlsFragment;
 import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.fine.FineGrainControlsFragment;
 
 public class MealMaker3000CashierActivity extends AppCompatActivity
-        implements FineGrainControlsFragment.OnFragmentInteractionListener,
-        CoarseGrainControlsFragment.OnFragmentInteractionListener {
+        implements CoarseGrainControlsFragment.OnFragmentInteractionListener {
 
     private static final String KEY_COUNTER_SAVED_INSTANCE_STATE = "counter";
 
@@ -29,13 +29,11 @@ public class MealMaker3000CashierActivity extends AppCompatActivity
         setContentView(R.layout.activity_meal_maker_3000_cashier);
 
         FineGrainControlsFragment fineGrainControlsFragment = new FineGrainControlsFragment();
+        CoarseGrainControlsFragment coarseGrainControlsFragment = new CoarseGrainControlsFragment();
+
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.setReorderingAllowed(true);
         fragmentTransaction.add(R.id.framelayout_mealmaker3000cashier_fine_grain_controls, fineGrainControlsFragment, FineGrainControlsFragment.TAG);
-        fragmentTransaction.commitNow();
-
-        CoarseGrainControlsFragment coarseGrainControlsFragment = new CoarseGrainControlsFragment();
-        fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.framelayout_mealmaker3000cashier_course_grain_controls, coarseGrainControlsFragment, CoarseGrainControlsFragment.TAG);
         fragmentTransaction.commitNow();
     }
@@ -65,11 +63,6 @@ public class MealMaker3000CashierActivity extends AppCompatActivity
         outState.putInt(KEY_COUNTER_SAVED_INSTANCE_STATE, counterSavedInstanceState);
 
         super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onFineGrainControlsFragmentInteraction(Uri uri) {
-
     }
 
     @Override
