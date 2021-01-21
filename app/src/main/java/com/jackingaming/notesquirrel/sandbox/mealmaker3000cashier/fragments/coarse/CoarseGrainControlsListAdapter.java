@@ -47,13 +47,13 @@ public class CoarseGrainControlsListAdapter extends BaseAdapter
         TextView textView = view.findViewById(R.id.text1);
         textView.setText(menuItems.get(position));
 
-        final int positionFinal = position;
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, menuItems.get(positionFinal), Toast.LENGTH_SHORT).show();
-            }
-        });
+//        final int positionFinal = position;
+//        textView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(context, menuItems.get(positionFinal), Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         return view;
     }

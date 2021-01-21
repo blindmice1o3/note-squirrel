@@ -12,8 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.fine.datasource.BreakfastItems;
+import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.fine.datasource.DataSourceRepository;
+import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.fine.datasource.LunchAndDinnerItems;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,20 +25,15 @@ import java.util.List;
 public class FineGrainControlsFragment extends Fragment {
     public static final String TAG = "FineGrainControlsFragment";
 
-    RecyclerView recyclerView1;
-    RecyclerView recyclerView2;
-    RecyclerView recyclerView3;
-    RecyclerView recyclerView4;
-
     private List<String> dataSourceQuadrant1;
     private List<String> dataSourceQuadrant2;
     private List<String> dataSourceQuadrant3;
     private List<String> dataSourceQuadrant4;
 
-    AdapterStringRecyclerView adapterStringRecyclerView1;
-    AdapterStringRecyclerView adapterStringRecyclerView2;
-    AdapterStringRecyclerView adapterStringRecyclerView3;
-    AdapterStringRecyclerView adapterStringRecyclerView4;
+    private AdapterStringRecyclerView adapterStringRecyclerView1;
+    private AdapterStringRecyclerView adapterStringRecyclerView2;
+    private AdapterStringRecyclerView adapterStringRecyclerView3;
+    private AdapterStringRecyclerView adapterStringRecyclerView4;
 
     public FineGrainControlsFragment() {
         // Required empty public constructor
@@ -44,67 +43,78 @@ public class FineGrainControlsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // COMBOS
         dataSourceQuadrant1 = new ArrayList<String>();
-        dataSourceQuadrant1.add("Suprm Crosnt #21");
-        dataSourceQuadrant1.add("Ssg Crosnt #22");
-        dataSourceQuadrant1.add("Grd Ssg Burrito #23");
-        dataSourceQuadrant1.add("Meat Lvr Burrito #24");
-        dataSourceQuadrant1.add("SEC Bisc #25");
-        dataSourceQuadrant1.add("BEC Bisc #25");
-        dataSourceQuadrant1.add("Loaded Bfst Sand #26");
-        dataSourceQuadrant1.add("Extreme Ssg #27");
-        dataSourceQuadrant1.add("Ult Bfst #28");
-        dataSourceQuadrant1.add("Grl Srd Swiss #29");
-        dataSourceQuadrant1.add("Bfst Platter #30");
-        dataSourceQuadrant1.add("EMPTY");
-
-        // ADDITIONAL ITEMS
-        dataSourceQuadrant2 = new ArrayList<String>();
-        dataSourceQuadrant2.add("Breakfast Jack");
-        dataSourceQuadrant2.add("Sausage Bfst Jack");
-        dataSourceQuadrant2.add("Bacon Bfst Jack");
-        dataSourceQuadrant2.add("EMPTY");
-        dataSourceQuadrant2.add("Srd Bfst Sand");
-        dataSourceQuadrant2.add("Hmst Chk Bisc");
-        dataSourceQuadrant2.add("Mini Pancakes");
-        dataSourceQuadrant2.add("EMPTY");
-        dataSourceQuadrant2.add("EMPTY");
-        dataSourceQuadrant2.add("Donut Holes");
-        dataSourceQuadrant2.add("EMPTY");
-        dataSourceQuadrant2.add("EMPTY");
-
-        // EXTRAS
-        dataSourceQuadrant3 = new ArrayList<String>();
-        dataSourceQuadrant3.add("Hash Browns");
-        dataSourceQuadrant3.add("Bacon");
-        dataSourceQuadrant3.add("Sausage");
-        dataSourceQuadrant3.add("Ham");
-        dataSourceQuadrant3.add("Croissant");
-        dataSourceQuadrant3.add("Biscuit");
-        dataSourceQuadrant3.add("Tortilla");
-        dataSourceQuadrant3.add("EMPTY");
-        dataSourceQuadrant3.add("Shell Egg");
-        dataSourceQuadrant3.add("Scramble Egg");
-        dataSourceQuadrant3.add("Egg White");
-        dataSourceQuadrant3.add("EMPTY");
-
-        // BREAKFAST DRINKS
-        dataSourceQuadrant4 = new ArrayList<String>();
-        dataSourceQuadrant4.add("Coffee");
-        dataSourceQuadrant4.add("Lrg Coffee");
-        dataSourceQuadrant4.add("Decaf Coffee");
-        dataSourceQuadrant4.add("Lrg Decaf Coffee");
-        dataSourceQuadrant4.add("Orange Juice");
-        dataSourceQuadrant4.add("Apple Juice");
-        dataSourceQuadrant4.add("Milk");
-        dataSourceQuadrant4.add("EMPTY");
-
-
         adapterStringRecyclerView1 = new AdapterStringRecyclerView(dataSourceQuadrant1);
+        adapterStringRecyclerView1.setClickListener(new AdapterStringRecyclerView.ItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Toast.makeText(getContext(), dataSourceQuadrant1.get(position), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        dataSourceQuadrant2 = new ArrayList<String>();
         adapterStringRecyclerView2 = new AdapterStringRecyclerView(dataSourceQuadrant2);
+        adapterStringRecyclerView2.setClickListener(new AdapterStringRecyclerView.ItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Toast.makeText(getContext(), dataSourceQuadrant2.get(position), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        dataSourceQuadrant3 = new ArrayList<String>();
         adapterStringRecyclerView3 = new AdapterStringRecyclerView(dataSourceQuadrant3);
+        adapterStringRecyclerView3.setClickListener(new AdapterStringRecyclerView.ItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Toast.makeText(getContext(), dataSourceQuadrant3.get(position), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        dataSourceQuadrant4 = new ArrayList<String>();
         adapterStringRecyclerView4 = new AdapterStringRecyclerView(dataSourceQuadrant4);
+        adapterStringRecyclerView4.setClickListener(new AdapterStringRecyclerView.ItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Toast.makeText(getContext(), dataSourceQuadrant4.get(position), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        switchDataSource("Breakfast");
+    }
+
+    public void switchDataSource(String menuCategory) {
+        DataSourceRepository dataSourceRepository = null;
+        switch (menuCategory) {
+            case "Breakfast":
+                dataSourceRepository = new BreakfastItems();
+                break;
+            case "Lunch & Dinner":
+                dataSourceRepository = new LunchAndDinnerItems();
+                break;
+            case "Snacks & Sides":
+            case "Drinks":
+            case "Kids & Extras":
+            case "Late Night Menu":
+            case "Brunch":
+                // TODO: finish implementation of other DataSourceRepository classes.
+                break;
+        }
+
+        dataSourceQuadrant1.clear();
+        dataSourceQuadrant1.addAll(dataSourceRepository.retrieveDataSourceForQuadrant1());
+        adapterStringRecyclerView1.notifyDataSetChanged();
+
+        dataSourceQuadrant2.clear();
+        dataSourceQuadrant2.addAll(dataSourceRepository.retrieveDataSourceForQuadrant2());
+        adapterStringRecyclerView2.notifyDataSetChanged();
+
+        dataSourceQuadrant3.clear();
+        dataSourceQuadrant3.addAll(dataSourceRepository.retrieveDataSourceForQuadrant3());
+        adapterStringRecyclerView3.notifyDataSetChanged();
+
+        dataSourceQuadrant4.clear();
+        dataSourceQuadrant4.addAll(dataSourceRepository.retrieveDataSourceForQuadrant4());
+        adapterStringRecyclerView4.notifyDataSetChanged();
     }
 
     @Override
@@ -119,19 +129,19 @@ public class FineGrainControlsFragment extends Fragment {
 
         int numberOfColumns = 4;
 
-        recyclerView1 = view.findViewById(R.id.recyclerview_fine_grain_quadrant_1);
+        RecyclerView recyclerView1 = view.findViewById(R.id.recyclerview_fine_grain_quadrant_1);
         recyclerView1.setLayoutManager(new GridLayoutManager(getContext(), numberOfColumns));
         recyclerView1.setAdapter(adapterStringRecyclerView1);
 
-        recyclerView2 = view.findViewById(R.id.recyclerview_fine_grain_quadrant_2);
+        RecyclerView recyclerView2 = view.findViewById(R.id.recyclerview_fine_grain_quadrant_2);
         recyclerView2.setLayoutManager(new GridLayoutManager(getContext(), numberOfColumns));
         recyclerView2.setAdapter(adapterStringRecyclerView2);
 
-        recyclerView3 = view.findViewById(R.id.recyclerview_fine_grain_quadrant_3);
+        RecyclerView recyclerView3 = view.findViewById(R.id.recyclerview_fine_grain_quadrant_3);
         recyclerView3.setLayoutManager(new GridLayoutManager(getContext(), numberOfColumns));
         recyclerView3.setAdapter(adapterStringRecyclerView3);
 
-        recyclerView4 = view.findViewById(R.id.recyclerview_fine_grain_quadrant_4);
+        RecyclerView recyclerView4 = view.findViewById(R.id.recyclerview_fine_grain_quadrant_4);
         recyclerView4.setLayoutManager(new GridLayoutManager(getContext(), numberOfColumns));
         recyclerView4.setAdapter(adapterStringRecyclerView4);
     }

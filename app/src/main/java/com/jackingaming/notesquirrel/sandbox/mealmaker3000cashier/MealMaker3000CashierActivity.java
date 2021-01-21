@@ -4,14 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
-import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.fragments.RecyclerViewFragment;
 import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.coarse.CoarseGrainControlsFragment;
 import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.fine.FineGrainControlsFragment;
 
@@ -19,6 +17,9 @@ public class MealMaker3000CashierActivity extends AppCompatActivity
         implements CoarseGrainControlsFragment.OnFragmentInteractionListener {
 
     private static final String KEY_COUNTER_SAVED_INSTANCE_STATE = "counter";
+
+    private FineGrainControlsFragment fineGrainControlsFragment;
+    private CoarseGrainControlsFragment coarseGrainControlsFragment;
 
     private int counterSavedInstanceState = 0;
 
@@ -28,8 +29,8 @@ public class MealMaker3000CashierActivity extends AppCompatActivity
         Log.d(MainActivity.DEBUG_TAG, "MealMaker3000CashierActivity.onCreate(Bundle)");
         setContentView(R.layout.activity_meal_maker_3000_cashier);
 
-        FineGrainControlsFragment fineGrainControlsFragment = new FineGrainControlsFragment();
-        CoarseGrainControlsFragment coarseGrainControlsFragment = new CoarseGrainControlsFragment();
+        fineGrainControlsFragment = new FineGrainControlsFragment();
+        coarseGrainControlsFragment = new CoarseGrainControlsFragment();
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.setReorderingAllowed(true);
@@ -66,7 +67,7 @@ public class MealMaker3000CashierActivity extends AppCompatActivity
     }
 
     @Override
-    public void onCoarseGrainControlsFragmentInteraction(Uri uri) {
-
+    public void onCoarseGrainControlsFragmentListViewItemClicked(String menuCategory) {
+        fineGrainControlsFragment.switchDataSource(menuCategory);
     }
 }

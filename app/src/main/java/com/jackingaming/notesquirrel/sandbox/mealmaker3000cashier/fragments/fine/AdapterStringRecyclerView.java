@@ -1,6 +1,5 @@
 package com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.fine;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,12 +8,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 
 import java.util.List;
 
 public class AdapterStringRecyclerView extends RecyclerView.Adapter<AdapterStringRecyclerView.StringViewHolder> {
+
+    public interface ItemClickListener {
+        void onItemClick(View view, int position);
+    }
+    private ItemClickListener itemClickListener;
+    public void setClickListener(ItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
+    }
 
     private List<String> dataSource;
 
@@ -31,7 +37,9 @@ public class AdapterStringRecyclerView extends RecyclerView.Adapter<AdapterStrin
 
         @Override
         public void onClick(View v) {
-            Log.d(MainActivity.DEBUG_TAG, "StringViewHolder's onClick(View)");
+            if (itemClickListener != null) {
+                itemClickListener.onItemClick(v, getAdapterPosition());
+            }
         }
     }
 
