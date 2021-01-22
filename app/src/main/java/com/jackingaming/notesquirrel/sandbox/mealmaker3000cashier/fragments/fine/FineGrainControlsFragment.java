@@ -18,6 +18,7 @@ import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.fine.datasource.BreakfastItems;
 import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.fine.datasource.DataSourceRepository;
 import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.fine.datasource.LunchAndDinnerItems;
+import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.fine.datasource.SnacksAndSidesItems;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,7 @@ public class FineGrainControlsFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 Toast.makeText(getContext(), dataSourceQuadrant1.get(position), Toast.LENGTH_SHORT).show();
+                // TODO:
             }
         });
 
@@ -58,6 +60,7 @@ public class FineGrainControlsFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 Toast.makeText(getContext(), dataSourceQuadrant2.get(position), Toast.LENGTH_SHORT).show();
+                // TODO:
             }
         });
 
@@ -67,6 +70,7 @@ public class FineGrainControlsFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 Toast.makeText(getContext(), dataSourceQuadrant3.get(position), Toast.LENGTH_SHORT).show();
+                // TODO:
             }
         });
 
@@ -76,6 +80,7 @@ public class FineGrainControlsFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 Toast.makeText(getContext(), dataSourceQuadrant4.get(position), Toast.LENGTH_SHORT).show();
+                // TODO:
             }
         });
 
@@ -92,9 +97,17 @@ public class FineGrainControlsFragment extends Fragment {
                 dataSourceRepository = new LunchAndDinnerItems();
                 break;
             case "Snacks & Sides":
+                dataSourceRepository = new SnacksAndSidesItems();
+                break;
             case "Drinks":
+                // TODO: finish implementation of other DataSourceRepository classes.
+                break;
             case "Kids & Extras":
+                // TODO: finish implementation of other DataSourceRepository classes.
+                break;
             case "Late Night Menu":
+                // TODO: finish implementation of other DataSourceRepository classes.
+                break;
             case "Brunch":
                 // TODO: finish implementation of other DataSourceRepository classes.
                 break;
