@@ -14,7 +14,8 @@ import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.coar
 import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.fine.FineGrainControlsFragment;
 
 public class MealMaker3000CashierActivity extends AppCompatActivity
-        implements CoarseGrainControlsFragment.OnFragmentInteractionListener {
+        implements CoarseGrainControlsFragment.OnFragmentInteractionListener,
+        FineGrainControlsFragment.OnFragmentInteractionListener {
 
     private static final String KEY_COUNTER_SAVED_INSTANCE_STATE = "counter";
 
@@ -69,5 +70,10 @@ public class MealMaker3000CashierActivity extends AppCompatActivity
     @Override
     public void onCoarseGrainControlsFragmentListViewItemClicked(String menuCategory) {
         fineGrainControlsFragment.switchDataSource(menuCategory);
+    }
+
+    @Override
+    public void onFineGrainControlsFragmentRecyclerViewItemClicked(String menuItem) {
+        // TODO: update meal staging screen (currently just a TextView).
     }
 }

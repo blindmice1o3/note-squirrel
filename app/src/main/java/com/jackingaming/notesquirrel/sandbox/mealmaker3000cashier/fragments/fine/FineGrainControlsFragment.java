@@ -15,16 +15,22 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.R;
-import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.fine.datasource.BreakfastItems;
+import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.fine.datasource.BreakfastRepository;
 import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.fine.datasource.DataSourceRepository;
-import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.fine.datasource.LunchAndDinnerItems;
-import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.fine.datasource.SnacksAndSidesItems;
+import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.fine.datasource.EmptyRepository;
+import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.fine.datasource.LunchAndDinnerRepository;
+import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.fine.datasource.SnacksAndSidesRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FineGrainControlsFragment extends Fragment {
     public static final String TAG = "FineGrainControlsFragment";
+
+    public interface OnFragmentInteractionListener {
+        void onFineGrainControlsFragmentRecyclerViewItemClicked(String menuItem);
+    }
+    private OnFragmentInteractionListener listener;
 
     private List<String> dataSourceQuadrant1;
     private List<String> dataSourceQuadrant2;
@@ -50,7 +56,7 @@ public class FineGrainControlsFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 Toast.makeText(getContext(), dataSourceQuadrant1.get(position), Toast.LENGTH_SHORT).show();
-                // TODO:
+                listener.onFineGrainControlsFragmentRecyclerViewItemClicked(dataSourceQuadrant1.get(position));
             }
         });
 
@@ -60,7 +66,7 @@ public class FineGrainControlsFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 Toast.makeText(getContext(), dataSourceQuadrant2.get(position), Toast.LENGTH_SHORT).show();
-                // TODO:
+                listener.onFineGrainControlsFragmentRecyclerViewItemClicked(dataSourceQuadrant2.get(position));
             }
         });
 
@@ -70,7 +76,7 @@ public class FineGrainControlsFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 Toast.makeText(getContext(), dataSourceQuadrant3.get(position), Toast.LENGTH_SHORT).show();
-                // TODO:
+                listener.onFineGrainControlsFragmentRecyclerViewItemClicked(dataSourceQuadrant3.get(position));
             }
         });
 
@@ -80,7 +86,7 @@ public class FineGrainControlsFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 Toast.makeText(getContext(), dataSourceQuadrant4.get(position), Toast.LENGTH_SHORT).show();
-                // TODO:
+                listener.onFineGrainControlsFragmentRecyclerViewItemClicked(dataSourceQuadrant4.get(position));
             }
         });
 
@@ -91,25 +97,25 @@ public class FineGrainControlsFragment extends Fragment {
         DataSourceRepository dataSourceRepository = null;
         switch (menuCategory) {
             case "Breakfast":
-                dataSourceRepository = new BreakfastItems();
+                dataSourceRepository = new BreakfastRepository();
                 break;
             case "Lunch & Dinner":
-                dataSourceRepository = new LunchAndDinnerItems();
+                dataSourceRepository = new LunchAndDinnerRepository();
                 break;
             case "Snacks & Sides":
-                dataSourceRepository = new SnacksAndSidesItems();
+                dataSourceRepository = new SnacksAndSidesRepository();
                 break;
             case "Drinks":
-                // TODO: finish implementation of other DataSourceRepository classes.
+                dataSourceRepository = new EmptyRepository();
                 break;
             case "Kids & Extras":
-                // TODO: finish implementation of other DataSourceRepository classes.
+                dataSourceRepository = new EmptyRepository();
                 break;
             case "Late Night Menu":
-                // TODO: finish implementation of other DataSourceRepository classes.
+                dataSourceRepository = new EmptyRepository();
                 break;
             case "Brunch":
-                // TODO: finish implementation of other DataSourceRepository classes.
+                dataSourceRepository = new EmptyRepository();
                 break;
         }
 
@@ -162,10 +168,17 @@ public class FineGrainControlsFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            listener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+        listener = null;
     }
 }

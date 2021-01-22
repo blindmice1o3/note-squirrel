@@ -3,7 +3,7 @@ package com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.fin
 import java.util.ArrayList;
 import java.util.List;
 
-public class BreakfastItems
+public class BreakfastRepository
         implements DataSourceRepository {
 
     @Override

@@ -66,7 +66,6 @@ public class CoarseGrainControlsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getContext(), menuCategories.get(position), Toast.LENGTH_SHORT).show();
-                //TODO: have Activity change FineGrainControlsFragment's data sources.
                 listener.onCoarseGrainControlsFragmentListViewItemClicked(menuCategories.get(position));
             }
         });
