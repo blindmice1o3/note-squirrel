@@ -51,44 +51,44 @@ public class FineGrainControlsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         dataSourceQuadrant1 = new ArrayList<String>();
-        adapterStringRecyclerView1 = new AdapterStringRecyclerView(dataSourceQuadrant1);
-        adapterStringRecyclerView1.setClickListener(new AdapterStringRecyclerView.ItemClickListener() {
+        AdapterStringRecyclerView.ItemClickListener itemClickListenerQuadrant1 = new AdapterStringRecyclerView.ItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Toast.makeText(getContext(), dataSourceQuadrant1.get(position), Toast.LENGTH_SHORT).show();
                 listener.onFineGrainControlsFragmentRecyclerViewItemClicked(dataSourceQuadrant1.get(position));
             }
-        });
+        };
+        adapterStringRecyclerView1 = new AdapterStringRecyclerView(dataSourceQuadrant1, itemClickListenerQuadrant1);
 
         dataSourceQuadrant2 = new ArrayList<String>();
-        adapterStringRecyclerView2 = new AdapterStringRecyclerView(dataSourceQuadrant2);
-        adapterStringRecyclerView2.setClickListener(new AdapterStringRecyclerView.ItemClickListener() {
+        AdapterStringRecyclerView.ItemClickListener itemClickListenerQuadrant2 = new AdapterStringRecyclerView.ItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Toast.makeText(getContext(), dataSourceQuadrant2.get(position), Toast.LENGTH_SHORT).show();
                 listener.onFineGrainControlsFragmentRecyclerViewItemClicked(dataSourceQuadrant2.get(position));
             }
-        });
+        };
+        adapterStringRecyclerView2 = new AdapterStringRecyclerView(dataSourceQuadrant2, itemClickListenerQuadrant2);
 
         dataSourceQuadrant3 = new ArrayList<String>();
-        adapterStringRecyclerView3 = new AdapterStringRecyclerView(dataSourceQuadrant3);
-        adapterStringRecyclerView3.setClickListener(new AdapterStringRecyclerView.ItemClickListener() {
+        AdapterStringRecyclerView.ItemClickListener itemClickListenerQuadrant3 = new AdapterStringRecyclerView.ItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Toast.makeText(getContext(), dataSourceQuadrant3.get(position), Toast.LENGTH_SHORT).show();
                 listener.onFineGrainControlsFragmentRecyclerViewItemClicked(dataSourceQuadrant3.get(position));
             }
-        });
+        };
+        adapterStringRecyclerView3 = new AdapterStringRecyclerView(dataSourceQuadrant3, itemClickListenerQuadrant3);
 
         dataSourceQuadrant4 = new ArrayList<String>();
-        adapterStringRecyclerView4 = new AdapterStringRecyclerView(dataSourceQuadrant4);
-        adapterStringRecyclerView4.setClickListener(new AdapterStringRecyclerView.ItemClickListener() {
+        AdapterStringRecyclerView.ItemClickListener itemClickListenerQuadrant4 = new AdapterStringRecyclerView.ItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Toast.makeText(getContext(), dataSourceQuadrant4.get(position), Toast.LENGTH_SHORT).show();
                 listener.onFineGrainControlsFragmentRecyclerViewItemClicked(dataSourceQuadrant4.get(position));
             }
-        });
+        };
+        adapterStringRecyclerView4 = new AdapterStringRecyclerView(dataSourceQuadrant4, itemClickListenerQuadrant4);
 
         switchDataSource("Breakfast");
     }

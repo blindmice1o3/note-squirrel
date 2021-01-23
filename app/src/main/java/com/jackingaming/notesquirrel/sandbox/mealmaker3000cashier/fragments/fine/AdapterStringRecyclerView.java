@@ -18,9 +18,6 @@ public class AdapterStringRecyclerView extends RecyclerView.Adapter<AdapterStrin
         void onItemClick(View view, int position);
     }
     private ItemClickListener itemClickListener;
-    public void setClickListener(ItemClickListener itemClickListener) {
-        this.itemClickListener = itemClickListener;
-    }
 
     private List<String> dataSource;
 
@@ -43,8 +40,9 @@ public class AdapterStringRecyclerView extends RecyclerView.Adapter<AdapterStrin
         }
     }
 
-    public AdapterStringRecyclerView(List<String> dataSource) {
+    public AdapterStringRecyclerView(List<String> dataSource, ItemClickListener itemClickListener) {
         this.dataSource = dataSource;
+        this.itemClickListener = itemClickListener;
     }
 
     @NonNull

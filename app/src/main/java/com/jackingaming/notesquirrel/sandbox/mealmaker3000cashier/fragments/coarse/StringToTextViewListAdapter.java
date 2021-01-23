@@ -7,31 +7,30 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.R;
 
 import java.util.List;
 
-public class CoarseGrainControlsListAdapter extends BaseAdapter
+public class StringToTextViewListAdapter extends BaseAdapter
         implements ListAdapter {
 
     private Context context;
-    private List<String> menuItems;
+    private List<String> listItems;
 
-    public CoarseGrainControlsListAdapter(Context context, List<String> menuItems) {
+    public StringToTextViewListAdapter(Context context, List<String> listItems) {
         this.context = context;
-        this.menuItems = menuItems;
+        this.listItems = listItems;
     }
 
     @Override
     public int getCount() {
-        return menuItems.size();
+        return listItems.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return menuItems.get(position);
+        return listItems.get(position);
     }
 
     @Override
@@ -45,15 +44,7 @@ public class CoarseGrainControlsListAdapter extends BaseAdapter
 
         View view = inflater.inflate(R.layout.array_adapter_my_list_fragment, null);
         TextView textView = view.findViewById(R.id.text1);
-        textView.setText(menuItems.get(position));
-
-//        final int positionFinal = position;
-//        textView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(context, menuItems.get(positionFinal), Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        textView.setText(listItems.get(position));
 
         return view;
     }

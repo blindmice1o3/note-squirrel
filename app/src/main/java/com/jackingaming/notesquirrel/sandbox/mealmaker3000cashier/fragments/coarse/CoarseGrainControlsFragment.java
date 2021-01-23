@@ -27,8 +27,8 @@ public class CoarseGrainControlsFragment extends Fragment {
     }
     private OnFragmentInteractionListener listener;
 
-    private List<String> menuCategories;
-    private CoarseGrainControlsListAdapter coarseGrainControlsListAdapter;
+    private List<String> listItems;
+    private StringToTextViewListAdapter stringToTextViewListAdapter;
 
     public CoarseGrainControlsFragment() {
         // Required empty public constructor
@@ -38,16 +38,16 @@ public class CoarseGrainControlsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        menuCategories = new ArrayList<String>();
-        menuCategories.add("Breakfast");
-        menuCategories.add("Lunch & Dinner");
-        menuCategories.add("Snacks & Sides");
-        menuCategories.add("Drinks");
-        menuCategories.add("Kids & Extras");
-        menuCategories.add("Late Night Menu");
-        menuCategories.add("Brunch");
+        listItems = new ArrayList<String>();
+        listItems.add("Breakfast");
+        listItems.add("Lunch & Dinner");
+        listItems.add("Snacks & Sides");
+        listItems.add("Drinks");
+        listItems.add("Kids & Extras");
+        listItems.add("Late Night Menu");
+        listItems.add("Brunch");
 
-        coarseGrainControlsListAdapter = new CoarseGrainControlsListAdapter(getContext(), menuCategories);
+        stringToTextViewListAdapter = new StringToTextViewListAdapter(getContext(), listItems);
     }
 
     @Override
@@ -61,12 +61,12 @@ public class CoarseGrainControlsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         ListView listView = view.findViewById(R.id.listview_coarse_grain_controls);
-        listView.setAdapter(coarseGrainControlsListAdapter);
+        listView.setAdapter(stringToTextViewListAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(), menuCategories.get(position), Toast.LENGTH_SHORT).show();
-                listener.onCoarseGrainControlsFragmentListViewItemClicked(menuCategories.get(position));
+                Toast.makeText(getContext(), listItems.get(position), Toast.LENGTH_SHORT).show();
+                listener.onCoarseGrainControlsFragmentListViewItemClicked(listItems.get(position));
             }
         });
     }
