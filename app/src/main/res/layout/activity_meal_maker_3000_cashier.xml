@@ -7,22 +7,32 @@
     android:background="#00FF00"
     tools:context=".sandbox.mealmaker3000cashier.MealMaker3000CashierActivity">
 
-    <TextView
-        android:id="@+id/meal_staging_screen"
+    <FrameLayout
+        android:id="@+id/framelayout_mealmaker3000cashier_meal_staging_screen"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:hint="meal staging screen"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/button_mealmaker3000cashier_send_meal_request"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/framelayout_mealmaker3000cashier_fine_grain_controls"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_mealmaker3000cashier_send_meal_request"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Send Meal Request"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/framelayout_mealmaker3000cashier_fine_grain_controls"
+        app:layout_constraintTop_toBottomOf="@id/framelayout_mealmaker3000cashier_meal_staging_screen" />
 
     <FrameLayout
         android:id="@+id/framelayout_mealmaker3000cashier_fine_grain_controls"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/meal_staging_screen"
+        app:layout_constraintLeft_toRightOf="@id/framelayout_mealmaker3000cashier_meal_staging_screen"
         app:layout_constraintRight_toLeftOf="@id/framelayout_mealmaker3000cashier_course_grain_controls"
         app:layout_constraintTop_toTopOf="parent" />
 
