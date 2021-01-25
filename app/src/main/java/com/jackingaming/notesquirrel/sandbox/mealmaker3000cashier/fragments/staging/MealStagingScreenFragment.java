@@ -1,7 +1,9 @@
 package com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.staging;
 
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,7 +18,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.MealMaker3000CashierActivity;
 import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.coarse.StringToTextViewListAdapter;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +34,9 @@ public class MealStagingScreenFragment extends Fragment {
         void onMealStagingScreenFragmentListViewItemClicked(String menuItem);
     }
     private OnFragmentInteractionListener listener;
+
+    final private RestTemplate restTemplate = new RestTemplate();
+    final private ProgressDialog progressDialog = new ProgressDialog(getContext());
 
     private List<String> listItems;
     private StringToTextViewListAdapter stringToTextViewListAdapter;
@@ -92,5 +101,35 @@ public class MealStagingScreenFragment extends Fragment {
     public void removeMenuItem(String menuItem) {
         listItems.remove(menuItem);
         stringToTextViewListAdapter.notifyDataSetChanged();
+    }
+
+    public void uploadMealToRemoteRepository() {
+        AsyncTask<Void, Void, Void> uploadMealTask = new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                progressDialog.setMessage("Please wait... It is uploading");
+                progressDialog.setIndeterminate(false);
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+            }
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                String path = "/meal-maker-3000/checkout";
+                String url = MealMaker3000CashierActivity.IP_ADDRESS_REST_CONTROLLER + path;
+                restTemplate.postForObject(url, listItems, ResponseEntity.class);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                listItems.clear();
+                stringToTextViewListAdapter.notifyDataSetChanged();
+                progressDialog.hide();
+            }
+        };
+        uploadMealTask.execute();
     }
 }

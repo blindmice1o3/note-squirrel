@@ -21,6 +21,7 @@ public class MealMaker3000CashierActivity extends AppCompatActivity
         FineGrainControlsFragment.OnFragmentInteractionListener,
         MealStagingScreenFragment.OnFragmentInteractionListener {
 
+    public static final String IP_ADDRESS_REST_CONTROLLER = "http://143.110.230.163:8080";
     private static final String KEY_COUNTER_SAVED_INSTANCE_STATE = "counter";
 
     private FineGrainControlsFragment fineGrainControlsFragment;
