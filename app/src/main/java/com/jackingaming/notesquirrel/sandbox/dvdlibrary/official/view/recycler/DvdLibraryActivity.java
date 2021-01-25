@@ -241,9 +241,13 @@ public class DvdLibraryActivity extends AppCompatActivity
             @Override
             protected void onPostExecute(List<Dvd> dvdsUpdated) {
                 super.onPostExecute(dvdsUpdated);
-                dvds.clear();
-                dvds.addAll(dvdsUpdated);
-                adapterLibrary.notifyDataSetChanged();
+                if (dvdsUpdated != null) {
+                    dvds.clear();
+                    dvds.addAll(dvdsUpdated);
+                    adapterLibrary.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(DvdLibraryActivity.this, "RestClientException... server down?", Toast.LENGTH_SHORT).show();
+                }
 
                 progressDialog.hide();
             }
