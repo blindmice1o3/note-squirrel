@@ -51,8 +51,6 @@ public class AdapterBitmapRecyclerView extends RecyclerView.Adapter<AdapterBitma
     @Override
     public BitmapViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.imageview_recycler_item, parent, false);
-//        ImageView imageView = new ImageView(context);
-//        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         BitmapViewHolder bitmapViewHolder = new BitmapViewHolder(view);
         return bitmapViewHolder;
     }

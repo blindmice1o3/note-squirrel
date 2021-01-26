@@ -1,9 +1,11 @@
 package com.jackingaming.notesquirrel.sandbox.spritesheetverifier2;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
@@ -22,6 +25,8 @@ import java.util.List;
 public class SpriteSheetVerifier2Activity extends AppCompatActivity {
 
     private Bitmap[][] mRobotRSeries;
+
+    private List<Bitmap> userSelectedBitmaps = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +67,23 @@ public class SpriteSheetVerifier2Activity extends AppCompatActivity {
                 int row = position / columns;
                 int column = position % columns;
                 Toast.makeText(SpriteSheetVerifier2Activity.this, row + ", " + column, Toast.LENGTH_SHORT).show();
+
+                userSelectedBitmaps.add(mRobotRSeries[row][column]);
+
+                View viewContainingLinearLayout = getLayoutInflater().inflate(R.layout.review_user_selected_bitmaps_dialog, null);
+                for (int i = 0; i < userSelectedBitmaps.size(); i++) {
+                    ImageView imageView = new ImageView(SpriteSheetVerifier2Activity.this);
+                    imageView.setAdjustViewBounds(true);
+                    imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                    imageView.setImageBitmap(userSelectedBitmaps.get(i));
+
+                    LinearLayout linearLayout = viewContainingLinearLayout.findViewById((R.id.linearlayout_review_user_selected_bitmaps_dialog));
+                    linearLayout.addView(imageView);
+                }
+                Dialog reviewUserSelectedBitmapsDialog = new AlertDialog.Builder(SpriteSheetVerifier2Activity.this)
+                        .setView(viewContainingLinearLayout)
+                        .create();
+                reviewUserSelectedBitmapsDialog.show();
             }
         };
         AdapterBitmapRecyclerView adapterBitmapRecyclerView = new AdapterBitmapRecyclerView(this, dataSource, itemClickListener);
