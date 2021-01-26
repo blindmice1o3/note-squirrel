@@ -3,6 +3,7 @@ package com.jackingaming.notesquirrel.sandbox.spritesheetverifier2;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
@@ -63,30 +64,47 @@ public class SpriteSheetVerifier2Activity extends AppCompatActivity {
         recyclerView.setLayoutManager(new GridLayoutManager(this, columns));
         AdapterBitmapRecyclerView.ItemClickListener itemClickListener = new AdapterBitmapRecyclerView.ItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onItemClick(View view, int position, AdapterBitmapRecyclerView adapter) {
                 int row = position / columns;
                 int column = position % columns;
                 Toast.makeText(SpriteSheetVerifier2Activity.this, row + ", " + column, Toast.LENGTH_SHORT).show();
 
                 userSelectedBitmaps.add(mRobotRSeries[row][column]);
 
-                View viewContainingLinearLayout = getLayoutInflater().inflate(R.layout.review_user_selected_bitmaps_dialog, null);
-                for (int i = 0; i < userSelectedBitmaps.size(); i++) {
-                    ImageView imageView = new ImageView(SpriteSheetVerifier2Activity.this);
-                    imageView.setAdjustViewBounds(true);
-                    imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                    imageView.setImageBitmap(userSelectedBitmaps.get(i));
+//                View viewContainingLinearLayout = getLayoutInflater().inflate(R.layout.review_user_selected_bitmaps_dialog, null);
+//                for (int i = 0; i < userSelectedBitmaps.size(); i++) {
+//                    ImageView imageView = new ImageView(SpriteSheetVerifier2Activity.this);
+//                    imageView.setAdjustViewBounds(true);
+//                    imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+//                    imageView.setImageBitmap(userSelectedBitmaps.get(i));
+//
+//                    LinearLayout linearLayout = viewContainingLinearLayout.findViewById((R.id.linearlayout_review_user_selected_bitmaps_dialog));
+//                    linearLayout.addView(imageView);
+//                }
 
-                    LinearLayout linearLayout = viewContainingLinearLayout.findViewById((R.id.linearlayout_review_user_selected_bitmaps_dialog));
-                    linearLayout.addView(imageView);
-                }
+                View viewContainingRecyclerView = getLayoutInflater().inflate(R.layout.review_user_selected_bitmaps_dialog, null);
+                RecyclerView recyclerViewUserSelectedBitmaps = viewContainingRecyclerView.findViewById(R.id.recyclerview_review_user_selected_bitmaps_dialog);
+                recyclerViewUserSelectedBitmaps.setLayoutManager(new LinearLayoutManager(SpriteSheetVerifier2Activity.this, LinearLayoutManager.HORIZONTAL, false));
+                AdapterBitmapRecyclerView adapterUserSelectedBitmaps = new AdapterBitmapRecyclerView(
+                        SpriteSheetVerifier2Activity.this,
+                        userSelectedBitmaps,
+                        new AdapterBitmapRecyclerView.ItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position, AdapterBitmapRecyclerView adapter) {
+                                userSelectedBitmaps.remove(position);
+                                adapter.notifyDataSetChanged();
+                            }
+                        },
+                        AdapterBitmapRecyclerView.BoundBy.HEIGHT);
+                recyclerViewUserSelectedBitmaps.setAdapter(adapterUserSelectedBitmaps);
                 Dialog reviewUserSelectedBitmapsDialog = new AlertDialog.Builder(SpriteSheetVerifier2Activity.this)
-                        .setView(viewContainingLinearLayout)
+//                        .setView(viewContainingLinearLayout)
+                        .setView(viewContainingRecyclerView)
                         .create();
                 reviewUserSelectedBitmapsDialog.show();
             }
         };
-        AdapterBitmapRecyclerView adapterBitmapRecyclerView = new AdapterBitmapRecyclerView(this, dataSource, itemClickListener);
+        AdapterBitmapRecyclerView adapterBitmapRecyclerView = new AdapterBitmapRecyclerView(this, dataSource, itemClickListener, AdapterBitmapRecyclerView.BoundBy.WIDTH);
         recyclerView.setAdapter(adapterBitmapRecyclerView);
     }
 
