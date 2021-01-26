@@ -2,13 +2,15 @@ package com.jackingaming.notesquirrel.sandbox.spritesheetverifier2;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridLayout;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.jackingaming.notesquirrel.R;
 
 import java.util.List;
 
@@ -48,9 +50,10 @@ public class AdapterBitmapRecyclerView extends RecyclerView.Adapter<AdapterBitma
     @NonNull
     @Override
     public BitmapViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ImageView imageView = new ImageView(context);
-        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        BitmapViewHolder bitmapViewHolder = new BitmapViewHolder(imageView);
+        View view = LayoutInflater.from(context).inflate(R.layout.imageview_recycler_item, parent, false);
+//        ImageView imageView = new ImageView(context);
+//        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        BitmapViewHolder bitmapViewHolder = new BitmapViewHolder(view);
         return bitmapViewHolder;
     }
 
