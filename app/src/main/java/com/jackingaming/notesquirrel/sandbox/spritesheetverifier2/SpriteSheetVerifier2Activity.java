@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.animations.ImageViewAnimationRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +27,7 @@ import java.util.List;
 public class SpriteSheetVerifier2Activity extends AppCompatActivity {
 
     private Bitmap[][] mRobotRSeries;
-
+    private List<Bitmap> dataSource;
     private List<Bitmap> userSelectedBitmaps = new ArrayList<>();
 
     @Override
@@ -52,7 +54,7 @@ public class SpriteSheetVerifier2Activity extends AppCompatActivity {
             }
         }
 
-        List<Bitmap> dataSource = new ArrayList<>();
+        dataSource = new ArrayList<>();
         for (int row = 0; row < mRobotRSeries.length; row++) {
             for (int column = 0; column < mRobotRSeries[row].length; column++) {
                 dataSource.add(mRobotRSeries[row][column]);
@@ -68,7 +70,8 @@ public class SpriteSheetVerifier2Activity extends AppCompatActivity {
                 int column = position % columns;
                 Toast.makeText(SpriteSheetVerifier2Activity.this, row + ", " + column, Toast.LENGTH_SHORT).show();
 
-                userSelectedBitmaps.add(mRobotRSeries[row][column]);
+//                userSelectedBitmaps.add(mRobotRSeries[row][column]);
+                userSelectedBitmaps.add(dataSource.get(position));
 
                 View viewContainingRecyclerView = getLayoutInflater().inflate(R.layout.review_user_selected_bitmaps_dialog, null);
 
@@ -113,58 +116,38 @@ public class SpriteSheetVerifier2Activity extends AppCompatActivity {
     private void displayAnimationAlertDialog() {
         Log.d(MainActivity.DEBUG_TAG, "displayAnimationAlertDialog()");
         View viewContainingImageView = getLayoutInflater().inflate(R.layout.animation_user_selected_bitmaps_dialog, null);
-        ImageView imageView = viewContainingImageView.findViewById(R.id.imageview_animation);
+        final ImageView imageView = viewContainingImageView.findViewById(R.id.imageview_animation);
         imageView.setImageBitmap(userSelectedBitmaps.get(0));
+
+        boolean looping = true;
+        final ImageViewAnimationRunner runnable = new ImageViewAnimationRunner(looping, userSelectedBitmaps, imageView);
+        final Thread threadAnimationRunner = new Thread(runnable);
 
         AlertDialog animationDialog = new AlertDialog.Builder(this)
                 .setView(viewContainingImageView)
                 .create();
-        animationDialog.show();
-        Log.d(MainActivity.DEBUG_TAG, "displayAnimationAlertDialog()... after calling animationDialog's \"show()\"");
 
-        runAnimation(imageView);
-    }
-
-    private void runAnimation(final ImageView imageView) {
-        Log.d(MainActivity.DEBUG_TAG, "runAnimation(ImageView)");
-        Runnable runnable = new Runnable() {
+        animationDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
-            public void run() {
-                int index = 0;
-                int speed = 3_000;
-                long lastTime = System.currentTimeMillis();
-                long timer = 0L;
+            public void onShow(DialogInterface dialog) {
+                threadAnimationRunner.start();
+            }
+        });
 
-                while (true) {
-                    long now = System.currentTimeMillis();
-                    long elapsed = now - lastTime;
-
-                    timer += elapsed;
-
-                    Log.d(MainActivity.DEBUG_TAG, "timer: " + timer);
-                    if (timer > speed) {
-                        index++;
-                        timer = 0;
-
-                        if (index >= userSelectedBitmaps.size()) {
-                            index = 0;
-                        }
-
-                        Log.d(MainActivity.DEBUG_TAG, "WHILE LOOP index: " + index);
-                        imageView.setImageBitmap(userSelectedBitmaps.get(index));
-                    }
-
-                    try {
-                        Thread.sleep(300L);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+        animationDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                try {
+                    Toast.makeText(SpriteSheetVerifier2Activity.this, "animationDialog's OnDismissListener.onDismission() about to call threadAnimationRunner.join()", Toast.LENGTH_SHORT).show();
+                    runnable.shutdown();
+                    threadAnimationRunner.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
-        };
+        });
 
-        Thread thread = new Thread(runnable);
-        thread.start();
+        animationDialog.show();
     }
 
     @Override
