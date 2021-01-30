@@ -10,18 +10,20 @@ import java.util.List;
 
 public class ImageViewAnimationRunner implements Runnable {
 
-    private boolean looping;
-    private List<Bitmap> userSelectedBitmaps;
-    private ImageView imageView;
+    private volatile boolean running;
 
-    public ImageViewAnimationRunner(boolean looping, List<Bitmap> userSelectedBitmaps, ImageView imageView) {
-        this.looping = looping;
-        this.userSelectedBitmaps = userSelectedBitmaps;
+    private ImageView imageView;
+    private List<Bitmap> userSelectedBitmaps;
+
+    public ImageViewAnimationRunner(ImageView imageView, List<Bitmap> userSelectedBitmaps) {
+        this.running = false;
+
         this.imageView = imageView;
+        this.userSelectedBitmaps = userSelectedBitmaps;
     }
 
     public void shutdown() {
-        looping = false;
+        running = false;
     }
 
     @Override
@@ -31,7 +33,8 @@ public class ImageViewAnimationRunner implements Runnable {
         long lastTime = System.currentTimeMillis();
         long timer = 0L;
 
-        while (looping) {
+        running = true;
+        while (running) {
             long now = System.currentTimeMillis();
             long elapsed = now - lastTime;
 

@@ -1,5 +1,6 @@
 package com.jackingaming.notesquirrel.sandbox.spritesheetverifier2;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -8,10 +9,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -20,6 +24,7 @@ import android.widget.Toast;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.animations.ImageViewAnimationRunner;
+import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.tinker.DragAndDropActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,8 +80,8 @@ public class SpriteSheetVerifier2Activity extends AppCompatActivity {
 
                 View viewContainingRecyclerView = getLayoutInflater().inflate(R.layout.review_user_selected_bitmaps_dialog, null);
 
-                Button buttonJackIn = viewContainingRecyclerView.findViewById(R.id.button_review_user_selected_bitmaps_dialog);
-                buttonJackIn.setOnClickListener(new View.OnClickListener() {
+                Button buttonAnimate = viewContainingRecyclerView.findViewById(R.id.button_review_user_selected_bitmaps_dialog);
+                buttonAnimate.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (userSelectedBitmaps.size() > 0) {
@@ -119,8 +124,7 @@ public class SpriteSheetVerifier2Activity extends AppCompatActivity {
         final ImageView imageView = viewContainingImageView.findViewById(R.id.imageview_animation);
         imageView.setImageBitmap(userSelectedBitmaps.get(0));
 
-        boolean looping = true;
-        final ImageViewAnimationRunner runnable = new ImageViewAnimationRunner(looping, userSelectedBitmaps, imageView);
+        final ImageViewAnimationRunner runnable = new ImageViewAnimationRunner(imageView, userSelectedBitmaps);
         final Thread threadAnimationRunner = new Thread(runnable);
 
         AlertDialog animationDialog = new AlertDialog.Builder(this)
@@ -156,4 +160,21 @@ public class SpriteSheetVerifier2Activity extends AppCompatActivity {
         Log.d(MainActivity.DEBUG_TAG, "SpriteSheetVerifier2Activity.onStart()");
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.options_menu_activity_sprite_sheet_verifier2, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_drag_and_drop:
+                Intent intentDragAndDrop = new Intent(this, DragAndDropActivity.class);
+                startActivity(intentDragAndDrop);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }
