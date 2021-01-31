@@ -8,14 +8,22 @@
     tools:context=".sandbox.mealmaker3000cashier.MealMaker3000CashierActivity">
 
     <FrameLayout
+        android:id="@+id/framelayout_mealmaker3000cashier_customer_simulator"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toTopOf="@id/framelayout_mealmaker3000cashier_meal_staging_screen"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
         android:id="@+id/framelayout_mealmaker3000cashier_meal_staging_screen"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:hint="meal staging screen"
         app:layout_constraintBottom_toTopOf="@id/button_mealmaker3000cashier_send_meal_request"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/framelayout_mealmaker3000cashier_fine_grain_controls"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/framelayout_mealmaker3000cashier_customer_simulator" />
 
     <Button
         android:id="@+id/button_mealmaker3000cashier_send_meal_request"
@@ -30,19 +38,19 @@
     <FrameLayout
         android:id="@+id/framelayout_mealmaker3000cashier_fine_grain_controls"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/framelayout_mealmaker3000cashier_meal_staging_screen"
         app:layout_constraintRight_toLeftOf="@id/framelayout_mealmaker3000cashier_course_grain_controls"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/framelayout_mealmaker3000cashier_customer_simulator" />
 
     <FrameLayout
         android:id="@+id/framelayout_mealmaker3000cashier_course_grain_controls"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/framelayout_mealmaker3000cashier_fine_grain_controls"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/framelayout_mealmaker3000cashier_customer_simulator" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

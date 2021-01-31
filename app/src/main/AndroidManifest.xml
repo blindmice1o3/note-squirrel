@@ -40,6 +40,7 @@
         <activity android:name=".sandbox.countzero.CountZeroActivity" />
         <activity
             android:name=".sandbox.mealmaker3000cashier.MealMaker3000CashierActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
             android:screenOrientation="landscape" />
         <activity android:name=".gameboycolor.gamecartridges.base.items.BackpackActivity" />
         <activity android:name=".gameboycolor.gamecartridges.derived.pocketcritters.computer.ComputerActivity" />

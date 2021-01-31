@@ -14,6 +14,7 @@ import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.coarse.CoarseGrainControlsFragment;
 import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.fine.FineGrainControlsFragment;
+import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.simulator.CustomerSimulatorFragment;
 import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.fragments.staging.MealStagingScreenFragment;
 
 public class MealMaker3000CashierActivity extends AppCompatActivity
@@ -24,6 +25,7 @@ public class MealMaker3000CashierActivity extends AppCompatActivity
     public static final String IP_ADDRESS_REST_CONTROLLER = "http://143.110.230.163:8080";
     private static final String KEY_COUNTER_SAVED_INSTANCE_STATE = "counter";
 
+    private CustomerSimulatorFragment customerSimulatorFragment;
     private FineGrainControlsFragment fineGrainControlsFragment;
     private CoarseGrainControlsFragment coarseGrainControlsFragment;
     private MealStagingScreenFragment mealStagingScreenFragment;
@@ -37,12 +39,14 @@ public class MealMaker3000CashierActivity extends AppCompatActivity
         Log.d(MainActivity.DEBUG_TAG, "MealMaker3000CashierActivity.onCreate(Bundle)");
         setContentView(R.layout.activity_meal_maker_3000_cashier);
 
+        customerSimulatorFragment = new CustomerSimulatorFragment();
         fineGrainControlsFragment = new FineGrainControlsFragment();
         coarseGrainControlsFragment = new CoarseGrainControlsFragment();
         mealStagingScreenFragment = new MealStagingScreenFragment();
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.setReorderingAllowed(true);
+        fragmentTransaction.add(R.id.framelayout_mealmaker3000cashier_customer_simulator, customerSimulatorFragment, CustomerSimulatorFragment.TAG);
         fragmentTransaction.add(R.id.framelayout_mealmaker3000cashier_fine_grain_controls, fineGrainControlsFragment, FineGrainControlsFragment.TAG);
         fragmentTransaction.add(R.id.framelayout_mealmaker3000cashier_course_grain_controls, coarseGrainControlsFragment, CoarseGrainControlsFragment.TAG);
         fragmentTransaction.add(R.id.framelayout_mealmaker3000cashier_meal_staging_screen, mealStagingScreenFragment, MealStagingScreenFragment.TAG);
