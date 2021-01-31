@@ -45,11 +45,17 @@ public class AdapterStringRecyclerView extends RecyclerView.Adapter<AdapterStrin
         this.itemClickListener = itemClickListener;
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        int viewType = (position != 1) ? (R.layout.textview_adapter_recyclerview) : (R.layout.textview_bold_adapter_recyclerview);
+        return viewType;
+    }
+
     @NonNull
     @Override
     public StringViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         TextView textView = (TextView) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.textview_adapter_recyclerview, parent, false);
+                .inflate(viewType, parent, false);
         StringViewHolder viewHolder = new StringViewHolder(textView);
         return viewHolder;
     }

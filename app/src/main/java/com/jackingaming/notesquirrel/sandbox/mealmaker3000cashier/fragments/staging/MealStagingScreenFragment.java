@@ -36,7 +36,7 @@ public class MealStagingScreenFragment extends Fragment {
     private OnFragmentInteractionListener listener;
 
     final private RestTemplate restTemplate = new RestTemplate();
-    final private ProgressDialog progressDialog = new ProgressDialog(getContext());
+    private ProgressDialog progressDialog;
 
     private List<String> listItems;
     private StringToTextViewListAdapter stringToTextViewListAdapter;
@@ -48,6 +48,8 @@ public class MealStagingScreenFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        progressDialog = new ProgressDialog(getContext());
 
         listItems = new ArrayList<String>();
         listItems.add("Peanut Butter & Jelly Sandwich");
