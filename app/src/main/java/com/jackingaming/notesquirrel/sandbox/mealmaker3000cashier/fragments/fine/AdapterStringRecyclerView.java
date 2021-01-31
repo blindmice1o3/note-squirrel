@@ -21,15 +21,19 @@ public class AdapterStringRecyclerView extends RecyclerView.Adapter<AdapterStrin
 
     private List<String> dataSource;
 
-    public class StringViewHolder extends RecyclerView.ViewHolder
+    class StringViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
 
-        public TextView textView;
+        private TextView textView;
 
         public StringViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.textView = (TextView) itemView;
+            textView = (TextView) itemView;
             textView.setOnClickListener(this);
+        }
+
+        public void bindData(String viewModel) {
+            textView.setText(viewModel);
         }
 
         @Override
@@ -62,7 +66,7 @@ public class AdapterStringRecyclerView extends RecyclerView.Adapter<AdapterStrin
 
     @Override
     public void onBindViewHolder(@NonNull StringViewHolder holder, int position) {
-        holder.textView.setText(dataSource.get(position));
+        holder.bindData(dataSource.get(position));
     }
 
     @Override
