@@ -51,7 +51,12 @@ public class AdapterStringRecyclerView extends RecyclerView.Adapter<AdapterStrin
 
     @Override
     public int getItemViewType(int position) {
-        int viewType = (position != 1) ? (R.layout.textview_adapter_recyclerview) : (R.layout.textview_bold_adapter_recyclerview);
+        int viewType = 0;
+        if (dataSource.get(position).equals("EMPTY")) {
+            viewType = R.layout.textview_bold_adapter_recyclerview;
+        } else {
+            viewType = R.layout.textview_adapter_recyclerview;
+        }
         return viewType;
     }
 
