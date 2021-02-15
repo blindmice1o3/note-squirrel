@@ -36,6 +36,14 @@
     <string name="password_image">Password Image</string>
     <string name="storing_data">Storing passpoints...</string>
 
+    <!-- fragment_welcome_screen -->
+    <string-array name="game_titles">
+        <item>Pocket Critters</item>
+        <item>Pooh Farmer</item>
+        <item>Pong</item>
+        <item>Frogger</item>
+    </string-array>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
