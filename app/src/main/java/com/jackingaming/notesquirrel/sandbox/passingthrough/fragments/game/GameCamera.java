@@ -143,12 +143,4 @@ public class GameCamera
     public float getHeightPixelToViewportRatio() {
         return heightPixelToViewportRatio;
     }
-
-    public void setWidthScene(int widthScene) {
-        this.widthScene = widthScene;
-    }
-
-    public void setHeightScene(int heightScene) {
-        this.heightScene = heightScene;
-    }
 }

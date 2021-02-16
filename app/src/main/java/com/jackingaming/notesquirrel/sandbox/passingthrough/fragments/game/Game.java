@@ -55,8 +55,6 @@ public class Game {
 
     private TimeManager timeManager;
     private SceneManager sceneManager;
-//    private Scene scene;
-    private GameCamera gameCamera;
 
     /**
      * Displayed in StatsDisplayerFragment through Game.StatsChangeListener.onCurrencyChange(int currency).
@@ -81,9 +79,6 @@ public class Game {
 
         timeManager = new TimeManager();
         sceneManager = new SceneManager();
-//        scene = SceneWorldMapPart01.getInstance();
-//        scene = SceneHome01.getInstance();
-        gameCamera = GameCamera.getInstance();
 
         currency = 0;
 
@@ -112,8 +107,6 @@ public class Game {
 
         timeManager.init(this, statsChangeListener);
         sceneManager.init(this);
-        gameCamera.init(Player.getInstance(), widthViewport, heightViewport,
-                sceneManager.getCurrentScene().getTileManager().getWidthScene(), sceneManager.getCurrentScene().getTileManager().getHeightScene());
 
         for (Item item : backpack) {
             item.init(this);
@@ -166,6 +159,9 @@ public class Game {
             loadViaOS(widthViewport, heightViewport);
             loadNeeded = false;
         }
+
+        GameCamera.getInstance().init(Player.getInstance(), widthViewport, heightViewport,
+                sceneManager.getCurrentScene().getTileManager().getWidthScene(), sceneManager.getCurrentScene().getTileManager().getHeightScene());
     }
 
     private String savedFileViaOSFileName = "savedFileViaOS" + getClass().getSimpleName() + ".ser";
@@ -185,7 +181,7 @@ public class Game {
 
             os.writeObject(timeManager);
             os.writeObject(sceneManager);
-            os.writeObject(gameCamera);
+//            os.writeObject(gameCamera);
             os.writeInt(currency);
 
             os.writeObject(backpack);
@@ -230,11 +226,10 @@ public class Game {
             sceneManager = (SceneManager) os.readObject();
             sceneManager.init(this);
 
-            gameCamera = (GameCamera) os.readObject();
-            gameCamera.init(Player.getInstance(), widthViewport, heightViewport,
-                    sceneManager.getCurrentScene().getTileManager().getWidthScene(),
-                    sceneManager.getCurrentScene().getTileManager().getHeightScene());
-//            gameCamera.restore(Player.getInstance(), widthViewport, heightViewport);
+//            gameCamera = (GameCamera) os.readObject();
+//            gameCamera.init(Player.getInstance(), widthViewport, heightViewport,
+//                    sceneManager.getCurrentScene().getTileManager().getWidthScene(),
+//                    sceneManager.getCurrentScene().getTileManager().getHeightScene());
 
             currency = os.readInt();
             statsChangeListener.onCurrencyChange(currency);
@@ -286,7 +281,7 @@ public class Game {
         }
         timeManager.update(elapsed);
         sceneManager.update(elapsed);
-        gameCamera.update(elapsed);
+        GameCamera.getInstance().update(elapsed);
     }
 
     public void draw() {
@@ -431,10 +426,6 @@ public class Game {
 
     public SceneManager getSceneManager() {
         return sceneManager;
-    }
-
-    public GameCamera getGameCamera() {
-        return gameCamera;
     }
 
     public void setLoadNeeded(boolean loadNeeded) {

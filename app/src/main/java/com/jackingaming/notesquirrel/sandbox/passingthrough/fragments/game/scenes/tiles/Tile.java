@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.GameCamera;
 
 import java.io.Serializable;
 
@@ -36,10 +37,10 @@ public class Tile
         if (image != null) {
             Rect rectOfImage = new Rect(0, 0, image.getWidth(), image.getHeight());
             Rect rectOnScreen = new Rect(
-                    (int) (((xIndex * Tile.WIDTH) - game.getGameCamera().getX()) * game.getGameCamera().getWidthPixelToViewportRatio()),
-                    (int) (((yIndex * Tile.HEIGHT) - game.getGameCamera().getY()) * game.getGameCamera().getHeightPixelToViewportRatio()),
-                    (int) ((((xIndex * Tile.WIDTH) + Tile.WIDTH) - game.getGameCamera().getX()) * game.getGameCamera().getWidthPixelToViewportRatio()),
-                    (int) ((((yIndex * Tile.HEIGHT) + Tile.HEIGHT) - game.getGameCamera().getY()) * game.getGameCamera().getHeightPixelToViewportRatio()));
+                    (int) (((xIndex * Tile.WIDTH) - GameCamera.getInstance().getX()) * GameCamera.getInstance().getWidthPixelToViewportRatio()),
+                    (int) (((yIndex * Tile.HEIGHT) - GameCamera.getInstance().getY()) * GameCamera.getInstance().getHeightPixelToViewportRatio()),
+                    (int) ((((xIndex * Tile.WIDTH) + Tile.WIDTH) - GameCamera.getInstance().getX()) * GameCamera.getInstance().getWidthPixelToViewportRatio()),
+                    (int) ((((yIndex * Tile.HEIGHT) + Tile.HEIGHT) - GameCamera.getInstance().getY()) * GameCamera.getInstance().getHeightPixelToViewportRatio()));
             canvas.drawBitmap(image, rectOfImage, rectOnScreen, null);
         }
     }

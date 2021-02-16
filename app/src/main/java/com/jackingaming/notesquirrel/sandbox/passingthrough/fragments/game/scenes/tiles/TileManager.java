@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.GameCamera;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -80,12 +81,12 @@ public class TileManager
         ////////////////////////////////////////////////////////////////////////////////////////////
         int columns = tiles[0].length;
         int rows = tiles.length;
-        int xStart = (int)Math.max(0, game.getGameCamera().getX() / Tile.WIDTH);
-        int xEnd = (int)Math.min(columns, ((game.getGameCamera().getX() +
-                game.getGameCamera().getClipWidthInPixel()) / Tile.WIDTH) + 2);     //+2 fixes visual glitch.
-        int yStart = (int)Math.max(0, game.getGameCamera().getY() / Tile.HEIGHT);
-        int yEnd = (int)Math.min(rows, ((game.getGameCamera().getY() +
-                game.getGameCamera().getClipHeightInPixel()) / Tile.HEIGHT) + 2);   //+2 fixes visual glitch.
+        int xStart = (int)Math.max(0, GameCamera.getInstance().getX() / Tile.WIDTH);
+        int xEnd = (int)Math.min(columns, ((GameCamera.getInstance().getX() +
+                GameCamera.getInstance().getClipWidthInPixel()) / Tile.WIDTH) + 2);     //+2 fixes visual glitch.
+        int yStart = (int)Math.max(0, GameCamera.getInstance().getY() / Tile.HEIGHT);
+        int yEnd = (int)Math.min(rows, ((GameCamera.getInstance().getY() +
+                GameCamera.getInstance().getClipHeightInPixel()) / Tile.HEIGHT) + 2);   //+2 fixes visual glitch.
         ////////////////////////////////////////////////////////////////////////////////////////////
         // RENDERING EFFICIENCY from youtube's CodeNMore NEW Beginner 2D Game Programming series. //
         ////////////////////////////////////////////////////////////////////////////////////////////
