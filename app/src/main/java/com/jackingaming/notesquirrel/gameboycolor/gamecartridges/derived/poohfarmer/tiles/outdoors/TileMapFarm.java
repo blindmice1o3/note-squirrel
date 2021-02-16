@@ -72,7 +72,7 @@ public class TileMapFarm extends TileMap {
     @Override
     protected void initSourceFile(Resources resources) {
         //image-source-file of the farm's tiles stored as pixels.
-        rgbTileMap = BitmapFactory.decodeResource(resources, R.drawable.tile_map_farm);;
+        rgbTileMap = BitmapFactory.decodeResource(resources, R.drawable.tile_map_farm);
     }
 
     @Override

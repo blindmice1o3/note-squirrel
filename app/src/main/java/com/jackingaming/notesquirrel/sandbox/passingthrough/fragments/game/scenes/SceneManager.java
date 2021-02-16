@@ -78,6 +78,8 @@ public class SceneManager
         } else if (getCurrentScene() instanceof SceneHome02) {
             if (idOfCollidedTransferPoint.equals("HOME_01")) {
                 pop();
+            } else if (idOfCollidedTransferPoint.equals("FARM")) {
+                push(SceneFarm.getInstance());
             }
         } else if (getCurrentScene() instanceof SceneHomeRival) {
             if (idOfCollidedTransferPoint.equals("PART_01")) {

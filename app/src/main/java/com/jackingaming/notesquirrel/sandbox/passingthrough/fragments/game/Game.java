@@ -17,7 +17,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.adapters.ItemRecyclerViewAdapter;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.SceneFarm;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.SceneHome02;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.SceneManager;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.SceneWorldMapPart01;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Creature;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Player;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.BugCatchingNet;
@@ -389,7 +392,13 @@ public class Game {
         // TODO: suppose to execute() the item stored in itemStoredInButtonHolderA.
 
         // TODO: currently using to test picking up item.
-        Player.getInstance().doCheckItemCollisionViaClick();
+        if (sceneManager.getCurrentScene() instanceof SceneWorldMapPart01) {
+            Player.getInstance().doCheckItemCollisionViaClick();
+        } else if (sceneManager.getCurrentScene() instanceof SceneHome02) {
+            if (Player.getInstance().checkTileCurrentlyFacing().getId().equals("5")) {
+                sceneManager.changeScene("FARM");
+            }
+        }
 
         // TODO: leads to buggy save/load between gameCamera and scene's tiles.
 //        int doubleClipWidthInTile = 2 * gameCamera.getClipWidthInTile();
@@ -404,6 +413,14 @@ public class Game {
             return;
         }
         // TODO: suppose to execute() the item stored in itemStoredInButtonHolderB.
+
+        // TODO: currently using to test Player's checkTileCurrentlyFacing().
+        String idTileCurrentlyFacing = Player.getInstance().checkTileCurrentlyFacing().getId();
+        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".doJustPressedButtonB() idTileCurrentlyFacing: " + idTileCurrentlyFacing);
+
+        if (sceneManager.getCurrentScene() instanceof SceneFarm) {
+            sceneManager.pop();
+        }
 
         // TODO: leads to buggy save/load between gameCamera and scene's tiles.
 //        int halfClipWidthInTile = gameCamera.getClipWidthInTile() / 2;

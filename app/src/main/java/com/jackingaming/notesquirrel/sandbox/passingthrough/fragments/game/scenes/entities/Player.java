@@ -143,4 +143,45 @@ public class Player extends Creature {
 
         checkItemCollision(xOffset, yOffset, true);
     }
+
+    public Tile checkTileCurrentlyFacing() {
+        Tile[][] tiles = game.getSceneManager().getCurrentScene().getTileManager().getTiles();
+
+        int xIndex = (int)(x / Tile.WIDTH);
+        int yIndex = (int)(y / Tile.HEIGHT);
+        switch (direction) {
+            case UP:
+                yIndex = yIndex - 1;
+                break;
+            case DOWN:
+                yIndex = yIndex + 1;
+                break;
+            case LEFT:
+                xIndex = xIndex - 1;
+                break;
+            case RIGHT:
+                xIndex = xIndex + 1;
+                break;
+            case UP_LEFT:
+                xIndex = xIndex - 1;
+                yIndex = yIndex - 1;
+                break;
+            case UP_RIGHT:
+                xIndex = xIndex + 1;
+                yIndex = yIndex - 1;
+                break;
+            case DOWN_LEFT:
+                xIndex = xIndex - 1;
+                yIndex = yIndex + 1;
+                break;
+            case DOWN_RIGHT:
+                xIndex = xIndex + 1;
+                yIndex = yIndex + 1;
+                break;
+            default:
+                return null;
+        }
+
+        return tiles[yIndex][xIndex];
+    }
 }
