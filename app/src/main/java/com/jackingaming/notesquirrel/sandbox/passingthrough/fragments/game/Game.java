@@ -4,10 +4,12 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -207,16 +209,31 @@ public class Game {
         };
         itemRecyclerViewAdapter.setClickListener(itemClickListener);
 
-        View viewContainingRecyclerView = LayoutInflater.from(context).inflate(R.layout.view_cart_recyclerview, null);
-        RecyclerView recyclerView = (RecyclerView) viewContainingRecyclerView.findViewById(R.id.recyclerview_view_cart);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(seedShopRecyclerViewAdapter);
-        int numberOfColumns = 4;
-        recyclerView.setLayoutManager(new GridLayoutManager(context, numberOfColumns));
+//        View viewContainingRecyclerView = LayoutInflater.from(context).inflate(R.layout.view_cart_recyclerview, null);
+        Bitmap seedShopSpriteSheet = BitmapFactory.decodeResource(context.getResources(), R.drawable.gbc_hm_seeds_shop);
+        Bitmap seedShopMainBackgroundImage = Bitmap.createBitmap(seedShopSpriteSheet, 31, 14, 160, 104);
+        View viewContainingSeedShop = LayoutInflater.from(context).inflate(R.layout.dialog_seed_shop, null);
+        ImageView imageViewMain = (ImageView) viewContainingSeedShop.findViewById(R.id.imageview_seed_shop_main_background);
+        imageViewMain.setImageBitmap(seedShopMainBackgroundImage);
+        ImageView imageViewItemHolder01 = (ImageView) viewContainingSeedShop.findViewById(R.id.imageview_seed_shop_item_holder_01);
+        imageViewItemHolder01.setImageBitmap(seedShopInventory.get(0).getImage());
+        ImageView imageViewItemHolder02 = (ImageView) viewContainingSeedShop.findViewById(R.id.imageview_seed_shop_item_holder_02);
+        imageViewItemHolder02.setImageBitmap(seedShopInventory.get(1).getImage());
+        ImageView imageViewItemHolder03 = (ImageView) viewContainingSeedShop.findViewById(R.id.imageview_seed_shop_item_holder_03);
+        imageViewItemHolder03.setImageBitmap(seedShopInventory.get(2).getImage());
+        ImageView imageViewItemHolder04 = (ImageView) viewContainingSeedShop.findViewById(R.id.imageview_seed_shop_item_holder_04);
+        imageViewItemHolder04.setImageBitmap(seedShopInventory.get(3).getImage());
+        ImageView imageViewItemHolder05 = (ImageView) viewContainingSeedShop.findViewById(R.id.imageview_seed_shop_item_holder_05);
+        imageViewItemHolder05.setImageBitmap(seedShopInventory.get(4).getImage());
+
+//        RecyclerView recyclerView = (RecyclerView) viewContainingRecyclerView.findViewById(R.id.recyclerview_view_cart);
+//        recyclerView.setHasFixedSize(true);
+//        recyclerView.setAdapter(seedShopRecyclerViewAdapter);
+//        int numberOfColumns = 4;
+//        recyclerView.setLayoutManager(new GridLayoutManager(context, numberOfColumns));
 
         seedShopDialog = new AlertDialog.Builder(context)
-                .setTitle("Seed Shop")
-                .setView(viewContainingRecyclerView)
+                .setView(viewContainingSeedShop)
                 .create();
         seedShopDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
