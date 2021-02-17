@@ -16,11 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.PassingThroughActivity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.adapters.ItemRecyclerViewAdapter;
-import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.SceneFarm;
-import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.SceneHome02;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.HoneyPot;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.poohfarmer.SceneFarm;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.pocketcritters.SceneHome02;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.SceneManager;
-import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.SceneWorldMapPart01;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.pocketcritters.SceneWorldMapPart01;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Creature;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Player;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.BugCatchingNet;
@@ -70,12 +72,17 @@ public class Game {
     private ItemRecyclerViewAdapter itemRecyclerViewAdapter;
     private Dialog backpackDialog;
 
+    private List<Item> seedShopInventory;
+    private ItemRecyclerViewAdapter seedShopRecyclerViewAdapter;
+    private Dialog seedShopDialog;
+
     private Item itemStoredInButtonHolderA;
     private Item itemStoredInButtonHolderB;
     private StatsDisplayerFragment.ButtonHolder buttonHolderCurrentlySelected;
 
     private boolean paused;
     private boolean inBackpackDialogState;
+    private boolean inSeedShopDialogState;
 
     public Game() {
         loadNeeded = false;
@@ -90,12 +97,22 @@ public class Game {
         backpack.add(new Shovel());
         backpackWithoutItemsDisplayingInButtonHolders = new ArrayList<Item>();
 
+        seedShopInventory = new ArrayList<Item>();
+        seedShopInventory.add(new BugCatchingNet());
+        seedShopInventory.add(new HoneyPot());
+        seedShopInventory.add(new BugCatchingNet());
+        seedShopInventory.add(new BugCatchingNet());
+        seedShopInventory.add(new BugCatchingNet());
+        seedShopInventory.add(new HoneyPot());
+        seedShopInventory.add(new BugCatchingNet());
+
         itemStoredInButtonHolderA = null;
         itemStoredInButtonHolderB = null;
         buttonHolderCurrentlySelected = StatsDisplayerFragment.ButtonHolder.A;
 
         paused = false;
         inBackpackDialogState = false;
+        inSeedShopDialogState = false;
     }
 
     public void addItemToBackpack(Item item) {
@@ -115,12 +132,30 @@ public class Game {
             item.init(this);
         }
 
+        for (Item item : seedShopInventory) {
+            item.init(this);
+        }
+
+        createBackpackDialog();
+
+        createSeedShopDialog();
+
+        if (loadNeeded) {
+            loadViaOS(widthViewport, heightViewport);
+            loadNeeded = false;
+        }
+
+        GameCamera.getInstance().init(Player.getInstance(), widthViewport, heightViewport,
+                sceneManager.getCurrentScene().getTileManager().getWidthScene(), sceneManager.getCurrentScene().getTileManager().getHeightScene());
+    }
+
+    private void createBackpackDialog() {
         final Context contextFinal = context;
         itemRecyclerViewAdapter = new ItemRecyclerViewAdapter(context, backpackWithoutItemsDisplayingInButtonHolders);
         ItemRecyclerViewAdapter.ItemClickListener itemClickListener = new ItemRecyclerViewAdapter.ItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(contextFinal, "Game() constructor ItemRecyclerViewAdapter.ItemClickListener.onItemClick(View view, int position): " + backpack.get(position), Toast.LENGTH_SHORT).show();
+                Toast.makeText(contextFinal, "Game.createBackpackDialog() ItemRecyclerViewAdapter.ItemClickListener.onItemClick(View view, int position): " + backpack.get(position), Toast.LENGTH_SHORT).show();
 
                 Item item = backpackWithoutItemsDisplayingInButtonHolders.get(position);
                 switch (buttonHolderCurrentlySelected) {
@@ -157,14 +192,50 @@ public class Game {
                 inBackpackDialogState = false;
             }
         });
+    }
 
-        if (loadNeeded) {
-            loadViaOS(widthViewport, heightViewport);
-            loadNeeded = false;
-        }
+    private void createSeedShopDialog() {
+        final Context contextFinal = context;
+        seedShopRecyclerViewAdapter = new ItemRecyclerViewAdapter(context, seedShopInventory);
+        ItemRecyclerViewAdapter.ItemClickListener itemClickListener = new ItemRecyclerViewAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Toast.makeText(contextFinal, "Game.createSeedShopDialog() ItemRecyclerViewAdapter.ItemClickListener.onItemClick(View view, int position): " + backpack.get(position), Toast.LENGTH_SHORT).show();
+                // TODO: buy/sell transactions.
+//                Item item = seedShopInventory.get(position);
+            }
+        };
+        itemRecyclerViewAdapter.setClickListener(itemClickListener);
 
-        GameCamera.getInstance().init(Player.getInstance(), widthViewport, heightViewport,
-                sceneManager.getCurrentScene().getTileManager().getWidthScene(), sceneManager.getCurrentScene().getTileManager().getHeightScene());
+        View viewContainingRecyclerView = LayoutInflater.from(context).inflate(R.layout.view_cart_recyclerview, null);
+        RecyclerView recyclerView = (RecyclerView) viewContainingRecyclerView.findViewById(R.id.recyclerview_view_cart);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(seedShopRecyclerViewAdapter);
+        int numberOfColumns = 4;
+        recyclerView.setLayoutManager(new GridLayoutManager(context, numberOfColumns));
+
+        seedShopDialog = new AlertDialog.Builder(context)
+                .setTitle("Seed Shop")
+                .setView(viewContainingRecyclerView)
+                .create();
+        seedShopDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                paused = false;
+                inSeedShopDialogState = false;
+            }
+        });
+    }
+
+    public void showSeedShopDialog() {
+        paused = true;
+        inSeedShopDialogState = true;
+        ((PassingThroughActivity)context).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                seedShopDialog.show();
+            }
+        });
     }
 
     private String savedFileViaOSFileName = "savedFileViaOS" + getClass().getSimpleName() + ".ser";
@@ -191,6 +262,8 @@ public class Game {
             refreshBackpackWithoutItemsDisplayingButtonHolders();
             os.writeObject(backpackWithoutItemsDisplayingInButtonHolders);
 
+            os.writeObject(seedShopInventory);
+
             boolean emptyItemStoredInButtonHolderA = (itemStoredInButtonHolderA == null);
             os.writeBoolean(emptyItemStoredInButtonHolderA);
             if (!emptyItemStoredInButtonHolderA) {
@@ -210,6 +283,11 @@ public class Game {
             if (inBackpackDialogState) {
                 // If Dialog is open during an emergency shutdown, dismiss Dialog to prevent Exception.
                 backpackDialog.dismiss();
+            }
+            os.writeBoolean(inSeedShopDialogState);
+            if (inSeedShopDialogState) {
+                // If Dialog is open during an emergency shutdown, dismiss Dialog to prevent Exception.
+                seedShopDialog.dismiss();
             }
 
         } catch (FileNotFoundException e) {
@@ -247,6 +325,11 @@ public class Game {
             }
             itemRecyclerViewAdapter.setBackpack(backpackWithoutItemsDisplayingInButtonHolders);
 
+            seedShopInventory = (List<Item>) os.readObject();
+            for (Item item : seedShopInventory) {
+                item.init(this);
+            }
+
             boolean emptyItemStoredInButtonHolderA = os.readBoolean();
             if (!emptyItemStoredInButtonHolderA) {
                 itemStoredInButtonHolderA = (Item) os.readObject();
@@ -268,6 +351,10 @@ public class Game {
             inBackpackDialogState = os.readBoolean();
             if (inBackpackDialogState) {
                 showBackpackDialog();
+            }
+            inSeedShopDialogState = os.readBoolean();
+            if (inSeedShopDialogState) {
+                showSeedShopDialog();
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

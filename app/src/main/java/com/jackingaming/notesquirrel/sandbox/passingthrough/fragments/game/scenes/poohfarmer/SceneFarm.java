@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes;
+package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.poohfarmer;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -11,6 +11,7 @@ import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.GameCamera;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.Scene;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Entity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Player;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
@@ -196,7 +197,7 @@ public class SceneFarm extends Scene {
 
     private Map<String, Rect> createTransferPointsForFarm() {
         Map<String, Rect> transferPoints = new HashMap<String, Rect>();
-        transferPoints.put( "HOUSE_01", new Rect((12 * Tile.WIDTH), (15 * Tile.HEIGHT),
+        transferPoints.put( "HOUSE_LEVEL_01", new Rect((12 * Tile.WIDTH), (15 * Tile.HEIGHT),
                 (12 * Tile.WIDTH) + (1 * Tile.WIDTH), (15 * Tile.HEIGHT) + (1 * Tile.HEIGHT)) );
         transferPoints.put( "HOTHOUSE", new Rect((17 * Tile.WIDTH), (15 * Tile.HEIGHT),
                 (17 * Tile.WIDTH) + (1 * Tile.WIDTH), (15 * Tile.HEIGHT) + (1 * Tile.HEIGHT)) );

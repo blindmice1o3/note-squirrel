@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes;
+package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.poohfarmer;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -10,6 +10,7 @@ import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.GameCamera;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.Scene;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Entity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Player;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
@@ -21,23 +22,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SceneHomeRival extends Scene {
-    public static final int X_SPAWN_INDEX_DEFAULT = 2;
-    public static final int Y_SPAWN_INDEX_DEFAULT = 6;
+public class SceneSheepPen extends Scene {
+    public static final int X_SPAWN_INDEX_DEFAULT = 7;
+    public static final int Y_SPAWN_INDEX_DEFAULT = 12;
 
-    private static SceneHomeRival uniqueInstance;
+    private static SceneSheepPen uniqueInstance;
 
-    private SceneHomeRival() {
+    private SceneSheepPen() {
         super();
-        List<Entity> entitiesForHomeRival = createEntitiesForHomeRival();
-        entityManager.loadEntities(entitiesForHomeRival);
-        List<Item> itemsForHomeRival = createItemsForHomeRival();
-        itemManager.loadItems(itemsForHomeRival);
+        List<Entity> entitiesForSheepPen = createEntitiesForSheepPen();
+        entityManager.loadEntities(entitiesForSheepPen);
+        List<Item> itemsForSheepPen = createItemsForSheepPen();
+        itemManager.loadItems(itemsForSheepPen);
     }
 
-    public static SceneHomeRival getInstance() {
+    public static SceneSheepPen getInstance() {
         if (uniqueInstance == null) {
-            uniqueInstance = new SceneHomeRival();
+            uniqueInstance = new SceneSheepPen();
         }
         return uniqueInstance;
     }
@@ -48,10 +49,10 @@ public class SceneHomeRival extends Scene {
 
         // For scenes loaded from external file, the [create] and [init] steps in TileManager
         // are combined (unlike EntityManager and ItemManager).
-        Tile[][] tilesForHomeRival = createAndInitTilesForHomeRival(game);
-        tileManager.loadTiles(tilesForHomeRival);
-        Map<String, Rect> transferPointsForHomeRival = createTransferPointsForHomeRival();
-        tileManager.loadTransferPoints(transferPointsForHomeRival); // transferPoints are transient and should be reloaded everytime.
+        Tile[][] tilesForSheepPen = createAndInitTilesForSheepPen(game);
+        tileManager.loadTiles(tilesForSheepPen);
+        Map<String, Rect> transferPointsForSheepPen = createTransferPointsForSheepPen();
+        tileManager.loadTransferPoints(transferPointsForSheepPen); // transferPoints are transient and should be reloaded everytime.
         tileManager.init(game); // updates tileManager's reference to the new game.
 
         entityManager.init(game);
@@ -72,32 +73,34 @@ public class SceneHomeRival extends Scene {
         GameCamera.getInstance().update(0L);
     }
 
-    private Tile[][] createAndInitTilesForHomeRival(Game game) {
-        String homeRivalLoadedAsString = TileManagerLoader.loadFileAsString(game.getContext().getResources(), R.raw.tile_home_rival);
-        Tile[][] homeRival = TileManagerLoader.convertStringToTiles(homeRivalLoadedAsString);
-        Bitmap imageHomeRival = cropImageHomeRival(game.getContext().getResources());
+    private Tile[][] createAndInitTilesForSheepPen(Game game) {
+        String sheepPenLoadedAsString = TileManagerLoader.loadFileAsString(game.getContext().getResources(), R.raw.tile_sheep_pen);
+        Tile[][] sheepPen = TileManagerLoader.convertStringToTiles(sheepPenLoadedAsString);
+        Bitmap imageSheepPen = cropImageSheepPen(game.getContext().getResources());
 
         // Initialize the tiles (provide image and define walkable)
-        // Assign image and init() all the tiles in worldMapPart01.
-        for (int y = 0; y < homeRival.length; y++) {
-            for (int x = 0; x < homeRival[0].length; x++) {
+        // Assign image and init() all the tiles in sheepPen.
+        for (int y = 0; y < sheepPen.length; y++) {
+            for (int x = 0; x < sheepPen[0].length; x++) {
                 int xInPixel = x * Tile.WIDTH;
                 int yInPixel = y * Tile.HEIGHT;
                 int widthInPixel = Tile.WIDTH;
                 int heightInPixel = Tile.HEIGHT;
 
-                Tile tile = homeRival[y][x];
+                Tile tile = sheepPen[y][x];
                 //GenericWalkableTile
                 if (tile.getId().equals("0")) {
-                    Bitmap tileSprite = Bitmap.createBitmap(imageHomeRival, xInPixel, yInPixel, widthInPixel, heightInPixel);
+                    Bitmap tileSprite = Bitmap.createBitmap(imageSheepPen, xInPixel, yInPixel, widthInPixel, heightInPixel);
                     tile.init(game, x, y, tileSprite);
                 }
                 //GenericSolidTile
                 else if (tile.getId().equals("1")) {
-                    Bitmap tileSprite = Bitmap.createBitmap(imageHomeRival, xInPixel, yInPixel, widthInPixel, heightInPixel);
+                    Bitmap tileSprite = Bitmap.createBitmap(imageSheepPen, xInPixel, yInPixel, widthInPixel, heightInPixel);
                     tile.init(game, x, y, tileSprite);
                     tile.setWalkable(false);
-                } else {
+                }
+                //default
+                else {
                     Bitmap defaultImage = BitmapFactory.decodeResource(game.getContext().getResources(), R.drawable.icon_gridview);
                     tile.init(game, x, y, defaultImage);
                     tile.setWalkable(false);
@@ -105,37 +108,37 @@ public class SceneHomeRival extends Scene {
             }
         }
 
-        return homeRival;
+        return sheepPen;
     }
 
-    private Bitmap cropImageHomeRival(Resources resources) {
-        Log.d(MainActivity.DEBUG_TAG, "SceneHomeRival.cropImageHomeRival(Resources resources)");
+    private Bitmap cropImageSheepPen(Resources resources) {
+        Log.d(MainActivity.DEBUG_TAG, "SceneSheepPen.cropImageSheepPen(Resources resources)");
 
-        Bitmap indoorsHomeAndRoom = BitmapFactory.decodeResource(resources, R.drawable.indoors_home_and_room);
-        Bitmap homeRival = null;
+        Bitmap indoorsFarmHM2 = BitmapFactory.decodeResource(resources, R.drawable.hm2_farm_indoors);
+        Bitmap sheepPenEmpty = null;
 
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        homeRival = Bitmap.createBitmap(indoorsHomeAndRoom, 304, 16, 128, 128);
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        Log.d(MainActivity.DEBUG_TAG, "Bitmap homeRival's (width, height): " + homeRival.getWidth() + ", " + homeRival.getHeight());
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        sheepPenEmpty = Bitmap.createBitmap(indoorsFarmHM2, 8, 902, 240, 256);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        Log.d(MainActivity.DEBUG_TAG, "Bitmap sheepPenEmpty's (width, height): " + sheepPenEmpty.getWidth() + ", " + sheepPenEmpty.getHeight());
 
-        return homeRival;
+        return sheepPenEmpty;
     }
 
-    private Map<String, Rect> createTransferPointsForHomeRival() {
+    private Map<String, Rect> createTransferPointsForSheepPen() {
         Map<String, Rect> transferPoints = new HashMap<String, Rect>();
-        transferPoints.put( "PART_01", new Rect((2 * Tile.WIDTH), (7 * Tile.HEIGHT),
-                (2 * Tile.WIDTH) + (2 * Tile.WIDTH), (7 * Tile.HEIGHT) + (1 * Tile.HEIGHT)) );
+        transferPoints.put( "FARM", new Rect((6 * Tile.WIDTH), (13 * Tile.HEIGHT),
+                (6 * Tile.WIDTH) + (3 * Tile.WIDTH), (13 * Tile.HEIGHT) + (1 * Tile.HEIGHT)) );
         return transferPoints;
     }
 
-    private List<Entity> createEntitiesForHomeRival() {
+    private List<Entity> createEntitiesForSheepPen() {
         List<Entity> entities = new ArrayList<Entity>();
         // TODO: Insert scene specific entities here.
         return entities;
     }
 
-    private List<Item> createItemsForHomeRival() {
+    private List<Item> createItemsForSheepPen() {
         List<Item> items = new ArrayList<Item>();
         // TODO: Insert scene specific items here.
         return items;

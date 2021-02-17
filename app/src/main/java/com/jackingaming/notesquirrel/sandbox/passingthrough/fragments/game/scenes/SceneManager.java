@@ -1,9 +1,24 @@
 package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.view.SurfaceHolder;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Player;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.pocketcritters.SceneHome01;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.pocketcritters.SceneHome02;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.pocketcritters.SceneHomeRival;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.pocketcritters.SceneLab;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.pocketcritters.SceneWorldMapPart01;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.poohfarmer.SceneChickenCoop;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.poohfarmer.SceneCowBarn;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.poohfarmer.SceneFarm;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.poohfarmer.SceneHothouse;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.poohfarmer.SceneHouseLevel01;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.poohfarmer.SceneSheepPen;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -87,6 +102,41 @@ public class SceneManager
             }
         } else if (getCurrentScene() instanceof SceneLab) {
             if (idOfCollidedTransferPoint.equals("PART_01")) {
+                pop();
+            }
+        } else if (getCurrentScene() instanceof SceneFarm) {
+            if (idOfCollidedTransferPoint.equals("HOUSE_LEVEL_01")) {
+                push(SceneHouseLevel01.getInstance());
+            } else if (idOfCollidedTransferPoint.equals("HOTHOUSE")) {
+                push(SceneHothouse.getInstance());
+            } else if (idOfCollidedTransferPoint.equals("SHEEP_PEN")) {
+                push(SceneSheepPen.getInstance());
+            } else if (idOfCollidedTransferPoint.equals("CHICKEN_COOP")) {
+                push(SceneChickenCoop.getInstance());
+            } else if (idOfCollidedTransferPoint.equals("COW_BARN")) {
+                push(SceneCowBarn.getInstance());
+            } else if (idOfCollidedTransferPoint.equals("SEEDS_SHOP")) {
+                // TODO:
+                game.showSeedShopDialog();
+            }
+        } else if (getCurrentScene() instanceof SceneHouseLevel01) {
+            if (idOfCollidedTransferPoint.equals("FARM")) {
+                pop();
+            }
+        } else if (getCurrentScene() instanceof SceneChickenCoop) {
+            if (idOfCollidedTransferPoint.equals("FARM")) {
+                pop();
+            }
+        } else if (getCurrentScene() instanceof SceneCowBarn) {
+            if (idOfCollidedTransferPoint.equals("FARM")) {
+                pop();
+            }
+        } else if (getCurrentScene() instanceof SceneSheepPen) {
+            if (idOfCollidedTransferPoint.equals("FARM")) {
+                pop();
+            }
+        } else if (getCurrentScene() instanceof SceneHothouse) {
+            if (idOfCollidedTransferPoint.equals("FARM")) {
                 pop();
             }
         }
