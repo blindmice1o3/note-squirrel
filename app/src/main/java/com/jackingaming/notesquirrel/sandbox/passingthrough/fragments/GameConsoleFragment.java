@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.InputManager;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.gamepad.GamePadFragment;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.gamepad.buttonpad.ButtonPadFragment;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.gamepad.directionpad.DirectionPadFragment;
@@ -26,8 +27,6 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.views.MySurfaceView;
 public class GameConsoleFragment extends Fragment
         implements MySurfaceView.SurfaceViewListener,
         Game.StatsChangeListener,
-        DirectionPadFragment.TouchListener,
-        ButtonPadFragment.TouchListener,
         StatsDisplayerFragment.ButtonHolderClickListener {
     public static final String TAG = "GameConsoleFragment";
 
@@ -39,6 +38,7 @@ public class GameConsoleFragment extends Fragment
 
     private String gameTitle;
     private Game game;
+    private InputManager inputManager;
 
     public GameConsoleFragment() {
         Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + " constructor");
@@ -49,6 +49,7 @@ public class GameConsoleFragment extends Fragment
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onCreate(Bundle savedInstanceState)");
+        inputManager = new InputManager();
     }
 
     @Override
@@ -64,9 +65,9 @@ public class GameConsoleFragment extends Fragment
 
         gamePadFragment = (GamePadFragment) getChildFragmentManager().findFragmentById(R.id.gamepadfragment_game_console_fragment);
         directionPadFragment = (DirectionPadFragment) gamePadFragment.getChildFragmentManager().findFragmentById(R.id.directionpadfragment_game_pad_fragment);
-        directionPadFragment.setTouchListener(this);
+        directionPadFragment.setTouchListener(inputManager);
         buttonPadFragment = (ButtonPadFragment) gamePadFragment.getChildFragmentManager().findFragmentById(R.id.buttonpadfragment_game_pad_fragment);
-        buttonPadFragment.setTouchListener(this);
+        buttonPadFragment.setTouchListener(inputManager);
         return view;
     }
 
@@ -216,60 +217,13 @@ public class GameConsoleFragment extends Fragment
     }
 
     @Override
-    public void onDirectionPadTouch(DirectionPadFragment.Direction direction, boolean pressing) {
-        if (pressing) {
-            switch (direction) {
-                case UP:
-                    game.doPressingUp();
-                    break;
-                case DOWN:
-                    game.doPressingDown();
-                    break;
-                case LEFT:
-                    game.doPressingLeft();
-                    break;
-                case RIGHT:
-                    game.doPressingRight();
-                    break;
-                case UP_LEFT:
-                    game.doPressingUpLeft();
-                    break;
-                case UP_RIGHT:
-                    game.doPressingUpRight();
-                    break;
-                case DOWN_LEFT:
-                    game.doPressingDownLeft();
-                    break;
-                case DOWN_RIGHT:
-                    game.doPressingDownRight();
-                    break;
-            }
-        }
-    }
-
-    @Override
-    public void onButtonPadJustPressed(ButtonPadFragment.Button button) {
-        switch (button) {
-            case BUTTON_MENU:
-                game.doJustPressedButtonMenu();
-                break;
-            case BUTTON_A:
-                game.doJustPressedButtonA();
-                break;
-            case BUTTON_B:
-                game.doJustPressedButtonB();
-                break;
-        }
-    }
-
-    @Override
-    public void onMySurfaceViewSurfaceChanged(SurfaceHolder surfaceHolder, int format, int widthScreen, int heightScreen) {
+    public void onMySurfaceViewSurfaceChanged(MySurfaceView mySurfaceView, SurfaceHolder surfaceHolder, int format, int widthScreen, int heightScreen) {
         directionPadFragment.setupOnTouchListener();
         buttonPadFragment.setupOnTouchListener();
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        game.init(getContext(), surfaceHolder, widthScreen, heightScreen);
-        mySurfaceView.runGame(game);
+        game.init(getContext(), inputManager, surfaceHolder, widthScreen, heightScreen);
+        mySurfaceView.runGame(game, inputManager);
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     }
 

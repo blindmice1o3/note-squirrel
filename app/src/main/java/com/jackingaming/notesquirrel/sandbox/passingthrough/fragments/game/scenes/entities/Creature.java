@@ -18,9 +18,7 @@ public abstract class Creature extends Entity {
         yMove = 0f;
     }
 
-    public void move(Direction direction) {
-        this.direction = direction;
-
+    public void move() {
         TileManager tileManager = game.getSceneManager().getCurrentScene().getTileManager();
         int xFutureLeft = 0;
         int xFutureRight = 0;
@@ -28,7 +26,6 @@ public abstract class Creature extends Entity {
         int yFutureBottom = 0;
         switch (direction) {
             case LEFT:
-                xMove = -moveSpeed; // NEGATIVE
                 // to_move: LEFT
                 xFutureLeft = (int) (x + xMove);
                 xFutureRight = (int) ((x + width) + xMove - 1);
@@ -53,7 +50,6 @@ public abstract class Creature extends Entity {
                 }
                 break;
             case RIGHT:
-                xMove = moveSpeed; // POSITIVE
                 // to_move: RIGHT
                 xFutureLeft = (int) (x + xMove);
                 xFutureRight = (int) ((x + width) + xMove - 1);
@@ -78,7 +74,6 @@ public abstract class Creature extends Entity {
                 }
                 break;
             case UP:
-                yMove = -moveSpeed; // NEGATIVE
                 // to_move: UP
                 yFutureTop = (int) (y + yMove);
                 yFutureBottom = (int) ((y + height) + yMove - 1);
@@ -103,7 +98,6 @@ public abstract class Creature extends Entity {
                 }
                 break;
             case DOWN:
-                yMove = moveSpeed; // POSITIVE
                 // to_move: DOWN
                 yFutureTop = (int) (y + yMove);
                 yFutureBottom = (int) ((y + height) + yMove - 1);
@@ -128,8 +122,6 @@ public abstract class Creature extends Entity {
                 }
                 break;
             case UP_LEFT:
-                xMove = -moveSpeed; // NEGATIVE
-                yMove = -moveSpeed; // NEGATIVE
                 // to_move: UP_LEFT
                 xFutureLeft = (int) (x + xMove);
                 xFutureRight = (int) ((x + width) + xMove - 1);
@@ -156,8 +148,6 @@ public abstract class Creature extends Entity {
                 }
                 break;
             case UP_RIGHT:
-                xMove = moveSpeed; // POSITIVE
-                yMove = -moveSpeed; // NEGATIVE
                 // to_move: UP_RIGHT
                 xFutureLeft = (int) (x + xMove);
                 xFutureRight = (int) ((x + width) + xMove - 1);
@@ -184,8 +174,6 @@ public abstract class Creature extends Entity {
                 }
                 break;
             case DOWN_LEFT:
-                xMove = -moveSpeed; // NEGATIVE
-                yMove = moveSpeed; // POSITIVE
                 // to_move: DOWN_LEFT
                 xFutureLeft = (int) (x + xMove);
                 xFutureRight = (int) ((x + width) + xMove - 1);
@@ -212,8 +200,6 @@ public abstract class Creature extends Entity {
                 }
                 break;
             case DOWN_RIGHT:
-                xMove = moveSpeed; // POSITIVE
-                yMove = moveSpeed; // POSITIVE
                 // to_move: DOWN_RIGHT
                 xFutureLeft = (int) (x + xMove);
                 xFutureRight = (int) ((x + width) + xMove - 1);

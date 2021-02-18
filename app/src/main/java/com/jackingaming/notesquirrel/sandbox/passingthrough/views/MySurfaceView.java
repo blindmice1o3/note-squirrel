@@ -9,13 +9,14 @@ import android.view.SurfaceView;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.InputManager;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.views.threads.MySurfaceViewUpdaterThread;
 
 public class MySurfaceView extends SurfaceView
         implements SurfaceHolder.Callback {
     public interface SurfaceViewListener {
         boolean onMySurfaceViewTouchEvent(MySurfaceView mySurfaceView, MotionEvent event);
-        void onMySurfaceViewSurfaceChanged(SurfaceHolder surfaceHolder, int format, int widthScreen, int heightScreen);
+        void onMySurfaceViewSurfaceChanged(MySurfaceView mySurfaceView, SurfaceHolder surfaceHolder, int format, int widthScreen, int heightScreen);
     }
     private SurfaceViewListener listener;
     public void setListener(SurfaceViewListener listener) {
@@ -40,7 +41,7 @@ public class MySurfaceView extends SurfaceView
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".surfaceChanged(SurfaceHolder holder, int format, int width, int height): (" + holder + ", " + format + ", " + width + ", " + height +").");
-        listener.onMySurfaceViewSurfaceChanged(holder, format, width, height);
+        listener.onMySurfaceViewSurfaceChanged(this, holder, format, width, height);
     }
 
     @Override
@@ -49,8 +50,8 @@ public class MySurfaceView extends SurfaceView
         return listener.onMySurfaceViewTouchEvent(this, event);
     }
 
-    public void runGame(Game game) {
-        runner = new MySurfaceViewUpdaterThread(game);
+    public void runGame(Game game, InputManager inputManager) {
+        runner = new MySurfaceViewUpdaterThread(game, inputManager);
         ///////////////
         runner.start();
         ///////////////

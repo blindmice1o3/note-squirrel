@@ -55,6 +55,7 @@ public class Game {
     }
 
     private Context context;
+    private InputManager inputManager;
     private SurfaceHolder holder;
     private int widthViewport;
     private int heightViewport;
@@ -121,8 +122,9 @@ public class Game {
         backpack.add(item);
     }
 
-    public void init(Context context, SurfaceHolder holder, int widthViewport, int heightViewport) {
+    public void init(Context context, InputManager inputManager, SurfaceHolder holder, int widthViewport, int heightViewport) {
         this.context = context;
+        this.inputManager = inputManager;
         this.holder = holder;
         this.widthViewport = widthViewport;
         this.heightViewport = heightViewport;
@@ -160,13 +162,16 @@ public class Game {
                 Toast.makeText(contextFinal, "Game.createBackpackDialog() ItemRecyclerViewAdapter.ItemClickListener.onItemClick(View view, int position): " + backpack.get(position), Toast.LENGTH_SHORT).show();
 
                 Item item = backpackWithoutItemsDisplayingInButtonHolders.get(position);
+                Log.d(MainActivity.DEBUG_TAG, "Game.createBackpackDialog() item: " + item.getName());
                 switch (buttonHolderCurrentlySelected) {
                     case A:
+                        Log.d(MainActivity.DEBUG_TAG, "Game.createBackpackDialog() itemClickListener.onItemClick() case A!!!");
                         itemStoredInButtonHolderA = item;
                         statsChangeListener.onButtonHolderAChange(item.getImage());
                         backpackDialog.dismiss();
                         break;
                     case B:
+                        Log.d(MainActivity.DEBUG_TAG, "Game.createBackpackDialog() itemClickListener.onItemClick() case B!!!");
                         itemStoredInButtonHolderB = item;
                         statsChangeListener.onButtonHolderBChange(item.getImage());
                         backpackDialog.dismiss();
@@ -558,5 +563,9 @@ public class Game {
         ///////////////////////////////////////////////
         statsChangeListener.onCurrencyChange(currency);
         ///////////////////////////////////////////////
+    }
+
+    public InputManager getInputManager() {
+        return inputManager;
     }
 }

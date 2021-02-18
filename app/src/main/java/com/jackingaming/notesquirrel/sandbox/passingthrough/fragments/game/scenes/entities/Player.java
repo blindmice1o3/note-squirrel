@@ -9,9 +9,12 @@ import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.AnimationManager;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.GameCamera;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.InputManager;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.pocketcritters.SceneHome02;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.pocketcritters.SceneWorldMapPart01;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.HoneyPot;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.poohfarmer.SceneFarm;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 
 public class Player extends Creature {
@@ -40,12 +43,70 @@ public class Player extends Creature {
 
     @Override
     public void update(long elapsed) {
+        // ANIMATION
         animationManager.update(elapsed);
 
+        // ATTACK_COOLDOWN
+        // TODO: placeholder for AttackCooldown
+
+        // RESET [offset-of-next-step] TO ZERO (standing still)
         xMove = 0f;
         yMove = 0f;
 
-        move(direction);
+        // USER_INPUT (determine values of [offset-of-next-step]... potential movement)
+        interpretInput();
+
+        // MOVEMENT (check tile, item, entity, and transfer point collisions... actual movement)
+        move();
+    }
+
+    public void interpretInput() {
+        // check inputmanager direction specific boolean fields
+        if (game.getInputManager().isPressing(InputManager.Button.UP)) {
+            direction = Direction.UP;
+            yMove = -moveSpeed; // NEGATIVE
+        } else if (game.getInputManager().isPressing(InputManager.Button.DOWN)) {
+            direction = Direction.DOWN;
+            yMove = moveSpeed; // POSITIVE
+        } else if (game.getInputManager().isPressing(InputManager.Button.LEFT)) {
+            direction = Direction.LEFT;
+            xMove = -moveSpeed; // NEGATIVE
+        } else if (game.getInputManager().isPressing(InputManager.Button.RIGHT)) {
+            direction = Direction.RIGHT;
+            xMove = moveSpeed; // POSITIVE
+        } else if (game.getInputManager().isPressing(InputManager.Button.UPLEFT)) {
+            direction = Direction.UP_LEFT;
+            xMove = -moveSpeed; // NEGATIVE
+            yMove = -moveSpeed; // NEGATIVE
+        } else if (game.getInputManager().isPressing(InputManager.Button.UPRIGHT)) {
+            direction = Direction.UP_RIGHT;
+            xMove = moveSpeed; // POSITIVE
+            yMove = -moveSpeed; // NEGATIVE
+        } else if (game.getInputManager().isPressing(InputManager.Button.DOWNLEFT)) {
+            direction = Direction.DOWN_LEFT;
+            xMove = -moveSpeed; // NEGATIVE
+            yMove = moveSpeed; // POSITIVE
+        } else if (game.getInputManager().isPressing(InputManager.Button.DOWNRIGHT)) {
+            direction = Direction.DOWN_RIGHT;
+            xMove = moveSpeed; // POSITIVE
+            yMove = moveSpeed; // POSITIVE
+        }
+
+        if (game.getInputManager().isJustPressed(InputManager.Button.A)) {
+            if (game.getSceneManager().getCurrentScene() instanceof SceneWorldMapPart01) {
+                Player.getInstance().doCheckItemCollisionViaClick();
+            } else if (game.getSceneManager().getCurrentScene() instanceof SceneHome02) {
+                if (Player.getInstance().checkTileCurrentlyFacing().getId().equals("5")) {
+                    game.getSceneManager().changeScene("FARM");
+                }
+            }
+        } else if (game.getInputManager().isJustPressed(InputManager.Button.B)) {
+            String idTileCurrentlyFacing = Player.getInstance().checkTileCurrentlyFacing().getId();
+            if (game.getSceneManager().getCurrentScene() instanceof SceneFarm) {
+                game.getSceneManager().pop();
+            }
+        }
+
     }
 
     @Override
