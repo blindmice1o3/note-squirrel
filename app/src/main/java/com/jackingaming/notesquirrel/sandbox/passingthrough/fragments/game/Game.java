@@ -187,7 +187,6 @@ public class Game {
         recyclerView.setAdapter(itemRecyclerViewAdapter);
         int numberOfColumns = 4;
         recyclerView.setLayoutManager(new GridLayoutManager(context, numberOfColumns));
-
         backpackDialog = new AlertDialog.Builder(context)
                 .setTitle("Backpack")
                 .setView(viewContainingRecyclerView)
@@ -203,16 +202,18 @@ public class Game {
 
     private void createSeedShopDialog() {
         final Context contextFinal = context;
+
+        // TODO: NO LONGER USING RecyclerView for seed shop!!!!
         seedShopRecyclerViewAdapter = new ItemRecyclerViewAdapter(context, seedShopInventory);
         ItemRecyclerViewAdapter.ItemClickListener itemClickListener = new ItemRecyclerViewAdapter.ItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(contextFinal, "Game.createSeedShopDialog() ItemRecyclerViewAdapter.ItemClickListener.onItemClick(View view, int position): " + backpack.get(position), Toast.LENGTH_SHORT).show();
+                Toast.makeText(contextFinal, "Game.createSeedShopDialog() ItemRecyclerViewAdapter.ItemClickListener.onItemClick(View view, int position): " + seedShopInventory.get(position), Toast.LENGTH_SHORT).show();
                 // TODO: buy/sell transactions.
 //                Item item = seedShopInventory.get(position);
             }
         };
-        itemRecyclerViewAdapter.setClickListener(itemClickListener);
+        seedShopRecyclerViewAdapter.setClickListener(itemClickListener);
 
 //        View viewContainingRecyclerView = LayoutInflater.from(context).inflate(R.layout.view_cart_recyclerview, null);
         Bitmap seedShopSpriteSheet = BitmapFactory.decodeResource(context.getResources(), R.drawable.gbc_hm_seeds_shop);
