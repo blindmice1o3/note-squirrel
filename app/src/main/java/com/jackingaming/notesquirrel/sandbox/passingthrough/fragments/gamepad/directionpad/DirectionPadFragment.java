@@ -22,7 +22,7 @@ import com.jackingaming.notesquirrel.R;
 public class DirectionPadFragment extends Fragment {
     public enum Button { UP, DOWN, LEFT, RIGHT, CENTER, UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT; }
     public interface TouchListener {
-        void onDirectionPadTouch(Button button, boolean pressing);
+        void onDirectionPadTouch(Button button, MotionEvent event);
     }
     private TouchListener listener;
     public void setTouchListener(TouchListener listener) {
@@ -111,7 +111,6 @@ public class DirectionPadFragment extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 // If this callback is being called, a MotionEvent was triggered...
                 // MotionEvent event may be: ACTION_DOWN, ACTION_MOVE, or ACTION_UP.
-                boolean pressing = true;
                 Button button = null;
 
                 // Determine if the touch event occurred within the bounds of a "button".
@@ -135,22 +134,16 @@ public class DirectionPadFragment extends Fragment {
                     button = Button.DOWN_LEFT;
                 } else if (boundsOfDownRight.contains( (int) event.getX(), (int) event.getY() )) {
                     button = Button.DOWN_RIGHT;
-                } else {
-                    pressing = false;
-                }
-
-                // ACTION_UP means a "button" was released, and is NOT a "button" press.
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    pressing = false;
                 }
 
                 if (button != null) {
                     //////////////////////////////////////////////////
-                    listener.onDirectionPadTouch(button, pressing);
+                    listener.onDirectionPadTouch(button, event);
                     //////////////////////////////////////////////////
+                    return true;
+                } else {
+                    return false;
                 }
-
-                return true;
             }
         });
     }

@@ -1,5 +1,7 @@
 package com.jackingaming.notesquirrel.sandbox.passingthrough;
 
+import android.view.MotionEvent;
+
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.gamepad.buttonpad.ButtonPadFragment;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.gamepad.directionpad.DirectionPadFragment;
 
@@ -76,17 +78,24 @@ public class InputManager
 
     // TODO: fix to interpret ALL presses... not just pressed.
     @Override
-    public void onButtonPadJustPressed(ButtonPadFragment.Button button) {
+    public void onButtonPadJustPressed(ButtonPadFragment.Button button, MotionEvent event) {
+        boolean pressing = true;
+
+        // ACTION_UP means a "button" was released, and is NOT a "button" press.
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            pressing = false;
+        }
+
         switch (button) {
             case BUTTON_MENU:
-                pressing.put(InputManager.Button.MENU, true);
+                this.pressing.put(InputManager.Button.MENU, pressing);
                 inputManagerListener.onMenuButtonJustPressed();
                 break;
             case BUTTON_A:
-                pressing.put(InputManager.Button.A, true);
+                this.pressing.put(InputManager.Button.A, pressing);
                 break;
             case BUTTON_B:
-                pressing.put(InputManager.Button.B, true);
+                this.pressing.put(InputManager.Button.B, pressing);
                 break;
         }
     }
@@ -96,12 +105,25 @@ public class InputManager
         return pressingDirectionPad;
     }
     @Override
-    public void onDirectionPadTouch(DirectionPadFragment.Button direction, boolean pressing) {
-        pressingDirectionPad = pressing;
-
+    public void onDirectionPadTouch(DirectionPadFragment.Button direction, MotionEvent event) {
+        // RESET ALL TO FALSE (ONLY do this for buttons from DirectionPadFragment)
         for (Button button : InputManager.Button.values()) {
+            if ((button == Button.MENU) || (button == Button.A) || (button == Button.B) ||
+                    (button == Button.BUTTONHOLDER_A) || (button == Button.BUTTONHOLDER_B)) {
+                continue;
+            }
+
             this.pressing.put(button, false);
         }
+
+        boolean pressing = true;
+
+        // ACTION_UP means a "button" was released, and is NOT a "button" press.
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            pressing = false;
+        }
+
+        pressingDirectionPad = pressing;
 
         switch (direction) {
             case UP:

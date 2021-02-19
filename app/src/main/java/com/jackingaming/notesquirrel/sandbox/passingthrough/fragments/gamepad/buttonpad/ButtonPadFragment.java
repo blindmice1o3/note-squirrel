@@ -22,7 +22,7 @@ import com.jackingaming.notesquirrel.R;
 public class ButtonPadFragment extends Fragment {
     public enum Button { BUTTON_MENU, BUTTON_A, BUTTON_B; }
     public interface TouchListener {
-        void onButtonPadJustPressed(Button button);
+        void onButtonPadJustPressed(Button button, MotionEvent event);
     }
     private TouchListener listener;
     public void setTouchListener(TouchListener listener) {
@@ -75,26 +75,30 @@ public class ButtonPadFragment extends Fragment {
             private boolean cantPress;
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                // If this callback is being called, a MotionEvent was triggered...
-                // MotionEvent event may be: ACTION_DOWN, ACTION_MOVE, or ACTION_UP.
-                if ((event.getAction() == MotionEvent.ACTION_DOWN) ||
-                        (event.getAction() == MotionEvent.ACTION_MOVE)) {
-                    pressing = true;
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    pressing = false;
-                }
+                Log.d(MainActivity.DEBUG_TAG, "ButtonPadFragment.onTouch(View v, MotionEvent event)");
 
-                if (cantPress && !pressing) {
-                    cantPress = false;
-                } else if (justPressed) {
-                    cantPress = true;
-                    justPressed = false;
-                }
-                if (!cantPress && pressing) {
-                    justPressed = true;
-                }
-
-                if (justPressed) {
+//                // If this callback is being called, a MotionEvent was triggered...
+//                // MotionEvent event may be: ACTION_DOWN, ACTION_MOVE, or ACTION_UP.
+//                if ((event.getAction() == MotionEvent.ACTION_DOWN) ||
+//                        (event.getAction() == MotionEvent.ACTION_MOVE ||
+//                                (event.getAction() == MotionEvent.ACTION_POINTER_DOWN))) {
+//                    pressing = true;
+//                } else if ((event.getAction() == MotionEvent.ACTION_UP) ||
+//                        (event.getAction() == MotionEvent.ACTION_POINTER_UP)) {
+//                    pressing = false;
+//                }
+//
+//                if (cantPress && !pressing) {
+//                    cantPress = false;
+//                } else if (justPressed) {
+//                    cantPress = true;
+//                    justPressed = false;
+//                }
+//                if (!cantPress && pressing) {
+//                    justPressed = true;
+//                }
+//
+//                if (justPressed) {
                     Button button = null;
                     // Determine if the touch event occurred within the bounds of a "button".
                     // If so, set direction to the corresponding "button", otherwise the
@@ -109,10 +113,10 @@ public class ButtonPadFragment extends Fragment {
 
                     if (button != null) {
                         ////////////////////////////////////////
-                        listener.onButtonPadJustPressed(button);
+                        listener.onButtonPadJustPressed(button, event);
                         ////////////////////////////////////////
                     }
-                }
+//                }
 
                 return true;
             }
