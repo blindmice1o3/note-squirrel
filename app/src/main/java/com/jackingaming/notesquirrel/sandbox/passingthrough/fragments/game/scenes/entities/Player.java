@@ -119,7 +119,7 @@ public class Player extends Creature {
 
     @Override
     public void draw(Canvas canvas) {
-        Bitmap imageByDirection = animationManager.getCurrentFrame(direction);
+        Bitmap imageByDirection = animationManager.getCurrentFrame(direction, xMove, yMove);
         Rect rectOfImage = new Rect(0, 0, imageByDirection.getWidth(), imageByDirection.getHeight());
         Rect rectOnScreen = new Rect(
                 (int) ((x - GameCamera.getInstance().getX()) * GameCamera.getInstance().getWidthPixelToViewportRatio()),

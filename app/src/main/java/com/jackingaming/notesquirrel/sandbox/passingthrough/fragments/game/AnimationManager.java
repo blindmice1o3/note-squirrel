@@ -14,11 +14,11 @@ public class AnimationManager
         implements Serializable {
     public static final int SPEED_DEFAULT = 100;
 
-//    private Bitmap poohDefaultUp, poohDefaultDown, poohDefaultLeft, poohDefaultRight;
-//    private Bitmap poohDefaultUpLeft, poohDefaultUpRight, poohDefaultDownLeft, poohDefaultDownRight;
-
     private int speed;
+
     transient private HashMap<Creature.Direction, Animation> animations;
+    private Bitmap poohDefaultUp, poohDefaultDown, poohDefaultLeft, poohDefaultRight;
+    private Bitmap poohDefaultUpLeft, poohDefaultUpRight, poohDefaultDownLeft, poohDefaultDownRight;
 
     public AnimationManager() {
         speed = SPEED_DEFAULT;
@@ -36,24 +36,60 @@ public class AnimationManager
         }
     }
 
-    public Bitmap getCurrentFrame(Creature.Direction direction) {
-        Animation animationByDirection = animations.get(direction);
-        Bitmap imageByDirection = animationByDirection.getCurrentFrame();
+    public Bitmap getCurrentFrame(Creature.Direction direction, float xMove, float yMove) {
+        Bitmap imageByDirection = null;
+
+        // moving
+        if ((xMove != 0) || (yMove != 0)) {
+            Animation animationByDirection = animations.get(direction);
+            imageByDirection = animationByDirection.getCurrentFrame();
+        }
+        // standing still
+        else {
+            switch (direction) {
+                case UP:
+                    imageByDirection = poohDefaultUp;
+                    break;
+                case DOWN:
+                    imageByDirection = poohDefaultDown;
+                    break;
+                case LEFT:
+                    imageByDirection = poohDefaultLeft;
+                    break;
+                case RIGHT:
+                    imageByDirection = poohDefaultRight;
+                    break;
+                case CENTER:
+                    imageByDirection = poohDefaultDown;
+                    break;
+                case UP_LEFT:
+                    imageByDirection = poohDefaultUpLeft;
+                    break;
+                case UP_RIGHT:
+                    imageByDirection = poohDefaultUpRight;
+                    break;
+                case DOWN_LEFT:
+                    imageByDirection = poohDefaultDownLeft;
+                    break;
+                case DOWN_RIGHT:
+                    imageByDirection = poohDefaultDownRight;
+                    break;
+            }
+        }
         return imageByDirection;
     }
 
     public void init(Resources resources) {
         Bitmap spriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gba_kingdom_hearts_chain_of_memories_winnie_the_pooh);
 
-//        poohDefaultUp = Bitmap.createBitmap(spriteSheet, 314, 1063, 20, 36);
-        Bitmap poohDefaultDown = Bitmap.createBitmap(spriteSheet, 178, 1061, 20, 38);
-        Bitmap[] poohStandingStill = { poohDefaultDown };
-//        poohDefaultLeft = Bitmap.createBitmap(spriteSheet, 111, 1062, 17, 37);
-//        poohDefaultRight = Bitmap.createBitmap(spriteSheet, 247, 1062, 17, 37);
-//        poohDefaultUpLeft = Bitmap.createBitmap(spriteSheet, 349, 1064, 17, 35);
-//        poohDefaultUpRight = Bitmap.createBitmap(spriteSheet, 281, 1064, 17, 35);
-//        poohDefaultDownLeft = Bitmap.createBitmap(spriteSheet, 145, 1060, 17, 39);
-//        poohDefaultDownRight = Bitmap.createBitmap(spriteSheet, 213, 1060, 17, 39);
+        poohDefaultUp = Bitmap.createBitmap(spriteSheet, 314, 1063, 20, 36);
+        poohDefaultDown = Bitmap.createBitmap(spriteSheet, 178, 1061, 20, 38);
+        poohDefaultLeft = Bitmap.createBitmap(spriteSheet, 111, 1062, 17, 37);
+        poohDefaultRight = Bitmap.createBitmap(spriteSheet, 247, 1062, 17, 37);
+        poohDefaultUpLeft = Bitmap.createBitmap(spriteSheet, 349, 1064, 17, 35);
+        poohDefaultUpRight = Bitmap.createBitmap(spriteSheet, 281, 1064, 17, 35);
+        poohDefaultDownLeft = Bitmap.createBitmap(spriteSheet, 145, 1060, 17, 39);
+        poohDefaultDownRight = Bitmap.createBitmap(spriteSheet, 213, 1060, 17, 39);
 
         Bitmap[] poohUp = new Bitmap[11];
         poohUp[0] = Bitmap.createBitmap(spriteSheet, 21, 1163, 27, 39);
@@ -159,11 +195,13 @@ public class AnimationManager
         poohDownRight[9] = Bitmap.createBitmap(spriteSheet, 397, 1323, 27, 35);
         poohDownRight[10] = Bitmap.createBitmap(spriteSheet, 437, 1325, 25, 33);
 
+        Bitmap[] poohCenter = { poohDefaultDown };
+
         Animation poohUpAnimation = new Animation(poohUp, speed);
         Animation poohDownAnimation = new Animation(poohDown, speed);
         Animation poohLeftAnimation = new Animation(poohLeft, speed);
         Animation poohRightAnimation = new Animation(poohRight, speed);
-        Animation poohStandingStillAnimation = new Animation(poohStandingStill, speed);
+        Animation poohCenterAnimation = new Animation(poohCenter, speed);
         Animation poohUpLeftAnimation = new Animation(poohUpLeft, speed);
         Animation poohUpRightAnimation = new Animation(poohUpRight, speed);
         Animation poohDownLeftAnimation = new Animation(poohDownLeft, speed);
@@ -174,7 +212,7 @@ public class AnimationManager
         animations.put(Creature.Direction.DOWN, poohDownAnimation);
         animations.put(Creature.Direction.LEFT, poohLeftAnimation);
         animations.put(Creature.Direction.RIGHT, poohRightAnimation);
-        animations.put(Creature.Direction.CENTER, poohStandingStillAnimation);
+        animations.put(Creature.Direction.CENTER, poohCenterAnimation);
         animations.put(Creature.Direction.UP_LEFT, poohUpLeftAnimation);
         animations.put(Creature.Direction.UP_RIGHT, poohUpRightAnimation);
         animations.put(Creature.Direction.DOWN_LEFT, poohDownLeftAnimation);
