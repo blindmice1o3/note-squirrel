@@ -1,7 +1,7 @@
 package com.jackingaming.notesquirrel.sandbox.passingthrough.views.threads;
 
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
-import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.InputManager;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.InputManager;
 
 public class MySurfaceViewUpdaterThread extends Thread {
     private volatile boolean running = true;

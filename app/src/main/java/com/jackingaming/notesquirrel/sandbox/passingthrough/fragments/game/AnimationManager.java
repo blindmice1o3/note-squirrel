@@ -46,7 +46,8 @@ public class AnimationManager
         Bitmap spriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gba_kingdom_hearts_chain_of_memories_winnie_the_pooh);
 
 //        poohDefaultUp = Bitmap.createBitmap(spriteSheet, 314, 1063, 20, 36);
-//        poohDefaultDown = Bitmap.createBitmap(spriteSheet, 178, 1061, 20, 38);
+        Bitmap poohDefaultDown = Bitmap.createBitmap(spriteSheet, 178, 1061, 20, 38);
+        Bitmap[] poohStandingStill = { poohDefaultDown };
 //        poohDefaultLeft = Bitmap.createBitmap(spriteSheet, 111, 1062, 17, 37);
 //        poohDefaultRight = Bitmap.createBitmap(spriteSheet, 247, 1062, 17, 37);
 //        poohDefaultUpLeft = Bitmap.createBitmap(spriteSheet, 349, 1064, 17, 35);
@@ -162,6 +163,7 @@ public class AnimationManager
         Animation poohDownAnimation = new Animation(poohDown, speed);
         Animation poohLeftAnimation = new Animation(poohLeft, speed);
         Animation poohRightAnimation = new Animation(poohRight, speed);
+        Animation poohStandingStillAnimation = new Animation(poohStandingStill, speed);
         Animation poohUpLeftAnimation = new Animation(poohUpLeft, speed);
         Animation poohUpRightAnimation = new Animation(poohUpRight, speed);
         Animation poohDownLeftAnimation = new Animation(poohDownLeft, speed);
@@ -172,6 +174,7 @@ public class AnimationManager
         animations.put(Creature.Direction.DOWN, poohDownAnimation);
         animations.put(Creature.Direction.LEFT, poohLeftAnimation);
         animations.put(Creature.Direction.RIGHT, poohRightAnimation);
+        animations.put(Creature.Direction.CENTER, poohStandingStillAnimation);
         animations.put(Creature.Direction.UP_LEFT, poohUpLeftAnimation);
         animations.put(Creature.Direction.UP_RIGHT, poohUpRightAnimation);
         animations.put(Creature.Direction.DOWN_LEFT, poohDownLeftAnimation);

@@ -9,7 +9,7 @@ import android.view.SurfaceView;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
-import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.InputManager;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.InputManager;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.views.threads.MySurfaceViewUpdaterThread;
 
 public class MySurfaceView extends SurfaceView

@@ -6,8 +6,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
@@ -20,12 +18,11 @@ import android.widget.ImageView;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
-import com.jackingaming.notesquirrel.gameboycolor.input.DirectionalPadFragment;
 
 public class DirectionPadFragment extends Fragment {
-    public enum Direction { UP, DOWN, LEFT, RIGHT, UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT; }
+    public enum Button { UP, DOWN, LEFT, RIGHT, CENTER, UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT; }
     public interface TouchListener {
-        void onDirectionPadTouch(Direction direction, boolean pressing);
+        void onDirectionPadTouch(Button button, boolean pressing);
     }
     private TouchListener listener;
     public void setTouchListener(TouchListener listener) {
@@ -47,6 +44,7 @@ public class DirectionPadFragment extends Fragment {
     private Rect boundsOfDown;
     private Rect boundsOfLeft;
     private Rect boundsOfRight;
+    private Rect boundsOfCenter;
     private Rect boundsOfUpLeft;
     private Rect boundsOfUpRight;
     private Rect boundsOfDownLeft;
@@ -98,10 +96,11 @@ public class DirectionPadFragment extends Fragment {
     public void setupOnTouchListener() {
         boundsOfUp = new Rect(imageViewTopCenter.getLeft(), imageViewTopCenter.getTop(), imageViewTopCenter.getRight(), imageViewTopCenter.getBottom());
         Log.d(MainActivity.DEBUG_TAG, "<" + imageViewTopCenter.getLeft() + ", " + imageViewTopCenter.getTop() + ", " + imageViewTopCenter.getRight() + ", " + imageViewTopCenter.getBottom() + ">");
+        boundsOfDown = new Rect(imageViewBottomCenter.getLeft(), imageViewBottomCenter.getTop(), imageViewBottomCenter.getRight(), imageViewBottomCenter.getBottom());
         boundsOfLeft = new Rect(imageViewMiddleLeft.getLeft(), imageViewMiddleLeft.getTop(), imageViewMiddleLeft.getRight(), imageViewMiddleLeft.getBottom());
         boundsOfRight = new Rect(imageViewMiddleRight.getLeft(), imageViewMiddleRight.getTop(), imageViewMiddleRight.getRight(), imageViewMiddleRight.getBottom());
-        boundsOfDown = new Rect(imageViewBottomCenter.getLeft(), imageViewBottomCenter.getTop(), imageViewBottomCenter.getRight(), imageViewBottomCenter.getBottom());
-        // TODO: boundsOfUpLeft, boundsOfUpRight, boundsOfDownLeft, boundsOfDownRight.
+        boundsOfCenter = new Rect(imageViewMiddleCenter.getLeft(), imageViewMiddleCenter.getTop(), imageViewMiddleCenter.getRight(), imageViewMiddleCenter.getBottom());
+
         boundsOfUpLeft = new Rect(imageViewTopLeft.getLeft(), imageViewTopLeft.getTop(), imageViewTopLeft.getRight(), imageViewTopLeft.getBottom());
         boundsOfUpRight = new Rect(imageViewTopRight.getLeft(), imageViewTopRight.getTop(), imageViewTopRight.getRight(), imageViewTopRight.getBottom());
         boundsOfDownLeft = new Rect(imageViewBottomLeft.getLeft(), imageViewBottomLeft.getTop(), imageViewBottomLeft.getRight(), imageViewBottomLeft.getBottom());
@@ -113,27 +112,29 @@ public class DirectionPadFragment extends Fragment {
                 // If this callback is being called, a MotionEvent was triggered...
                 // MotionEvent event may be: ACTION_DOWN, ACTION_MOVE, or ACTION_UP.
                 boolean pressing = true;
-                Direction direction = null;
+                Button button = null;
 
                 // Determine if the touch event occurred within the bounds of a "button".
-                // If so, set direction to the corresponding "button", otherwise the
+                // If so, set button to the corresponding "button", otherwise the
                 // touch event should NOT count as a "button" press.
                 if (boundsOfUp.contains( (int) event.getX(), (int) event.getY() )) {
-                    direction = Direction.UP;
+                    button = Button.UP;
                 } else if (boundsOfDown.contains( (int) event.getX(), (int) event.getY() )) {
-                    direction = Direction.DOWN;
+                    button = Button.DOWN;
                 } else if (boundsOfLeft.contains( (int) event.getX(), (int) event.getY() )) {
-                    direction = Direction.LEFT;
+                    button = Button.LEFT;
                 } else if (boundsOfRight.contains( (int) event.getX(), (int) event.getY() )) {
-                    direction = Direction.RIGHT;
+                    button = Button.RIGHT;
+                } else if (boundsOfCenter.contains( (int) event.getX(), (int) event.getY() )) {
+                    button = Button.CENTER;
                 } else if (boundsOfUpLeft.contains( (int) event.getX(), (int) event.getY() )) {
-                    direction = Direction.UP_LEFT;
+                    button = Button.UP_LEFT;
                 } else if (boundsOfUpRight.contains( (int) event.getX(), (int) event.getY() )) {
-                    direction = Direction.UP_RIGHT;
+                    button = Button.UP_RIGHT;
                 } else if (boundsOfDownLeft.contains( (int) event.getX(), (int) event.getY() )) {
-                    direction = Direction.DOWN_LEFT;
+                    button = Button.DOWN_LEFT;
                 } else if (boundsOfDownRight.contains( (int) event.getX(), (int) event.getY() )) {
-                    direction = Direction.DOWN_RIGHT;
+                    button = Button.DOWN_RIGHT;
                 } else {
                     pressing = false;
                 }
@@ -143,9 +144,9 @@ public class DirectionPadFragment extends Fragment {
                     pressing = false;
                 }
 
-                if (direction != null) {
+                if (button != null) {
                     //////////////////////////////////////////////////
-                    listener.onDirectionPadTouch(direction, pressing);
+                    listener.onDirectionPadTouch(button, pressing);
                     //////////////////////////////////////////////////
                 }
 

@@ -9,7 +9,7 @@ import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.AnimationManager;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.GameCamera;
-import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.InputManager;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.InputManager;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.pocketcritters.SceneHome02;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.pocketcritters.SceneWorldMapPart01;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.HoneyPot;
@@ -61,52 +61,60 @@ public class Player extends Creature {
     }
 
     public void interpretInput() {
-        // check inputmanager direction specific boolean fields
-        if (game.getInputManager().isPressing(InputManager.Button.UP)) {
-            direction = Direction.UP;
-            yMove = -moveSpeed; // NEGATIVE
-        } else if (game.getInputManager().isPressing(InputManager.Button.DOWN)) {
-            direction = Direction.DOWN;
-            yMove = moveSpeed; // POSITIVE
-        } else if (game.getInputManager().isPressing(InputManager.Button.LEFT)) {
-            direction = Direction.LEFT;
-            xMove = -moveSpeed; // NEGATIVE
-        } else if (game.getInputManager().isPressing(InputManager.Button.RIGHT)) {
-            direction = Direction.RIGHT;
-            xMove = moveSpeed; // POSITIVE
-        } else if (game.getInputManager().isPressing(InputManager.Button.UPLEFT)) {
-            direction = Direction.UP_LEFT;
-            xMove = -moveSpeed; // NEGATIVE
-            yMove = -moveSpeed; // NEGATIVE
-        } else if (game.getInputManager().isPressing(InputManager.Button.UPRIGHT)) {
-            direction = Direction.UP_RIGHT;
-            xMove = moveSpeed; // POSITIVE
-            yMove = -moveSpeed; // NEGATIVE
-        } else if (game.getInputManager().isPressing(InputManager.Button.DOWNLEFT)) {
-            direction = Direction.DOWN_LEFT;
-            xMove = -moveSpeed; // NEGATIVE
-            yMove = moveSpeed; // POSITIVE
-        } else if (game.getInputManager().isPressing(InputManager.Button.DOWNRIGHT)) {
-            direction = Direction.DOWN_RIGHT;
-            xMove = moveSpeed; // POSITIVE
-            yMove = moveSpeed; // POSITIVE
+        // Check InputManager's DirectionPadFragment-specific boolean fields.
+        if (game.getInputManager().isPressingDirectionPad()) {
+            if (game.getInputManager().isPressing(InputManager.Button.UP)) {
+                direction = Direction.UP;
+                yMove = -moveSpeed; // vertical NEGATIVE
+            } else if (game.getInputManager().isPressing(InputManager.Button.DOWN)) {
+                direction = Direction.DOWN;
+                yMove = moveSpeed;  // vertical POSITIVE
+            } else if (game.getInputManager().isPressing(InputManager.Button.LEFT)) {
+                direction = Direction.LEFT;
+                xMove = -moveSpeed; // horizontal NEGATIVE
+            } else if (game.getInputManager().isPressing(InputManager.Button.RIGHT)) {
+                direction = Direction.RIGHT;
+                xMove = moveSpeed;  // horizontal POSITIVE
+            } else if (game.getInputManager().isPressing(InputManager.Button.CENTER)) {
+                direction = Direction.CENTER;
+                xMove = 0;          // horizontal ZERO
+                yMove = 0;          // vertical ZERO
+            } else if (game.getInputManager().isPressing(InputManager.Button.UPLEFT)) {
+                direction = Direction.UP_LEFT;
+                xMove = -moveSpeed; // horizontal NEGATIVE
+                yMove = -moveSpeed; // vertical NEGATIVE
+            } else if (game.getInputManager().isPressing(InputManager.Button.UPRIGHT)) {
+                direction = Direction.UP_RIGHT;
+                xMove = moveSpeed;  // horizontal POSITIVE
+                yMove = -moveSpeed; // vertical NEGATIVE
+            } else if (game.getInputManager().isPressing(InputManager.Button.DOWNLEFT)) {
+                direction = Direction.DOWN_LEFT;
+                xMove = -moveSpeed; // horizontal NEGATIVE
+                yMove = moveSpeed;  // vertical POSITIVE
+            } else if (game.getInputManager().isPressing(InputManager.Button.DOWNRIGHT)) {
+                direction = Direction.DOWN_RIGHT;
+                xMove = moveSpeed;  // horizontal POSITIVE
+                yMove = moveSpeed;  // vertical POSITIVE
+            }
         }
 
+        // Check InputManager's ButtonPadFragment-specific boolean fields.
         if (game.getInputManager().isJustPressed(InputManager.Button.A)) {
+            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isJustPressed(InputManager.Button.A)");
             if (game.getSceneManager().getCurrentScene() instanceof SceneWorldMapPart01) {
-                Player.getInstance().doCheckItemCollisionViaClick();
+                doCheckItemCollisionViaClick();
             } else if (game.getSceneManager().getCurrentScene() instanceof SceneHome02) {
-                if (Player.getInstance().checkTileCurrentlyFacing().getId().equals("5")) {
+                if (checkTileCurrentlyFacing().getId().equals("5")) {
                     game.getSceneManager().changeScene("FARM");
                 }
             }
         } else if (game.getInputManager().isJustPressed(InputManager.Button.B)) {
-            String idTileCurrentlyFacing = Player.getInstance().checkTileCurrentlyFacing().getId();
+            String idTileCurrentlyFacing = checkTileCurrentlyFacing().getId();
+            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isJustPressed(InputManager.Button.B) idTileCurrentlyFacing: " + idTileCurrentlyFacing);
             if (game.getSceneManager().getCurrentScene() instanceof SceneFarm) {
                 game.getSceneManager().pop();
             }
-        }
-
+        } // Do NOT toggle [paused] from [update()]... will NOT be able to unpause!
     }
 
     @Override
@@ -182,6 +190,10 @@ public class Player extends Creature {
                 xOffset = width;
                 yOffset = 0;
                 break;
+            case CENTER:
+                xOffset = 0;
+                yOffset = 0;
+                break;
             case UP_LEFT:
                 xOffset = -width;
                 yOffset = -height;
@@ -222,6 +234,10 @@ public class Player extends Creature {
                 break;
             case RIGHT:
                 xIndex = xIndex + 1;
+                break;
+            case CENTER:
+                xIndex = xIndex;
+                yIndex = yIndex;
                 break;
             case UP_LEFT:
                 xIndex = xIndex - 1;

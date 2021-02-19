@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.InputManager;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.PassingThroughActivity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.adapters.ItemRecyclerViewAdapter;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.HoneyPot;
@@ -42,7 +43,8 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Game {
+public class Game
+        implements InputManager.InputManagerListener {
     public interface StatsChangeListener {
         void onCurrencyChange(int currency);
         void onTimeChange(long timePlayedInMilliseconds);
@@ -125,6 +127,7 @@ public class Game {
     public void init(Context context, InputManager inputManager, SurfaceHolder holder, int widthViewport, int heightViewport) {
         this.context = context;
         this.inputManager = inputManager;
+        inputManager.setInputManagerListener(this);
         this.holder = holder;
         this.widthViewport = widthViewport;
         this.heightViewport = heightViewport;
@@ -458,6 +461,12 @@ public class Game {
             return;
         }
         Player.getInstance().setDirection(Creature.Direction.DOWN_RIGHT);
+    }
+
+    @Override
+    public void onMenuButtonJustPressed() {
+        paused = !paused;
+        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onMenuButtonJustPressed() [paused] is now: " + paused);
     }
 
     public void doJustPressedButtonMenu() {
