@@ -11,12 +11,12 @@ import java.util.Map;
 public class InputManager
         implements DirectionPadFragment.TouchListener,
         ButtonPadFragment.TouchListener {
-    public interface InputManagerListener {
+    public interface MenuButtonEventListener {
         void onMenuButtonJustPressed();
     }
-    private InputManagerListener inputManagerListener;
-    public void setInputManagerListener(InputManagerListener inputManagerListener) {
-        this.inputManagerListener = inputManagerListener;
+    private MenuButtonEventListener menuButtonEventListener;
+    public void setMenuButtonEventListener(MenuButtonEventListener menuButtonEventListener) {
+        this.menuButtonEventListener = menuButtonEventListener;
     }
 
     public enum Button { UP, DOWN, LEFT, RIGHT, CENTER, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT,
@@ -64,6 +64,10 @@ public class InputManager
             }
             if (!cantPress.get(button) && pressing.get(button)) {
                 justPressed.put(button, true);
+
+                if (button == Button.MENU) {
+                    menuButtonEventListener.onMenuButtonJustPressed();
+                }
             }
         }
     }
@@ -76,9 +80,15 @@ public class InputManager
         return pressing.get(button);
     }
 
-    // TODO: fix to interpret ALL presses... not just pressed.
     @Override
-    public void onButtonPadJustPressed(ButtonPadFragment.Button button, MotionEvent event) {
+    public void onButtonPadTouch(ButtonPadFragment.Button buttonButtonPad, MotionEvent event) {
+        // RESET ALL TO FALSE (ONLY do this for buttons from ButtonPadFragment)
+        for (Button button : InputManager.Button.values()) {
+            if ((button == Button.MENU) || (button == Button.A) || (button == Button.B)) {
+                this.pressing.put(button, false);
+            }
+        }
+
         boolean pressing = true;
 
         // ACTION_UP means a "button" was released, and is NOT a "button" press.
@@ -86,10 +96,9 @@ public class InputManager
             pressing = false;
         }
 
-        switch (button) {
+        switch (buttonButtonPad) {
             case BUTTON_MENU:
                 this.pressing.put(InputManager.Button.MENU, pressing);
-                inputManagerListener.onMenuButtonJustPressed();
                 break;
             case BUTTON_A:
                 this.pressing.put(InputManager.Button.A, pressing);
@@ -105,15 +114,16 @@ public class InputManager
         return pressingDirectionPad;
     }
     @Override
-    public void onDirectionPadTouch(DirectionPadFragment.Button direction, MotionEvent event) {
+    public void onDirectionPadTouch(DirectionPadFragment.Button buttonDirectionPad, MotionEvent event) {
         // RESET ALL TO FALSE (ONLY do this for buttons from DirectionPadFragment)
         for (Button button : InputManager.Button.values()) {
-            if ((button == Button.MENU) || (button == Button.A) || (button == Button.B) ||
-                    (button == Button.BUTTONHOLDER_A) || (button == Button.BUTTONHOLDER_B)) {
-                continue;
+            if ((button == Button.UP) || (button == Button.DOWN) ||
+                    (button == Button.LEFT) || (button == Button.RIGHT) ||
+                    (button == Button.CENTER) ||
+                    (button == Button.UPLEFT) || (button == Button.UPRIGHT) ||
+                    (button == Button.DOWNLEFT) || (button == Button.DOWNRIGHT)) {
+                this.pressing.put(button, false);
             }
-
-            this.pressing.put(button, false);
         }
 
         boolean pressing = true;
@@ -125,7 +135,7 @@ public class InputManager
 
         pressingDirectionPad = pressing;
 
-        switch (direction) {
+        switch (buttonDirectionPad) {
             case UP:
                 this.pressing.put(InputManager.Button.UP, pressing);
                 break;

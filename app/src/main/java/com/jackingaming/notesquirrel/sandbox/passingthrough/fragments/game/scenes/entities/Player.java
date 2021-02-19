@@ -62,8 +62,7 @@ public class Player extends Creature {
 
     public void interpretInput() {
         // Check InputManager's ButtonPadFragment-specific boolean fields.
-        if (game.getInputManager().isPressing(InputManager.Button.A)) {
-//        if (game.getInputManager().isJustPressed(InputManager.Button.A)) {
+        if (game.getInputManager().isJustPressed(InputManager.Button.A)) {
             Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isJustPressed(InputManager.Button.A)");
             if (game.getSceneManager().getCurrentScene() instanceof SceneWorldMapPart01) {
                 doCheckItemCollisionViaClick();
@@ -72,8 +71,9 @@ public class Player extends Creature {
                     game.getSceneManager().changeScene("FARM");
                 }
             }
-        } else if (game.getInputManager().isPressing(InputManager.Button.B)) {
-//        } else if (game.getInputManager().isJustPressed(InputManager.Button.B)) {
+        }
+        // TODO: can change to isPressing(Button) and use to make player "run".
+        else if (game.getInputManager().isJustPressed(InputManager.Button.B)) {
             String idTileCurrentlyFacing = checkTileCurrentlyFacing().getId();
             Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isJustPressed(InputManager.Button.B) idTileCurrentlyFacing: " + idTileCurrentlyFacing);
             if (game.getSceneManager().getCurrentScene() instanceof SceneFarm) {

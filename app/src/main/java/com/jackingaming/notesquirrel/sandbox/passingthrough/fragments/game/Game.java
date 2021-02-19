@@ -44,7 +44,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Game
-        implements InputManager.InputManagerListener {
+        implements InputManager.MenuButtonEventListener {
+
     public interface StatsChangeListener {
         void onCurrencyChange(int currency);
         void onTimeChange(long timePlayedInMilliseconds);
@@ -127,7 +128,7 @@ public class Game
     public void init(Context context, InputManager inputManager, SurfaceHolder holder, int widthViewport, int heightViewport) {
         this.context = context;
         this.inputManager = inputManager;
-        inputManager.setInputManagerListener(this);
+        inputManager.setMenuButtonEventListener(this);
         this.holder = holder;
         this.widthViewport = widthViewport;
         this.heightViewport = heightViewport;
@@ -465,8 +466,8 @@ public class Game
 
     @Override
     public void onMenuButtonJustPressed() {
+        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onMenuButtonJustPressed()");
         paused = !paused;
-        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onMenuButtonJustPressed() [paused] is now: " + paused);
     }
 
     public void doJustPressedButtonMenu() {

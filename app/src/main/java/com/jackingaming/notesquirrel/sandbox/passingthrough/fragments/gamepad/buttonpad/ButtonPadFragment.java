@@ -22,7 +22,7 @@ import com.jackingaming.notesquirrel.R;
 public class ButtonPadFragment extends Fragment {
     public enum Button { BUTTON_MENU, BUTTON_A, BUTTON_B; }
     public interface TouchListener {
-        void onButtonPadJustPressed(Button button, MotionEvent event);
+        void onButtonPadTouch(Button button, MotionEvent event);
     }
     private TouchListener listener;
     public void setTouchListener(TouchListener listener) {
@@ -113,7 +113,7 @@ public class ButtonPadFragment extends Fragment {
 
                     if (button != null) {
                         ////////////////////////////////////////
-                        listener.onButtonPadJustPressed(button, event);
+                        listener.onButtonPadTouch(button, event);
                         ////////////////////////////////////////
                     }
 //                }
