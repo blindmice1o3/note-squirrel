@@ -21,12 +21,12 @@ import com.jackingaming.notesquirrel.R;
 
 public class DirectionPadFragment extends Fragment {
     public enum Button { UP, DOWN, LEFT, RIGHT, CENTER, UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT; }
-    public interface TouchListener {
-        void onDirectionPadTouch(Button button, MotionEvent event);
+    public interface DirectionPadTouchListener {
+        void onDirectionPadTouched(Button button, MotionEvent event);
     }
-    private TouchListener listener;
-    public void setTouchListener(TouchListener listener) {
-        this.listener = listener;
+    private DirectionPadTouchListener directionPadTouchListener;
+    public void setDirectionPadTouchListener(DirectionPadTouchListener directionPadTouchListener) {
+        this.directionPadTouchListener = directionPadTouchListener;
     }
 
     private ConstraintLayout constraintLayout;
@@ -133,7 +133,7 @@ public class DirectionPadFragment extends Fragment {
                 }
 
                 if (button != null) {
-                    listener.onDirectionPadTouch(button, event);
+                    directionPadTouchListener.onDirectionPadTouched(button, event);
                     return true;
                 }
 

@@ -21,12 +21,12 @@ import com.jackingaming.notesquirrel.R;
 
 public class ButtonPadFragment extends Fragment {
     public enum Button { BUTTON_MENU, BUTTON_A, BUTTON_B; }
-    public interface TouchListener {
-        void onButtonPadTouch(Button button, MotionEvent event);
+    public interface ButtonPadTouchListener {
+        void onButtonPadTouched(Button button, MotionEvent event);
     }
-    private TouchListener listener;
-    public void setTouchListener(TouchListener listener) {
-        this.listener = listener;
+    private ButtonPadTouchListener buttonPadTouchListener;
+    public void setButtonPadTouchListener(ButtonPadTouchListener buttonPadTouchListener) {
+        this.buttonPadTouchListener = buttonPadTouchListener;
     }
 
     private ConstraintLayout constraintLayout;
@@ -84,7 +84,7 @@ public class ButtonPadFragment extends Fragment {
                 }
 
                 if (button != null) {
-                    listener.onButtonPadTouch(button, event);
+                    buttonPadTouchListener.onButtonPadTouched(button, event);
                     return true;
                 }
 

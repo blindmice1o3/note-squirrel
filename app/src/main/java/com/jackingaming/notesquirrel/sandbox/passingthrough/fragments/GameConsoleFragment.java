@@ -65,9 +65,9 @@ public class GameConsoleFragment extends Fragment
 
         gamePadFragment = (GamePadFragment) getChildFragmentManager().findFragmentById(R.id.gamepadfragment_game_console_fragment);
         directionPadFragment = (DirectionPadFragment) gamePadFragment.getChildFragmentManager().findFragmentById(R.id.directionpadfragment_game_pad_fragment);
-        directionPadFragment.setTouchListener(inputManager);
+        directionPadFragment.setDirectionPadTouchListener(inputManager);
         buttonPadFragment = (ButtonPadFragment) gamePadFragment.getChildFragmentManager().findFragmentById(R.id.buttonpadfragment_game_pad_fragment);
-        buttonPadFragment.setTouchListener(inputManager);
+        buttonPadFragment.setButtonPadTouchListener(inputManager);
         return view;
     }
 

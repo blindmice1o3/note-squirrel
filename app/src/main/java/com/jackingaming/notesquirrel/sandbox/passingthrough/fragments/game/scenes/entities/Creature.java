@@ -3,7 +3,7 @@ package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scen
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.TileManager;
 
 public abstract class Creature extends Entity {
-    public static final float MOVE_SPEED_DEFAULT = 4f;
+    public static final float MOVE_SPEED_DEFAULT = 1f;
     public enum Direction { UP, DOWN, LEFT, RIGHT, CENTER, UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT; }
 
     protected Direction direction;

@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class InputManager
-        implements DirectionPadFragment.TouchListener,
-        ButtonPadFragment.TouchListener {
+        implements DirectionPadFragment.DirectionPadTouchListener,
+        ButtonPadFragment.ButtonPadTouchListener {
     public interface MenuButtonEventListener {
         void onMenuButtonJustPressed();
     }
@@ -81,7 +81,7 @@ public class InputManager
     }
 
     @Override
-    public void onButtonPadTouch(ButtonPadFragment.Button buttonButtonPad, MotionEvent event) {
+    public void onButtonPadTouched(ButtonPadFragment.Button buttonButtonPad, MotionEvent event) {
         // RESET ALL TO FALSE (ONLY do this for buttons from ButtonPadFragment)
         for (Button button : InputManager.Button.values()) {
             if ((button == Button.MENU) || (button == Button.A) || (button == Button.B)) {
@@ -114,7 +114,7 @@ public class InputManager
         return pressingDirectionPad;
     }
     @Override
-    public void onDirectionPadTouch(DirectionPadFragment.Button buttonDirectionPad, MotionEvent event) {
+    public void onDirectionPadTouched(DirectionPadFragment.Button buttonDirectionPad, MotionEvent event) {
         // RESET ALL TO FALSE (ONLY do this for buttons from DirectionPadFragment)
         for (Button button : InputManager.Button.values()) {
             if ((button == Button.UP) || (button == Button.DOWN) ||
