@@ -22,11 +22,7 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.InputManager;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.PassingThroughActivity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.adapters.ItemRecyclerViewAdapter;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.HoneyPot;
-import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.poohfarmer.SceneFarm;
-import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.pocketcritters.SceneHome02;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.SceneManager;
-import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.pocketcritters.SceneWorldMapPart01;
-import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Creature;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Player;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.BugCatchingNet;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
@@ -392,6 +388,12 @@ public class Game
         }
     }
 
+    @Override
+    public void onMenuButtonJustPressed() {
+        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onMenuButtonJustPressed()");
+        paused = !paused;
+    }
+
     public void update(long elapsed) {
         if (paused) {
             return;
@@ -406,73 +408,6 @@ public class Game
             return;
         }
         sceneManager.drawCurrentFrame(holder);
-    }
-
-    public void doPressingUp() {
-        if (paused) {
-            return;
-        }
-        Player.getInstance().setDirection(Creature.Direction.UP);
-    }
-
-    public void doPressingDown() {
-        if (paused) {
-            return;
-        }
-        Player.getInstance().setDirection(Creature.Direction.DOWN);
-    }
-
-    public void doPressingLeft() {
-        if (paused) {
-            return;
-        }
-        Player.getInstance().setDirection(Creature.Direction.LEFT);
-    }
-
-    public void doPressingRight() {
-        if (paused) {
-            return;
-        }
-        Player.getInstance().setDirection(Creature.Direction.RIGHT);
-    }
-
-    public void doPressingUpLeft() {
-        if (paused) {
-            return;
-        }
-        Player.getInstance().setDirection(Creature.Direction.UP_LEFT);
-    }
-
-    public void doPressingUpRight() {
-        if (paused) {
-            return;
-        }
-        Player.getInstance().setDirection(Creature.Direction.UP_RIGHT);
-    }
-
-    public void doPressingDownLeft() {
-        if (paused) {
-            return;
-        }
-        Player.getInstance().setDirection(Creature.Direction.DOWN_LEFT);
-    }
-
-    public void doPressingDownRight() {
-        if (paused) {
-            return;
-        }
-        Player.getInstance().setDirection(Creature.Direction.DOWN_RIGHT);
-    }
-
-    @Override
-    public void onMenuButtonJustPressed() {
-        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onMenuButtonJustPressed()");
-        paused = !paused;
-    }
-
-    public void doJustPressedButtonMenu() {
-        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".doJustPressedButtonMenu()");
-        paused = !paused;
     }
 
     public void doClickButtonHolder(StatsDisplayerFragment.ButtonHolder buttonHolder) {
@@ -502,51 +437,6 @@ public class Game
         paused = true;
         inBackpackDialogState = true;
         backpackDialog.show();
-    }
-
-    public void doJustPressedButtonA() {
-        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".doJustPressedButtonA()");
-        if (paused) {
-            return;
-        }
-        // TODO: suppose to execute() the item stored in itemStoredInButtonHolderA.
-
-        // TODO: currently using to test picking up item.
-        if (sceneManager.getCurrentScene() instanceof SceneWorldMapPart01) {
-            Player.getInstance().doCheckItemCollisionViaClick();
-        } else if (sceneManager.getCurrentScene() instanceof SceneHome02) {
-            if (Player.getInstance().checkTileCurrentlyFacing().getId().equals("5")) {
-                sceneManager.changeScene("FARM");
-            }
-        }
-
-        // TODO: leads to buggy save/load between gameCamera and scene's tiles.
-//        int doubleClipWidthInTile = 2 * gameCamera.getClipWidthInTile();
-//        int doubleClipHeightInTile = 2 * gameCamera.getClipHeightInTile();
-//        gameCamera.updateClipWidthInTile(doubleClipWidthInTile);
-//        gameCamera.updateClipHeightInTile(doubleClipHeightInTile);
-    }
-
-    public void doJustPressedButtonB() {
-        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".doJustPressedButtonB()");
-        if (paused) {
-            return;
-        }
-        // TODO: suppose to execute() the item stored in itemStoredInButtonHolderB.
-
-        // TODO: currently using to test Player's checkTileCurrentlyFacing().
-        String idTileCurrentlyFacing = Player.getInstance().checkTileCurrentlyFacing().getId();
-        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".doJustPressedButtonB() idTileCurrentlyFacing: " + idTileCurrentlyFacing);
-
-        if (sceneManager.getCurrentScene() instanceof SceneFarm) {
-            sceneManager.pop();
-        }
-
-        // TODO: leads to buggy save/load between gameCamera and scene's tiles.
-//        int halfClipWidthInTile = gameCamera.getClipWidthInTile() / 2;
-//        int halfClipHeightInTile = gameCamera.getClipHeightInTile() / 2;
-//        gameCamera.updateClipWidthInTile(halfClipWidthInTile);
-//        gameCamera.updateClipHeightInTile(halfClipHeightInTile);
     }
 
     public Context getContext() {

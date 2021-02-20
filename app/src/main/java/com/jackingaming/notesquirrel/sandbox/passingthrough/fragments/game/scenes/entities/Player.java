@@ -84,42 +84,39 @@ public class Player extends Creature {
         } // Do NOT toggle [paused] from [update()]... will NOT be able to unpause!
 
 
-
         // Check InputManager's DirectionPadFragment-specific boolean fields.
-        if (game.getInputManager().isPressingDirectionPad()) {
-            if (game.getInputManager().isPressing(InputManager.Button.UP)) {
-                direction = Direction.UP;
-                yMove = -moveSpeed; // vertical NEGATIVE
-            } else if (game.getInputManager().isPressing(InputManager.Button.DOWN)) {
-                direction = Direction.DOWN;
-                yMove = moveSpeed;  // vertical POSITIVE
-            } else if (game.getInputManager().isPressing(InputManager.Button.LEFT)) {
-                direction = Direction.LEFT;
-                xMove = -moveSpeed; // horizontal NEGATIVE
-            } else if (game.getInputManager().isPressing(InputManager.Button.RIGHT)) {
-                direction = Direction.RIGHT;
-                xMove = moveSpeed;  // horizontal POSITIVE
-            } else if (game.getInputManager().isPressing(InputManager.Button.CENTER)) {
-                direction = Direction.CENTER;
-                xMove = 0;          // horizontal ZERO
-                yMove = 0;          // vertical ZERO
-            } else if (game.getInputManager().isPressing(InputManager.Button.UPLEFT)) {
-                direction = Direction.UP_LEFT;
-                xMove = -moveSpeed; // horizontal NEGATIVE
-                yMove = -moveSpeed; // vertical NEGATIVE
-            } else if (game.getInputManager().isPressing(InputManager.Button.UPRIGHT)) {
-                direction = Direction.UP_RIGHT;
-                xMove = moveSpeed;  // horizontal POSITIVE
-                yMove = -moveSpeed; // vertical NEGATIVE
-            } else if (game.getInputManager().isPressing(InputManager.Button.DOWNLEFT)) {
-                direction = Direction.DOWN_LEFT;
-                xMove = -moveSpeed; // horizontal NEGATIVE
-                yMove = moveSpeed;  // vertical POSITIVE
-            } else if (game.getInputManager().isPressing(InputManager.Button.DOWNRIGHT)) {
-                direction = Direction.DOWN_RIGHT;
-                xMove = moveSpeed;  // horizontal POSITIVE
-                yMove = moveSpeed;  // vertical POSITIVE
-            }
+        if (game.getInputManager().isPressing(InputManager.Button.UP)) {
+            direction = Direction.UP;
+            yMove = -moveSpeed; // vertical NEGATIVE
+        } else if (game.getInputManager().isPressing(InputManager.Button.DOWN)) {
+            direction = Direction.DOWN;
+            yMove = moveSpeed;  // vertical POSITIVE
+        } else if (game.getInputManager().isPressing(InputManager.Button.LEFT)) {
+            direction = Direction.LEFT;
+            xMove = -moveSpeed; // horizontal NEGATIVE
+        } else if (game.getInputManager().isPressing(InputManager.Button.RIGHT)) {
+            direction = Direction.RIGHT;
+            xMove = moveSpeed;  // horizontal POSITIVE
+        } else if (game.getInputManager().isPressing(InputManager.Button.CENTER)) {
+            direction = Direction.CENTER;
+            xMove = 0;          // horizontal ZERO
+            yMove = 0;          // vertical ZERO
+        } else if (game.getInputManager().isPressing(InputManager.Button.UPLEFT)) {
+            direction = Direction.UP_LEFT;
+            xMove = -moveSpeed; // horizontal NEGATIVE
+            yMove = -moveSpeed; // vertical NEGATIVE
+        } else if (game.getInputManager().isPressing(InputManager.Button.UPRIGHT)) {
+            direction = Direction.UP_RIGHT;
+            xMove = moveSpeed;  // horizontal POSITIVE
+            yMove = -moveSpeed; // vertical NEGATIVE
+        } else if (game.getInputManager().isPressing(InputManager.Button.DOWNLEFT)) {
+            direction = Direction.DOWN_LEFT;
+            xMove = -moveSpeed; // horizontal NEGATIVE
+            yMove = moveSpeed;  // vertical POSITIVE
+        } else if (game.getInputManager().isPressing(InputManager.Button.DOWNRIGHT)) {
+            direction = Direction.DOWN_RIGHT;
+            xMove = moveSpeed;  // horizontal POSITIVE
+            yMove = moveSpeed;  // vertical POSITIVE
         }
 
     }

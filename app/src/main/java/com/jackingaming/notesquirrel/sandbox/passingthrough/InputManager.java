@@ -1,16 +1,20 @@
 package com.jackingaming.notesquirrel.sandbox.passingthrough;
 
+import android.util.Log;
 import android.view.MotionEvent;
 
+import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.gamepad.buttonpad.ButtonPadFragment;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.gamepad.directionpad.DirectionPadFragment;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.views.MySurfaceView;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class InputManager
-        implements DirectionPadFragment.DirectionPadTouchListener,
-        ButtonPadFragment.ButtonPadTouchListener {
+        implements MySurfaceView.MySurfaceViewTouchListener,
+        DirectionPadFragment.DirectionPadListener,
+        ButtonPadFragment.ButtonPadListener {
     public interface MenuButtonEventListener {
         void onMenuButtonJustPressed();
     }
@@ -81,6 +85,54 @@ public class InputManager
     }
 
     @Override
+    public boolean onMySurfaceViewTouched(MySurfaceView mySurfaceView, MotionEvent event) {
+        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onMySurfaceViewTouched(MySurfaceView mySurfaceView, MotionEvent event)");
+
+//        boolean pressing = true;
+//
+//        if (event.getAction() == MotionEvent.ACTION_UP) {
+//            pressing = false;
+//        }
+//
+//        float xLowerBound = mySurfaceView.getWidth() / 3f;
+//        float xUpperBound = 2 * xLowerBound;
+//        float yLowerBound = mySurfaceView.getHeight() / 3f;
+//        float yUpperBound = 2 * yLowerBound;
+//
+//        // horizontal first-third
+//        if (0 <= event.getX() && (event.getX() < xLowerBound)) {
+//            // vertical (center-third)
+//            if ((yLowerBound <= event.getY()) && (event.getY() < yUpperBound)) {
+//                this.pressing.put(InputManager.Button.LEFT, pressing);
+//                return true;
+//            }
+//        }
+//        // horizontal center-third
+//        else if ((xLowerBound <= event.getX()) && (event.getX() < xUpperBound)) {
+//            // vertical (first-third)
+//            if ((0 <= event.getY()) && (event.getY() < yLowerBound)) {
+//                this.pressing.put(InputManager.Button.UP, pressing);
+//                return true;
+//            }
+//            // vertical (last-third)
+//            else if (yUpperBound <= event.getY()) {
+//                this.pressing.put(InputManager.Button.DOWN, pressing);
+//                return true;
+//            }
+//        }
+//        // horizontal last-third
+//        else if (xUpperBound <= event.getX()) {
+//            // vertical (center-third)
+//            if ((yLowerBound <= event.getY()) && (event.getY() < yUpperBound)) {
+//                this.pressing.put(InputManager.Button.RIGHT, pressing);
+//                return true;
+//            }
+//        }
+//
+        return false;
+    }
+
+    @Override
     public void onButtonPadTouched(ButtonPadFragment.Button buttonButtonPad, MotionEvent event) {
         // RESET ALL TO FALSE (ONLY do this for buttons from ButtonPadFragment)
         for (Button button : InputManager.Button.values()) {
@@ -109,10 +161,6 @@ public class InputManager
         }
     }
 
-    private boolean pressingDirectionPad;
-    public boolean isPressingDirectionPad() {
-        return pressingDirectionPad;
-    }
     @Override
     public void onDirectionPadTouched(DirectionPadFragment.Button buttonDirectionPad, MotionEvent event) {
         // RESET ALL TO FALSE (ONLY do this for buttons from DirectionPadFragment)
@@ -132,8 +180,6 @@ public class InputManager
         if (event.getAction() == MotionEvent.ACTION_UP) {
             pressing = false;
         }
-
-        pressingDirectionPad = pressing;
 
         switch (buttonDirectionPad) {
             case UP:

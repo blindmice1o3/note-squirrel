@@ -14,13 +14,20 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.views.threads.MySurf
 
 public class MySurfaceView extends SurfaceView
         implements SurfaceHolder.Callback {
-    public interface SurfaceViewListener {
-        boolean onMySurfaceViewTouchEvent(MySurfaceView mySurfaceView, MotionEvent event);
+    public interface MySurfaceViewSurfaceChangeListener {
         void onMySurfaceViewSurfaceChanged(MySurfaceView mySurfaceView, SurfaceHolder surfaceHolder, int format, int widthScreen, int heightScreen);
     }
-    private SurfaceViewListener listener;
-    public void setListener(SurfaceViewListener listener) {
-        this.listener = listener;
+    private MySurfaceViewSurfaceChangeListener mySurfaceViewSurfaceChangeListener;
+    public void setMySurfaceViewSurfaceChangeListener(MySurfaceViewSurfaceChangeListener mySurfaceViewSurfaceChangeListener) {
+        this.mySurfaceViewSurfaceChangeListener = mySurfaceViewSurfaceChangeListener;
+    }
+
+    public interface MySurfaceViewTouchListener {
+        boolean onMySurfaceViewTouched(MySurfaceView mySurfaceView, MotionEvent event);
+    }
+    private MySurfaceViewTouchListener mySurfaceViewTouchListener;
+    public void setMySurfaceViewTouchListener(MySurfaceViewTouchListener mySurfaceViewTouchListener) {
+        this.mySurfaceViewTouchListener = mySurfaceViewTouchListener;
     }
 
     private MySurfaceViewUpdaterThread runner;
@@ -41,13 +48,13 @@ public class MySurfaceView extends SurfaceView
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".surfaceChanged(SurfaceHolder holder, int format, int width, int height): (" + holder + ", " + format + ", " + width + ", " + height +").");
-        listener.onMySurfaceViewSurfaceChanged(this, holder, format, width, height);
+        mySurfaceViewSurfaceChangeListener.onMySurfaceViewSurfaceChanged(this, holder, format, width, height);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onTouchEvent(MotionEvent event)");
-        return listener.onMySurfaceViewTouchEvent(this, event);
+        return mySurfaceViewTouchListener.onMySurfaceViewTouched(this, event);
     }
 
     public void runGame(Game game, InputManager inputManager) {

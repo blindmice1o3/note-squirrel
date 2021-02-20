@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,7 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.statsdispl
 import com.jackingaming.notesquirrel.sandbox.passingthrough.views.MySurfaceView;
 
 public class GameConsoleFragment extends Fragment
-        implements MySurfaceView.SurfaceViewListener,
+        implements MySurfaceView.MySurfaceViewSurfaceChangeListener,
         Game.StatsChangeListener,
         StatsDisplayerFragment.ButtonHolderClickListener {
     public static final String TAG = "GameConsoleFragment";
@@ -58,16 +57,17 @@ public class GameConsoleFragment extends Fragment
 
         View view = inflater.inflate(R.layout.fragment_game_console, container, false);
         mySurfaceView = view.findViewById(R.id.mysurfaceview_game_console_fragment);
-        mySurfaceView.setListener(this);
+        mySurfaceView.setMySurfaceViewSurfaceChangeListener(this);
+        mySurfaceView.setMySurfaceViewTouchListener(inputManager);
 
         statsDisplayerFragment = (StatsDisplayerFragment) getChildFragmentManager().findFragmentById(R.id.statsdisplayerfragment_game_console_fragment);
         statsDisplayerFragment.setButtonHolderClickListener(this);
 
         gamePadFragment = (GamePadFragment) getChildFragmentManager().findFragmentById(R.id.gamepadfragment_game_console_fragment);
         directionPadFragment = (DirectionPadFragment) gamePadFragment.getChildFragmentManager().findFragmentById(R.id.directionpadfragment_game_pad_fragment);
-        directionPadFragment.setDirectionPadTouchListener(inputManager);
+        directionPadFragment.setDirectionPadListener(inputManager);
         buttonPadFragment = (ButtonPadFragment) gamePadFragment.getChildFragmentManager().findFragmentById(R.id.buttonpadfragment_game_pad_fragment);
-        buttonPadFragment.setButtonPadTouchListener(inputManager);
+        buttonPadFragment.setButtonPadListener(inputManager);
         return view;
     }
 
@@ -133,67 +133,6 @@ public class GameConsoleFragment extends Fragment
     public void onDetach() {
         super.onDetach();
         Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onDetach()");
-    }
-
-    private boolean pressing;
-    private boolean justPressed;
-    private boolean cantPress;
-    @Override
-    public boolean onMySurfaceViewTouchEvent(MySurfaceView mySurfaceView, MotionEvent event) {
-        if ((event.getAction() == MotionEvent.ACTION_DOWN) ||
-                (event.getAction() == MotionEvent.ACTION_MOVE)) {
-            pressing = true;
-        } else if (event.getAction() == MotionEvent.ACTION_UP) {
-            pressing = false;
-        }
-
-        if (cantPress && !pressing) {
-            cantPress = false;
-        } else if (justPressed) {
-            cantPress = true;
-            justPressed = false;
-        }
-        if (!cantPress && pressing) {
-            justPressed = true;
-        }
-
-        if (justPressed) {
-            /////////////////////////////////////////////////////////
-//            mySurfaceView.togglePauseForMySurfaceViewUpdaterThread();
-            float xLowerBound = game.getWidthViewport() / 3f;
-            float xUpperBound = 2 * xLowerBound;
-            float yLowerBound = game.getHeightViewport() / 3f;
-            float yUpperBound = 2 * yLowerBound;
-
-            // horizontal first-third
-            if (0 <= event.getX() && (event.getX() < xLowerBound)) {
-                // vertical (center-third)
-                if ((yLowerBound <= event.getY()) && (event.getY() < yUpperBound)) {
-                    game.doPressingLeft();
-                }
-            }
-            // horizontal center-third
-            else if ((xLowerBound <= event.getX()) && (event.getX() < xUpperBound)) {
-                // vertical (first-third)
-                if ((0 <= event.getY()) && (event.getY() < yLowerBound)) {
-                    game.doPressingUp();
-                }
-                // vertical (last-third)
-                else if (yUpperBound <= event.getY()) {
-                    game.doPressingDown();
-                }
-            }
-            // horizontal last-third
-            else if (xUpperBound <= event.getX()) {
-                // vertical (center-third)
-                if ((yLowerBound <= event.getY()) && (event.getY() < yUpperBound)) {
-                    game.doPressingRight();
-                }
-            }
-            /////////////////////////////////////////////////////////
-        }
-
-        return true;
     }
 
     @Override
