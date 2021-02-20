@@ -17,8 +17,8 @@ public class AnimationManager
     private int speed;
 
     transient private HashMap<Creature.Direction, Animation> animations;
-    private Bitmap poohDefaultUp, poohDefaultDown, poohDefaultLeft, poohDefaultRight;
-    private Bitmap poohDefaultUpLeft, poohDefaultUpRight, poohDefaultDownLeft, poohDefaultDownRight;
+    transient private Bitmap poohDefaultUp, poohDefaultDown, poohDefaultLeft, poohDefaultRight;
+    transient private Bitmap poohDefaultUpLeft, poohDefaultUpRight, poohDefaultDownLeft, poohDefaultDownRight;
 
     public AnimationManager() {
         speed = SPEED_DEFAULT;

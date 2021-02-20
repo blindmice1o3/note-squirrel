@@ -9,7 +9,6 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.GameC
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.EntityManager;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Player;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.ItemManager;
-import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.TileManager;
 
 import java.io.Serializable;
