@@ -70,55 +70,25 @@ public class ButtonPadFragment extends Fragment {
         boundsOfButtonB = new Rect(imageViewButtonB.getLeft(), imageViewButtonB.getTop(), imageViewButtonB.getRight(), imageViewButtonB.getBottom());
 
         constraintLayout.setOnTouchListener(new View.OnTouchListener() {
-            private boolean pressing;
-            private boolean justPressed;
-            private boolean cantPress;
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Log.d(MainActivity.DEBUG_TAG, "ButtonPadFragment.onTouch(View v, MotionEvent event)");
+                Button button = null;
 
-//                // If this callback is being called, a MotionEvent was triggered...
-//                // MotionEvent event may be: ACTION_DOWN, ACTION_MOVE, or ACTION_UP.
-//                if ((event.getAction() == MotionEvent.ACTION_DOWN) ||
-//                        (event.getAction() == MotionEvent.ACTION_MOVE ||
-//                                (event.getAction() == MotionEvent.ACTION_POINTER_DOWN))) {
-//                    pressing = true;
-//                } else if ((event.getAction() == MotionEvent.ACTION_UP) ||
-//                        (event.getAction() == MotionEvent.ACTION_POINTER_UP)) {
-//                    pressing = false;
-//                }
-//
-//                if (cantPress && !pressing) {
-//                    cantPress = false;
-//                } else if (justPressed) {
-//                    cantPress = true;
-//                    justPressed = false;
-//                }
-//                if (!cantPress && pressing) {
-//                    justPressed = true;
-//                }
-//
-//                if (justPressed) {
-                    Button button = null;
-                    // Determine if the touch event occurred within the bounds of a "button".
-                    // If so, set direction to the corresponding "button", otherwise the
-                    // touch event should NOT count as a "button" press.
-                    if (boundsOfButtonMenu.contains((int) event.getX(), (int) event.getY())) {
-                        button = Button.BUTTON_MENU;
-                    } else if (boundsOfButtonA.contains((int) event.getX(), (int) event.getY())) {
-                        button = Button.BUTTON_A;
-                    } else if (boundsOfButtonB.contains((int) event.getX(), (int) event.getY())) {
-                        button = Button.BUTTON_B;
-                    }
+                // Determine if the touch event occurred within the bounds of a "button".
+                if (boundsOfButtonMenu.contains((int) event.getX(), (int) event.getY())) {
+                    button = Button.BUTTON_MENU;
+                } else if (boundsOfButtonA.contains((int) event.getX(), (int) event.getY())) {
+                    button = Button.BUTTON_A;
+                } else if (boundsOfButtonB.contains((int) event.getX(), (int) event.getY())) {
+                    button = Button.BUTTON_B;
+                }
 
-                    if (button != null) {
-                        ////////////////////////////////////////
-                        listener.onButtonPadTouch(button, event);
-                        ////////////////////////////////////////
-                    }
-//                }
+                if (button != null) {
+                    listener.onButtonPadTouch(button, event);
+                    return true;
+                }
 
-                return true;
+                return false;
             }
         });
     }

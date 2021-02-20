@@ -52,6 +52,7 @@ public class Player extends Creature {
         // RESET [offset-of-next-step] TO ZERO (standing still)
         xMove = 0f;
         yMove = 0f;
+        moveSpeed = MOVE_SPEED_DEFAULT;
 
         // USER_INPUT (determine values of [offset-of-next-step]... potential movement)
         interpretInput();
@@ -71,11 +72,12 @@ public class Player extends Creature {
                     game.getSceneManager().changeScene("FARM");
                 }
             }
-        }
-        // TODO: can change to isPressing(Button) and use to make player "run".
-        else if (game.getInputManager().isJustPressed(InputManager.Button.B)) {
+        } else if (game.getInputManager().isPressing(InputManager.Button.B)) {
             String idTileCurrentlyFacing = checkTileCurrentlyFacing().getId();
             Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isJustPressed(InputManager.Button.B) idTileCurrentlyFacing: " + idTileCurrentlyFacing);
+
+            moveSpeed = 2 * MOVE_SPEED_DEFAULT;
+
             if (game.getSceneManager().getCurrentScene() instanceof SceneFarm) {
                 game.getSceneManager().pop();
             }

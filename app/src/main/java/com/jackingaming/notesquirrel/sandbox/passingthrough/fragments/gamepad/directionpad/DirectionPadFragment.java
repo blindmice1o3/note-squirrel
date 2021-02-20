@@ -109,41 +109,35 @@ public class DirectionPadFragment extends Fragment {
         constraintLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                // If this callback is being called, a MotionEvent was triggered...
-                // MotionEvent event may be: ACTION_DOWN, ACTION_MOVE, or ACTION_UP.
                 Button button = null;
 
                 // Determine if the touch event occurred within the bounds of a "button".
-                // If so, set button to the corresponding "button", otherwise the
-                // touch event should NOT count as a "button" press.
-                if (boundsOfUp.contains( (int) event.getX(), (int) event.getY() )) {
+                if (boundsOfUp.contains((int) event.getX(), (int) event.getY())) {
                     button = Button.UP;
-                } else if (boundsOfDown.contains( (int) event.getX(), (int) event.getY() )) {
+                } else if (boundsOfDown.contains((int) event.getX(), (int) event.getY())) {
                     button = Button.DOWN;
-                } else if (boundsOfLeft.contains( (int) event.getX(), (int) event.getY() )) {
+                } else if (boundsOfLeft.contains((int) event.getX(), (int) event.getY())) {
                     button = Button.LEFT;
-                } else if (boundsOfRight.contains( (int) event.getX(), (int) event.getY() )) {
+                } else if (boundsOfRight.contains((int) event.getX(), (int) event.getY())) {
                     button = Button.RIGHT;
-                } else if (boundsOfCenter.contains( (int) event.getX(), (int) event.getY() )) {
+                } else if (boundsOfCenter.contains((int) event.getX(), (int) event.getY())) {
                     button = Button.CENTER;
-                } else if (boundsOfUpLeft.contains( (int) event.getX(), (int) event.getY() )) {
+                } else if (boundsOfUpLeft.contains((int) event.getX(), (int) event.getY())) {
                     button = Button.UP_LEFT;
-                } else if (boundsOfUpRight.contains( (int) event.getX(), (int) event.getY() )) {
+                } else if (boundsOfUpRight.contains((int) event.getX(), (int) event.getY())) {
                     button = Button.UP_RIGHT;
-                } else if (boundsOfDownLeft.contains( (int) event.getX(), (int) event.getY() )) {
+                } else if (boundsOfDownLeft.contains((int) event.getX(), (int) event.getY())) {
                     button = Button.DOWN_LEFT;
-                } else if (boundsOfDownRight.contains( (int) event.getX(), (int) event.getY() )) {
+                } else if (boundsOfDownRight.contains((int) event.getX(), (int) event.getY())) {
                     button = Button.DOWN_RIGHT;
                 }
 
                 if (button != null) {
-                    //////////////////////////////////////////////////
                     listener.onDirectionPadTouch(button, event);
-                    //////////////////////////////////////////////////
                     return true;
-                } else {
-                    return false;
                 }
+
+                return false;
             }
         });
     }
