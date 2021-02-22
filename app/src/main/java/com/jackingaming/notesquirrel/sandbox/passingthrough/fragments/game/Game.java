@@ -305,24 +305,21 @@ public class Game {
             os.writeInt(currency);
 
             os.writeObject(backpack);
-            refreshBackpackWithoutItemsDisplayingButtonHolders();
-            os.writeObject(backpackWithoutItemsDisplayingInButtonHolders);
-
-            os.writeObject(seedShopInventory);
-
-            boolean emptyItemStoredInButtonHolderA = (itemStoredInButtonHolderA == null);
-            os.writeBoolean(emptyItemStoredInButtonHolderA);
-            if (!emptyItemStoredInButtonHolderA) {
+            boolean hasItemInButtonHolderA = (itemStoredInButtonHolderA != null);
+            os.writeBoolean(hasItemInButtonHolderA);
+            if (hasItemInButtonHolderA) {
                 os.writeObject(itemStoredInButtonHolderA);
             }
-            boolean emptyItemStoredInButtonHolderB = (itemStoredInButtonHolderB == null);
-            os.writeBoolean(emptyItemStoredInButtonHolderB);
-            if (!emptyItemStoredInButtonHolderB) {
+            boolean hasItemInButtonHolderB = (itemStoredInButtonHolderB != null);
+            os.writeBoolean(hasItemInButtonHolderB);
+            if (hasItemInButtonHolderB) {
                 os.writeObject(itemStoredInButtonHolderB);
             }
             int ordinalValueOfButtonHolderCurrentlySelected = buttonHolderCurrentlySelected.ordinal();
             Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".saveToFile(String filName) ordinalValueOfButtonHolderCurrenlySelected: " + ordinalValueOfButtonHolderCurrentlySelected);
             os.writeInt(ordinalValueOfButtonHolderCurrentlySelected);
+
+            os.writeObject(seedShopInventory);
 
             os.writeBoolean(paused);
             os.writeBoolean(inBackpackDialogState);
@@ -367,25 +364,14 @@ public class Game {
             for (Item item : backpack) {
                 item.init(this);
             }
-            backpackWithoutItemsDisplayingInButtonHolders = (List<Item>) os.readObject();
-            for (Item item : backpackWithoutItemsDisplayingInButtonHolders) {
-                item.init(this);
-            }
-            itemRecyclerViewAdapter.setBackpack(backpackWithoutItemsDisplayingInButtonHolders);
-
-            seedShopInventory = (List<Item>) os.readObject();
-            for (Item item : seedShopInventory) {
-                item.init(this);
-            }
-
-            boolean emptyItemStoredInButtonHolderA = os.readBoolean();
-            if (!emptyItemStoredInButtonHolderA) {
+            boolean hasItemInButtonHolderA = os.readBoolean();
+            if (hasItemInButtonHolderA) {
                 itemStoredInButtonHolderA = (Item) os.readObject();
                 itemStoredInButtonHolderA.init(this);
                 statsChangeListener.onButtonHolderAChange(itemStoredInButtonHolderA.getImage());
             }
-            boolean emptyItemStoredInButtonHolderB = os.readBoolean();
-            if (!emptyItemStoredInButtonHolderB) {
+            boolean hasItemInButtonHolderB = os.readBoolean();
+            if (hasItemInButtonHolderB) {
                 itemStoredInButtonHolderB = (Item) os.readObject();
                 itemStoredInButtonHolderB.init(this);
                 statsChangeListener.onButtonHolderBChange(itemStoredInButtonHolderB.getImage());
@@ -393,6 +379,14 @@ public class Game {
             int ordinalValueOfButtonHolderCurrentlySelected = os.readInt();
             Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".saveToFile(String filName) ordinalValueOfButtonHolderCurrenlySelected: " + ordinalValueOfButtonHolderCurrentlySelected);
             buttonHolderCurrentlySelected = StatsDisplayerFragment.ButtonHolder.values()[ordinalValueOfButtonHolderCurrentlySelected];
+            /////////////////////////////////////////////////////
+            refreshBackpackWithoutItemsDisplayingInButtonHolders();
+            /////////////////////////////////////////////////////
+
+            seedShopInventory = (List<Item>) os.readObject();
+            for (Item item : seedShopInventory) {
+                item.init(this);
+            }
 
             paused = os.readBoolean();
             if (holder != null) {
@@ -438,12 +432,12 @@ public class Game {
     public void doClickButtonHolder(StatsDisplayerFragment.ButtonHolder buttonHolder) {
         buttonHolderCurrentlySelected = buttonHolder;
 
-        refreshBackpackWithoutItemsDisplayingButtonHolders();
+        refreshBackpackWithoutItemsDisplayingInButtonHolders();
 
         showBackpackDialog();
     }
 
-    private void refreshBackpackWithoutItemsDisplayingButtonHolders() {
+    private void refreshBackpackWithoutItemsDisplayingInButtonHolders() {
         backpackWithoutItemsDisplayingInButtonHolders.clear();
         backpackWithoutItemsDisplayingInButtonHolders.addAll(backpack);
         if (itemStoredInButtonHolderA != null) {
