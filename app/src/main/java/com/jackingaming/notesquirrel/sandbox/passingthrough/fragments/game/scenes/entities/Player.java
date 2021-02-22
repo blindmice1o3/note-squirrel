@@ -74,14 +74,17 @@ public class Player extends Creature {
             }
         } else if (game.getInputManager().isPressing(InputManager.Button.B)) {
             String idTileCurrentlyFacing = checkTileCurrentlyFacing().getId();
-            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isJustPressed(InputManager.Button.B) idTileCurrentlyFacing: " + idTileCurrentlyFacing);
+            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isPressing(InputManager.Button.B) idTileCurrentlyFacing: " + idTileCurrentlyFacing);
 
             moveSpeed = 2 * MOVE_SPEED_DEFAULT;
 
             if (game.getSceneManager().getCurrentScene() instanceof SceneFarm) {
                 game.getSceneManager().pop();
             }
-        } // Do NOT toggle [paused] from [update()]... will NOT be able to unpause!
+        } else if (game.getInputManager().isJustPressed(InputManager.Button.MENU)) {
+            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isJustPressed(InputManager.Button.MENU)");
+            game.getStateManager().toggleMenuState();
+        }
 
 
         // Check InputManager's DirectionPadFragment-specific boolean fields.

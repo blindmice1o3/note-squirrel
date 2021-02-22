@@ -2,7 +2,6 @@ package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scen
 
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.view.SurfaceHolder;
 
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.GameCamera;
@@ -49,23 +48,12 @@ public abstract class Scene
         entityManager.update(elapsed);
     }
 
-    public void drawCurrentFrame(SurfaceHolder holder) {
-        if (holder == null) {
-            return;
-        }
+    public void drawCurrentFrame(Canvas canvas) {
+        canvas.drawColor(Color.WHITE);
 
-        Canvas canvas = holder.lockCanvas();
-        if (canvas != null) {
-            canvas.drawColor(Color.WHITE);
-
-            tileManager.draw(canvas);
-
-            itemManager.draw(canvas);
-
-            entityManager.draw(canvas);
-
-            holder.unlockCanvasAndPost(canvas);
-        }
+        tileManager.draw(canvas);
+        itemManager.draw(canvas);
+        entityManager.draw(canvas);
     }
 
     public TileManager getTileManager() {

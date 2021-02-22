@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
@@ -27,6 +28,7 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scene
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.BugCatchingNet;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Shovel;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.states.StateManager;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.time.TimeManager;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.statsdisplayer.StatsDisplayerFragment;
 
@@ -38,10 +40,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 
-public class Game
-        implements InputManager.MenuButtonEventListener {
-
+public class Game {
     public interface StatsChangeListener {
         void onCurrencyChange(int currency);
         void onTimeChange(long timePlayedInMilliseconds);
@@ -62,6 +65,7 @@ public class Game
 
     private TimeManager timeManager;
     private SceneManager sceneManager;
+    private StateManager stateManager;
 
     /**
      * Displayed in StatsDisplayerFragment through Game.StatsChangeListener.onCurrencyChange(int currency).
@@ -91,6 +95,7 @@ public class Game
 
         timeManager = new TimeManager();
         sceneManager = new SceneManager();
+        stateManager = new StateManager();
 
         currency = 0;
 
@@ -124,13 +129,13 @@ public class Game
     public void init(Context context, InputManager inputManager, SurfaceHolder holder, int widthViewport, int heightViewport) {
         this.context = context;
         this.inputManager = inputManager;
-        inputManager.setMenuButtonEventListener(this);
         this.holder = holder;
         this.widthViewport = widthViewport;
         this.heightViewport = heightViewport;
 
         timeManager.init(this, statsChangeListener);
         sceneManager.init(this);
+        stateManager.init(this);
 
         for (Item item : backpack) {
             item.init(this);
@@ -145,7 +150,7 @@ public class Game
         createSeedShopDialog();
 
         if (loadNeeded) {
-            loadViaOS(widthViewport, heightViewport);
+            loadViaOS();
             loadNeeded = false;
         }
 
@@ -265,8 +270,26 @@ public class Game
     public void saveViaOS() {
         saveToFile(savedFileViaOSFileName);
     }
-    private void loadViaOS(int widthViewport, int heightViewport) {
-        loadFromFile(savedFileViaOSFileName, widthViewport, heightViewport);
+    private void loadViaOS() {
+        loadFromFile(savedFileViaOSFileName);
+    }
+
+    private String savedFileViaUserInputFileName = "savedFileViaUserInput" + getClass().getSimpleName() + ".ser";
+    public void saveViaUserInput() {
+        saveToFile(savedFileViaUserInputFileName);
+    }
+    public void loadViaUserInput() throws ExecutionException, InterruptedException {
+        Callable<Void> callable = new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                loadFromFile(savedFileViaUserInputFileName);
+                return null;
+            }
+        };
+
+        FutureTask<Void> task = new FutureTask<>(callable);
+        ((PassingThroughActivity)context).runOnUiThread(task);
+        task.get(); // Blocks
     }
 
     private void saveToFile(String fileName) {
@@ -320,7 +343,7 @@ public class Game
         }
     }
 
-    private void loadFromFile(String fileName, int widthViewport, int heightViewport) {
+    private void loadFromFile(String fileName) {
         Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".loadFromFile(String fileName) fileName: " + fileName);
         try (FileInputStream fi = context.openFileInput(fileName);
              ObjectInputStream os = new ObjectInputStream(fi)) {
@@ -329,6 +352,8 @@ public class Game
 
             sceneManager = (SceneManager) os.readObject();
             sceneManager.init(this);
+            // Loads player's xLastKnown and yLastKnown for the current scene.
+            sceneManager.getCurrentScene().enter();
 
 //            gameCamera = (GameCamera) os.readObject();
 //            gameCamera.init(Player.getInstance(), widthViewport, heightViewport,
@@ -370,7 +395,12 @@ public class Game
             buttonHolderCurrentlySelected = StatsDisplayerFragment.ButtonHolder.values()[ordinalValueOfButtonHolderCurrentlySelected];
 
             paused = os.readBoolean();
-            sceneManager.getCurrentScene().drawCurrentFrame(holder);
+            if (holder != null) {
+                Canvas canvas = holder.lockCanvas();
+                sceneManager.getCurrentScene().drawCurrentFrame(canvas);
+                holder.unlockCanvasAndPost(canvas);
+            }
+
             inBackpackDialogState = os.readBoolean();
             if (inBackpackDialogState) {
                 showBackpackDialog();
@@ -388,26 +418,21 @@ public class Game
         }
     }
 
-    @Override
-    public void onMenuButtonJustPressed() {
-        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onMenuButtonJustPressed()");
-        paused = !paused;
-    }
-
     public void update(long elapsed) {
-        if (paused) {
-            return;
-        }
-        timeManager.update(elapsed);
-        sceneManager.update(elapsed);
-        GameCamera.getInstance().update(elapsed);
+        stateManager.update(elapsed);
     }
 
     public void draw() {
-        if (paused) {
+        if (holder == null) {
             return;
         }
-        sceneManager.drawCurrentFrame(holder);
+
+        Canvas canvas = holder.lockCanvas();
+        if (canvas != null) {
+            stateManager.render(canvas);
+
+            holder.unlockCanvasAndPost(canvas);
+        }
     }
 
     public void doClickButtonHolder(StatsDisplayerFragment.ButtonHolder buttonHolder) {
@@ -422,12 +447,10 @@ public class Game
         backpackWithoutItemsDisplayingInButtonHolders.clear();
         backpackWithoutItemsDisplayingInButtonHolders.addAll(backpack);
         if (itemStoredInButtonHolderA != null) {
-            Toast.makeText(context, getClass().getSimpleName() + ".doClickButtonHolder(StatsDisplayerFragment.ButtonHolder buttonHolder) itemStoredInButtonHolderA: " + itemStoredInButtonHolderA, Toast.LENGTH_SHORT).show();
             backpackWithoutItemsDisplayingInButtonHolders.remove(itemStoredInButtonHolderA);
             itemRecyclerViewAdapter.notifyDataSetChanged();
         }
         if (itemStoredInButtonHolderB != null) {
-            Toast.makeText(context, getClass().getSimpleName() + ".doClickButtonHolder(StatsDisplayerFragment.ButtonHolder buttonHolder) itemStoredInButtonHolderB: " + itemStoredInButtonHolderB, Toast.LENGTH_SHORT).show();
             backpackWithoutItemsDisplayingInButtonHolders.remove(itemStoredInButtonHolderB);
             itemRecyclerViewAdapter.notifyDataSetChanged();
         }
@@ -451,8 +474,16 @@ public class Game
         return heightViewport;
     }
 
+    public TimeManager getTimeManager() {
+        return timeManager;
+    }
+
     public SceneManager getSceneManager() {
         return sceneManager;
+    }
+
+    public StateManager getStateManager() {
+        return stateManager;
     }
 
     public void setLoadNeeded(boolean loadNeeded) {

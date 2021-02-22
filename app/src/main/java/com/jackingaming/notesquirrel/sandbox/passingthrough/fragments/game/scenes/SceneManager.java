@@ -1,10 +1,6 @@
 package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes;
 
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.view.SurfaceHolder;
-
-import androidx.appcompat.app.AlertDialog;
+import android.graphics.Canvas;
 
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Player;
@@ -47,8 +43,8 @@ public class SceneManager
         getCurrentScene().update(elapsed);
     }
 
-    public void drawCurrentFrame(SurfaceHolder holder) {
-        getCurrentScene().drawCurrentFrame(holder);
+    public void drawCurrentFrame(Canvas canvas) {
+        getCurrentScene().drawCurrentFrame(canvas);
     }
 
     public void push(Scene newScene) {

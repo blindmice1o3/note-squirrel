@@ -119,5 +119,4 @@ public class StatsDisplayerFragment extends Fragment {
         imageViewButtonHolderB.setImageBitmap(image);
     }
 
-
 }

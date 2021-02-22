@@ -15,13 +15,6 @@ public class InputManager
         implements MySurfaceView.MySurfaceViewTouchListener,
         DirectionPadFragment.DirectionPadListener,
         ButtonPadFragment.ButtonPadListener {
-    public interface MenuButtonEventListener {
-        void onMenuButtonJustPressed();
-    }
-    private MenuButtonEventListener menuButtonEventListener;
-    public void setMenuButtonEventListener(MenuButtonEventListener menuButtonEventListener) {
-        this.menuButtonEventListener = menuButtonEventListener;
-    }
 
     public enum Button { UP, DOWN, LEFT, RIGHT, CENTER, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT,
         MENU, A, B, BUTTONHOLDER_A, BUTTONHOLDER_B;}
@@ -68,10 +61,6 @@ public class InputManager
             }
             if (!cantPress.get(button) && pressing.get(button)) {
                 justPressed.put(button, true);
-
-                if (button == Button.MENU) {
-                    menuButtonEventListener.onMenuButtonJustPressed();
-                }
             }
         }
     }
