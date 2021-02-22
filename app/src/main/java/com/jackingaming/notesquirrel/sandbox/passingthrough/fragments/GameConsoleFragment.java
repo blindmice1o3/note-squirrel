@@ -83,7 +83,7 @@ public class GameConsoleFragment extends Fragment
             Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onActivityCreated(Bundle savedInstanceState) gameTitle selected is: " + gameTitle);
             //////////////////////////////////////////
 
-            game = new Game();
+            game = new Game(gameTitle);
         }
 
         game.setStatsChangeListener(this);

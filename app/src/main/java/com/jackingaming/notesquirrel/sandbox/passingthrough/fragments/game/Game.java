@@ -62,6 +62,7 @@ public class Game {
     private int widthViewport;
     private int heightViewport;
     private boolean loadNeeded;
+    private String gameTitle;
 
     private TimeManager timeManager;
     private SceneManager sceneManager;
@@ -90,11 +91,12 @@ public class Game {
     private boolean inBackpackDialogState;
     private boolean inSeedShopDialogState;
 
-    public Game() {
+    public Game(String gameTitle) {
         loadNeeded = false;
+        this.gameTitle = gameTitle;
 
         timeManager = new TimeManager();
-        sceneManager = new SceneManager();
+        sceneManager = new SceneManager(gameTitle);
         stateManager = new StateManager();
 
         currency = 0;
@@ -493,5 +495,9 @@ public class Game {
 
     public InputManager getInputManager() {
         return inputManager;
+    }
+
+    public String getGameTitle() {
+        return gameTitle;
     }
 }

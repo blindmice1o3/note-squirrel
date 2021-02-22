@@ -78,7 +78,8 @@ public class Player extends Creature {
 
             moveSpeed = 2 * MOVE_SPEED_DEFAULT;
 
-            if (game.getSceneManager().getCurrentScene() instanceof SceneFarm) {
+            if (game.getGameTitle().equals("Pocket Critters") &&
+                    game.getSceneManager().getCurrentScene() instanceof SceneFarm) {
                 game.getSceneManager().pop();
             }
         } else if (game.getInputManager().isJustPressed(InputManager.Button.MENU)) {

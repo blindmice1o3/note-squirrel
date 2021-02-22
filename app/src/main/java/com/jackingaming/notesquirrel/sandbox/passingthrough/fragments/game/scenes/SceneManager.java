@@ -4,6 +4,8 @@ import android.graphics.Canvas;
 
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Player;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.evo.SceneEvo;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.frogger.SceneFrogger;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.pocketcritters.SceneHome01;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.pocketcritters.SceneHome02;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.pocketcritters.SceneHomeRival;
@@ -26,16 +28,38 @@ public class SceneManager
 
     private List<Scene> sceneStack;
 
-    public SceneManager() {
+    public SceneManager(String gameTitle) {
         sceneStack = new ArrayList<Scene>();
-        sceneStack.add(SceneWorldMapPart01.getInstance());
+
+        switch (gameTitle) {
+            case "Pocket Critters":
+                sceneStack.add(SceneWorldMapPart01.getInstance());
+                break;
+            case "Pooh Farmer":
+                sceneStack.add(SceneFarm.getInstance());
+                break;
+            case "Frogger":
+                sceneStack.add(SceneFrogger.getInstance());
+                break;
+            case "Pong":
+                // TODO: testing SceneEvo instead of ScenePong.
+                sceneStack.add(SceneEvo.getInstance());
+                break;
+            default:
+                sceneStack.add(SceneWorldMapPart01.getInstance());
+                break;
+        }
+
     }
 
     public void init(Game game) {
         this.game = game;
 
-        for (Scene scene : sceneStack) {
+        for (int i = 0; i < sceneStack.size(); i++) {
+            Scene scene = sceneStack.get(i);
+
             scene.init(game);
+            scene.enter();
         }
     }
 
