@@ -266,6 +266,13 @@ public class Player extends Creature {
                 return null;
         }
 
+        if ((yIndex < 0) || (yIndex > (tiles.length - 1)) ||
+                (xIndex < 0) || (xIndex > (tiles[0].length - 1))) {
+            Tile nonWalkableTile = new Tile("x");
+            nonWalkableTile.setWalkable(false);
+            return nonWalkableTile;
+        }
+
         return tiles[yIndex][xIndex];
     }
 }
