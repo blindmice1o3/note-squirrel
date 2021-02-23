@@ -3,6 +3,9 @@ package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scen
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
 
@@ -140,6 +143,29 @@ public class SceneHome02 extends Scene {
         transferPoints.put( "HOME_01", new Rect((7 * Tile.WIDTH), (1 * Tile.HEIGHT),
                 (7 * Tile.WIDTH) + (1 * Tile.WIDTH), (1 * Tile.HEIGHT) + (1 * Tile.HEIGHT)) );
         return transferPoints;
+    }
+
+    @Override
+    public void drawCurrentFrame(Canvas canvas) {
+        super.drawCurrentFrame(canvas);
+        Rect screenRectOfTransferPoint = getScreenRect(tileManager.getTransferPoints().get("HOME_01"));
+        Paint paint = new Paint();
+        paint.setColor(Color.YELLOW);
+        canvas.drawRect(screenRectOfTransferPoint, paint);
+
+        Rect screenRectOfPlayer = getScreenRect(Player.getInstance().getCollisionBounds(0, 0));
+        paint.setColor(Color.BLUE);
+        canvas.drawRect(screenRectOfPlayer, paint);
+    }
+
+    private Rect getScreenRect(Rect transferPoint) {
+        GameCamera gameCamera = GameCamera.getInstance();
+        Rect screenRect = new Rect(
+                (int)( (transferPoint.left - gameCamera.getX()) * gameCamera.getWidthPixelToViewportRatio()),
+                (int)( (transferPoint.top - gameCamera.getY()) * gameCamera.getHeightPixelToViewportRatio()),
+                (int)( ((transferPoint.left - gameCamera.getX()) + (transferPoint.right - transferPoint.left)) * gameCamera.getWidthPixelToViewportRatio()),
+                (int)( ((transferPoint.top - gameCamera.getY()) + (transferPoint.bottom - transferPoint.top)) * gameCamera.getHeightPixelToViewportRatio()) );
+        return screenRect;
     }
 
     public List<Entity> createEntitiesForHome02() {

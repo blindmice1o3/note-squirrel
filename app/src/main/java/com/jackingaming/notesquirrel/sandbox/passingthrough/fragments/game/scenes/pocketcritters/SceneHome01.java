@@ -3,6 +3,9 @@ package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scen
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
 
@@ -142,6 +145,34 @@ public class SceneHome01 extends Scene {
                 ((2 * Tile.WIDTH) + (2 * Tile.WIDTH)),
                 ((7 * Tile.HEIGHT) + (1 * Tile.HEIGHT))) );
         return transferPoints;
+    }
+
+    @Override
+    public void drawCurrentFrame(Canvas canvas) {
+        super.drawCurrentFrame(canvas);
+        Rect screenRectOfTransferPointHome02 = getScreenRect(tileManager.getTransferPoints().get("HOME_02"));
+        Paint paint = new Paint();
+        paint.setColor(Color.YELLOW);
+        canvas.drawRect(screenRectOfTransferPointHome02, paint);
+
+        Rect screenRectOfTransferPointPart01 = getScreenRect(tileManager.getTransferPoints().get("PART_01"));
+        paint = new Paint();
+        paint.setColor(Color.BLUE);
+        canvas.drawRect(screenRectOfTransferPointPart01, paint);
+
+        Rect screenRectOfPlayer = getScreenRect(Player.getInstance().getCollisionBounds(0, 0));
+        paint.setColor(Color.GREEN);
+        canvas.drawRect(screenRectOfPlayer, paint);
+    }
+
+    private Rect getScreenRect(Rect transferPoint) {
+        GameCamera gameCamera = GameCamera.getInstance();
+        Rect screenRect = new Rect(
+                (int)( (transferPoint.left - gameCamera.getX()) * gameCamera.getWidthPixelToViewportRatio()),
+                (int)( (transferPoint.top - gameCamera.getY()) * gameCamera.getHeightPixelToViewportRatio()),
+                (int)( ((transferPoint.left - gameCamera.getX()) + (transferPoint.right - transferPoint.left)) * gameCamera.getWidthPixelToViewportRatio()),
+                (int)( ((transferPoint.top - gameCamera.getY()) + (transferPoint.bottom - transferPoint.top)) * gameCamera.getHeightPixelToViewportRatio()) );
+        return screenRect;
     }
 
     private List<Entity> createEntitiesForHome01() {

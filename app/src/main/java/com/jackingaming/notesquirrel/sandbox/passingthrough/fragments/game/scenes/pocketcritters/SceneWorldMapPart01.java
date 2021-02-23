@@ -2,6 +2,9 @@ package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scen
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 
 import com.jackingaming.notesquirrel.R;
@@ -147,6 +150,39 @@ public class SceneWorldMapPart01 extends Scene {
         transferPoints.put( "LAB", new Rect((72 * Tile.WIDTH), (105 * Tile.HEIGHT),
                 (72 * Tile.WIDTH) + Tile.WIDTH, (105 * Tile.HEIGHT) + Tile.HEIGHT) );
         return transferPoints;
+    }
+
+    @Override
+    public void drawCurrentFrame(Canvas canvas) {
+        super.drawCurrentFrame(canvas);
+        Rect screenRectOfTransferPointHome02 = getScreenRect(tileManager.getTransferPoints().get("HOME_01"));
+        Paint paint = new Paint();
+        paint.setColor(Color.YELLOW);
+        canvas.drawRect(screenRectOfTransferPointHome02, paint);
+
+        Rect screenRectOfTransferPointHomeRival = getScreenRect(tileManager.getTransferPoints().get("HOME_RIVAL"));
+        paint = new Paint();
+        paint.setColor(Color.BLUE);
+        canvas.drawRect(screenRectOfTransferPointHomeRival, paint);
+
+        Rect screenRectOfTransferPointLab = getScreenRect(tileManager.getTransferPoints().get("LAB"));
+        paint = new Paint();
+        paint.setColor(Color.RED);
+        canvas.drawRect(screenRectOfTransferPointLab, paint);
+
+        Rect screenRectOfPlayer = getScreenRect(Player.getInstance().getCollisionBounds(0, 0));
+        paint.setColor(Color.GREEN);
+        canvas.drawRect(screenRectOfPlayer, paint);
+    }
+
+    private Rect getScreenRect(Rect transferPoint) {
+        GameCamera gameCamera = GameCamera.getInstance();
+        Rect screenRect = new Rect(
+                (int)( (transferPoint.left - gameCamera.getX()) * gameCamera.getWidthPixelToViewportRatio()),
+                (int)( (transferPoint.top - gameCamera.getY()) * gameCamera.getHeightPixelToViewportRatio()),
+                (int)( ((transferPoint.left - gameCamera.getX()) + (transferPoint.right - transferPoint.left)) * gameCamera.getWidthPixelToViewportRatio()),
+                (int)( ((transferPoint.top - gameCamera.getY()) + (transferPoint.bottom - transferPoint.top)) * gameCamera.getHeightPixelToViewportRatio()) );
+        return screenRect;
     }
 
     private List<Entity> createEntitiesForWorldMapPart01() {
