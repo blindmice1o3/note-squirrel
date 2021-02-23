@@ -37,7 +37,7 @@ public abstract class Entity
     }
 
     public abstract void update(long elapsed);
-    public abstract void respondToEntityCollision(Entity e);
+    public abstract boolean respondToEntityCollision(Entity e);
     public abstract void respondToItemCollisionViaClick(Item item);
     public abstract void respondToItemCollisionViaMove(Item item);
     public abstract void respondToTransferPointCollision(String key);
@@ -87,8 +87,8 @@ public abstract class Entity
             }
 
             if (e.getCollisionBounds(0f, 0f).intersect(getCollisionBounds(xOffset, yOffset))) {
-                respondToEntityCollision(e);
-                return true;
+                boolean hadCollided = respondToEntityCollision(e);
+                return hadCollided;
             }
         }
         return false;

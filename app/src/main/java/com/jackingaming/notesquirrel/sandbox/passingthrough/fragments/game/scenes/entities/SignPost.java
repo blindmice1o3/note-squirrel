@@ -26,8 +26,8 @@ public class SignPost extends Entity {
     }
 
     @Override
-    public void respondToEntityCollision(Entity e) {
-
+    public boolean respondToEntityCollision(Entity e) {
+        return true;
     }
 
     @Override

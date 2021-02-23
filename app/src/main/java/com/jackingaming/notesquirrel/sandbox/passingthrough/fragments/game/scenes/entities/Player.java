@@ -145,8 +145,12 @@ public class Player extends Creature {
     }
 
     @Override
-    public void respondToEntityCollision(Entity e) {
+    public boolean respondToEntityCollision(Entity e) {
         // TODO: if (e instanceof SignPost) { readSignPost(); }
+
+        if (e instanceof com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.frogger.Log) {
+            return false;
+        }
 
 //        ((PassingThroughActivity)game.getContext()).runOnUiThread(new Runnable() {
 //            @Override
@@ -162,6 +166,7 @@ public class Player extends Creature {
 //                Toast.makeText(game.getContext(), getClass().getSimpleName() + ".respondToEntityCollision(Entity e) testing Toast-message from non-UI thread.", Toast.LENGTH_SHORT).show();
 //            }
 //        });
+        return true;
     }
 
     @Override
