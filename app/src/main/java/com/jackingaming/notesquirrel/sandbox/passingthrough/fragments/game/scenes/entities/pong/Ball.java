@@ -2,9 +2,7 @@ package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scen
 
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
-import android.util.Log;
 
-import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.GameCamera;
@@ -39,11 +37,9 @@ public class Ball extends Creature {
         Random random = new Random();
         xMove = random.nextInt(2)*2 - 1;
         yMove = random.nextInt(2)*2 - 1;
-
-        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".init(Game game) bounds: " + bounds.left + ", " + bounds.top + ", " + bounds.right + ", " + bounds.bottom);
     }
 
-    private void interpretInput() {
+    private void determineDirection() {
 
         Rect screenRect = GameCamera.getInstance().convertToScreenRect(getCollisionBounds(0, 0));
         //PREVENT MOVING OFF-SCREEN (horizontally)
@@ -81,7 +77,7 @@ public class Ball extends Creature {
     @Override
     public void update(long elapsed) {
         // Determine values of [offset-of-next-step]... potential movement
-        interpretInput();
+        determineDirection();
 
         // MOVEMENT (check tile, item, entity, and transfer point collisions... actual movement)
         move();

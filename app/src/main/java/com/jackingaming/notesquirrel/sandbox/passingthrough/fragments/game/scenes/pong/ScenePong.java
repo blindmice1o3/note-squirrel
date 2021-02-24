@@ -1,13 +1,8 @@
 package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.pong;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Rect;
-import android.util.Log;
 
-import com.jackingaming.notesquirrel.MainActivity;
-import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.GameCamera;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.Scene;
@@ -15,6 +10,7 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scene
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Player;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.SignPost;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.pong.Ball;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.pong.Bat;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 
@@ -28,8 +24,6 @@ public class ScenePong extends Scene {
     public static final int Y_SPAWN_INDEX_DEFAULT = 4;
 
     private static ScenePong uniqueInstance;
-
-    transient private Bitmap imageBat;
 
     private ScenePong() {
         super();
@@ -49,8 +43,6 @@ public class ScenePong extends Scene {
     @Override
     public void init(Game game) {
         this.game = game;
-
-        initImagePong(game.getContext().getResources());
 
         // For scenes loaded from external file, the [create] and [init] steps in TileManager
         // are combined (unlike EntityManager and ItemManager).
@@ -94,10 +86,6 @@ public class ScenePong extends Scene {
         return pong;
     }
 
-    private void initImagePong(Resources resources) {
-        imageBat = BitmapFactory.decodeResource(resources, R.drawable.pc_yoko_tileset);
-    }
-
     private Map<String, Rect> createTransferPointsForPong() {
         Map<String, Rect> transferPoints = new HashMap<String, Rect>();
         return transferPoints;
@@ -105,10 +93,11 @@ public class ScenePong extends Scene {
 
     private List<Entity> createEntitiesForPong() {
         List<Entity> entities = new ArrayList<Entity>();
-        // TODO: Insert scene specific entities here.
 
-        Ball ball = new Ball(16, 16);
+        Ball ball = new Ball(0, 0);
         entities.add(ball);
+        Bat bat = new Bat(0, 0);
+        entities.add(bat);
         Entity signPost = new SignPost(3 * Tile.WIDTH, 2 * Tile.HEIGHT);
         entities.add(signPost);
         signPost = new SignPost(4 * Tile.WIDTH, 5 * Tile.HEIGHT);
