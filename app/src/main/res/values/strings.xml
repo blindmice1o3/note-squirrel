@@ -40,6 +40,7 @@
     <string-array name="game_titles">
         <item>Pocket Critters</item>
         <item>Pooh Farmer</item>
+        <item>Evo</item>
         <item>Pong</item>
         <item>Frogger</item>
     </string-array>

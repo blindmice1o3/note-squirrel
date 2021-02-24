@@ -11,6 +11,7 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scene
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.pocketcritters.SceneHomeRival;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.pocketcritters.SceneLab;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.pocketcritters.SceneWorldMapPart01;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.pong.ScenePong;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.poohfarmer.SceneChickenCoop;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.poohfarmer.SceneCowBarn;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.poohfarmer.SceneFarm;
@@ -38,12 +39,14 @@ public class SceneManager
             case "Pooh Farmer":
                 sceneStack.add(SceneFarm.getInstance());
                 break;
+            case "Evo":
+                sceneStack.add(SceneEvo.getInstance());
+                break;
             case "Frogger":
                 sceneStack.add(SceneFrogger.getInstance());
                 break;
             case "Pong":
-                // TODO: testing SceneEvo instead of ScenePong.
-                sceneStack.add(SceneEvo.getInstance());
+                sceneStack.add(ScenePong.getInstance());
                 break;
             default:
                 sceneStack.add(SceneWorldMapPart01.getInstance());

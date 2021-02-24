@@ -1,7 +1,9 @@
 package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities;
 
 import android.graphics.Canvas;
+import android.util.Log;
 
+import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 
 import java.io.Serializable;
