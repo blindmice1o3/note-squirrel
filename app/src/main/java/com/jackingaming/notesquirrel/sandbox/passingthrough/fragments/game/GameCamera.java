@@ -1,5 +1,7 @@
 package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game;
 
+import android.graphics.Rect;
+
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Entity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 
@@ -86,6 +88,17 @@ public class GameCamera
         else if ((y + clipHeightInPixel) > heightScene) {
             y = (heightScene - clipHeightInPixel);
         }
+    }
+
+    public Rect convertToScreenRect(Rect collisionBounds) {
+        int width = collisionBounds.right - collisionBounds.left;
+        int height = collisionBounds.bottom - collisionBounds.top;
+        Rect screenRect = new Rect(
+                (int)( (collisionBounds.left - x) * widthPixelToViewportRatio),
+                (int)( (collisionBounds.top - y) * heightPixelToViewportRatio),
+                (int)( ((collisionBounds.left - x) + width) * widthPixelToViewportRatio),
+                (int)( ((collisionBounds.top - y) + height) * heightPixelToViewportRatio) );
+        return screenRect;
     }
 
     public void updateClipWidthInTile(int clipWidthInTile) {

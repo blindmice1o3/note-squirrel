@@ -150,29 +150,19 @@ public class SceneHome01 extends Scene {
     @Override
     public void drawCurrentFrame(Canvas canvas) {
         super.drawCurrentFrame(canvas);
-        Rect screenRectOfTransferPointHome02 = getScreenRect(tileManager.getTransferPoints().get("HOME_02"));
+        Rect screenRectOfTransferPointHome02 = GameCamera.getInstance().convertToScreenRect(tileManager.getTransferPoints().get("HOME_02"));
         Paint paint = new Paint();
         paint.setColor(Color.YELLOW);
         canvas.drawRect(screenRectOfTransferPointHome02, paint);
 
-        Rect screenRectOfTransferPointPart01 = getScreenRect(tileManager.getTransferPoints().get("PART_01"));
+        Rect screenRectOfTransferPointPart01 = GameCamera.getInstance().convertToScreenRect(tileManager.getTransferPoints().get("PART_01"));
         paint = new Paint();
         paint.setColor(Color.BLUE);
         canvas.drawRect(screenRectOfTransferPointPart01, paint);
 
-        Rect screenRectOfPlayer = getScreenRect(Player.getInstance().getCollisionBounds(0, 0));
+        Rect screenRectOfPlayer = GameCamera.getInstance().convertToScreenRect(Player.getInstance().getCollisionBounds(0, 0));
         paint.setColor(Color.GREEN);
         canvas.drawRect(screenRectOfPlayer, paint);
-    }
-
-    private Rect getScreenRect(Rect transferPoint) {
-        GameCamera gameCamera = GameCamera.getInstance();
-        Rect screenRect = new Rect(
-                (int)( (transferPoint.left - gameCamera.getX()) * gameCamera.getWidthPixelToViewportRatio()),
-                (int)( (transferPoint.top - gameCamera.getY()) * gameCamera.getHeightPixelToViewportRatio()),
-                (int)( ((transferPoint.left - gameCamera.getX()) + (transferPoint.right - transferPoint.left)) * gameCamera.getWidthPixelToViewportRatio()),
-                (int)( ((transferPoint.top - gameCamera.getY()) + (transferPoint.bottom - transferPoint.top)) * gameCamera.getHeightPixelToViewportRatio()) );
-        return screenRect;
     }
 
     private List<Entity> createEntitiesForHome01() {

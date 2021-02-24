@@ -22,6 +22,12 @@ public class Tile
     private int yIndex;
     transient private Bitmap image;
 
+    private int x0InScene;
+    private int y0InScene;
+    private int x1InScene;
+    private int y1InScene;
+    transient private Rect collisionBoundsInScene;
+
     public Tile(String id) {
         this.id = id;
     }
@@ -31,16 +37,19 @@ public class Tile
         this.xIndex = xIndex;
         this.yIndex = yIndex;
         this.image = image;
+
+        x0InScene = xIndex * Tile.WIDTH;
+        y0InScene = yIndex * Tile.HEIGHT;
+        x1InScene = x0InScene + Tile.WIDTH;
+        y1InScene = y0InScene + Tile.HEIGHT;
+        collisionBoundsInScene = new Rect(x0InScene, y0InScene, x1InScene, y1InScene);
     }
 
     public void draw(Canvas canvas) {
         if (image != null) {
             Rect rectOfImage = new Rect(0, 0, image.getWidth(), image.getHeight());
-            Rect rectOnScreen = new Rect(
-                    (int) (((xIndex * Tile.WIDTH) - GameCamera.getInstance().getX()) * GameCamera.getInstance().getWidthPixelToViewportRatio()),
-                    (int) (((yIndex * Tile.HEIGHT) - GameCamera.getInstance().getY()) * GameCamera.getInstance().getHeightPixelToViewportRatio()),
-                    (int) ((((xIndex * Tile.WIDTH) + Tile.WIDTH) - GameCamera.getInstance().getX()) * GameCamera.getInstance().getWidthPixelToViewportRatio()),
-                    (int) ((((yIndex * Tile.HEIGHT) + Tile.HEIGHT) - GameCamera.getInstance().getY()) * GameCamera.getInstance().getHeightPixelToViewportRatio()));
+            Rect rectOnScreen = GameCamera.getInstance().convertToScreenRect(collisionBoundsInScene);
+
             canvas.drawBitmap(image, rectOfImage, rectOnScreen, null);
         }
     }

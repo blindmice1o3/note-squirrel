@@ -38,11 +38,8 @@ public class Item
     public void draw(Canvas canvas) {
         if (image != null) {
             Rect rectOfImage = new Rect(0, 0, image.getWidth(), image.getHeight());
-            Rect rectOnScreen = new Rect(
-                    (int) ((x - GameCamera.getInstance().getX()) * GameCamera.getInstance().getWidthPixelToViewportRatio()),
-                    (int) ((y - GameCamera.getInstance().getY()) * GameCamera.getInstance().getHeightPixelToViewportRatio()),
-                    (int) ((x + width - GameCamera.getInstance().getX()) * GameCamera.getInstance().getWidthPixelToViewportRatio()),
-                    (int) ((y + height - GameCamera.getInstance().getY()) * GameCamera.getInstance().getHeightPixelToViewportRatio()));
+            Rect rectOnScreen = GameCamera.getInstance().convertToScreenRect(getCollisionBounds(0, 0));
+
             canvas.drawBitmap(image, rectOfImage, rectOnScreen, null);
         }
     }
