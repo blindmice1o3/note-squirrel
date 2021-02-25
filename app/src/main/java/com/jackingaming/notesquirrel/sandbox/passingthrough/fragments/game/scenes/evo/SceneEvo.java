@@ -70,25 +70,127 @@ public class SceneEvo extends Scene {
         GameCamera.getInstance().update(0L);
     }
 
+    private boolean compareTwoSprites(Bitmap sprite1, Bitmap sprite2, int x, int y) {
+        //if width or height are not the same, the two sprites are NOT the same.
+        if ((sprite1.getWidth() != sprite1.getWidth()) || (sprite1.getHeight() != sprite2.getHeight())) {
+            return false;
+        }
+
+        //if any pixels are not the same, the two sprite are NOT the same.
+        //for (int y = 0; y < Tile.HEIGHT; y++) {
+        //for (int x = 0; x < Tile.WIDTH; x++) {
+        int pixelSprite1 = sprite1.getPixel(x, y);
+        int redSprite1 = (pixelSprite1 >> 16) & 0xff;
+        int greenSprite1 = (pixelSprite1 >> 8) & 0xff;
+        int blueSprite1 = (pixelSprite1) & 0xff;
+
+        int pixelSprite2 = sprite2.getPixel(x, y);
+        int redSprite2 = (pixelSprite2 >> 16) & 0xff;
+        int greenSprite2 = (pixelSprite2 >> 8) & 0xff;
+        int blueSprite2 = (pixelSprite2) & 0xff;
+
+        if ( ((redSprite1 == redSprite2) && (greenSprite1 == greenSprite2) && (blueSprite1 == blueSprite2)) ) {
+            return true;
+        }
+        //}
+        //}
+
+        return false;
+    }
+
     private Tile[][] createAndInitTilesForEvo(Game game) {
+        // entire scene
         Bitmap imageEvo = cropImageEvo(game.getContext().getResources());
         int columns = imageEvo.getWidth() / Tile.WIDTH;
         int rows = imageEvo.getHeight() / Tile.HEIGHT;
         Tile[][] evo = new Tile[rows][columns];
 
-        // Initialize the tiles (provide image and define walkable)
-        for (int y = 0; y < rows; y++) {
-            for (int x = 0; x < columns; x++) {
-                int xInPixel = x * Tile.WIDTH;
-                int yInPixel = y * Tile.HEIGHT;
-                int widthInPixel = Tile.WIDTH;
-                int heightInPixel = Tile.HEIGHT;
-                Bitmap tileSprite = Bitmap.createBitmap(imageEvo, xInPixel, yInPixel, widthInPixel, heightInPixel);
+        // tile-image targets
+        Bitmap coin = Bitmap.createBitmap(imageEvo, 224, 184, Tile.WIDTH, Tile.HEIGHT);
+        Bitmap brickGreen = Bitmap.createBitmap(imageEvo, 0, 200, Tile.WIDTH, Tile.HEIGHT);
+        Bitmap coralPink1 = Bitmap.createBitmap(imageEvo, 176, 184, Tile.WIDTH, Tile.HEIGHT);
+        Bitmap coralPink2 = Bitmap.createBitmap(imageEvo, 1632, 120, Tile.WIDTH, Tile.HEIGHT);
+        Bitmap coralPink3 = Bitmap.createBitmap(imageEvo, 2384, 184, Tile.WIDTH, Tile.HEIGHT);
 
-                Tile tile = new Tile("x");
-                tile.init(game, x, y, tileSprite);
-                evo[y][x] = tile;
+        ArrayList<Bitmap> solidTileSearchTargets = new ArrayList<Bitmap>();
+        solidTileSearchTargets.add(coin);
+        solidTileSearchTargets.add(brickGreen);
+        solidTileSearchTargets.add(coralPink1);
+        solidTileSearchTargets.add(coralPink2);
+        solidTileSearchTargets.add(coralPink3);
+
+        //check each pixels in the tile (16x16) within the 192tiles by 14tiles map.
+        for (int y = 0; y < rows-1; y++) {
+            for (int x = 0; x < columns; x++) {
+
+                int xOffset = (x * Tile.WIDTH);
+                int yOffset = (y * Tile.HEIGHT) + 8;
+                Bitmap currentTile = Bitmap.createBitmap(imageEvo,
+                        xOffset, yOffset, Tile.WIDTH, Tile.HEIGHT);
+
+                //for each tile, check if it's one of the solidTileSearchTargets.
+                for (Bitmap solidTileTarget : solidTileSearchTargets) {
+
+                    int xx = 0;
+                    int yy = 0;
+
+                    if (solidTileTarget == brickGreen) {
+                        xx = 0;
+                        yy = 0;
+                    } else {
+                        xx = 9;
+                        yy = 2;
+                    }
+
+                    //if it's the same, we have a SOLID tile.
+                    if (compareTwoSprites(solidTileTarget, currentTile, xx, yy)) {
+                        Tile tile = new Tile("x");
+                        tile.setWalkable(false);
+                        tile.init(game, x, y, currentTile);
+                        evo[y][x] = tile;
+                        break;
+                    }
+
+                    if ((evo[y][x] == null) && (solidTileTarget == coralPink1)) {
+                        xx = 8;
+                        yy = 14;
+                        if (compareTwoSprites(solidTileTarget, currentTile, xx, yy)) {
+                            Tile tile = new Tile("x");
+                            tile.setWalkable(false);
+                            tile.init(game, x, y, currentTile);
+                            evo[y][x] = tile;
+                            break;
+                        }
+                    }
+                    if ((evo[y][x] == null) && (solidTileTarget == coralPink1)) {
+                        xx = 8;
+                        yy = 15;
+                        if (compareTwoSprites(solidTileTarget, currentTile, xx, yy)) {
+                            Tile tile = new Tile("x");
+                            tile.setWalkable(false);
+                            tile.init(game, x, y, currentTile);
+                            evo[y][x] = tile;
+                            break;
+                        }
+                    }
+
+                }
+
+                if (evo[y][x] == null) {
+                    // walkable
+                    Tile tile = new Tile("o");
+                    tile.init(game, x, y, currentTile);
+                    evo[y][x] = tile;
+                }
             }
+        }
+
+        // bottom row should be all solid brick tiles.
+        for (int x = 0; x < columns; x++) {
+            Tile tile = new Tile("x");
+            tile.setWalkable(false);
+            tile.init(game, x, rows-1, brickGreen);
+            evo[rows-1][x] = tile;
         }
 
         return evo;
