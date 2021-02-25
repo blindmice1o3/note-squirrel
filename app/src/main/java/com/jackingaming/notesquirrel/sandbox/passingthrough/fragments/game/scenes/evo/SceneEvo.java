@@ -11,6 +11,7 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.GameC
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.Scene;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Entity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Player;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.evo.Kelp;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 
@@ -207,7 +208,14 @@ public class SceneEvo extends Scene {
 
     private List<Entity> createEntitiesForEvo() {
         List<Entity> entities = new ArrayList<Entity>();
-        // TODO: Insert scene specific entities here.
+
+        Entity kelp1 = new Kelp(5 * Tile.WIDTH, 3 * Tile.HEIGHT);
+        Entity kelp2 = new Kelp((int) (5.5f * Tile.WIDTH), 3 * Tile.HEIGHT);
+        Entity kelp3 = new Kelp(6 * Tile.WIDTH, 3 * Tile.HEIGHT);
+        entities.add(kelp1);
+        entities.add(kelp2);
+        entities.add(kelp3);
+
         return entities;
     }
 
