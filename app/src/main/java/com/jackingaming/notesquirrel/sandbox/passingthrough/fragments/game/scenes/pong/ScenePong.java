@@ -1,6 +1,5 @@
 package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.pong;
 
-import android.graphics.Bitmap;
 import android.graphics.Rect;
 
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;

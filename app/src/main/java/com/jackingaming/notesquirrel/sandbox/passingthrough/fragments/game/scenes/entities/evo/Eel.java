@@ -12,6 +12,7 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scene
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 
 public class Eel extends Creature {
+    private enum State { PATROL, TURN, CHASE, ATTACK, HURT; }
     private static final int ANIMATION_SPEED_DEFAULT = 300;
     transient private static Bitmap[] framesPatrolLeft;
     transient private static Bitmap[] framesPatrolRight;
@@ -33,6 +34,7 @@ public class Eel extends Creature {
 
     private float patrolLengthInPixelMax;
     private float patrolLengthInPixelCurrent;
+    private State state;
 
     public Eel(int xSpawn, int ySpawn, Direction direction, int patrolLengthInPixelMax) {
         super(xSpawn, ySpawn);
@@ -43,6 +45,7 @@ public class Eel extends Creature {
         this.patrolLengthInPixelMax = patrolLengthInPixelMax;
         patrolLengthInPixelCurrent = 0f;
         moveSpeed = 0.5f;
+        state = State.PATROL;
     }
 
     @Override
@@ -118,33 +121,55 @@ public class Eel extends Creature {
         determineNextMove();
         move();
 
-        if (direction == Direction.LEFT) {
-            image = animationPatrolLeft.getCurrentFrame();
-        } else if (direction == Direction.RIGHT) {
-            image = animationPatrolRight.getCurrentFrame();
-        }
+        determineNextImage();
     }
 
     private void determineNextMove() {
-        // PATROL (set value for future-change-in-position).
-        if (patrolLengthInPixelCurrent < patrolLengthInPixelMax) {
-            if (direction == Direction.LEFT) {
-                xMove = -moveSpeed;
-                patrolLengthInPixelCurrent += moveSpeed;
-            } else if (direction == Direction.RIGHT) {
-                xMove = moveSpeed;
-                patrolLengthInPixelCurrent += moveSpeed;
-            }
+        switch (state) {
+            case PATROL:
+                // PATROL (set value for future-change-in-position).
+                if (patrolLengthInPixelCurrent < patrolLengthInPixelMax) {
+                    if (direction == Direction.LEFT) {
+                        xMove = -moveSpeed;
+                        patrolLengthInPixelCurrent += moveSpeed;
+                    } else if (direction == Direction.RIGHT) {
+                        xMove = moveSpeed;
+                        patrolLengthInPixelCurrent += moveSpeed;
+                    }
+                }
+                // END OF PATROL LENGTH (reverse direction).
+                else {
+                    patrolLengthInPixelCurrent = 0f;
+                    state = State.TURN;
+                }
+                break;
+            case TURN:
+                if (direction == Direction.LEFT) {
+                    direction = Direction.RIGHT;
+                } else if (direction == Direction.RIGHT) {
+                    direction = Direction.LEFT;
+                }
+                state = State.PATROL;
+                break;
         }
-        // END OF PATROL LENGTH (reverse direction).
-        else {
-            if (direction == Direction.LEFT) {
-                direction = Direction.RIGHT;
-                patrolLengthInPixelCurrent = 0f;
-            } else if (direction == Direction.RIGHT) {
-                direction = Direction.LEFT;
-                patrolLengthInPixelCurrent = 0f;
-            }
+    }
+
+    private void determineNextImage() {
+        switch (state) {
+            case PATROL:
+                if (direction == Direction.LEFT) {
+                    image = animationPatrolLeft.getCurrentFrame();
+                } else if (direction == Direction.RIGHT) {
+                    image = animationPatrolRight.getCurrentFrame();
+                }
+                break;
+            case TURN:
+                if (direction == Direction.LEFT) {
+                    image = animationPatrolRightTurnToLeft.getCurrentFrame();
+                } else if (direction == Direction.RIGHT) {
+                    image = animationPatrolLeftTurnToRight.getCurrentFrame();
+                }
+                break;
         }
     }
 

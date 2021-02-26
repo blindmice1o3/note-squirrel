@@ -12,6 +12,7 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scene
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 
 public class SeaJelly extends Creature {
+    private enum State { PATROL, ATTACK, HURT; }
     private static final int ANIMATION_SPEED_DEFAULT = 300;
     transient private static Bitmap[] framesPatrol;
     transient private static Bitmap[] framesAttackLeft;
@@ -25,6 +26,7 @@ public class SeaJelly extends Creature {
 
     private float patrolLengthInPixelMax;
     private float patrolLengthInPixelCurrent;
+    private State state;
 
     public SeaJelly(int xSpawn, int ySpawn, Direction direction, int patrolLengthInPixelMax) {
         super(xSpawn, ySpawn);
@@ -35,6 +37,7 @@ public class SeaJelly extends Creature {
         this.patrolLengthInPixelMax = patrolLengthInPixelMax;
         patrolLengthInPixelCurrent = 0f;
         moveSpeed = 0.5f;
+        state = State.PATROL;
     }
 
     @Override
@@ -88,35 +91,51 @@ public class SeaJelly extends Creature {
         determineNextMove();
         move();
 
-        image = animationPatrol.getCurrentFrame();
+        determineNextImage();
     }
 
     private void determineNextMove() {
-        // PATROL (set value for future-change-in-position).
-        if (patrolLengthInPixelCurrent < patrolLengthInPixelMax) {
-            switch (direction) {
-                case DOWN:
-                    yMove = moveSpeed;
-                    patrolLengthInPixelCurrent += moveSpeed;
-                    break;
-                case UP:
-                    yMove = -moveSpeed;
-                    patrolLengthInPixelCurrent += moveSpeed;
-                    break;
-                default:
-                    yMove = 0f;
-                    break;
-            }
+        switch (state) {
+            case PATROL:
+                // PATROL (set value for future-change-in-position).
+                if (patrolLengthInPixelCurrent < patrolLengthInPixelMax) {
+                    if (direction == Direction.DOWN) {
+                        yMove = moveSpeed;
+                        patrolLengthInPixelCurrent += moveSpeed;
+                    } else if (direction == Direction.UP) {
+                        yMove = -moveSpeed;
+                        patrolLengthInPixelCurrent += moveSpeed;
+                    }
+                }
+                // END OF PATROL LENGTH (reverse direction).
+                else {
+                    patrolLengthInPixelCurrent = 0f;
+                    if (direction == Direction.DOWN) {
+                        direction = Direction.UP;
+                    } else if (direction == Direction.UP) {
+                        direction = Direction.DOWN;
+                    }
+                }
+                break;
+            case ATTACK:
+                break;
+            case HURT:
+                break;
         }
-        // END OF PATROL LENGTH (reverse direction).
-        else {
-            if (direction == Direction.DOWN) {
-                direction = Direction.UP;
-                patrolLengthInPixelCurrent = 0f;
-            } else if (direction == Direction.UP) {
-                direction = Direction.DOWN;
-                patrolLengthInPixelCurrent = 0f;
-            }
+    }
+
+    private void determineNextImage() {
+        switch (state) {
+            case PATROL:
+                image = animationPatrol.getCurrentFrame();
+                break;
+            case ATTACK:
+                // TODO: based on whether player is to its left or right side.
+                image = animationAttackLeft.getCurrentFrame();
+                break;
+            case HURT:
+                image = animationHurt.getCurrentFrame();
+                break;
         }
     }
 

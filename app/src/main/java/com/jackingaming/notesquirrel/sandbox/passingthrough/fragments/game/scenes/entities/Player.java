@@ -28,8 +28,7 @@ public class Player extends Creature {
     public static Player getInstance() {
         if (uniqueInstance == null) {
             uniqueInstance = new Player(
-                    (SceneWorldMapPart01.X_SPAWN_INDEX_DEFAULT * Tile.WIDTH),
-                    (SceneWorldMapPart01.Y_SPAWN_INDEX_DEFAULT * Tile.HEIGHT));
+                    (2 * Tile.WIDTH), (3 * Tile.HEIGHT));
         }
         return uniqueInstance;
     }

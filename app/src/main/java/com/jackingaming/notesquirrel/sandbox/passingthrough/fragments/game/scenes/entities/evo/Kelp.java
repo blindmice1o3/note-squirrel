@@ -29,7 +29,8 @@ public class Kelp extends Entity {
         super.init(game);
 
         if (kelpFrames == null) {
-            Bitmap spriteSheet = BitmapFactory.decodeResource(game.getContext().getResources(), R.drawable.snes_evo_search_for_eden_chapter1_creatures);
+            Bitmap spriteSheet = BitmapFactory.decodeResource(game.getContext().getResources(),
+                    R.drawable.snes_evo_search_for_eden_chapter1_creatures);
 
             kelpFrames = new Bitmap[6];
             kelpFrames[0] = Bitmap.createBitmap(spriteSheet, 557, 718, WIDTH_IMAGE, HEIGHT_IMAGE);
