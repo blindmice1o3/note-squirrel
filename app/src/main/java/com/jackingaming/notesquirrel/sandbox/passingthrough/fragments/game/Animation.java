@@ -1,6 +1,10 @@
 package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game;
 
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.util.Log;
+
+import com.jackingaming.notesquirrel.MainActivity;
 
 public class Animation {
 
@@ -38,4 +42,25 @@ public class Animation {
         return frames[index];
     }
 
+    public static Bitmap flipImageHorizontally(Bitmap source) {
+        Log.d(MainActivity.DEBUG_TAG, "Animation.flipImageHorizontally(Bitmap source)");
+        int xCenter = source.getWidth() / 2;
+        int yCenter = source.getHeight() / 2;
+
+        Matrix matrix = new Matrix();
+        //////////////////////////////////////////////////
+        matrix.postScale(-1, 1, xCenter, yCenter);
+        //////////////////////////////////////////////////
+
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+    }
+
+    public static Bitmap[] flipImageArrayHorizontally(Bitmap[] imagesUnflipped) {
+        Log.d(MainActivity.DEBUG_TAG, "Animation.flipImageArrayHorizontally(Bitmap[] imagesUnflipped)");
+        Bitmap[] imagesFlipped = new Bitmap[imagesUnflipped.length];
+        for (int i = 0; i < imagesUnflipped.length; i++) {
+            imagesFlipped[i] = Animation.flipImageHorizontally(imagesUnflipped[i]);
+        }
+        return imagesFlipped;
+    }
 }

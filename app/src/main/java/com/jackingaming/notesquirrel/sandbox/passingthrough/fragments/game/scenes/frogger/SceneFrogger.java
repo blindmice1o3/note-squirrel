@@ -3,11 +3,11 @@ package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scen
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.graphics.Rect;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Animation;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.GameCamera;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.Scene;
@@ -128,7 +128,7 @@ public class SceneFrogger extends Scene {
                         }
 
                         //add new right Car instance.
-                        Bitmap carPinkRight = flipHorizontally(carPinkLeft);
+                        Bitmap carPinkRight = Animation.flipImageHorizontally(carPinkLeft);
                         Car carPinkMovingRight = new Car(x, y, Car.Type.PINK,
                                 Creature.Direction.RIGHT, carPinkRight);
                         carPinkMovingRight.init(game);
@@ -192,7 +192,7 @@ public class SceneFrogger extends Scene {
                         }
 
                         //add new left Car instance.
-                        Bitmap carWhiteLeft = flipHorizontally(carWhiteRight);
+                        Bitmap carWhiteLeft = Animation.flipImageHorizontally(carWhiteRight);
                         Car carWhiteMovingLeft = new Car(x, y, Car.Type.WHITE,
                                 Creature.Direction.LEFT, carWhiteLeft);
                         carWhiteMovingLeft.init(game);
@@ -214,7 +214,7 @@ public class SceneFrogger extends Scene {
                         }
 
                         //add new right Car instance.
-                        Bitmap carYellowRight = flipHorizontally(carYellowLeft);
+                        Bitmap carYellowRight = Animation.flipImageHorizontally(carYellowLeft);
                         Car carYellowMovingRight = new Car(x, y, Car.Type.YELLOW,
                                 Creature.Direction.RIGHT, carYellowRight);
                         carYellowMovingRight.init(game);
@@ -413,18 +413,5 @@ public class SceneFrogger extends Scene {
         frogNPCLeft[1] = Bitmap.createBitmap(spriteSheetFrogger, 348, 409, 28, 23);
 
         android.util.Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".initFroggerSprites(Resources resources) FINISH!!!");
-    }
-
-    private Bitmap flipHorizontally(Bitmap source) {
-        android.util.Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".flipHorizontally(Bitmap source)");
-        int xCenter = source.getWidth()/2;
-        int yCenter = source.getHeight()/2;
-
-        Matrix matrix = new Matrix();
-        //////////////////////////////////////////////////
-        matrix.postScale(-1, 1, xCenter, yCenter);
-        //////////////////////////////////////////////////
-
-        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
     }
 }

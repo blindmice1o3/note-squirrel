@@ -9,9 +9,12 @@ import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.GameCamera;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.Scene;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Creature;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Entity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Player;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.evo.Eel;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.evo.Kelp;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.evo.SeaJelly;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 
@@ -215,6 +218,14 @@ public class SceneEvo extends Scene {
         entities.add(kelp1);
         entities.add(kelp2);
         entities.add(kelp3);
+
+        Entity seaJelly1 = new SeaJelly(8 * Tile.WIDTH, 2 * Tile.HEIGHT,
+                Creature.Direction.DOWN, 5 * Tile.HEIGHT);
+        entities.add(seaJelly1);
+
+        Entity eel1 = new Eel(8 * Tile.WIDTH, 6 * Tile.WIDTH,
+                Creature.Direction.LEFT, 5 * Tile.WIDTH);
+        entities.add(eel1);
 
         return entities;
     }

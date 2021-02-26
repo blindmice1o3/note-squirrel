@@ -2,7 +2,6 @@ package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scen
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Animation;
@@ -15,7 +14,7 @@ public class Kelp extends Entity {
     private static final int WIDTH_IMAGE = 12;
     private static final int HEIGHT_IMAGE = 32;
     private static final int ANIMATION_SPEED_DEFAULT = 300;
-    private static Bitmap[] kelpFrames;
+    transient private static Bitmap[] kelpFrames;
 
     transient private Animation animation;
 
@@ -40,10 +39,8 @@ public class Kelp extends Entity {
             kelpFrames[4] = Bitmap.createBitmap(spriteSheet, 582, 718, WIDTH_IMAGE, HEIGHT_IMAGE);
             kelpFrames[5] = Bitmap.createBitmap(spriteSheet, 569, 718, WIDTH_IMAGE, HEIGHT_IMAGE);
         }
-
         animation = new Animation(kelpFrames, ANIMATION_SPEED_DEFAULT);
     }
-
 
     @Override
     public void update(long elapsed) {
