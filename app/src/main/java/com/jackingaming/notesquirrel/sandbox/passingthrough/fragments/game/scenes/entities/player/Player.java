@@ -154,4 +154,12 @@ public class Player extends Creature {
 
         return tiles[yIndex][xIndex];
     }
+
+    public Form getForm() {
+        return form;
+    }
+
+    public void setForm(Form form) {
+        this.form = form;
+    }
 }

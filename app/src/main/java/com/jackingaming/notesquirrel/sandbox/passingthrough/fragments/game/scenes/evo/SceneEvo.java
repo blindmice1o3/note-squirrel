@@ -11,10 +11,12 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.GameC
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.Scene;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Creature;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Entity;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.Form;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.Player;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.evo.Eel;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.evo.Kelp;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.evo.SeaJelly;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.fish.FishForm;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 
@@ -60,6 +62,8 @@ public class SceneEvo extends Scene {
         itemManager.init(game);
     }
 
+    private Form formBeforeThisScene;
+    private Form formForThisScene;
     @Override
     public void enter() {
         super.enter();
@@ -71,7 +75,20 @@ public class SceneEvo extends Scene {
             Player.getInstance().setX(xLastKnown);
             Player.getInstance().setY(yLastKnown);
         }
+
+        formBeforeThisScene = Player.getInstance().getForm();
+        formForThisScene = new FishForm(Player.getInstance());
+        formForThisScene.init(game);
+        Player.getInstance().setForm(formForThisScene);
+
         GameCamera.getInstance().update(0L);
+    }
+
+    @Override
+    public void exit() {
+        super.exit();
+
+        Player.getInstance().setForm(formBeforeThisScene);
     }
 
     private boolean compareTwoSprites(Bitmap sprite1, Bitmap sprite2, int x, int y) {
