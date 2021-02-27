@@ -6,6 +6,7 @@ import android.graphics.Rect;
 import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.InputManager;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.GameCamera;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.animations.Animation;
@@ -83,11 +84,6 @@ public class FishForm
                 [fishStateManager.getCurrentFinPectoral().ordinal()]
                 [fishStateManager.getCurrentTail().ordinal()]
                 [0];
-
-        bounds.x = 2;
-        bounds.y = 1;
-        bounds.width = 28;
-        bounds.height = 13;
  */
 
         speed = fishStateManager.getAgility();
@@ -199,10 +195,12 @@ public class FishForm
     @Override
     public void update(long elapsed) {
         // ANIMATION
-        idleHeadAnimation.update(elapsed);
-        eatHeadAnimation.update(elapsed);
-        biteHeadAnimation.update(elapsed);
-        hurtHeadAnimation.update(elapsed);
+//        idleHeadAnimation.update(elapsed);
+//        eatHeadAnimation.update(elapsed);
+//        biteHeadAnimation.update(elapsed);
+//        hurtHeadAnimation.update(elapsed);
+        currentHeadAnimation.update(elapsed);
+        currentBodyAnimation.update(elapsed);
 
         // ATTACK_COOLDOWN
         // TODO: placeholder for AttackCooldown
@@ -275,7 +273,60 @@ public class FishForm
 
     @Override
     public void interpretInput() {
+        // Check InputManager's ButtonPadFragment-specific boolean fields.
+        if (game.getInputManager().isJustPressed(InputManager.Button.A)) {
+            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isJustPressed(InputManager.Button.A)");
+            // TODO: Implement a-button response.
+        } else if (game.getInputManager().isPressing(InputManager.Button.B)) {
+            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isPressing(InputManager.Button.B)");
+            float doubledMoveSpeedDefault = 2 * Creature.MOVE_SPEED_DEFAULT;
+            player.setMoveSpeed(doubledMoveSpeedDefault);
+        } else if (game.getInputManager().isJustPressed(InputManager.Button.MENU)) {
+            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isJustPressed(InputManager.Button.MENU)");
+            game.getStateManager().toggleMenuState();
+        }
 
+        float moveSpeed = player.getMoveSpeed();
+        // Check InputManager's DirectionPadFragment-specific boolean fields.
+        if (game.getInputManager().isPressing(InputManager.Button.UP)) {
+            player.setDirection(Creature.Direction.UP);
+            player.setyMove(-moveSpeed);    // vertical NEGATIVE
+        } else if (game.getInputManager().isPressing(InputManager.Button.DOWN)) {
+            player.setDirection(Creature.Direction.DOWN);
+            player.setyMove(moveSpeed);     // vertical POSITIVE
+        } else if (game.getInputManager().isPressing(InputManager.Button.LEFT)) {
+            directionFacing = DirectionFacing.LEFT;
+            player.setDirection(Creature.Direction.LEFT);
+            player.setxMove(-moveSpeed);    // horizontal NEGATIVE
+        } else if (game.getInputManager().isPressing(InputManager.Button.RIGHT)) {
+            directionFacing = DirectionFacing.RIGHT;
+            player.setDirection(Creature.Direction.RIGHT);
+            player.setxMove(moveSpeed);     // horizontal POSITIVE
+        } else if (game.getInputManager().isPressing(InputManager.Button.CENTER)) {
+            player.setDirection(Creature.Direction.CENTER);
+            player.setxMove(0f);            // horizontal ZERO
+            player.setyMove(0f);            // vertical ZERO
+        } else if (game.getInputManager().isPressing(InputManager.Button.UPLEFT)) {
+            directionFacing = DirectionFacing.LEFT;
+            player.setDirection(Creature.Direction.UP_LEFT);
+            player.setxMove(-moveSpeed);    // horizontal NEGATIVE
+            player.setyMove(-moveSpeed);    // vertical NEGATIVE
+        } else if (game.getInputManager().isPressing(InputManager.Button.UPRIGHT)) {
+            directionFacing = DirectionFacing.RIGHT;
+            player.setDirection(Creature.Direction.UP_RIGHT);
+            player.setxMove(moveSpeed);     // horizontal POSITIVE
+            player.setyMove(-moveSpeed);    // vertical NEGATIVE
+        } else if (game.getInputManager().isPressing(InputManager.Button.DOWNLEFT)) {
+            directionFacing = DirectionFacing.LEFT;
+            player.setDirection(Creature.Direction.DOWN_LEFT);
+            player.setxMove(-moveSpeed);    // horizontal NEGATIVE
+            player.setyMove(moveSpeed);     // vertical POSITIVE
+        } else if (game.getInputManager().isPressing(InputManager.Button.DOWNRIGHT)) {
+            directionFacing = DirectionFacing.RIGHT;
+            player.setDirection(Creature.Direction.DOWN_RIGHT);
+            player.setxMove(moveSpeed);     // horizontal POSITIVE
+            player.setyMove(moveSpeed);     // vertical POSITIVE
+        }
     }
 
     @Override
