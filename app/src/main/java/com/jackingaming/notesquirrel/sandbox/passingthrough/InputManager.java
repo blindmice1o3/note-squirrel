@@ -22,6 +22,7 @@ public class InputManager
     private Map<Button, Boolean> pressing;
     private Map<Button, Boolean> justPressed;
     private Map<Button, Boolean> cantPress;
+    private boolean pressingViewport, justPressedViewport, cantPressViewport;
 
     public InputManager() {
         initPressing();
@@ -51,7 +52,7 @@ public class InputManager
     }
 
     public void update(long elapsed) {
-        // TO LIMIT TO KEY-JUST-PRESSED
+        // TO LIMIT TO KEY-JUST-PRESSED (DirectionPad, ButtonPad, and ButtonHolders)
         for (Button button : InputManager.Button.values()) {
             if (cantPress.get(button) && !pressing.get(button)) {
                 cantPress.put(button, false);
@@ -63,6 +64,17 @@ public class InputManager
                 justPressed.put(button, true);
             }
         }
+
+        // TO LIMIT TO KEY-JUST-PRESSED (MySurfaceView)
+        if (cantPressViewport && !pressingViewport) {
+            cantPressViewport = false;
+        } else if (justPressedViewport) {
+            cantPressViewport = true;
+            justPressedViewport = false;
+        }
+        if (!cantPressViewport && pressingViewport) {
+            justPressedViewport = true;
+        }
     }
 
     public boolean isJustPressed(Button button) {
@@ -73,16 +85,24 @@ public class InputManager
         return pressing.get(button);
     }
 
+    public boolean isJustPressedViewport() {
+        return justPressedViewport;
+    }
+
+    public boolean isPressingViewport() {
+        return pressingViewport;
+    }
+
     @Override
     public boolean onMySurfaceViewTouched(MySurfaceView mySurfaceView, MotionEvent event) {
         Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onMySurfaceViewTouched(MySurfaceView mySurfaceView, MotionEvent event)");
 
-//        boolean pressing = true;
-//
-//        if (event.getAction() == MotionEvent.ACTION_UP) {
-//            pressing = false;
-//        }
-//
+        pressingViewport = true;
+
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            pressingViewport = false;
+        }
+
 //        float xLowerBound = mySurfaceView.getWidth() / 3f;
 //        float xUpperBound = 2 * xLowerBound;
 //        float yLowerBound = mySurfaceView.getHeight() / 3f;
@@ -118,7 +138,7 @@ public class InputManager
 //            }
 //        }
 //
-        return false;
+        return pressingViewport;
     }
 
     @Override

@@ -317,9 +317,25 @@ public class FishForm
             Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isPressing(InputManager.Button.B)");
             float doubledMoveSpeedDefault = 2 * Creature.MOVE_SPEED_DEFAULT;
             player.setMoveSpeed(doubledMoveSpeedDefault);
-        } else if (game.getInputManager().isJustPressed(InputManager.Button.MENU)) {
+        }
+        // MENU (SAVE/LOAD)
+        else if (game.getInputManager().isJustPressed(InputManager.Button.MENU)) {
             Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isJustPressed(InputManager.Button.MENU)");
             game.getStateManager().toggleMenuState();
+        }
+        // BODY-PARTS SWAPPING
+        else if (game.getInputManager().isJustPressedViewport()) {
+            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isJustPressedViewport()");
+            int currentJawsOrdinal = fishStateManager.getCurrentJaws().ordinal();
+            FishStateManager.Jaws[] jaws = FishStateManager.Jaws.values();
+            if ((currentJawsOrdinal+1) < jaws.length) {
+                fishStateManager.setCurrentJaws(jaws[currentJawsOrdinal + 1]);
+            } else {
+                fishStateManager.setCurrentJaws(jaws[0]);
+            }
+            //TODO: inefficient, (though unlikely) could be returning to an already-existing Animation object.
+            initHeadAnimations();
+            updatePlayerStats();
         }
 
 
@@ -364,6 +380,17 @@ public class FishForm
             player.setxMove(moveSpeed);     // horizontal POSITIVE
             player.setyMove(moveSpeed);     // vertical POSITIVE
         }
+    }
+
+    private void updatePlayerStats() {
+        //refresh bonuses-based-on-body-parts and takes care of refreshing healthMax.
+        fishStateManager.updatePlayerStats();
+
+        damageBite = fishStateManager.getDamageBite();
+        //TODO: damageStrength.
+        armor = fishStateManager.getDefense();
+        speed = fishStateManager.getAgility();
+        //TODO: jump.
     }
 
     @Override
