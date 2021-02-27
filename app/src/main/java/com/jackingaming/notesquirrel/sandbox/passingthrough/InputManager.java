@@ -17,17 +17,19 @@ public class InputManager
         ButtonPadFragment.ButtonPadListener {
 
     public enum Button { UP, DOWN, LEFT, RIGHT, CENTER, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT,
-        MENU, A, B, BUTTONHOLDER_A, BUTTONHOLDER_B;}
+        MENU, A, B, BUTTONHOLDER_A, BUTTONHOLDER_B; }
+    public enum ViewportButton { UP, DOWN, LEFT, RIGHT; }
 
-    private Map<Button, Boolean> pressing;
-    private Map<Button, Boolean> justPressed;
-    private Map<Button, Boolean> cantPress;
-    private boolean pressingViewport, justPressedViewport, cantPressViewport;
+    private Map<Button, Boolean> pressing, justPressed, cantPress;
+    private Map<ViewportButton, Boolean> pressingViewport, justPressedViewport, cantPressViewport;
 
     public InputManager() {
         initPressing();
         initJustPressed();
         initCantPress();
+        initPressingViewport();
+        initJustPressedViewport();
+        initCantPressViewport();
     }
 
     private void initPressing() {
@@ -51,6 +53,27 @@ public class InputManager
         }
     }
 
+    private void initPressingViewport() {
+        pressingViewport = new HashMap<ViewportButton, Boolean>();
+        for (ViewportButton viewportButton : ViewportButton.values()) {
+            pressingViewport.put(viewportButton, false);
+        }
+    }
+
+    private void initJustPressedViewport() {
+        justPressedViewport = new HashMap<ViewportButton, Boolean>();
+        for (ViewportButton viewportButton : ViewportButton.values()) {
+            justPressedViewport.put(viewportButton, false);
+        }
+    }
+
+    private void initCantPressViewport() {
+        cantPressViewport = new HashMap<ViewportButton, Boolean>();
+        for (ViewportButton viewportButton : ViewportButton.values()) {
+            cantPressViewport.put(viewportButton, false);
+        }
+    }
+
     public void update(long elapsed) {
         // TO LIMIT TO KEY-JUST-PRESSED (DirectionPad, ButtonPad, and ButtonHolders)
         for (Button button : InputManager.Button.values()) {
@@ -66,14 +89,16 @@ public class InputManager
         }
 
         // TO LIMIT TO KEY-JUST-PRESSED (MySurfaceView)
-        if (cantPressViewport && !pressingViewport) {
-            cantPressViewport = false;
-        } else if (justPressedViewport) {
-            cantPressViewport = true;
-            justPressedViewport = false;
-        }
-        if (!cantPressViewport && pressingViewport) {
-            justPressedViewport = true;
+        for (ViewportButton viewportButton : ViewportButton.values()) {
+            if (cantPressViewport.get(viewportButton) && !pressingViewport.get(viewportButton)) {
+                cantPressViewport.put(viewportButton, false);
+            } else if (justPressedViewport.get(viewportButton)) {
+                cantPressViewport.put(viewportButton, true);
+                justPressedViewport.put(viewportButton, false);
+            }
+            if (!cantPressViewport.get(viewportButton) && pressingViewport.get(viewportButton)) {
+                justPressedViewport.put(viewportButton, true);
+            }
         }
     }
 
@@ -85,60 +110,60 @@ public class InputManager
         return pressing.get(button);
     }
 
-    public boolean isJustPressedViewport() {
-        return justPressedViewport;
+    public boolean isJustPressedViewport(ViewportButton viewportButton) {
+        return justPressedViewport.get(viewportButton);
     }
 
-    public boolean isPressingViewport() {
-        return pressingViewport;
+    public boolean isPressingViewport(ViewportButton viewportButton) {
+        return pressingViewport.get(viewportButton);
     }
 
     @Override
     public boolean onMySurfaceViewTouched(MySurfaceView mySurfaceView, MotionEvent event) {
         Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onMySurfaceViewTouched(MySurfaceView mySurfaceView, MotionEvent event)");
 
-        pressingViewport = true;
+        boolean pressing = true;
 
         if (event.getAction() == MotionEvent.ACTION_UP) {
-            pressingViewport = false;
+            pressing = false;
         }
 
-//        float xLowerBound = mySurfaceView.getWidth() / 3f;
-//        float xUpperBound = 2 * xLowerBound;
-//        float yLowerBound = mySurfaceView.getHeight() / 3f;
-//        float yUpperBound = 2 * yLowerBound;
-//
-//        // horizontal first-third
-//        if (0 <= event.getX() && (event.getX() < xLowerBound)) {
-//            // vertical (center-third)
-//            if ((yLowerBound <= event.getY()) && (event.getY() < yUpperBound)) {
-//                this.pressing.put(InputManager.Button.LEFT, pressing);
-//                return true;
-//            }
-//        }
-//        // horizontal center-third
-//        else if ((xLowerBound <= event.getX()) && (event.getX() < xUpperBound)) {
-//            // vertical (first-third)
-//            if ((0 <= event.getY()) && (event.getY() < yLowerBound)) {
-//                this.pressing.put(InputManager.Button.UP, pressing);
-//                return true;
-//            }
-//            // vertical (last-third)
-//            else if (yUpperBound <= event.getY()) {
-//                this.pressing.put(InputManager.Button.DOWN, pressing);
-//                return true;
-//            }
-//        }
-//        // horizontal last-third
-//        else if (xUpperBound <= event.getX()) {
-//            // vertical (center-third)
-//            if ((yLowerBound <= event.getY()) && (event.getY() < yUpperBound)) {
-//                this.pressing.put(InputManager.Button.RIGHT, pressing);
-//                return true;
-//            }
-//        }
-//
-        return pressingViewport;
+        float xLowerBound = mySurfaceView.getWidth() / 3f;
+        float xUpperBound = 2 * xLowerBound;
+        float yLowerBound = mySurfaceView.getHeight() / 3f;
+        float yUpperBound = 2 * yLowerBound;
+
+        // horizontal first-third
+        if (0 <= event.getX() && (event.getX() < xLowerBound)) {
+            // vertical (center-third)
+            if ((yLowerBound <= event.getY()) && (event.getY() < yUpperBound)) {
+                pressingViewport.put(ViewportButton.LEFT, pressing);
+                return true;
+            }
+        }
+        // horizontal center-third
+        else if ((xLowerBound <= event.getX()) && (event.getX() < xUpperBound)) {
+            // vertical (first-third)
+            if ((0 <= event.getY()) && (event.getY() < yLowerBound)) {
+                pressingViewport.put(ViewportButton.UP, pressing);
+                return true;
+            }
+            // vertical (last-third)
+            else if (yUpperBound <= event.getY()) {
+                pressingViewport.put(ViewportButton.DOWN, pressing);
+                return true;
+            }
+        }
+        // horizontal last-third
+        else if (xUpperBound <= event.getX()) {
+            // vertical (center-third)
+            if ((yLowerBound <= event.getY()) && (event.getY() < yUpperBound)) {
+                pressingViewport.put(ViewportButton.RIGHT, pressing);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override

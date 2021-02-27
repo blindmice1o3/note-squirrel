@@ -324,8 +324,9 @@ public class FishForm
             game.getStateManager().toggleMenuState();
         }
         // BODY-PARTS SWAPPING
-        else if (game.getInputManager().isJustPressedViewport()) {
-            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isJustPressedViewport()");
+        else if (game.getInputManager().isJustPressedViewport(InputManager.ViewportButton.UP)) {
+            // JAWS
+            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isJustPressedViewport(ViewportButton.UP)");
             int currentJawsOrdinal = fishStateManager.getCurrentJaws().ordinal();
             FishStateManager.Jaws[] jaws = FishStateManager.Jaws.values();
             if ((currentJawsOrdinal+1) < jaws.length) {
@@ -336,8 +337,46 @@ public class FishForm
             //TODO: inefficient, (though unlikely) could be returning to an already-existing Animation object.
             initHeadAnimations();
             updatePlayerStats();
+        } else if (game.getInputManager().isJustPressedViewport(InputManager.ViewportButton.DOWN)) {
+            // BODY_TEXTURE
+            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isJustPressedViewport(ViewportButton.DOWN)");
+            int currentBodyTextureOrdinal = fishStateManager.getCurrentBodyTexture().ordinal();
+            FishStateManager.BodyTexture[] bodyTexture = FishStateManager.BodyTexture.values();
+            if ((currentBodyTextureOrdinal+1) < bodyTexture.length) {
+                fishStateManager.setCurrentBodyTexture(bodyTexture[currentBodyTextureOrdinal + 1]);
+            } else {
+                fishStateManager.setCurrentBodyTexture(bodyTexture[0]);
+            }
+            //TODO: inefficient, (though unlikely) could be returning to an already-existing Animation object.
+            updateHeadAndTailAnimations();
+            updatePlayerStats();
+        } else if (game.getInputManager().isJustPressedViewport(InputManager.ViewportButton.LEFT)) {
+            // FIN_PECTORAL
+            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isJustPressedViewport(ViewportButton.LEFT");
+            int currentFinPectoralOrdinal = fishStateManager.getCurrentFinPectoral().ordinal();
+            FishStateManager.FinPectoral[] finPectoral = FishStateManager.FinPectoral.values();
+            if ((currentFinPectoralOrdinal+1) < finPectoral.length) {
+                fishStateManager.setCurrentFinPectoral(finPectoral[currentFinPectoralOrdinal + 1]);
+            } else {
+                fishStateManager.setCurrentFinPectoral(finPectoral[0]);
+            }
+            //TODO: inefficient, (though unlikely) could be returning to an already-existing Animation object.
+            updateHeadAndTailAnimations();
+            updatePlayerStats();
+        } else if (game.getInputManager().isJustPressedViewport(InputManager.ViewportButton.RIGHT)) {
+            // TAIL
+            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isJustPressedViewport(ViewportButton.RIGHT)");
+            int currentTailOrdinal = fishStateManager.getCurrentTail().ordinal();
+            FishStateManager.Tail[] tails = FishStateManager.Tail.values();
+            if ((currentTailOrdinal+1) < tails.length) {
+                fishStateManager.setCurrentTail(tails[currentTailOrdinal + 1]);
+            } else {
+                fishStateManager.setCurrentTail(tails[0]);
+            }
+            //TODO: inefficient, (though unlikely) could be returning to an already-existing Animation object.
+            updateHeadAndTailAnimations();
+            updatePlayerStats();
         }
-
 
         float moveSpeed = player.getMoveSpeed();
         // Check InputManager's DirectionPadFragment-specific boolean fields.
@@ -391,6 +430,45 @@ public class FishForm
         armor = fishStateManager.getDefense();
         speed = fishStateManager.getAgility();
         //TODO: jump.
+    }
+
+    private void updateHeadAndTailAnimations() {
+        initHeadAnimations();
+        switch (fishStateManager.getCurrentTail()) {
+            case ORIGINAL:
+                currentBodyAnimation = new Animation(
+                        Assets.tailOriginal[fishStateManager.getCurrentBodySize().ordinal()]
+                                [fishStateManager.getCurrentBodyTexture().ordinal()]
+                                [fishStateManager.getCurrentFinPectoral().ordinal()], BODY_ANIMATION_SPEED_DEFAULT);
+                break;
+            case COELAFISH:
+                currentBodyAnimation = new Animation(
+                        Assets.tailCoelafish[fishStateManager.getCurrentBodySize().ordinal()]
+                                [fishStateManager.getCurrentBodyTexture().ordinal()]
+                                [fishStateManager.getCurrentFinPectoral().ordinal()], BODY_ANIMATION_SPEED_DEFAULT);
+                break;
+            case TERATISU:
+                currentBodyAnimation = new Animation(
+                        Assets.tailTeratisu[fishStateManager.getCurrentBodySize().ordinal()]
+                                [fishStateManager.getCurrentBodyTexture().ordinal()]
+                                [fishStateManager.getCurrentFinPectoral().ordinal()], BODY_ANIMATION_SPEED_DEFAULT);
+                break;
+            case ZINICHTHY:
+                currentBodyAnimation = new Animation(
+                        Assets.tailZinichthy[fishStateManager.getCurrentBodySize().ordinal()]
+                                [fishStateManager.getCurrentBodyTexture().ordinal()]
+                                [fishStateManager.getCurrentFinPectoral().ordinal()], BODY_ANIMATION_SPEED_DEFAULT);
+                break;
+            case KURASELACHE:
+                currentBodyAnimation = new Animation(
+                        Assets.tailKuraselache[fishStateManager.getCurrentBodySize().ordinal()]
+                                [fishStateManager.getCurrentBodyTexture().ordinal()]
+                                [fishStateManager.getCurrentFinPectoral().ordinal()], BODY_ANIMATION_SPEED_DEFAULT);
+                break;
+            default:
+                Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".updateHeadAndTailAnimations() switch's default.");
+                break;
+        }
     }
 
     @Override
