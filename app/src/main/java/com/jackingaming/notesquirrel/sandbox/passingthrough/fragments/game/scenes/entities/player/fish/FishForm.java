@@ -1,14 +1,20 @@
 package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.fish;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Rect;
+import android.util.Log;
 
+import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.GameCamera;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.animations.Animation;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Creature;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Entity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.Form;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.Player;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 
 public class FishForm
         implements Form {
@@ -59,6 +65,11 @@ public class FishForm
         health = healthMax;
 
         Assets.init(game);
+
+        player.setWidth(Tile.WIDTH);
+        player.setHeight(Tile.HEIGHT / 2);
+        player.setBounds(new Rect(0, 0, player.getWidth(), player.getHeight()));
+
         initAnimations();
 
 /*
@@ -212,13 +223,64 @@ public class FishForm
     }
 
     @Override
+    public void draw(Canvas canvas) {
+        //ACTUAL IMAGE OF FISH
+        if (directionFacing == DirectionFacing.RIGHT) {
+            Bitmap imageBody = currentBodyAnimation.getCurrentFrame();
+            Bitmap imageHead = currentHeadAnimation.getCurrentFrame();
+
+            Rect rectBody = new Rect(
+                    (int)player.getX(),
+                    (int)player.getY(),
+                    (int)(player.getX() + (2 * player.getWidth() / 3f)),
+                    (int)(player.getY() + player.getHeight()));
+            Rect rectHead = new Rect(
+                    (int)(player.getX() + (2 * player.getWidth() / 3f)),
+                    (int)player.getY(),
+                    (int)(player.getX() + player.getWidth()),
+                    (int)(player.getY() + player.getHeight()));
+
+            Rect rectBodyImage = new Rect(0, 0, imageBody.getWidth(), imageBody.getHeight());
+            Rect rectBodyOnScreen = GameCamera.getInstance().convertToScreenRect(rectBody);
+            Rect rectHeadImage = new Rect(0, 0, imageHead.getWidth(), imageHead.getHeight());
+            Rect rectHeadOnScreen = GameCamera.getInstance().convertToScreenRect(rectHead);
+
+            canvas.drawBitmap(imageBody, rectBodyImage, rectBodyOnScreen, null);
+            canvas.drawBitmap(imageHead, rectHeadImage, rectHeadOnScreen, null);
+        } else if (directionFacing == DirectionFacing.LEFT) {
+            //FLIP IMAGES of head and body.
+            Bitmap imageHeadFlipped = Animation.flipImageHorizontally(currentHeadAnimation.getCurrentFrame());
+            Bitmap imageBodyFlipped = Animation.flipImageHorizontally(currentBodyAnimation.getCurrentFrame());
+
+            Rect rectHead = new Rect(
+                    (int)player.getX(),
+                    (int)player.getY(),
+                    (int)(player.getX() + (1 * player.getWidth() / 3f)),
+                    (int)(player.getY() + player.getHeight()));
+            Rect rectBody = new Rect(
+                    (int)(player.getX() + (1 * player.getWidth() / 3f)),
+                    (int)player.getY(),
+                    (int)(player.getX() + player.getWidth()),
+                    (int)(player.getY() + player.getHeight()));
+
+            Rect rectHeadImage = new Rect(0, 0, imageHeadFlipped.getWidth(), imageHeadFlipped.getHeight());
+            Rect rectHeadOnScreen = GameCamera.getInstance().convertToScreenRect(rectHead);
+            Rect rectBodyImage = new Rect(0, 0, imageBodyFlipped.getWidth(), imageBodyFlipped.getHeight());
+            Rect rectBodyOnScreen = GameCamera.getInstance().convertToScreenRect(rectBody);
+
+            canvas.drawBitmap(imageHeadFlipped, rectHeadImage, rectHeadOnScreen, null);
+            canvas.drawBitmap(imageBodyFlipped, rectBodyImage, rectBodyOnScreen, null);
+        }
+    }
+
+    @Override
     public void interpretInput() {
 
     }
 
     @Override
     public void determineNextImage() {
-
+        player.setImage(null);
     }
 
     @Override

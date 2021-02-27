@@ -37,6 +37,13 @@ public class Player extends Creature {
     }
 
     @Override
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
+
+        form.draw(canvas);
+    }
+
+    @Override
     public void respondToTransferPointCollision(String key) {
         form.respondToTransferPointCollision(key);
     }

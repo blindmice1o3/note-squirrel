@@ -60,6 +60,11 @@ public class PoohForm
     }
 
     @Override
+    public void draw(Canvas canvas) {
+        // Intentionally blank.
+    }
+
+    @Override
     public void interpretInput() {
         // Check InputManager's ButtonPadFragment-specific boolean fields.
         if (game.getInputManager().isJustPressed(InputManager.Button.A)) {

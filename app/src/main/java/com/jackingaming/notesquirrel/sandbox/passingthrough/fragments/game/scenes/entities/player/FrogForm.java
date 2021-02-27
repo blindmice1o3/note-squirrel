@@ -26,6 +26,11 @@ public class FrogForm
     }
 
     @Override
+    public void draw(Canvas canvas) {
+
+    }
+
+    @Override
     public void interpretInput() {
 
     }
