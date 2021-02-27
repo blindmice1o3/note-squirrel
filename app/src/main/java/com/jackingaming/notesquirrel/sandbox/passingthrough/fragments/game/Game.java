@@ -24,7 +24,7 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.PassingThroughActivi
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.adapters.ItemRecyclerViewAdapter;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.HoneyPot;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.SceneManager;
-import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Player;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.Player;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.BugCatchingNet;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Shovel;

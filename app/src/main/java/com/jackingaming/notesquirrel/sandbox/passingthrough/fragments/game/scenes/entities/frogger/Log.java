@@ -6,7 +6,7 @@ import android.graphics.Rect;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Creature;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Entity;
-import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Player;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.Player;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 

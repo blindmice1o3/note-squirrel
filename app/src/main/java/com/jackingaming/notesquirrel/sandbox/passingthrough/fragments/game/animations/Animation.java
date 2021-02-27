@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game;
+package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.animations;
 
 import android.graphics.Bitmap;
 import android.graphics.Matrix;

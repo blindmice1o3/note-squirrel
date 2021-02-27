@@ -6,7 +6,7 @@ import android.graphics.Color;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.GameCamera;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.EntityManager;
-import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Player;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.Player;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.ItemManager;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.TileManager;
 

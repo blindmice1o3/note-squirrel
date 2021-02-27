@@ -1,28 +1,16 @@
 package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.evo;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
-import com.jackingaming.notesquirrel.R;
-import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Animation;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.animations.SeaJellyAnimationManager;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Creature;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Entity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 
 public class SeaJelly extends Creature {
-    private enum State { PATROL, ATTACK, HURT; }
-    private static final int ANIMATION_SPEED_DEFAULT = 300;
-    transient private static Bitmap[] framesPatrol;
-    transient private static Bitmap[] framesAttackLeft;
-    transient private static Bitmap[] framesAttackRight;
-    transient private static Bitmap[] framesHurt;
+    public enum State { PATROL, ATTACK, HURT; }
 
-    transient private Animation animationPatrol;
-    transient private Animation animationAttackLeft;
-    transient private Animation animationAttackRight;
-    transient private Animation animationHurt;
+    private SeaJellyAnimationManager seaJellyAnimationManager;
 
     private float patrolLengthInPixelMax;
     private float patrolLengthInPixelCurrent;
@@ -38,52 +26,18 @@ public class SeaJelly extends Creature {
         patrolLengthInPixelCurrent = 0f;
         moveSpeed = 0.5f;
         state = State.PATROL;
+        seaJellyAnimationManager = new SeaJellyAnimationManager();
     }
 
     @Override
     public void init(Game game) {
         super.init(game);
-
-        if (framesPatrol == null) {
-            Bitmap spriteSheet = BitmapFactory.decodeResource(game.getContext().getResources(), R.drawable.snes_evo_search_for_eden_chapter1_creatures);
-            // CENTER (forward-facing)
-            framesPatrol = new Bitmap[3];
-            framesPatrol[0] = Bitmap.createBitmap(spriteSheet, 552, 29, 16, 32);
-            framesPatrol[1] = Bitmap.createBitmap(spriteSheet, 568, 29, 16, 32);
-            framesPatrol[2] = Bitmap.createBitmap(spriteSheet, 584, 29, 16, 32);
-        }
-        animationPatrol = new Animation(framesPatrol, ANIMATION_SPEED_DEFAULT);
-
-        if (framesAttackLeft == null) {
-            Bitmap spriteSheet = BitmapFactory.decodeResource(game.getContext().getResources(), R.drawable.snes_evo_search_for_eden_chapter1_creatures);
-            framesAttackLeft = new Bitmap[4];
-            framesAttackLeft[0] = Bitmap.createBitmap(spriteSheet, 599, 27, 16, 32);
-            framesAttackLeft[1] = Bitmap.createBitmap(spriteSheet, 619, 29, 16, 32);
-            framesAttackLeft[2] = Bitmap.createBitmap(spriteSheet, 639, 34, 32, 32);
-            framesAttackLeft[3] = Bitmap.createBitmap(spriteSheet, 674, 32, 32, 32);
-        }
-        animationAttackLeft = new Animation(framesAttackLeft, ANIMATION_SPEED_DEFAULT);
-
-        if (framesAttackRight == null) {
-            framesAttackRight = Animation.flipImageArrayHorizontally(framesAttackLeft);
-        }
-        animationAttackRight = new Animation(framesAttackRight, ANIMATION_SPEED_DEFAULT);
-
-        if (framesHurt == null) {
-            Bitmap spriteSheet = BitmapFactory.decodeResource(game.getContext().getResources(), R.drawable.snes_evo_search_for_eden_chapter1_creatures);
-            // CENTER (forward-facing)
-            framesHurt = new Bitmap[1];
-            framesHurt[0] = Bitmap.createBitmap(spriteSheet, 714, 28, 16, 32);
-        }
-        animationHurt = new Animation(framesHurt, ANIMATION_SPEED_DEFAULT);
+        seaJellyAnimationManager.init(game);
     }
 
     @Override
     public void update(long elapsed) {
-        animationPatrol.update(elapsed);
-        animationAttackLeft.update(elapsed);
-        animationAttackRight.update(elapsed);
-        animationHurt.update(elapsed);
+        seaJellyAnimationManager.update(elapsed);
 
         xMove = 0f;
         yMove = 0f;
@@ -125,18 +79,9 @@ public class SeaJelly extends Creature {
     }
 
     private void determineNextImage() {
-        switch (state) {
-            case PATROL:
-                image = animationPatrol.getCurrentFrame();
-                break;
-            case ATTACK:
-                // TODO: based on whether player is to its left or right side.
-                image = animationAttackLeft.getCurrentFrame();
-                break;
-            case HURT:
-                image = animationHurt.getCurrentFrame();
-                break;
-        }
+        // TODO: if opponent present, figure out direction.
+        Direction directionOfOpponent = Direction.LEFT;
+        image = seaJellyAnimationManager.getCurrentFrame(state, directionOfOpponent);
     }
 
     @Override

@@ -126,6 +126,10 @@ public abstract class Entity
         return height;
     }
 
+    public void setImage(Bitmap image) {
+        this.image = image;
+    }
+
     public boolean isActive() {
         return active;
     }

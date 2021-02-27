@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.jackingaming.notesquirrel.R;
-import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Animation;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.animations.Animation;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Entity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;

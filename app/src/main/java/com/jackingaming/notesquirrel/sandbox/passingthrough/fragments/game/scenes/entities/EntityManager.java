@@ -3,6 +3,7 @@ package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scen
 import android.graphics.Canvas;
 
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.Player;
 
 import java.io.Serializable;
 import java.util.ArrayList;

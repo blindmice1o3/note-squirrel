@@ -11,7 +11,7 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.GameC
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.Scene;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Creature;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Entity;
-import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Player;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.Player;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.evo.Eel;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.evo.Kelp;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.evo.SeaJelly;

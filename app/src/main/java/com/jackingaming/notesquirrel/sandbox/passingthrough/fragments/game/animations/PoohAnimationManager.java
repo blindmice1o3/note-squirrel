@@ -1,18 +1,18 @@
-package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game;
+package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.animations;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Creature;
 
 import java.io.Serializable;
 import java.util.HashMap;
 
-public class AnimationManager
+public class PoohAnimationManager
         implements Serializable {
-    public static final int SPEED_DEFAULT = 100;
+    public static final int ANIMATION_SPEED_DEFAULT = 100;
 
     private int speed;
 
@@ -20,8 +20,8 @@ public class AnimationManager
     transient private Bitmap poohDefaultUp, poohDefaultDown, poohDefaultLeft, poohDefaultRight;
     transient private Bitmap poohDefaultUpLeft, poohDefaultUpRight, poohDefaultDownLeft, poohDefaultDownRight;
 
-    public AnimationManager() {
-        speed = SPEED_DEFAULT;
+    public PoohAnimationManager() {
+        speed = ANIMATION_SPEED_DEFAULT;
     }
 
     public void update(long elapsed) {
@@ -79,8 +79,8 @@ public class AnimationManager
         return imageByDirection;
     }
 
-    public void init(Resources resources) {
-        Bitmap spriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gba_kingdom_hearts_chain_of_memories_winnie_the_pooh);
+    public void init(Game game) {
+        Bitmap spriteSheet = BitmapFactory.decodeResource(game.getContext().getResources(), R.drawable.gba_kingdom_hearts_chain_of_memories_winnie_the_pooh);
 
         poohDefaultUp = Bitmap.createBitmap(spriteSheet, 314, 1063, 20, 36);
         poohDefaultDown = Bitmap.createBitmap(spriteSheet, 178, 1061, 20, 38);

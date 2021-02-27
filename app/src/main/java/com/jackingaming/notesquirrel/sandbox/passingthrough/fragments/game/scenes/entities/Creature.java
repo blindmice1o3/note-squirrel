@@ -232,7 +232,35 @@ public abstract class Creature extends Entity {
         }
     }
 
+    public Direction getDirection() {
+        return direction;
+    }
+
     public void setDirection(Direction direction) {
         this.direction = direction;
+    }
+
+    public float getMoveSpeed() {
+        return moveSpeed;
+    }
+
+    public void setMoveSpeed(float moveSpeed) {
+        this.moveSpeed = moveSpeed;
+    }
+
+    public float getxMove() {
+        return xMove;
+    }
+
+    public void setxMove(float xMove) {
+        this.xMove = xMove;
+    }
+
+    public float getyMove() {
+        return yMove;
+    }
+
+    public void setyMove(float yMove) {
+        this.yMove = yMove;
     }
 }
