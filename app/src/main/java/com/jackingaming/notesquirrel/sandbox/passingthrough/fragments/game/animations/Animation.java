@@ -63,4 +63,16 @@ public class Animation {
         }
         return imagesFlipped;
     }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void resetIndex() {
+        index = 0;
+    }
+
+    public boolean isLastFrame() {
+        return index == (frames.length - 1);
+    }
 }

@@ -192,14 +192,41 @@ public class FishForm
         /////////////////////////////////////////
     }
 
+    private int hurtTimer = 0;
+    private static final int TARGET_HURT_TIMER = 20;
     @Override
     public void update(long elapsed) {
-        // ANIMATION
-//        idleHeadAnimation.update(elapsed);
-//        eatHeadAnimation.update(elapsed);
-//        biteHeadAnimation.update(elapsed);
-//        hurtHeadAnimation.update(elapsed);
-        currentHeadAnimation.update(elapsed);
+        //HEAD ANIMATION
+        switch (fishStateManager.getCurrentActionState()) {
+            case HURT:
+                currentHeadAnimation = hurtHeadAnimation;
+                //no need tick (1 frame).
+                hurtTimer++;
+                if (hurtTimer == TARGET_HURT_TIMER) {
+                    hurtTimer = 0;
+                    fishStateManager.setCurrentActionState(FishStateManager.ActionState.NONE);
+                }
+                break;
+            case BITE:
+                currentHeadAnimation.update(elapsed);
+                if (currentHeadAnimation.isLastFrame()) {
+                    fishStateManager.setCurrentActionState(FishStateManager.ActionState.NONE);
+                }
+                break;
+            case EAT:
+                currentHeadAnimation.update(elapsed);
+                if (currentHeadAnimation.isLastFrame()) {
+                    fishStateManager.setCurrentActionState(FishStateManager.ActionState.NONE);
+                }
+                break;
+            case NONE:
+                currentHeadAnimation = idleHeadAnimation;
+                //no need tick (1 frame).
+                break;
+            default:
+                Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".update(long elapsed) switch's default.");
+        }
+        //BODY ANIMATION
         currentBodyAnimation.update(elapsed);
 
         // ATTACK_COOLDOWN
@@ -276,8 +303,17 @@ public class FishForm
         // Check InputManager's ButtonPadFragment-specific boolean fields.
         if (game.getInputManager().isJustPressed(InputManager.Button.A)) {
             Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isJustPressed(InputManager.Button.A)");
-            // TODO: Implement a-button response.
+            currentHeadAnimation = biteHeadAnimation;
+            currentHeadAnimation.resetIndex();
+            fishStateManager.setCurrentActionState(FishStateManager.ActionState.BITE);
+        } else if (game.getInputManager().isJustPressed(InputManager.Button.B)) {
+            // [ALERT] Check isJustPressed() BEFORE isPressing().
+            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isJustPressed(InputManager.Button.B)");
+            currentHeadAnimation = eatHeadAnimation;
+            currentHeadAnimation.resetIndex();
+            fishStateManager.setCurrentActionState(FishStateManager.ActionState.EAT);
         } else if (game.getInputManager().isPressing(InputManager.Button.B)) {
+            // [ALERT] Check isJustPressed() BEFORE isPressing().
             Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isPressing(InputManager.Button.B)");
             float doubledMoveSpeedDefault = 2 * Creature.MOVE_SPEED_DEFAULT;
             player.setMoveSpeed(doubledMoveSpeedDefault);
@@ -285,6 +321,7 @@ public class FishForm
             Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isJustPressed(InputManager.Button.MENU)");
             game.getStateManager().toggleMenuState();
         }
+
 
         float moveSpeed = player.getMoveSpeed();
         // Check InputManager's DirectionPadFragment-specific boolean fields.
