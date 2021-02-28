@@ -76,6 +76,27 @@ public class EelAnimationManager
                     imageByState = animationPatrolLeftTurnToRight.getCurrentFrame();
                 }
                 break;
+            case ATTACK:
+                if (directionOfMyself == Creature.Direction.LEFT) {
+                    imageByState = animationAttackLeft.getCurrentFrame();
+                } else if (directionOfMyself == Creature.Direction.RIGHT) {
+                    imageByState = animationAttackRight.getCurrentFrame();
+                }
+                break;
+            case HURT:
+                if (directionOfMyself == Creature.Direction.LEFT) {
+                    imageByState = animationHurtLeft.getCurrentFrame();
+                } else if (directionOfMyself == Creature.Direction.RIGHT) {
+                    imageByState = animationHurtRight.getCurrentFrame();
+                }
+                break;
+            case CHASE:
+                if (directionOfMyself == Creature.Direction.LEFT) {
+                    imageByState = animationPatrolLeft.getCurrentFrame();
+                } else if (directionOfMyself == Creature.Direction.RIGHT) {
+                    imageByState = animationPatrolRight.getCurrentFrame();
+                }
+                break;
         }
         return imageByState;
     }

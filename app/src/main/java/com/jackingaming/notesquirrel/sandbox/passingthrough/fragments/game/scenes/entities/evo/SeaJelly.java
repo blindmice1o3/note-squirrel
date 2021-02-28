@@ -6,23 +6,33 @@ import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.animations.SeaJellyAnimationManager;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Creature;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.DamageDoer;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Damageable;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Entity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.Player;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.fish.FishForm;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.fish.FishStateManager;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.HoneyPot;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 
-public class SeaJelly extends Creature {
+public class SeaJelly extends Creature
+        implements Damageable, DamageDoer {
     public enum State { PATROL, ATTACK, HURT; }
+    public static final int HEALTH_MAX_DEFAULT = 3;
 
     private SeaJellyAnimationManager seaJellyAnimationManager;
 
     private State state;
     private float patrolLengthInPixelMax;
     private float patrolLengthInPixelCurrent;
-    private int attackDamage;
 
+    //ATTACK TIMER
+    private long attackCooldown = 1_500L, attackTimer = attackCooldown;
+
+    private int attackDamage;
+    private int healthMax;
+    private int health;
 
     public SeaJelly(int xSpawn, int ySpawn, Direction direction, int patrolLengthInPixelMax) {
         super(xSpawn, ySpawn);
@@ -33,7 +43,10 @@ public class SeaJelly extends Creature {
         this.direction = direction;
         this.patrolLengthInPixelMax = patrolLengthInPixelMax;
         patrolLengthInPixelCurrent = 0f;
-        attackDamage = 5;
+
+        attackDamage = 2;
+        healthMax = HEALTH_MAX_DEFAULT;
+        health = healthMax;
 
         seaJellyAnimationManager = new SeaJellyAnimationManager();
     }
@@ -48,6 +61,9 @@ public class SeaJelly extends Creature {
     public void update(long elapsed) {
         seaJellyAnimationManager.update(elapsed);
 
+        // ATTACK_COOLDOWN
+        tickAttackCooldown(elapsed);
+
         xMove = 0f;
         yMove = 0f;
 
@@ -55,6 +71,11 @@ public class SeaJelly extends Creature {
         move();
 
         determineNextImage();
+    }
+
+    private void tickAttackCooldown(long elapsed) {
+        attackTimer += elapsed;
+        //attackTimer gets reset to 0 in respondToEntityCollision(Entity).
     }
 
     private int ticker = 0;
@@ -114,21 +135,16 @@ public class SeaJelly extends Creature {
     @Override
     public boolean respondToEntityCollision(Entity e) {
         if (e instanceof Player) {
-            Player player = (Player)e;
-            if (player.getCollisionBounds(0f, 0f).intersect(getCollisionBounds(xMove, yMove))) {
-                //TODO: Should the timer be reset IF ITS attackFrames ISN'T DONE WITH PREVIOUS ITERATION?
-                //if the player REPEATEDLY move into the SeaJelly's movement path... it causes a weird-looking-resetting effect.
-                ticker = 0;
-                state = State.ATTACK;
-
-                //TODO: RENDERING DAMAGE-DEALT-TO-PLAYER TO SCREEN (using Reward/RewardManager FOR NOW).
-                ////////////////////////////////////////////////////////
-                FishForm fishForm = ((FishForm)player.getForm());
-                fishForm.takeDamage(attackDamage);
-                fishForm.getFishStateManager().setCurrentActionState(FishStateManager.ActionState.HURT);
-                //TODO: move player.setCurrentHeadAnimation = hurtHeadAnimation to Fish.tick().
-                ////////////////////////////////////////////////////////
+            // ATTACK_COOLDOWN
+            if (attackTimer < attackCooldown) {
+                return true;
             }
+
+            // PERFORM ATTACK
+            attackTimer = 0;
+            Player player = (Player) e;
+            FishForm fishForm = ((FishForm) player.getForm());
+            doDamage(fishForm);
         }
         return true;
     }
@@ -146,5 +162,34 @@ public class SeaJelly extends Creature {
     @Override
     public void respondToTransferPointCollision(String key) {
 
+    }
+
+    @Override
+    public void takeDamage(int incomingDamage) {
+        state = State.HURT;
+        health -= incomingDamage;
+
+        if (health <= 0) {
+            active = false;
+            die();
+        }
+    }
+
+    @Override
+    public void die() {
+        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".die()");
+        // TODO: drop items, reward exp points, etc.
+        Item honeyPotItem = new HoneyPot();
+        honeyPotItem.setPosition((x + (width / 2)), (y + (height / 2)));
+        honeyPotItem.setWidth(Tile.WIDTH / 2);
+        honeyPotItem.setHeight(Tile.HEIGHT / 2);
+        honeyPotItem.init(game);
+        game.getSceneManager().getCurrentScene().getItemManager().addItem(honeyPotItem);
+    }
+
+    @Override
+    public void doDamage(Damageable damageable) {
+        state = State.ATTACK;
+        damageable.takeDamage(attackDamage);
     }
 }

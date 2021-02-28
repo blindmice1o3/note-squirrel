@@ -1,31 +1,52 @@
 package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.evo;
 
+import android.util.Log;
+
+import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.animations.EelAnimationManager;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Creature;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.DamageDoer;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Damageable;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Entity;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.Player;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.fish.FishForm;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.HoneyPot;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 
-public class Eel extends Creature {
+public class Eel extends Creature
+        implements Damageable, DamageDoer {
     public enum State { PATROL, TURN, CHASE, ATTACK, HURT; }
+    public static final int HEALTH_MAX_DEFAULT = 3;
 
     private EelAnimationManager eelAnimationManager;
 
+    private State state;
     private float patrolLengthInPixelMax;
     private float patrolLengthInPixelCurrent;
-    private State state;
+
+    //ATTACK TIMER
+    private long attackCooldown = 1_500L, attackTimer = attackCooldown;
+
+    private int attackDamage;
+    private int healthMax;
+    private int health;
 
     public Eel(int xSpawn, int ySpawn, Direction direction, int patrolLengthInPixelMax) {
         super(xSpawn, ySpawn);
         width = Tile.WIDTH;
         height = Tile.HEIGHT / 2;
-
+        moveSpeed = 0.5f;
+        state = State.PATROL;
         this.direction = direction;
         this.patrolLengthInPixelMax = patrolLengthInPixelMax;
         patrolLengthInPixelCurrent = 0f;
-        moveSpeed = 0.5f;
-        state = State.PATROL;
+
+        attackDamage = 1;
+        healthMax = HEALTH_MAX_DEFAULT;
+        health = healthMax;
+
         eelAnimationManager = new EelAnimationManager();
     }
 
@@ -39,6 +60,9 @@ public class Eel extends Creature {
     public void update(long elapsed) {
         eelAnimationManager.update(elapsed);
 
+        // ATTACK_COOLDOWN
+        tickAttackCooldown(elapsed);
+
         xMove = 0f;
         yMove = 0f;
 
@@ -48,6 +72,12 @@ public class Eel extends Creature {
         determineNextImage();
     }
 
+    private void tickAttackCooldown(long elapsed) {
+        attackTimer += elapsed;
+        //attackTimer gets reset to 0 in respondToEntityCollision(Entity).
+    }
+
+    private int ticker = 0;
     private void determineNextMove() {
         switch (state) {
             case PATROL:
@@ -75,6 +105,27 @@ public class Eel extends Creature {
                 }
                 state = State.PATROL;
                 break;
+            case ATTACK:
+                ticker++;
+                //TODO: is this attack-timer-target long enough to iterate through all 2 attackFrames images???
+                //make transition-back-to-State.PATROL be based on the index of attackFrames???
+                if (ticker == 40) {
+                    ticker = 0;
+                    state = State.PATROL;
+                }
+                break;
+            case HURT:
+                ticker++;
+                //only has 1 hurtFrames image, so transition-back-to-State.PATROL
+                //CAN BE BASED ON A TIME LIMIT (as oppose to State.ATTACK being based on its Animation's index).
+                if (ticker == 40) {
+                    ticker = 0;
+                    state = State.PATROL;
+                }
+                break;
+            default:
+                Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".determineNextMove() switch's default block.");
+                break;
         }
     }
 
@@ -85,6 +136,18 @@ public class Eel extends Creature {
 
     @Override
     public boolean respondToEntityCollision(Entity e) {
+        if (e instanceof Player) {
+            // ATTACK_COOLDOWN
+            if (attackTimer < attackCooldown) {
+                return true;
+            }
+
+            // PERFORM ATTACK
+            attackTimer = 0;
+            Player player = (Player) e;
+            FishForm fishForm = ((FishForm) player.getForm());
+            doDamage(fishForm);
+        }
         return true;
     }
 
@@ -101,5 +164,34 @@ public class Eel extends Creature {
     @Override
     public void respondToTransferPointCollision(String key) {
 
+    }
+
+    @Override
+    public void takeDamage(int incomingDamage) {
+        state = State.HURT;
+        health -= incomingDamage;
+
+        if (health <= 0) {
+            active = false;
+            die();
+        }
+    }
+
+    @Override
+    public void die() {
+        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".die()");
+        // TODO: drop items, reward exp points, etc.
+        Item honeyPotItem = new HoneyPot();
+        honeyPotItem.setPosition((x + (width / 2)), (y + (height / 2)));
+        honeyPotItem.setWidth(Tile.WIDTH / 2);
+        honeyPotItem.setHeight(Tile.HEIGHT / 2);
+        honeyPotItem.init(game);
+        game.getSceneManager().getCurrentScene().getItemManager().addItem(honeyPotItem);
+    }
+
+    @Override
+    public void doDamage(Damageable damageable) {
+        state = State.ATTACK;
+        damageable.takeDamage(attackDamage);
     }
 }

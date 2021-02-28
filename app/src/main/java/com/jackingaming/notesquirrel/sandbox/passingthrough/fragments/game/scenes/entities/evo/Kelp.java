@@ -2,15 +2,21 @@ package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scen
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
+import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.animations.Animation;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Damageable;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Entity;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.HoneyPot;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 
-public class Kelp extends Entity {
+public class Kelp extends Entity
+        implements Damageable {
+    public static final int HEALTH_MAX_DEFAULT = 2;
     private static final int WIDTH_IMAGE = 12;
     private static final int HEIGHT_IMAGE = 32;
     private static final int ANIMATION_SPEED_DEFAULT = 300;
@@ -18,10 +24,16 @@ public class Kelp extends Entity {
 
     transient private Animation animation;
 
+    private int healthMax;
+    private int health;
+
     public Kelp(int xSpawn, int ySpawn) {
         super(xSpawn, ySpawn);
         width = Tile.WIDTH / 2;
         height = Tile.HEIGHT;
+
+        healthMax = HEALTH_MAX_DEFAULT;
+        health = healthMax;
     }
 
     @Override
@@ -51,21 +63,44 @@ public class Kelp extends Entity {
 
     @Override
     public boolean respondToEntityCollision(Entity e) {
+        // Intentionally blank.
         return true;
     }
 
     @Override
     public void respondToItemCollisionViaClick(Item item) {
-
+        // Intentionally blank.
     }
 
     @Override
     public void respondToItemCollisionViaMove(Item item) {
-
+        // Intentionally blank.
     }
 
     @Override
     public void respondToTransferPointCollision(String key) {
+        // Intentionally blank.
+    }
 
+    @Override
+    public void takeDamage(int incomingDamage) {
+        health -= incomingDamage;
+
+        if (health <= 0) {
+            active = false;
+            die();
+        }
+    }
+
+    @Override
+    public void die() {
+        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".die()");
+        // TODO: drop items, reward exp points, etc.
+        Item honeyPotItem = new HoneyPot();
+        honeyPotItem.setPosition((x + (width / 2)), (y + (height / 2)));
+        honeyPotItem.setWidth(Tile.WIDTH / 2);
+        honeyPotItem.setHeight(Tile.HEIGHT / 2);
+        honeyPotItem.init(game);
+        game.getSceneManager().getCurrentScene().getItemManager().addItem(honeyPotItem);
     }
 }

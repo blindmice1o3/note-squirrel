@@ -11,6 +11,8 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.GameCamera;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.animations.Animation;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Creature;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.DamageDoer;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Damageable;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Entity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.Form;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.Player;
@@ -20,7 +22,8 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scene
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 
 public class FishForm
-        implements Form {
+        implements Form, Damageable, DamageDoer {
+    public static final int HEALTH_MAX_DEFAULT = 20;
     public static final int BODY_ANIMATION_SPEED_DEFAULT = 600;
     public static final int HEAD_ANIMATION_SPEED_DEFAULT = 400;
     public enum DirectionFacing { LEFT, RIGHT; }
@@ -34,9 +37,9 @@ public class FishForm
     //EXPERIENCE POINTS
     private int experiencePoints;
 
-    //MAX_HEALTH
-    private int health;
+    //HEALTH
     private int healthMax;
+    private int health;
 
     //ANIMATIONS
     transient private Animation idleHeadAnimation, eatHeadAnimation, biteHeadAnimation, hurtHeadAnimation;
@@ -44,7 +47,7 @@ public class FishForm
     transient private Animation currentBodyAnimation;
 
     //ATTACK TIMER
-    private long attackCooldown = 800_000_000L, attackTimer = attackCooldown;
+    private long attackCooldown = 1_500L, attackTimer = attackCooldown;
 
     private int speed;
     private int damageBite;
@@ -59,12 +62,10 @@ public class FishForm
     public void init(Game game) {
         this.game = game;
         fishStateManager.init(game);
-
         directionFacing = DirectionFacing.RIGHT;
+
         experiencePoints = 2000;
-        ///////////////
-        healthMax = 20;
-        ///////////////
+        healthMax = HEALTH_MAX_DEFAULT;
         health = healthMax;
 
         Assets.init(game);
@@ -194,31 +195,6 @@ public class FishForm
         /////////////////////////////////////////
     }
 
-    public void takeDamage(int incomingDamage) {
-        ///////////////////////////////////////
-        int netDamage = incomingDamage - armor;
-        ///////////////////////////////////////
-
-        if (netDamage > 0) {
-            hurt(netDamage);
-
-            ComponentHUD damageHUD = new ComponentHUD(game, ComponentHUD.ComponentType.DAMAGE, netDamage, player);
-            SceneEvo sceneEvo = ((SceneEvo)game.getSceneManager().getCurrentScene());
-            sceneEvo.getHeadUpDisplay().addTimedNumericIndicator(damageHUD);
-        }
-    }
-
-    private void hurt(int amount) {
-        health -= amount;
-
-        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".hurt(int amount): " + health + " hp left.");
-
-        if (health <= 0) {
-//            active = false;
-//            die();
-        }
-    }
-
     private int hurtTimer = 0;
     private static final int TARGET_HURT_TIMER = 20;
     @Override
@@ -283,51 +259,65 @@ public class FishForm
     public void draw(Canvas canvas) {
         //ACTUAL IMAGE OF FISH
         if (directionFacing == DirectionFacing.RIGHT) {
-            Bitmap imageBody = currentBodyAnimation.getCurrentFrame();
-            Bitmap imageHead = currentHeadAnimation.getCurrentFrame();
+            Bitmap imageOfBody = currentBodyAnimation.getCurrentFrame();
+            Bitmap imageOfHead = currentHeadAnimation.getCurrentFrame();
 
-            Rect rectBody = new Rect(
-                    (int)player.getX(),
-                    (int)player.getY(),
-                    (int)(player.getX() + (2 * player.getWidth() / 3f)),
-                    (int)(player.getY() + player.getHeight()));
-            Rect rectHead = new Rect(
-                    (int)(player.getX() + (2 * player.getWidth() / 3f)),
-                    (int)player.getY(),
-                    (int)(player.getX() + player.getWidth()),
-                    (int)(player.getY() + player.getHeight()));
+            Rect rectOfBodyInGame = getRectOfBodyInGameFacingRight(0f, 0f);
+            Rect rectOfHeadInGame = getRectOfHeadInGameFacingRight(0f, 0f);
 
-            Rect rectBodyImage = new Rect(0, 0, imageBody.getWidth(), imageBody.getHeight());
-            Rect rectBodyOnScreen = GameCamera.getInstance().convertToScreenRect(rectBody);
-            Rect rectHeadImage = new Rect(0, 0, imageHead.getWidth(), imageHead.getHeight());
-            Rect rectHeadOnScreen = GameCamera.getInstance().convertToScreenRect(rectHead);
+            Rect rectOfBodyImage = new Rect(0, 0, imageOfBody.getWidth(), imageOfBody.getHeight());
+            Rect rectOfBodyOnScreen = GameCamera.getInstance().convertToScreenRect(rectOfBodyInGame);
+            Rect rectOfHeadImage = new Rect(0, 0, imageOfHead.getWidth(), imageOfHead.getHeight());
+            Rect rectOfHeadOnScreen = GameCamera.getInstance().convertToScreenRect(rectOfHeadInGame);
 
-            canvas.drawBitmap(imageBody, rectBodyImage, rectBodyOnScreen, null);
-            canvas.drawBitmap(imageHead, rectHeadImage, rectHeadOnScreen, null);
+            canvas.drawBitmap(imageOfBody, rectOfBodyImage, rectOfBodyOnScreen, null);
+            canvas.drawBitmap(imageOfHead, rectOfHeadImage, rectOfHeadOnScreen, null);
         } else if (directionFacing == DirectionFacing.LEFT) {
             //FLIP IMAGES of head and body.
-            Bitmap imageHeadFlipped = Animation.flipImageHorizontally(currentHeadAnimation.getCurrentFrame());
-            Bitmap imageBodyFlipped = Animation.flipImageHorizontally(currentBodyAnimation.getCurrentFrame());
+            Bitmap imageOfHeadFlipped = Animation.flipImageHorizontally(currentHeadAnimation.getCurrentFrame());
+            Bitmap imageOfBodyFlipped = Animation.flipImageHorizontally(currentBodyAnimation.getCurrentFrame());
 
-            Rect rectHead = new Rect(
-                    (int)player.getX(),
-                    (int)player.getY(),
-                    (int)(player.getX() + (1 * player.getWidth() / 3f)),
-                    (int)(player.getY() + player.getHeight()));
-            Rect rectBody = new Rect(
-                    (int)(player.getX() + (1 * player.getWidth() / 3f)),
-                    (int)player.getY(),
-                    (int)(player.getX() + player.getWidth()),
-                    (int)(player.getY() + player.getHeight()));
+            Rect rectOfHeadInGame = getRectOfHeadInGameFacingLeft(0f, 0f);
+            Rect rectOfBodyInGame = getRectOfBodyInGameFacingLeft(0f, 0f);
 
-            Rect rectHeadImage = new Rect(0, 0, imageHeadFlipped.getWidth(), imageHeadFlipped.getHeight());
-            Rect rectHeadOnScreen = GameCamera.getInstance().convertToScreenRect(rectHead);
-            Rect rectBodyImage = new Rect(0, 0, imageBodyFlipped.getWidth(), imageBodyFlipped.getHeight());
-            Rect rectBodyOnScreen = GameCamera.getInstance().convertToScreenRect(rectBody);
+            Rect rectOfHeadImage = new Rect(0, 0, imageOfHeadFlipped.getWidth(), imageOfHeadFlipped.getHeight());
+            Rect rectOfHeadOnScreen = GameCamera.getInstance().convertToScreenRect(rectOfHeadInGame);
+            Rect rectOfBodyImage = new Rect(0, 0, imageOfBodyFlipped.getWidth(), imageOfBodyFlipped.getHeight());
+            Rect rectOfBodyOnScreen = GameCamera.getInstance().convertToScreenRect(rectOfBodyInGame);
 
-            canvas.drawBitmap(imageHeadFlipped, rectHeadImage, rectHeadOnScreen, null);
-            canvas.drawBitmap(imageBodyFlipped, rectBodyImage, rectBodyOnScreen, null);
+            canvas.drawBitmap(imageOfHeadFlipped, rectOfHeadImage, rectOfHeadOnScreen, null);
+            canvas.drawBitmap(imageOfBodyFlipped, rectOfBodyImage, rectOfBodyOnScreen, null);
         }
+    }
+
+    private Rect getRectOfBodyInGameFacingRight(float xOffset, float yOffset) {
+        return new Rect(
+                (int) (player.getX() + xOffset),
+                (int) (player.getY() + yOffset),
+                (int) (player.getX() + (2 * player.getWidth() / 3f) + xOffset),
+                (int) (player.getY() + player.getHeight() + yOffset));
+    }
+    private Rect getRectOfHeadInGameFacingRight(float xOffset, float yOffset) {
+        return new Rect(
+                (int) (player.getX() + (2 * player.getWidth() / 3f) + xOffset),
+                (int) (player.getY() + yOffset),
+                (int) (player.getX() + player.getWidth() + xOffset),
+                (int) (player.getY() + player.getHeight() + yOffset));
+    }
+
+    private Rect getRectOfHeadInGameFacingLeft(float xOffset, float yOffset) {
+        return new Rect(
+                (int) (player.getX() + xOffset),
+                (int) (player.getY() + yOffset),
+                (int) (player.getX() + (1 * player.getWidth() / 3f) + xOffset),
+                (int) (player.getY() + player.getHeight() + yOffset));
+    }
+    private Rect getRectOfBodyInGameFacingLeft(float xOffset, float yOffset) {
+        return new Rect(
+                (int) (player.getX() + (1 * player.getWidth() / 3f) + xOffset),
+                (int) (player.getY() + yOffset),
+                (int) (player.getX() + player.getWidth() + xOffset),
+                (int) (player.getY() + player.getHeight() + yOffset));
     }
 
     @Override
@@ -335,12 +325,34 @@ public class FishForm
         // Check InputManager's ButtonPadFragment-specific boolean fields.
         if (game.getInputManager().isJustPressed(InputManager.Button.A)) {
             Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isJustPressed(InputManager.Button.A)");
+            // ATTACK_COOLDOWN
             if (attackTimer < attackCooldown) {
                 return;
             }
+            // ANIMATION AND STATE
             currentHeadAnimation = biteHeadAnimation;
             currentHeadAnimation.resetIndex();
             fishStateManager.setCurrentActionState(FishStateManager.ActionState.BITE);
+
+            // PERFORM ATTACK
+            attackTimer = 0;
+            float xOffset = Tile.WIDTH / 4;
+            Rect rectOfHeadInGame = (directionFacing == DirectionFacing.RIGHT) ?
+                    (getRectOfHeadInGameFacingRight(xOffset, 0f)) :
+                    (getRectOfHeadInGameFacingLeft(-xOffset, 0f));
+            for (Entity e : game.getSceneManager().getCurrentScene().getEntityManager().getEntities()) {
+                if (e.equals(player)) {
+                    continue;
+                }
+
+                if (rectOfHeadInGame.intersect(e.getCollisionBounds(0f, 0f))) {
+                    if (e instanceof Damageable) {
+                        doDamage(((Damageable)e));
+                    } else {
+                        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isJustPressed(Button.A) Entity is NOT a Damageable.");
+                    }
+                }
+            }
         } else if (game.getInputManager().isJustPressed(InputManager.Button.B)) {
             // [ALERT] Check isJustPressed() BEFORE isPressing().
             Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isJustPressed(InputManager.Button.B)");
@@ -529,6 +541,38 @@ public class FishForm
     @Override
     public void respondToItemCollisionViaMove(Item item) {
 
+    }
+
+    @Override
+    public void takeDamage(int incomingDamage) {
+        ///////////////////////////////////////
+        int netDamage = incomingDamage - armor;
+        ///////////////////////////////////////
+
+        if (netDamage > 0) {
+            fishStateManager.setCurrentActionState(FishStateManager.ActionState.HURT);
+            health -= netDamage;
+
+            if (health <= 0) {
+//            active = false;
+//            die();
+            }
+
+            ComponentHUD damageHUD = new ComponentHUD(game, ComponentHUD.ComponentType.DAMAGE,
+                    netDamage, player);
+            SceneEvo sceneEvo = ((SceneEvo)game.getSceneManager().getCurrentScene());
+            sceneEvo.getHeadUpDisplay().addTimedNumericIndicator(damageHUD);
+        }
+    }
+
+    @Override
+    public void die() {
+        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".die() PLAYER DIED!");
+    }
+
+    @Override
+    public void doDamage(Damageable damageable) {
+        damageable.takeDamage(damageBite);
     }
 
     public int getHealth() {

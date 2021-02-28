@@ -37,13 +37,10 @@ public class ComponentHUD
 
         timeElapsed = 0L;
         timerTarget = 5_000L;
-//        timerTarget = 5_000_000_000L;      //TODO: timerTarget has to be in NANOSECOND now!!!!
     }
 
     public void update(long elapsed) {
         timeElapsed += elapsed;
-
-        //System.out.println("ComponentHUD.tick(long), timeElapsed: " + this.timeElapsed + " | timerTarget: " + timerTarget);
 
         if (timeElapsed >= timerTarget) {
             timerFinished = true;

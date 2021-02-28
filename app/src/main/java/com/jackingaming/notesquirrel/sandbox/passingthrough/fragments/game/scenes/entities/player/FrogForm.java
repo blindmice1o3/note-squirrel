@@ -3,11 +3,12 @@ package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scen
 import android.graphics.Canvas;
 
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Damageable;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Entity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
 
 public class FrogForm
-        implements Form {
+        implements Form, Damageable {
     transient private Game game;
     private Player player;
 
@@ -57,6 +58,16 @@ public class FrogForm
 
     @Override
     public void respondToItemCollisionViaMove(Item item) {
+
+    }
+
+    @Override
+    public void takeDamage(int incomingDamage) {
+
+    }
+
+    @Override
+    public void die() {
 
     }
 }

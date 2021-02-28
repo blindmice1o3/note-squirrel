@@ -57,6 +57,14 @@ public class Item
                 (int)(y + bounds.top + yOffset) + bounds.bottom);
     }
 
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
     public String getName() {
         return name;
     }
