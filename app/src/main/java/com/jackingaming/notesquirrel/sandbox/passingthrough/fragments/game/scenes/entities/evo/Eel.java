@@ -1,9 +1,12 @@
 package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.evo;
 
+import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.GameCamera;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.animations.EelAnimationManager;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Creature;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.DamageDoer;
@@ -132,6 +135,32 @@ public class Eel extends Creature
     private void determineNextImage() {
         Direction directionOfMyself = direction;
         image = eelAnimationManager.getCurrentFrame(state, directionOfMyself);
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        Rect rectOfImage = new Rect(0, 0, image.getWidth(), image.getHeight());
+        Rect rectOnScreen = null;
+
+        if (state == State.ATTACK) {
+            // Transform from "wide, short" to "narrow, tall".
+            Rect rectOfEel = getCollisionBounds(0f, 0f);
+            int width = rectOfEel.right - rectOfEel.left;
+            int height = rectOfEel.bottom - rectOfEel.top;
+
+            if (direction == Direction.RIGHT) {
+                rectOfEel.left = rectOfEel.right - (width / 2); // scoot image to right edge
+            }
+            rectOfEel.right = rectOfEel.left + (width / 2);
+            rectOfEel.bottom = rectOfEel.top + (2 * height);
+
+            rectOnScreen = GameCamera.getInstance().convertToScreenRect(rectOfEel);
+        } else {
+            // No transformation needed, use normal bounds.
+            rectOnScreen = GameCamera.getInstance().convertToScreenRect(getCollisionBounds(0f, 0f));
+        }
+
+        canvas.drawBitmap(image, rectOfImage, rectOnScreen, null);
     }
 
     @Override
