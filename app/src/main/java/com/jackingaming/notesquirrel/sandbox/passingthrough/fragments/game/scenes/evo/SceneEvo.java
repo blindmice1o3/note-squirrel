@@ -3,6 +3,7 @@ package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scen
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Rect;
 
 import com.jackingaming.notesquirrel.R;
@@ -17,6 +18,7 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scene
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.evo.Kelp;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.evo.SeaJelly;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.fish.FishForm;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.evo.hud.HeadUpDisplay;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 
@@ -30,6 +32,8 @@ public class SceneEvo extends Scene {
     public static final int Y_SPAWN_INDEX_DEFAULT = 4;
 
     private static SceneEvo uniqueInstance;
+
+    private HeadUpDisplay headUpDisplay;
 
     private SceneEvo() {
         super();
@@ -60,6 +64,20 @@ public class SceneEvo extends Scene {
 
         entityManager.init(game);
         itemManager.init(game);
+
+        headUpDisplay = new HeadUpDisplay(game);
+    }
+
+    @Override
+    public void update(long elapsed) {
+        super.update(elapsed);
+        headUpDisplay.update(elapsed);
+    }
+
+    @Override
+    public void drawCurrentFrame(Canvas canvas) {
+        super.drawCurrentFrame(canvas);
+        headUpDisplay.render(canvas);
     }
 
     private Form formBeforeThisScene;
@@ -251,5 +269,9 @@ public class SceneEvo extends Scene {
         List<Item> items = new ArrayList<Item>();
         // TODO: Insert scene specific items here.
         return items;
+    }
+
+    public HeadUpDisplay getHeadUpDisplay() {
+        return headUpDisplay;
     }
 }

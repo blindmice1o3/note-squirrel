@@ -14,6 +14,8 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scene
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Entity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.Form;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.Player;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.evo.SceneEvo;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.evo.hud.ComponentHUD;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 
@@ -37,12 +39,12 @@ public class FishForm
     private int healthMax;
 
     //ANIMATIONS
-    private Animation idleHeadAnimation, eatHeadAnimation, biteHeadAnimation, hurtHeadAnimation;
-    private Animation currentHeadAnimation;
-    private Animation currentBodyAnimation;
+    transient private Animation idleHeadAnimation, eatHeadAnimation, biteHeadAnimation, hurtHeadAnimation;
+    transient private Animation currentHeadAnimation;
+    transient private Animation currentBodyAnimation;
 
     //ATTACK TIMER
-    private long attackCooldown = 800000000L, attackTimer = attackCooldown;
+    private long attackCooldown = 800_000_000L, attackTimer = attackCooldown;
 
     private int speed;
     private int damageBite;
@@ -192,6 +194,31 @@ public class FishForm
         /////////////////////////////////////////
     }
 
+    public void takeDamage(int incomingDamage) {
+        ///////////////////////////////////////
+        int netDamage = incomingDamage - armor;
+        ///////////////////////////////////////
+
+        if (netDamage > 0) {
+            hurt(netDamage);
+
+            ComponentHUD damageHUD = new ComponentHUD(game, ComponentHUD.ComponentType.DAMAGE, netDamage, player);
+            SceneEvo sceneEvo = ((SceneEvo)game.getSceneManager().getCurrentScene());
+            sceneEvo.getHeadUpDisplay().addTimedNumericIndicator(damageHUD);
+        }
+    }
+
+    private void hurt(int amount) {
+        health -= amount;
+
+        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".hurt(int amount): " + health + " hp left.");
+
+        if (health <= 0) {
+//            active = false;
+//            die();
+        }
+    }
+
     private int hurtTimer = 0;
     private static final int TARGET_HURT_TIMER = 20;
     @Override
@@ -230,7 +257,7 @@ public class FishForm
         currentBodyAnimation.update(elapsed);
 
         // ATTACK_COOLDOWN
-        // TODO: placeholder for AttackCooldown
+        tickAttackCooldown(elapsed);
 
         // RESET [offset-of-next-step] TO ZERO (standing still)
         player.setxMove(0f);
@@ -245,6 +272,11 @@ public class FishForm
 
         // PREPARE_FOR_RENDER
         determineNextImage();
+    }
+
+    private void tickAttackCooldown(long elapsed) {
+        attackTimer += elapsed;
+        //attackTimer gets reset to 0 in getInput()'s attack-button pressed.
     }
 
     @Override
@@ -303,6 +335,9 @@ public class FishForm
         // Check InputManager's ButtonPadFragment-specific boolean fields.
         if (game.getInputManager().isJustPressed(InputManager.Button.A)) {
             Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isJustPressed(InputManager.Button.A)");
+            if (attackTimer < attackCooldown) {
+                return;
+            }
             currentHeadAnimation = biteHeadAnimation;
             currentHeadAnimation.resetIndex();
             fishStateManager.setCurrentActionState(FishStateManager.ActionState.BITE);
@@ -496,6 +531,10 @@ public class FishForm
 
     }
 
+    public int getHealth() {
+        return health;
+    }
+
     public void setHealth(int health) {
         this.health = health;
     }
@@ -506,5 +545,13 @@ public class FishForm
 
     public void setHealthMax(int healthMax) {
         this.healthMax = healthMax;
+    }
+
+    public int getExperiencePoints() {
+        return experiencePoints;
+    }
+
+    public FishStateManager getFishStateManager() {
+        return fishStateManager;
     }
 }
