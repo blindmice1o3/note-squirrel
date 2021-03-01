@@ -210,12 +210,16 @@ public class Eel extends Creature
     public void die() {
         Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".die()");
         // TODO: drop items, reward exp points, etc.
-        Item honeyPotItem = new HoneyPot();
-        honeyPotItem.setPosition((x + (width / 2)), (y + (height / 2)));
-        honeyPotItem.setWidth(Tile.WIDTH / 2);
-        honeyPotItem.setHeight(Tile.HEIGHT / 2);
-        honeyPotItem.init(game);
-        game.getSceneManager().getCurrentScene().getItemManager().addItem(honeyPotItem);
+        Item honeyPot = new HoneyPot();
+        int widthOfHoneyPot = Tile.WIDTH / 2;
+        int heightOfHoneyPot = Tile.HEIGHT / 2;
+        honeyPot.setWidth(widthOfHoneyPot);
+        honeyPot.setHeight(heightOfHoneyPot);
+        int xCenterOfKelpAccountingForWidthOfHoneyPot = (int) (x + (width / 2) - (widthOfHoneyPot / 2));
+        int yCenterOfKelpAccountingForHeightOfHoneyPot = (int) (y + (height / 2) - (heightOfHoneyPot / 2));
+        honeyPot.setPosition(xCenterOfKelpAccountingForWidthOfHoneyPot, yCenterOfKelpAccountingForHeightOfHoneyPot);
+        honeyPot.init(game);
+        game.getSceneManager().getCurrentScene().getItemManager().addItem(honeyPot);
     }
 
     @Override

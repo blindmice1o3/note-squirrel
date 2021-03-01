@@ -18,6 +18,7 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scene
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.Player;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.evo.SceneEvo;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.evo.hud.ComponentHUD;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.HoneyPot;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 
@@ -540,7 +541,10 @@ public class FishForm
 
     @Override
     public void respondToItemCollisionViaMove(Item item) {
-
+        if (item instanceof HoneyPot) {
+            game.getSceneManager().getCurrentScene().getItemManager().removeItem(item);
+            game.incrementCurrency();
+        }
     }
 
     @Override
