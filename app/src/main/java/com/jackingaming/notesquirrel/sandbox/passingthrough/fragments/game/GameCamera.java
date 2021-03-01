@@ -93,36 +93,25 @@ public class GameCamera
     }
 
     public Rect convertToScreenRect(Rect collisionBounds) {
-        int width = collisionBounds.right - collisionBounds.left;
-        int height = collisionBounds.bottom - collisionBounds.top;
         Rect screenRect = new Rect(
-                (int)( (collisionBounds.left - x) * widthPixelToViewportRatio),
-                (int)( (collisionBounds.top - y) * heightPixelToViewportRatio),
-                (int)( ((collisionBounds.left - x) + width) * widthPixelToViewportRatio),
-                (int)( ((collisionBounds.top - y) + height) * heightPixelToViewportRatio) );
+                (int)( (collisionBounds.left - x) * widthPixelToViewportRatio ),
+                (int)( (collisionBounds.top - y) * heightPixelToViewportRatio ),
+                (int)( (collisionBounds.right - x) * widthPixelToViewportRatio ),
+                (int)( (collisionBounds.bottom - y) * heightPixelToViewportRatio ));
         return screenRect;
     }
 
-    public Rect convertToInGameRect(Rect rectOfTouchPointOnScreen) {
-        int x0OnScreen = rectOfTouchPointOnScreen.left;
-        int y0OnScreen = rectOfTouchPointOnScreen.top;
-        int x1OnScreen = rectOfTouchPointOnScreen.right;
-        int y1OnScreen = rectOfTouchPointOnScreen.bottom;
-        int widthOnScreen = x1OnScreen - x0OnScreen;
-        int heightOnScreen = y1OnScreen - y0OnScreen;
-
-        float x0CollisionBounds = (x0OnScreen / widthPixelToViewportRatio) + x;
-        float y0CollisionBounds = (y1OnScreen / heightPixelToViewportRatio) + y;
-        float x1CollisionBounds = (x1OnScreen / widthPixelToViewportRatio) + x;
-        float y1CollisionBounds = (y1OnScreen / heightPixelToViewportRatio) + y;
-
-        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".convertToInGameRect(Rect) x, y: " + x + ", " + y);
-        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".convertToInGameRect(Rect) x0CollisionBounds, y0CollisionBounds, x1CollisionBounds, y1CollisionBounds: " + x0CollisionBounds + ", " + y0CollisionBounds + ", " + x1CollisionBounds + ", " + y1CollisionBounds);
+    public Rect convertToInGameRect(Rect screenRect) {
+        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".convertToInGameRect(Rect screenRect) x1-x0, y1-y0: " +
+                ((int) ( (screenRect.right * (1/widthPixelToViewportRatio)) + x ) - (int) ( (screenRect.left * (1/widthPixelToViewportRatio)) + x ) )+
+                ", " +
+                ((int) ( (screenRect.bottom * (1/heightPixelToViewportRatio)) + y ) - (int) ( (screenRect.top * (1/heightPixelToViewportRatio)) + y ))
+        );
         Rect collisionBounds = new Rect(
-                (int) x0CollisionBounds,
-                (int) y0CollisionBounds,
-                (int) x1CollisionBounds,
-                (int) y1CollisionBounds);
+                (int) ( (screenRect.left * (1/widthPixelToViewportRatio)) + x ),
+                (int) ( (screenRect.top * (1/heightPixelToViewportRatio)) + y ),
+                (int) ( (screenRect.right * (1/widthPixelToViewportRatio)) + x ),
+                (int) ( (screenRect.bottom * (1/heightPixelToViewportRatio)) + y ));
         return collisionBounds;
     }
 
