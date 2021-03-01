@@ -5,12 +5,17 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.TouchDelegate;
 
+import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.GameCamera;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.Scene;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Creature;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Damageable;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Entity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.Form;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.Player;
@@ -71,7 +76,36 @@ public class SceneEvo extends Scene {
     @Override
     public void update(long elapsed) {
         super.update(elapsed);
+
+        interpretViewportInput();
+
         headUpDisplay.update(elapsed);
+    }
+
+    private static final int TOUCH_POINT_RADIUS = 50;
+    private void interpretViewportInput() {
+        if (game.getInputManager().isJustPressedViewport()) {
+            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretViewportInput() isJustPressedViewport is true");
+
+            MotionEvent event = game.getInputManager().getEvent();
+            float xEventCenter = event.getX();
+            float yEventCenter = event.getY();
+            float x0Event = xEventCenter - TOUCH_POINT_RADIUS;
+            float y0Event = yEventCenter - TOUCH_POINT_RADIUS;
+            float x1Event = xEventCenter + TOUCH_POINT_RADIUS;
+            float y1Event = yEventCenter + TOUCH_POINT_RADIUS;
+            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretViewportInput() x0Event, y0Event, x1Event, y1Event: " + x0Event + ", " + y0Event + ", " + x1Event + ", " + y1Event);
+            Rect rectOfTouchPointOnScreen = new Rect((int) x0Event, (int) y0Event, (int) x1Event, (int) y1Event);
+            Rect rectOfTouchPointInGame = GameCamera.getInstance().convertToInGameRect(rectOfTouchPointOnScreen);
+            for (Entity e : entityManager.getEntities()) {
+                if (rectOfTouchPointInGame.intersect(e.getCollisionBounds(0f, 0f))) {
+                    if (e instanceof Damageable) {
+                        e.setActive(false);
+                        ((Damageable)e).die();
+                    }
+                }
+            }
+        }
     }
 
     @Override

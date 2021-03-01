@@ -21,7 +21,11 @@ public class InputManager
     public enum ViewportButton { UP, DOWN, LEFT, RIGHT; }
 
     private Map<Button, Boolean> pressing, justPressed, cantPress;
-    private Map<ViewportButton, Boolean> pressingViewport, justPressedViewport, cantPressViewport;
+    private Map<ViewportButton, Boolean> pressingViewportButton, justPressedViewportButton,
+            cantPressViewportButton;
+
+    private boolean pressingViewport, justPressedViewport, cantPressViewport;
+    private MotionEvent event;
 
     public InputManager() {
         initPressing();
@@ -54,23 +58,23 @@ public class InputManager
     }
 
     private void initPressingViewport() {
-        pressingViewport = new HashMap<ViewportButton, Boolean>();
+        pressingViewportButton = new HashMap<ViewportButton, Boolean>();
         for (ViewportButton viewportButton : ViewportButton.values()) {
-            pressingViewport.put(viewportButton, false);
+            pressingViewportButton.put(viewportButton, false);
         }
     }
 
     private void initJustPressedViewport() {
-        justPressedViewport = new HashMap<ViewportButton, Boolean>();
+        justPressedViewportButton = new HashMap<ViewportButton, Boolean>();
         for (ViewportButton viewportButton : ViewportButton.values()) {
-            justPressedViewport.put(viewportButton, false);
+            justPressedViewportButton.put(viewportButton, false);
         }
     }
 
     private void initCantPressViewport() {
-        cantPressViewport = new HashMap<ViewportButton, Boolean>();
+        cantPressViewportButton = new HashMap<ViewportButton, Boolean>();
         for (ViewportButton viewportButton : ViewportButton.values()) {
-            cantPressViewport.put(viewportButton, false);
+            cantPressViewportButton.put(viewportButton, false);
         }
     }
 
@@ -90,15 +94,25 @@ public class InputManager
 
         // TO LIMIT TO KEY-JUST-PRESSED (MySurfaceView)
         for (ViewportButton viewportButton : ViewportButton.values()) {
-            if (cantPressViewport.get(viewportButton) && !pressingViewport.get(viewportButton)) {
-                cantPressViewport.put(viewportButton, false);
-            } else if (justPressedViewport.get(viewportButton)) {
-                cantPressViewport.put(viewportButton, true);
-                justPressedViewport.put(viewportButton, false);
+            if (cantPressViewportButton.get(viewportButton) && !pressingViewportButton.get(viewportButton)) {
+                cantPressViewportButton.put(viewportButton, false);
+            } else if (justPressedViewportButton.get(viewportButton)) {
+                cantPressViewportButton.put(viewportButton, true);
+                justPressedViewportButton.put(viewportButton, false);
             }
-            if (!cantPressViewport.get(viewportButton) && pressingViewport.get(viewportButton)) {
-                justPressedViewport.put(viewportButton, true);
+            if (!cantPressViewportButton.get(viewportButton) && pressingViewportButton.get(viewportButton)) {
+                justPressedViewportButton.put(viewportButton, true);
             }
+        }
+
+        if (cantPressViewport && !pressingViewport) {
+            cantPressViewport = false;
+        } else if (justPressedViewport) {
+            cantPressViewport = true;
+            justPressedViewport = false;
+        }
+        if (!cantPressViewport && pressingViewport) {
+            justPressedViewport = true;
         }
     }
 
@@ -110,22 +124,33 @@ public class InputManager
         return pressing.get(button);
     }
 
-    public boolean isJustPressedViewport(ViewportButton viewportButton) {
-        return justPressedViewport.get(viewportButton);
+    public boolean isJustPressedViewportButton(ViewportButton viewportButton) {
+        return justPressedViewportButton.get(viewportButton);
     }
 
-    public boolean isPressingViewport(ViewportButton viewportButton) {
-        return pressingViewport.get(viewportButton);
+    public boolean isPressingViewportButton(ViewportButton viewportButton) {
+        return pressingViewportButton.get(viewportButton);
+    }
+
+    public boolean isJustPressedViewport() {
+        return justPressedViewport;
+    }
+
+    public MotionEvent getEvent() {
+        return event;
     }
 
     @Override
     public boolean onMySurfaceViewTouched(MySurfaceView mySurfaceView, MotionEvent event) {
         Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onMySurfaceViewTouched(MySurfaceView mySurfaceView, MotionEvent event)");
+        this.event = event;
+        pressingViewport = true;
 
         boolean pressing = true;
 
         if (event.getAction() == MotionEvent.ACTION_UP) {
             pressing = false;
+            pressingViewport = false;
         }
 
         float xLowerBound = mySurfaceView.getWidth() / 3f;
@@ -137,7 +162,7 @@ public class InputManager
         if (0 <= event.getX() && (event.getX() < xLowerBound)) {
             // vertical (center-third)
             if ((yLowerBound <= event.getY()) && (event.getY() < yUpperBound)) {
-                pressingViewport.put(ViewportButton.LEFT, pressing);
+                pressingViewportButton.put(ViewportButton.LEFT, pressing);
                 return true;
             }
         }
@@ -145,12 +170,12 @@ public class InputManager
         else if ((xLowerBound <= event.getX()) && (event.getX() < xUpperBound)) {
             // vertical (first-third)
             if ((0 <= event.getY()) && (event.getY() < yLowerBound)) {
-                pressingViewport.put(ViewportButton.UP, pressing);
+                pressingViewportButton.put(ViewportButton.UP, pressing);
                 return true;
             }
             // vertical (last-third)
             else if (yUpperBound <= event.getY()) {
-                pressingViewport.put(ViewportButton.DOWN, pressing);
+                pressingViewportButton.put(ViewportButton.DOWN, pressing);
                 return true;
             }
         }
@@ -158,7 +183,7 @@ public class InputManager
         else if (xUpperBound <= event.getX()) {
             // vertical (center-third)
             if ((yLowerBound <= event.getY()) && (event.getY() < yUpperBound)) {
-                pressingViewport.put(ViewportButton.RIGHT, pressing);
+                pressingViewportButton.put(ViewportButton.RIGHT, pressing);
                 return true;
             }
         }

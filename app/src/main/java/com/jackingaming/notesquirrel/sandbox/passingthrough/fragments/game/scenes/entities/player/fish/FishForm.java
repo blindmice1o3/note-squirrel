@@ -372,9 +372,9 @@ public class FishForm
             game.getStateManager().toggleMenuState();
         }
         // BODY-PARTS SWAPPING
-        else if (game.getInputManager().isJustPressedViewport(InputManager.ViewportButton.UP)) {
+        else if (game.getInputManager().isJustPressedViewportButton(InputManager.ViewportButton.UP)) {
             // JAWS
-            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isJustPressedViewport(ViewportButton.UP)");
+            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isJustPressedViewportButton(ViewportButton.UP)");
             int currentJawsOrdinal = fishStateManager.getCurrentJaws().ordinal();
             FishStateManager.Jaws[] jaws = FishStateManager.Jaws.values();
             if ((currentJawsOrdinal+1) < jaws.length) {
@@ -385,9 +385,9 @@ public class FishForm
             //TODO: inefficient, (though unlikely) could be returning to an already-existing Animation object.
             initHeadAnimations();
             updatePlayerStats();
-        } else if (game.getInputManager().isJustPressedViewport(InputManager.ViewportButton.DOWN)) {
+        } else if (game.getInputManager().isJustPressedViewportButton(InputManager.ViewportButton.DOWN)) {
             // BODY_TEXTURE
-            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isJustPressedViewport(ViewportButton.DOWN)");
+            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isJustPressedViewportButton(ViewportButton.DOWN)");
             int currentBodyTextureOrdinal = fishStateManager.getCurrentBodyTexture().ordinal();
             FishStateManager.BodyTexture[] bodyTexture = FishStateManager.BodyTexture.values();
             if ((currentBodyTextureOrdinal+1) < bodyTexture.length) {
@@ -398,9 +398,9 @@ public class FishForm
             //TODO: inefficient, (though unlikely) could be returning to an already-existing Animation object.
             updateHeadAndTailAnimations();
             updatePlayerStats();
-        } else if (game.getInputManager().isJustPressedViewport(InputManager.ViewportButton.LEFT)) {
+        } else if (game.getInputManager().isJustPressedViewportButton(InputManager.ViewportButton.LEFT)) {
             // FIN_PECTORAL
-            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isJustPressedViewport(ViewportButton.LEFT");
+            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isJustPressedViewportButton(ViewportButton.LEFT");
             int currentFinPectoralOrdinal = fishStateManager.getCurrentFinPectoral().ordinal();
             FishStateManager.FinPectoral[] finPectoral = FishStateManager.FinPectoral.values();
             if ((currentFinPectoralOrdinal+1) < finPectoral.length) {
@@ -411,9 +411,9 @@ public class FishForm
             //TODO: inefficient, (though unlikely) could be returning to an already-existing Animation object.
             updateHeadAndTailAnimations();
             updatePlayerStats();
-        } else if (game.getInputManager().isJustPressedViewport(InputManager.ViewportButton.RIGHT)) {
+        } else if (game.getInputManager().isJustPressedViewportButton(InputManager.ViewportButton.RIGHT)) {
             // TAIL
-            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isJustPressedViewport(ViewportButton.RIGHT)");
+            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isJustPressedViewportButton(ViewportButton.RIGHT)");
             int currentTailOrdinal = fishStateManager.getCurrentTail().ordinal();
             FishStateManager.Tail[] tails = FishStateManager.Tail.values();
             if ((currentTailOrdinal+1) < tails.length) {
