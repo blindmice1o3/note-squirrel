@@ -14,10 +14,10 @@ public class StateManager {
     private MenuStateImpl menuState;
     private TextboxStateImpl textboxState;
 
-    private List<State> statesStack;
+    private List<State> stateStack;
 
     public StateManager() {
-        statesStack = new ArrayList<State>();
+        stateStack = new ArrayList<State>();
     }
 
     public void init(Game game) {
@@ -25,45 +25,67 @@ public class StateManager {
 
         gameState = new GameStateImpl();
         gameState.init(game);
-        statesStack.add(gameState);
+        stateStack.add(gameState);
     }
 
     public void update(long elapsed) {
-        State stateCurrent = statesStack.get( getIndexOfTop() );
+        State stateCurrent = stateStack.get( getIndexOfTop() );
         stateCurrent.update(elapsed);
     }
 
     public void render(Canvas canvas) {
-        State stateCurrent = statesStack.get( getIndexOfTop() );
+        State stateCurrent = stateStack.get( getIndexOfTop() );
         stateCurrent.render(canvas);
     }
 
     private int getIndexOfTop() {
-        return statesStack.size() - 1;
+        return stateStack.size() - 1;
+    }
+
+    private State getCurrentState() {
+        return stateStack.get( getIndexOfTop() );
+    }
+
+    private void pop() {
+        State stateCurrent = getCurrentState();
+        stateCurrent.exit();
+
+        stateStack.remove(stateCurrent);
+
+        getCurrentState().enter();
     }
 
     public void toggleMenuState() {
-        State stateCurrent = statesStack.get( getIndexOfTop() );
-        if (stateCurrent instanceof MenuStateImpl) {
+        if (getCurrentState() instanceof MenuStateImpl) {
             pop();
         } else {
-            if (menuState == null) {
-                menuState = new MenuStateImpl();
-                menuState.init(game);
-            }
-            statesStack.add(menuState);
+            pushMenuState();
         }
     }
 
+    private void pushMenuState() {
+        getCurrentState().exit();
+
+        if (menuState == null) {
+            menuState = new MenuStateImpl();
+            menuState.init(game);
+        }
+
+        stateStack.add(menuState);
+
+        getCurrentState().enter();
+    }
+
     public void pushTextboxState() {
+        getCurrentState().exit();
+
         if (textboxState == null) {
             textboxState = new TextboxStateImpl();
             textboxState.init(game);
         }
-        statesStack.add(textboxState);
-    }
 
-    public void pop() {
-        statesStack.remove( getIndexOfTop() );
+        stateStack.add(textboxState);
+
+        getCurrentState().enter();
     }
 }

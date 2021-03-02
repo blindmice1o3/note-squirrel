@@ -60,12 +60,12 @@ public class MenuStateImpl
 
     @Override
     public void enter() {
-
+        indexMenu = 0;
     }
 
     @Override
     public void exit() {
-        indexMenu = 0;
+
     }
 
     @Override
@@ -79,25 +79,15 @@ public class MenuStateImpl
             switch (selectedMenuItem) {
                 case CRITTER_DEX:
                     Log.d(MainActivity.DEBUG_TAG, "MenuStateImpl.interpretInput() a-button-justPressed CRITTER_DEX");
-                    game.getStateManager().pop();
+                    game.getStateManager().toggleMenuState();
                     break;
                 case BELT_LIST:
                     Log.d(MainActivity.DEBUG_TAG, "MenuStateImpl.interpretInput() a-button-justPressed BELT_LIST");
-                    game.getStateManager().pop();
+                    game.getStateManager().toggleMenuState();
                     break;
                 case BACKPACK_LIST:
-//                    Log.d(MainActivity.DEBUG_TAG, "MenuStateImpl.interpretInput() a-button-justPressed BACKPACK_LIST");
-//                    gameCartridge.getStateManager().pop();
-//                    ////////////////////////////////////////////////////////////////////////////////////
-//                    Log.d(MainActivity.DEBUG_TAG, "MenuStateImpl.interpretInput() saved present state");
-//                    gameCartridge.savePresentState();
-//                    Log.d(MainActivity.DEBUG_TAG, "MenuStateImpl.interpretInput() starting BackpackActivity for result...");
-//                    Intent backpackIntent = new Intent(context, BackpackActivity.class);
-//                    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-//                    backpackIntent.putExtra(JackInActivity.INVENTORY, gameCartridge.getPlayer().getInventory());
-//                    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-//                    ((JackInActivity)context).startActivityForResult(backpackIntent, JackInActivity.REQUEST_CODE_BACKPACK_ACTIVITY);
-//                    ////////////////////////////////////////////////////////////////////////////////////
+                    Log.d(MainActivity.DEBUG_TAG, "MenuStateImpl.interpretInput() a-button-justPressed BACKPACK_LIST");
+                    game.getStateManager().toggleMenuState();
                     break;
                 case LOAD:
                     Log.d(MainActivity.DEBUG_TAG, "MenuStateImpl.interpretInput() a-button-justPressed LOAD");
@@ -121,7 +111,7 @@ public class MenuStateImpl
                     break;
                 case OPTION:
                     Log.d(MainActivity.DEBUG_TAG, "MenuStateImpl.interpretInput() a-button-justPressed OPTION");
-                    game.getStateManager().pop();
+                    game.getStateManager().toggleMenuState();
                     break;
                 case EXIT:
                     Log.d(MainActivity.DEBUG_TAG, "MenuStateImpl.interpretInput() a-button-justPressed EXIT");

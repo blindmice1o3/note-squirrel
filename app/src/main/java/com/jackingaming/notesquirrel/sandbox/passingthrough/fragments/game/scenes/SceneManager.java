@@ -74,6 +74,23 @@ public class SceneManager
         getCurrentScene().drawCurrentFrame(canvas);
     }
 
+    private int getIndexOfTop() {
+        return sceneStack.size() - 1;
+    }
+
+    public Scene getCurrentScene() {
+        return sceneStack.get( getIndexOfTop() );
+    }
+
+    public void pop() {
+        Scene sceneCurrent = getCurrentScene();
+        sceneCurrent.exit();
+
+        sceneStack.remove(sceneCurrent);
+
+        getCurrentScene().enter();
+    }
+
     public void push(Scene newScene) {
         getCurrentScene().exit();
 
@@ -81,21 +98,10 @@ public class SceneManager
         if (newScene.getTileManager().getTiles() == null) {
             newScene.init(game);
         }
+
         sceneStack.add(newScene);
 
         getCurrentScene().enter();
-    }
-
-    public void pop() {
-        getCurrentScene().exit();
-        int indexOfLast = sceneStack.size() - 1;
-        sceneStack.remove(indexOfLast);
-        getCurrentScene().enter();
-    }
-
-    public Scene getCurrentScene() {
-        int indexOfLast = sceneStack.size() - 1;
-        return sceneStack.get(indexOfLast);
     }
 
     public void changeScene(String idOfCollidedTransferPoint) {
