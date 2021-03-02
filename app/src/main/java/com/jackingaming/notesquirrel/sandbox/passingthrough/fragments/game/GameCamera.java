@@ -102,16 +102,11 @@ public class GameCamera
     }
 
     public Rect convertToInGameRect(Rect screenRect) {
-        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".convertToInGameRect(Rect screenRect) x1-x0, y1-y0: " +
-                ((int) ( (screenRect.right * (1/widthPixelToViewportRatio)) + x ) - (int) ( (screenRect.left * (1/widthPixelToViewportRatio)) + x ) )+
-                ", " +
-                ((int) ( (screenRect.bottom * (1/heightPixelToViewportRatio)) + y ) - (int) ( (screenRect.top * (1/heightPixelToViewportRatio)) + y ))
-        );
         Rect collisionBounds = new Rect(
-                (int) ( (screenRect.left * (1/widthPixelToViewportRatio)) + x ),
-                (int) ( (screenRect.top * (1/heightPixelToViewportRatio)) + y ),
-                (int) ( (screenRect.right * (1/widthPixelToViewportRatio)) + x ),
-                (int) ( (screenRect.bottom * (1/heightPixelToViewportRatio)) + y ));
+                (int) ((screenRect.left / widthPixelToViewportRatio) + x),
+                (int) ((screenRect.top / heightPixelToViewportRatio) + y),
+                (int) ((screenRect.right / widthPixelToViewportRatio) + x),
+                (int) ((screenRect.bottom / heightPixelToViewportRatio) + y) );
         return collisionBounds;
     }
 

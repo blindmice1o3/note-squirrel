@@ -1,11 +1,13 @@
 package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.evo;
 
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.TouchDelegate;
 
@@ -87,14 +89,23 @@ public class SceneEvo extends Scene {
         if (game.getInputManager().isJustPressedViewport()) {
             Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretViewportInput() isJustPressedViewport is true");
 
+            // DETERMINE coordinates for touch event.
             MotionEvent event = game.getInputManager().getEvent();
             float xEventCenter = event.getX();
             float yEventCenter = event.getY();
+
+            // DETERMINE actionBarHeight.
+            TypedValue tv = new TypedValue();
+            game.getContext().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true);
+            int actionBarHeight = game.getContext().getResources().getDimensionPixelSize(tv.resourceId);
+
+            // DEFINE Rect representing collision bounds of user touch (FACTOR IN action bar's HEIGHT).
             float x0Event = xEventCenter - TOUCH_POINT_RADIUS;
-            float y0Event = yEventCenter - TOUCH_POINT_RADIUS;
+            float y0Event = yEventCenter - TOUCH_POINT_RADIUS - actionBarHeight;
             float x1Event = xEventCenter + TOUCH_POINT_RADIUS;
-            float y1Event = yEventCenter + TOUCH_POINT_RADIUS;
+            float y1Event = yEventCenter + TOUCH_POINT_RADIUS - actionBarHeight;
             Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretViewportInput() x0Event, y0Event, x1Event, y1Event: " + x0Event + ", " + y0Event + ", " + x1Event + ", " + y1Event);
+
             Rect rectOfTouchPointOnScreen = new Rect((int) x0Event, (int) y0Event, (int) x1Event, (int) y1Event);
             Rect rectOfTouchPointInGame = GameCamera.getInstance().convertToInGameRect(rectOfTouchPointOnScreen);
             for (Entity e : entityManager.getEntities()) {
