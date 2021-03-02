@@ -115,6 +115,7 @@ public class Eel extends Creature
                 if (ticker == 40) {
                     ticker = 0;
                     state = State.PATROL;
+                    changeBoundsToWideShortVersion();
                 }
                 break;
             case HURT:
@@ -135,32 +136,6 @@ public class Eel extends Creature
     private void determineNextImage() {
         Direction directionOfMyself = direction;
         image = eelAnimationManager.getCurrentFrame(state, directionOfMyself);
-    }
-
-    @Override
-    public void draw(Canvas canvas) {
-        Rect rectOfImage = new Rect(0, 0, image.getWidth(), image.getHeight());
-        Rect rectOnScreen = null;
-
-        if (state == State.ATTACK) {
-            // Transform from "wide, short" to "narrow, tall".
-            Rect rectOfEel = getCollisionBounds(0f, 0f);
-            int width = rectOfEel.right - rectOfEel.left;
-            int height = rectOfEel.bottom - rectOfEel.top;
-
-            if (direction == Direction.RIGHT) {
-                rectOfEel.left = rectOfEel.right - (width / 2); // scoot image to right edge
-            }
-            rectOfEel.right = rectOfEel.left + (width / 2);
-            rectOfEel.bottom = rectOfEel.top + (2 * height);
-
-            rectOnScreen = GameCamera.getInstance().convertToScreenRect(rectOfEel);
-        } else {
-            // No transformation needed, use normal bounds.
-            rectOnScreen = GameCamera.getInstance().convertToScreenRect(getCollisionBounds(0f, 0f));
-        }
-
-        canvas.drawBitmap(image, rectOfImage, rectOnScreen, null);
     }
 
     @Override
@@ -198,6 +173,7 @@ public class Eel extends Creature
     @Override
     public void takeDamage(int incomingDamage) {
         state = State.HURT;
+        changeBoundsToWideShortVersion();
         health -= incomingDamage;
 
         if (health <= 0) {
@@ -222,9 +198,42 @@ public class Eel extends Creature
         game.getSceneManager().getCurrentScene().getItemManager().addItem(honeyPot);
     }
 
+    private void changeBoundsToWideShortVersion() {
+        // Revert to original version.
+        width = widthWideShortVersion;
+        height = heightWideShortVersion;
+        bounds = boundsWideShortVersion;
+    }
+
+    private int widthWideShortVersion;
+    private int heightWideShortVersion;
+    private Rect boundsWideShortVersion;
+    private void changeBoundsToNarrowTallVersion() {
+        // Record previous version.
+        widthWideShortVersion = width;
+        heightWideShortVersion = height;
+        boundsWideShortVersion = bounds;
+
+        // Define new version relative to original version.
+        int widthNew = (width / 2);
+        int heightNew = (2 * height);
+
+        // Set new version.
+        width = widthNew;
+        height = heightNew;
+        if (direction == Direction.LEFT) {
+            // horizontal align: LEFT
+            bounds = new Rect(0, 0, width, height);
+        } else if (direction == Direction.RIGHT) {
+            // horizontal align: RIGHT
+            bounds = new Rect(widthNew, 0, width, height);
+        }
+    }
+
     @Override
     public void doDamage(Damageable damageable) {
         state = State.ATTACK;
+        changeBoundsToNarrowTallVersion();
         damageable.takeDamage(attackDamage);
     }
 }
