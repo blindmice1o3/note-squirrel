@@ -110,7 +110,9 @@ public class SceneEvo extends Scene {
             Rect rectOfTouchPointInGame = GameCamera.getInstance().convertToInGameRect(rectOfTouchPointOnScreen);
             for (Entity e : entityManager.getEntities()) {
                 if (rectOfTouchPointInGame.intersect(e.getCollisionBounds(0f, 0f))) {
-                    if (e instanceof Damageable) {
+                    if (e instanceof Kelp) {
+                        game.getStateManager().toggleTextboxState();
+                    } else if (e instanceof Damageable) {
                         e.setActive(false);
                         ((Damageable)e).die();
                     }

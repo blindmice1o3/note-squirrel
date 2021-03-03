@@ -146,10 +146,8 @@ public class InputManager
         this.event = event;
         pressingViewport = true;
 
-        boolean pressing = true;
 
         if (event.getAction() == MotionEvent.ACTION_UP) {
-            pressing = false;
             pressingViewport = false;
         }
 
@@ -162,33 +160,29 @@ public class InputManager
         if (0 <= event.getX() && (event.getX() < xLowerBound)) {
             // vertical (center-third)
             if ((yLowerBound <= event.getY()) && (event.getY() < yUpperBound)) {
-                pressingViewportButton.put(ViewportButton.LEFT, pressing);
-                return true;
+                pressingViewportButton.put(ViewportButton.LEFT, pressingViewport);
             }
         }
         // horizontal center-third
         else if ((xLowerBound <= event.getX()) && (event.getX() < xUpperBound)) {
             // vertical (first-third)
             if ((0 <= event.getY()) && (event.getY() < yLowerBound)) {
-                pressingViewportButton.put(ViewportButton.UP, pressing);
-                return true;
+                pressingViewportButton.put(ViewportButton.UP, pressingViewport);
             }
             // vertical (last-third)
             else if (yUpperBound <= event.getY()) {
-                pressingViewportButton.put(ViewportButton.DOWN, pressing);
-                return true;
+                pressingViewportButton.put(ViewportButton.DOWN, pressingViewport);
             }
         }
         // horizontal last-third
         else if (xUpperBound <= event.getX()) {
             // vertical (center-third)
             if ((yLowerBound <= event.getY()) && (event.getY() < yUpperBound)) {
-                pressingViewportButton.put(ViewportButton.RIGHT, pressing);
-                return true;
+                pressingViewportButton.put(ViewportButton.RIGHT, pressingViewport);
             }
         }
 
-        return false;
+        return true;
     }
 
     @Override

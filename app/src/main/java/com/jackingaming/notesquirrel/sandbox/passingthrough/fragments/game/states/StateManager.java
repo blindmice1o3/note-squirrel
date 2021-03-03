@@ -63,6 +63,14 @@ public class StateManager {
         }
     }
 
+    public void toggleTextboxState() {
+        if (getCurrentState() instanceof TextboxStateImpl) {
+            pop();
+        } else {
+            pushTextboxState();
+        }
+    }
+
     private void pushMenuState() {
         getCurrentState().exit();
 
@@ -76,7 +84,7 @@ public class StateManager {
         getCurrentState().enter();
     }
 
-    public void pushTextboxState() {
+    private void pushTextboxState() {
         getCurrentState().exit();
 
         if (textboxState == null) {
