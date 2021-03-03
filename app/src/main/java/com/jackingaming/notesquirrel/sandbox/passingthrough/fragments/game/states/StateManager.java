@@ -52,7 +52,7 @@ public class StateManager {
 
         stateStack.remove(stateCurrent);
 
-        getCurrentState().enter();
+        getCurrentState().enter(null);
     }
 
     public void toggleMenuState() {
@@ -60,14 +60,6 @@ public class StateManager {
             pop();
         } else {
             pushMenuState();
-        }
-    }
-
-    public void toggleTextboxState() {
-        if (getCurrentState() instanceof TextboxStateImpl) {
-            pop();
-        } else {
-            pushTextboxState();
         }
     }
 
@@ -81,10 +73,14 @@ public class StateManager {
 
         stateStack.add(menuState);
 
-        getCurrentState().enter();
+        getCurrentState().enter(null);
     }
 
-    private void pushTextboxState() {
+    public void popTextboxState() {
+        pop();
+    }
+
+    public void pushTextboxState(String text) {
         getCurrentState().exit();
 
         if (textboxState == null) {
@@ -94,6 +90,7 @@ public class StateManager {
 
         stateStack.add(textboxState);
 
-        getCurrentState().enter();
+        Object[] args = { text };
+        textboxState.enter(args);
     }
 }

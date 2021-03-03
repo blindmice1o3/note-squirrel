@@ -3,7 +3,7 @@ package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.stat
 import android.graphics.Canvas;
 
 public interface State {
-    void enter();
+    void enter(Object[] args);
     void exit();
 
     void update(long elapsed);

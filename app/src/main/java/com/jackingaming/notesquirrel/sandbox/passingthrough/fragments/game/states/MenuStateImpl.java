@@ -59,7 +59,7 @@ public class MenuStateImpl
     }
 
     @Override
-    public void enter() {
+    public void enter(Object[] args) {
         indexMenu = 0;
     }
 

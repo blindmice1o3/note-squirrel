@@ -17,6 +17,7 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scene
 
 public class TextboxStateImpl
         implements State {
+    private static final String TEXT_DEFAULT = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
     transient private Game game;
 
     transient private StaticLayout staticLayout;
@@ -31,8 +32,17 @@ public class TextboxStateImpl
 
     public void init(Game game) {
         this.game = game;
+        text = TEXT_DEFAULT;
+    }
 
-        text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+    @Override
+    public void enter(Object[] args) {
+        if (args != null) {
+            if (args[0] instanceof String) {
+                text = (String) args[0];
+                Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + " .enter(Object[] args) text: " + text);
+            }
+        }
 
         textPaint = new TextPaint();
         textPaint.setAntiAlias(true);
@@ -48,12 +58,7 @@ public class TextboxStateImpl
         staticLayout = new StaticLayout(text, textPaint, widthStaticLayout, alignment, spacingMultiplier, spacingAddition, includePadding);
 
         heightStaticLayout = staticLayout.getHeight();
-        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + " .init(Game game) heightStaticLayout: " + heightStaticLayout);
-    }
-
-    @Override
-    public void enter() {
-
+        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + " .enter(Object[] args) heightStaticLayout: " + heightStaticLayout);
     }
 
     @Override
@@ -70,7 +75,7 @@ public class TextboxStateImpl
         if (game.getInputManager().isJustPressed(InputManager.Button.A)) {
             // Intentionally blank.
         } else if (game.getInputManager().isJustPressed(InputManager.Button.B)) {
-            game.getStateManager().toggleTextboxState();
+            game.getStateManager().popTextboxState();
         } else if (game.getInputManager().isJustPressed(InputManager.Button.MENU)) {
             // Intentionally blank.
         }
@@ -102,7 +107,7 @@ public class TextboxStateImpl
         int numberOfTextLines = staticLayout.getLineCount();
 //        float textYCoordinate = bounds.exactCenterY() -
 //                ((numberOfTextLines * textHeight) / 2);
-        float textYCoordinate = bounds.bottom - ((numberOfTextLines - 1) * lineHeight);
+        float textYCoordinate = bounds.bottom - (numberOfTextLines * lineHeight);
 
         // HORIZONTAL_ALIGN: RIGHT.
         float textXCoordinate = 0;

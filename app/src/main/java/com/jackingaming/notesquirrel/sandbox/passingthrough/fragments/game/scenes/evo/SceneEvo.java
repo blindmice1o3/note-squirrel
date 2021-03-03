@@ -111,7 +111,9 @@ public class SceneEvo extends Scene {
             for (Entity e : entityManager.getEntities()) {
                 if (rectOfTouchPointInGame.intersect(e.getCollisionBounds(0f, 0f))) {
                     if (e instanceof Kelp) {
-                        game.getStateManager().toggleTextboxState();
+                        String text = "Two four six eight ... eight six four two";
+                        game.getStateManager().pushTextboxState(text);
+//                        game.getStateManager().pushTextboxState(null);
                     } else if (e instanceof Damageable) {
                         e.setActive(false);
                         ((Damageable)e).die();

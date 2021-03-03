@@ -19,7 +19,7 @@ public class GameStateImpl
     }
 
     @Override
-    public void enter() {
+    public void enter(Object[] args) {
 
     }
 
