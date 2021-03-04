@@ -65,8 +65,8 @@ public class Eel extends Creature
         eelAnimationManager = new EelAnimationManager();
 
         detectionRectangleBounds = new Rect(
-                -detectionRadiusLength + (width/2), //NEGATIVE
-                -detectionRadiusLength + (height/2), //NEGATIVE
+                -detectionRadiusLength,     //NEGATIVE
+                -detectionRadiusLength,     //NEGATIVE
                 2*detectionRadiusLength,
                 2*detectionRadiusLength);
     }
@@ -77,10 +77,10 @@ public class Eel extends Creature
 
     private Rect getDetectionRectangle(float xOffset, float yOffset) {
         return new Rect(
-                (int)(x + detectionRectangleBounds.left + xOffset),
-                (int)(y + detectionRectangleBounds.top + yOffset),
-                (int)(x + detectionRectangleBounds.left + xOffset) + detectionRectangleBounds.right,
-                (int)(y + detectionRectangleBounds.top + yOffset) + detectionRectangleBounds.bottom);
+                (int)(x + (width/2) + detectionRectangleBounds.left + xOffset),
+                (int)(y + (height/2) + detectionRectangleBounds.top + yOffset),
+                (int)(x + (width/2) + detectionRectangleBounds.left + xOffset) + detectionRectangleBounds.right,
+                (int)(y + (height/2) + detectionRectangleBounds.top + yOffset) + detectionRectangleBounds.bottom);
     }
 
     private boolean checkDetectionCollisions(float xOffset, float yOffset) {
@@ -117,7 +117,7 @@ public class Eel extends Creature
 
     private void tickAttackCooldown(long elapsed) {
         attackTimer += elapsed;
-        //attackTimer gets reset to 0 in respondToEntityCollision(Entity).
+        //attackTimer gets reset to 0 in doDamage(Damageable).
     }
 
     private int ticker = 0;
@@ -133,13 +133,12 @@ public class Eel extends Creature
                     changeBoundsToWideShortVersion();
                     ///////////////////////////
                 }
-
                 // PATROL (set value for future-change-in-position).
-                if (patrolLengthInPixelCurrent < patrolLengthInPixelMax) {
-                    if (direction == Direction.LEFT) {
+                else if (patrolLengthInPixelCurrent < patrolLengthInPixelMax) {
+                    if (directionFacing == DirectionFacing.LEFT) {
                         xMove = -moveSpeed;
                         patrolLengthInPixelCurrent += moveSpeed;
-                    } else if (direction == Direction.RIGHT) {
+                    } else if (directionFacing == DirectionFacing.RIGHT) {
                         xMove = moveSpeed;
                         patrolLengthInPixelCurrent += moveSpeed;
                     }
@@ -152,16 +151,54 @@ public class Eel extends Creature
                 }
                 break;
             case CHASE:
-                //TESTING checkDetectionCollisions(float, float)
                 Player player = Player.getInstance();
-                //player is beyond detection range.
-                if ( (Math.abs(player.getX() - x) > detectionRadiusLength) ||
-                        (Math.abs(player.getY() - y) > detectionRadiusLength) ) {
+                // Still chasing: move() Eel and see if hurt() should be called.
+                if (checkDetectionCollisions(0f, 0f)) {
+                    Log.d(MainActivity.DEBUG_TAG, "IMMA GETCHA!");
+                    if (player.getX() < x && player.getY() < y) {
+                        xMove = -moveSpeed;
+                        yMove = -moveSpeed;
+                        direction = Direction.UP_LEFT;
+                        directionFacing = DirectionFacing.LEFT;
+                    } else if (player.getX() < x && player.getY() > y) {
+                        xMove = -moveSpeed;
+                        yMove = moveSpeed;
+                        direction = Direction.DOWN_LEFT;
+                        directionFacing = DirectionFacing.LEFT;
+                    } else if (player.getX() > x && player.getY() < y) {
+                        xMove = moveSpeed;
+                        yMove = -moveSpeed;
+                        direction = Direction.UP_RIGHT;
+                        directionFacing = DirectionFacing.RIGHT;
+                    } else if (player.getX() > x && player.getY() > y) {
+                        xMove = moveSpeed;
+                        yMove = moveSpeed;
+                        direction = Direction.DOWN_RIGHT;
+                        directionFacing = DirectionFacing.RIGHT;
+                    } else if (player.getX() < x && player.getY() == y) {
+                        xMove = -moveSpeed;
+                        yMove = 0;
+                        direction = Direction.LEFT;
+                        directionFacing = DirectionFacing.LEFT;
+                    } else if (player.getX() > x && player.getY() == y) {
+                        xMove = moveSpeed;
+                        yMove = 0;
+                        direction = Direction.RIGHT;
+                        directionFacing = DirectionFacing.RIGHT;
+                    } else if (player.getY() < y && player.getX() == x) {
+                        xMove = 0;
+                        yMove = -moveSpeed;
+                        direction = Direction.UP;
+                    } else if (player.getY() > y && player.getX() == x) {
+                        xMove = 0;
+                        yMove = moveSpeed;
+                        direction = Direction.DOWN;
+                    } // enter State.ATTACK through move()'s entity-collision response.
+                }
+                // Player is beyond detection range.
+                else {
                     Log.d(MainActivity.DEBUG_TAG, "awwww........ like sand slipping through the fingers (whatever those are).");
-
-                    //TODO: call unimplemented method named: moveToBeforeChaseCoordinate().
-                    //!!!RETURNING TO PATROL POSITION!!!
-                    //to return to patrol position, have to move left.
+                    // RETURNING TO PATROL POSITION
                     if (x < xBeforeChase && y < yBeforeChase) {
                         xMove = moveSpeed;
                         yMove = moveSpeed;
@@ -207,59 +244,13 @@ public class Eel extends Creature
                         ////////////////////////////
                     }
                 }
-                //still chasing: move() Eel and see if hurt() should be called.
-                else {
-                    Log.d(MainActivity.DEBUG_TAG, "IMMA GETCHA!");
-
-                    if (player.getX() < x && player.getY() < y) {
-                        xMove = -moveSpeed;
-                        yMove = -moveSpeed;
-                        direction = Direction.UP_LEFT;
-                        directionFacing = DirectionFacing.LEFT;
-                    } else if (player.getX() < x && player.getY() > y) {
-                        xMove = -moveSpeed;
-                        yMove = moveSpeed;
-                        direction = Direction.DOWN_LEFT;
-                        directionFacing = DirectionFacing.LEFT;
-                    } else if (player.getX() > x && player.getY() < y) {
-                        xMove = moveSpeed;
-                        yMove = -moveSpeed;
-                        direction = Direction.UP_RIGHT;
-                        directionFacing = DirectionFacing.RIGHT;
-                    } else if (player.getX() > x && player.getY() > y) {
-                        xMove = moveSpeed;
-                        yMove = moveSpeed;
-                        direction = Direction.DOWN_RIGHT;
-                        directionFacing = DirectionFacing.RIGHT;
-                    } else if (player.getX() < x && player.getY() == y) {
-                        xMove = -moveSpeed;
-                        yMove = 0;
-                        direction = Direction.LEFT;
-                        directionFacing = DirectionFacing.LEFT;
-                    } else if (player.getX() > x && player.getY() == y) {
-                        xMove = moveSpeed;
-                        yMove = 0;
-                        direction = Direction.RIGHT;
-                        directionFacing = DirectionFacing.RIGHT;
-                    } else if (player.getY() < y && player.getX() == x) {
-                        xMove = 0;
-                        yMove = -moveSpeed;
-                        direction = Direction.UP;
-                    } else if (player.getY() > y && player.getX() == x) {
-                        xMove = 0;
-                        yMove = moveSpeed;
-                        direction = Direction.DOWN;
-                    }
-
-                    //TODO: check if intersection (hurt() will be called).
-                }
 
                 break;
             case TURN:
-                if (direction == Direction.LEFT) {
+                if (directionFacing == DirectionFacing.LEFT) {
                     direction = Direction.RIGHT;
                     directionFacing = DirectionFacing.RIGHT;
-                } else if (direction == Direction.RIGHT) {
+                } else if (directionFacing == DirectionFacing.RIGHT) {
                     direction = Direction.LEFT;
                     directionFacing = DirectionFacing.LEFT;
                 }
@@ -303,6 +294,7 @@ public class Eel extends Creature
         Rect detectionSquare = getDetectionRectangle(0, 0);
         Paint paintDetectionSquare = new Paint();
         paintDetectionSquare.setColor(Color.GREEN);
+        paintDetectionSquare.setAlpha(60);
         canvas.drawRect(
                 (int) ((detectionSquare.left - GameCamera.getInstance().getX()) * GameCamera.getInstance().getWidthPixelToViewportRatio()),
                 (int) ((detectionSquare.top - GameCamera.getInstance().getY()) * GameCamera.getInstance().getHeightPixelToViewportRatio()),
