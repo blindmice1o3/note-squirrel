@@ -3,10 +3,12 @@ package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scen
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.Player;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.fish.FishForm;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,6 +22,8 @@ public class HeadUpDisplay
     public HeadUpDisplay(Game game) {
         this.game = game;
         timedNumericIndicators = new ArrayList<ComponentHUD>();
+        widthScreen = game.getWidthViewport();
+        xCenterOfScreen = widthScreen / 2;
     }
 
     public void update(long elapsed) {
@@ -49,32 +53,57 @@ public class HeadUpDisplay
         renderHUD(canvas);
     }
 
+    private static final int MARGIN_SIZE_HORIZONTAL = Tile.WIDTH;
+    private static final int MARGIN_SIZE_VERTICAL = Tile.HEIGHT;
+    private static final int PADDING_SIZE_HORIZONTAL = 2;
+    private static final int PADDING_SIZE_VERTICAL = 2;
+    private int widthScreen;
+    private int xCenterOfScreen;
     private void renderHUD(Canvas canvas) {
         Player playerBase = Player.getInstance();
         FishForm player = ((FishForm)playerBase.getForm());
-        /* TOP OF SCREEN */
-        //HP BAR
-        //TODO: make the hud's hp bar use a percentage-based system so the width won't change when healthMax changes.
-        int currentHealthPercent = (int)(((float)player.getHealth() / (float)player.getHealthMax()) * 100); //need floating-point-division; int-division lobs-off digits.
-        //System.out.println("currentHealthPercent: " + currentHealthPercent);
+
+        // HP BAR
 
         Paint paint = new Paint();
-        paint.setColor(Color.BLACK);
-        canvas.drawRect(28, 11, 104, 12, paint);
-        //g.fillRect(28, 11, 10*(player.getHealthMax()) +4, 12);
+        //HP LABEL
         paint.setColor(Color.GREEN);
-        //g.fillRect(30, 13, 10*player.getHealth(), 8);
-        canvas.drawRect(30, 13, currentHealthPercent, 8, paint);
+        String labelHP = "hp: ";
+        paint.setTextSize(40f);
+        Rect bounds = new Rect();
+        paint.getTextBounds(labelHP, 0, labelHP.length(), bounds);
+        int heightLabelHP = bounds.height();
+        int widthLabelHP = bounds.width();
+        canvas.drawText(labelHP, MARGIN_SIZE_HORIZONTAL, MARGIN_SIZE_VERTICAL + heightLabelHP, paint);
+        canvas.drawText(Integer.toString(player.getHealth()), MARGIN_SIZE_HORIZONTAL,
+                MARGIN_SIZE_VERTICAL + heightLabelHP + heightLabelHP, paint);
 
-        //HP
+        // HP BAR BACKGROUND
+        int x0HPBarBackground = MARGIN_SIZE_HORIZONTAL + widthLabelHP + MARGIN_SIZE_HORIZONTAL;
+        int y0HPBarBackground = heightLabelHP;
+        int x1HPBarBackground = xCenterOfScreen - MARGIN_SIZE_HORIZONTAL ;
+        int y1HPBarBackground = heightLabelHP + MARGIN_SIZE_VERTICAL;
+        paint.setColor(Color.BLACK);
+        canvas.drawRect(x0HPBarBackground, y0HPBarBackground, x1HPBarBackground, y1HPBarBackground, paint);
+        // The HUD's hp bar uses percent so the width won't change when healthMax changes.
+        // Use floating-point-division (int-division lobs-off digits).
+        float currentHealthPercent = (float)player.getHealth() / (float)player.getHealthMax();
+        if (currentHealthPercent < 0) {
+            currentHealthPercent = 0;
+        }
+        // HP BAR FOREGROUND
+        int x0HPBarForeground = MARGIN_SIZE_HORIZONTAL + widthLabelHP + MARGIN_SIZE_HORIZONTAL + PADDING_SIZE_HORIZONTAL;
+        int y0HPBarForeground = heightLabelHP + PADDING_SIZE_VERTICAL;
+        int lengthOfHPBarForeground = xCenterOfScreen - (MARGIN_SIZE_HORIZONTAL + PADDING_SIZE_HORIZONTAL) - x0HPBarForeground;
+        int x1HPBarForeground = x0HPBarForeground + (int)(lengthOfHPBarForeground * currentHealthPercent);
+        int y1HPBarForeground = heightLabelHP + MARGIN_SIZE_VERTICAL - PADDING_SIZE_VERTICAL;
         paint.setColor(Color.GREEN);
-        canvas.drawText("hp: ", 10, 20, paint);
-        canvas.drawText(Integer.toString(player.getHealth()), 10, 35, paint);
+        canvas.drawRect(x0HPBarForeground, y0HPBarForeground, x1HPBarForeground, y1HPBarForeground, paint);
 
         //XP
         paint.setColor(Color.WHITE);
         canvas.drawText("experiencePoints: " + player.getExperiencePoints(),
-                game.getWidthViewport()/2, 20, paint);
+                xCenterOfScreen + MARGIN_SIZE_HORIZONTAL, MARGIN_SIZE_VERTICAL + heightLabelHP, paint);
     }
 
     public void addTimedNumericIndicator(ComponentHUD componentHUD) {
