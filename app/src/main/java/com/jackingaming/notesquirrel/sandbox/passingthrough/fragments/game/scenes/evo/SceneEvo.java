@@ -1,7 +1,6 @@
 package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.evo;
 
 import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -9,7 +8,6 @@ import android.graphics.Rect;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
-import android.view.TouchDelegate;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
@@ -111,8 +109,13 @@ public class SceneEvo extends Scene {
             for (Entity e : entityManager.getEntities()) {
                 if (rectOfTouchPointInGame.intersect(e.getCollisionBounds(0f, 0f))) {
                     if (e instanceof Kelp) {
+                        // TODO: pass text and location (x, y, width, height) to textbox.
                         String text = "Two four six eight ... eight six four two";
-                        game.getStateManager().pushTextboxState(text);
+                        float xPlayerInGame = Player.getInstance().getX();
+                        float yPlayerInGame = Player.getInstance().getY();
+                        float xPlayerOnScreen = xPlayerInGame * GameCamera.getInstance().getWidthPixelToViewportRatio();
+                        float yPlayerOnScreen = yPlayerInGame * GameCamera.getInstance().getHeightPixelToViewportRatio();
+                        game.getStateManager().pushTextboxState(text, xPlayerOnScreen, yPlayerOnScreen);
 //                        game.getStateManager().pushTextboxState(null);
                     } else if (e instanceof Damageable) {
                         e.setActive(false);
@@ -308,7 +311,7 @@ public class SceneEvo extends Scene {
         entities.add(seaJelly1);
 
         Entity eel1 = new Eel(8 * Tile.WIDTH, 6 * Tile.WIDTH,
-                Creature.Direction.LEFT, 5 * Tile.WIDTH);
+                Eel.DirectionFacing.LEFT, 5 * Tile.WIDTH);
         entities.add(eel1);
 
         return entities;

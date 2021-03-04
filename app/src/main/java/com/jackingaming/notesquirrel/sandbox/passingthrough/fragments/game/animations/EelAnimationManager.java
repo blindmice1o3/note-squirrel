@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory;
 
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
-import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Creature;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.evo.Eel;
 
 import java.io.Serializable;
@@ -59,41 +58,41 @@ public class EelAnimationManager
         animationHurtRight.setSpeed(speed);
     }
 
-    public Bitmap getCurrentFrame(Eel.State state, Creature.Direction directionOfMyself) {
+    public Bitmap getCurrentFrame(Eel.State state, Eel.DirectionFacing directionFacing) {
         Bitmap imageByState = null;
         switch (state) {
             case PATROL:
-                if (directionOfMyself == Creature.Direction.LEFT) {
+                if (directionFacing == Eel.DirectionFacing.LEFT) {
                     imageByState = animationPatrolLeft.getCurrentFrame();
-                } else if (directionOfMyself == Creature.Direction.RIGHT) {
+                } else if (directionFacing == Eel.DirectionFacing.RIGHT) {
                     imageByState = animationPatrolRight.getCurrentFrame();
                 }
                 break;
             case TURN:
-                if (directionOfMyself == Creature.Direction.LEFT) {
+                if (directionFacing == Eel.DirectionFacing.LEFT) {
                     imageByState = animationPatrolRightTurnToLeft.getCurrentFrame();
-                } else if (directionOfMyself == Creature.Direction.RIGHT) {
+                } else if (directionFacing == Eel.DirectionFacing.RIGHT) {
                     imageByState = animationPatrolLeftTurnToRight.getCurrentFrame();
                 }
                 break;
             case ATTACK:
-                if (directionOfMyself == Creature.Direction.LEFT) {
+                if (directionFacing == Eel.DirectionFacing.LEFT) {
                     imageByState = animationAttackLeft.getCurrentFrame();
-                } else if (directionOfMyself == Creature.Direction.RIGHT) {
+                } else if (directionFacing == Eel.DirectionFacing.RIGHT) {
                     imageByState = animationAttackRight.getCurrentFrame();
                 }
                 break;
             case HURT:
-                if (directionOfMyself == Creature.Direction.LEFT) {
+                if (directionFacing == Eel.DirectionFacing.LEFT) {
                     imageByState = animationHurtLeft.getCurrentFrame();
-                } else if (directionOfMyself == Creature.Direction.RIGHT) {
+                } else if (directionFacing == Eel.DirectionFacing.RIGHT) {
                     imageByState = animationHurtRight.getCurrentFrame();
                 }
                 break;
             case CHASE:
-                if (directionOfMyself == Creature.Direction.LEFT) {
+                if (directionFacing == Eel.DirectionFacing.LEFT) {
                     imageByState = animationPatrolLeft.getCurrentFrame();
-                } else if (directionOfMyself == Creature.Direction.RIGHT) {
+                } else if (directionFacing == Eel.DirectionFacing.RIGHT) {
                     imageByState = animationPatrolRight.getCurrentFrame();
                 }
                 break;

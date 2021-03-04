@@ -23,7 +23,11 @@ public class TextboxStateImpl
     transient private StaticLayout staticLayout;
     private int widthStaticLayout;
     private float heightStaticLayout;
-    private TextPaint textPaint;
+
+    private float xTextbox;
+    private float yTextbox;
+
+    transient private TextPaint textPaint;
     private String text;
 
     public TextboxStateImpl() {
@@ -42,6 +46,10 @@ public class TextboxStateImpl
                 text = (String) args[0];
                 Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + " .enter(Object[] args) text: " + text);
             }
+            if (args.length >= 3) {
+                xTextbox = (float) args[1];
+                yTextbox = (float) args[2];
+            }
         }
 
         textPaint = new TextPaint();
@@ -55,7 +63,8 @@ public class TextboxStateImpl
         float spacingAddition = 0;
         boolean includePadding = false;
 
-        staticLayout = new StaticLayout(text, textPaint, widthStaticLayout, alignment, spacingMultiplier, spacingAddition, includePadding);
+        staticLayout = new StaticLayout(text, textPaint, widthStaticLayout,
+                alignment, spacingMultiplier, spacingAddition, includePadding);
 
         heightStaticLayout = staticLayout.getHeight();
         Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + " .enter(Object[] args) heightStaticLayout: " + heightStaticLayout);
@@ -105,15 +114,14 @@ public class TextboxStateImpl
 
         float lineHeight = getLineHeight(text, textPaint);
         int numberOfTextLines = staticLayout.getLineCount();
-//        float textYCoordinate = bounds.exactCenterY() -
-//                ((numberOfTextLines * textHeight) / 2);
-        float textYCoordinate = bounds.bottom - (numberOfTextLines * lineHeight);
-
-        // HORIZONTAL_ALIGN: RIGHT.
-        float textXCoordinate = 0;
+        // VERTICAL CENTER
+//        yTextbox = bounds.exactCenterY() - ((numberOfTextLines * textHeight) / 2);
+        // VERTICAL BOTTOM
+//        yTextbox = bounds.bottom - (numberOfTextLines * lineHeight);
+//        xTextbox = 0;
 
         canvas.save();
-        canvas.translate(textXCoordinate, textYCoordinate);
+        canvas.translate(xTextbox, yTextbox);
         Paint paintBackground = new Paint();
         paintBackground.setColor(Color.RED);
         paintBackground.setAlpha(185);

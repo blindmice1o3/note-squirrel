@@ -1,6 +1,8 @@
 package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.evo;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
 
@@ -18,14 +20,23 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scene
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 
+import java.nio.file.attribute.UserPrincipalLookupService;
+
 public class Eel extends Creature
         implements Damageable, DamageDoer {
+    private static final int WIDTH_WIDE_SHORT = Tile.WIDTH;
+    private static final int HEIGHT_WIDE_SHORT = Tile.HEIGHT / 2;
+    private static final int WIDTH_NARROW_TALL = Tile.WIDTH / 2;
+    private static final int HEIGHT_NARROW_TALL = Tile.HEIGHT;
+
     public enum State { PATROL, TURN, CHASE, ATTACK, HURT; }
+    public enum DirectionFacing { LEFT, RIGHT; }
     public static final int HEALTH_MAX_DEFAULT = 3;
 
     private EelAnimationManager eelAnimationManager;
 
     private State state;
+    private DirectionFacing directionFacing;
     private float patrolLengthInPixelMax;
     private float patrolLengthInPixelCurrent;
 
@@ -36,13 +47,14 @@ public class Eel extends Creature
     private int healthMax;
     private int health;
 
-    public Eel(int xSpawn, int ySpawn, Direction direction, int patrolLengthInPixelMax) {
+    public Eel(int xSpawn, int ySpawn, DirectionFacing directionFacing, int patrolLengthInPixelMax) {
         super(xSpawn, ySpawn);
         width = Tile.WIDTH;
         height = Tile.HEIGHT / 2;
         moveSpeed = 0.5f;
         state = State.PATROL;
-        this.direction = direction;
+        this.directionFacing = directionFacing;
+        direction = (directionFacing == DirectionFacing.LEFT) ? (Direction.LEFT) : (Direction.RIGHT);
         this.patrolLengthInPixelMax = patrolLengthInPixelMax;
         patrolLengthInPixelCurrent = 0f;
 
@@ -51,6 +63,34 @@ public class Eel extends Creature
         health = healthMax;
 
         eelAnimationManager = new EelAnimationManager();
+
+        detectionRectangleBounds = new Rect(
+                -detectionRadiusLength + (width/2), //NEGATIVE
+                -detectionRadiusLength + (height/2), //NEGATIVE
+                2*detectionRadiusLength,
+                2*detectionRadiusLength);
+    }
+
+    private Rect detectionRectangleBounds;
+    private int detectionRadiusLength = 3 * Tile.WIDTH;
+    private float xBeforeChase, yBeforeChase;
+
+    private Rect getDetectionRectangle(float xOffset, float yOffset) {
+        return new Rect(
+                (int)(x + detectionRectangleBounds.left + xOffset),
+                (int)(y + detectionRectangleBounds.top + yOffset),
+                (int)(x + detectionRectangleBounds.left + xOffset) + detectionRectangleBounds.right,
+                (int)(y + detectionRectangleBounds.top + yOffset) + detectionRectangleBounds.bottom);
+    }
+
+    private boolean checkDetectionCollisions(float xOffset, float yOffset) {
+        Entity player = Player.getInstance();
+
+        if (player.getCollisionBounds(0f, 0f).intersect(getDetectionRectangle(xOffset, yOffset))) {
+            return true;
+        }
+
+        return false;
     }
 
     @Override
@@ -84,6 +124,16 @@ public class Eel extends Creature
     private void determineNextMove() {
         switch (state) {
             case PATROL:
+                // CHECK FOR SEARCH-TARGET (is player within detection range?)
+                if ( checkDetectionCollisions(0, 0) ) {
+                    xBeforeChase = x;
+                    yBeforeChase = y;
+                    ///////////////////////////
+                    state = State.CHASE;
+                    changeBoundsToWideShortVersion();
+                    ///////////////////////////
+                }
+
                 // PATROL (set value for future-change-in-position).
                 if (patrolLengthInPixelCurrent < patrolLengthInPixelMax) {
                     if (direction == Direction.LEFT) {
@@ -98,20 +148,129 @@ public class Eel extends Creature
                 else {
                     patrolLengthInPixelCurrent = 0f;
                     state = State.TURN;
+                    changeBoundsToWideShortVersion();
                 }
+                break;
+            case CHASE:
+                //TESTING checkDetectionCollisions(float, float)
+                Player player = Player.getInstance();
+                //player is beyond detection range.
+                if ( (Math.abs(player.getX() - x) > detectionRadiusLength) ||
+                        (Math.abs(player.getY() - y) > detectionRadiusLength) ) {
+                    Log.d(MainActivity.DEBUG_TAG, "awwww........ like sand slipping through the fingers (whatever those are).");
+
+                    //TODO: call unimplemented method named: moveToBeforeChaseCoordinate().
+                    //!!!RETURNING TO PATROL POSITION!!!
+                    //to return to patrol position, have to move left.
+                    if (x < xBeforeChase && y < yBeforeChase) {
+                        xMove = moveSpeed;
+                        yMove = moveSpeed;
+                        direction = Direction.DOWN_RIGHT;
+                        directionFacing = DirectionFacing.RIGHT;
+                    } else if (x < xBeforeChase && y > yBeforeChase) {
+                        xMove = moveSpeed;
+                        yMove = -moveSpeed;
+                        direction = Direction.UP_RIGHT;
+                        directionFacing = DirectionFacing.RIGHT;
+                    } else if (x > xBeforeChase && y < yBeforeChase) {
+                        xMove = -moveSpeed;
+                        yMove = moveSpeed;
+                        direction = Direction.DOWN_LEFT;
+                        directionFacing = DirectionFacing.LEFT;
+                    } else if (x > xBeforeChase && y > yBeforeChase) {
+                        xMove = -moveSpeed;
+                        yMove = -moveSpeed;
+                        direction = Direction.UP_LEFT;
+                        directionFacing = DirectionFacing.LEFT;
+                    } else if (x > xBeforeChase && y == yBeforeChase) {
+                        xMove = -moveSpeed;
+                        yMove = 0;
+                        direction = Direction.LEFT;
+                        directionFacing = DirectionFacing.LEFT;
+                    } else if (x < xBeforeChase && y == yBeforeChase) {
+                        xMove = moveSpeed;
+                        yMove = 0;
+                        direction = Direction.RIGHT;
+                        directionFacing = DirectionFacing.RIGHT;
+                    } else if (y > yBeforeChase && x == xBeforeChase) {
+                        xMove = 0;
+                        yMove = -moveSpeed;
+                        direction = Direction.UP;
+                    } else if (y < yBeforeChase && x == xBeforeChase) {
+                        xMove = 0;
+                        yMove = moveSpeed;
+                        direction = Direction.DOWN;
+                    } else if ( (x == xBeforeChase) && (y == yBeforeChase) ) {
+                        ////////////////////////////
+                        state = State.PATROL;
+                        changeBoundsToWideShortVersion();
+                        ////////////////////////////
+                    }
+                }
+                //still chasing: move() Eel and see if hurt() should be called.
+                else {
+                    Log.d(MainActivity.DEBUG_TAG, "IMMA GETCHA!");
+
+                    if (player.getX() < x && player.getY() < y) {
+                        xMove = -moveSpeed;
+                        yMove = -moveSpeed;
+                        direction = Direction.UP_LEFT;
+                        directionFacing = DirectionFacing.LEFT;
+                    } else if (player.getX() < x && player.getY() > y) {
+                        xMove = -moveSpeed;
+                        yMove = moveSpeed;
+                        direction = Direction.DOWN_LEFT;
+                        directionFacing = DirectionFacing.LEFT;
+                    } else if (player.getX() > x && player.getY() < y) {
+                        xMove = moveSpeed;
+                        yMove = -moveSpeed;
+                        direction = Direction.UP_RIGHT;
+                        directionFacing = DirectionFacing.RIGHT;
+                    } else if (player.getX() > x && player.getY() > y) {
+                        xMove = moveSpeed;
+                        yMove = moveSpeed;
+                        direction = Direction.DOWN_RIGHT;
+                        directionFacing = DirectionFacing.RIGHT;
+                    } else if (player.getX() < x && player.getY() == y) {
+                        xMove = -moveSpeed;
+                        yMove = 0;
+                        direction = Direction.LEFT;
+                        directionFacing = DirectionFacing.LEFT;
+                    } else if (player.getX() > x && player.getY() == y) {
+                        xMove = moveSpeed;
+                        yMove = 0;
+                        direction = Direction.RIGHT;
+                        directionFacing = DirectionFacing.RIGHT;
+                    } else if (player.getY() < y && player.getX() == x) {
+                        xMove = 0;
+                        yMove = -moveSpeed;
+                        direction = Direction.UP;
+                    } else if (player.getY() > y && player.getX() == x) {
+                        xMove = 0;
+                        yMove = moveSpeed;
+                        direction = Direction.DOWN;
+                    }
+
+                    //TODO: check if intersection (hurt() will be called).
+                }
+
                 break;
             case TURN:
                 if (direction == Direction.LEFT) {
                     direction = Direction.RIGHT;
+                    directionFacing = DirectionFacing.RIGHT;
                 } else if (direction == Direction.RIGHT) {
                     direction = Direction.LEFT;
+                    directionFacing = DirectionFacing.LEFT;
                 }
                 state = State.PATROL;
+                changeBoundsToWideShortVersion();
                 break;
             case ATTACK:
                 ticker++;
                 //TODO: is this attack-timer-target long enough to iterate through all 2 attackFrames images???
                 //make transition-back-to-State.PATROL be based on the index of attackFrames???
+                // TODO: doDamage()?
                 if (ticker == 40) {
                     ticker = 0;
                     state = State.PATROL;
@@ -125,6 +284,7 @@ public class Eel extends Creature
                 if (ticker == 40) {
                     ticker = 0;
                     state = State.PATROL;
+                    changeBoundsToWideShortVersion();
                 }
                 break;
             default:
@@ -134,20 +294,32 @@ public class Eel extends Creature
     }
 
     private void determineNextImage() {
-        Direction directionOfMyself = direction;
-        image = eelAnimationManager.getCurrentFrame(state, directionOfMyself);
+        image = eelAnimationManager.getCurrentFrame(state, directionFacing);
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        // DETECTION-RECTANGLE
+        Rect detectionSquare = getDetectionRectangle(0, 0);
+        Paint paintDetectionSquare = new Paint();
+        paintDetectionSquare.setColor(Color.GREEN);
+        canvas.drawRect(
+                (int) ((detectionSquare.left - GameCamera.getInstance().getX()) * GameCamera.getInstance().getWidthPixelToViewportRatio()),
+                (int) ((detectionSquare.top - GameCamera.getInstance().getY()) * GameCamera.getInstance().getHeightPixelToViewportRatio()),
+                (int) ((detectionSquare.right - GameCamera.getInstance().getX()) * GameCamera.getInstance().getWidthPixelToViewportRatio()),
+                (int) ((detectionSquare.bottom - GameCamera.getInstance().getY()) * GameCamera.getInstance().getHeightPixelToViewportRatio()),
+                paintDetectionSquare);
+
+        // EEL
+        Rect rectOfImage = new Rect(0, 0, image.getWidth(), image.getHeight());
+        Rect rectOnScreen = GameCamera.getInstance().convertToScreenRect(getCollisionBounds(0, 0));
+        canvas.drawBitmap(image, rectOfImage, rectOnScreen, null);
     }
 
     @Override
     public boolean respondToEntityCollision(Entity e) {
+        // TODO: change to State.ATTACK... handle attack cooldown and doDamage() in update().
         if (e instanceof Player) {
-            // ATTACK_COOLDOWN
-            if (attackTimer < attackCooldown) {
-                return true;
-            }
-
-            // PERFORM ATTACK
-            attackTimer = 0;
             Player player = (Player) e;
             FishForm fishForm = ((FishForm) player.getForm());
             doDamage(fishForm);
@@ -199,34 +371,26 @@ public class Eel extends Creature
     }
 
     private void changeBoundsToWideShortVersion() {
-        // Revert to original version.
-        width = widthWideShortVersion;
-        height = heightWideShortVersion;
-        bounds = boundsWideShortVersion;
+        width = WIDTH_WIDE_SHORT;
+        height = HEIGHT_WIDE_SHORT;
+        bounds = new Rect(0, 0, width, height);
     }
 
-    private int widthWideShortVersion;
-    private int heightWideShortVersion;
-    private Rect boundsWideShortVersion;
     private void changeBoundsToNarrowTallVersion() {
-        // Record previous version.
-        widthWideShortVersion = width;
-        heightWideShortVersion = height;
-        boundsWideShortVersion = bounds;
+        width = WIDTH_NARROW_TALL;
+        height = HEIGHT_NARROW_TALL;
 
-        // Define new version relative to original version.
-        int widthNew = (width / 2);
-        int heightNew = (2 * height);
+        // attack downward causes problem with heighten vertical collision bound.
+        if (yMove > 0) {
+            y -= (Tile.HEIGHT / 2);
+        }
 
-        // Set new version.
-        width = widthNew;
-        height = heightNew;
-        if (direction == Direction.LEFT) {
+        if (directionFacing == DirectionFacing.LEFT) {
             // horizontal align: LEFT
             bounds = new Rect(0, 0, width, height);
-        } else if (direction == Direction.RIGHT) {
+        } else if (directionFacing == DirectionFacing.RIGHT) {
             // horizontal align: RIGHT
-            bounds = new Rect(widthNew, 0, width, height);
+            bounds = new Rect(width, 0, width, height);
         }
     }
 
@@ -234,6 +398,14 @@ public class Eel extends Creature
     public void doDamage(Damageable damageable) {
         state = State.ATTACK;
         changeBoundsToNarrowTallVersion();
+
+        // ATTACK_COOLDOWN
+        if (attackTimer < attackCooldown) {
+            return;
+        }
+        attackTimer = 0;
+
+        // PERFORM ATTACK
         damageable.takeDamage(attackDamage);
     }
 }

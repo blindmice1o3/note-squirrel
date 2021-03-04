@@ -80,7 +80,7 @@ public class StateManager {
         pop();
     }
 
-    public void pushTextboxState(String text) {
+    public void pushTextboxState(String text, float x, float y) {
         getCurrentState().exit();
 
         if (textboxState == null) {
@@ -90,7 +90,7 @@ public class StateManager {
 
         stateStack.add(textboxState);
 
-        Object[] args = { text };
+        Object[] args = { text, x, y };
         textboxState.enter(args);
     }
 }
