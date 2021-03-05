@@ -346,7 +346,7 @@ public class Assets {
 
 
         // BACKGROUND - MainMenuState
-        mainMenu = Bitmap.createBitmap(spriteSheetStartMenu, 6, 11, 128, 52);
+        mainMenu = Bitmap.createBitmap(spriteSheetStartMenu, 6, 11, 127, 52);
         mainMenuEVOLUTION = BitmapFactory.decodeResource(game.getContext().getResources(), R.drawable.snes_evo_search_for_eden_mainmenustate_menulist_evolution);
 
 

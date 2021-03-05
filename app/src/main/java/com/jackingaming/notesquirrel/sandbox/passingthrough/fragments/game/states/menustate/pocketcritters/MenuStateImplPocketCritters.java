@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.states;
+package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.states.menustate.pocketcritters;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -13,11 +13,12 @@ import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.InputManager;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.states.State;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.states.menustate.MenuStateImpl;
 
 import java.util.concurrent.ExecutionException;
 
-public class MenuStateImpl
-        implements State {
+public class MenuStateImplPocketCritters extends MenuStateImpl {
     public enum MenuItem { CRITTER_DEX, BELT_LIST, BACKPACK_LIST, LOAD, SAVE, OPTION, EXIT; }
 
     private Game game;
@@ -28,10 +29,11 @@ public class MenuStateImpl
 
     private int scaleFactor;
 
-    public MenuStateImpl() {
+    public MenuStateImplPocketCritters() {
         indexMenu = 0;
     }
 
+    @Override
     public void init(Game game) {
         this.game = game;
 
@@ -78,19 +80,19 @@ public class MenuStateImpl
             MenuItem selectedMenuItem = MenuItem.values()[indexMenu];
             switch (selectedMenuItem) {
                 case CRITTER_DEX:
-                    Log.d(MainActivity.DEBUG_TAG, "MenuStateImpl.interpretInput() a-button-justPressed CRITTER_DEX");
+                    Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() a-button-justPressed CRITTER_DEX");
                     game.getStateManager().toggleMenuState();
                     break;
                 case BELT_LIST:
-                    Log.d(MainActivity.DEBUG_TAG, "MenuStateImpl.interpretInput() a-button-justPressed BELT_LIST");
+                    Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() a-button-justPressed BELT_LIST");
                     game.getStateManager().toggleMenuState();
                     break;
                 case BACKPACK_LIST:
-                    Log.d(MainActivity.DEBUG_TAG, "MenuStateImpl.interpretInput() a-button-justPressed BACKPACK_LIST");
+                    Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() a-button-justPressed BACKPACK_LIST");
                     game.getStateManager().toggleMenuState();
                     break;
                 case LOAD:
-                    Log.d(MainActivity.DEBUG_TAG, "MenuStateImpl.interpretInput() a-button-justPressed LOAD");
+                    Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() a-button-justPressed LOAD");
                     try {
                         ////////////////////////
                         game.loadViaUserInput();
@@ -103,18 +105,20 @@ public class MenuStateImpl
                     game.getStateManager().toggleMenuState();
                     break;
                 case SAVE:
-                    Log.d(MainActivity.DEBUG_TAG, "MenuStateImpl.interpretInput() a-button-justPressed SAVE");
+                    Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() a-button-justPressed SAVE");
                     ////////////////////////
                     game.saveViaUserInput();
                     ////////////////////////
+                    Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() a-button-justPressed SAVE BEFORE toggleMenuState().");
                     game.getStateManager().toggleMenuState();
+                    Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() a-button-justPressed SAVE AFTER toggleMenuState().");
                     break;
                 case OPTION:
-                    Log.d(MainActivity.DEBUG_TAG, "MenuStateImpl.interpretInput() a-button-justPressed OPTION");
+                    Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() a-button-justPressed OPTION");
                     game.getStateManager().toggleMenuState();
                     break;
                 case EXIT:
-                    Log.d(MainActivity.DEBUG_TAG, "MenuStateImpl.interpretInput() a-button-justPressed EXIT");
+                    Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() a-button-justPressed EXIT");
                     ///////////////////////////////////////////////////
                     game.getStateManager().toggleMenuState();
                     ///////////////////////////////////////////////////
@@ -147,6 +151,8 @@ public class MenuStateImpl
         } else if (game.getInputManager().isJustPressed(InputManager.Button.RIGHT)) {
             // Intentionally blank.
         }
+
+        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() FINISHED.");
     }
 
     private Rect sourceBoundsOfMenuBackgroundImage;

@@ -113,8 +113,8 @@ public class SceneEvo extends Scene {
                         String text = "Two four six eight ... eight six four two";
                         float xPlayerInGame = Player.getInstance().getX();
                         float yPlayerInGame = Player.getInstance().getY();
-                        float xPlayerOnScreen = xPlayerInGame * GameCamera.getInstance().getWidthPixelToViewportRatio();
-                        float yPlayerOnScreen = yPlayerInGame * GameCamera.getInstance().getHeightPixelToViewportRatio();
+                        float xPlayerOnScreen = (xPlayerInGame - GameCamera.getInstance().getX()) * GameCamera.getInstance().getWidthPixelToViewportRatio();
+                        float yPlayerOnScreen = (yPlayerInGame - GameCamera.getInstance().getY()) * GameCamera.getInstance().getHeightPixelToViewportRatio();
                         game.getStateManager().pushTextboxState(text, xPlayerOnScreen, yPlayerOnScreen);
 //                        game.getStateManager().pushTextboxState(null);
                     } else if (e instanceof Damageable) {

@@ -63,15 +63,9 @@ public class Eel extends Creature
         health = healthMax;
 
         eelAnimationManager = new EelAnimationManager();
-
-        detectionRectangleBounds = new Rect(
-                -detectionRadiusLength,     //NEGATIVE
-                -detectionRadiusLength,     //NEGATIVE
-                2*detectionRadiusLength,
-                2*detectionRadiusLength);
     }
 
-    private Rect detectionRectangleBounds;
+    transient private Rect detectionRectangleBounds;
     private int detectionRadiusLength = 3 * Tile.WIDTH;
     private float xBeforeChase, yBeforeChase;
 
@@ -97,6 +91,13 @@ public class Eel extends Creature
     public void init(Game game) {
         super.init(game);
         eelAnimationManager.init(game);
+        image = eelAnimationManager.getCurrentFrame(state, directionFacing);
+
+        detectionRectangleBounds = new Rect(
+                -detectionRadiusLength,     //NEGATIVE
+                -detectionRadiusLength,     //NEGATIVE
+                2*detectionRadiusLength,
+                2*detectionRadiusLength);
     }
 
     @Override

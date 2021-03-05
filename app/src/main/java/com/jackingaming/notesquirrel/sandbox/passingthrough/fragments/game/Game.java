@@ -276,7 +276,7 @@ public class Game {
         loadFromFile(savedFileViaOSFileName);
     }
 
-    private String savedFileViaUserInputFileName = "savedFileViaUserInput" + getClass().getSimpleName() + ".ser";
+    private String savedFileViaUserInputFileName = "savedFileViaUserInput" + gameTitle + ".ser";
     public void saveViaUserInput() {
         saveToFile(savedFileViaUserInputFileName);
     }
@@ -295,7 +295,7 @@ public class Game {
     }
 
     private void saveToFile(String fileName) {
-        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".saveToFile(String fileName) fileName: " + fileName);
+        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".saveToFile(String fileName) START fileName: " + fileName);
         try (FileOutputStream fs = context.openFileOutput(fileName, Context.MODE_PRIVATE);
              ObjectOutputStream os = new ObjectOutputStream(fs)) {
             // Record player's xLastKnown and yLastKnown for the current scene.
@@ -318,7 +318,7 @@ public class Game {
                 os.writeObject(itemStoredInButtonHolderB);
             }
             int ordinalValueOfButtonHolderCurrentlySelected = buttonHolderCurrentlySelected.ordinal();
-            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".saveToFile(String filName) ordinalValueOfButtonHolderCurrenlySelected: " + ordinalValueOfButtonHolderCurrentlySelected);
+            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".saveToFile(String fileName) ordinalValueOfButtonHolderCurrenlySelected: " + ordinalValueOfButtonHolderCurrentlySelected);
             os.writeInt(ordinalValueOfButtonHolderCurrentlySelected);
 
             os.writeObject(seedShopInventory);
@@ -335,15 +335,19 @@ public class Game {
                 seedShopDialog.dismiss();
             }
 
+            // Scenes where player's form is specified need enter()
+            // called because exit() was called at start of saving.
+            sceneManager.getCurrentScene().enter();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".saveToFile(String fileName) FINISHED.");
     }
 
     private void loadFromFile(String fileName) {
-        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".loadFromFile(String fileName) fileName: " + fileName);
+        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".loadFromFile(String fileName) START fileName: " + fileName);
         try (FileInputStream fi = context.openFileInput(fileName);
              ObjectInputStream os = new ObjectInputStream(fi)) {
             timeManager = (TimeManager) os.readObject();
@@ -352,7 +356,7 @@ public class Game {
             sceneManager = (SceneManager) os.readObject();
             sceneManager.init(this);
             // Loads player's xLastKnown and yLastKnown for the current scene.
-            sceneManager.getCurrentScene().enter();
+//            sceneManager.getCurrentScene().enter();
 
 //            gameCamera = (GameCamera) os.readObject();
 //            gameCamera.init(Player.getInstance(), widthViewport, heightViewport,
@@ -379,7 +383,7 @@ public class Game {
                 statsChangeListener.onButtonHolderBChange(itemStoredInButtonHolderB.getImage());
             }
             int ordinalValueOfButtonHolderCurrentlySelected = os.readInt();
-            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".saveToFile(String filName) ordinalValueOfButtonHolderCurrenlySelected: " + ordinalValueOfButtonHolderCurrentlySelected);
+            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".loadFromFile(String fileName) ordinalValueOfButtonHolderCurrenlySelected: " + ordinalValueOfButtonHolderCurrentlySelected);
             buttonHolderCurrentlySelected = StatsDisplayerFragment.ButtonHolder.values()[ordinalValueOfButtonHolderCurrentlySelected];
             /////////////////////////////////////////////////////
             refreshBackpackWithoutItemsDisplayingInButtonHolders();
@@ -412,6 +416,7 @@ public class Game {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".loadFromFile(String fileName) FINISHED.");
     }
 
     public void update(long elapsed) {
