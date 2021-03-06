@@ -8,9 +8,11 @@ public class MenuItemCapability
         implements MenuStateImplEvo.MenuItem {
     private static MenuItemCapability uniqueInstance;
 
-    private Game game;
+    transient private Game game;
+    private String name;
 
     private MenuItemCapability() {
+        name = "Capability";
     }
 
     public static MenuItemCapability getInstance() {
@@ -43,5 +45,10 @@ public class MenuItemCapability
     @Override
     public void render(Canvas canvas) {
 
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 }

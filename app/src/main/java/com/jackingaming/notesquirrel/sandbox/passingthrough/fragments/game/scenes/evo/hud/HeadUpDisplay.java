@@ -62,8 +62,8 @@ public class HeadUpDisplay
     private static final int PADDING_SIZE_VERTICAL = 2;
     private int widthScreen;
     private int xCenterOfScreen;
-    private static Rect boundsLabelHp;
-    private static Paint paintLabelHp;
+    transient private static Rect boundsLabelHp;
+    transient private static Paint paintLabelHp;
     private static int heightLabelHp;
     private static int widthLabelHp;
     public int calculateHpLabelY1() {
@@ -72,6 +72,7 @@ public class HeadUpDisplay
     static {
         boundsLabelHp = new Rect();
         paintLabelHp = new Paint();
+        paintLabelHp.setAntiAlias(true);
         paintLabelHp.setColor(Color.GREEN);
         paintLabelHp.setTextSize(TEXT_SIZE);
         paintLabelHp.getTextBounds(LABEL_HP, 0, LABEL_HP.length(), boundsLabelHp);
@@ -94,6 +95,7 @@ public class HeadUpDisplay
         int x1HpBarBackground = xCenterOfScreen - MARGIN_SIZE_HORIZONTAL ;
         int y1HpBarBackground = heightLabelHp + MARGIN_SIZE_VERTICAL;
         Paint paintHpBarBackground = new Paint();
+        paintHpBarBackground.setAntiAlias(true);
         paintHpBarBackground.setColor(Color.BLACK);
         canvas.drawRect(x0HpBarBackground, y0HpBarBackground, x1HpBarBackground, y1HpBarBackground, paintHpBarBackground);
         // The HUD's hp bar uses percent so the width won't change when healthMax changes.
@@ -109,11 +111,13 @@ public class HeadUpDisplay
         int x1HPBarForeground = x0HPBarForeground + (int)(lengthOfHPBarForeground * currentHealthPercent);
         int y1HPBarForeground = heightLabelHp + MARGIN_SIZE_VERTICAL - PADDING_SIZE_VERTICAL;
         Paint paintHpBarForeground = new Paint();
+        paintHpBarForeground.setAntiAlias(true);
         paintHpBarForeground.setColor(Color.GREEN);
         canvas.drawRect(x0HPBarForeground, y0HPBarForeground, x1HPBarForeground, y1HPBarForeground, paintHpBarForeground);
 
         //XP
         Paint paintLabelExp = new Paint();
+        paintLabelExp.setAntiAlias(true);
         paintLabelExp.setColor(Color.WHITE);
         paintLabelExp.setTextSize(TEXT_SIZE);
         canvas.drawText(LABEL_EXP + player.getExperiencePoints(),

@@ -8,9 +8,11 @@ public class MenuItemRecordOfEvolution
         implements MenuStateImplEvo.MenuItem {
     private static MenuItemRecordOfEvolution uniqueInstance;
 
-    private Game game;
+    transient private Game game;
+    private String name;
 
     private MenuItemRecordOfEvolution() {
+        name = "Record of Evolution";
     }
 
     public static MenuItemRecordOfEvolution getInstance() {
@@ -43,5 +45,10 @@ public class MenuItemRecordOfEvolution
     @Override
     public void render(Canvas canvas) {
 
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 }

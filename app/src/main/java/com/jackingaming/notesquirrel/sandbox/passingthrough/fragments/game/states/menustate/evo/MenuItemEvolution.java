@@ -10,11 +10,13 @@ public class MenuItemEvolution
         implements MenuStateImplEvo.MenuItem {
     private static MenuItemEvolution uniqueInstance;
 
-    private Game game;
+    transient private Game game;
+    private String name;
 
-    private Bitmap imageBackground;
+    transient private Bitmap imageBackground;
 
     private MenuItemEvolution() {
+        name = "Evolution";
     }
 
     public static MenuItemEvolution getInstance() {
@@ -53,5 +55,10 @@ public class MenuItemEvolution
     @Override
     public void render(Canvas canvas) {
 
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 }
