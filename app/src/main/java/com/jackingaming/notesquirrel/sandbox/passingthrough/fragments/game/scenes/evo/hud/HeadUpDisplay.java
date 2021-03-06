@@ -53,38 +53,49 @@ public class HeadUpDisplay
         renderHUD(canvas);
     }
 
+    private static final String LABEL_HP = "hp: ";
+    private static final String LABEL_EXP = "experiencePoints: ";
+    private static final float TEXT_SIZE = 40f;
     private static final int MARGIN_SIZE_HORIZONTAL = Tile.WIDTH;
     private static final int MARGIN_SIZE_VERTICAL = Tile.HEIGHT;
     private static final int PADDING_SIZE_HORIZONTAL = 2;
     private static final int PADDING_SIZE_VERTICAL = 2;
     private int widthScreen;
     private int xCenterOfScreen;
+    private static Rect boundsLabelHp;
+    private static Paint paintLabelHp;
+    private static int heightLabelHp;
+    private static int widthLabelHp;
+    public int calculateHpLabelY1() {
+        return MARGIN_SIZE_VERTICAL + heightLabelHp + heightLabelHp;
+    }
+    static {
+        boundsLabelHp = new Rect();
+        paintLabelHp = new Paint();
+        paintLabelHp.setColor(Color.GREEN);
+        paintLabelHp.setTextSize(TEXT_SIZE);
+        paintLabelHp.getTextBounds(LABEL_HP, 0, LABEL_HP.length(), boundsLabelHp);
+        heightLabelHp = boundsLabelHp.height();
+        widthLabelHp = boundsLabelHp.width();
+
+    }
     private void renderHUD(Canvas canvas) {
         Player playerBase = Player.getInstance();
         FishForm player = ((FishForm)playerBase.getForm());
 
-        // HP BAR
-
-        Paint paint = new Paint();
-        //HP LABEL
-        paint.setColor(Color.GREEN);
-        String labelHP = "hp: ";
-        paint.setTextSize(40f);
-        Rect bounds = new Rect();
-        paint.getTextBounds(labelHP, 0, labelHP.length(), bounds);
-        int heightLabelHP = bounds.height();
-        int widthLabelHP = bounds.width();
-        canvas.drawText(labelHP, MARGIN_SIZE_HORIZONTAL, MARGIN_SIZE_VERTICAL + heightLabelHP, paint);
+        // HP LABEL & HP BAR
+        canvas.drawText(LABEL_HP, MARGIN_SIZE_HORIZONTAL, MARGIN_SIZE_VERTICAL + heightLabelHp, paintLabelHp);
         canvas.drawText(Integer.toString(player.getHealth()), MARGIN_SIZE_HORIZONTAL,
-                MARGIN_SIZE_VERTICAL + heightLabelHP + heightLabelHP, paint);
+                MARGIN_SIZE_VERTICAL + heightLabelHp + heightLabelHp, paintLabelHp);
 
         // HP BAR BACKGROUND
-        int x0HPBarBackground = MARGIN_SIZE_HORIZONTAL + widthLabelHP + MARGIN_SIZE_HORIZONTAL;
-        int y0HPBarBackground = heightLabelHP;
-        int x1HPBarBackground = xCenterOfScreen - MARGIN_SIZE_HORIZONTAL ;
-        int y1HPBarBackground = heightLabelHP + MARGIN_SIZE_VERTICAL;
-        paint.setColor(Color.BLACK);
-        canvas.drawRect(x0HPBarBackground, y0HPBarBackground, x1HPBarBackground, y1HPBarBackground, paint);
+        int x0HpBarBackground = MARGIN_SIZE_HORIZONTAL + widthLabelHp + MARGIN_SIZE_HORIZONTAL;
+        int y0HpBarBackground = heightLabelHp;
+        int x1HpBarBackground = xCenterOfScreen - MARGIN_SIZE_HORIZONTAL ;
+        int y1HpBarBackground = heightLabelHp + MARGIN_SIZE_VERTICAL;
+        Paint paintHpBarBackground = new Paint();
+        paintHpBarBackground.setColor(Color.BLACK);
+        canvas.drawRect(x0HpBarBackground, y0HpBarBackground, x1HpBarBackground, y1HpBarBackground, paintHpBarBackground);
         // The HUD's hp bar uses percent so the width won't change when healthMax changes.
         // Use floating-point-division (int-division lobs-off digits).
         float currentHealthPercent = (float)player.getHealth() / (float)player.getHealthMax();
@@ -92,18 +103,21 @@ public class HeadUpDisplay
             currentHealthPercent = 0;
         }
         // HP BAR FOREGROUND
-        int x0HPBarForeground = MARGIN_SIZE_HORIZONTAL + widthLabelHP + MARGIN_SIZE_HORIZONTAL + PADDING_SIZE_HORIZONTAL;
-        int y0HPBarForeground = heightLabelHP + PADDING_SIZE_VERTICAL;
+        int x0HPBarForeground = MARGIN_SIZE_HORIZONTAL + widthLabelHp + MARGIN_SIZE_HORIZONTAL + PADDING_SIZE_HORIZONTAL;
+        int y0HPBarForeground = heightLabelHp + PADDING_SIZE_VERTICAL;
         int lengthOfHPBarForeground = xCenterOfScreen - (MARGIN_SIZE_HORIZONTAL + PADDING_SIZE_HORIZONTAL) - x0HPBarForeground;
         int x1HPBarForeground = x0HPBarForeground + (int)(lengthOfHPBarForeground * currentHealthPercent);
-        int y1HPBarForeground = heightLabelHP + MARGIN_SIZE_VERTICAL - PADDING_SIZE_VERTICAL;
-        paint.setColor(Color.GREEN);
-        canvas.drawRect(x0HPBarForeground, y0HPBarForeground, x1HPBarForeground, y1HPBarForeground, paint);
+        int y1HPBarForeground = heightLabelHp + MARGIN_SIZE_VERTICAL - PADDING_SIZE_VERTICAL;
+        Paint paintHpBarForeground = new Paint();
+        paintHpBarForeground.setColor(Color.GREEN);
+        canvas.drawRect(x0HPBarForeground, y0HPBarForeground, x1HPBarForeground, y1HPBarForeground, paintHpBarForeground);
 
         //XP
-        paint.setColor(Color.WHITE);
-        canvas.drawText("experiencePoints: " + player.getExperiencePoints(),
-                xCenterOfScreen + MARGIN_SIZE_HORIZONTAL, MARGIN_SIZE_VERTICAL + heightLabelHP, paint);
+        Paint paintLabelExp = new Paint();
+        paintLabelExp.setColor(Color.WHITE);
+        paintLabelExp.setTextSize(TEXT_SIZE);
+        canvas.drawText(LABEL_EXP + player.getExperiencePoints(),
+                xCenterOfScreen + MARGIN_SIZE_HORIZONTAL, MARGIN_SIZE_VERTICAL + heightLabelHp, paintLabelExp);
     }
 
     public void addTimedNumericIndicator(ComponentHUD componentHUD) {

@@ -6,6 +6,7 @@ import android.graphics.Rect;
 
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.fish.Assets;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.evo.SceneEvo;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.states.menustate.MenuStateImpl;
 
@@ -52,16 +53,19 @@ public class MenuStateImplEvo extends MenuStateImpl {
         this.game = game;
 
         initImage();
-        int widthQuadrant = game.getWidthViewport() / 4;
-        xScaleFactor = (float)widthQuadrant / (float)((imageBackground.getWidth() + (2 * MARGIN_SIZE_HORIZONTAL)));
+
+        int y0BelowLabelHp = ((SceneEvo)game.getSceneManager().getCurrentScene()).getHeadUpDisplay().calculateHpLabelY1();
+        int x0BelowLabelHp = y0BelowLabelHp;
+        int widthHalfScreen = game.getWidthViewport() / 2;
+        xScaleFactor = (float)(widthHalfScreen - (2 * x0BelowLabelHp)) / (float)(imageBackground.getWidth());
         yScaleFactor = xScaleFactor;
 
-
-
         rectSourceImageBackground = new Rect(0, 0,
-                0 + imageBackground.getWidth(), 0 + imageBackground.getHeight());
-        rectDestinationImageBackground = new Rect(Tile.WIDTH, Tile.HEIGHT,
-                Tile.WIDTH + imageBackground.getWidth(), Tile.HEIGHT + imageBackground.getHeight());
+                0 + imageBackground.getWidth(),
+                0 + imageBackground.getHeight());
+        rectDestinationImageBackground = new Rect(x0BelowLabelHp, y0BelowLabelHp,
+                (int)(x0BelowLabelHp + (imageBackground.getWidth() * xScaleFactor)),
+                (int)(y0BelowLabelHp + (imageBackground.getHeight() * yScaleFactor)));
     }
 
     private void initImage() {
