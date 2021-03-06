@@ -34,6 +34,7 @@ public class TextboxStateImpl
 
     }
 
+    @Override
     public void init(Game game) {
         this.game = game;
         text = TEXT_DEFAULT;

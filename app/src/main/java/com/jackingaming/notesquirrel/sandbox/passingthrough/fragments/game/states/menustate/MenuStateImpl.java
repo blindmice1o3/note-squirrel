@@ -2,5 +2,6 @@ package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.stat
 
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.states.State;
 
-public class MenuStateImpl implements State {
+public abstract class MenuStateImpl
+        implements State {
 }

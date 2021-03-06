@@ -2,10 +2,13 @@ package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.stat
 
 import android.graphics.Canvas;
 
-import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.states.State;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 
-public class MenuItemRecordOfEvolution implements State {
+public class MenuItemRecordOfEvolution
+        implements MenuStateImplEvo.MenuItem {
     private static MenuItemRecordOfEvolution uniqueInstance;
+
+    private Game game;
 
     private MenuItemRecordOfEvolution() {
     }
@@ -15,6 +18,11 @@ public class MenuItemRecordOfEvolution implements State {
             uniqueInstance = new MenuItemRecordOfEvolution();
         }
         return uniqueInstance;
+    }
+
+    @Override
+    public void init(Game game) {
+        this.game = game;
     }
 
     @Override

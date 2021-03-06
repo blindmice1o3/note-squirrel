@@ -4,20 +4,25 @@ import android.graphics.Canvas;
 
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 
-public class MenuStateImplEvoCapability
+public class MenuItemCapability
         implements MenuStateImplEvo.MenuItem {
-    private static MenuStateImplEvoCapability uniqueInstance;
+    private static MenuItemCapability uniqueInstance;
 
     private Game game;
 
-    private MenuStateImplEvoCapability() {
+    private MenuItemCapability() {
     }
 
-    public static MenuStateImplEvoCapability getInstance() {
+    public static MenuItemCapability getInstance() {
         if (uniqueInstance == null) {
-            uniqueInstance = new MenuStateImplEvoCapability();
+            uniqueInstance = new MenuItemCapability();
         }
         return uniqueInstance;
+    }
+
+    @Override
+    public void init(Game game) {
+        this.game = game;
     }
 
     @Override

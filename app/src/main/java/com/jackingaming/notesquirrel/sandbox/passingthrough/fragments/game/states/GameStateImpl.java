@@ -14,6 +14,7 @@ public class GameStateImpl
 
     }
 
+    @Override
     public void init(Game game) {
         this.game = game;
     }

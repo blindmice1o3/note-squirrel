@@ -5,26 +5,26 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
-import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.states.State;
 
-public class MenuStateImplEvoEvolution
-        implements State {
-    private static MenuStateImplEvoEvolution uniqueInstance;
+public class MenuItemEvolution
+        implements MenuStateImplEvo.MenuItem {
+    private static MenuItemEvolution uniqueInstance;
 
     private Game game;
 
     private Bitmap imageBackground;
 
-    private MenuStateImplEvoEvolution() {
+    private MenuItemEvolution() {
     }
 
-    public static MenuStateImplEvoEvolution getInstance() {
+    public static MenuItemEvolution getInstance() {
         if (uniqueInstance == null) {
-            uniqueInstance = new MenuStateImplEvoEvolution();
+            uniqueInstance = new MenuItemEvolution();
         }
         return uniqueInstance;
     }
 
+    @Override
     public void init(Game game) {
         this.game = game;
 

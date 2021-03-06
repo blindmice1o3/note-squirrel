@@ -3,6 +3,9 @@ package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.stat
 import android.graphics.Canvas;
 
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.states.menustate.MenuStateImpl;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.states.menustate.evo.MenuStateImplEvo;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.states.menustate.pocketcritters.MenuStateImplPocketCritters;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,15 +20,24 @@ public class StateManager {
     private List<State> stateStack;
 
     public StateManager() {
+        gameState = new GameStateImpl();
+
         stateStack = new ArrayList<State>();
+        stateStack.add(gameState);
     }
 
     public void init(Game game) {
         this.game = game;
 
-        gameState = new GameStateImpl();
-        gameState.init(game);
-        stateStack.add(gameState);
+        // TODO: possibly temporary... just testing different menu system for different games.
+        if (game.getGameTitle().equals("Evo")) {
+            menuState = MenuStateImplEvo.getInstance();
+            menuState.init(game);
+        }
+
+        for (State state : stateStack) {
+            state.init(game);
+        }
     }
 
     public void update(long elapsed) {
@@ -67,7 +79,8 @@ public class StateManager {
         getCurrentState().exit();
 
         if (menuState == null) {
-            menuState = new MenuStateImpl();
+            // TODO: possible temporary... this should work as a default.
+            menuState = new MenuStateImplPocketCritters();
             menuState.init(game);
         }
 
