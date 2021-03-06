@@ -9,7 +9,6 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 public class MenuItemEvolution
         implements MenuStateImplEvo.MenuItem {
     private static MenuItemEvolution uniqueInstance;
-
     transient private Game game;
     private String name;
 
