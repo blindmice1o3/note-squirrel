@@ -21,30 +21,10 @@ public class MenuStateImplEvo extends MenuStateImpl {
     private static MenuStateImplEvo uniqueInstance;
     transient private Game game;
 
-    private List<MenuItem> menuItemStack;
+    private MenuItemManager menuItemManager;
 
     private MenuStateImplEvo() {
-        menuItemStack = new ArrayList<MenuItem>();
-        menuItemStack.add(MenuItemInitial.getInstance());
-    }
-    public void popMenuItemStack() {
-        if (menuItemStack.size() > 1) {
-            int indexOfTop = menuItemStack.size() - 1;
-            menuItemStack.remove(indexOfTop);
-        }
-    }
-    public void pushMenuItemEvolution() {
-        menuItemStack.add(MenuItemEvolution.getInstance());
-    }
-    public void pushMenuItemCapability() {
-        menuItemStack.add(MenuItemCapability.getInstance());
-    }
-    public void pushMenuItemRecordOfEvolution() {
-        menuItemStack.add(MenuItemRecordOfEvolution.getInstance());
-    }
-    public MenuItem getCurrentMenuItem() {
-        int indexOfTop = menuItemStack.size() - 1;
-        return menuItemStack.get(indexOfTop);
+        menuItemManager = new MenuItemManager();
     }
 
     public static MenuStateImplEvo getInstance() {
@@ -57,10 +37,7 @@ public class MenuStateImplEvo extends MenuStateImpl {
     @Override
     public void init(Game game) {
         this.game = game;
-
-        for (MenuItem menuItem : menuItemStack) {
-            menuItem.init(game);
-        }
+        menuItemManager.init(game);
     }
 
     @Override
@@ -75,11 +52,11 @@ public class MenuStateImplEvo extends MenuStateImpl {
 
     @Override
     public void update(long elapsed) {
-        getCurrentMenuItem().update(elapsed);
+        menuItemManager.update(elapsed);
     }
 
     @Override
     public void render(Canvas canvas) {
-        getCurrentMenuItem().render(canvas);
+        menuItemManager.render(canvas);
     }
 }

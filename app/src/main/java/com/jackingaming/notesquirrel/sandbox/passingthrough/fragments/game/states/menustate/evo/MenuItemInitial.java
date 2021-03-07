@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
+import com.jackingaming.notesquirrel.sandbox.passingthrough.InputManager;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.fish.Assets;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.evo.SceneEvo;
@@ -22,6 +23,7 @@ public class MenuItemInitial
     private String name;
 
     private List<MenuStateImplEvo.MenuItem> menuItems;
+    private int index;
 
     transient private Bitmap imageCursor;
     private float xCursor;
@@ -34,9 +36,7 @@ public class MenuItemInitial
         menuItems.add(MenuItemEvolution.getInstance());
         menuItems.add(MenuItemCapability.getInstance());
         menuItems.add(MenuItemRecordOfEvolution.getInstance());
-
-        xCursor = 3;
-        yCursor = 11;
+        index = 0;
     }
 
     public static MenuItemInitial getInstance() {
@@ -57,6 +57,8 @@ public class MenuItemInitial
     private int padding = Tile.WIDTH;
     private float xScaleFactorCursor;
     private float yScaleFactorCursor;
+    private int xTextInitial;
+    private int yTextInitial;
     @Override
     public void init(Game game) {
         this.game = game;
@@ -89,7 +91,7 @@ public class MenuItemInitial
             }
         }
 
-        widthBackgroundPanel = widthMaxText + imageCursor.getWidth() + (2 * padding);
+        widthBackgroundPanel = widthMaxText + (imageCursor.getWidth() + 3 + 3) + (2 * padding);
         heightBackgroundPanel = (menuItems.size() * heightLine) + (2 * padding);
 
         y0BelowLabelHp = ((SceneEvo)game.getSceneManager().getCurrentScene()).getHeadUpDisplay().calculateHpLabelY1();
@@ -98,6 +100,9 @@ public class MenuItemInitial
         int widthHalfScreen = game.getWidthViewport() / 2;
         xScaleFactorCursor = (float)(widthHalfScreen - (2 * x0BelowLabelHp) - widthMaxText - (2 * padding)) / (float)(imageCursor.getWidth());
         yScaleFactorCursor = xScaleFactorCursor;
+
+        xTextInitial = x0BelowLabelHp + padding + (imageCursor.getWidth() + 3 + 3);
+        yTextInitial = y0BelowLabelHp + padding + heightLine;
     }
 
     private void initImage() {
@@ -116,7 +121,17 @@ public class MenuItemInitial
 
     @Override
     public void update(long elapsed) {
-
+        if (game.getInputManager().isJustPressed(InputManager.Button.DOWN)) {
+            index++;
+            if (index > (menuItems.size() - 1)) {
+                index = 0;
+            }
+        } else if (game.getInputManager().isJustPressed(InputManager.Button.UP)) {
+            index--;
+            if (index < 0) {
+                index = (menuItems.size() - 1);
+            }
+        }
     }
 
     private int sizeBorder = 3;
@@ -135,13 +150,18 @@ public class MenuItemInitial
                 y0BelowLabelHp + heightBackgroundPanel);
         canvas.drawRoundRect(rectBackgroundPanel, roundnessBorder, roundnessBorder, paintBackgroundPanel);
 
+        int xText = xTextInitial;
+        int yText = yTextInitial;
         // TEXT
-        int xText = x0BelowLabelHp + padding + imageCursor.getWidth();
-        int yText = y0BelowLabelHp + padding + heightLine;
         for (MenuStateImplEvo.MenuItem menuItem : menuItems) {
             canvas.drawText(menuItem.getName(), xText, yText, paintFont);
             yText += heightLine;
         }
+
+        xCursor = x0BelowLabelHp + padding;
+        yCursor = (index * heightLine) + yTextInitial - (heightLine / 2) - (imageCursor.getHeight() / 2);
+        // CURSOR
+        canvas.drawBitmap(imageCursor, xCursor, yCursor, null);
     }
 
     @Override
