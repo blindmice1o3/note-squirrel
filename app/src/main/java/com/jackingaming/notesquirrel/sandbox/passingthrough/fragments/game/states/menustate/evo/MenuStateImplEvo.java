@@ -17,6 +17,7 @@ public class MenuStateImplEvo extends MenuStateImpl {
         void update(long elapsed);
         void render(Canvas canvas);
         String getName();
+        Game getGame();
     }
     private static MenuStateImplEvo uniqueInstance;
     transient private Game game;
@@ -58,5 +59,9 @@ public class MenuStateImplEvo extends MenuStateImpl {
     @Override
     public void render(Canvas canvas) {
         menuItemManager.render(canvas);
+    }
+
+    public MenuItemManager getMenuItemManager() {
+        return menuItemManager;
     }
 }

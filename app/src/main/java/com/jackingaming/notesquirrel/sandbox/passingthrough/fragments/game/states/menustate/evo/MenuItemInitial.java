@@ -131,6 +131,17 @@ public class MenuItemInitial
             if (index < 0) {
                 index = (menuItems.size() - 1);
             }
+        } else if (game.getInputManager().isJustPressed(InputManager.Button.B)) {
+            game.getStateManager().toggleMenuState();
+        } else if (game.getInputManager().isJustPressed(InputManager.Button.A)) {
+            MenuStateImplEvo.MenuItem menuItem = menuItems.get(index);
+            if (menuItem.getName().equals("Capability")) {
+                MenuStateImplEvo.getInstance().getMenuItemManager().pushMenuItemCapability();
+            } else if (menuItem.getName().equals("Evolution")) {
+                MenuStateImplEvo.getInstance().getMenuItemManager().pushMenuItemEvolution();
+            } else if (menuItem.getName().equals("Record of Evolution")) {
+                MenuStateImplEvo.getInstance().getMenuItemManager().pushMenuItemRecordOfEvolution();
+            }
         }
     }
 
@@ -167,5 +178,10 @@ public class MenuItemInitial
     @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public Game getGame() {
+        return game;
     }
 }
