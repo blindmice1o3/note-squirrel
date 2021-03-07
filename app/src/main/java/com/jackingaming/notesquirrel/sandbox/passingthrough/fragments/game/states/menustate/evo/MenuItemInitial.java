@@ -135,10 +135,10 @@ public class MenuItemInitial
             game.getStateManager().toggleMenuState();
         } else if (game.getInputManager().isJustPressed(InputManager.Button.A)) {
             MenuStateImplEvo.MenuItem menuItem = menuItems.get(index);
-            if (menuItem.getName().equals("Capability")) {
-                MenuStateImplEvo.getInstance().getMenuItemManager().pushMenuItemCapability();
-            } else if (menuItem.getName().equals("Evolution")) {
+            if (menuItem.getName().equals("Evolution")) {
                 MenuStateImplEvo.getInstance().getMenuItemManager().pushMenuItemEvolution();
+            } else if (menuItem.getName().equals("Capability")) {
+                MenuStateImplEvo.getInstance().getMenuItemManager().pushMenuItemCapability();
             } else if (menuItem.getName().equals("Record of Evolution")) {
                 MenuStateImplEvo.getInstance().getMenuItemManager().pushMenuItemRecordOfEvolution();
             }

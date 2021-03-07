@@ -58,6 +58,7 @@ public class MenuStateImplEvo extends MenuStateImpl {
 
     @Override
     public void render(Canvas canvas) {
+        game.getSceneManager().getCurrentScene().drawCurrentFrame(canvas);
         menuItemManager.render(canvas);
     }
 
