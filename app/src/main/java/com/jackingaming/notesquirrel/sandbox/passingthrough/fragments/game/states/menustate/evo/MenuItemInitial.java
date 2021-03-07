@@ -67,6 +67,8 @@ public class MenuItemInitial
 
         paintBorder = new Paint();
         paintBorder.setAntiAlias(true);
+        paintBorder.setStyle(Paint.Style.STROKE);
+        paintBorder.setStrokeWidth(5f);
         paintBorder.setColor(Color.WHITE);
 
         paintBackgroundPanel = new Paint();
@@ -149,29 +151,25 @@ public class MenuItemInitial
     private float roundnessBorder = 10f;
     @Override
     public void render(Canvas canvas) {
-        // BORDER
-        RectF rectBorder = new RectF(x0BelowLabelHp - sizeBorder, y0BelowLabelHp - sizeBorder,
-                x0BelowLabelHp + widthBackgroundPanel + (2 * sizeBorder) - 3,
-                y0BelowLabelHp + heightBackgroundPanel + (2 * sizeBorder) - 3);
-        canvas.drawRoundRect(rectBorder, roundnessBorder+1, roundnessBorder+1, paintBorder);
-
         // BACKGROUND PANEL
         RectF rectBackgroundPanel = new RectF(x0BelowLabelHp, y0BelowLabelHp,
                 x0BelowLabelHp + widthBackgroundPanel,
                 y0BelowLabelHp + heightBackgroundPanel);
         canvas.drawRoundRect(rectBackgroundPanel, roundnessBorder, roundnessBorder, paintBackgroundPanel);
+        // BORDER
+        canvas.drawRoundRect(rectBackgroundPanel, roundnessBorder, roundnessBorder, paintBorder);
 
+        // TEXT
         int xText = xTextInitial;
         int yText = yTextInitial;
-        // TEXT
         for (MenuStateImplEvo.MenuItem menuItem : menuItems) {
             canvas.drawText(menuItem.getName(), xText, yText, paintFont);
             yText += heightLine;
         }
 
+        // CURSOR
         xCursor = x0BelowLabelHp + padding;
         yCursor = (index * heightLine) + yTextInitial - (heightLine / 2) - (imageCursor.getHeight() / 2);
-        // CURSOR
         canvas.drawBitmap(imageCursor, xCursor, yCursor, null);
     }
 
