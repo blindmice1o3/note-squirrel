@@ -6,9 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.util.Log;
 
-import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.InputManager;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.Form;
@@ -179,6 +177,138 @@ public class MenuItemEvolution
             }
         } else if (game.getInputManager().isJustPressed(InputManager.Button.B)) {
             MenuStateImplEvo.getInstance().getMenuItemManager().popMenuItemStack();
+        } else if (game.getInputManager().isJustPressed(InputManager.Button.A)) {
+            Form form = Player.getInstance().getForm();
+            if (form instanceof FishForm) {
+                FishForm fishForm = (FishForm) form;
+                switch (indexBodyPartCategory) {
+                    case 0:
+                        //check if player already have this choice currently equipped.
+                        if (fishForm.getFishStateManager().getCurrentJaws() == FishStateManager.Jaws.values()[indexBodyPartSelected]) {
+                            String alreadyEquipped = "Already equipped, can NOT buy FishStateManager.Jaws." +
+                                    FishStateManager.Jaws.values()[indexBodyPartSelected] + "!";
+                            game.showToastMessageLong(alreadyEquipped);
+                        }
+                        //not enough experience points to buy element at current index.
+                        else if (fishForm.getExperiencePoints() < FishStateManager.Jaws.values()[indexBodyPartSelected].getCost()) {
+                            String notEnoughExpPoints = "Not enough experience points to buy FishStateManager.Jaws." +
+                                    FishStateManager.Jaws.values()[indexBodyPartSelected] + ". You need " +
+                                    (FishStateManager.Jaws.values()[indexBodyPartSelected].getCost() - fishForm.getExperiencePoints()) +
+                                    " more experience points.";
+                            game.showToastMessageLong(notEnoughExpPoints);
+                        }
+                        //check if player have enough experience points.
+                        else if (fishForm.getExperiencePoints() >= FishStateManager.Jaws.values()[indexBodyPartSelected].getCost()) {
+                            /////////////////////////////////////////////
+                            MenuStateImplEvo.getInstance().getMenuItemManager().pushMenuItemConfirmation();
+                            /////////////////////////////////////////////
+                        }
+                        break;
+                    case 1:
+                        //BODY_TEXTURE
+                        if (indexBodyPartSelected <= (FishStateManager.BodyTexture.values().length - 1)) {
+                            //check if player already have this choice currently equipped.
+                            if (fishForm.getFishStateManager().getCurrentBodyTexture() ==
+                                    FishStateManager.BodyTexture.values()[indexBodyPartSelected]) {
+                                String alreadyEquipped = "Already equipped, can NOT buy FishStateManager.BodyTexture." +
+                                        FishStateManager.BodyTexture.values()[indexBodyPartSelected] + "!";
+                                game.showToastMessageLong(alreadyEquipped);
+                            }
+                            //not enough experience points to buy element at current index.
+                            else if (fishForm.getExperiencePoints() < FishStateManager.BodyTexture.values()[indexBodyPartSelected].getCost()) {
+                                String notEnoughExpPoints = "Not enough experience points to buy FishStateManager.BodyTexture." +
+                                        FishStateManager.BodyTexture.values()[indexBodyPartSelected] + ". You need " +
+                                        (FishStateManager.BodyTexture.values()[indexBodyPartSelected].getCost() - fishForm.getExperiencePoints()) +
+                                        " more experience points.";
+                                game.showToastMessageLong(notEnoughExpPoints);
+                            }
+                            //check if player have enough experience points.
+                            else if (fishForm.getExperiencePoints() >= FishStateManager.BodyTexture.values()[indexBodyPartSelected].getCost()) {
+                                /////////////////////////////////////////////
+                                MenuStateImplEvo.getInstance().getMenuItemManager().pushMenuItemConfirmation();
+                                /////////////////////////////////////////////
+                            }
+                        }
+                        //BODY_SIZE
+                        else if (indexBodyPartSelected > (FishStateManager.BodyTexture.values().length - 1)) {
+                            //check if player already have this choice currently equipped.
+                            if (fishForm.getFishStateManager().getCurrentBodySize() ==
+                                    FishStateManager.BodySize.values()[indexBodyPartSelected - (FishStateManager.BodyTexture.values().length)]) {
+                                String alreadyEquipped = "Already equipped, can NOT buy FishStateManager.BodySize." +
+                                        FishStateManager.BodySize.values()[indexBodyPartSelected - (FishStateManager.BodyTexture.values().length)] +
+                                        "!";
+                                game.showToastMessageLong(alreadyEquipped);
+                            }
+                            //not enough experience points to buy element at current index.
+                            else if (fishForm.getExperiencePoints() <
+                                    FishStateManager.BodySize.values()[indexBodyPartSelected - (FishStateManager.BodyTexture.values().length)].getCost()) {
+                                String notEnoughExpPoints = "Not enough experience points to buy FishStateManager.BodySize." +
+                                        FishStateManager.BodySize.values()[indexBodyPartSelected - (FishStateManager.BodyTexture.values().length)] +
+                                        ". You need " +
+                                        (FishStateManager.BodySize.values()[indexBodyPartSelected - (FishStateManager.BodyTexture.values().length)].getCost() - fishForm.getExperiencePoints()) +
+                                        " more experience points.";
+                                game.showToastMessageLong(notEnoughExpPoints);
+                            }
+                            //check if player have enough experience points.
+                            else if (fishForm.getExperiencePoints() >=
+                                    FishStateManager.BodySize.values()[indexBodyPartSelected - (FishStateManager.BodyTexture.values().length)].getCost()) {
+                                /////////////////////////////////////////////
+                                MenuStateImplEvo.getInstance().getMenuItemManager().pushMenuItemConfirmation();
+                                /////////////////////////////////////////////
+                            }
+                        }
+                        break;
+                    case 2:
+                        //check if player already have this choice currently equipped.
+                        if (fishForm.getFishStateManager().getCurrentFinPectoral() == FishStateManager.FinPectoral.values()[indexBodyPartSelected]) {
+                            String alreadyEquipped = "Already equipped, can NOT buy FishStateManager.FinPectoral. " +
+                                    FishStateManager.FinPectoral.values()[indexBodyPartSelected] + "!";
+                            game.showToastMessageLong(alreadyEquipped);
+                        }
+                        //not enough experience points to buy element at current index.
+                        else if (fishForm.getExperiencePoints() < FishStateManager.FinPectoral.values()[indexBodyPartSelected].getCost()) {
+                            String notEnoughExpPoints = "Not enough experience points to buy FishStateManager.FinPectoral." +
+                                    FishStateManager.FinPectoral.values()[indexBodyPartSelected] + ". You need " +
+                                    (FishStateManager.FinPectoral.values()[indexBodyPartSelected].getCost() - fishForm.getExperiencePoints()) +
+                                    " more experience points.";
+                            game.showToastMessageLong(notEnoughExpPoints);
+                        }
+                        //check if player have enough experience points.
+                        else if (fishForm.getExperiencePoints() >= FishStateManager.FinPectoral.values()[indexBodyPartSelected].getCost()) {
+                            /////////////////////////////////////////////
+                            MenuStateImplEvo.getInstance().getMenuItemManager().pushMenuItemConfirmation();
+                            /////////////////////////////////////////////
+                        }
+                        break;
+                    case 3:
+                        //check if player already have this choice currently equipped.
+                        if (fishForm.getFishStateManager().getCurrentTail() == FishStateManager.Tail.values()[indexBodyPartSelected]) {
+                            String alreadyEquipped = "Already equipped, can NOT buy FishStateManager.Tail." +
+                                    FishStateManager.Tail.values()[indexBodyPartSelected] + "!";
+                            game.showToastMessageLong(alreadyEquipped);
+                        }
+                        //not enough experience points to buy element at current index.
+                        else if (fishForm.getExperiencePoints() < FishStateManager.Tail.values()[indexBodyPartSelected].getCost()) {
+                            String notEnoughExpPoints = "Not enough experience points to buy FishStateManager.Tail." +
+                                    FishStateManager.Tail.values()[indexBodyPartSelected] + ". You need " +
+                                    (FishStateManager.Tail.values()[indexBodyPartSelected].getCost() - fishForm.getExperiencePoints()) +
+                                    " more experience points.";
+                            game.showToastMessageLong(notEnoughExpPoints);
+                        }
+                        //check if player have enough experience points.
+                        else if (fishForm.getExperiencePoints() >= FishStateManager.Tail.values()[indexBodyPartSelected].getCost()) {
+                            /////////////////////////////////////////////
+                            MenuStateImplEvo.getInstance().getMenuItemManager().pushMenuItemConfirmation();
+                            /////////////////////////////////////////////
+                        }
+                        break;
+                    case 4:
+                        MenuStateImplEvo.getInstance().getMenuItemManager().popMenuItemStack();
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
     }
 

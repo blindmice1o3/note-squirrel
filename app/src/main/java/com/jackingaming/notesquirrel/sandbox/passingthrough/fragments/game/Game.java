@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.View;
@@ -265,6 +266,17 @@ public class Game {
             @Override
             public void run() {
                 seedShopDialog.show();
+            }
+        });
+    }
+
+    public void showToastMessageLong(final String message) {
+        ((PassingThroughActivity)context).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
+                toast.show();
             }
         });
     }

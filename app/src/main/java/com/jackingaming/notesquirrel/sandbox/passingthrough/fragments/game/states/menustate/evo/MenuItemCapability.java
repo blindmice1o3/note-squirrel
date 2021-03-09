@@ -1,8 +1,6 @@
 package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.states.menustate.evo;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 
 import com.jackingaming.notesquirrel.sandbox.passingthrough.InputManager;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;

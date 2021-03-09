@@ -121,12 +121,14 @@ public class MenuItemRecordOfEvolution
                 ////////////////////////
                 game.saveViaUserInput();
                 ////////////////////////
+                MenuStateImplEvo.getInstance().getMenuItemManager().popMenuItemStack();
             } else if (menuItem == MenuItem.LOAD) {
                 try {
                     Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".update(long elapsed) a-button-justPressed LOAD");
                     ////////////////////////
                     game.loadViaUserInput();
                     ////////////////////////
+                    MenuStateImplEvo.getInstance().getMenuItemManager().popMenuItemStack();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {

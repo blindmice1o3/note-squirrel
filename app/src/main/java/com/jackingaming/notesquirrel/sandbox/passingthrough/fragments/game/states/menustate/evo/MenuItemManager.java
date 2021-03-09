@@ -23,6 +23,7 @@ public class MenuItemManager
 
         MenuItemInitial.getInstance().init(game);
         MenuItemEvolution.getInstance().init(game);
+        MenuItemConfirmation.getInstance().init(game);
         MenuItemCapability.getInstance().init(game);
         MenuItemRecordOfEvolution.getInstance().init(game);
     }
@@ -42,25 +43,16 @@ public class MenuItemManager
         }
     }
     public void pushMenuItemEvolution() {
-        MenuItemEvolution menuItemEvolution = MenuItemEvolution.getInstance();
-        if (menuItemEvolution.getGame() == null) {
-            menuItemEvolution.init(game);
-        }
-        menuItemStack.add(menuItemEvolution);
+        menuItemStack.add(MenuItemEvolution.getInstance());
+    }
+    public void pushMenuItemConfirmation() {
+        menuItemStack.add(MenuItemConfirmation.getInstance());
     }
     public void pushMenuItemCapability() {
-        MenuItemCapability menuItemCapability = MenuItemCapability.getInstance();
-        if (menuItemCapability.getGame() == null) {
-            menuItemCapability.init(game);
-        }
-        menuItemStack.add(menuItemCapability);
+        menuItemStack.add(MenuItemCapability.getInstance());
     }
     public void pushMenuItemRecordOfEvolution() {
-        MenuItemRecordOfEvolution menuItemRecordOfEvolution = MenuItemRecordOfEvolution.getInstance();
-        if (menuItemRecordOfEvolution.getGame() == null) {
-            menuItemRecordOfEvolution.init(game);
-        }
-        menuItemStack.add(menuItemRecordOfEvolution);
+        menuItemStack.add(MenuItemRecordOfEvolution.getInstance());
     }
     public MenuStateImplEvo.MenuItem getCurrentMenuItem() {
         int indexOfTop = menuItemStack.size() - 1;
