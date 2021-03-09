@@ -22,6 +22,7 @@ import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.InputManager;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.PassingThroughActivity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.adapters.ItemRecyclerViewAdapter;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.Form;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.HoneyPot;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.SceneManager;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.Player;
@@ -298,12 +299,13 @@ public class Game {
         Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".saveToFile(String fileName) START fileName: " + fileName);
         try (FileOutputStream fs = context.openFileOutput(fileName, Context.MODE_PRIVATE);
              ObjectOutputStream os = new ObjectOutputStream(fs)) {
+            // MUST save form before exit() (otherwise it'll load formBeforeThisScene).
+            os.writeObject(Player.getInstance().getForm());
             // Record player's xLastKnown and yLastKnown for the current scene.
             sceneManager.getCurrentScene().exit();
 
             os.writeObject(timeManager);
             os.writeObject(sceneManager);
-//            os.writeObject(gameCamera);
             os.writeInt(currency);
 
             os.writeObject(backpack);
@@ -350,6 +352,10 @@ public class Game {
         Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".loadFromFile(String fileName) START fileName: " + fileName);
         try (FileInputStream fi = context.openFileInput(fileName);
              ObjectInputStream os = new ObjectInputStream(fi)) {
+            Form form = (Form) os.readObject();
+            form.init(this);
+            Player.getInstance().setForm(form);
+
             timeManager = (TimeManager) os.readObject();
             timeManager.init(this, statsChangeListener);
 
@@ -357,12 +363,6 @@ public class Game {
             sceneManager.init(this);
             // Loads player's xLastKnown and yLastKnown for the current scene.
 //            sceneManager.getCurrentScene().enter();
-
-//            gameCamera = (GameCamera) os.readObject();
-//            gameCamera.init(Player.getInstance(), widthViewport, heightViewport,
-//                    sceneManager.getCurrentScene().getTileManager().getWidthScene(),
-//                    sceneManager.getCurrentScene().getTileManager().getHeightScene());
-
             currency = os.readInt();
             statsChangeListener.onCurrencyChange(currency);
 

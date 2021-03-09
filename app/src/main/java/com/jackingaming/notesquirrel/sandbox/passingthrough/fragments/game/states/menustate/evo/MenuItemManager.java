@@ -21,9 +21,10 @@ public class MenuItemManager
     public void init(Game game) {
         this.game = game;
 
-        for (MenuStateImplEvo.MenuItem menuItem : menuItemStack) {
-            menuItem.init(game);
-        }
+        MenuItemInitial.getInstance().init(game);
+        MenuItemEvolution.getInstance().init(game);
+        MenuItemCapability.getInstance().init(game);
+        MenuItemRecordOfEvolution.getInstance().init(game);
     }
 
     public void update(long elapsed) {

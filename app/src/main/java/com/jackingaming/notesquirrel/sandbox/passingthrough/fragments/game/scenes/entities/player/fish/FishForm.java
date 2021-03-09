@@ -54,14 +54,14 @@ public class FishForm
     private int damageBite;
     private int armor;
 
-    public FishForm(Player player) {
-        this.player = player;
-        fishStateManager = new FishStateManager(player);
+    public FishForm() {
+        fishStateManager = new FishStateManager();
     }
 
     @Override
     public void init(Game game) {
         this.game = game;
+        this.player = Player.getInstance();
         fishStateManager.init(game);
         directionFacing = DirectionFacing.RIGHT;
 

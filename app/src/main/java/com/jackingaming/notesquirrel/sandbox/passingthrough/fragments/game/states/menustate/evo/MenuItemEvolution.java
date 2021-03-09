@@ -182,12 +182,6 @@ public class MenuItemEvolution
         }
     }
 
-    private Rect determineTextBounds(String text, Paint paintFont) {
-        Rect rectTextBounds = new Rect();
-        paintFont.getTextBounds(text, 0, text.length(), rectTextBounds);
-        return rectTextBounds;
-    }
-
     private int padding = Tile.WIDTH;
     @Override
     public void render(Canvas canvas) {
@@ -372,7 +366,7 @@ public class MenuItemEvolution
         }
     }
 
-    private void renderCapability(Canvas canvas) {
+    public void renderCapability(Canvas canvas) {
         int x0PlayerStatsBox = (game.getWidthViewport()/2) + 50;
         int y0PlayerStatsBox = y1ImageBackground;
         int x1PlayerStatsBox = game.getWidthViewport() - 10;

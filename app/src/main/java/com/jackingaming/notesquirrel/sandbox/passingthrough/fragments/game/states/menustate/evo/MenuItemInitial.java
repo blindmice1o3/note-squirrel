@@ -107,6 +107,14 @@ public class MenuItemInitial
         yTextInitial = y0BelowLabelHp + padding + heightLine;
     }
 
+    public int calculateBackgroundPanelY1() {
+        return y0BelowLabelHp + heightBackgroundPanel;
+    }
+
+    public int calculateBackgroundPanelX0() {
+        return x0BelowLabelHp;
+    }
+
     private void initImage() {
         imageCursor = Assets.leftOverworld0;
     }

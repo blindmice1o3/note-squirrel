@@ -48,9 +48,8 @@ public class MenuItemCapability
 
     @Override
     public void render(Canvas canvas) {
-        Paint paint = new Paint();
-        paint.setColor(Color.YELLOW);
-        canvas.drawText(name, game.getWidthViewport()/2, game.getHeightViewport()/2, paint);
+        MenuItemInitial.getInstance().render(canvas);
+        MenuItemEvolution.getInstance().renderCapability(canvas);
     }
 
     @Override

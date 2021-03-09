@@ -121,9 +121,7 @@ public class FishStateManager
     ////////////////////////////////////////////////////////////
 
     //CONSTRUCTOR with default values.
-    public FishStateManager(Player player) {
-        this.player = player;
-
+    public FishStateManager() {
         currentActionState = ActionState.NONE;
 
         currentBodySize = BodySize.DECREASE;
@@ -148,6 +146,7 @@ public class FishStateManager
 
     public void init(Game game) {
         this.game = game;
+        this.player = Player.getInstance();
     }
 
     ////////////////////////////////////////////////////////////

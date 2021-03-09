@@ -141,14 +141,14 @@ public class SceneEvo extends Scene {
         if (xLastKnown == 0 && yLastKnown == 0) {
             Player.getInstance().setX(X_SPAWN_INDEX_DEFAULT * Tile.WIDTH);
             Player.getInstance().setY(Y_SPAWN_INDEX_DEFAULT * Tile.HEIGHT);
+            formForThisScene = new FishForm();
+            formForThisScene.init(game);
         } else {
             Player.getInstance().setX(xLastKnown);
             Player.getInstance().setY(yLastKnown);
         }
 
         formBeforeThisScene = Player.getInstance().getForm();
-        formForThisScene = new FishForm(Player.getInstance());
-        formForThisScene.init(game);
         Player.getInstance().setForm(formForThisScene);
 
         GameCamera.getInstance().update(0L);
