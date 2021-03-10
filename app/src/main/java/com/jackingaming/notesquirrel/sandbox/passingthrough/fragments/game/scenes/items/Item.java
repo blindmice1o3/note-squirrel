@@ -38,7 +38,7 @@ public class Item
     public void draw(Canvas canvas) {
         if (image != null) {
             Rect rectOfImage = new Rect(0, 0, image.getWidth(), image.getHeight());
-            Rect rectOnScreen = GameCamera.getInstance().convertToScreenRect(getCollisionBounds(0, 0));
+            Rect rectOnScreen = GameCamera.getInstance().convertInGameRectToScreenRect(getCollisionBounds(0, 0));
 
             canvas.drawBitmap(image, rectOfImage, rectOnScreen, null);
         }

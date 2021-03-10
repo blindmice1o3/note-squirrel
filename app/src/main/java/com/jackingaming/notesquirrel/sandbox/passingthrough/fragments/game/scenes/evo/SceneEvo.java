@@ -23,6 +23,7 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scene
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.evo.Kelp;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.evo.SeaJelly;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.fish.FishForm;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.evo.hud.ComponentHUD;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.evo.hud.HeadUpDisplay;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
@@ -105,12 +106,18 @@ public class SceneEvo extends Scene {
             Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretViewportInput() x0Event, y0Event, x1Event, y1Event: " + x0Event + ", " + y0Event + ", " + x1Event + ", " + y1Event);
 
             Rect rectOfTouchPointOnScreen = new Rect((int) x0Event, (int) y0Event, (int) x1Event, (int) y1Event);
-            Rect rectOfTouchPointInGame = GameCamera.getInstance().convertToInGameRect(rectOfTouchPointOnScreen);
+            Rect rectOfTouchPointInGame = GameCamera.getInstance().convertScreenRectToInGameRect(rectOfTouchPointOnScreen);
             for (Entity e : entityManager.getEntities()) {
                 if (rectOfTouchPointInGame.intersect(e.getCollisionBounds(0f, 0f))) {
                     if (e instanceof Kelp) {
-                        e.setActive(false);
-                        ((Kelp)e).die();
+                        ComponentHUD textHUD = new ComponentHUD(game, ComponentHUD.ComponentType.TEXT,
+                                "Hello, world.", 75, e);
+                        SceneEvo sceneEvo = ((SceneEvo)game.getSceneManager().getCurrentScene());
+                        sceneEvo.getHeadUpDisplay().addTimedNumericIndicator(textHUD);
+
+//                        e.setActive(false);
+//                        ((Kelp)e).die();
+
                         // TODO: pass text and location (x, y, width, height) to textbox.
 //                        String text = "Two four six eight ... eight six four two";
 //                        float xPlayerInGame = Player.getInstance().getX();

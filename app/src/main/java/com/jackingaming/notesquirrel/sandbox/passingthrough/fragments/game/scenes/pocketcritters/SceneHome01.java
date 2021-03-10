@@ -150,17 +150,17 @@ public class SceneHome01 extends Scene {
     @Override
     public void drawCurrentFrame(Canvas canvas) {
         super.drawCurrentFrame(canvas);
-        Rect screenRectOfTransferPointHome02 = GameCamera.getInstance().convertToScreenRect(tileManager.getTransferPoints().get("HOME_02"));
+        Rect screenRectOfTransferPointHome02 = GameCamera.getInstance().convertInGameRectToScreenRect(tileManager.getTransferPoints().get("HOME_02"));
         Paint paint = new Paint();
         paint.setColor(Color.YELLOW);
         canvas.drawRect(screenRectOfTransferPointHome02, paint);
 
-        Rect screenRectOfTransferPointPart01 = GameCamera.getInstance().convertToScreenRect(tileManager.getTransferPoints().get("PART_01"));
+        Rect screenRectOfTransferPointPart01 = GameCamera.getInstance().convertInGameRectToScreenRect(tileManager.getTransferPoints().get("PART_01"));
         paint = new Paint();
         paint.setColor(Color.BLUE);
         canvas.drawRect(screenRectOfTransferPointPart01, paint);
 
-        Rect screenRectOfPlayer = GameCamera.getInstance().convertToScreenRect(Player.getInstance().getCollisionBounds(0, 0));
+        Rect screenRectOfPlayer = GameCamera.getInstance().convertInGameRectToScreenRect(Player.getInstance().getCollisionBounds(0, 0));
         paint.setColor(Color.GREEN);
         canvas.drawRect(screenRectOfPlayer, paint);
     }

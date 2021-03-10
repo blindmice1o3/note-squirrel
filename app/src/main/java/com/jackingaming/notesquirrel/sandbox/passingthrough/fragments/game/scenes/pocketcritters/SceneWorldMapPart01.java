@@ -155,22 +155,22 @@ public class SceneWorldMapPart01 extends Scene {
     @Override
     public void drawCurrentFrame(Canvas canvas) {
         super.drawCurrentFrame(canvas);
-        Rect screenRectOfTransferPointHome02 = GameCamera.getInstance().convertToScreenRect(tileManager.getTransferPoints().get("HOME_01"));
+        Rect screenRectOfTransferPointHome02 = GameCamera.getInstance().convertInGameRectToScreenRect(tileManager.getTransferPoints().get("HOME_01"));
         Paint paint = new Paint();
         paint.setColor(Color.YELLOW);
         canvas.drawRect(screenRectOfTransferPointHome02, paint);
 
-        Rect screenRectOfTransferPointHomeRival = GameCamera.getInstance().convertToScreenRect(tileManager.getTransferPoints().get("HOME_RIVAL"));
+        Rect screenRectOfTransferPointHomeRival = GameCamera.getInstance().convertInGameRectToScreenRect(tileManager.getTransferPoints().get("HOME_RIVAL"));
         paint = new Paint();
         paint.setColor(Color.BLUE);
         canvas.drawRect(screenRectOfTransferPointHomeRival, paint);
 
-        Rect screenRectOfTransferPointLab = GameCamera.getInstance().convertToScreenRect(tileManager.getTransferPoints().get("LAB"));
+        Rect screenRectOfTransferPointLab = GameCamera.getInstance().convertInGameRectToScreenRect(tileManager.getTransferPoints().get("LAB"));
         paint = new Paint();
         paint.setColor(Color.RED);
         canvas.drawRect(screenRectOfTransferPointLab, paint);
 
-        Rect screenRectOfPlayer = GameCamera.getInstance().convertToScreenRect(Player.getInstance().getCollisionBounds(0, 0));
+        Rect screenRectOfPlayer = GameCamera.getInstance().convertInGameRectToScreenRect(Player.getInstance().getCollisionBounds(0, 0));
         paint.setColor(Color.GREEN);
         canvas.drawRect(screenRectOfPlayer, paint);
     }

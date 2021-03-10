@@ -20,8 +20,6 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scene
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 
-import java.nio.file.attribute.UserPrincipalLookupService;
-
 public class Eel extends Creature
         implements Damageable, DamageDoer {
     private static final int WIDTH_WIDE_SHORT = Tile.WIDTH;
@@ -305,7 +303,7 @@ public class Eel extends Creature
 
         // EEL
         Rect rectOfImage = new Rect(0, 0, image.getWidth(), image.getHeight());
-        Rect rectOnScreen = GameCamera.getInstance().convertToScreenRect(getCollisionBounds(0, 0));
+        Rect rectOnScreen = GameCamera.getInstance().convertInGameRectToScreenRect(getCollisionBounds(0, 0));
         canvas.drawBitmap(image, rectOfImage, rectOnScreen, null);
     }
 

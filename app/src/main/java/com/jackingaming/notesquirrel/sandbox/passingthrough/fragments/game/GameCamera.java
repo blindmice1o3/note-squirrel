@@ -92,7 +92,7 @@ public class GameCamera
         }
     }
 
-    public Rect convertToScreenRect(Rect collisionBounds) {
+    public Rect convertInGameRectToScreenRect(Rect collisionBounds) {
         Rect screenRect = new Rect(
                 (int)( (collisionBounds.left - x) * widthPixelToViewportRatio ),
                 (int)( (collisionBounds.top - y) * heightPixelToViewportRatio ),
@@ -101,13 +101,29 @@ public class GameCamera
         return screenRect;
     }
 
-    public Rect convertToInGameRect(Rect screenRect) {
+    public Rect convertScreenRectToInGameRect(Rect screenRect) {
         Rect collisionBounds = new Rect(
                 (int) ((screenRect.left / widthPixelToViewportRatio) + x),
                 (int) ((screenRect.top / heightPixelToViewportRatio) + y),
                 (int) ((screenRect.right / widthPixelToViewportRatio) + x),
                 (int) ((screenRect.bottom / heightPixelToViewportRatio) + y) );
         return collisionBounds;
+    }
+
+    public float convertInGameXPositionToScreenXPosition(float xInGame) {
+        return (xInGame - x) * widthPixelToViewportRatio;
+    }
+
+    public float convertInGameYPositionToScreenYPosition(float yInGame) {
+        return (yInGame - y) * heightPixelToViewportRatio;
+    }
+
+    public float convertScreenXPositionToInGameXPosition(float xOnScreen) {
+        return (xOnScreen / widthPixelToViewportRatio) + x;
+    }
+
+    public float convertScreenYPositionToInGameYPosition(float yOnScreen) {
+        return (yOnScreen / heightPixelToViewportRatio) + y;
     }
 
     public void updateClipWidthInTile(int clipWidthInTile) {

@@ -270,9 +270,9 @@ public class FishForm
             Rect rectOfHeadInGame = getRectOfHeadInGameFacingRight(0f, 0f);
 
             Rect rectOfBodyImage = new Rect(0, 0, imageOfBody.getWidth(), imageOfBody.getHeight());
-            Rect rectOfBodyOnScreen = GameCamera.getInstance().convertToScreenRect(rectOfBodyInGame);
+            Rect rectOfBodyOnScreen = GameCamera.getInstance().convertInGameRectToScreenRect(rectOfBodyInGame);
             Rect rectOfHeadImage = new Rect(0, 0, imageOfHead.getWidth(), imageOfHead.getHeight());
-            Rect rectOfHeadOnScreen = GameCamera.getInstance().convertToScreenRect(rectOfHeadInGame);
+            Rect rectOfHeadOnScreen = GameCamera.getInstance().convertInGameRectToScreenRect(rectOfHeadInGame);
 
             canvas.drawBitmap(imageOfBody, rectOfBodyImage, rectOfBodyOnScreen, null);
             canvas.drawBitmap(imageOfHead, rectOfHeadImage, rectOfHeadOnScreen, null);
@@ -285,9 +285,9 @@ public class FishForm
             Rect rectOfBodyInGame = getRectOfBodyInGameFacingLeft(0f, 0f);
 
             Rect rectOfHeadImage = new Rect(0, 0, imageOfHeadFlipped.getWidth(), imageOfHeadFlipped.getHeight());
-            Rect rectOfHeadOnScreen = GameCamera.getInstance().convertToScreenRect(rectOfHeadInGame);
+            Rect rectOfHeadOnScreen = GameCamera.getInstance().convertInGameRectToScreenRect(rectOfHeadInGame);
             Rect rectOfBodyImage = new Rect(0, 0, imageOfBodyFlipped.getWidth(), imageOfBodyFlipped.getHeight());
-            Rect rectOfBodyOnScreen = GameCamera.getInstance().convertToScreenRect(rectOfBodyInGame);
+            Rect rectOfBodyOnScreen = GameCamera.getInstance().convertInGameRectToScreenRect(rectOfBodyInGame);
 
             canvas.drawBitmap(imageOfHeadFlipped, rectOfHeadImage, rectOfHeadOnScreen, null);
             canvas.drawBitmap(imageOfBodyFlipped, rectOfBodyImage, rectOfBodyOnScreen, null);

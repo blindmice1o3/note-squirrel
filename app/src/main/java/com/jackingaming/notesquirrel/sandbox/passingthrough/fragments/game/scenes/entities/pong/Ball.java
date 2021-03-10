@@ -41,7 +41,7 @@ public class Ball extends Creature {
 
     private void determineDirection() {
 
-        Rect screenRect = GameCamera.getInstance().convertToScreenRect(getCollisionBounds(0, 0));
+        Rect screenRect = GameCamera.getInstance().convertInGameRectToScreenRect(getCollisionBounds(0, 0));
         //PREVENT MOVING OFF-SCREEN (horizontally)
         if (screenRect.left <= 0) {
             xMove = moveSpeed;

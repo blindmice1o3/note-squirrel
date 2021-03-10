@@ -49,8 +49,8 @@ public class Bat extends Creature {
     }
 
     private void determineDirection() {
-        Rect screenRectBat = GameCamera.getInstance().convertToScreenRect(getCollisionBounds(0, 0));
-        Rect screenRectBall = GameCamera.getInstance().convertToScreenRect(ball.getCollisionBounds(0, 0));
+        Rect screenRectBat = GameCamera.getInstance().convertInGameRectToScreenRect(getCollisionBounds(0, 0));
+        Rect screenRectBall = GameCamera.getInstance().convertInGameRectToScreenRect(ball.getCollisionBounds(0, 0));
 
         //SIMULATED INTELLIGENCE
         int decision = random.nextInt(20);

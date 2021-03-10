@@ -3,27 +3,39 @@ package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scen
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import android.text.Layout;
+import android.text.StaticLayout;
+import android.text.TextPaint;
 import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.GameCamera;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Entity;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 
 import java.io.Serializable;
 
 public class ComponentHUD
         implements Serializable {
-    public enum ComponentType { HP, EXP, DAMAGE; }
+    public enum ComponentType { HP, EXP, DAMAGE, TEXT; }
+    private static final int BORDER = Tile.WIDTH;
 
-    transient protected Game game;
+    transient private Game game;
+    transient private Rect rectStaticLayoutBackgroundPanel;
+    transient private Paint paintStaticLayoutBackgroundPanel;
+    transient private TextPaint textPaint;
+    private int heightLine;
 
-    protected float x, y;
-    protected ComponentType currentComponentType;
-    protected int value;
+    private float x, y;
+    private ComponentType currentComponentType;
+    private int value;
 
-    protected long timeElapsed, timerTarget;
-    protected boolean timerFinished;
+    private long timeElapsed, timerTarget;
+    private boolean timerFinished;
+
+    private StaticLayout staticLayout;
 
     public ComponentHUD(Game game, ComponentType componentType, int value, Entity entity) {
         this.game = game;
@@ -34,9 +46,40 @@ public class ComponentHUD
         y = entity.getY();
 
         timerFinished = false;
-
         timeElapsed = 0L;
         timerTarget = 5_000L;
+
+        textPaint = new TextPaint();
+        textPaint.setAntiAlias(true);
+        textPaint.setTextSize(16 * game.getContext().getResources().getDisplayMetrics().density);
+        Paint.FontMetrics fm = textPaint.getFontMetrics();
+        heightLine = (int)(fm.bottom - fm.top + fm.leading);
+    }
+
+    public ComponentHUD(Game game, ComponentType componentType, String text, int widthLine, Entity entity) {
+        this(game, componentType, 0, entity);
+
+        // STATIC_LAYOUT (size)
+        Layout.Alignment alignment = Layout.Alignment.ALIGN_NORMAL;
+        float spacingMultiplier = 1;
+        float spacingAddition = 0;
+        boolean includePadding = false;
+        staticLayout = new StaticLayout(text, textPaint, widthLine,
+                alignment, spacingMultiplier, spacingAddition, includePadding);
+        int heightStaticLayout = staticLayout.getHeight();
+
+        // STATIC_LAYOUT (position)
+        x = GameCamera.getInstance().convertInGameXPositionToScreenXPosition(entity.getX()) -
+                widthLine - BORDER;
+        y = GameCamera.getInstance().convertInGameYPositionToScreenYPosition(entity.getY()) -
+                heightStaticLayout - BORDER;
+
+        // BACKGROUND PANEL
+        paintStaticLayoutBackgroundPanel= new Paint();
+        paintStaticLayoutBackgroundPanel.setColor(0xBB0000FF);
+        paintStaticLayoutBackgroundPanel.setAlpha(175);
+        rectStaticLayoutBackgroundPanel = new Rect((int)(x - BORDER), (int)(y - BORDER),
+                (int)(x + widthLine + BORDER), (int)(y + heightStaticLayout + BORDER));
     }
 
     public void update(long elapsed) {
@@ -49,26 +92,36 @@ public class ComponentHUD
 
     public void render(Canvas canvas) {
         GameCamera gameCamera = GameCamera.getInstance();
-        Paint paint = new Paint();
-        paint.setTextSize(40f);
         switch (currentComponentType) {
             case HP:
-                paint.setColor(Color.GREEN);
+                textPaint.setColor(Color.GREEN);
                 canvas.drawText("+" + Integer.toString(value),
-                        (int) ((x - gameCamera.getX()) * gameCamera.getWidthPixelToViewportRatio()),
-                        (int) ((y - gameCamera.getY()) * gameCamera.getHeightPixelToViewportRatio()), paint);
+                        gameCamera.convertInGameXPositionToScreenXPosition(x),
+                        gameCamera.convertInGameYPositionToScreenYPosition(y), textPaint);
                 break;
             case EXP:
-                paint.setColor(Color.WHITE);
+                textPaint.setColor(Color.YELLOW);
                 canvas.drawText("+" + Integer.toString(value),
-                        (int) ((x - gameCamera.getX()) * gameCamera.getWidthPixelToViewportRatio()),
-                        (int) ((y - gameCamera.getY() + 5) * gameCamera.getHeightPixelToViewportRatio()), paint);
+                        gameCamera.convertInGameXPositionToScreenXPosition(x),
+                        gameCamera.convertInGameYPositionToScreenYPosition(y) + heightLine, textPaint);
                 break;
             case DAMAGE:
-                paint.setColor(Color.RED);
+                textPaint.setColor(Color.RED);
                 canvas.drawText("-" + Integer.toString(value),
-                        (int) ((x - gameCamera.getX() - 5) * gameCamera.getWidthPixelToViewportRatio()),
-                        (int) ((y - gameCamera.getY() - 5) * gameCamera.getHeightPixelToViewportRatio()), paint);
+                        gameCamera.convertInGameXPositionToScreenXPosition(x) - heightLine,
+                        gameCamera.convertInGameYPositionToScreenYPosition(y) - heightLine, textPaint);
+                break;
+            case TEXT:
+                textPaint.setColor(Color.WHITE);
+                // TODO: draw StaticLayout.
+                // BACKGROUND PANEL
+                canvas.drawRect(rectStaticLayoutBackgroundPanel, paintStaticLayoutBackgroundPanel);
+
+                // TEXT (confirmation message)
+                canvas.save();
+                canvas.translate(x, y); // ALREADY converted to screen coordinate system!
+                staticLayout.draw(canvas);
+                canvas.restore();
                 break;
             default:
                 Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".render(Canvas canvas), switch's default.");

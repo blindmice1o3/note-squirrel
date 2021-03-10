@@ -48,7 +48,7 @@ public class Tile
     public void draw(Canvas canvas) {
         if (image != null) {
             Rect rectOfImage = new Rect(0, 0, image.getWidth(), image.getHeight());
-            Rect rectOnScreen = GameCamera.getInstance().convertToScreenRect(collisionBoundsInScene);
+            Rect rectOnScreen = GameCamera.getInstance().convertInGameRectToScreenRect(collisionBoundsInScene);
 
             canvas.drawBitmap(image, rectOfImage, rectOnScreen, null);
         }
