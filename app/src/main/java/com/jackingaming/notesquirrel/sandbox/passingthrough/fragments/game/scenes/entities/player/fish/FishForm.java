@@ -557,6 +557,16 @@ public class FishForm
     }
 
     @Override
+    public void die() {
+        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".die() PLAYER DIED!");
+    }
+
+    @Override
+    public void doDamage(Damageable damageable) {
+        damageable.takeDamage(damageBite);
+    }
+
+    @Override
     public void takeDamage(int incomingDamage) {
         ///////////////////////////////////////
         int netDamage = incomingDamage - armor;
@@ -579,18 +589,13 @@ public class FishForm
     }
 
     @Override
-    public void die() {
-        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".die() PLAYER DIED!");
-    }
-
-    @Override
-    public void doDamage(Damageable damageable) {
-        damageable.takeDamage(damageBite);
-    }
-
-    @Override
     public void incrementExperiencePoints(int experiencePoints) {
         this.experiencePoints += experiencePoints;
+
+        ComponentHUD experiencePointsHUD = new ComponentHUD(game, ComponentHUD.ComponentType.EXP,
+                experiencePoints, player);
+        SceneEvo sceneEvo = ((SceneEvo)game.getSceneManager().getCurrentScene());
+        sceneEvo.getHeadUpDisplay().addTimedNumericIndicator(experiencePointsHUD);
     }
 
     @Override
@@ -599,6 +604,11 @@ public class FishForm
         if (this.health > healthMax) {
             this.health = healthMax;
         }
+
+        ComponentHUD healthHUD = new ComponentHUD(game, ComponentHUD.ComponentType.HP,
+                health, player);
+        SceneEvo sceneEvo = ((SceneEvo)game.getSceneManager().getCurrentScene());
+        sceneEvo.getHeadUpDisplay().addTimedNumericIndicator(healthHUD);
     }
 
     public int getHealth() {
