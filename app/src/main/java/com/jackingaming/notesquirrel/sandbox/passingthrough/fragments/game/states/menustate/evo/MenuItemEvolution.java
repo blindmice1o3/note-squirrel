@@ -332,7 +332,7 @@ public class MenuItemEvolution
         // CURSOR AND TEXT
         Paint paintFont = new Paint();
         paintFont.setAntiAlias(true);
-        paintFont.setTextSize(40f);
+        paintFont.setTextSize(16 * game.getContext().getResources().getDisplayMetrics().density);
         paintFont.setColor(Color.WHITE);
         Paint.FontMetrics fm = paintFont.getFontMetrics();
         int heightLine = (int)(fm.bottom - fm.top + fm.leading);
@@ -340,6 +340,7 @@ public class MenuItemEvolution
         int yTextInitial = y1ImageBackground + heightLine;
         int xText = xTextInitial;
         int yText = yTextInitial;
+        // FISH CURSOR
         switch (indexBodyPartCategory) {
             case 0:
                 // *** TOP ***
@@ -354,7 +355,7 @@ public class MenuItemEvolution
                     if (i == indexBodyPartSelected) {
                         // FISH CURSOR
                         int xCursor = 0 + padding;
-                        int yCursor = yText - (heightLine / 2) + (imageCursor.getHeight() / 2);
+                        int yCursor = yText - (heightLine / 2) + imageCursor.getHeight();
                         canvas.drawBitmap(imageCursor, xCursor, yCursor, null);
 
                         // *** BOTTOM-RIGHT: CAPABILITY (BONUSES) ***
@@ -383,7 +384,7 @@ public class MenuItemEvolution
                         if (i == indexBodyPartSelected) {
                             // FISH CURSOR
                             int xCursor = 0 + padding;
-                            int yCursor = yText - (heightLine / 2) + (imageCursor.getHeight() / 2);
+                            int yCursor = yText - (heightLine / 2) + imageCursor.getHeight();
                             canvas.drawBitmap(imageCursor, xCursor, yCursor, null);
 
                             // *** BOTTOM-RIGHT: CAPABILITY (BONUSES) ***
@@ -408,7 +409,7 @@ public class MenuItemEvolution
                         if (i == (indexBodyPartSelected-(FishStateManager.BodyTexture.values().length))) {
                             // FISH CURSOR
                             int xCursor = 0 + padding;
-                            int yCursor = yText - (heightLine / 2) + (imageCursor.getHeight() / 2);
+                            int yCursor = yText - (heightLine / 2) + imageCursor.getHeight();
                             canvas.drawBitmap(imageCursor, xCursor, yCursor, null);
 
                             // *** BOTTOM-RIGHT: CAPABILITY (BONUSES) ***
@@ -437,7 +438,7 @@ public class MenuItemEvolution
                     if (i == indexBodyPartSelected) {
                         // FISH CURSOR
                         int xCursor = 0 + padding;
-                        int yCursor = yText - (heightLine / 2) + (imageCursor.getHeight() / 2);
+                        int yCursor = yText - (heightLine / 2) + imageCursor.getHeight();
                         canvas.drawBitmap(imageCursor, xCursor, yCursor, null);
 
                         // *** BOTTOM-RIGHT: CAPABILITY (BONUSES) ***
@@ -465,7 +466,7 @@ public class MenuItemEvolution
                     if (i == indexBodyPartSelected) {
                         // FISH CURSOR
                         int xCursor = 0 + padding;
-                        int yCursor = yText - (heightLine / 2) + (imageCursor.getHeight() / 2);
+                        int yCursor = yText - (heightLine / 2) + imageCursor.getHeight();
                         canvas.drawBitmap(imageCursor, xCursor, yCursor, null);
 
                         // *** BOTTOM-RIGHT: CAPABILITY (BONUSES) ***
@@ -881,5 +882,13 @@ public class MenuItemEvolution
     @Override
     public Game getGame() {
         return game;
+    }
+
+    public int getIndexBodyPartCategory() {
+        return indexBodyPartCategory;
+    }
+
+    public int getIndexBodyPartSelected() {
+        return indexBodyPartSelected;
     }
 }

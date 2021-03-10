@@ -38,21 +38,31 @@ public class MenuItemManager
 
     public void popMenuItemStack() {
         if (menuItemStack.size() > 1) {
+            getCurrentMenuItem().exit();
             int indexOfTop = menuItemStack.size() - 1;
             menuItemStack.remove(indexOfTop);
+            getCurrentMenuItem().enter(null);
         }
     }
     public void pushMenuItemEvolution() {
+        getCurrentMenuItem().exit();
         menuItemStack.add(MenuItemEvolution.getInstance());
+        getCurrentMenuItem().enter(null);
     }
     public void pushMenuItemConfirmation() {
+        getCurrentMenuItem().exit();
         menuItemStack.add(MenuItemConfirmation.getInstance());
+        getCurrentMenuItem().enter(null);
     }
     public void pushMenuItemCapability() {
+        getCurrentMenuItem().exit();
         menuItemStack.add(MenuItemCapability.getInstance());
+        getCurrentMenuItem().enter(null);
     }
     public void pushMenuItemRecordOfEvolution() {
+        getCurrentMenuItem().exit();
         menuItemStack.add(MenuItemRecordOfEvolution.getInstance());
+        getCurrentMenuItem().enter(null);
     }
     public MenuStateImplEvo.MenuItem getCurrentMenuItem() {
         int indexOfTop = menuItemStack.size() - 1;

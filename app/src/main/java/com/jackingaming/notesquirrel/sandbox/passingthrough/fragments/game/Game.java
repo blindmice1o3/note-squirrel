@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
@@ -30,6 +31,7 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scene
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.BugCatchingNet;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Shovel;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.states.StateManager;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.time.TimeManager;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.statsdisplayer.StatsDisplayerFragment;
@@ -271,11 +273,17 @@ public class Game {
     }
 
     public void showToastMessageLong(final String message) {
+        // DETERMINE actionBarHeight.
+        TypedValue tv = new TypedValue();
+        context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true);
+        final int actionBarHeight = context.getResources().getDimensionPixelSize(tv.resourceId);
+
         ((PassingThroughActivity)context).runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
+                toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL,
+                        0, actionBarHeight + (4 * Tile.HEIGHT));
                 toast.show();
             }
         });

@@ -469,7 +469,7 @@ public class FishForm
         }
     }
 
-    private void updatePlayerStats() {
+    public void updatePlayerStats() {
         //refresh bonuses-based-on-body-parts and takes care of refreshing healthMax.
         fishStateManager.updatePlayerStats();
 
@@ -480,7 +480,7 @@ public class FishForm
         //TODO: jump.
     }
 
-    private void updateHeadAndTailAnimations() {
+    public void updateHeadAndTailAnimations() {
         initHeadAnimations();
         switch (fishStateManager.getCurrentTail()) {
             case ORIGINAL:
@@ -597,6 +597,10 @@ public class FishForm
 
     public int getExperiencePoints() {
         return experiencePoints;
+    }
+
+    public void setExperiencePoints(int experiencePoints) {
+        this.experiencePoints = experiencePoints;
     }
 
     public FishStateManager getFishStateManager() {
