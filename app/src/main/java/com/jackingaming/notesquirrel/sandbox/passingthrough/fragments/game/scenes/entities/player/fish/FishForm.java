@@ -10,6 +10,7 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.InputManager;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.GameCamera;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.animations.Animation;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Consumer;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Creature;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.DamageDoer;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Damageable;
@@ -20,13 +21,15 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scene
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.evo.hud.ComponentHUD;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.HoneyPot;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Meat;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 
 public class FishForm
-        implements Form, Damageable, DamageDoer {
+        implements Form, Damageable, DamageDoer, Consumer {
     public static final int HEALTH_MAX_DEFAULT = 20;
     public static final int BODY_ANIMATION_SPEED_DEFAULT = 600;
     public static final int HEAD_ANIMATION_SPEED_DEFAULT = 400;
+
     public enum DirectionFacing { LEFT, RIGHT; }
 
     transient private Game game;
@@ -360,6 +363,7 @@ public class FishForm
             currentHeadAnimation = eatHeadAnimation;
             currentHeadAnimation.resetIndex();
             fishStateManager.setCurrentActionState(FishStateManager.ActionState.EAT);
+            player.doCheckItemCollisionViaClick();
         } else if (game.getInputManager().isPressing(InputManager.Button.B)) {
             // [ALERT] Check isJustPressed() BEFORE isPressing().
             Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretInput() isPressing(InputManager.Button.B)");
@@ -536,7 +540,12 @@ public class FishForm
 
     @Override
     public void respondToItemCollisionViaClick(Item item) {
-
+        if (item instanceof Meat) {
+            // TODO: display these numbers via HeadUpDisplay?
+            Meat meat = (Meat) item;
+            meat.integrateWithHost(this);
+            game.getSceneManager().getCurrentScene().getItemManager().removeItem(item);
+        }
     }
 
     @Override
@@ -577,6 +586,19 @@ public class FishForm
     @Override
     public void doDamage(Damageable damageable) {
         damageable.takeDamage(damageBite);
+    }
+
+    @Override
+    public void incrementExperiencePoints(int experiencePoints) {
+        this.experiencePoints += experiencePoints;
+    }
+
+    @Override
+    public void incrementHealth(int health) {
+        this.health += health;
+        if (this.health > healthMax) {
+            this.health = healthMax;
+        }
     }
 
     public int getHealth() {

@@ -109,14 +109,15 @@ public class SceneEvo extends Scene {
             for (Entity e : entityManager.getEntities()) {
                 if (rectOfTouchPointInGame.intersect(e.getCollisionBounds(0f, 0f))) {
                     if (e instanceof Kelp) {
+                        e.setActive(false);
+                        ((Kelp)e).die();
                         // TODO: pass text and location (x, y, width, height) to textbox.
-                        String text = "Two four six eight ... eight six four two";
-                        float xPlayerInGame = Player.getInstance().getX();
-                        float yPlayerInGame = Player.getInstance().getY();
-                        float xPlayerOnScreen = (xPlayerInGame - GameCamera.getInstance().getX()) * GameCamera.getInstance().getWidthPixelToViewportRatio();
-                        float yPlayerOnScreen = (yPlayerInGame - GameCamera.getInstance().getY()) * GameCamera.getInstance().getHeightPixelToViewportRatio();
-                        game.getStateManager().pushTextboxState(text, xPlayerOnScreen, yPlayerOnScreen);
-//                        game.getStateManager().pushTextboxState(null);
+//                        String text = "Two four six eight ... eight six four two";
+//                        float xPlayerInGame = Player.getInstance().getX();
+//                        float yPlayerInGame = Player.getInstance().getY();
+//                        float xPlayerOnScreen = (xPlayerInGame - GameCamera.getInstance().getX()) * GameCamera.getInstance().getWidthPixelToViewportRatio();
+//                        float yPlayerOnScreen = (yPlayerInGame - GameCamera.getInstance().getY()) * GameCamera.getInstance().getHeightPixelToViewportRatio();
+//                        game.getStateManager().pushTextboxState(text, xPlayerOnScreen, yPlayerOnScreen);
                     } else if (e instanceof Damageable) {
                         e.setActive(false);
                         ((Damageable)e).die();

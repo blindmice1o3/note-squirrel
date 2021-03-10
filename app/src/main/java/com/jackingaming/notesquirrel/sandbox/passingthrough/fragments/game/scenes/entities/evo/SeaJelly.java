@@ -14,6 +14,7 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scene
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.fish.FishStateManager;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.HoneyPot;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Meat;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 
 public class SeaJelly extends Creature
@@ -179,16 +180,16 @@ public class SeaJelly extends Creature
     public void die() {
         Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".die()");
         // TODO: drop items, reward exp points, etc.
-        Item honeyPot = new HoneyPot();
-        int widthOfHoneyPot = Tile.WIDTH / 2;
-        int heightOfHoneyPot = Tile.HEIGHT / 2;
-        honeyPot.setWidth(widthOfHoneyPot);
-        honeyPot.setHeight(heightOfHoneyPot);
-        int xCenterOfKelpAccountingForWidthOfHoneyPot = (int) (x + (width / 2) - (widthOfHoneyPot / 2));
-        int yCenterOfKelpAccountingForHeightOfHoneyPot = (int) (y + (height / 2) - (heightOfHoneyPot / 2));
-        honeyPot.setPosition(xCenterOfKelpAccountingForWidthOfHoneyPot, yCenterOfKelpAccountingForHeightOfHoneyPot);
-        honeyPot.init(game);
-        game.getSceneManager().getCurrentScene().getItemManager().addItem(honeyPot);
+        Item meat = new Meat();
+        int widthOfMeat = Tile.WIDTH / 2;
+        int heightOfMeat = Tile.HEIGHT / 2;
+        meat.setWidth(widthOfMeat);
+        meat.setHeight(heightOfMeat);
+        int xCenterOfKelpAccountingForWidthOfMeat = (int) (x + (width / 2) - (widthOfMeat / 2));
+        int yCenterOfKelpAccountingForHeightOfMeat = (int) (y + (height / 2) - (heightOfMeat / 2));
+        meat.setPosition(xCenterOfKelpAccountingForWidthOfMeat, yCenterOfKelpAccountingForHeightOfMeat);
+        meat.init(game);
+        game.getSceneManager().getCurrentScene().getItemManager().addItem(meat);
     }
 
     @Override
