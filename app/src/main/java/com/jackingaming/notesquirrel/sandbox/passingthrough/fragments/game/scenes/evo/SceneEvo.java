@@ -110,10 +110,12 @@ public class SceneEvo extends Scene {
             for (Entity e : entityManager.getEntities()) {
                 if (rectOfTouchPointInGame.intersect(e.getCollisionBounds(0f, 0f))) {
                     if (e instanceof Kelp) {
-                        ComponentHUD textHUD = new ComponentHUD(game, ComponentHUD.ComponentType.TEXT,
-                                "The caterpillar went for a walk.", e);
-                        SceneEvo sceneEvo = ((SceneEvo)game.getSceneManager().getCurrentScene());
-                        sceneEvo.getHeadUpDisplay().addTimedNumericIndicator(textHUD);
+                        GameCamera.getInstance().startShaking();
+
+//                        ComponentHUD textHUD = new ComponentHUD(game, ComponentHUD.ComponentType.TEXT,
+//                                "The caterpillar went for a walk.", e);
+//                        SceneEvo sceneEvo = ((SceneEvo)game.getSceneManager().getCurrentScene());
+//                        sceneEvo.getHeadUpDisplay().addTimedNumericIndicator(textHUD);
 
 //                        e.setActive(false);
 //                        ((Kelp)e).die();

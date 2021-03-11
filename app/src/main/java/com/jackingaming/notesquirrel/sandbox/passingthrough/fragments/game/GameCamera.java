@@ -8,13 +8,17 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scene
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 
 import java.io.Serializable;
+import java.util.Random;
 
 public class GameCamera
         implements Serializable {
+    private enum State { STABLE, SHAKING; }
     public static final int CLIP_WIDTH_IN_TILE_DEFAULT = 8;
     public static final int CLIP_HEIGHT_IN_TILE_DEFAULT = 8;
 
     private static GameCamera uniqueInstance;
+    private State state;
+    transient private Random random;
 
     private Entity entity;
     private float x;
@@ -33,6 +37,7 @@ public class GameCamera
     private float heightPixelToViewportRatio;
 
     private GameCamera() {
+        state = State.STABLE;
         x = 0f;
         y = 0f;
         clipWidthInTile = CLIP_WIDTH_IN_TILE_DEFAULT;
@@ -57,12 +62,41 @@ public class GameCamera
         updateWidthPixelToViewportRatio();
         updateHeightPixelToViewportRatio();
 
+        random = new Random();
+        timer = 0;
+
         update(0L);
     }
 
+    private static final int TIMER_TARGET_SHAKING_IN_MILLI = 5_000;
+    private int timer;
     public void update(long elapsed) {
-        centerOnEntity();
-        doNotMoveOffScreen();
+        if (state == State.STABLE) {
+            centerOnEntity();
+            doNotMoveOffScreen();
+        } else if (state == State.SHAKING) {
+            timer += elapsed;
+            if (timer >= TIMER_TARGET_SHAKING_IN_MILLI) {
+                timer = 0;
+                state = State.STABLE;
+            }
+
+            shake();
+        }
+    }
+
+    public void startShaking() {
+        state = State.SHAKING;
+    }
+
+    private void shake() {
+        // Randomly assign 1 or -1.
+        int xDirection = random.nextInt(2)*2 - 1;
+        int yDirection = random.nextInt(2)*2 - 1;
+        int magnitude = random.nextInt(5);
+
+        x += (xDirection * magnitude);
+        y += (yDirection * magnitude);
     }
 
     private void centerOnEntity() {
@@ -109,6 +143,9 @@ public class GameCamera
                 (int) ((screenRect.bottom / heightPixelToViewportRatio) + y) );
         return collisionBounds;
     }
+
+    // TODO: [shake] GameCamera on successful viewport-entity collision (bring in DeadCow).
+
 
     public float convertInGameXPositionToScreenXPosition(float xInGame) {
         return (xInGame - x) * widthPixelToViewportRatio;
