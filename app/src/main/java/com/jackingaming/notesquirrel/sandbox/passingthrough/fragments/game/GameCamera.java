@@ -1,9 +1,7 @@
 package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game;
 
 import android.graphics.Rect;
-import android.util.Log;
 
-import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Entity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 
@@ -40,6 +38,8 @@ public class GameCamera
         state = State.STABLE;
         x = 0f;
         y = 0f;
+        xOffset = 0f;
+        yOffset = 0f;
         clipWidthInTile = CLIP_WIDTH_IN_TILE_DEFAULT;
         clipHeightInTile = CLIP_HEIGHT_IN_TILE_DEFAULT;
     }
@@ -68,7 +68,7 @@ public class GameCamera
         update(0L);
     }
 
-    private static final int TIMER_TARGET_SHAKING_IN_MILLI = 5_000;
+    private static final int TIMER_TARGET_SHAKING_IN_MILLI = 500;
     private int timer;
     public void update(long elapsed) {
         if (state == State.STABLE) {
@@ -78,10 +78,14 @@ public class GameCamera
             timer += elapsed;
             if (timer >= TIMER_TARGET_SHAKING_IN_MILLI) {
                 timer = 0;
+
+                xOffset = 0f;
+                yOffset = 0f;
                 state = State.STABLE;
             }
 
-            shake();
+            updateShaking();
+            centerOnEntity();
         }
     }
 
@@ -89,21 +93,24 @@ public class GameCamera
         state = State.SHAKING;
     }
 
-    private void shake() {
+    private static final int MAGNITUDE_MAX = 2;
+    private float xOffset;
+    private float yOffset;
+    private void updateShaking() {
         // Randomly assign 1 or -1.
         int xDirection = random.nextInt(2)*2 - 1;
         int yDirection = random.nextInt(2)*2 - 1;
-        int magnitude = random.nextInt(5);
+        int magnitude = random.nextInt(MAGNITUDE_MAX);
 
-        x += (xDirection * magnitude);
-        y += (yDirection * magnitude);
+        xOffset += (xDirection * magnitude);
+        yOffset += (yDirection * magnitude);
     }
 
     private void centerOnEntity() {
         //get entity's xCenter, subtract half of clipWidthInPixel.
-        x = (entity.getX() + (entity.getWidth() / 2f)) - (clipWidthInPixel / 2f);
+        x = (entity.getX() + (entity.getWidth() / 2f)) - (clipWidthInPixel / 2f) + xOffset;
         //get entity's yCenter, subtract half of clipHeightInPixel.
-        y = (entity.getY() + (entity.getHeight() / 2f)) - (clipHeightInPixel / 2f);
+        y = (entity.getY() + (entity.getHeight() / 2f)) - (clipHeightInPixel / 2f) + yOffset;
     }
 
     private void doNotMoveOffScreen() {
@@ -144,7 +151,7 @@ public class GameCamera
         return collisionBounds;
     }
 
-    // TODO: [shake] GameCamera on successful viewport-entity collision (bring in DeadCow).
+    // TODO: [updateShaking] GameCamera on successful viewport-entity collision (bring in DeadCow).
 
 
     public float convertInGameXPositionToScreenXPosition(float xInGame) {
