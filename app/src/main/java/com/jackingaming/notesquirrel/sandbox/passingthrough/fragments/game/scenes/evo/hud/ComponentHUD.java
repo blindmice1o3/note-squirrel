@@ -56,10 +56,24 @@ public class ComponentHUD
         heightLine = (int)(fm.bottom - fm.top + fm.leading);
     }
 
-    public ComponentHUD(Game game, ComponentType componentType, String text, int widthLine, Entity entity) {
+    private int findWidthOfLongestWord(String text) {
+        String[] words = text.split("\\s+");
+        int widthMax = 0;
+        for (String word : words) {
+            Rect boundsOfWord = new Rect();
+            textPaint.getTextBounds(word, 0, word.length(), boundsOfWord);
+            if (boundsOfWord.width() > widthMax) {
+                widthMax = boundsOfWord.width();
+            }
+        }
+        return widthMax + 3;    // +3 fixes period-on-last-word new line bug.
+    }
+
+    public ComponentHUD(Game game, ComponentType componentType, String text, Entity entity) {
         this(game, componentType, 0, entity);
 
         // STATIC_LAYOUT (size)
+        int widthLine = findWidthOfLongestWord(text);
         Layout.Alignment alignment = Layout.Alignment.ALIGN_NORMAL;
         float spacingMultiplier = 1;
         float spacingAddition = 0;

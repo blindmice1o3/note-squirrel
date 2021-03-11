@@ -111,7 +111,7 @@ public class SceneEvo extends Scene {
                 if (rectOfTouchPointInGame.intersect(e.getCollisionBounds(0f, 0f))) {
                     if (e instanceof Kelp) {
                         ComponentHUD textHUD = new ComponentHUD(game, ComponentHUD.ComponentType.TEXT,
-                                "Hello, world.", 75, e);
+                                "The caterpillar went for a walk.", e);
                         SceneEvo sceneEvo = ((SceneEvo)game.getSceneManager().getCurrentScene());
                         sceneEvo.getHeadUpDisplay().addTimedNumericIndicator(textHUD);
 
