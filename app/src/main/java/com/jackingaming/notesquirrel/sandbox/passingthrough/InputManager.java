@@ -142,12 +142,13 @@ public class InputManager
 
     @Override
     public boolean onMySurfaceViewTouched(MySurfaceView mySurfaceView, MotionEvent event) {
-        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onMySurfaceViewTouched(MySurfaceView mySurfaceView, MotionEvent event)");
+//        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onMySurfaceViewTouched(MySurfaceView mySurfaceView, MotionEvent event)");
         this.event = event;
         pressingViewport = true;
 
 
-        if (event.getAction() == MotionEvent.ACTION_UP) {
+        if (event.getAction() == MotionEvent.ACTION_UP ||
+                event.getAction() == MotionEvent.ACTION_POINTER_UP) {
             pressingViewport = false;
         }
 
