@@ -23,7 +23,6 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scene
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.evo.Kelp;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.evo.SeaJelly;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.fish.FishForm;
-import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.evo.hud.ComponentHUD;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.evo.hud.HeadUpDisplay;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
@@ -76,14 +75,14 @@ public class SceneEvo extends Scene {
 
     @Override
     public void update(long elapsed) {
-        super.update(elapsed);
-
         interpretViewportInput();
+
+        entityManager.update(elapsed);
 
         headUpDisplay.update(elapsed);
     }
 
-    private static final int TOUCH_POINT_RADIUS = 50;
+    private static final int TOUCH_POINT_RADIUS = 30;
     private void interpretViewportInput() {
         if (game.getInputManager().isJustPressedViewport()) {
             Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretViewportInput() isJustPressedViewport is true");
@@ -93,16 +92,22 @@ public class SceneEvo extends Scene {
             float xEventCenter = event.getX();
             float yEventCenter = event.getY();
 
-            // DETERMINE actionBarHeight.
+            // DETERMINE heightActionBar.
             TypedValue tv = new TypedValue();
             game.getContext().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true);
-            int actionBarHeight = game.getContext().getResources().getDimensionPixelSize(tv.resourceId);
+            int heightActionBar = game.getContext().getResources().getDimensionPixelSize(tv.resourceId);
+            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretViewportInput() heightActionBar: " + heightActionBar);
+            // DETERMINE heightStatusBar.
+            int idStatusBarHeight = game.getContext().getResources().getIdentifier("status_bar_height", "dimen", "android");
+            int heightStatusBar = game.getContext().getResources().getDimensionPixelSize(idStatusBarHeight);
+            Log.d(MainActivity.DEBUG_TAG, "heightStatusBar = " + heightStatusBar);
 
-            // DEFINE Rect representing collision bounds of user touch (FACTOR IN action bar's HEIGHT).
+
+            // DEFINE Rect representing collision bounds of user touch (FACTOR IN action bar and status bar).
             float x0Event = xEventCenter - TOUCH_POINT_RADIUS;
-            float y0Event = yEventCenter - TOUCH_POINT_RADIUS - actionBarHeight;
+            float y0Event = yEventCenter - TOUCH_POINT_RADIUS - (heightActionBar + heightStatusBar);
             float x1Event = xEventCenter + TOUCH_POINT_RADIUS;
-            float y1Event = yEventCenter + TOUCH_POINT_RADIUS - actionBarHeight;
+            float y1Event = yEventCenter + TOUCH_POINT_RADIUS - (heightActionBar + heightStatusBar);
             Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretViewportInput() x0Event, y0Event, x1Event, y1Event: " + x0Event + ", " + y0Event + ", " + x1Event + ", " + y1Event);
 
             Rect rectOfTouchPointOnScreen = new Rect((int) x0Event, (int) y0Event, (int) x1Event, (int) y1Event);
@@ -129,7 +134,7 @@ public class SceneEvo extends Scene {
 //                        game.getStateManager().pushTextboxState(text, xPlayerOnScreen, yPlayerOnScreen);
                     } else if (e instanceof Damageable) {
                         e.setActive(false);
-                        ((Damageable)e).die();
+                        ((Damageable) e).die();
                     }
                 }
             }
