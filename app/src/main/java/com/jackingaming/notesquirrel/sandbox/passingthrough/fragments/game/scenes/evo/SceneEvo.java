@@ -75,9 +75,9 @@ public class SceneEvo extends Scene {
 
     @Override
     public void update(long elapsed) {
-        interpretViewportInput();
+        super.update(elapsed);
 
-        entityManager.update(elapsed);
+        interpretViewportInput();
 
         headUpDisplay.update(elapsed);
     }
@@ -88,26 +88,28 @@ public class SceneEvo extends Scene {
             Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretViewportInput() isJustPressedViewport is true");
 
             // DETERMINE coordinates for touch event.
-            MotionEvent event = game.getInputManager().getEvent();
-            float xEventCenter = event.getX();
-            float yEventCenter = event.getY();
+            float xEventCenter = game.getInputManager().getxViewport();
+            float yEventCenter = game.getInputManager().getyViewport();
+            Log.d(MainActivity.DEBUG_TAG, "(xViewport, yViewport): " + xEventCenter + ", " + yEventCenter);
 
-            // DETERMINE heightActionBar.
-            TypedValue tv = new TypedValue();
-            game.getContext().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true);
-            int heightActionBar = game.getContext().getResources().getDimensionPixelSize(tv.resourceId);
-            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretViewportInput() heightActionBar: " + heightActionBar);
-            // DETERMINE heightStatusBar.
-            int idStatusBarHeight = game.getContext().getResources().getIdentifier("status_bar_height", "dimen", "android");
-            int heightStatusBar = game.getContext().getResources().getDimensionPixelSize(idStatusBarHeight);
-            Log.d(MainActivity.DEBUG_TAG, "heightStatusBar = " + heightStatusBar);
+//            float xEventCenter = event.getX();
+//            float yEventCenter = event.getY();
 
+//            // DETERMINE heightActionBar.
+//            TypedValue tv = new TypedValue();
+//            game.getContext().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true);
+//            int heightActionBar = game.getContext().getResources().getDimensionPixelSize(tv.resourceId);
+//            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretViewportInput() heightActionBar: " + heightActionBar);
+//            // DETERMINE heightStatusBar.
+//            int idStatusBarHeight = game.getContext().getResources().getIdentifier("status_bar_height", "dimen", "android");
+//            int heightStatusBar = game.getContext().getResources().getDimensionPixelSize(idStatusBarHeight);
+//            Log.d(MainActivity.DEBUG_TAG, "heightStatusBar = " + heightStatusBar);
 
             // DEFINE Rect representing collision bounds of user touch (FACTOR IN action bar and status bar).
             float x0Event = xEventCenter - TOUCH_POINT_RADIUS;
-            float y0Event = yEventCenter - TOUCH_POINT_RADIUS - (heightActionBar + heightStatusBar);
+            float y0Event = yEventCenter - TOUCH_POINT_RADIUS/* - (heightActionBar + heightStatusBar)*/;
             float x1Event = xEventCenter + TOUCH_POINT_RADIUS;
-            float y1Event = yEventCenter + TOUCH_POINT_RADIUS - (heightActionBar + heightStatusBar);
+            float y1Event = yEventCenter + TOUCH_POINT_RADIUS/* - (heightActionBar + heightStatusBar)*/;
             Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".interpretViewportInput() x0Event, y0Event, x1Event, y1Event: " + x0Event + ", " + y0Event + ", " + x1Event + ", " + y1Event);
 
             Rect rectOfTouchPointOnScreen = new Rect((int) x0Event, (int) y0Event, (int) x1Event, (int) y1Event);

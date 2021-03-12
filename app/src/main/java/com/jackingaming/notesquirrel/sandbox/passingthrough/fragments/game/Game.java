@@ -273,17 +273,20 @@ public class Game {
     }
 
     public void showToastMessageLong(final String message) {
-        // DETERMINE actionBarHeight.
+        // DETERMINE heightActionBar.
         TypedValue tv = new TypedValue();
         context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true);
-        final int actionBarHeight = context.getResources().getDimensionPixelSize(tv.resourceId);
+        final int heightActionBar = context.getResources().getDimensionPixelSize(tv.resourceId);
+        // DETERMINE heightStatusBar.
+        int idStatusBarHeight = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        final int heightStatusBar = context.getResources().getDimensionPixelSize(idStatusBarHeight);
 
-        ((PassingThroughActivity)context).runOnUiThread(new Runnable() {
+        ((PassingThroughActivity) context).runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL,
-                        0, actionBarHeight + (4 * Tile.HEIGHT));
+                toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL,
+                        0, (heightActionBar + heightStatusBar));
                 toast.show();
             }
         });

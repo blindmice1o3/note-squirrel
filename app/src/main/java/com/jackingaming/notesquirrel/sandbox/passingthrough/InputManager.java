@@ -1,9 +1,7 @@
 package com.jackingaming.notesquirrel.sandbox.passingthrough;
 
-import android.util.Log;
 import android.view.MotionEvent;
 
-import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.gamepad.buttonpad.ButtonPadFragment;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.gamepad.directionpad.DirectionPadFragment;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.views.MySurfaceView;
@@ -25,7 +23,7 @@ public class InputManager
             cantPressViewportButton;
 
     private boolean pressingViewport, justPressedViewport, cantPressViewport;
-    private MotionEvent event;
+    private float xViewport, yViewport;
 
     public InputManager() {
         initPressing();
@@ -136,16 +134,37 @@ public class InputManager
         return justPressedViewport;
     }
 
-    public MotionEvent getEvent() {
-        return event;
+    public float getxViewport() {
+        return xViewport;
+    }
+
+    public float getyViewport() {
+        return yViewport;
     }
 
     @Override
     public boolean onMySurfaceViewTouched(MySurfaceView mySurfaceView, MotionEvent event) {
-//        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onMySurfaceViewTouched(MySurfaceView mySurfaceView, MotionEvent event)");
-        this.event = event;
         pressingViewport = true;
+        xViewport = event.getX();
+        yViewport = event.getY();
 
+        // Single pointer (first touch)
+//        if (event.getPointerCount() == 1) {
+//            xFirstTouch = (int)event.getX(0);
+//            yFirstTouch = (int)event.getY(0);
+//
+//            xViewport = (int)event.getX(0);
+//            yViewport = (int)event.getY(0);
+//        }
+//         //Multiple pointers (NOT first touch)
+//        else {
+//            xFirstTouch = (int)event.getX(0);
+//            yFirstTouch = (int)event.getY(0);
+//
+//            int pointerIndex = event.getActionIndex();
+//            xViewport = (int)event.getX(pointerIndex);
+//            yViewport = (int)event.getY(pointerIndex);
+//        }
 
         if (event.getAction() == MotionEvent.ACTION_UP ||
                 event.getAction() == MotionEvent.ACTION_POINTER_UP) {
