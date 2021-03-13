@@ -1,19 +1,32 @@
 package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.poohfarmer;
 
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.PassingThroughActivity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.GameCamera;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.adapters.ItemRecyclerViewAdapter;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.Scene;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Entity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.Player;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.BugCatchingNet;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.HoneyPot;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 
@@ -25,8 +38,12 @@ import java.util.Map;
 public class SceneFarm extends Scene {
     public static final int X_SPAWN_INDEX_DEFAULT = 4;
     public static final int Y_SPAWN_INDEX_DEFAULT = 4;
-
     private static SceneFarm uniqueInstance;
+
+    private List<Item> seedShopInventory;
+    transient private ItemRecyclerViewAdapter seedShopRecyclerViewAdapter;
+    transient private Dialog seedShopDialog;
+    private boolean inSeedShopDialogState;
 
     private SceneFarm() {
         super();
@@ -34,6 +51,29 @@ public class SceneFarm extends Scene {
         entityManager.loadEntities(entitiesForFarm);
         List<Item> itemsForFarm = createItemsForFarm();
         itemManager.loadItems(itemsForFarm);
+
+        seedShopInventory = new ArrayList<Item>();
+        seedShopInventory.add(new BugCatchingNet());
+        seedShopInventory.add(new HoneyPot());
+        seedShopInventory.add(new BugCatchingNet());
+        seedShopInventory.add(new BugCatchingNet());
+        seedShopInventory.add(new BugCatchingNet());
+        seedShopInventory.add(new HoneyPot());
+        seedShopInventory.add(new BugCatchingNet());
+
+        inSeedShopDialogState = false;
+    }
+
+    public boolean isInSeedShopDialogState() {
+        return inSeedShopDialogState;
+    }
+
+    public void setInSeedShopDialogState(boolean inSeedShopDialogState) {
+        this.inSeedShopDialogState = inSeedShopDialogState;
+    }
+
+    public Dialog getSeedShopDialog() {
+        return seedShopDialog;
     }
 
     public static SceneFarm getInstance() {
@@ -57,6 +97,78 @@ public class SceneFarm extends Scene {
 
         entityManager.init(game);
         itemManager.init(game);
+
+        for (Item item : seedShopInventory) {
+            item.init(game);
+        }
+
+        ((PassingThroughActivity)game.getContext()).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                createSeedShopDialog();
+            }
+        });
+    }
+
+    private void createSeedShopDialog() {
+        final Context contextFinal = game.getContext();
+
+        // TODO: NO LONGER USING RecyclerView for seed shop!!!!
+        seedShopRecyclerViewAdapter = new ItemRecyclerViewAdapter(game.getContext(), seedShopInventory);
+        ItemRecyclerViewAdapter.ItemClickListener itemClickListener = new ItemRecyclerViewAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Toast.makeText(contextFinal, "Game.createSeedShopDialog() ItemRecyclerViewAdapter.ItemClickListener.onItemClick(View view, int position): " + seedShopInventory.get(position), Toast.LENGTH_SHORT).show();
+                // TODO: buy/sell transactions.
+//                Item item = seedShopInventory.get(position);
+            }
+        };
+        seedShopRecyclerViewAdapter.setClickListener(itemClickListener);
+
+//        View viewContainingRecyclerView = LayoutInflater.from(context).inflate(R.layout.view_cart_recyclerview, null);
+        Bitmap seedShopSpriteSheet = BitmapFactory.decodeResource(game.getContext().getResources(), R.drawable.gbc_hm_seeds_shop);
+        Bitmap seedShopMainBackgroundImage = Bitmap.createBitmap(seedShopSpriteSheet, 31, 14, 160, 104);
+        View viewContainingSeedShop = LayoutInflater.from(game.getContext()).inflate(R.layout.dialog_seed_shop, null);
+        ImageView imageViewMain = (ImageView) viewContainingSeedShop.findViewById(R.id.imageview_seed_shop_main_background);
+        imageViewMain.setImageBitmap(seedShopMainBackgroundImage);
+        ImageView imageViewItemHolder01 = (ImageView) viewContainingSeedShop.findViewById(R.id.imageview_seed_shop_item_holder_01);
+        imageViewItemHolder01.setImageBitmap(seedShopInventory.get(0).getImage());
+        ImageView imageViewItemHolder02 = (ImageView) viewContainingSeedShop.findViewById(R.id.imageview_seed_shop_item_holder_02);
+        imageViewItemHolder02.setImageBitmap(seedShopInventory.get(1).getImage());
+        ImageView imageViewItemHolder03 = (ImageView) viewContainingSeedShop.findViewById(R.id.imageview_seed_shop_item_holder_03);
+        imageViewItemHolder03.setImageBitmap(seedShopInventory.get(2).getImage());
+        ImageView imageViewItemHolder04 = (ImageView) viewContainingSeedShop.findViewById(R.id.imageview_seed_shop_item_holder_04);
+        imageViewItemHolder04.setImageBitmap(seedShopInventory.get(3).getImage());
+        ImageView imageViewItemHolder05 = (ImageView) viewContainingSeedShop.findViewById(R.id.imageview_seed_shop_item_holder_05);
+        imageViewItemHolder05.setImageBitmap(seedShopInventory.get(4).getImage());
+
+//        RecyclerView recyclerView = (RecyclerView) viewContainingRecyclerView.findViewById(R.id.recyclerview_view_cart);
+//        recyclerView.setHasFixedSize(true);
+//        recyclerView.setAdapter(seedShopRecyclerViewAdapter);
+//        int numberOfColumns = 4;
+//        recyclerView.setLayoutManager(new GridLayoutManager(context, numberOfColumns));
+
+        seedShopDialog = new AlertDialog.Builder(game.getContext())
+                .setView(viewContainingSeedShop)
+                .create();
+        seedShopDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                game.setPaused(false);
+                inSeedShopDialogState = false;
+            }
+        });
+    }
+
+    public void showSeedShopDialog() {
+        game.setPaused(true);
+        inSeedShopDialogState = true;
+        ((PassingThroughActivity)game.getContext()).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                seedShopDialog.show();
+            }
+        });
     }
 
     @Override

@@ -14,7 +14,7 @@ public class Player extends Creature {
 
     private Player(int xSpawn, int ySpawn) {
         super(xSpawn, ySpawn);
-        form = new PoohForm(this);
+        form = new PoohForm();
     }
 
     public static Player getInstance() {

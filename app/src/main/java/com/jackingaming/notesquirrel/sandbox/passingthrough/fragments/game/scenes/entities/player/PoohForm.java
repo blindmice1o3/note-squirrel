@@ -25,14 +25,14 @@ public class PoohForm
     private Player player;
     private PoohAnimationManager poohAnimationManager;
 
-    public PoohForm(Player player) {
-        this.player = player;
+    public PoohForm() {
         poohAnimationManager = new PoohAnimationManager();
     }
 
     @Override
     public void init(Game game) {
         this.game = game;
+        player = Player.getInstance();
         poohAnimationManager.init(game);
     }
 
