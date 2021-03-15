@@ -71,6 +71,9 @@ public abstract class Entity
         for (String key : game.getSceneManager().getCurrentScene().getTileManager().getTransferPoints().keySet()) {
             Rect transferPoint = game.getSceneManager().getCurrentScene().getTileManager().getTransferPoints().get(key);
 
+            // TODO: "If the specified rectangle intersects this rectangle, return true and set
+            //  this rectangle to that intersection, otherwise return false and do not
+            //  change this rectangle."
             if (transferPoint.intersect(getCollisionBounds(xOffset, yOffset))) {
                 Log.d (MainActivity.DEBUG_TAG, "transferPoint dimension: " + transferPoint.left + ", " + transferPoint.top + ", " + transferPoint.right + ", " + transferPoint.bottom);
                 respondToTransferPointCollision(key);

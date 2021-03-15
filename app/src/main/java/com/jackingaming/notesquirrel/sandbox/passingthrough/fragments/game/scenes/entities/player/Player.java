@@ -6,6 +6,7 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Creature;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Entity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.pocketcritters.SceneHome01;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 
 public class Player extends Creature {
@@ -46,6 +47,7 @@ public class Player extends Creature {
     @Override
     public void respondToTransferPointCollision(String key) {
         form.respondToTransferPointCollision(key);
+        SceneHome01.getInstance().displayTransferPointSpecifications();
     }
 
     @Override

@@ -74,6 +74,13 @@ public class SceneHome01 extends Scene {
             Player.getInstance().setY(yLastKnown);
         }
         GameCamera.getInstance().update(0L);
+        displayTransferPointSpecifications();
+    }
+
+    @Override
+    public void exit() {
+        super.exit();
+        displayTransferPointSpecifications();
     }
 
     private Tile[][] createAndInitTilesForHome01(Game game) {
@@ -145,6 +152,13 @@ public class SceneHome01 extends Scene {
                 ((2 * Tile.WIDTH) + (2 * Tile.WIDTH)),
                 ((7 * Tile.HEIGHT) + (1 * Tile.HEIGHT))) );
         return transferPoints;
+    }
+
+    public void displayTransferPointSpecifications() {
+        Rect inGameRectHome02 = tileManager.getTransferPoints().get("HOME_02");
+        Rect inGameRectPart01 = tileManager.getTransferPoints().get("PART_01");
+        Log.d(MainActivity.DEBUG_TAG, "home02: " + inGameRectHome02.left + ", " + inGameRectHome02.top + ", " + inGameRectHome02.right + ", " + inGameRectHome02.bottom);
+        Log.d(MainActivity.DEBUG_TAG, "part01: " + inGameRectPart01.left + ", " + inGameRectPart01.top + ", " + inGameRectPart01.right + ", " + inGameRectPart01.bottom);
     }
 
     @Override
