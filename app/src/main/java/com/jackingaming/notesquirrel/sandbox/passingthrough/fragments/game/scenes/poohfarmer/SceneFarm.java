@@ -1,22 +1,11 @@
 package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.poohfarmer;
 
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.Toast;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
@@ -26,10 +15,8 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.GameC
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.Scene;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Entity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.Player;
-import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.BugCatchingNet;
-import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.HoneyPot;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
-import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.poohfarmer.seedshop.ItemRecyclerViewAdapterSeedShop;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.poohfarmer.seedshop.SeedShopDialogFragment;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 
 import java.util.ArrayList;
@@ -42,10 +29,8 @@ public class SceneFarm extends Scene {
     public static final int Y_SPAWN_INDEX_DEFAULT = 4;
     private static SceneFarm uniqueInstance;
 
-    private List<Item> seedShopInventory;
-    transient private ItemRecyclerViewAdapterSeedShop itemRecyclerViewAdapterSeedShop;
-    transient private Dialog seedShopDialog;
     private boolean inSeedShopDialogState;
+    private SeedShopDialogFragment seedShopDialogFragment;
 
     private SceneFarm() {
         super();
@@ -54,16 +39,8 @@ public class SceneFarm extends Scene {
         List<Item> itemsForFarm = createItemsForFarm();
         itemManager.loadItems(itemsForFarm);
 
-        seedShopInventory = new ArrayList<Item>();
-        seedShopInventory.add(new BugCatchingNet());
-        seedShopInventory.add(new HoneyPot());
-        seedShopInventory.add(new BugCatchingNet());
-        seedShopInventory.add(new BugCatchingNet());
-        seedShopInventory.add(new BugCatchingNet());
-        seedShopInventory.add(new HoneyPot());
-        seedShopInventory.add(new BugCatchingNet());
-
         inSeedShopDialogState = false;
+        seedShopDialogFragment = new SeedShopDialogFragment();
     }
 
     public boolean isInSeedShopDialogState() {
@@ -74,8 +51,8 @@ public class SceneFarm extends Scene {
         this.inSeedShopDialogState = inSeedShopDialogState;
     }
 
-    public Dialog getSeedShopDialog() {
-        return seedShopDialog;
+    public SeedShopDialogFragment getSeedShopDialogFragment() {
+        return seedShopDialogFragment;
     }
 
     public static SceneFarm getInstance() {
@@ -100,60 +77,7 @@ public class SceneFarm extends Scene {
         entityManager.init(game);
         itemManager.init(game);
 
-        for (Item item : seedShopInventory) {
-            item.init(game);
-        }
-
-        ((PassingThroughActivity)game.getContext()).runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                createSeedShopDialog();
-            }
-        });
-    }
-
-    private void createSeedShopDialog() {
-        final Context contextFinal = game.getContext();
-
-        itemRecyclerViewAdapterSeedShop = new ItemRecyclerViewAdapterSeedShop(game.getContext(), seedShopInventory);
-        ItemRecyclerViewAdapterSeedShop.ItemClickListener itemClickListener = new ItemRecyclerViewAdapterSeedShop.ItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Toast.makeText(contextFinal, "ItemRecyclerViewAdapterSeedShop.ItemClickListener.onItemClick(View view, int position): " + seedShopInventory.get(position), Toast.LENGTH_SHORT).show();
-                // TODO: buy/sell transactions.
-//                Item item = seedShopInventory.get(position);
-            }
-        };
-        itemRecyclerViewAdapterSeedShop.setClickListener(itemClickListener);
-
-        Bitmap seedShopSpriteSheet = BitmapFactory.decodeResource(game.getContext().getResources(), R.drawable.gbc_hm_seeds_shop);
-        Bitmap seedShopBackgroundTop = Bitmap.createBitmap(seedShopSpriteSheet, 31, 14, 160, 80);
-        Bitmap seedShopBackgroundBottom = Bitmap.createBitmap(seedShopSpriteSheet, 31, 102, 160, 16);
-
-        View viewContainingRecyclerView = LayoutInflater.from(game.getContext()).inflate(R.layout.dialog_seed_shop, null);
-        ImageView imageViewBackgroundTop = (ImageView) viewContainingRecyclerView.findViewById(R.id.imageview_seed_shop_background_top);
-        imageViewBackgroundTop.setImageBitmap(seedShopBackgroundTop);
-        ImageView imageViewBackgroundBottom = (ImageView) viewContainingRecyclerView.findViewById(R.id.imageview_seed_shop_background_bottom);
-        imageViewBackgroundBottom.setImageBitmap(seedShopBackgroundBottom);
-
-        RecyclerView recyclerView = (RecyclerView) viewContainingRecyclerView.findViewById(R.id.recyclerview_seed_shop_inventory);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(itemRecyclerViewAdapterSeedShop);
-        int numberOfRows = 1;
-        GridLayoutManager gridLayoutManagerHorizontal =
-                new GridLayoutManager(game.getContext(), numberOfRows, GridLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(gridLayoutManagerHorizontal);
-
-        seedShopDialog = new AlertDialog.Builder(game.getContext())
-                .setView(viewContainingRecyclerView)
-                .create();
-        seedShopDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                game.setPaused(false);
-                inSeedShopDialogState = false;
-            }
-        });
+        seedShopDialogFragment.init(game);
     }
 
     public void showSeedShopDialog() {
@@ -162,7 +86,8 @@ public class SceneFarm extends Scene {
         ((PassingThroughActivity)game.getContext()).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                seedShopDialog.show();
+                seedShopDialogFragment.init(game);
+                seedShopDialogFragment.show(((PassingThroughActivity) game.getContext()).getSupportFragmentManager(), null);
             }
         });
     }

@@ -11,8 +11,18 @@ import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.GameConsoleFragment;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.WelcomeScreenFragment;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.poohfarmer.SceneFarm;
 
 public class PassingThroughActivity extends AppCompatActivity {
+    public static final String KEY_IN_SEED_SHOP_DIALOG_STATE = "IN_SEED_SHOP_DIALOG_STATE";
+    private boolean inSeedShopDialogState;
+    public boolean isInSeedShopDialogState() {
+        return inSeedShopDialogState;
+    }
+    public void setInSeedShopDialogState(boolean inSeedShopDialogState) {
+        this.inSeedShopDialogState = inSeedShopDialogState;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +42,9 @@ public class PassingThroughActivity extends AppCompatActivity {
         // You can fetch that fragment by findFragmentByTag(String tag) and then use it."
         else {
             Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onCreate(Bundle savedInstanceState) savedInstanceState NOT null... no fragment transaction add");
+
+            inSeedShopDialogState = savedInstanceState.getBoolean(KEY_IN_SEED_SHOP_DIALOG_STATE);
+            savedInstanceState.putBoolean(KEY_IN_SEED_SHOP_DIALOG_STATE, false);
         }
     }
 
@@ -83,6 +96,18 @@ public class PassingThroughActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
+        if (getSupportFragmentManager().findFragmentByTag(GameConsoleFragment.TAG) != null) {
+            GameConsoleFragment gameConsoleFragment = (GameConsoleFragment) getSupportFragmentManager().findFragmentByTag(GameConsoleFragment.TAG);
+            if (gameConsoleFragment.getGame().getSceneManager().getCurrentScene() instanceof SceneFarm) {
+
+                // Need to dismiss dialog before [super.onSaveInstanceState(outState)],
+                // and re-open after everything is done reloading.
+                if (SceneFarm.getInstance().isInSeedShopDialogState()) {
+                    outState.putBoolean(KEY_IN_SEED_SHOP_DIALOG_STATE, SceneFarm.getInstance().isInSeedShopDialogState());
+                    SceneFarm.getInstance().getSeedShopDialogFragment().dismiss();
+                }
+            }
+        }
         super.onSaveInstanceState(outState);
         Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onSaveInstanceState(Bundle outState)");
     }

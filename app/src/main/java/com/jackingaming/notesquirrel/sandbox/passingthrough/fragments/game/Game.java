@@ -243,14 +243,6 @@ public class Game {
             sceneManager.getCurrentScene().exit();
 
             os.writeObject(timeManager);
-
-            boolean inSeedShopDialogState = SceneFarm.getInstance().isInSeedShopDialogState();
-            os.writeBoolean(inSeedShopDialogState);
-            if (sceneManager.getCurrentScene() instanceof SceneFarm && inSeedShopDialogState) {
-                // If Dialog is open during an emergency shutdown, dismiss Dialog to prevent Exception.
-                SceneFarm.getInstance().getSeedShopDialog().dismiss();
-            }
-
             os.writeObject(sceneManager);
             os.writeInt(currency);
 
@@ -298,22 +290,17 @@ public class Game {
 
             timeManager = (TimeManager) os.readObject();
             timeManager.init(this, statsChangeListener);
-
-            boolean inSeedShopDialogState = os.readBoolean();
             sceneManager = (SceneManager) os.readObject();
             sceneManager.init(this);
             Player.getInstance().setForm(form);
+            currency = os.readInt();
+            statsChangeListener.onCurrencyChange(currency);
 
-            SceneFarm.getInstance().setInSeedShopDialogState(inSeedShopDialogState);
-            if (sceneManager.getCurrentScene() instanceof SceneFarm && inSeedShopDialogState) {
+            if (sceneManager.getCurrentScene() instanceof SceneFarm && ((PassingThroughActivity)context).isInSeedShopDialogState()) {
+                ((PassingThroughActivity)context).setInSeedShopDialogState(false);
                 SceneFarm.getInstance().showSeedShopDialog();
             }
 
-
-            // Loads player's xLastKnown and yLastKnown for the current scene.
-//            sceneManager.getCurrentScene().enter();
-            currency = os.readInt();
-            statsChangeListener.onCurrencyChange(currency);
 
             backpack = (List<Item>) os.readObject();
             for (Item item : backpack) {
@@ -367,6 +354,10 @@ public class Game {
     }
 
     public void update(long elapsed) {
+        if (paused) {
+            return;
+        }
+
         stateManager.update(elapsed);
     }
 
