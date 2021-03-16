@@ -202,7 +202,7 @@ public class SceneFarm extends Scene {
 
     public enum Season { SPRING, SUMMER, FALL, WINTER; }
     public static Bitmap cropImageFarm(Resources resources, Season season) {
-        Log.d(MainActivity.DEBUG_TAG, "SceneFarm.cropFarmSpring(Resources resources, Season season)");
+        Log.d(MainActivity.DEBUG_TAG, "SceneFarm.cropImageFarm(Resources resources, Season season)");
 
         Bitmap farmSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.gbc_hm3_farm);
         Bitmap croppedImageFarm = null;

@@ -8,6 +8,7 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.GameC
 
 import java.io.Serializable;
 import java.util.Map;
+import java.util.Set;
 
 public class TileManager
         implements Serializable {
@@ -132,7 +133,19 @@ public class TileManager
         return (tiles.length * Tile.HEIGHT);
     }
 
-    public Map<String, Rect> getTransferPoints() {
-        return transferPoints;
+    public Rect getTransferPointBounds(String key) {
+        Rect transferPointBounds = null;
+        if (transferPoints.keySet().contains(key)) {
+            // Create new object to prevent transfer-point-flattening bug:
+            // Rect.intersect(Rect) - "If the specified rectangle intersects this rectangle,
+            // return true and set this rectangle to that intersection, otherwise
+            // return false and do not change this rectangle."
+            transferPointBounds = new Rect(transferPoints.get(key));
+        }
+        return transferPointBounds;
+    }
+
+    public Set<String> getTransferPointsKeySet() {
+        return transferPoints.keySet();
     }
 }

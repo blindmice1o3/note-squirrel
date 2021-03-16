@@ -138,7 +138,7 @@ public class SceneSheepPen extends Scene {
     @Override
     public void drawCurrentFrame(Canvas canvas) {
         super.drawCurrentFrame(canvas);
-        Rect screenRectOfTransferPoint = GameCamera.getInstance().convertInGameRectToScreenRect(tileManager.getTransferPoints().get("FARM"));
+        Rect screenRectOfTransferPoint = GameCamera.getInstance().convertInGameRectToScreenRect(tileManager.getTransferPointBounds("FARM"));
         Paint paint = new Paint();
         paint.setColor(Color.YELLOW);
         canvas.drawRect(screenRectOfTransferPoint, paint);

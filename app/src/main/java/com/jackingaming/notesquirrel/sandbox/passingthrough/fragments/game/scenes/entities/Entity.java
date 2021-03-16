@@ -68,14 +68,10 @@ public abstract class Entity
     }
 
     public boolean checkTransferPointCollision(float xOffset, float yOffset) {
-        for (String key : game.getSceneManager().getCurrentScene().getTileManager().getTransferPoints().keySet()) {
-            Rect transferPoint = game.getSceneManager().getCurrentScene().getTileManager().getTransferPoints().get(key);
+        for (String key : game.getSceneManager().getCurrentScene().getTileManager().getTransferPointsKeySet()) {
+            Rect transferPointBounds = game.getSceneManager().getCurrentScene().getTileManager().getTransferPointBounds(key);
 
-            // TODO: "If the specified rectangle intersects this rectangle, return true and set
-            //  this rectangle to that intersection, otherwise return false and do not
-            //  change this rectangle."
-            if (transferPoint.intersect(getCollisionBounds(xOffset, yOffset))) {
-                Log.d (MainActivity.DEBUG_TAG, "transferPoint dimension: " + transferPoint.left + ", " + transferPoint.top + ", " + transferPoint.right + ", " + transferPoint.bottom);
+            if (transferPointBounds.intersect(getCollisionBounds(xOffset, yOffset))) {
                 respondToTransferPointCollision(key);
                 return true;
             }
