@@ -20,6 +20,7 @@ public class Item
     protected int height;
     transient protected Rect bounds;
     transient protected Bitmap image;
+    protected float price;
 
     protected String name;
 
@@ -28,6 +29,7 @@ public class Item
         y = 0;
         width = Tile.WIDTH;
         height = Tile.HEIGHT;
+        price = -1f;
     }
 
     public void init(Game game) {
@@ -71,5 +73,9 @@ public class Item
 
     public Bitmap getImage() {
         return image;
+    }
+
+    public float getPrice() {
+        return price;
     }
 }

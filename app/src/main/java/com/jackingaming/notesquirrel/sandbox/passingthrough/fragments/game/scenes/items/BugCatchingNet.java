@@ -7,10 +7,12 @@ import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 
 public class BugCatchingNet extends Item {
+    private static final float PRICE_DEFAULT = 3f;
 
     public BugCatchingNet() {
         super();
         name = "Bug Catching Net";
+        price = PRICE_DEFAULT;
     }
 
     @Override

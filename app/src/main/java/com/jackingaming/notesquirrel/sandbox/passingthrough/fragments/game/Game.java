@@ -47,7 +47,7 @@ import java.util.concurrent.FutureTask;
 
 public class Game {
     public interface StatsChangeListener {
-        void onCurrencyChange(int currency);
+        void onCurrencyChange(float currency);
         void onTimeChange(long timePlayedInMilliseconds);
         void onButtonHolderAChange(Bitmap image);
         void onButtonHolderBChange(Bitmap image);
@@ -73,7 +73,7 @@ public class Game {
      * Displayed in StatsDisplayerFragment through Game.StatsChangeListener.onCurrencyChange(int currency).
      * Triggered via Player.respondToItemCollisionViaMove(Item item) when item is instanceof HoneyPot.
      */
-    private int currency;
+    private float currency;
 
     private List<Item> backpack;
     private List<Item> backpackWithoutItemsDisplayingInButtonHolders;
@@ -95,7 +95,7 @@ public class Game {
         sceneManager = new SceneManager(gameTitle);
         stateManager = new StateManager();
 
-        currency = 0;
+        currency = 0f;
 
         backpack = new ArrayList<Item>();
         backpack.add(new BugCatchingNet());
@@ -244,7 +244,7 @@ public class Game {
 
             os.writeObject(timeManager);
             os.writeObject(sceneManager);
-            os.writeInt(currency);
+            os.writeFloat(currency);
 
             os.writeObject(backpack);
             boolean hasItemInButtonHolderA = (itemStoredInButtonHolderA != null);
@@ -293,7 +293,7 @@ public class Game {
             sceneManager = (SceneManager) os.readObject();
             sceneManager.init(this);
             Player.getInstance().setForm(form);
-            currency = os.readInt();
+            currency = os.readFloat();
             statsChangeListener.onCurrencyChange(currency);
 
             if (sceneManager.getCurrentScene() instanceof SceneFarm && ((PassingThroughActivity)context).isInSeedShopDialogState()) {
@@ -429,8 +429,19 @@ public class Game {
         this.loadNeeded = loadNeeded;
     }
 
+    public float getCurrency() {
+        return currency;
+    }
+
     public void incrementCurrency() {
         currency++;
+        ///////////////////////////////////////////////
+        statsChangeListener.onCurrencyChange(currency);
+        ///////////////////////////////////////////////
+    }
+
+    public void decrementCurrencyBy(float amountToDecrement) {
+        currency -= amountToDecrement;
         ///////////////////////////////////////////////
         statsChangeListener.onCurrencyChange(currency);
         ///////////////////////////////////////////////

@@ -140,7 +140,7 @@ public class GameConsoleFragment extends Fragment
     }
 
     @Override
-    public void onCurrencyChange(int currency) {
+    public void onCurrencyChange(float currency) {
         statsDisplayerFragment.setCurrency(currency);
     }
 

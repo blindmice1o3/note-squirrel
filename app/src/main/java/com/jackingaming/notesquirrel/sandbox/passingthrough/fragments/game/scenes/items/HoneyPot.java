@@ -7,9 +7,12 @@ import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 
 public class HoneyPot extends Item {
+    private static final float PRICE_DEFAULT = 1f;
+
     public HoneyPot() {
         super();
         name = "Honey Pot";
+        price = PRICE_DEFAULT;
     }
 
     @Override

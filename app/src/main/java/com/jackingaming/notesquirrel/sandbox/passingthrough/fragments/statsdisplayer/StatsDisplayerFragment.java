@@ -92,8 +92,8 @@ public class StatsDisplayerFragment extends Fragment {
         honeyPot = Bitmap.createBitmap(spriteSheet, 318, 1556, 38, 37);
     }
 
-    public void setCurrency(int currency) {
-        String currencyAsString = String.format("%03d", currency);
+    public void setCurrency(float currency) {
+        String currencyAsString = String.format("%03d", (int)currency);
         textViewCurrency.setText(currencyAsString);
     }
 

@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.Player;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.BugCatchingNet;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.HoneyPot;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
@@ -58,6 +59,21 @@ public class SeedShopDialogFragment extends DialogFragment
         }
     }
 
+    private void performTrade(Item itemToTrade, Player player) {
+        float priceOfItemToTrade = itemToTrade.getPrice();
+        if (priceOfItemToTrade > 0) {
+            if (player.canAffordToBuy(priceOfItemToTrade)) {
+                player.buy(itemToTrade);
+                seedShopInventory.remove(itemToTrade);
+                itemRecyclerViewAdapterSeedShop.notifyDataSetChanged();
+            } else {
+                Toast.makeText(game.getContext(), getClass().getSimpleName() + ".performTrade(Item, Player) player can NOT afford to buy [" + itemToTrade.getName() + "] for [" + priceOfItemToTrade + "].", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".performTrade(Item, Player) itemToTrade has NEGATIVE price.");
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -66,9 +82,10 @@ public class SeedShopDialogFragment extends DialogFragment
         ItemRecyclerViewAdapterSeedShop.ItemClickListener itemClickListener = new ItemRecyclerViewAdapterSeedShop.ItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(contextFinal, "ItemRecyclerViewAdapterSeedShop.ItemClickListener.onItemClick(View view, int position): " + seedShopInventory.get(position), Toast.LENGTH_SHORT).show();
+                Log.d(MainActivity.DEBUG_TAG, "ItemRecyclerViewAdapterSeedShop.ItemClickListener.onItemClick(View view, int position): " + seedShopInventory.get(position));
                 // TODO: buy/sell transactions.
-//                Item item = seedShopInventory.get(position);
+                Item itemToTrade = seedShopInventory.get(position);
+                performTrade(itemToTrade, Player.getInstance());
             }
         };
         itemRecyclerViewAdapterSeedShop.setClickListener(itemClickListener);

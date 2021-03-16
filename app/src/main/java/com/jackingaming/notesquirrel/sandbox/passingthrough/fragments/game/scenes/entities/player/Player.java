@@ -170,4 +170,13 @@ public class Player extends Creature {
     public void setForm(Form form) {
         this.form = form;
     }
+
+    public boolean canAffordToBuy(float price) {
+        return game.getCurrency() >= price;
+    }
+
+    public void buy(Item item) {
+        game.addItemToBackpack(item);
+        game.decrementCurrencyBy(item.getPrice());
+    }
 }
