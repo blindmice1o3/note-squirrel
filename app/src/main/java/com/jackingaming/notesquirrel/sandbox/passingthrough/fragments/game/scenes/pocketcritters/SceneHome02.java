@@ -148,14 +148,14 @@ public class SceneHome02 extends Scene {
     @Override
     public void drawCurrentFrame(Canvas canvas) {
         super.drawCurrentFrame(canvas);
-        Rect screenRectOfTransferPoint = GameCamera.getInstance().convertInGameRectToScreenRect(tileManager.getTransferPointBounds("HOME_01"));
-        Paint paint = new Paint();
-        paint.setColor(Color.YELLOW);
-        canvas.drawRect(screenRectOfTransferPoint, paint);
-
-        Rect screenRectOfPlayer = GameCamera.getInstance().convertInGameRectToScreenRect(Player.getInstance().getCollisionBounds(0, 0));
-        paint.setColor(Color.BLUE);
-        canvas.drawRect(screenRectOfPlayer, paint);
+//        Rect screenRectOfTransferPoint = GameCamera.getInstance().convertInGameRectToScreenRect(tileManager.getTransferPointBounds("HOME_01"));
+//        Paint paint = new Paint();
+//        paint.setColor(Color.YELLOW);
+//        canvas.drawRect(screenRectOfTransferPoint, paint);
+//
+//        Rect screenRectOfPlayer = GameCamera.getInstance().convertInGameRectToScreenRect(Player.getInstance().getCollisionBounds(0, 0));
+//        paint.setColor(Color.BLUE);
+//        canvas.drawRect(screenRectOfPlayer, paint);
     }
 
     public List<Entity> createEntitiesForHome02() {
