@@ -13,18 +13,22 @@
         app:layout_constraintBottom_toTopOf="@id/recyclerview_seed_shop_inventory"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="1" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_seed_shop_inventory"
         android:layout_width="0dp"
-        android:layout_height="75dp"
+        android:layout_height="wrap_content"
         android:paddingLeft="1dp"
         android:paddingRight="1dp"
         app:layout_constraintBottom_toTopOf="@id/imageview_seed_shop_background_bottom"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageview_seed_shop_background_top" />
+        app:layout_constraintTop_toBottomOf="@id/imageview_seed_shop_background_top"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="1" />
 
     <ImageView
         android:id="@+id/imageview_seed_shop_background_bottom"
@@ -35,6 +39,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recyclerview_seed_shop_inventory" />
+        app:layout_constraintTop_toBottomOf="@id/recyclerview_seed_shop_inventory"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -110,22 +110,6 @@ public class SeedShopDialogFragment extends DialogFragment
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onSaveInstanceState(Bundle outState)");
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onViewStateRestored(Bundle savedInstanceState)");
-        super.onViewStateRestored(savedInstanceState);
-//        game = ((GameConsoleFragment) ((PassingThroughActivity) getContext()).getSupportFragmentManager().findFragmentByTag(GameConsoleFragment.TAG)).getGame();
-//        for (Item item : seedShopInventory) {
-//            item.init(game);
-//        }
-//        itemRecyclerViewAdapterSeedShop.notifyDataSetChanged();
-    }
-    @Override
     public void onDismiss(@NonNull DialogInterface dialog) {
         SceneFarm.getInstance().setInSeedShopDialogState(false);
         game.setPaused(false);

@@ -47,7 +47,6 @@ public class Player extends Creature {
     @Override
     public void respondToTransferPointCollision(String key) {
         form.respondToTransferPointCollision(key);
-        SceneHome01.getInstance().displayTransferPointSpecifications();
     }
 
     @Override
