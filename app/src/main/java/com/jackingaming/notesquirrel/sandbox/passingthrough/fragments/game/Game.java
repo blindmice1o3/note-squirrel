@@ -21,6 +21,7 @@ import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.InputManager;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.PassingThroughActivity;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.GameConsoleFragment;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.adapters.ItemRecyclerViewAdapter;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.Form;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.SceneManager;
@@ -28,6 +29,8 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scene
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.BugCatchingNet;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Shovel;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.pocketcritters.SceneHome02;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.pocketcritters.computer.ComputerDialogFragment;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.poohfarmer.SceneFarm;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.states.StateManager;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.time.TimeManager;
@@ -95,7 +98,7 @@ public class Game {
         sceneManager = new SceneManager(gameTitle);
         stateManager = new StateManager();
 
-        currency = 0f;
+        currency = 100f;
 
         backpack = new ArrayList<Item>();
         backpack.add(new BugCatchingNet());
@@ -290,16 +293,21 @@ public class Game {
 
             timeManager = (TimeManager) os.readObject();
             timeManager.init(this, statsChangeListener);
+
+            GameConsoleFragment gameConsoleFragment = (GameConsoleFragment)((PassingThroughActivity)context).getSupportFragmentManager().findFragmentByTag(GameConsoleFragment.TAG);
+            ComputerDialogFragment computerDialogFragmentBeforeRestart = (ComputerDialogFragment)gameConsoleFragment.getFragmentManager().findFragmentByTag(ComputerDialogFragment.TAG);
             sceneManager = (SceneManager) os.readObject();
+            ((SceneHome02)sceneManager.getCurrentScene()).setComputerDialogFragment(computerDialogFragmentBeforeRestart);
             sceneManager.init(this);
             Player.getInstance().setForm(form);
             currency = os.readFloat();
             statsChangeListener.onCurrencyChange(currency);
 
-            if (sceneManager.getCurrentScene() instanceof SceneFarm && ((PassingThroughActivity)context).isInSeedShopDialogState()) {
-                ((PassingThroughActivity)context).setInSeedShopDialogState(false);
-                SceneFarm.getInstance().showSeedShopDialog();
-            }
+//            GameConsoleFragment gameConsoleFragment = (GameConsoleFragment) ((PassingThroughActivity)context).getSupportFragmentManager().findFragmentByTag(GameConsoleFragment.TAG);
+//            if (sceneManager.getCurrentScene() instanceof SceneFarm && gameConsoleFragment.isInSeedShopDialogState()) {
+//                gameConsoleFragment.setInSeedShopDialogState(false);
+//                SceneFarm.getInstance().showSeedShopDialog();
+//            }
 
 
             backpack = (List<Item>) os.readObject();

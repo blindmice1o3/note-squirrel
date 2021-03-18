@@ -62,6 +62,10 @@ public class SceneFarm extends Scene {
         return uniqueInstance;
     }
 
+    public static void setInstance(SceneFarm sceneFarm) {
+        uniqueInstance = sceneFarm;
+    }
+
     @Override
     public void init(Game game) {
         this.game = game;
@@ -78,6 +82,11 @@ public class SceneFarm extends Scene {
         itemManager.init(game);
 
         seedShopDialogFragment.init(game);
+
+        if (needLaunchSeedShopDialog) {
+            needLaunchSeedShopDialog = false;
+            showSeedShopDialog();
+        }
     }
 
     public void showSeedShopDialog() {
@@ -86,10 +95,19 @@ public class SceneFarm extends Scene {
         ((PassingThroughActivity)game.getContext()).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                seedShopDialogFragment.init(game);
-                seedShopDialogFragment.show(((PassingThroughActivity) game.getContext()).getSupportFragmentManager(), null);
+                seedShopDialogFragment.show(((PassingThroughActivity) game.getContext()).getSupportFragmentManager(), SeedShopDialogFragment.TAG);
             }
         });
+    }
+
+    private boolean needLaunchSeedShopDialog;
+
+    public boolean isNeedLaunchSeedShopDialog() {
+        return needLaunchSeedShopDialog;
+    }
+
+    public void setNeedLaunchSeedShopDialog(boolean needLaunchSeedShopDialog) {
+        this.needLaunchSeedShopDialog = needLaunchSeedShopDialog;
     }
 
     @Override

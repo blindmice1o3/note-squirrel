@@ -1,4 +1,4 @@
-package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.poohfarmer.seedshop;
+package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.pocketcritters.computer;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -26,22 +26,25 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scene
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.BugCatchingNet;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.HoneyPot;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
-import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.poohfarmer.SceneFarm;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.poohfarmer.seedshop.ItemRecyclerViewAdapterSeedShop;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SeedShopDialogFragment extends DialogFragment
+public class ComputerDialogFragment extends DialogFragment
         implements Serializable {
-    public static final String TAG = "SeedShopDialogFragment";
+    public static final String TAG = "ComputerDialogFragment";
+    private static final String INVENTORY_SIZE = "seedShopInventorySize";
+    private static final String INVENTORY = "seedShopInventory";
     transient private Game game;
     transient private Bitmap seedShopBackgroundTop;
     transient private Bitmap seedShopBackgroundBottom;
     private List<Item> seedShopInventory;
     transient private ItemRecyclerViewAdapterSeedShop itemRecyclerViewAdapterSeedShop;
 
-    public SeedShopDialogFragment() {
+    public ComputerDialogFragment() {
+        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + "() constructor");
         seedShopInventory = new ArrayList<Item>();
         seedShopInventory.add(new BugCatchingNet());
         seedShopInventory.add(new HoneyPot());
@@ -53,6 +56,7 @@ public class SeedShopDialogFragment extends DialogFragment
     }
 
     public void init(Game game) {
+        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".init(Game) " + game);
         this.game = game;
 
         for (Item item : seedShopInventory) {
@@ -61,6 +65,7 @@ public class SeedShopDialogFragment extends DialogFragment
     }
 
     private void performTrade(Item itemToTrade, Player player) {
+        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".performTrade(Item, Player)");
         float priceOfItemToTrade = itemToTrade.getPrice();
         if (priceOfItemToTrade > 0) {
             if (player.canAffordToBuy(priceOfItemToTrade)) {
@@ -75,22 +80,52 @@ public class SeedShopDialogFragment extends DialogFragment
         }
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onSaveInstanceState(Bundle)");
+        outState.putInt(INVENTORY_SIZE, seedShopInventory.size());
+        for (int i = 0; i < seedShopInventory.size(); i++) {
+            Item item = seedShopInventory.get(i);
+            String key = INVENTORY + i;
+            outState.putSerializable(key, item);
+        }
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState == null) {
+            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onCreate(Bundle) savedInstanceState is null");
+            // Intentionally blank.
+        } else {
+            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onCreate(Bundle) savedInstanceState is NOT null");
+            seedShopInventory.clear();
+            int inventorySize = savedInstanceState.getInt(INVENTORY_SIZE);
+            for (int i = 0; i < inventorySize; i++) {
+                String key = INVENTORY + i;
+                Item item = (Item) savedInstanceState.getSerializable(key);
+                seedShopInventory.add(item);
+            }
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onCreateView(LayoutInflater, ViewGroup, Bundle)");
         final Context contextFinal = getContext();
         itemRecyclerViewAdapterSeedShop = new ItemRecyclerViewAdapterSeedShop(getContext(), seedShopInventory);
         ItemRecyclerViewAdapterSeedShop.ItemClickListener itemClickListener = new ItemRecyclerViewAdapterSeedShop.ItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Log.d(MainActivity.DEBUG_TAG, "ItemRecyclerViewAdapterSeedShop.ItemClickListener.onItemClick(View view, int position): " + seedShopInventory.get(position));
+                Log.d(MainActivity.DEBUG_TAG, "ComputerDialogFragment ItemRecyclerViewAdapterSeedShop.ItemClickListener.onItemClick(View view, int position): " + seedShopInventory.get(position));
                 // TODO: buy/sell transactions.
                 Item itemToTrade = seedShopInventory.get(position);
                 performTrade(itemToTrade, Player.getInstance());
             }
         };
         itemRecyclerViewAdapterSeedShop.setClickListener(itemClickListener);
-
 
         View viewContainingRecyclerView = inflater.inflate(R.layout.dialog_seed_shop, null);
 
@@ -101,7 +136,6 @@ public class SeedShopDialogFragment extends DialogFragment
         GridLayoutManager gridLayoutManagerHorizontal =
                 new GridLayoutManager(getContext(), numberOfRows, GridLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(gridLayoutManagerHorizontal);
-
 
         Bitmap seedShopSpriteSheet = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.gbc_hm_seeds_shop);
         seedShopBackgroundTop = Bitmap.createBitmap(seedShopSpriteSheet, 31, 14, 160, 80);
@@ -118,6 +152,7 @@ public class SeedShopDialogFragment extends DialogFragment
     @Override
     public void onStart() {
         super.onStart();
+        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onStart()");
         Dialog dialog = getDialog();
         if (dialog != null) {
             dialog.getWindow().setLayout(
@@ -128,21 +163,13 @@ public class SeedShopDialogFragment extends DialogFragment
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onPause() SceneFarm's needLaunchSeedShopDialog: " + SceneFarm.getInstance().isNeedLaunchSeedShopDialog());
-        if (SceneFarm.getInstance().isInSeedShopDialogState()) {
-            SceneFarm.getInstance().setNeedLaunchSeedShopDialog(true);
-            dismiss();
-        }
-        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onPause() SceneFarm's needLaunchSeedShopDialog: " + SceneFarm.getInstance().isNeedLaunchSeedShopDialog());
-    }
-
-    @Override
     public void onDismiss(@NonNull DialogInterface dialog) {
-        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onDismiss(DialogInterface) SceneFarm's inSeedShopDialogState: " + SceneFarm.getInstance().isInSeedShopDialogState());
-        SceneFarm.getInstance().setInSeedShopDialogState(false);
-        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onDismiss(DialogInterface) SceneFarm's inSeedShopDialogState: " + SceneFarm.getInstance().isInSeedShopDialogState());
+        Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onDismiss(DialogInterface)");
+        if (game == null) {
+            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onDismiss(DialogInterface) game is null");
+        } else {
+            Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".onDismiss(DialogInterface) game is NOT null");
+        }
         game.setPaused(false);
         super.onDismiss(dialog);
     }

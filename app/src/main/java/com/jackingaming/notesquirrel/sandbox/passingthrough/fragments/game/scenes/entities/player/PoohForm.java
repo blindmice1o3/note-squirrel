@@ -14,6 +14,7 @@ import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scene
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Entity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.HoneyPot;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.pocketcritters.SceneHome01;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.pocketcritters.SceneHome02;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.pocketcritters.SceneWorldMapPart01;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.poohfarmer.SceneFarm;
@@ -74,6 +75,8 @@ public class PoohForm
             } else if (game.getSceneManager().getCurrentScene() instanceof SceneHome02) {
                 if (player.checkTileCurrentlyFacing().getId().equals("5")) {
                     game.getSceneManager().changeScene("FARM");
+                } else if (player.checkTileCurrentlyFacing().getId().equals("4")) {
+                    game.getSceneManager().changeScene("COMPUTER");
                 }
             }
         } else if (game.getInputManager().isPressing(InputManager.Button.B)) {

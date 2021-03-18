@@ -4,19 +4,19 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
 
 import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.R;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.PassingThroughActivity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.GameCamera;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.Scene;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.Entity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.Player;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.items.Item;
+import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.pocketcritters.computer.ComputerDialogFragment;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.Tile;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.tiles.TileManagerLoader;
 
@@ -28,8 +28,9 @@ import java.util.Map;
 public class SceneHome02 extends Scene {
     public static final int X_SPAWN_INDEX_DEFAULT = 7;
     public static final int Y_SPAWN_INDEX_DEFAULT = 2;
-
     private static SceneHome02 uniqueInstance;
+
+    private ComputerDialogFragment computerDialogFragment;
 
     private SceneHome02() {
         super();
@@ -37,6 +38,16 @@ public class SceneHome02 extends Scene {
         entityManager.loadEntities(entitiesForHome02);
         List<Item> itemsForHome02 = createItemsForHome02();
         itemManager.loadItems(itemsForHome02);
+
+        computerDialogFragment = new ComputerDialogFragment();
+    }
+
+    public ComputerDialogFragment getComputerDialogFragment() {
+        return computerDialogFragment;
+    }
+
+    public void setComputerDialogFragment(ComputerDialogFragment computerDialogFragment) {
+        this.computerDialogFragment = computerDialogFragment;
     }
 
     public static SceneHome02 getInstance() {
@@ -44,6 +55,10 @@ public class SceneHome02 extends Scene {
             uniqueInstance = new SceneHome02();
         }
         return uniqueInstance;
+    }
+
+    public static void setInstance(SceneHome02 sceneHome02) {
+        uniqueInstance = sceneHome02;
     }
 
     @Override
@@ -60,6 +75,13 @@ public class SceneHome02 extends Scene {
 
         entityManager.init(game);
         itemManager.init(game);
+
+        computerDialogFragment.init(game);
+    }
+
+    public void showComputerDialog() {
+        game.setPaused(true);
+        computerDialogFragment.show(((PassingThroughActivity) game.getContext()).getSupportFragmentManager(), ComputerDialogFragment.TAG);
     }
 
     @Override

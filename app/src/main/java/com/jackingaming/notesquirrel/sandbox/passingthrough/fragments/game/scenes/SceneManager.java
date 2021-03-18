@@ -1,7 +1,9 @@
 package com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes;
 
 import android.graphics.Canvas;
+import android.util.Log;
 
+import com.jackingaming.notesquirrel.MainActivity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.Game;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.entities.player.Player;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.fragments.game.scenes.evo.SceneEvo;
@@ -60,6 +62,12 @@ public class SceneManager
 
         for (int i = 0; i < sceneStack.size(); i++) {
             Scene scene = sceneStack.get(i);
+
+            if (scene instanceof SceneFarm) {
+                SceneFarm.setInstance(((SceneFarm)scene));
+            } else if (scene instanceof SceneHome02) {
+                SceneHome02.setInstance((SceneHome02)scene);
+            }
 
             scene.init(game);
             scene.enter();
@@ -124,6 +132,8 @@ public class SceneManager
                 pop();
             } else if (idOfCollidedTransferPoint.equals("FARM")) {
                 push(SceneFarm.getInstance());
+            } else if (idOfCollidedTransferPoint.equals("COMPUTER")) {
+                ((SceneHome02)getCurrentScene()).showComputerDialog();
             }
         } else if (getCurrentScene() instanceof SceneHomeRival) {
             if (idOfCollidedTransferPoint.equals("PART_01")) {
@@ -146,6 +156,7 @@ public class SceneManager
                 push(SceneCowBarn.getInstance());
             } else if (idOfCollidedTransferPoint.equals("SEEDS_SHOP")) {
                 // TODO:
+                Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".changeScene() inSeedShopDialogState: " + ((SceneFarm)getCurrentScene()).isInSeedShopDialogState());
                 if ( !((SceneFarm)getCurrentScene()).isInSeedShopDialogState() ) {
                     ((SceneFarm) getCurrentScene()).showSeedShopDialog();
                 }
