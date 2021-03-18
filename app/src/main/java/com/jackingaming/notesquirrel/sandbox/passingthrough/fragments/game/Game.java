@@ -139,6 +139,7 @@ public class Game {
             loadNeeded = false;
         }
 
+        statsChangeListener.onCurrencyChange(currency);
         GameCamera.getInstance().init(Player.getInstance(), widthViewport, heightViewport,
                 sceneManager.getCurrentScene().getTileManager().getWidthScene(), sceneManager.getCurrentScene().getTileManager().getHeightScene());
     }
@@ -294,10 +295,12 @@ public class Game {
             timeManager = (TimeManager) os.readObject();
             timeManager.init(this, statsChangeListener);
 
+            sceneManager = (SceneManager) os.readObject();
             GameConsoleFragment gameConsoleFragment = (GameConsoleFragment)((PassingThroughActivity)context).getSupportFragmentManager().findFragmentByTag(GameConsoleFragment.TAG);
             ComputerDialogFragment computerDialogFragmentBeforeRestart = (ComputerDialogFragment)gameConsoleFragment.getFragmentManager().findFragmentByTag(ComputerDialogFragment.TAG);
-            sceneManager = (SceneManager) os.readObject();
-            ((SceneHome02)sceneManager.getCurrentScene()).setComputerDialogFragment(computerDialogFragmentBeforeRestart);
+            if (computerDialogFragmentBeforeRestart != null) {
+                ((SceneHome02) sceneManager.getCurrentScene()).setComputerDialogFragment(computerDialogFragmentBeforeRestart);
+            }
             sceneManager.init(this);
             Player.getInstance().setForm(form);
             currency = os.readFloat();
@@ -395,12 +398,11 @@ public class Game {
         backpackWithoutItemsDisplayingInButtonHolders.addAll(backpack);
         if (itemStoredInButtonHolderA != null) {
             backpackWithoutItemsDisplayingInButtonHolders.remove(itemStoredInButtonHolderA);
-            itemRecyclerViewAdapter.notifyDataSetChanged();
         }
         if (itemStoredInButtonHolderB != null) {
             backpackWithoutItemsDisplayingInButtonHolders.remove(itemStoredInButtonHolderB);
-            itemRecyclerViewAdapter.notifyDataSetChanged();
         }
+        itemRecyclerViewAdapter.notifyDataSetChanged();
     }
 
     private void showBackpackDialog() {
