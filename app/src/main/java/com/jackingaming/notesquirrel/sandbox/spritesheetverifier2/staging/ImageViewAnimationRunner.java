@@ -1,10 +1,10 @@
-package com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.animations;
+package com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.staging;
 
-import android.graphics.Bitmap;
 import android.util.Log;
 import android.widget.ImageView;
 
 import com.jackingaming.notesquirrel.MainActivity;
+import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.Frame;
 
 import java.util.List;
 
@@ -13,13 +13,13 @@ public class ImageViewAnimationRunner implements Runnable {
     private volatile boolean running;
 
     private ImageView imageView;
-    private List<Bitmap> userSelectedBitmaps;
+    private List<Frame> framesSelectedByUser;
 
-    public ImageViewAnimationRunner(ImageView imageView, List<Bitmap> userSelectedBitmaps) {
+    public ImageViewAnimationRunner(ImageView imageView, List<Frame> framesSelectedByUser) {
         this.running = false;
 
         this.imageView = imageView;
-        this.userSelectedBitmaps = userSelectedBitmaps;
+        this.framesSelectedByUser = framesSelectedByUser;
     }
 
     public void shutdown() {
@@ -45,12 +45,13 @@ public class ImageViewAnimationRunner implements Runnable {
                 index++;
                 timer = 0;
 
-                if (index >= userSelectedBitmaps.size()) {
+                if (index >= framesSelectedByUser.size()) {
                     index = 0;
                 }
 
                 Log.d(MainActivity.DEBUG_TAG, "WHILE LOOP index: " + index);
-                imageView.setImageBitmap(userSelectedBitmaps.get(index));
+                Frame frame = framesSelectedByUser.get(index);
+                imageView.setImageBitmap(frame.getImageUserSelected());
             }
 
             try {

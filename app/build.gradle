@@ -29,7 +29,9 @@ android {
                            'src/main/res/my_resources/gameboycolor',
                            'src/main/res/my_resources/pocket_critters',
                            'src/main/res/my_resources/pooh_farmer',
-                           'src/main/res/my_resources/count_zero']
+                           'src/main/res/my_resources/count_zero',
+                           'src/main/res/my_resources/sprite_sheet_verifier2',
+                           'src/main/res/my_resources/meal_maker_3000']
         }
     }
     packagingOptions {

@@ -14,23 +14,23 @@ import com.jackingaming.notesquirrel.R;
 
 import java.util.List;
 
-public class AdapterBitmapRecyclerView extends RecyclerView.Adapter<AdapterBitmapRecyclerView.BitmapViewHolder> {
+public class AdapterBitmapRecyclerViewMain extends RecyclerView.Adapter<AdapterBitmapRecyclerViewMain.FrameViewHolder> {
     public enum BoundBy { WIDTH, HEIGHT; }
     private BoundBy boundBy;
 
     public interface ItemClickListener {
-        void onItemClick(View view, int position, AdapterBitmapRecyclerView adapter);
+        void onItemClick(View view, int position, AdapterBitmapRecyclerViewMain adapter);
     }
     private ItemClickListener itemClickListener;
 
     private Context context;
     private List<Bitmap> dataSource;
 
-    class BitmapViewHolder extends RecyclerView.ViewHolder
+    class FrameViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
         public ImageView imageView;
 
-        public BitmapViewHolder(@NonNull View itemView) {
+        public FrameViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = (ImageView) itemView;
             imageView.setOnClickListener(this);
@@ -39,31 +39,29 @@ public class AdapterBitmapRecyclerView extends RecyclerView.Adapter<AdapterBitma
         @Override
         public void onClick(View v) {
             if (itemClickListener != null) {
-                itemClickListener.onItemClick(v, getAdapterPosition(), AdapterBitmapRecyclerView.this);
+                itemClickListener.onItemClick(v, getAdapterPosition(), AdapterBitmapRecyclerViewMain.this);
             }
         }
     }
 
-    public AdapterBitmapRecyclerView(Context context, List<Bitmap> dataSource, ItemClickListener itemClickListener, BoundBy boundBy) {
+    public AdapterBitmapRecyclerViewMain(Context context, List<Bitmap> dataSource, ItemClickListener itemClickListener) {
         this.context = context;
         this.dataSource = dataSource;
         this.itemClickListener = itemClickListener;
-        this.boundBy = boundBy;
     }
 
     @NonNull
     @Override
-    public BitmapViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        int layoutBasedOnBoundBy = (boundBy == BoundBy.WIDTH) ? (R.layout.imageview_recycler_item_boundby_width) : (R.layout.imageview_recycler_item_boundby_height);
-
-        View view = LayoutInflater.from(context).inflate(layoutBasedOnBoundBy, parent, false);
-        BitmapViewHolder bitmapViewHolder = new BitmapViewHolder(view);
-        return bitmapViewHolder;
+    public FrameViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.imageview_recycler_item_boundby_width, parent, false);
+        FrameViewHolder frameViewHolder = new FrameViewHolder(view);
+        return frameViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BitmapViewHolder holder, int position) {
-        holder.imageView.setImageBitmap(dataSource.get(position));
+    public void onBindViewHolder(@NonNull FrameViewHolder holder, int position) {
+        Bitmap imageUserSelected = dataSource.get(position);
+        holder.imageView.setImageBitmap(imageUserSelected);
     }
 
     @Override

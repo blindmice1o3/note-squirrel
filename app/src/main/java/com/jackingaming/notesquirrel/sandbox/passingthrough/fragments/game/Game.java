@@ -298,7 +298,8 @@ public class Game {
             sceneManager = (SceneManager) os.readObject();
             GameConsoleFragment gameConsoleFragment = (GameConsoleFragment)((PassingThroughActivity)context).getSupportFragmentManager().findFragmentByTag(GameConsoleFragment.TAG);
             ComputerDialogFragment computerDialogFragmentBeforeRestart = (ComputerDialogFragment)gameConsoleFragment.getFragmentManager().findFragmentByTag(ComputerDialogFragment.TAG);
-            if (computerDialogFragmentBeforeRestart != null) {
+            if ((sceneManager.getCurrentScene() instanceof SceneHome02) &&
+                    (computerDialogFragmentBeforeRestart != null)) {
                 ((SceneHome02) sceneManager.getCurrentScene()).setComputerDialogFragment(computerDialogFragmentBeforeRestart);
             }
             sceneManager.init(this);

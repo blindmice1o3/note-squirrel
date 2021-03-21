@@ -44,10 +44,6 @@ public class GameConsoleFragment extends Fragment
         // Required empty public constructor
     }
 
-    public Game getGame() {
-        return game;
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
