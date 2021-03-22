@@ -51,7 +51,7 @@ public class SpriteSheetVerifier2Activity extends AppCompatActivity {
     private List<SavedEntry> savedList;
 
     private AdapterFrameRecyclerViewStagingArea adapterFrameRecyclerViewStagingArea;
-    private AlertDialog repositoryForSavedListDialog;
+    private AdapterListOfSavedEntryRecyclerViewRepository adapterListOfSavedEntryRecyclerViewRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -262,7 +262,8 @@ public class SpriteSheetVerifier2Activity extends AppCompatActivity {
 
                             savedEntry.setFileName(fileNameToBeSaved);
 
-                            repositoryForSavedListDialog.dismiss();
+                            adapterListOfSavedEntryRecyclerViewRepository.notifyDataSetChanged();
+//                            repositoryForSavedListDialog.dismiss();
                         } else {
                             Toast toast = Toast.makeText(SpriteSheetVerifier2Activity.this, "SpriteSheetVerifier2Activity editDialog's fileName is null or empty.", Toast.LENGTH_LONG);
                             toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -280,7 +281,7 @@ public class SpriteSheetVerifier2Activity extends AppCompatActivity {
         View viewContainingRecyclerView = getLayoutInflater().inflate(R.layout.dialog_repository_for_saved_list, null);
         RecyclerView recyclerViewRepositorySavedList = viewContainingRecyclerView.findViewById(R.id.recyclerview_repository_for_saved_list);
         recyclerViewRepositorySavedList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        AdapterListOfSavedEntryRecyclerViewRepository adapterListOfSavedEntryRecyclerViewRepository = new AdapterListOfSavedEntryRecyclerViewRepository(
+        adapterListOfSavedEntryRecyclerViewRepository = new AdapterListOfSavedEntryRecyclerViewRepository(
                 this,
                 savedList,
                 new AdapterListOfSavedEntryRecyclerViewRepository.ItemClickListener() {
@@ -298,7 +299,7 @@ public class SpriteSheetVerifier2Activity extends AppCompatActivity {
         recyclerViewRepositorySavedList.setAdapter(adapterListOfSavedEntryRecyclerViewRepository);
 
 
-        repositoryForSavedListDialog = new AlertDialog.Builder(this)
+        Dialog repositoryForSavedListDialog = new AlertDialog.Builder(this)
                 .setView(viewContainingRecyclerView)
                 .create();
 
