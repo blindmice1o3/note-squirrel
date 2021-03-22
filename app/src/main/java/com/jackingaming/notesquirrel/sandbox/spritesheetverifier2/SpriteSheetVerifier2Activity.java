@@ -24,6 +24,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
@@ -237,6 +238,42 @@ public class SpriteSheetVerifier2Activity extends AppCompatActivity {
         animationDialog.show();
     }
 
+    private void displayEditFileNameOfSavedEntry(final SavedEntry savedEntry) {
+        View viewContainingEditText = getLayoutInflater().inflate(R.layout.dialog_save_user_selected_bitmaps, null);
+        final EditText editText = viewContainingEditText.findViewById(R.id.edittext_save_user_selected_bitmaps);
+
+        String fileNameToBeEditted = savedEntry.getFileName();
+        editText.setText(fileNameToBeEditted);
+
+        AlertDialog editDialog = new AlertDialog.Builder(this)
+                .setView(viewContainingEditText)
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String fileNameToBeSaved = editText.getText().toString();
+                        if (fileNameToBeSaved != null && fileNameToBeSaved.length() > 0) {
+                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+
+                            savedEntry.setFileName(fileNameToBeSaved);
+                        } else {
+                            Toast toast = Toast.makeText(SpriteSheetVerifier2Activity.this, "SpriteSheetVerifier2Activity editDialog's fileName is null or empty.", Toast.LENGTH_LONG);
+                            toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
+                            toast.show();
+                        }
+                    }
+                })
+                .create();
+
+        editDialog.show();
+    }
+
     private void displaySavedListAlertDialog() {
         Log.d(MainActivity.DEBUG_TAG, getClass().getSimpleName() + ".displaySavedListAlertDialog()");
         View viewContainingRecyclerView = getLayoutInflater().inflate(R.layout.dialog_repository_for_saved_list, null);
@@ -249,6 +286,11 @@ public class SpriteSheetVerifier2Activity extends AppCompatActivity {
                     @Override
                     public void onItemClick(View view, int position, AdapterListOfSavedEntryRecyclerViewRepository adapter) {
                         // TODO: run user selected SavedEntry as animation.
+                        SavedEntry savedEntry = savedList.get(position);
+                        Log.d(MainActivity.DEBUG_TAG, "displaySavedListAlertDialog() savedEntry.getFileName(): " + savedEntry.getFileName());
+
+                        displayEditFileNameOfSavedEntry(savedEntry);
+
                         Toast.makeText(SpriteSheetVerifier2Activity.this, "AdapterListOfFrameRecyclerViewRepository onItemClick() position: " + position, Toast.LENGTH_SHORT).show();
                     }
                 }
