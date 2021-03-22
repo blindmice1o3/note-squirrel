@@ -19,12 +19,10 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.MainActivity;
@@ -53,6 +51,7 @@ public class SpriteSheetVerifier2Activity extends AppCompatActivity {
     private List<SavedEntry> savedList;
 
     private AdapterFrameRecyclerViewStagingArea adapterFrameRecyclerViewStagingArea;
+    private AlertDialog repositoryForSavedListDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -245,7 +244,7 @@ public class SpriteSheetVerifier2Activity extends AppCompatActivity {
         String fileNameToBeEditted = savedEntry.getFileName();
         editText.setText(fileNameToBeEditted);
 
-        AlertDialog editDialog = new AlertDialog.Builder(this)
+        final AlertDialog editDialog = new AlertDialog.Builder(this)
                 .setView(viewContainingEditText)
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
@@ -262,6 +261,8 @@ public class SpriteSheetVerifier2Activity extends AppCompatActivity {
                             imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 
                             savedEntry.setFileName(fileNameToBeSaved);
+
+                            repositoryForSavedListDialog.dismiss();
                         } else {
                             Toast toast = Toast.makeText(SpriteSheetVerifier2Activity.this, "SpriteSheetVerifier2Activity editDialog's fileName is null or empty.", Toast.LENGTH_LONG);
                             toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -285,7 +286,6 @@ public class SpriteSheetVerifier2Activity extends AppCompatActivity {
                 new AdapterListOfSavedEntryRecyclerViewRepository.ItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position, AdapterListOfSavedEntryRecyclerViewRepository adapter) {
-                        // TODO: run user selected SavedEntry as animation.
                         SavedEntry savedEntry = savedList.get(position);
                         Log.d(MainActivity.DEBUG_TAG, "displaySavedListAlertDialog() savedEntry.getFileName(): " + savedEntry.getFileName());
 
@@ -298,7 +298,7 @@ public class SpriteSheetVerifier2Activity extends AppCompatActivity {
         recyclerViewRepositorySavedList.setAdapter(adapterListOfSavedEntryRecyclerViewRepository);
 
 
-        final AlertDialog repositoryForSavedListDialog = new AlertDialog.Builder(this)
+        repositoryForSavedListDialog = new AlertDialog.Builder(this)
                 .setView(viewContainingRecyclerView)
                 .create();
 
