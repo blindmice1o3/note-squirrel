@@ -129,12 +129,12 @@ public class AdapterListOfSavedEntryRecyclerViewRepository extends RecyclerView.
         });
 
         holder.recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-        AdapterFrameRecyclerViewStagingArea adapterFrameRecyclerViewStagingArea = new AdapterFrameRecyclerViewStagingArea(
+        AdapterFrameRecyclerViewRepository adapterFrameRecyclerViewRepository = new AdapterFrameRecyclerViewRepository(
                 context,
                 sequenceOfFramesSelectedByUser,
-                new AdapterFrameRecyclerViewStagingArea.ItemClickListener() {
+                new AdapterFrameRecyclerViewRepository.ItemClickListener() {
                     @Override
-                    public void onItemClick(View view, int position, AdapterFrameRecyclerViewStagingArea adapter) {
+                    public void onItemClick(View view, int position, AdapterFrameRecyclerViewRepository adapter) {
                         Frame frameSelected = sequenceOfFramesSelectedByUser.get(position);
                         int indexColumn = frameSelected.getIndexColumn();
                         int indexRow = frameSelected.getIndexRow();
@@ -142,7 +142,7 @@ public class AdapterListOfSavedEntryRecyclerViewRepository extends RecyclerView.
                         Toast.makeText(context, "indexColumn, indexRow: " + indexColumn + ", " + indexRow, Toast.LENGTH_SHORT).show();
                     }
                 });
-        holder.recyclerView.setAdapter(adapterFrameRecyclerViewStagingArea);
+        holder.recyclerView.setAdapter(adapterFrameRecyclerViewRepository);
     }
 
     @Override

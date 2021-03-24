@@ -20,6 +20,7 @@
     <string name="menu_dvd_library">DVD Library</string>
     <string name="menu_passing_through">Passing Through</string>
     <string name="menu_sprite_sheet_verifier1">Sprite Sheet Verifier 1 (MS Clippit)</string>
+    <string name="menu_auto_pilot_off">AutoPilot:Off</string>
     <string name="menu_sprite_sheet_verifier2">Sprite Sheet Verifier 2 (R-Series)</string>
     <string name="menu_meal_maker_3000_cashier">MealMaker3000 Cashier</string>
     <string name="menu_count_zero">Count Zero</string>
@@ -44,6 +45,14 @@
         <item>Pong</item>
         <item>Frogger</item>
     </string-array>
+
+    <!-- fragment_quiz.xml -->
+    <string name="question_text">Constantinople is the largest city in Turkey.</string>
+    <string name="true_button">True</string>
+    <string name="false_button">False</string>
+
+    <!-- fragment_crime.xml -->
+    <string name="crime_title_hint">Enter a title for the crime.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

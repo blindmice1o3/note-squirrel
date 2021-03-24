@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.jackingaming.notesquirrel.gameboycolor.JackInActivity;
 import com.jackingaming.notesquirrel.passpoints.ImageActivity;
+import com.jackingaming.notesquirrel.sandbox.autopilotoff.AutoPilotOffActivity;
 import com.jackingaming.notesquirrel.sandbox.countzero.CountZeroActivity;
 import com.jackingaming.notesquirrel.sandbox.downloadhtml.DownloadHtmlFragmentParentActivity;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.DvdLibraryActivity;
@@ -167,7 +168,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            //TODO: implement menu_passpoints_reset
             case R.id.menu_passpoints_reset:
                 Toast.makeText(this, R.string.menu_passpoints_reset, Toast.LENGTH_SHORT).show();
 
@@ -177,10 +177,8 @@ public class MainActivity extends AppCompatActivity {
                 editor.commit();
 
                 finish();
-
                 return true;
             case R.id.menu_camera:
-                //TODO: implement menu_camera
                 Toast.makeText(this, R.string.menu_camera, Toast.LENGTH_SHORT).show();
 
                 //"The Android Camera application saves a full-size photo if you give it
@@ -251,104 +249,85 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(DEBUG_TAG, "checking for camera app: package manager is null");
                     Toast.makeText(this, "checking for camera app: package manager is null", Toast.LENGTH_LONG).show();
                 }
-
                 return true;
             case R.id.menu_gallery:
-                //TODO: implement menu_gallery
                 Toast.makeText(this, R.string.menu_gallery, Toast.LENGTH_SHORT).show();
 
                 Intent browseGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 //Intent browseGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
                 startActivityForResult(browseGalleryIntent, BROWSE_GALLERY_REQUEST);
-
                 return true;
             case R.id.menu_list_view_email:
-                //TODO: implement menu_list_view_email
                 Toast.makeText(this, R.string.menu_list_view_email, Toast.LENGTH_SHORT).show();
 
                 Intent listViewEmailIntent = new Intent(this, ListViewEmailActivity.class);
                 startActivity(listViewEmailIntent);
-
                 return true;
             case R.id.menu_download_html_fragment_parent:
-                //TODO: implement menu_download_html_fragment_parent
                 Toast.makeText(this, R.string.menu_download_html_fragment_parent, Toast.LENGTH_SHORT).show();
 
                 Intent downloadHtmlFragmentParentIntent = new Intent(this, DownloadHtmlFragmentParentActivity.class);
                 startActivity(downloadHtmlFragmentParentIntent);
-
                 return true;
             case R.id.menu_grid_view_dvd:
-                //TODO: implement menu_grid_view_dvd
                 Toast.makeText(this, R.string.menu_grid_view_dvd, Toast.LENGTH_SHORT).show();
 
                 Intent gridViewDvdIntent = new Intent(this, GridViewDvdActivity.class);
                 startActivity(gridViewDvdIntent);
-
                 return true;
             case R.id.menu_list_fragment_dvd:
-                //TODO: implement menu_list_fragment_dvd
                 Toast.makeText(this, R.string.menu_list_fragment_dvd, Toast.LENGTH_SHORT).show();
 
                 Intent listFragmentDvdParentIntent = new Intent(this, ListFragmentDvdParentActivity.class);
                 startActivity(listFragmentDvdParentIntent);
-
                 return true;
             case R.id.menu_dvd_library:
-                //TODO: implement menu_dvd_library
                 Toast.makeText(this, R.string.menu_dvd_library, Toast.LENGTH_SHORT).show();
 
                 Intent dvdLibraryIntent = new Intent(this, DvdLibraryActivity.class);
                 startActivity(dvdLibraryIntent);
-
                 return true;
             case R.id.menu_passing_through:
-                //TODO: implement menu_passing_through
                 Toast.makeText(this, R.string.menu_passing_through, Toast.LENGTH_SHORT).show();
 
                 Intent passingThroughIntent = new Intent(this, PassingThroughActivity.class);
                 startActivity(passingThroughIntent);
-
                 return true;
             case R.id.menu_sprite_sheet_verifier1:
-                //TODO: implement menu_sprite_sheet_verifier1
                 Toast.makeText(this, R.string.menu_sprite_sheet_verifier1, Toast.LENGTH_SHORT).show();
 
                 Intent spriteSheetVerifier1Intent = new Intent(this, SpriteSheetVerifier1Activity.class);
                 startActivity(spriteSheetVerifier1Intent);
+                return true;
+            case R.id.menu_auto_pilot_off:
+                Toast.makeText(this, R.string.menu_auto_pilot_off, Toast.LENGTH_SHORT).show();
 
+                Intent autoPilotOffIntent = new Intent(this, AutoPilotOffActivity.class);
+                startActivity(autoPilotOffIntent);
                 return true;
             case R.id.menu_sprite_sheet_verifier2:
-                //TODO: implement menu_sprite_sheet_verifier2
                 Toast.makeText(this, R.string.menu_sprite_sheet_verifier2, Toast.LENGTH_SHORT).show();
 
                 Intent spriteSheetVerifier2Intent = new Intent(this, SpriteSheetVerifier2Activity.class);
                 startActivity(spriteSheetVerifier2Intent);
-
                 return true;
             case R.id.menu_meal_maker_3000_cashier:
-                //TODO: implement menu_meal_maker_3000_cashier
                 Toast.makeText(this, R.string.menu_meal_maker_3000_cashier, Toast.LENGTH_SHORT).show();
 
                 Intent mealMaker3000CashierIntent = new Intent(this, MealMaker3000CashierActivity.class);
                 startActivity(mealMaker3000CashierIntent);
-
                 return true;
             case R.id.menu_count_zero:
-                //TODO: implement menu_count_zero
                 Toast.makeText(this, R.string.menu_count_zero, Toast.LENGTH_SHORT).show();
 
                 Intent countZeroIntent = new Intent(this, CountZeroActivity.class);
                 startActivity(countZeroIntent);
-
                 return true;
             case R.id.menu_jack_in:
-                //TODO: implement menu_jack_in
                 Toast.makeText(this, R.string.menu_jack_in, Toast.LENGTH_SHORT).show();
 
                 Intent jackInIntent = new Intent(this, JackInActivity.class);
                 startActivity(jackInIntent);
-
                 return true;
             default:
                 Toast.makeText(this, "MainActivity.onOptionsItemSelected(MenuItem) switch's default", Toast.LENGTH_SHORT).show();

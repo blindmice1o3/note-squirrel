@@ -71,8 +71,8 @@ public class AdapterFrameRecyclerViewRepository extends RecyclerView.Adapter<Ada
         int indexRow = frame.getIndexRow();
 
         holder.imageView.setImageBitmap(imageUserSelected);
-        holder.textViewIndexColumn.setText(Integer.toString(indexColumn));
-        holder.textViewIndexRow.setText(Integer.toString(indexRow));
+        holder.textViewIndexColumn.setText("c:" + Integer.toString(indexColumn));
+        holder.textViewIndexRow.setText("r:" + Integer.toString(indexRow));
     }
 
     @Override

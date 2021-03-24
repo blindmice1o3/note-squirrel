@@ -31,7 +31,8 @@ android {
                            'src/main/res/my_resources/pooh_farmer',
                            'src/main/res/my_resources/count_zero',
                            'src/main/res/my_resources/sprite_sheet_verifier2',
-                           'src/main/res/my_resources/meal_maker_3000']
+                           'src/main/res/my_resources/meal_maker_3000',
+                           'src/main/res/my_resources/auto_pilot_off']
         }
     }
     packagingOptions {
