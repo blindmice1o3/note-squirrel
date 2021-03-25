@@ -1,6 +1,5 @@
 package com.jackingaming.notesquirrel.sandbox.autopilotoff.criminalintent;
 
-
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -17,6 +16,8 @@ import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.autopilotoff.criminalintent.models.Crime;
 
 public class CrimeFragment extends Fragment {
+    private static final String TAG = "CrimeFragment";
+
     private Crime crime;
     private EditText titleField;
 
