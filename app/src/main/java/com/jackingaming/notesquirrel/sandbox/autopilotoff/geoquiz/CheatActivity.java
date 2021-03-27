@@ -1,19 +1,23 @@
 package com.jackingaming.notesquirrel.sandbox.autopilotoff.geoquiz;
 
-import android.app.Activity;
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.jackingaming.notesquirrel.R;
 
-public class CheatActivity extends Activity {
+public class CheatActivity extends AppCompatActivity {
     private static final String TAG = "CheatActivity";
     // Key to starting-data-attached-by-activity-that-launched-CheatActivity.
     public static final String EXTRA_ANSWER_IS_TRUE =
@@ -26,6 +30,7 @@ public class CheatActivity extends Activity {
     private boolean answerIsTrue;
     private TextView answerTextView;
     private Button showAnswerButton;
+    private TextView apiLevelTextView;
 
     private boolean answerShown;
 
@@ -44,11 +49,19 @@ public class CheatActivity extends Activity {
         setResult(RESULT_OK, data);
     }
 
+    @TargetApi(11)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i(TAG, "onCreate(Bundle)");
         setContentView(R.layout.activity_cheat);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            ActionBar actionBar = getSupportActionBar();
+            actionBar.setSubtitle("Bodies of Water");
+        }
+        apiLevelTextView = findViewById(R.id.api_level_text_view);
+        apiLevelTextView.setText("API level " + Build.VERSION.SDK_INT);
 
         answerIsTrue = getIntent().getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false);
 

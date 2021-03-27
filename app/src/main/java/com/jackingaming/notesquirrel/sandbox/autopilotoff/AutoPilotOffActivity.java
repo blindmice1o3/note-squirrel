@@ -1,7 +1,7 @@
 package com.jackingaming.notesquirrel.sandbox.autopilotoff;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
@@ -11,7 +11,7 @@ import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.autopilotoff.criminalintent.CrimeFragment;
 import com.jackingaming.notesquirrel.sandbox.autopilotoff.geoquiz.QuizFragment;
 
-public class AutoPilotOffActivity extends FragmentActivity {
+public class AutoPilotOffActivity extends AppCompatActivity {
     private static final String TAG = "AutoPilotOffActivity";
 
     @Override
