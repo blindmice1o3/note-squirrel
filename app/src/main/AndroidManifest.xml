@@ -22,7 +22,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".sandbox.autopilotoff.AutoPilotOffActivity"></activity>
+        <activity android:name=".sandbox.autopilotoff.AutoPilotOffActivity" />
+        <activity android:name=".sandbox.autopilotoff.geoquiz.CheatActivity" />
         <activity android:name=".sandbox.spritesheetverifier2.tinker.DragAndDropActivity" />
 
         <provider
