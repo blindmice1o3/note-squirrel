@@ -16,6 +16,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -23,11 +26,15 @@ import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.autopilotoff.criminalintent.models.Crime;
 import com.jackingaming.notesquirrel.sandbox.autopilotoff.geoquiz.QuizFragment;
 
+import java.text.DateFormat;
+
 public class CrimeFragment extends Fragment {
     public static final String TAG = "CrimeFragment";
 
     private Crime crime;
     private EditText titleField;
+    private Button dateButton;
+    private CheckBox solvedCheckBox;
 
     public CrimeFragment() {
         // Required empty public constructor
@@ -65,6 +72,19 @@ public class CrimeFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 // Intentionally blank.
+            }
+        });
+
+        dateButton = view.findViewById(R.id.crime_date);
+        String formattedDate = DateFormat.getDateInstance(DateFormat.FULL).format(crime.getDate());
+        dateButton.setText(formattedDate);
+        dateButton.setEnabled(false);
+
+        solvedCheckBox = view.findViewById(R.id.crime_solved);
+        solvedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                crime.setSolved(isChecked);
             }
         });
 
