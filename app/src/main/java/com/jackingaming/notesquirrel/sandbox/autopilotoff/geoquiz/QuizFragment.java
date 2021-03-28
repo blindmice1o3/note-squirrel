@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class QuizFragment extends Fragment {
-    private static final String TAG = "QuizFragment";
+    public static final String TAG = "QuizFragment";
     private static final String KEY_CURRENT_INDEX = "current_index";
     private static final String KEY_HAS_CHEATED = "has_cheated";
 
@@ -240,10 +240,15 @@ public class QuizFragment extends Fragment {
         Log.i(TAG, "onDestroy()");
     }
 
+    @TargetApi(11)
     @Override
     public void onDetach() {
         super.onDetach();
         Log.i(TAG, "onDetach()");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+            actionBar.setSubtitle(null);
+        }
     }
 
     @Override

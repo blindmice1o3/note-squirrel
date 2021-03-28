@@ -46,13 +46,15 @@
         <item>Frogger</item>
     </string-array>
 
-    <!-- fragment_quiz.xml -->
+    <!-- options_menu_activity_auto_pilot_off.xml -->
+    <string name="summon_clippy">summon clippy</string>
+
+    <!-- fragment_quiz.xml --> <!-- GEO_QUIZ -->
     <string name="true_button">True</string>
     <string name="false_button">False</string>
     <string name="prev_button">Prev</string>
     <string name="next_button">Next</string>
-
-    <!-- QuizFragment.java -->
+    <!-- QuizFragment.java --> <!-- GEO_QUIZ -->
     <string name="correct_toast">Correct!</string>
     <string name="incorrect_toast">Incorrect!</string>
     <string name="question_oceans">The Pacific Ocean is larger than
@@ -65,14 +67,24 @@
     <string name="question_asia">Lake Baikal is the world\'s oldest and deepest
         freshwater lake.</string>
 
-    <!-- fragment_cheat.xml -->
+    <!-- fragment_cheat.xml --> <!-- GEO_QUIZ -->
     <string name="cheat_button">Cheat!</string>
     <string name="warning_text">Are you sure you want to do this?</string>
     <string name="show_answer_button">Show Answer</string>
     <string name="judgment_toast">Cheating is wrong.</string>
 
-    <!-- fragment_crime.xml -->
+    <!-- fragment_crime.xml --> <!-- CRIMINAL_INTENT -->
     <string name="crime_title_hint">Enter a title for the crime.</string>
+    <string name="crime_title_label">Title</string>
+    <string name="crime_details_label">Details</string>
+    <string name="crime_solved_label">Solved?</string>
+    <!-- CrimeFragment.java --> <!-- CRIMINAL_INTENT -->
+    <string name="geo_quiz_menu_item">Geo Quiz</string>
+    <string name="new_crime">New Crime</string>
+    <string name="show_subtitle">Show Subtitle</string>
+    <string name="hide_subtitle">Hide Subtitle</string>
+    <string name="subtitle">If you see something, say something.</string>
+    <string name="delete_crime">Delete</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
