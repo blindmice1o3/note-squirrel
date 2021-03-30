@@ -1,40 +1,22 @@
 package com.jackingaming.notesquirrel.sandbox.autopilotoff;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.jackingaming.notesquirrel.R;
-import com.jackingaming.notesquirrel.sandbox.autopilotoff.criminalintent.CrimeFragment;
-import com.jackingaming.notesquirrel.sandbox.autopilotoff.geoquiz.QuizFragment;
+import com.jackingaming.notesquirrel.sandbox.autopilotoff.criminalintent.CrimeListFragment;
 
-public class AutoPilotOffActivity extends AppCompatActivity {
+public class AutoPilotOffActivity extends SingleFragmentActivity {
     private static final String TAG = "AutoPilotOffActivity";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.i(TAG, "onCreate(Bundle)");
-        setContentView(R.layout.activity_auto_pilot_off);
-
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.fragmentContainer);
-
-        if (fragment == null) {
-//            fragment = new QuizFragment();
-            fragment = new CrimeFragment();
-            fm.beginTransaction()
-                    .add(R.id.fragmentContainer, fragment, CrimeFragment.TAG)
-                    .commit();
-        }
+    protected Fragment createFragment() {
+        return new CrimeListFragment();
     }
 
     @Override

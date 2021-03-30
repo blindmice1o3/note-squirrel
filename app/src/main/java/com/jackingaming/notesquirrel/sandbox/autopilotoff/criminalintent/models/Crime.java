@@ -1,5 +1,7 @@
 package com.jackingaming.notesquirrel.sandbox.autopilotoff.criminalintent.models;
 
+import androidx.annotation.NonNull;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -12,6 +14,12 @@ public class Crime {
     public Crime() {
         id = UUID.randomUUID();
         date = new Date();
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return title;
     }
 
     public UUID getId() {
