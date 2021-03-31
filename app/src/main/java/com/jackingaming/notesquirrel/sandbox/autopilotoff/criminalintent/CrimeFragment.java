@@ -24,12 +24,15 @@ import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.autopilotoff.criminalintent.models.Crime;
+import com.jackingaming.notesquirrel.sandbox.autopilotoff.criminalintent.models.CrimeLab;
 import com.jackingaming.notesquirrel.sandbox.autopilotoff.geoquiz.QuizFragment;
 
 import java.text.DateFormat;
+import java.util.UUID;
 
 public class CrimeFragment extends Fragment {
     public static final String TAG = "CrimeFragment";
+    public static final String EXTRA_CRIME_ID = "com.jackingaming.notesquirrel.crime_id";
 
     private Crime crime;
     private EditText titleField;
@@ -41,13 +44,25 @@ public class CrimeFragment extends Fragment {
         Log.i(TAG, "constructor()");
     }
 
+    public static CrimeFragment newInstance(UUID crimeId) {
+        Log.i(TAG, "newInstance(UUID)");
+        Bundle args = new Bundle();
+        args.putSerializable(EXTRA_CRIME_ID, crimeId);
+
+        CrimeFragment fragment = new CrimeFragment();
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i(TAG, "onCreate(Bundle)");
         setHasOptionsMenu(true);
 
-        crime = new Crime();
+        UUID crimeId = (UUID) getArguments().getSerializable(EXTRA_CRIME_ID);
+        crime = CrimeLab.get(getActivity()).getCrime(crimeId);
     }
 
     @Override
@@ -58,6 +73,7 @@ public class CrimeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_crime, container, false);
 
         titleField = view.findViewById(R.id.crime_title);
+        titleField.setText(crime.getTitle());
         titleField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -81,6 +97,7 @@ public class CrimeFragment extends Fragment {
         dateButton.setEnabled(false);
 
         solvedCheckBox = view.findViewById(R.id.crime_solved);
+        solvedCheckBox.setChecked(crime.isSolved());
         solvedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
