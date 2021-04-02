@@ -86,6 +86,8 @@
     <string name="delete_crime">Delete</string>
     <!-- CrimeListFragment.java --> <!-- CRIMINAL_INTENT -->
     <string name="crimes_title">Crimes</string>
+    <!-- DatePickerFragment.java --> <!-- CRIMINAL_INTENT -->
+    <string name="date_picker_title">Date of crime:</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -1,5 +1,7 @@
 package com.jackingaming.notesquirrel.sandbox.autopilotoff.criminalintent;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -28,11 +30,14 @@ import com.jackingaming.notesquirrel.sandbox.autopilotoff.criminalintent.models.
 import com.jackingaming.notesquirrel.sandbox.autopilotoff.geoquiz.QuizFragment;
 
 import java.text.DateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 public class CrimeFragment extends Fragment {
     public static final String TAG = "CrimeFragment";
     public static final String EXTRA_CRIME_ID = "com.jackingaming.notesquirrel.crime_id";
+    private static final String DIALOG_DATE = "date";
+    private static final int REQUEST_DATE = 0;
 
     private Crime crime;
     private EditText titleField;
@@ -65,6 +70,11 @@ public class CrimeFragment extends Fragment {
         crime = CrimeLab.get(getActivity()).getCrime(crimeId);
     }
 
+    private void updateDate() {
+        String formattedDate = DateFormat.getDateInstance(DateFormat.FULL).format(crime.getDate());
+        dateButton.setText(formattedDate);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -92,9 +102,17 @@ public class CrimeFragment extends Fragment {
         });
 
         dateButton = view.findViewById(R.id.crime_date);
-        String formattedDate = DateFormat.getDateInstance(DateFormat.FULL).format(crime.getDate());
-        dateButton.setText(formattedDate);
-        dateButton.setEnabled(false);
+        updateDate();
+        dateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+
+                DatePickerFragment dialog = DatePickerFragment.newInstance(crime.getDate());
+                dialog.setTargetFragment(CrimeFragment.this, REQUEST_DATE);
+                dialog.show(fm, DIALOG_DATE);
+            }
+        });
 
         solvedCheckBox = view.findViewById(R.id.crime_solved);
         solvedCheckBox.setChecked(crime.isSolved());
@@ -106,6 +124,20 @@ public class CrimeFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+
+        if (requestCode == REQUEST_DATE) {
+            Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+
+            crime.setDate(date);
+            updateDate();
+        }
     }
 
     @Override
