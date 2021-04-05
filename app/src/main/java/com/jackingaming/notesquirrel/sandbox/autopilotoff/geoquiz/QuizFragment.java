@@ -181,6 +181,7 @@ public class QuizFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         Log.i(TAG, "onActivityCreated(Bundle)");
 
+        getActivity().setTitle(R.string.geo_quiz_title);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
             actionBar.setSubtitle("Bodies of Water");
@@ -245,6 +246,8 @@ public class QuizFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         Log.i(TAG, "onDetach()");
+
+        getActivity().setTitle(R.string.crimes_title);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
             actionBar.setSubtitle(null);

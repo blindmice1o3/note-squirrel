@@ -2,11 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_item_new_crime"
-        android:icon="@drawable/ic_menu_add"
-        android:title="@string/new_crime"
+        android:id="@+id/menu_item_summon_clippy"
+        android:icon="@drawable/ic_menu_attachment"
+        android:title="@string/summon_clippy_menu_item"
         app:showAsAction="ifRoom|withText" />
-    <item
-        android:id="@+id/menu_item_geo_quiz"
-        android:title="@string/geo_quiz_menu_item" />
 </menu>

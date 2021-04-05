@@ -56,6 +56,7 @@ public class CheatActivity extends AppCompatActivity {
         Log.i(TAG, "onCreate(Bundle)");
         setContentView(R.layout.activity_cheat);
 
+        setTitle(R.string.geo_quiz_title);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             ActionBar actionBar = getSupportActionBar();
             actionBar.setSubtitle("Bodies of Water");

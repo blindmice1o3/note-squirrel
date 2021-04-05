@@ -210,25 +210,8 @@ public class CrimeFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_item_new_crime:
-                Log.i(TAG, getClass().getSimpleName() +
-                        "onOptionsItemSelected(MenuItem) R.id.menu_item_new_crime");
-                return true;
-            case R.id.menu_item_geo_quiz:
-                Log.i(TAG, getClass().getSimpleName() +
-                                "onOptionsItemSelected(MenuItem) R.id.menu_item_geo_quiz");
-                FragmentManager fm = getFragmentManager();
-                Fragment fragmentInFragmentContainer = fm.findFragmentById(R.id.fragmentContainer);
-                if ( !(fragmentInFragmentContainer instanceof QuizFragment) ) {
-                    Fragment quizFragment = fm.findFragmentByTag(QuizFragment.TAG);
-                    if (quizFragment == null) {
-                        quizFragment = new QuizFragment();
-                    }
-                    fm.beginTransaction()
-                            .replace(R.id.fragmentContainer, quizFragment, QuizFragment.TAG)
-                            .addToBackStack(null)
-                            .commit();
-                }
+            case R.id.menu_item_summon_clippy:
+                Log.i(TAG, "onOptionsItemSelected(MenuItem) R.id.menu_item_summon_clippy");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -47,7 +47,11 @@
     </string-array>
 
     <!-- options_menu_activity_auto_pilot_off.xml -->
-    <string name="summon_clippy">summon clippy</string>
+    <string name="new_crime_menu_item">New Crime</string>
+    <string name="geo_quiz_menu_item">Geo Quiz</string>
+    <string name="hello_moon_menu_item">Hello Moon</string>
+    <!-- options_menu_fragment.crime.xml -->
+    <string name="summon_clippy_menu_item">summon clippy</string>
 
     <!-- fragment_quiz.xml --> <!-- GEO_QUIZ -->
     <string name="true_button">True</string>
@@ -55,6 +59,7 @@
     <string name="prev_button">Prev</string>
     <string name="next_button">Next</string>
     <!-- QuizFragment.java --> <!-- GEO_QUIZ -->
+    <string name="geo_quiz_title">Geo Quiz</string>
     <string name="correct_toast">Correct!</string>
     <string name="incorrect_toast">Incorrect!</string>
     <string name="question_oceans">The Pacific Ocean is larger than
@@ -78,8 +83,6 @@
     <string name="crime_details_label">Details</string>
     <string name="crime_solved_label">Solved?</string>
     <!-- CrimeFragment.java --> <!-- CRIMINAL_INTENT -->
-    <string name="geo_quiz_menu_item">Geo Quiz</string>
-    <string name="new_crime">New Crime</string>
     <string name="show_subtitle">Show Subtitle</string>
     <string name="hide_subtitle">Hide Subtitle</string>
     <string name="subtitle">If you see something, say something.</string>
@@ -89,6 +92,12 @@
     <!-- DatePickerFragment.java --> <!-- CRIMINAL_INTENT -->
     <string name="date_picker_title">Date of crime:</string>
     <string name="time_picker_title">Time of crime:</string>
+
+    <!-- fragment_hello_moon.xml --> <!-- HELLO_MOON -->
+    <string name="hello_moon_title">Hello Moon</string>
+    <string name="hellomoon_play">Play</string>
+    <string name="hellomoon_stop">Stop</string>
+    <string name="hellomoon_description">Jack fishing with his wife and dog</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
