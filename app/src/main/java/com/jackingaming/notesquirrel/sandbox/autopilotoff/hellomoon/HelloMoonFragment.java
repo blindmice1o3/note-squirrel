@@ -24,6 +24,7 @@ public class HelloMoonFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i(TAG, "onCreate(Bundle)");
+        setRetainInstance(true);
     }
 
     @Nullable
