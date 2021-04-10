@@ -22,12 +22,10 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.autopilotoff.criminalintent.models.Crime;
 import com.jackingaming.notesquirrel.sandbox.autopilotoff.criminalintent.models.CrimeLab;
-import com.jackingaming.notesquirrel.sandbox.autopilotoff.geoquiz.QuizFragment;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -36,15 +34,12 @@ import java.util.UUID;
 public class CrimeFragment extends Fragment {
     public static final String TAG = "CrimeFragment";
     public static final String EXTRA_CRIME_ID = "com.jackingaming.notesquirrel.crime_id";
-    private static final String DIALOG_DATE = "date";
-    private static final int REQUEST_DATE = 0;
-    private static final String DIALOG_TIME = "time";
-    private static final int REQUEST_TIME = 1;
+    private static final String DIALOG_DATE_OR_TIME = "dateOrTime";
+    private static final int REQUEST_DATE_OR_TIME = 3000;
 
     private Crime crime;
     private EditText titleField;
-    private Button dateButton;
-    private Button timeButton;
+    private Button dateOrTimeButton;
     private CheckBox solvedCheckBox;
 
     public CrimeFragment() {
@@ -74,11 +69,10 @@ public class CrimeFragment extends Fragment {
     }
 
     private void updateDateAndTime() {
-        String formattedDate = DateFormat.getDateInstance(DateFormat.FULL).format(crime.getDate());
-        dateButton.setText(formattedDate);
-
-        String formattedTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(crime.getDate());
-        timeButton.setText(formattedTime);
+        String formattedDateTime = DateFormat
+                .getDateTimeInstance(DateFormat.FULL, DateFormat.SHORT)
+                .format(crime.getDate());
+        dateOrTimeButton.setText(formattedDateTime);
     }
 
     @Override
@@ -107,27 +101,15 @@ public class CrimeFragment extends Fragment {
             }
         });
 
-        dateButton = view.findViewById(R.id.crime_date);
-        dateButton.setOnClickListener(new View.OnClickListener() {
+        dateOrTimeButton = view.findViewById(R.id.crime_date_or_time);
+        dateOrTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager fm = getActivity().getSupportFragmentManager();
 
-                DatePickerFragment dialog = DatePickerFragment.newInstance(crime.getDate());
-                dialog.setTargetFragment(CrimeFragment.this, REQUEST_DATE);
-                dialog.show(fm, DIALOG_DATE);
-            }
-        });
-
-        timeButton = view.findViewById(R.id.crime_time);
-        timeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-
-                TimePickerFragment dialog = TimePickerFragment.newInstance(crime.getDate());
-                dialog.setTargetFragment(CrimeFragment.this, REQUEST_TIME);
-                dialog.show(fm, DIALOG_TIME);
+                DateOrTimeFragment dialog = DateOrTimeFragment.newInstance(crime.getDate());
+                dialog.setTargetFragment(CrimeFragment.this, REQUEST_DATE_OR_TIME);
+                dialog.show(fm, DIALOG_DATE_OR_TIME);
             }
         });
 
@@ -151,14 +133,12 @@ public class CrimeFragment extends Fragment {
             return;
         }
 
-        if (requestCode == REQUEST_DATE) {
+        if (requestCode == DateOrTimeFragment.REQUEST_DATE) {
             Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-
             crime.setDate(date);
             updateDateAndTime();
-        } else if (requestCode == REQUEST_TIME) {
+        } else if (requestCode == DateOrTimeFragment.REQUEST_TIME) {
             Date date = (Date) data.getSerializableExtra(TimePickerFragment.EXTRA_TIME);
-
             crime.setDate(date);
             updateDateAndTime();
         }

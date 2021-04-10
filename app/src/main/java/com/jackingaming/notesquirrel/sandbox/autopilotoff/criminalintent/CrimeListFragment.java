@@ -18,6 +18,7 @@ import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.autopilotoff.criminalintent.models.Crime;
 import com.jackingaming.notesquirrel.sandbox.autopilotoff.criminalintent.models.CrimeLab;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 
 public class CrimeListFragment extends ListFragment {
@@ -70,8 +71,13 @@ public class CrimeListFragment extends ListFragment {
 
             TextView titleTextView = convertView.findViewById(R.id.crime_list_item_titleTextView);
             titleTextView.setText(c.getTitle());
+
             TextView dateTextView = convertView.findViewById(R.id.crime_list_item_dateTextView);
-            dateTextView.setText(c.getDate().toString());
+            String formattedDateTime = DateFormat
+                    .getDateTimeInstance(DateFormat.FULL, DateFormat.SHORT)
+                    .format(c.getDate());
+            dateTextView.setText(formattedDateTime);
+
             CheckBox solvedCheckBox = convertView.findViewById(R.id.crime_list_item_solvedCheckBox);
             solvedCheckBox.setChecked(c.isSolved());
 
