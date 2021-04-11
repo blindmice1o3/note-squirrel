@@ -46,11 +46,13 @@
         <item>Frogger</item>
     </string-array>
 
-    <!-- options_menu_activity_auto_pilot_off.xml -->
-    <string name="new_crime_menu_item">New Crime</string>
+    <!-- MENUS -->
+    <!-- activity_auto_pilot_off.xml -->
     <string name="geo_quiz_menu_item">Geo Quiz</string>
     <string name="hello_moon_menu_item">Hello Moon</string>
-    <!-- options_menu_fragment.crime.xml -->
+    <!-- fragment_crime_list.xml -->
+    <string name="new_crime_menu_item">New Crime</string>
+    <!-- fragment_crime.xml -->
     <string name="summon_clippy_menu_item">summon clippy</string>
 
     <!-- fragment_quiz.xml --> <!-- GEO_QUIZ -->
@@ -82,13 +84,12 @@
     <string name="crime_title_label">Title</string>
     <string name="crime_details_label">Details</string>
     <string name="crime_solved_label">Solved?</string>
-    <!-- CrimeFragment.java --> <!-- CRIMINAL_INTENT -->
+    <!-- CrimeListFragment.java --> <!-- CRIMINAL_INTENT -->
+    <string name="crimes_title">Crimes</string>
     <string name="show_subtitle">Show Subtitle</string>
     <string name="hide_subtitle">Hide Subtitle</string>
     <string name="subtitle">If you see something, say something.</string>
     <string name="delete_crime">Delete</string>
-    <!-- CrimeListFragment.java --> <!-- CRIMINAL_INTENT -->
-    <string name="crimes_title">Crimes</string>
     <!-- DatePickerFragment.java --> <!-- CRIMINAL_INTENT -->
     <string name="date_picker_title">Date of crime:</string>
     <string name="time_picker_title">Time of crime:</string>

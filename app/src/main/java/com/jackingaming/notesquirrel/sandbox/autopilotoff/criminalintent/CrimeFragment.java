@@ -178,7 +178,7 @@ public class CrimeFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         Log.i(TAG, "onCreateOptionsMenu(Menu, MenuInflater)");
-        inflater.inflate(R.menu.options_menu_fragment_crime, menu);
+        inflater.inflate(R.menu.fragment_crime, menu);
     }
 
     @Override

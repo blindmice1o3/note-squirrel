@@ -39,7 +39,7 @@ public class AutoPilotOffActivity extends SingleFragmentActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         Log.i(TAG, "onCreateOptionsMenu(Menu)");
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.options_menu_activity_auto_pilot_off, menu);
+        inflater.inflate(R.menu.activity_auto_pilot_off, menu);
         return true;
     }
 
@@ -52,9 +52,6 @@ public class AutoPilotOffActivity extends SingleFragmentActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_item_new_crime:
-                Log.i(TAG, "onOptionsItemSelected(MenuItem) R.id.menu_item_new_crime");
-                return true;
             case R.id.menu_item_geo_quiz:
                 Log.i(TAG, "onOptionsItemSelected(MenuItem) R.id.menu_item_geo_quiz");
                 FragmentManager fm = getSupportFragmentManager();
