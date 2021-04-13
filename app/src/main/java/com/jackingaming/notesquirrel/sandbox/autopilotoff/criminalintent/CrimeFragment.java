@@ -1,11 +1,15 @@
 package com.jackingaming.notesquirrel.sandbox.autopilotoff.criminalintent;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -75,12 +79,19 @@ public class CrimeFragment extends Fragment {
         dateOrTimeButton.setText(formattedDateTime);
     }
 
+    @TargetApi(11)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView(LayoutInflater, ViewGroup, Bundle)");
 
         View view = inflater.inflate(R.layout.fragment_crime, container, false);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            if (NavUtils.getParentActivityName(getActivity()) != null) {
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            }
+        }
 
         titleField = view.findViewById(R.id.crime_title);
         titleField.setText(crime.getTitle());
@@ -190,6 +201,11 @@ public class CrimeFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                if (NavUtils.getParentActivityName(getActivity()) != null) {
+                    NavUtils.navigateUpFromSameTask(getActivity());
+                }
+                return true;
             case R.id.menu_item_summon_clippy:
                 Log.i(TAG, "onOptionsItemSelected(MenuItem) R.id.menu_item_summon_clippy");
                 return true;
