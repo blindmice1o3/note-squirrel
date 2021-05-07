@@ -23,7 +23,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".sandbox.autopilotoff.hellomoon.HelloMoonActivity"></activity>
-        <activity android:name=".sandbox.autopilotoff.AutoPilotOffActivity" />
+        <activity
+            android:name=".sandbox.autopilotoff.AutoPilotOffActivity"
+            android:launchMode="singleTop" />
         <activity android:name=".sandbox.autopilotoff.criminalintent.CrimePagerActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

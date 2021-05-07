@@ -1,8 +1,11 @@
 package com.jackingaming.notesquirrel.sandbox.autopilotoff.criminalintent;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,6 +18,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.ListFragment;
 
 import com.jackingaming.notesquirrel.R;
@@ -25,9 +29,11 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 
 public class CrimeListFragment extends ListFragment {
-    private static final String TAG = "CrimeListFragment";
+    private static final String SUBTITLE_VISIBLE = "subtitleVisible";
+    private final String TAG = "CrimeListFragment";
 
     private ArrayList<Crime> crimes;
+    private boolean subtitleVisible;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,11 +46,42 @@ public class CrimeListFragment extends ListFragment {
 
         CrimeAdapter adapter = new CrimeAdapter(crimes);
         setListAdapter(adapter);
+
+        setRetainInstance(true);
+        subtitleVisible = false;
+//        if (savedInstanceState == null) {
+//            Log.d(TAG, "onCreate(Bundle) savedInstanceState is null");
+//            subtitleVisible = false;
+//        } else {
+//            Log.d(TAG, "onCreate(Bundle) savedInstanceState != null");
+//            subtitleVisible = savedInstanceState.getBoolean(SUBTITLE_VISIBLE);
+//        }
+    }
+
+//    @Override
+//    public void onSaveInstanceState(@NonNull Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        Log.d(TAG, "onSaveInstanceState(Bundle)");
+//        outState.putBoolean(SUBTITLE_VISIBLE, subtitleVisible);
+//    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = super.onCreateView(inflater, container, savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            if (subtitleVisible) {
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(R.string.subtitle);
+            }
+        }
+
+        return v;
     }
 
     @Override
     public void onListItemClick(@NonNull ListView l, @NonNull View v, int position, long id) {
-        Crime c = ((CrimeAdapter)getListAdapter()).getItem(position);
+        Crime c = ((CrimeAdapter) getListAdapter()).getItem(position);
         Log.d(TAG, c.getTitle() + " was clicked");
 
         Intent i = new Intent(getActivity(), CrimePagerActivity.class);
@@ -56,7 +93,7 @@ public class CrimeListFragment extends ListFragment {
     public void onResume() {
         super.onResume();
         Log.i(TAG, "onResume()");
-        ((CrimeAdapter)getListAdapter()).notifyDataSetChanged();
+        ((CrimeAdapter) getListAdapter()).notifyDataSetChanged();
     }
 
     @Override
@@ -64,6 +101,10 @@ public class CrimeListFragment extends ListFragment {
         super.onCreateOptionsMenu(menu, inflater);
         Log.i(TAG, "onCreateOptionsMenu(Menu, MenuInflater)");
         inflater.inflate(R.menu.fragment_crime_list, menu);
+        MenuItem showSubtitle = menu.findItem(R.id.menu_item_show_subtitle);
+        if (subtitleVisible && showSubtitle != null) {
+            showSubtitle.setTitle(R.string.hide_subtitle);
+        }
     }
 
     @Override
@@ -72,6 +113,7 @@ public class CrimeListFragment extends ListFragment {
         super.onPrepareOptionsMenu(menu);
     }
 
+    @TargetApi(11)
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -82,6 +124,17 @@ public class CrimeListFragment extends ListFragment {
                 Intent i = new Intent(getActivity(), CrimePagerActivity.class);
                 i.putExtra(CrimeFragment.EXTRA_CRIME_ID, crime.getId());
                 startActivityForResult(i, 0);
+                return true;
+            case R.id.menu_item_show_subtitle:
+                if (((AppCompatActivity) getActivity()).getSupportActionBar().getSubtitle() == null) {
+                    ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(R.string.subtitle);
+                    subtitleVisible = true;
+                    item.setTitle(R.string.hide_subtitle);
+                } else {
+                    ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(null);
+                    subtitleVisible = false;
+                    item.setTitle(R.string.show_subtitle);
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
