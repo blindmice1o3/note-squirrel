@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -39,6 +40,7 @@ public class CrimeListFragment extends ListFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i(TAG, "onCreate(Bundle)");
+
         setHasOptionsMenu(true);
 
         getActivity().setTitle(R.string.crimes_title);
@@ -49,25 +51,13 @@ public class CrimeListFragment extends ListFragment {
 
         setRetainInstance(true);
         subtitleVisible = false;
-//        if (savedInstanceState == null) {
-//            Log.d(TAG, "onCreate(Bundle) savedInstanceState is null");
-//            subtitleVisible = false;
-//        } else {
-//            Log.d(TAG, "onCreate(Bundle) savedInstanceState != null");
-//            subtitleVisible = savedInstanceState.getBoolean(SUBTITLE_VISIBLE);
-//        }
     }
-
-//    @Override
-//    public void onSaveInstanceState(@NonNull Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        Log.d(TAG, "onSaveInstanceState(Bundle)");
-//        outState.putBoolean(SUBTITLE_VISIBLE, subtitleVisible);
-//    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.i(TAG, "onCreateView(LayoutInflater, ViewGroup, Bundle)");
+
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -77,6 +67,38 @@ public class CrimeListFragment extends ListFragment {
         }
 
         return v;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Log.i(TAG, "onViewCreated(View, Bundle)");
+
+        /*
+            -By passing the parent group into inflate, the layout_* attributes of your
+            empty view layout are respected.
+
+            -By not attaching the view in inflate (the false parameter), the empty view is
+            returned. Otherwise, inflate would return the parent requiring us to use
+            parentGroup.findViewById(empty_view_id) to get the empty view for use with
+            setEmptyView(). Here we avoid the extra lookup, the need for another id, and
+            the need to expose that id in our code. If we didn't need to preserve the
+            reference to empty, telling inflate to attach would be the correct action
+            removing the need for the addView call.
+        */
+        ViewGroup parentGroup = (ViewGroup) getListView().getParent();
+        View emptyView = getLayoutInflater().inflate(R.layout.fragment_crime_list_empty_view, parentGroup, false);
+        parentGroup.addView(emptyView);
+
+        getListView().setEmptyView(emptyView);
+
+        Button emptyViewButtonNewCrime = emptyView.findViewById(R.id.empty_view_button_new_crime);
+        emptyViewButtonNewCrime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createNewCrime();
+            }
+        });
     }
 
     @Override
@@ -113,17 +135,21 @@ public class CrimeListFragment extends ListFragment {
         super.onPrepareOptionsMenu(menu);
     }
 
+    private void createNewCrime() {
+        Crime crime = new Crime();
+        CrimeLab.get(getActivity()).addCrime(crime);
+        Intent i = new Intent(getActivity(), CrimePagerActivity.class);
+        i.putExtra(CrimeFragment.EXTRA_CRIME_ID, crime.getId());
+        startActivityForResult(i, 0);
+    }
+
     @TargetApi(11)
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_new_crime:
                 Log.i(TAG, "onOptionsItemSelected(MenuItem) R.id.menu_item_new_crime");
-                Crime crime = new Crime();
-                CrimeLab.get(getActivity()).addCrime(crime);
-                Intent i = new Intent(getActivity(), CrimePagerActivity.class);
-                i.putExtra(CrimeFragment.EXTRA_CRIME_ID, crime.getId());
-                startActivityForResult(i, 0);
+                createNewCrime();
                 return true;
             case R.id.menu_item_show_subtitle:
                 if (((AppCompatActivity) getActivity()).getSupportActionBar().getSubtitle() == null) {
