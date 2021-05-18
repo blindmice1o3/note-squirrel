@@ -1,12 +1,22 @@
 package com.jackingaming.notesquirrel.sandbox.autopilotoff.criminalintent.models;
 
 import android.content.Context;
+import android.util.Log;
 
+import com.jackingaming.notesquirrel.sandbox.autopilotoff.criminalintent.CriminalIntentJSONSerializer;
+
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
 public class CrimeLab {
+    private static final String TAG = "CrimeLab";
+    private static final String FILENAME = "crimes.json";
+
     private ArrayList<Crime> crimes;
+    private CriminalIntentJSONSerializer serializer;
 
     private static CrimeLab crimeLab;
     private Context appContext;
@@ -14,12 +24,7 @@ public class CrimeLab {
     private CrimeLab(Context appContext) {
         this.appContext = appContext;
         crimes = new ArrayList<Crime>();
-//        for (int i = 0; i < 100; i++) {
-//            Crime c = new Crime();
-//            c.setTitle("Crime #" + i);
-//            c.setSolved(i % 2 == 0); // Every other one
-//            crimes.add(c);
-//        }
+        serializer = new CriminalIntentJSONSerializer(this.appContext, FILENAME);
     }
 
     public static CrimeLab get(Context c) {
@@ -31,6 +36,17 @@ public class CrimeLab {
 
     public void addCrime(Crime c) {
         crimes.add(c);
+    }
+
+    public boolean saveCrimes() {
+        try {
+            serializer.saveCrimes(crimes);
+            Log.d(TAG, "crimes saved to file");
+            return true;
+        } catch (Exception e) {
+            Log.e(TAG, "Error saving crimes: ", e);
+            return false;
+        }
     }
 
     public ArrayList<Crime> getCrimes() {

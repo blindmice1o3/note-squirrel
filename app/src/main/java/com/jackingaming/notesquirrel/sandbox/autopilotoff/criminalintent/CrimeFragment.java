@@ -202,6 +202,7 @@ public class CrimeFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                Log.i(TAG, "onOptionsItemSelected(MenuItem) android.R.id.home");
                 if (NavUtils.getParentActivityName(getActivity()) != null) {
                     NavUtils.navigateUpFromSameTask(getActivity());
                 }
@@ -218,6 +219,7 @@ public class CrimeFragment extends Fragment {
     public void onPause() {
         super.onPause();
         Log.i(TAG, "onPause()");
+        CrimeLab.get(getActivity()).saveCrimes();
     }
 
     @Override
