@@ -5,9 +5,6 @@ import android.util.Log;
 
 import com.jackingaming.notesquirrel.sandbox.autopilotoff.criminalintent.CriminalIntentJSONSerializer;
 
-import org.json.JSONException;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -23,8 +20,14 @@ public class CrimeLab {
 
     private CrimeLab(Context appContext) {
         this.appContext = appContext;
-        crimes = new ArrayList<Crime>();
         serializer = new CriminalIntentJSONSerializer(this.appContext, FILENAME);
+
+        try {
+            crimes = serializer.loadCrimes();
+        } catch (Exception e) {
+            crimes = new ArrayList<Crime>();
+            Log.e(TAG, "Error loading crimes: ", e);
+        }
     }
 
     public static CrimeLab get(Context c) {

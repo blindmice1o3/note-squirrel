@@ -23,6 +23,15 @@ public class Crime {
         id = UUID.randomUUID();
     }
 
+    public Crime(JSONObject json) throws JSONException {
+        id = UUID.fromString(json.getString(JSON_ID));
+        if (json.has(JSON_TITLE)) {
+            title = json.getString(JSON_TITLE);
+        }
+        solved = json.getBoolean(JSON_SOLVED);
+        date = new Date(json.getLong(JSON_DATE));
+    }
+
     public JSONObject toJSON() throws JSONException {
         JSONObject json = new JSONObject();
         json.put(JSON_ID, id.toString());
