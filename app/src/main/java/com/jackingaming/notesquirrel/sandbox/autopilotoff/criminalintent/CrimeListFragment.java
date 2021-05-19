@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -66,6 +68,13 @@ public class CrimeListFragment extends ListFragment {
             }
         }
 
+        // "The android.R.id.list resource ID is used to retrieve the [ListView] managed by
+        // [ListFragment] withing [onCreateView(...)]. [ListFragment] also has a
+        // [getListView()] method, but you cannot use it within [onCreateView(...)] because
+        // [getListView()] returns null until after [onCreateView(...)] returns."
+        ListView listView = (ListView) v.findViewById(android.R.id.list);
+        registerForContextMenu(listView);
+
         return v;
     }
 
@@ -99,6 +108,14 @@ public class CrimeListFragment extends ListFragment {
                 createNewCrime();
             }
         });
+    }
+
+    private void createNewCrime() {
+        Crime crime = new Crime();
+        CrimeLab.get(getActivity()).addCrime(crime);
+        Intent i = new Intent(getActivity(), CrimePagerActivity.class);
+        i.putExtra(CrimeFragment.EXTRA_CRIME_ID, crime.getId());
+        startActivityForResult(i, 0);
     }
 
     @Override
@@ -135,14 +152,6 @@ public class CrimeListFragment extends ListFragment {
         super.onPrepareOptionsMenu(menu);
     }
 
-    private void createNewCrime() {
-        Crime crime = new Crime();
-        CrimeLab.get(getActivity()).addCrime(crime);
-        Intent i = new Intent(getActivity(), CrimePagerActivity.class);
-        i.putExtra(CrimeFragment.EXTRA_CRIME_ID, crime.getId());
-        startActivityForResult(i, 0);
-    }
-
     @TargetApi(11)
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -152,6 +161,7 @@ public class CrimeListFragment extends ListFragment {
                 createNewCrime();
                 return true;
             case R.id.menu_item_show_subtitle:
+                Log.i(TAG, "onOptionsItemSelected(MenuItem) R.id.menu_item_show_subtitle");
                 if (((AppCompatActivity) getActivity()).getSupportActionBar().getSubtitle() == null) {
                     ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(R.string.subtitle);
                     subtitleVisible = true;
@@ -165,6 +175,37 @@ public class CrimeListFragment extends ListFragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
+        Log.i(TAG, "onCreateContextMenu(ContextMenu, View, ContextMenu.ContextMenuInfo)");
+        // "Currently, you only have one context menu resource, so you inflate that resource
+        // no matter which view is long-pressed. If you have multiple context menu resources,
+        // you would determine which to inflate by checking the ID of the [View] that was
+        // passed into [onCreateContextMenu(...)]."
+        getActivity().getMenuInflater().inflate(R.menu.crime_list_item_context, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        Log.i(TAG, "onContextItemSelected(MenuItem)");
+        // "[getMenuInfo()] returns an instance of [AdapterView.AdapterContextMenuInfo] because
+        // [ListView] is a subclass of [AdapterView]. You cast the results of [getMenuInfo()]
+        // and get details about the selected list item, including its position in the data set.
+        // Then you use the position to retrieve the correct [Crime]."
+        AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+        int position = info.position;
+        CrimeAdapter adapter = (CrimeAdapter) getListAdapter();
+        Crime crime = adapter.getItem(position);
+
+        switch (item.getItemId()) {
+            case R.id.menu_item_delete_crime:
+                CrimeLab.get(getActivity()).deleteCrime(crime);
+                adapter.notifyDataSetChanged();
+                return true;
+        }
+        return super.onContextItemSelected(item);
     }
 
     private class CrimeAdapter extends ArrayAdapter<Crime> {
