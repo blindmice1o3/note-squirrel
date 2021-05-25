@@ -207,6 +207,11 @@ public class CrimeFragment extends Fragment {
                     NavUtils.navigateUpFromSameTask(getActivity());
                 }
                 return true;
+            case R.id.menu_item_delete_crime_in_detail_view:
+                Log.i(TAG, "onOptionsItemSelected(MenuItem) R.id.menu_item_delete_crime_in_detail_view");
+                CrimeLab.get(getActivity()).deleteCrime(crime);
+                getActivity().finish();
+                return true;
             case R.id.menu_item_summon_clippy:
                 Log.i(TAG, "onOptionsItemSelected(MenuItem) R.id.menu_item_summon_clippy");
                 return true;

@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/menu_item_delete_crime_in_detail_view"
+        android:icon="@drawable/ic_menu_delete"
+        android:title="@string/delete_crime"
+        app:showAsAction="ifRoom|withText" />
+    <item
         android:id="@+id/menu_item_summon_clippy"
         android:icon="@drawable/ic_menu_attachment"
         android:title="@string/summon_clippy_menu_item"
