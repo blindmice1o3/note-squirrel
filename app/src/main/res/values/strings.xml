@@ -93,6 +93,8 @@
     <!-- DatePickerFragment.java --> <!-- CRIMINAL_INTENT -->
     <string name="date_picker_title">Date of crime:</string>
     <string name="time_picker_title">Time of crime:</string>
+    <!--fragment_crime_camera.xml --> <!-- CRIMINAL_INTENT -->
+    <string name="take">Take!</string>
 
     <!-- fragment_hello_moon.xml --> <!-- HELLO_MOON -->
     <string name="hello_moon_title">Hello Moon</string>

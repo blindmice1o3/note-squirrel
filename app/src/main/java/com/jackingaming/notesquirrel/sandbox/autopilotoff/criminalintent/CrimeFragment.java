@@ -3,6 +3,8 @@ package com.jackingaming.notesquirrel.sandbox.autopilotoff.criminalintent;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -26,6 +28,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.autopilotoff.criminalintent.models.Crime;
@@ -42,6 +45,7 @@ public class CrimeFragment extends Fragment {
     private static final int REQUEST_DATE_OR_TIME = 3000;
 
     private Crime crime;
+    private ImageButton photoButton;
     private EditText titleField;
     private Button dateOrTimeButton;
     private CheckBox solvedCheckBox;
@@ -93,7 +97,7 @@ public class CrimeFragment extends Fragment {
             }
         }
 
-        titleField = view.findViewById(R.id.crime_title);
+        titleField = (EditText) view.findViewById(R.id.crime_title);
         titleField.setText(crime.getTitle());
         titleField.addTextChangedListener(new TextWatcher() {
             @Override
@@ -112,7 +116,7 @@ public class CrimeFragment extends Fragment {
             }
         });
 
-        dateOrTimeButton = view.findViewById(R.id.crime_date_or_time);
+        dateOrTimeButton = (Button) view.findViewById(R.id.crime_date_or_time);
         dateOrTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,7 +130,7 @@ public class CrimeFragment extends Fragment {
 
         updateDateAndTime();
 
-        solvedCheckBox = view.findViewById(R.id.crime_solved);
+        solvedCheckBox = (CheckBox) view.findViewById(R.id.crime_solved);
         solvedCheckBox.setChecked(crime.isSolved());
         solvedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -134,6 +138,25 @@ public class CrimeFragment extends Fragment {
                 crime.setSolved(isChecked);
             }
         });
+
+        photoButton = (ImageButton) view.findViewById(R.id.crime_imageButton);
+        photoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), CrimeCameraActivity.class);
+                startActivity(i);
+            }
+        });
+
+        // If camera is not available, disable camera functionality
+        PackageManager pm = getActivity().getPackageManager();
+        boolean hasACamera = pm.hasSystemFeature(PackageManager.FEATURE_CAMERA) ||
+                pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_FRONT) ||
+                (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD &&
+                        Camera.getNumberOfCameras() > 0);
+        if (!hasACamera) {
+            photoButton.setEnabled(false);
+        }
 
         return view;
     }
