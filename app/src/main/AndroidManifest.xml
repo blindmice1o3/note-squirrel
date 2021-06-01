@@ -9,6 +9,7 @@
         android:smallScreens="false"
         android:xlargeScreens="true" /> <!-- Features (optional): camera -->
     <uses-feature android:name="android.hardware.camera" />
+
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -23,8 +24,8 @@
         <activity
             android:name=".sandbox.autopilotoff.criminalintent.CrimeCameraActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity android:name=".sandbox.autopilotoff.hellomoon.HelloMoonActivity" />
         <activity
             android:name=".sandbox.autopilotoff.AutoPilotOffActivity"
