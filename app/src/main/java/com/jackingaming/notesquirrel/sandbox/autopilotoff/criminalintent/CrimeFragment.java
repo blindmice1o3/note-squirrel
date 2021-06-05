@@ -2,6 +2,7 @@ package com.jackingaming.notesquirrel.sandbox.autopilotoff.criminalintent;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -58,9 +59,31 @@ public class CrimeFragment extends Fragment {
     private ImageButton photoButton;
     private ImageView photoView;
     private EditText titleField;
-    private Button dateOrTimeButton;
+    private Button dateAndTimeButton;
     private CheckBox solvedCheckBox;
     private Button suspectButton;
+    private Callbacks callbacks;
+
+    /**
+     * Required interface for hosting activities.
+     */
+    public interface Callbacks {
+        void onCrimeUpdated(Crime crime);
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        Log.i(TAG, "onAttach(Context)");
+        callbacks = (Callbacks) context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.i(TAG, "onDetach()");
+        callbacks = null;
+    }
 
     public CrimeFragment() {
         // Required empty public constructor
@@ -88,11 +111,11 @@ public class CrimeFragment extends Fragment {
         crime = CrimeLab.get(getActivity()).getCrime(crimeId);
     }
 
-    private void updateDateAndTime() {
+    private void updateTextForDateAndTimeButton() {
         String formattedDateTime = DateFormat
                 .getDateTimeInstance(DateFormat.FULL, DateFormat.SHORT)
                 .format(crime.getDate());
-        dateOrTimeButton.setText(formattedDateTime);
+        dateAndTimeButton.setText(formattedDateTime);
     }
 
     @TargetApi(11)
@@ -120,6 +143,8 @@ public class CrimeFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 crime.setTitle(s.toString());
+                callbacks.onCrimeUpdated(crime);
+                getActivity().setTitle(crime.getTitle());
             }
 
             @Override
@@ -128,8 +153,8 @@ public class CrimeFragment extends Fragment {
             }
         });
 
-        dateOrTimeButton = (Button) view.findViewById(R.id.crime_date_or_time);
-        dateOrTimeButton.setOnClickListener(new View.OnClickListener() {
+        dateAndTimeButton = (Button) view.findViewById(R.id.crime_date_or_time);
+        dateAndTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager fm = getActivity().getSupportFragmentManager();
@@ -140,14 +165,16 @@ public class CrimeFragment extends Fragment {
             }
         });
 
-        updateDateAndTime();
+        updateTextForDateAndTimeButton();
 
         solvedCheckBox = (CheckBox) view.findViewById(R.id.crime_solved);
         solvedCheckBox.setChecked(crime.isSolved());
         solvedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // Set the crime's solved property.
                 crime.setSolved(isChecked);
+                callbacks.onCrimeUpdated(crime);
             }
         });
 
@@ -259,11 +286,13 @@ public class CrimeFragment extends Fragment {
         if (requestCode == DateOrTimeFragment.REQUEST_DATE) {
             Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
             crime.setDate(date);
-            updateDateAndTime();
+            callbacks.onCrimeUpdated(crime);
+            updateTextForDateAndTimeButton();
         } else if (requestCode == DateOrTimeFragment.REQUEST_TIME) {
             Date date = (Date) data.getSerializableExtra(TimePickerFragment.EXTRA_TIME);
             crime.setDate(date);
-            updateDateAndTime();
+            callbacks.onCrimeUpdated(crime);
+            updateTextForDateAndTimeButton();
         } else if (requestCode == REQUEST_PHOTO) {
             // Create a new Photo object and attach it to the crime
             String filename = data.getStringExtra(CrimeCameraFragment.EXTRA_PHOTO_FILENAME);
@@ -272,6 +301,9 @@ public class CrimeFragment extends Fragment {
 
                 Photo p = new Photo(filename);
                 crime.setPhoto(p);
+                // "Currently, the photo and suspect do not appear in the list item's view,
+                // but [CrimeFragment] should still be neighborly and report those updates."
+                callbacks.onCrimeUpdated(crime);
                 showPhoto();
                 Log.i(TAG, "Crime: " + crime.getTitle() + " has a photo");
             }
@@ -279,7 +311,7 @@ public class CrimeFragment extends Fragment {
             Uri contactUri = data.getData();
 
             // Specify which fields you want your query to return values for.
-            String[] queryFields = new String[] {
+            String[] queryFields = new String[]{
                     ContactsContract.Contacts.DISPLAY_NAME
             };
             // Perform your query - the contactUri is like a "where" clause here
@@ -297,6 +329,9 @@ public class CrimeFragment extends Fragment {
             c.moveToFirst();
             String suspect = c.getString(0);
             crime.setSuspect(suspect);
+            // "Currently, the photo and suspect do not appear in the list item's view,
+            // but [CrimeFragment] should still be neighborly and report those updates."
+            callbacks.onCrimeUpdated(crime);
             suspectButton.setText(suspect);
             c.close();
         }
@@ -398,11 +433,5 @@ public class CrimeFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         Log.i(TAG, "onDestroy()");
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        Log.i(TAG, "onDetach()");
     }
 }

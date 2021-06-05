@@ -17,7 +17,8 @@ import com.jackingaming.notesquirrel.sandbox.autopilotoff.criminalintent.models.
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class CrimePagerActivity extends AppCompatActivity {
+public class CrimePagerActivity extends AppCompatActivity
+        implements CrimeFragment.Callbacks {
     private static final String TAG = "CrimePagerActivity";
 
     private ViewPager viewPager;
@@ -75,5 +76,10 @@ public class CrimePagerActivity extends AppCompatActivity {
                 break;
             }
         }
+    }
+
+    @Override
+    public void onCrimeUpdated(Crime crime) {
+        // Intentionally blank.
     }
 }
