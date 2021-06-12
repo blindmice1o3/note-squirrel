@@ -31,6 +31,7 @@ import com.jackingaming.notesquirrel.sandbox.spritesheetverifier1.SpriteSheetVer
 import com.jackingaming.notesquirrel.sandbox.listviewemail.ListViewEmailActivity;
 import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.SpriteSheetVerifier2Activity;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.grid.GridViewDvdActivity;
+import com.jackingaming.notesquirrel.sandbox.worldofbox.WorldOfBoxActivity;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -304,6 +305,12 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent autoPilotOffIntent = new Intent(this, AutoPilotOffActivity.class);
                 startActivity(autoPilotOffIntent);
+                return true;
+            case R.id.menu_world_of_box:
+                Toast.makeText(this, R.string.menu_world_of_box, Toast.LENGTH_SHORT).show();
+                
+                Intent worldOfBoxIntent = new Intent(this, WorldOfBoxActivity.class);
+                startActivity(worldOfBoxIntent);
                 return true;
             case R.id.menu_sprite_sheet_verifier2:
                 Toast.makeText(this, R.string.menu_sprite_sheet_verifier2, Toast.LENGTH_SHORT).show();
