@@ -23,15 +23,16 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".sandbox.autopilotoff.remotecontrol.RemoteControlActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/FullScreen" />
         <activity
             android:name=".sandbox.worldofbox.WorldOfBoxActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+            android:theme="@style/FullScreen" />
         <activity
             android:name=".sandbox.autopilotoff.criminalintent.CrimeCameraActivity"
             android:label="@string/app_name"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+            android:theme="@style/FullScreen" />
         <activity android:name=".sandbox.autopilotoff.hellomoon.HelloMoonActivity" />
         <activity
             android:name=".sandbox.autopilotoff.AutoPilotOffActivity"
@@ -56,17 +57,17 @@
 
         <activity
             android:name=".gameboycolor.JackInActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+            android:theme="@style/FullScreen" />
         <activity android:name=".sandbox.countzero.CountZeroActivity" />
         <activity
             android:name=".sandbox.mealmaker3000cashier.MealMaker3000CashierActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+            android:theme="@style/FullScreen" />
         <activity android:name=".gameboycolor.gamecartridges.base.items.BackpackActivity" />
         <activity android:name=".gameboycolor.gamecartridges.derived.pocketcritters.computer.ComputerActivity" />
         <activity
             android:name=".gameboycolor.gamecartridges.derived.pocketcritters.computer.QuadrantActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+            android:theme="@style/FullScreen" />
         <activity android:name=".gameboycolor.gamecartridges.derived.pocketcritters.television.TelevisionActivity" />
         <activity android:name=".sandbox.spritesheetverifier2.SpriteSheetVerifier2Activity" />
         <activity android:name=".sandbox.spritesheetverifier1.SpriteSheetVerifier1Activity" />

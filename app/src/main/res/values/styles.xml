@@ -9,7 +9,7 @@
     </style>
 
     <!-- found from: https://stackoverflow.com/questions/20653305/full-screen-theme-for-appcompat -->
-    <style name="Theme.AppCompat.Light.NoActionBar.FullScreen" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    <style name="FullScreen" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowFullscreen">true</item>
@@ -36,7 +36,7 @@
         <item name="android:layout_margin">3dp</item>
     </style>
 
-    <style name="RemoteButtonBolded" parent="RemoteButton">
+    <style name="RemoteButtonBolded" parent="@style/RemoteButton">
         <item name="android:textStyle">bold</item>
     </style>
 
