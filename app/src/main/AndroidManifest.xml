@@ -22,6 +22,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".sandbox.autopilotoff.remotecontrol.RemoteControlActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".sandbox.worldofbox.WorldOfBoxActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity

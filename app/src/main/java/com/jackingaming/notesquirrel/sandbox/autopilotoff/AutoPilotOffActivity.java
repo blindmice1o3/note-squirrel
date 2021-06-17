@@ -18,6 +18,7 @@ import com.jackingaming.notesquirrel.sandbox.autopilotoff.criminalintent.CrimePa
 import com.jackingaming.notesquirrel.sandbox.autopilotoff.criminalintent.models.Crime;
 import com.jackingaming.notesquirrel.sandbox.autopilotoff.geoquiz.QuizFragment;
 import com.jackingaming.notesquirrel.sandbox.autopilotoff.hellomoon.HelloMoonActivity;
+import com.jackingaming.notesquirrel.sandbox.autopilotoff.remotecontrol.RemoteControlActivity;
 
 public class AutoPilotOffActivity extends SingleFragmentActivity
         implements CrimeListFragment.Callbacks, CrimeFragment.Callbacks {
@@ -113,6 +114,11 @@ public class AutoPilotOffActivity extends SingleFragmentActivity
                 Log.i(TAG, "onOptionsItemSelected(MenuItem) R.id.menu_item_hello_moon");
                 Intent intentHelloMoon = new Intent(this, HelloMoonActivity.class);
                 startActivity(intentHelloMoon);
+                return true;
+            case R.id.menu_item_remote_control:
+                Log.i(TAG, "onOptionsItemSelected(MenuItem) R.id.menu_item_remote_control");
+                Intent intentRemoteControl = new Intent(this, RemoteControlActivity.class);
+                startActivity(intentRemoteControl);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
