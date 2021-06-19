@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/pokeball_bordered_patch"
-    android:padding="25dp"
     android:stretchColumns="*"
     tools:context=".sandbox.autopilotoff.remotecontrol.RemoteControlFragment">
     <!-- android:stretchColumns="*" ensures that your columns will be the same width. -->
