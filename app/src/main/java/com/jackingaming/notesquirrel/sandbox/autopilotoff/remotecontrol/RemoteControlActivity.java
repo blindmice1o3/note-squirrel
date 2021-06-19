@@ -1,7 +1,6 @@
 package com.jackingaming.notesquirrel.sandbox.autopilotoff.remotecontrol;
 
 import android.os.Bundle;
-import android.view.Window;
 
 import androidx.fragment.app.Fragment;
 
