@@ -9,4 +9,7 @@
     <item
         android:id="@+id/menu_item_remote_control"
         android:title="@string/remote_control_menu_item" />
+    <item
+        android:id="@+id/menu_item_photo_gallery"
+        android:title="@string/photo_gallery_menu_item" />
 </menu>

@@ -52,6 +52,7 @@
     <string name="geo_quiz_menu_item">Geo Quiz</string>
     <string name="hello_moon_menu_item">Hello Moon</string>
     <string name="remote_control_menu_item">Remote Control</string>
+    <string name="photo_gallery_menu_item">Photo Gallery</string>
     <!-- fragment_crime_list.xml -->
     <string name="new_crime_menu_item">New Crime</string>
     <!-- fragment_crime.xml -->
