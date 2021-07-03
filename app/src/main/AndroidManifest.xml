@@ -21,7 +21,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".sandbox.autopilotoff.photogallery.PhotoGalleryActivity"></activity>
+        <activity android:name=".sandbox.autopilotoff.draganddraw.DragAndDrawActivity"></activity>
+        <activity android:name=".sandbox.autopilotoff.photogallery.PhotoGalleryActivity" />
         <activity
             android:name=".sandbox.autopilotoff.remotecontrol.RemoteControlActivity"
             android:screenOrientation="portrait"

@@ -53,6 +53,7 @@
     <string name="hello_moon_menu_item">Hello Moon</string>
     <string name="remote_control_menu_item">Remote Control</string>
     <string name="photo_gallery_menu_item">Photo Gallery</string>
+    <string name="drag_and_draw_menu_item">Drag And Draw</string>
     <!-- fragment_crime_list.xml -->
     <string name="new_crime_menu_item">New Crime</string>
     <!-- fragment_crime.xml -->

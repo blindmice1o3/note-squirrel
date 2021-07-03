@@ -16,6 +16,7 @@ import com.jackingaming.notesquirrel.sandbox.autopilotoff.criminalintent.CrimeFr
 import com.jackingaming.notesquirrel.sandbox.autopilotoff.criminalintent.CrimeListFragment;
 import com.jackingaming.notesquirrel.sandbox.autopilotoff.criminalintent.CrimePagerActivity;
 import com.jackingaming.notesquirrel.sandbox.autopilotoff.criminalintent.models.Crime;
+import com.jackingaming.notesquirrel.sandbox.autopilotoff.draganddraw.DragAndDrawActivity;
 import com.jackingaming.notesquirrel.sandbox.autopilotoff.geoquiz.QuizFragment;
 import com.jackingaming.notesquirrel.sandbox.autopilotoff.hellomoon.HelloMoonActivity;
 import com.jackingaming.notesquirrel.sandbox.autopilotoff.photogallery.PhotoGalleryActivity;
@@ -125,6 +126,11 @@ public class AutoPilotOffActivity extends SingleFragmentActivity
                 Log.i(TAG, "onOptionsItemSelected(MenuItem) R.id.menu_item_photo_gallery");
                 Intent intentPhotoGallery = new Intent(this, PhotoGalleryActivity.class);
                 startActivity(intentPhotoGallery);
+                return true;
+            case R.id.menu_item_drag_and_draw:
+                Log.i(TAG, "onOptionsItemSelected(MenuItem) R.id.menu_item_drag_and_draw");
+                Intent intentDragAndDraw = new Intent(this, DragAndDrawActivity.class);
+                startActivity(intentDragAndDraw);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
