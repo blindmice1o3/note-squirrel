@@ -2,6 +2,10 @@ package com.jackingaming.notesquirrel.sandbox.autopilotoff.photogallery;
 
 import android.widget.AbsListView;
 
+/**
+ * Found from:
+ * https://guides.codepath.com/android/Endless-Scrolling-with-AdapterViews-and-RecyclerView#implementing-with-recyclerview
+ */
 public abstract class EndlessScrollListener
         implements AbsListView.OnScrollListener {
     // The minimum number of items to have below your current scroll position
