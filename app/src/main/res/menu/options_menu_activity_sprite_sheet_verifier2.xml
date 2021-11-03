@@ -4,6 +4,9 @@
         android:id="@+id/menu_item_see_saved_sequences"
         android:title="see saved sequences" />
     <item
+        android:id="@+id/menu_item_drag"
+        android:title="drag" />
+    <item
         android:id="@+id/menu_item_drag_and_drop"
         android:title="drag and drop" />
 </menu>

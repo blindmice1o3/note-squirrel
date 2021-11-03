@@ -33,6 +33,9 @@
         android:id="@+id/menu_auto_pilot_off"
         android:title="@string/menu_auto_pilot_off" />
     <item
+        android:id="@+id/menu_ide"
+        android:title="@string/menu_ide" />
+    <item
         android:id="@+id/menu_world_of_box"
         android:title="@string/menu_world_of_box" />
     <item

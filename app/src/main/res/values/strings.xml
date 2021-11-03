@@ -21,6 +21,7 @@
     <string name="menu_passing_through">Passing Through</string>
     <string name="menu_sprite_sheet_verifier1">Sprite Sheet Verifier 1 (MS Clippit)</string>
     <string name="menu_auto_pilot_off">AutoPilot:Off</string>
+    <string name="menu_ide">IDE</string>
     <string name="menu_world_of_box">World of Box</string>
     <string name="menu_sprite_sheet_verifier2">Sprite Sheet Verifier 2 (R-Series)</string>
     <string name="menu_meal_maker_3000_cashier">MealMaker3000 Cashier</string>
@@ -111,10 +112,13 @@
     <string name="take">Take!</string>
 
     <!-- fragment_hello_moon.xml --> <!-- HELLO_MOON -->
-    <string name="hello_moon_title">Hello Moon</string>
+    <string name="hellomoon_title">Hello Moon</string>
     <string name="hellomoon_play">Play</string>
     <string name="hellomoon_stop">Stop</string>
     <string name="hellomoon_description">Jack fishing with his wife and dog</string>
+
+    <!-- fragment_project_wizard -->
+    <string name="projectwizard_new_project_button">Create New Project</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

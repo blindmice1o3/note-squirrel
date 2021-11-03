@@ -21,7 +21,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".sandbox.autopilotoff.draganddraw.DragAndDrawActivity"></activity>
+        <activity android:name=".sandbox.spritesheetverifier2.tinker.draganddrop.vogella.DragActivity"></activity>
+        <activity android:name=".sandbox.ide.ProjectWizardActivity" />
+        <activity
+            android:name=".sandbox.ide.WorkbenchActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/FullScreen" />
+        <activity android:name=".sandbox.autopilotoff.draganddraw.DragAndDrawActivity" />
         <activity android:name=".sandbox.autopilotoff.photogallery.PhotoGalleryActivity" />
         <activity
             android:name=".sandbox.autopilotoff.remotecontrol.RemoteControlActivity"
@@ -45,7 +51,7 @@
                 android:value=".sandbox.autopilotoff.AutoPilotOffActivity" />
         </activity>
         <activity android:name=".sandbox.autopilotoff.geoquiz.CheatActivity" />
-        <activity android:name=".sandbox.spritesheetverifier2.tinker.DragAndDropActivity" />
+        <activity android:name=".sandbox.spritesheetverifier2.tinker.draganddrop.chess.DragAndDropActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

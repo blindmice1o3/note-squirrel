@@ -25,6 +25,8 @@ import com.jackingaming.notesquirrel.sandbox.countzero.CountZeroActivity;
 import com.jackingaming.notesquirrel.sandbox.downloadhtml.DownloadHtmlFragmentParentActivity;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.official.view.recycler.DvdLibraryActivity;
 import com.jackingaming.notesquirrel.sandbox.dvdlibrary.roughdraftwithimages.ListFragmentDvdParentActivity;
+import com.jackingaming.notesquirrel.sandbox.ide.ProjectWizardActivity;
+import com.jackingaming.notesquirrel.sandbox.ide.WorkbenchActivity;
 import com.jackingaming.notesquirrel.sandbox.passingthrough.PassingThroughActivity;
 import com.jackingaming.notesquirrel.sandbox.mealmaker3000cashier.MealMaker3000CashierActivity;
 import com.jackingaming.notesquirrel.sandbox.spritesheetverifier1.SpriteSheetVerifier1Activity;
@@ -305,6 +307,14 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent autoPilotOffIntent = new Intent(this, AutoPilotOffActivity.class);
                 startActivity(autoPilotOffIntent);
+                return true;
+            case R.id.menu_ide:
+                Toast.makeText(this, R.string.menu_ide, Toast.LENGTH_SHORT).show();
+
+                Intent workbenchIntent = new Intent(this, WorkbenchActivity.class);
+                startActivity(workbenchIntent);
+//                Intent projectWizardIntent = new Intent(this, ProjectWizardActivity.class);
+//                startActivity(projectWizardIntent);
                 return true;
             case R.id.menu_world_of_box:
                 Toast.makeText(this, R.string.menu_world_of_box, Toast.LENGTH_SHORT).show();

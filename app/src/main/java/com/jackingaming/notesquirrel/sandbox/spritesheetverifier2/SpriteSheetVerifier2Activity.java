@@ -30,7 +30,8 @@ import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.saved.AdapterListOfSavedEntryRecyclerViewRepository;
 import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.staging.AdapterFrameRecyclerViewStagingArea;
 import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.staging.ImageViewAnimationRunner;
-import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.tinker.DragAndDropActivity;
+import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.tinker.draganddrop.chess.DragAndDropActivity;
+import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.tinker.draganddrop.vogella.DragActivity;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -361,6 +362,10 @@ public class SpriteSheetVerifier2Activity extends AppCompatActivity {
         switch (item.getItemId()) {
             case  R.id.menu_item_see_saved_sequences:
                 displaySavedListAlertDialog();
+                return true;
+            case R.id.menu_item_drag:
+                Intent intentDrag = new Intent(this, DragActivity.class);
+                startActivity(intentDrag);
                 return true;
             case R.id.menu_item_drag_and_drop:
                 Intent intentDragAndDrop = new Intent(this, DragAndDropActivity.class);

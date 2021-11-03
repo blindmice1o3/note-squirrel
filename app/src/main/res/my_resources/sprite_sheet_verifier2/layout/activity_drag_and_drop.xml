@@ -4,36 +4,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".sandbox.spritesheetverifier2.tinker.DragAndDropActivity">
+    tools:context=".sandbox.spritesheetverifier2.tinker.draganddrop.chess.DragAndDropActivity">
 
-    <ImageView
-        android:id="@+id/imageview_drag_and_drop_left"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/imageview_drag_and_drop_center"
-        app:layout_constraintTop_toTopOf="parent" />
+    <FrameLayout
+        android:id="@+id/fragmentContainerChessBoard"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-    <ImageView
-        android:id="@+id/imageview_drag_and_drop_center"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY"
-        app:layout_constraintLeft_toRightOf="@id/imageview_drag_and_drop_left"
-        app:layout_constraintRight_toLeftOf="@id/imageview_drag_and_drop_right"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!--
+        <ImageView
+            android:id="@+id/imageview_drag_and_drop_left"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/imageview_drag_and_drop_center"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageview_drag_and_drop_right"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY"
-        app:layout_constraintLeft_toRightOf="@id/imageview_drag_and_drop_center"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/imageview_drag_and_drop_center"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            app:layout_constraintLeft_toRightOf="@id/imageview_drag_and_drop_left"
+            app:layout_constraintRight_toLeftOf="@id/imageview_drag_and_drop_right"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageview_drag_and_drop_right"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            app:layout_constraintLeft_toRightOf="@id/imageview_drag_and_drop_center"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

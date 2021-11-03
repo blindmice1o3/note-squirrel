@@ -56,7 +56,7 @@ public class HelloMoonFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         Log.i(TAG, "onActivityCreated(Bundle)");
 
-        getActivity().setTitle(R.string.hello_moon_title);
+        getActivity().setTitle(R.string.hellomoon_title);
     }
 
     @Override
