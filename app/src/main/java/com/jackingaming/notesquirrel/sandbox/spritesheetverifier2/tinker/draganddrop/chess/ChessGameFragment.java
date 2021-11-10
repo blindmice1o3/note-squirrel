@@ -37,16 +37,17 @@ public class ChessGameFragment extends Fragment {
     private static final int NUM_OF_ROWS = 8;
     private static final int NUM_OF_COLUMNS = 8;
 
-    private Map<ImageView, Tile> tilesViaImageView = new HashMap<ImageView, Tile>();
-    private Tile[][] tiles = new Tile[NUM_OF_ROWS][NUM_OF_COLUMNS];
+    private Map<String, Tile> tilesViaFileAndRank = new HashMap<String, Tile>();
     private ChessPiece chessPieceBeingMoved;
-    private Tile selectedTile;
 
     public ChessGameFragment() {
         // Required empty public constructor
     }
 
     public void initTiles(LinearLayout rootLinearLayout) {
+        View.OnTouchListener dragStartListener = new DragStartListener();
+        View.OnDragListener myDragEventListener = new MyDragEventListener();
+
         for (int rowIndex = 0; rowIndex < NUM_OF_ROWS; rowIndex++) {
             LinearLayout horizontalLinearLayout = new LinearLayout(getContext());
             horizontalLinearLayout.setLayoutParams(new LinearLayout.LayoutParams(
@@ -69,6 +70,11 @@ public class ChessGameFragment extends Fragment {
                         1));
                 imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
 
+                String file = convertColumnIndexToFile(columnIndex);
+                String rank = convertRowIndexToRank(rowIndex);
+                String fileAndRank = file + rank;
+                imageView.setTag(fileAndRank);
+
                 // Determine background color.
                 String tileBackgroundColor = null;
                 if (rowIndex % 2 == 1) {
@@ -80,51 +86,20 @@ public class ChessGameFragment extends Fragment {
                 }
                 if (tileBackgroundColor.equals("blue")) {
                     imageView.setBackground(getResources().getDrawable(R.drawable.tile_default_dark));
-
-//                    imageView.setBackgroundColor(getResources().getColor(R.color.blue));
-//
-//                    // TODO: testing... should be removed/moved.
-//                    // TODO: add a field in Tile class to keep track of its background color.
-//                    imageView.setBackground(getResources().getDrawable(R.drawable.tile_highlighed_dark));
-//                    // TODO: add more ShapeDrawable resources (e.g. for tile_default_dark and tile_default_light).
-//                    // If setting background to null, must reset background color, otherwise white.
-//                    imageView.setBackground(null);
-//                    imageView.setBackgroundColor(getResources().getColor(R.color.blue));
                 } else {
                     imageView.setBackground(getResources().getDrawable(R.drawable.tile_default_light));
-
-//                    imageView.setBackgroundColor(getResources().getColor(R.color.yellow));
-//
-//                    // TODO: testing... should be removed/moved.
-//                    imageView.setBackground(getResources().getDrawable(R.drawable.tile_highlighted_light));
                 }
 
                 //////////////////////////////////////////
                 horizontalLinearLayout.addView(imageView);
                 //////////////////////////////////////////
-                Tile currentTile = new Tile(rowIndex, columnIndex, imageView, tileBackgroundColor);
-                tilesViaImageView.put(imageView, currentTile);
-                tiles[rowIndex][columnIndex] = currentTile;
+                Tile currentTile = new Tile(rowIndex, columnIndex, tileBackgroundColor);
+                tilesViaFileAndRank.put(fileAndRank, currentTile);
 
-                // TODO: setOnTouchListener
-                imageView.setOnTouchListener(new DragStartListener());
-
-                // TODO: setOnDragListener
-                imageView.setOnDragListener(new MyDragEventListener());
+                imageView.setOnTouchListener(dragStartListener);
+                imageView.setOnDragListener(myDragEventListener);
             }
         }
-
-//        // ********************* TESTING CAPABILITIES *********************
-//        ImageView imageViewD8 = tiles[0][3].getImageView();
-//        imageViewD8.setBackgroundColor(getResources().getColor(android.R.color.black));
-//        ImageView imageViewH2 = tiles[6][7].getImageView();
-//        imageViewH2.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
-//        ImageView imageViewD5 = tiles[3][3].getImageView();
-//        imageViewD5.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
-    }
-
-    private String getCharForNumber(int i) {
-        return i > 0 && i < 27 ? String.valueOf((char) (i + 'A' - 1)) : null;
     }
 
     @Override
@@ -139,6 +114,18 @@ public class ChessGameFragment extends Fragment {
         return view;
     }
 
+    private void updateChessPieceAndImageBitmap(ImageView imageView, String fileAndRank, ChessPiece chessPiece) {
+        Tile tile = tilesViaFileAndRank.get(fileAndRank);
+        tile.setChessPiece(chessPiece);
+
+        if (chessPiece != null) {
+            imageView.setImageBitmap(chessPiece.getImage());
+        } else {
+            imageView.setImageBitmap(null);
+        }
+        imageView.invalidate();
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -148,19 +135,113 @@ public class ChessGameFragment extends Fragment {
 
         // PAWNS
         for (int columnIndex = 0; columnIndex < NUM_OF_COLUMNS; columnIndex++) {
+            String file = convertColumnIndexToFile(columnIndex);
+            String rankPawnDark = convertRowIndexToRank(1);
+            String fileAndRankPawnDark = file + rankPawnDark;
+            String rankPawnLight = convertRowIndexToRank(6);
+            String fileAndRankPawnLight = file + rankPawnLight;
+
             ChessPiece pawnDark = new Pawn(ChessPiece.Color.DARK);
-            tiles[1][columnIndex].setChessPieceAndImageBitmap(pawnDark);
+            ImageView imageViewPawnDark = view.findViewWithTag(fileAndRankPawnDark);
+            updateChessPieceAndImageBitmap(imageViewPawnDark, fileAndRankPawnDark, pawnDark);
 
             ChessPiece pawnLight = new Pawn(ChessPiece.Color.LIGHT);
-            tiles[6][columnIndex].setChessPieceAndImageBitmap(pawnLight);
+            ImageView imageViewPawnLight = view.findViewWithTag(fileAndRankPawnLight);
+            updateChessPieceAndImageBitmap(imageViewPawnLight, fileAndRankPawnLight, pawnLight);
         }
         // PAWNS (testing - opposite ends of the board)
-        tiles[0][7].setChessPieceAndImageBitmap(new Pawn(ChessPiece.Color.LIGHT));
-        tiles[7][7].setChessPieceAndImageBitmap(new Pawn(ChessPiece.Color.DARK));
+        String rankPawnDarkOppositeEnd = convertRowIndexToRank(7);
+        String fileAndRankPawnDarkOppositeEnd = convertColumnIndexToFile(7) + rankPawnDarkOppositeEnd;
+        ImageView imageViewPawnDarkOppositeEnd = view.findViewWithTag(fileAndRankPawnDarkOppositeEnd);
+
+        String rankPawnLightOppositeEnd = convertRowIndexToRank(0);
+        String fileAndRankPawnLightOppositeEnd = convertColumnIndexToFile(7) + rankPawnLightOppositeEnd;
+        ImageView imageViewPawnLightOppositeEnd = view.findViewWithTag(fileAndRankPawnLightOppositeEnd);
+
+        updateChessPieceAndImageBitmap(imageViewPawnDarkOppositeEnd, fileAndRankPawnDarkOppositeEnd, new Pawn(ChessPiece.Color.DARK));
+        updateChessPieceAndImageBitmap(imageViewPawnLightOppositeEnd, fileAndRankPawnLightOppositeEnd, new Pawn(ChessPiece.Color.LIGHT));
 
         // KINGS
-        tiles[7][4].setChessPieceAndImageBitmap(new King(ChessPiece.Color.LIGHT));
-        tiles[0][4].setChessPieceAndImageBitmap(new King(ChessPiece.Color.DARK));
+        String rankKingDark = convertRowIndexToRank(0);
+        String fileAndRankKingDark = convertColumnIndexToFile(4) + rankKingDark;
+        ImageView imageViewKingDark = view.findViewWithTag(fileAndRankKingDark);
+
+        String rankKingLight = convertRowIndexToRank(7);
+        String fileAndRankKingLight = convertColumnIndexToFile(4) + rankKingLight;
+        ImageView imageViewKingLight = view.findViewWithTag(fileAndRankKingLight);
+
+        updateChessPieceAndImageBitmap(imageViewKingDark, fileAndRankKingDark, new King(ChessPiece.Color.DARK));
+        updateChessPieceAndImageBitmap(imageViewKingLight, fileAndRankKingLight, new King(ChessPiece.Color.LIGHT));
+    }
+
+    private String convertColumnIndexToFile(int columnIndex) {
+        String fileAsString = null;
+        switch (columnIndex) {
+            case 0:
+                fileAsString = "a";
+                break;
+            case 1:
+                fileAsString = "b";
+                break;
+            case 2:
+                fileAsString = "c";
+                break;
+            case 3:
+                fileAsString = "d";
+                break;
+            case 4:
+                fileAsString = "e";
+                break;
+            case 5:
+                fileAsString = "f";
+                break;
+            case 6:
+                fileAsString = "g";
+                break;
+            case 7:
+                fileAsString = "h";
+                break;
+            default:
+                Log.e("convertColumnIndexToFi", "switch's default block... columnIndex: " + columnIndex);
+                fileAsString = "-";
+                break;
+        }
+        return fileAsString;
+    }
+
+    private String convertRowIndexToRank(int rowIndex) {
+        String rankAsString = null;
+        switch (rowIndex) {
+            case 0:
+                rankAsString = "8";
+                break;
+            case 1:
+                rankAsString = "7";
+                break;
+            case 2:
+                rankAsString = "6";
+                break;
+            case 3:
+                rankAsString = "5";
+                break;
+            case 4:
+                rankAsString = "4";
+                break;
+            case 5:
+                rankAsString = "3";
+                break;
+            case 6:
+                rankAsString = "2";
+                break;
+            case 7:
+                rankAsString = "1";
+                break;
+            default:
+                Log.e("convertRowIndexToRank()", "switch's default block... rowIndex: " + rowIndex);
+                rankAsString = "-";
+                break;
+        }
+        return rankAsString;
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -169,24 +250,24 @@ public class ChessGameFragment extends Fragment {
         @TargetApi(24)
         @Override
         public boolean onTouch(View v, MotionEvent event) {
+            // Get tileToMoveFrom using the View object from the arguments.
             ImageView imageView = (ImageView) v;
-
-            selectedTile = tilesViaImageView.get(imageView);
+            String fileAndRank = (String) imageView.getTag();
+            Tile tileToMoveFrom = tilesViaFileAndRank.get(fileAndRank);
 
             // Do not start a drag/drop operation for tiles without a chess piece.
-            if (selectedTile.getChessPiece() == null) {
-                Log.d("OnTouchListener", "selectedTile.getChessPiece() is null");
+            if (tileToMoveFrom.getChessPiece() == null) {
+                Log.d("DragStartListener", "tileToMoveFrom.getChessPiece() is null");
                 return false;
             }
 
             // ***** Tile has a chess piece *****
-            String rowAndColumnIndexesToMoveFrom =
-                    selectedTile.getRowIndex() + "*" +
-                            selectedTile.getColumnIndex();
-            ClipData.Item item = new ClipData.Item(rowAndColumnIndexesToMoveFrom);
+            Log.d("DragStartListener", "tileToMoveFrom.getChessPiece() is: " + tileToMoveFrom.getChessPiece().getClass().getSimpleName());
+            Log.d("DragStartListener", "fileAndRank: " + fileAndRank);
+            ClipData.Item item = new ClipData.Item(fileAndRank);
 
             ClipData dragData = new ClipData(
-                    "[rowIndex][columnIndex]: [" + selectedTile.getRowIndex() + "][" + selectedTile.getColumnIndex() + "]",
+                    fileAndRank,
                     new String[]{ClipDescription.MIMETYPE_TEXT_PLAIN},
                     item
             );
@@ -200,130 +281,19 @@ public class ChessGameFragment extends Fragment {
                     null,   // no need to use local data
                     0             // flags (not currently used, set to 0)
             );
+
             ////////////////////////////////////////////////////////////////////
             // Drag/drop operation started, token no longer "on the board", it's
             // currently being dragged/dropped (meaning the token is being held
             // by the player [represented as a drag shadow]).
-
             // TODO: potentially wrong logic (not all drag events are successfully dropped)...
             //  in which case, return the token to the tile that started the drag/drop operation.
-            chessPieceBeingMoved = selectedTile.getChessPiece();
-            selectedTile.setChessPieceAndImageBitmap(null);
+            chessPieceBeingMoved = tileToMoveFrom.getChessPiece();
+            updateChessPieceAndImageBitmap(imageView, fileAndRank, null);
             ////////////////////////////////////////////////////////////////////
-            return true;
-        }
-    }
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////
-
-    class MyDragEventListener implements View.OnDragListener {
-        @Override
-        public boolean onDrag(View v, DragEvent event) {
-            ImageView imageViewToMoveTo = (ImageView) v;
-            Tile tileToMoveTo = tilesViaImageView.get(imageViewToMoveTo);
-
-            int action = event.getAction();
-            switch (action) {
-                case DragEvent.ACTION_DRAG_STARTED:
-                    // getClipData(), getX(), getY(), and getResult() are not valid in this state.
-                    // TODO: get list of tiles that chessPieceBeingMoved can legally move into.
-                    Position currentPosition = new Position(selectedTile.getRowIndex(), selectedTile.getColumnIndex());
-                    List<Position> tilesPotentialNewPositions = chessPieceBeingMoved.findPotentialNewPositions(currentPosition);
-                    for (Position position : tilesPotentialNewPositions) {
-                        int rowIndex = position.getRowIndex();
-                        int columnIndex = position.getColumnIndex();
-
-                        if (rowIndex < 0 || columnIndex < 0 ||
-                                rowIndex >= NUM_OF_ROWS || columnIndex >= NUM_OF_COLUMNS) {
-                            continue;
-                        }
-
-                        tiles[rowIndex][columnIndex].getImageView().getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_ATOP);
-                    }
-
-                    // do nothing
-                    return true;
-                case DragEvent.ACTION_DRAG_ENTERED:
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        if (((ImageView) v).getBackground().getColorFilter() != null) {
-                            return true;
-                        }
-                    }
-
-                    String tileBackgroundColor = tileToMoveTo.getBackgroundColor();
-                    if (tileBackgroundColor.equals("blue")) {
-                        imageViewToMoveTo.setBackground(getResources().getDrawable(R.drawable.tile_highlighted_dark));
-                    } else {
-                        imageViewToMoveTo.setBackground(getResources().getDrawable(R.drawable.tile_highlighted_light));
-                    }
-//                    ((ImageView) v).getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_ATOP);
-                    v.invalidate();
-                    return true;
-                case DragEvent.ACTION_DRAG_LOCATION:
-                    // ignore the event
-                    return true;
-                case DragEvent.ACTION_DRAG_EXITED:
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        if (((ImageView) v).getBackground().getColorFilter() != null) {
-                            return true;
-                        }
-                    }
-
-                    tileBackgroundColor = tileToMoveTo.getBackgroundColor();
-                    if (tileBackgroundColor.equals("blue")) {
-                        imageViewToMoveTo.setBackground(getResources().getDrawable(R.drawable.tile_default_dark));
-                    } else {
-                        imageViewToMoveTo.setBackground(getResources().getDrawable(R.drawable.tile_default_light));
-                    }
-
-//                    ((ImageView) v).getBackground().clearColorFilter();
-                    v.invalidate();
-                    return true;
-                case DragEvent.ACTION_DROP:
-                    // Gets the item containing the dragged data
-                    ClipData.Item item = event.getClipData().getItemAt(0);
-                    String dragData = item.getText().toString();
-                    Log.d("ACTION_DROP", "The drag data is: " + dragData);
-                    String[] dragDataSplittedByAsterisk = dragData.split("\\*");
-                    String rowIndexToMoveFromAsString = dragDataSplittedByAsterisk[0];
-                    String columnIndexToMoveFromAsString = dragDataSplittedByAsterisk[1];
-                    int rowIndexToMoveFrom = Integer.parseInt(rowIndexToMoveFromAsString);
-                    int columnIndexToMoveFrom = Integer.parseInt(columnIndexToMoveFromAsString);
-                    Tile tileToMoveFrom = tiles[rowIndexToMoveFrom][columnIndexToMoveFrom];
-
-                    ///////////////////////////////////////////////////////////////////////
-                    // TODO: with the new Map<ImageView, Tile> tilesViaImageView, no longer
-                    //  have to moveChessPiece(...) to find tileToMoveTo. Can simply
-                    //  pass tileToMoveTo into moveChessPiece(...) to use its business
-                    //  logic.
-                    moveChessPiece(tileToMoveTo, tileToMoveFrom);
-                    ///////////////////////////////////////////////////////////////////////
-
-                    tileBackgroundColor = tileToMoveTo.getBackgroundColor();
-                    if (tileBackgroundColor.equals("blue")) {
-                        imageViewToMoveTo.setBackground(getResources().getDrawable(R.drawable.tile_default_dark));
-                    } else {
-                        imageViewToMoveTo.setBackground(getResources().getDrawable(R.drawable.tile_default_light));
-                    }
-
-                    chessPieceBeingMoved = null;
-                    selectedTile = null;
-                    return true;
-                case DragEvent.ACTION_DRAG_ENDED:
-                    Log.d("MyDragEventListener", "ACTION_DRAG_ENDED");
-                    return true;
-                default:
-                    Log.e("MyDragListener", "Unknown action type received by OnDragListener.");
-                    return false;
-            }
-        }
-
-        private void moveChessPiece(Tile tileToMoveTo, Tile tileToMoveFrom) {
-            Log.d("MyDragEventListener",
-                    "ChessPiece being moved is: " + chessPieceBeingMoved.getClass().getSimpleName());
-
-            // Potential new positions (turn off green color filter)
-            Position currentPosition = new Position(selectedTile.getRowIndex(), selectedTile.getColumnIndex());
+            // Get list of potential new positions that the selected ChessPiece can move to.
+            Position currentPosition = new Position(tileToMoveFrom.getRowIndex(), tileToMoveFrom.getColumnIndex());
             List<Position> tilesPotentialNewPositions = chessPieceBeingMoved.findPotentialNewPositions(currentPosition);
             for (Position position : tilesPotentialNewPositions) {
                 int rowIndex = position.getRowIndex();
@@ -334,26 +304,140 @@ public class ChessGameFragment extends Fragment {
                     continue;
                 }
 
-                tiles[rowIndex][columnIndex].getImageView().getBackground().clearColorFilter();
+                String file = convertColumnIndexToFile(columnIndex);
+                String rank = convertRowIndexToRank(rowIndex);
+                String fileAndRankOfPotentialNewPositions = file + rank;
+                ImageView imageViewOfPotentialNewPositions = ChessGameFragment.this.getView().findViewWithTag(fileAndRankOfPotentialNewPositions);
+                imageViewOfPotentialNewPositions.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_ATOP);
             }
-//                    imageViewToMoveTo.getBackground().clearColorFilter();
-            tileToMoveTo.getImageView().invalidate();
-//            v.invalidate();
 
-            if (tileToMoveTo.getChessPiece() == null) {
-                tileToMoveTo.setChessPieceAndImageBitmap(chessPieceBeingMoved);
+            return true;
+        }
+    }
 
-                // ChessPiece was successfully moved, turn off firstMove for Pawn.
-                if (chessPieceBeingMoved instanceof Pawn && tileToMoveFrom != tileToMoveTo) {
-                    ((Pawn) chessPieceBeingMoved).setFirstMove(false);
-                }
-            } else {
-                // TODO: dropping onto ActionBar currently does NOT return ChessPiece to tileToMoveFrom.
-                Log.d("MyDragEventListener",
-                        "tileToMoveTo is already occupied with a chess piece: " + tileToMoveTo.getChessPiece().getClass().getSimpleName());
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
-                tileToMoveFrom.setChessPieceAndImageBitmap(chessPieceBeingMoved);
+    class MyDragEventListener implements View.OnDragListener {
+        @Override
+        public boolean onDrag(View v, DragEvent event) {
+            // Get tileToMoveTo using the View object from the arguments.
+            ImageView imageViewToMoveTo = (ImageView) v;
+            String fileAndRankToMoveTo = (String) imageViewToMoveTo.getTag();
+            Tile tileToMoveTo = tilesViaFileAndRank.get(fileAndRankToMoveTo);
+
+            int action = event.getAction();
+            switch (action) {
+                case DragEvent.ACTION_DRAG_STARTED:
+                    // getClipData(), getX(), getY(), and getResult() are not valid in this state.
+
+                    // do nothing
+                    return true;
+                case DragEvent.ACTION_DRAG_ENTERED:
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        if (imageViewToMoveTo.getBackground().getColorFilter() != null) {
+                            return true;
+                        }
+                    }
+
+                    String tileBackgroundColor = tileToMoveTo.getBackgroundColor();
+                    if (tileBackgroundColor.equals("blue")) {
+                        imageViewToMoveTo.setBackground(getResources().getDrawable(R.drawable.tile_highlighted_dark));
+                    } else {
+                        imageViewToMoveTo.setBackground(getResources().getDrawable(R.drawable.tile_highlighted_light));
+                    }
+                    imageViewToMoveTo.invalidate();
+                    return true;
+                case DragEvent.ACTION_DRAG_LOCATION:
+                    // ignore the event
+                    return true;
+                case DragEvent.ACTION_DRAG_EXITED:
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        if (imageViewToMoveTo.getBackground().getColorFilter() != null) {
+                            return true;
+                        }
+                    }
+
+                    tileBackgroundColor = tileToMoveTo.getBackgroundColor();
+                    if (tileBackgroundColor.equals("blue")) {
+                        imageViewToMoveTo.setBackground(getResources().getDrawable(R.drawable.tile_default_dark));
+                    } else {
+                        imageViewToMoveTo.setBackground(getResources().getDrawable(R.drawable.tile_default_light));
+                    }
+                    imageViewToMoveTo.invalidate();
+                    return true;
+                case DragEvent.ACTION_DROP:
+                    ClipData clipData = event.getClipData();
+                    Tile tileToMoveFrom = getTileToMoveFromViaClipData(clipData);
+                    // Get list of potential new positions that the selected ChessPiece can move to.
+                    Position currentPosition = new Position(tileToMoveFrom.getRowIndex(), tileToMoveFrom.getColumnIndex());
+                    List<Position> tilesPotentialNewPositions = chessPieceBeingMoved.findPotentialNewPositions(currentPosition);
+                    // Turn off green color filter for the potential new positions.
+                    for (Position position : tilesPotentialNewPositions) {
+                        int rowIndex = position.getRowIndex();
+                        int columnIndex = position.getColumnIndex();
+
+                        if (rowIndex < 0 || columnIndex < 0 ||
+                                rowIndex >= NUM_OF_ROWS || columnIndex >= NUM_OF_COLUMNS) {
+                            continue;
+                        }
+
+                        String file = convertColumnIndexToFile(columnIndex);
+                        String rank = convertRowIndexToRank(rowIndex);
+                        String fileAndRankOfPotentialNewPositions = file + rank;
+                        ImageView imageViewOfPotentialNewPositions = ChessGameFragment.this.getView().findViewWithTag(fileAndRankOfPotentialNewPositions);
+                        imageViewOfPotentialNewPositions.getBackground().clearColorFilter();
+                    }
+
+                    // TODO: MOVE CHESS PIECE (OR RETURN IT TO tileToMoveFrom),
+                    //  problematic when user releases drag shadow on action bar
+                    //  (DragEvent.ACTION_DROP does NOT get called).
+                    if (tileToMoveTo.getChessPiece() == null) {
+                        updateChessPieceAndImageBitmap(imageViewToMoveTo, fileAndRankToMoveTo, chessPieceBeingMoved);
+
+                        // ChessPiece was successfully moved, turn off firstMove for Pawn.
+                        if (chessPieceBeingMoved instanceof Pawn && tileToMoveFrom != tileToMoveTo) {
+                            ((Pawn) chessPieceBeingMoved).setFirstMove(false);
+                        }
+                    } else {
+                        Log.d("MyDragEventListener",
+                                "tileToMoveTo is already occupied with a chess piece: " + tileToMoveTo.getChessPiece().getClass().getSimpleName());
+
+                        ClipData.Item item = clipData.getItemAt(0);
+                        String fileAndRankToMoveFrom = item.getText().toString();
+                        ImageView imageViewToMoveFrom = ChessGameFragment.this.getView().findViewWithTag(fileAndRankToMoveFrom);
+
+                        updateChessPieceAndImageBitmap(imageViewToMoveFrom, fileAndRankToMoveFrom, chessPieceBeingMoved);
+                    }
+                    ///////////////////////////////////////////////////////////////////////
+
+                    tileBackgroundColor = tileToMoveTo.getBackgroundColor();
+                    if (tileBackgroundColor.equals("blue")) {
+                        imageViewToMoveTo.setBackground(getResources().getDrawable(R.drawable.tile_default_dark));
+                    } else {
+                        imageViewToMoveTo.setBackground(getResources().getDrawable(R.drawable.tile_default_light));
+                    }
+
+                    chessPieceBeingMoved = null;
+                    return true;
+                case DragEvent.ACTION_DRAG_ENDED:
+                    Log.d("MyDragEventListener", "ACTION_DRAG_ENDED");
+                    return true;
+                default:
+                    Log.e("MyDragEventListener", "Unknown action type received by OnDragListener.");
+                    return false;
             }
+        }
+
+        /**
+         * Get tileToMoveFrom via the drag data.
+         * @param clipData contains the fileAndRank (as a String) of the selected tile.
+         * @return the tile that we're moving from.
+         */
+        private Tile getTileToMoveFromViaClipData(ClipData clipData) {
+            ClipData.Item item = clipData.getItemAt(0);
+            String fileAndRankToMoveFrom = item.getText().toString();
+            Tile tileToMoveFrom = tilesViaFileAndRank.get(fileAndRankToMoveFrom);
+            return tileToMoveFrom;
         }
     }
 
