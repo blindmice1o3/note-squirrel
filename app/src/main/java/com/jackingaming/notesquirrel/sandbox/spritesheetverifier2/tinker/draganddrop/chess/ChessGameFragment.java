@@ -114,10 +114,11 @@ public class ChessGameFragment extends Fragment {
         return view;
     }
 
-    private void updateChessPieceAndImageBitmap(ImageView imageView, String fileAndRank, ChessPiece chessPiece) {
+    private void updateChessPieceAndImageBitmap(String fileAndRank, ChessPiece chessPiece) {
         Tile tile = tilesViaFileAndRank.get(fileAndRank);
         tile.setChessPiece(chessPiece);
 
+        ImageView imageView = (ImageView) getView().findViewWithTag(fileAndRank);
         if (chessPiece != null) {
             imageView.setImageBitmap(chessPiece.getImage());
         } else {
@@ -142,36 +143,30 @@ public class ChessGameFragment extends Fragment {
             String fileAndRankPawnLight = file + rankPawnLight;
 
             ChessPiece pawnDark = new Pawn(ChessPiece.Color.DARK);
-            ImageView imageViewPawnDark = view.findViewWithTag(fileAndRankPawnDark);
-            updateChessPieceAndImageBitmap(imageViewPawnDark, fileAndRankPawnDark, pawnDark);
+            updateChessPieceAndImageBitmap(fileAndRankPawnDark, pawnDark);
 
             ChessPiece pawnLight = new Pawn(ChessPiece.Color.LIGHT);
-            ImageView imageViewPawnLight = view.findViewWithTag(fileAndRankPawnLight);
-            updateChessPieceAndImageBitmap(imageViewPawnLight, fileAndRankPawnLight, pawnLight);
+            updateChessPieceAndImageBitmap(fileAndRankPawnLight, pawnLight);
         }
         // PAWNS (testing - opposite ends of the board)
         String rankPawnDarkOppositeEnd = convertRowIndexToRank(7);
         String fileAndRankPawnDarkOppositeEnd = convertColumnIndexToFile(7) + rankPawnDarkOppositeEnd;
-        ImageView imageViewPawnDarkOppositeEnd = view.findViewWithTag(fileAndRankPawnDarkOppositeEnd);
 
         String rankPawnLightOppositeEnd = convertRowIndexToRank(0);
         String fileAndRankPawnLightOppositeEnd = convertColumnIndexToFile(7) + rankPawnLightOppositeEnd;
-        ImageView imageViewPawnLightOppositeEnd = view.findViewWithTag(fileAndRankPawnLightOppositeEnd);
 
-        updateChessPieceAndImageBitmap(imageViewPawnDarkOppositeEnd, fileAndRankPawnDarkOppositeEnd, new Pawn(ChessPiece.Color.DARK));
-        updateChessPieceAndImageBitmap(imageViewPawnLightOppositeEnd, fileAndRankPawnLightOppositeEnd, new Pawn(ChessPiece.Color.LIGHT));
+        updateChessPieceAndImageBitmap(fileAndRankPawnDarkOppositeEnd, new Pawn(ChessPiece.Color.DARK));
+        updateChessPieceAndImageBitmap(fileAndRankPawnLightOppositeEnd, new Pawn(ChessPiece.Color.LIGHT));
 
         // KINGS
         String rankKingDark = convertRowIndexToRank(0);
         String fileAndRankKingDark = convertColumnIndexToFile(4) + rankKingDark;
-        ImageView imageViewKingDark = view.findViewWithTag(fileAndRankKingDark);
 
         String rankKingLight = convertRowIndexToRank(7);
         String fileAndRankKingLight = convertColumnIndexToFile(4) + rankKingLight;
-        ImageView imageViewKingLight = view.findViewWithTag(fileAndRankKingLight);
 
-        updateChessPieceAndImageBitmap(imageViewKingDark, fileAndRankKingDark, new King(ChessPiece.Color.DARK));
-        updateChessPieceAndImageBitmap(imageViewKingLight, fileAndRankKingLight, new King(ChessPiece.Color.LIGHT));
+        updateChessPieceAndImageBitmap(fileAndRankKingDark, new King(ChessPiece.Color.DARK));
+        updateChessPieceAndImageBitmap(fileAndRankKingLight, new King(ChessPiece.Color.LIGHT));
     }
 
     private String convertColumnIndexToFile(int columnIndex) {
@@ -289,7 +284,7 @@ public class ChessGameFragment extends Fragment {
             // TODO: potentially wrong logic (not all drag events are successfully dropped)...
             //  in which case, return the token to the tile that started the drag/drop operation.
             chessPieceBeingMoved = tileToMoveFrom.getChessPiece();
-            updateChessPieceAndImageBitmap(imageView, fileAndRank, null);
+            updateChessPieceAndImageBitmap(fileAndRank, null);
             ////////////////////////////////////////////////////////////////////
 
             // Get list of potential new positions that the selected ChessPiece can move to.
@@ -392,7 +387,7 @@ public class ChessGameFragment extends Fragment {
                     //  problematic when user releases drag shadow on action bar
                     //  (DragEvent.ACTION_DROP does NOT get called).
                     if (tileToMoveTo.getChessPiece() == null) {
-                        updateChessPieceAndImageBitmap(imageViewToMoveTo, fileAndRankToMoveTo, chessPieceBeingMoved);
+                        updateChessPieceAndImageBitmap(fileAndRankToMoveTo, chessPieceBeingMoved);
 
                         // ChessPiece was successfully moved, turn off firstMove for Pawn.
                         if (chessPieceBeingMoved instanceof Pawn && tileToMoveFrom != tileToMoveTo) {
@@ -404,9 +399,8 @@ public class ChessGameFragment extends Fragment {
 
                         ClipData.Item item = clipData.getItemAt(0);
                         String fileAndRankToMoveFrom = item.getText().toString();
-                        ImageView imageViewToMoveFrom = ChessGameFragment.this.getView().findViewWithTag(fileAndRankToMoveFrom);
 
-                        updateChessPieceAndImageBitmap(imageViewToMoveFrom, fileAndRankToMoveFrom, chessPieceBeingMoved);
+                        updateChessPieceAndImageBitmap(fileAndRankToMoveFrom, chessPieceBeingMoved);
                     }
                     ///////////////////////////////////////////////////////////////////////
 
