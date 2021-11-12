@@ -246,9 +246,9 @@ public class ChessGameFragment extends Fragment {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             // Get tileToMoveFrom using the View object from the arguments.
-            ImageView imageView = (ImageView) v;
-            String fileAndRank = (String) imageView.getTag();
-            Tile tileToMoveFrom = tilesViaFileAndRank.get(fileAndRank);
+            ImageView imageViewToMoveFrom = (ImageView) v;
+            String fileAndRankToMoveFrom = (String) imageViewToMoveFrom.getTag();
+            Tile tileToMoveFrom = tilesViaFileAndRank.get(fileAndRankToMoveFrom);
 
             // Do not start a drag/drop operation for tiles without a chess piece.
             if (tileToMoveFrom.getChessPiece() == null) {
@@ -258,17 +258,17 @@ public class ChessGameFragment extends Fragment {
 
             // ***** Tile has a chess piece *****
             Log.d("DragStartListener", "tileToMoveFrom.getChessPiece() is: " + tileToMoveFrom.getChessPiece().getClass().getSimpleName());
-            Log.d("DragStartListener", "fileAndRank: " + fileAndRank);
-            ClipData.Item item = new ClipData.Item(fileAndRank);
+            Log.d("DragStartListener", "fileAndRankToMoveFrom: " + fileAndRankToMoveFrom);
+            ClipData.Item item = new ClipData.Item(fileAndRankToMoveFrom);
 
             ClipData dragData = new ClipData(
-                    fileAndRank,
+                    fileAndRankToMoveFrom,
                     new String[]{ClipDescription.MIMETYPE_TEXT_PLAIN},
                     item
             );
 
             // Using default drag shadow instead of MyDragShadowBuilder
-            View.DragShadowBuilder myShadow = new View.DragShadowBuilder(imageView);
+            View.DragShadowBuilder myShadow = new View.DragShadowBuilder(imageViewToMoveFrom);
 
             v.startDragAndDrop(
                     dragData,           // the data to be dragged
@@ -284,7 +284,17 @@ public class ChessGameFragment extends Fragment {
             // TODO: potentially wrong logic (not all drag events are successfully dropped)...
             //  in which case, return the token to the tile that started the drag/drop operation.
             chessPieceBeingMoved = tileToMoveFrom.getChessPiece();
-            updateChessPieceAndImageBitmap(fileAndRank, null);
+            updateChessPieceAndImageBitmap(fileAndRankToMoveFrom, null);
+
+            /*
+            String tileBackgroundColor = tileToMoveTo.getBackgroundColor();
+                    if (tileBackgroundColor.equals("blue")) {
+                        imageViewToMoveTo.setBackground(getResources().getDrawable(R.drawable.tile_highlighted_dark));
+                    } else {
+                        imageViewToMoveTo.setBackground(getResources().getDrawable(R.drawable.tile_highlighted_light));
+                    }
+                    imageViewToMoveTo.invalidate();
+             */
             ////////////////////////////////////////////////////////////////////
 
             // Get list of potential new positions that the selected ChessPiece can move to.
@@ -386,7 +396,9 @@ public class ChessGameFragment extends Fragment {
                     // TODO: MOVE CHESS PIECE (OR RETURN IT TO tileToMoveFrom),
                     //  problematic when user releases drag shadow on action bar
                     //  (DragEvent.ACTION_DROP does NOT get called).
-                    if (tileToMoveTo.getChessPiece() == null) {
+                    Position positionToMoveTo = new Position(tileToMoveTo.getRowIndex(), tileToMoveTo.getColumnIndex());
+                    if (tileToMoveTo.getChessPiece() == null &&
+                            tilesPotentialNewPositions.contains(positionToMoveTo)) {
                         updateChessPieceAndImageBitmap(fileAndRankToMoveTo, chessPieceBeingMoved);
 
                         // ChessPiece was successfully moved, turn off firstMove for Pawn.
@@ -394,13 +406,17 @@ public class ChessGameFragment extends Fragment {
                             ((Pawn) chessPieceBeingMoved).setFirstMove(false);
                         }
                     } else {
-                        Log.d("MyDragEventListener",
-                                "tileToMoveTo is already occupied with a chess piece: " + tileToMoveTo.getChessPiece().getClass().getSimpleName());
+                        if (tileToMoveFrom.getChessPiece() != null) {
+                            Log.d("MyDragEventListener",
+                                    "tileToMoveTo is already occupied with a chess piece: " + tileToMoveTo.getChessPiece().getClass().getSimpleName());
+                        }
 
                         ClipData.Item item = clipData.getItemAt(0);
                         String fileAndRankToMoveFrom = item.getText().toString();
 
                         updateChessPieceAndImageBitmap(fileAndRankToMoveFrom, chessPieceBeingMoved);
+                        Log.d("MyDragEventListener",
+                                "moving back to: " + fileAndRankToMoveFrom);
                     }
                     ///////////////////////////////////////////////////////////////////////
 
@@ -410,6 +426,7 @@ public class ChessGameFragment extends Fragment {
                     } else {
                         imageViewToMoveTo.setBackground(getResources().getDrawable(R.drawable.tile_default_light));
                     }
+                    imageViewToMoveTo.invalidate();
 
                     chessPieceBeingMoved = null;
                     return true;
