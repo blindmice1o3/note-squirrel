@@ -3,9 +3,7 @@ package com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.tinker.dragan
 import android.graphics.Bitmap;
 
 import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.tinker.draganddrop.chess.board.Position;
-import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.tinker.draganddrop.chess.board.Tile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ChessPiece {
@@ -21,23 +19,6 @@ public abstract class ChessPiece {
     }
 
     public abstract List<Position> findPotentialNewPositions(Position currentPosition);
-//    public abstract boolean isLegalMove(int potentialRowIndex, int potentialColumnIndex);
-
-    /*
-    public List<Tile> findPotentialNewPositions(Tile currentPosition, Tile[][] tiles) {
-        List<Tile> potentialNewPositions = new ArrayList<Tile>();
-
-        for (int rowIndex = 0; rowIndex < tiles.length; rowIndex++) {
-            for (int columnIndex = 0; columnIndex < tiles[rowIndex].length; columnIndex++) {
-                if (isLegalMove(rowIndex, columnIndex)) {
-                    potentialNewPositions.add(tiles[rowIndex][columnIndex]);
-                }
-            }
-        }
-
-        return potentialNewPositions;
-    }
-     */
 
     public Color getColor() {
         return color;

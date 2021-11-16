@@ -34,10 +34,15 @@ public class Position {
 
         // Typecast to Position we can compare data members.
         Position newPosition = (Position) obj;
-        boolean isRowIndexEqual = (rowIndex == newPosition.getRowIndex());
-        boolean isColumnIndexEqual = (columnIndex == newPosition.getColumnIndex());
+        boolean areRowIndexesEqual = (rowIndex == newPosition.getRowIndex());
+        boolean areColumnIndexesEqual = (columnIndex == newPosition.getColumnIndex());
 
         // Compare the data members and return accordingly.
-        return (isRowIndexEqual && isColumnIndexEqual);
+        return (areRowIndexesEqual && areColumnIndexesEqual);
+    }
+
+    @Override
+    public int hashCode() {
+        return (rowIndex + columnIndex);
     }
 }

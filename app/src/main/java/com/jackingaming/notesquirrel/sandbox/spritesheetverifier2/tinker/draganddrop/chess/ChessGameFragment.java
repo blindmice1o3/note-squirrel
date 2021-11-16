@@ -27,7 +27,9 @@ import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.tinker.dragand
 import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.tinker.draganddrop.chess.resources.Assets;
 import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.tinker.draganddrop.chess.tokens.ChessPiece;
 import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.tinker.draganddrop.chess.tokens.King;
+import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.tinker.draganddrop.chess.tokens.Knight;
 import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.tinker.draganddrop.chess.tokens.Pawn;
+import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.tinker.draganddrop.chess.tokens.Rook;
 
 import java.util.HashMap;
 import java.util.List;
@@ -114,19 +116,6 @@ public class ChessGameFragment extends Fragment {
         return view;
     }
 
-    private void updateChessPieceAndImageBitmap(String fileAndRank, ChessPiece chessPiece) {
-        Tile tile = tilesViaFileAndRank.get(fileAndRank);
-        tile.setChessPiece(chessPiece);
-
-        ImageView imageView = (ImageView) getView().findViewWithTag(fileAndRank);
-        if (chessPiece != null) {
-            imageView.setImageBitmap(chessPiece.getImage());
-        } else {
-            imageView.setImageBitmap(null);
-        }
-        imageView.invalidate();
-    }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -134,6 +123,12 @@ public class ChessGameFragment extends Fragment {
         // Images for ChessPiece subclasses.
         Assets.init(getResources());
 
+        ////////////////////////////////
+        initChessPiecesAndPlaceOnTile();
+        ////////////////////////////////
+    }
+
+    private void initChessPiecesAndPlaceOnTile() {
         // PAWNS
         for (int columnIndex = 0; columnIndex < NUM_OF_COLUMNS; columnIndex++) {
             String file = convertColumnIndexToFile(columnIndex);
@@ -148,15 +143,6 @@ public class ChessGameFragment extends Fragment {
             ChessPiece pawnLight = new Pawn(ChessPiece.Color.LIGHT);
             updateChessPieceAndImageBitmap(fileAndRankPawnLight, pawnLight);
         }
-        // PAWNS (testing - opposite ends of the board)
-        String rankPawnDarkOppositeEnd = convertRowIndexToRank(7);
-        String fileAndRankPawnDarkOppositeEnd = convertColumnIndexToFile(7) + rankPawnDarkOppositeEnd;
-
-        String rankPawnLightOppositeEnd = convertRowIndexToRank(0);
-        String fileAndRankPawnLightOppositeEnd = convertColumnIndexToFile(7) + rankPawnLightOppositeEnd;
-
-        updateChessPieceAndImageBitmap(fileAndRankPawnDarkOppositeEnd, new Pawn(ChessPiece.Color.DARK));
-        updateChessPieceAndImageBitmap(fileAndRankPawnLightOppositeEnd, new Pawn(ChessPiece.Color.LIGHT));
 
         // KINGS
         String rankKingDark = convertRowIndexToRank(0);
@@ -167,6 +153,51 @@ public class ChessGameFragment extends Fragment {
 
         updateChessPieceAndImageBitmap(fileAndRankKingDark, new King(ChessPiece.Color.DARK));
         updateChessPieceAndImageBitmap(fileAndRankKingLight, new King(ChessPiece.Color.LIGHT));
+
+        // ROOKS
+        String rankRookDark1 = convertRowIndexToRank(0);
+        String fileAndRankRookDark1 = convertColumnIndexToFile(0) + rankRookDark1;
+        String rankRookDark2 = convertRowIndexToRank(0);
+        String fileAndRankRookDark2 = convertColumnIndexToFile(7) + rankRookDark2;
+
+        String rankRookLight1 = convertRowIndexToRank(7);
+        String fileAndRankRookLight1 = convertColumnIndexToFile(0) + rankRookLight1;
+        String rankRookLight2 = convertRowIndexToRank(7);
+        String fileAndRankRookLight2 = convertColumnIndexToFile(7) + rankRookLight2;
+
+        updateChessPieceAndImageBitmap(fileAndRankRookDark1, new Rook(ChessPiece.Color.DARK));
+        updateChessPieceAndImageBitmap(fileAndRankRookDark2, new Rook(ChessPiece.Color.DARK));
+        updateChessPieceAndImageBitmap(fileAndRankRookLight1, new Rook(ChessPiece.Color.LIGHT));
+        updateChessPieceAndImageBitmap(fileAndRankRookLight2, new Rook(ChessPiece.Color.LIGHT));
+
+        // KNIGHT
+        String rankKnightDark1 = convertRowIndexToRank(0);
+        String fileAndRankKnightDark1 = convertColumnIndexToFile(1) + rankKnightDark1;
+        String rankKnightDark2 = convertRowIndexToRank(0);
+        String fileAndRankKnightDark2 = convertColumnIndexToFile(6) + rankKnightDark2;
+
+        String rankKnightLight1 = convertRowIndexToRank(7);
+        String fileAndRankKnightLight1 = convertColumnIndexToFile(1) + rankKnightLight1;
+        String rankKnightLight2 = convertRowIndexToRank(7);
+        String fileAndRankKnightLight2 = convertColumnIndexToFile(6) + rankKnightLight2;
+
+        updateChessPieceAndImageBitmap(fileAndRankKnightDark1, new Knight(ChessPiece.Color.DARK));
+        updateChessPieceAndImageBitmap(fileAndRankKnightDark2, new Knight(ChessPiece.Color.DARK));
+        updateChessPieceAndImageBitmap(fileAndRankKnightLight1, new Knight(ChessPiece.Color.LIGHT));
+        updateChessPieceAndImageBitmap(fileAndRankKnightLight2, new Knight(ChessPiece.Color.LIGHT));
+    }
+
+    private void updateChessPieceAndImageBitmap(String fileAndRank, ChessPiece chessPiece) {
+        Tile tile = tilesViaFileAndRank.get(fileAndRank);
+        tile.setChessPiece(chessPiece);
+
+        ImageView imageView = (ImageView) getView().findViewWithTag(fileAndRank);
+        if (chessPiece != null) {
+            imageView.setImageBitmap(chessPiece.getImage());
+        } else {
+            imageView.setImageBitmap(null);
+        }
+        imageView.invalidate();
     }
 
     private String convertColumnIndexToFile(int columnIndex) {
@@ -372,7 +403,7 @@ public class ChessGameFragment extends Fragment {
                     return true;
                 case DragEvent.ACTION_DROP:
                     ClipData clipData = event.getClipData();
-                    Tile tileToMoveFrom = getTileToMoveFromViaClipData(clipData);
+                    Tile tileToMoveFrom = determineTileToMoveFromViaClipData(clipData);
                     // Get list of potential new positions that the selected ChessPiece can move to.
                     Position currentPosition = new Position(tileToMoveFrom.getRowIndex(), tileToMoveFrom.getColumnIndex());
                     List<Position> tilesPotentialNewPositions = chessPieceBeingMoved.findPotentialNewPositions(currentPosition);
@@ -444,7 +475,7 @@ public class ChessGameFragment extends Fragment {
          * @param clipData contains the fileAndRank (as a String) of the selected tile.
          * @return the tile that we're moving from.
          */
-        private Tile getTileToMoveFromViaClipData(ClipData clipData) {
+        private Tile determineTileToMoveFromViaClipData(ClipData clipData) {
             ClipData.Item item = clipData.getItemAt(0);
             String fileAndRankToMoveFrom = item.getText().toString();
             Tile tileToMoveFrom = tilesViaFileAndRank.get(fileAndRankToMoveFrom);
