@@ -25,10 +25,12 @@ import com.jackingaming.notesquirrel.R;
 import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.tinker.draganddrop.chess.board.Position;
 import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.tinker.draganddrop.chess.board.Tile;
 import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.tinker.draganddrop.chess.resources.Assets;
+import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.tinker.draganddrop.chess.tokens.Bishop;
 import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.tinker.draganddrop.chess.tokens.ChessPiece;
 import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.tinker.draganddrop.chess.tokens.King;
 import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.tinker.draganddrop.chess.tokens.Knight;
 import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.tinker.draganddrop.chess.tokens.Pawn;
+import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.tinker.draganddrop.chess.tokens.Queen;
 import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.tinker.draganddrop.chess.tokens.Rook;
 
 import java.util.HashMap;
@@ -144,16 +146,6 @@ public class ChessGameFragment extends Fragment {
             updateChessPieceAndImageBitmap(fileAndRankPawnLight, pawnLight);
         }
 
-        // KINGS
-        String rankKingDark = convertRowIndexToRank(0);
-        String fileAndRankKingDark = convertColumnIndexToFile(4) + rankKingDark;
-
-        String rankKingLight = convertRowIndexToRank(7);
-        String fileAndRankKingLight = convertColumnIndexToFile(4) + rankKingLight;
-
-        updateChessPieceAndImageBitmap(fileAndRankKingDark, new King(ChessPiece.Color.DARK));
-        updateChessPieceAndImageBitmap(fileAndRankKingLight, new King(ChessPiece.Color.LIGHT));
-
         // ROOKS
         String rankRookDark1 = convertRowIndexToRank(0);
         String fileAndRankRookDark1 = convertColumnIndexToFile(0) + rankRookDark1;
@@ -170,7 +162,7 @@ public class ChessGameFragment extends Fragment {
         updateChessPieceAndImageBitmap(fileAndRankRookLight1, new Rook(ChessPiece.Color.LIGHT));
         updateChessPieceAndImageBitmap(fileAndRankRookLight2, new Rook(ChessPiece.Color.LIGHT));
 
-        // KNIGHT
+        // KNIGHTS
         String rankKnightDark1 = convertRowIndexToRank(0);
         String fileAndRankKnightDark1 = convertColumnIndexToFile(1) + rankKnightDark1;
         String rankKnightDark2 = convertRowIndexToRank(0);
@@ -185,6 +177,42 @@ public class ChessGameFragment extends Fragment {
         updateChessPieceAndImageBitmap(fileAndRankKnightDark2, new Knight(ChessPiece.Color.DARK));
         updateChessPieceAndImageBitmap(fileAndRankKnightLight1, new Knight(ChessPiece.Color.LIGHT));
         updateChessPieceAndImageBitmap(fileAndRankKnightLight2, new Knight(ChessPiece.Color.LIGHT));
+
+        // BISHOPS
+        String rankBishopDark1 = convertRowIndexToRank(0);
+        String fileAndRankBishopDark1 = convertColumnIndexToFile(2) + rankBishopDark1;
+        String rankBishopDark2 = convertRowIndexToRank(0);
+        String fileAndRankBishopDark2 = convertColumnIndexToFile(5) + rankBishopDark2;
+
+        String rankBishopLight1 = convertRowIndexToRank(7);
+        String fileAndRankBishopLight1 = convertColumnIndexToFile(2) + rankBishopLight1;
+        String rankBishopLight2 = convertRowIndexToRank(7);
+        String fileAndRankBishopLight2 = convertColumnIndexToFile(5) + rankBishopLight2;
+
+        updateChessPieceAndImageBitmap(fileAndRankBishopDark1, new Bishop(ChessPiece.Color.DARK));
+        updateChessPieceAndImageBitmap(fileAndRankBishopDark2, new Bishop(ChessPiece.Color.DARK));
+        updateChessPieceAndImageBitmap(fileAndRankBishopLight1, new Bishop(ChessPiece.Color.LIGHT));
+        updateChessPieceAndImageBitmap(fileAndRankBishopLight2, new Bishop(ChessPiece.Color.LIGHT));
+
+        // QUEENS
+        String rankQueenDark = convertRowIndexToRank(0);
+        String fileAndRankQueenDark = convertColumnIndexToFile(3) + rankQueenDark;
+
+        String rankQueenLight = convertRowIndexToRank(7);
+        String fileAndRankQueenLight = convertColumnIndexToFile(3) + rankQueenLight;
+
+        updateChessPieceAndImageBitmap(fileAndRankQueenDark, new Queen(ChessPiece.Color.DARK));
+        updateChessPieceAndImageBitmap(fileAndRankQueenLight, new Queen(ChessPiece.Color.LIGHT));
+
+        // KINGS
+        String rankKingDark = convertRowIndexToRank(0);
+        String fileAndRankKingDark = convertColumnIndexToFile(4) + rankKingDark;
+
+        String rankKingLight = convertRowIndexToRank(7);
+        String fileAndRankKingLight = convertColumnIndexToFile(4) + rankKingLight;
+
+        updateChessPieceAndImageBitmap(fileAndRankKingDark, new King(ChessPiece.Color.DARK));
+        updateChessPieceAndImageBitmap(fileAndRankKingLight, new King(ChessPiece.Color.LIGHT));
     }
 
     private void updateChessPieceAndImageBitmap(String fileAndRank, ChessPiece chessPiece) {

@@ -6,12 +6,11 @@ import com.jackingaming.notesquirrel.sandbox.spritesheetverifier2.tinker.dragand
 import java.util.ArrayList;
 import java.util.List;
 
-public class Rook extends ChessPiece {
-
-    public Rook(Color color) {
+public class Queen extends ChessPiece {
+    public Queen(Color color) {
         super(color);
 
-        image = (color == Color.LIGHT) ? Assets.spriteRookLight : Assets.spriteRookDark;
+        image = (color == Color.LIGHT) ? Assets.spriteQueenLight : Assets.spriteQueenDark;
     }
 
     @Override
@@ -29,6 +28,15 @@ public class Rook extends ChessPiece {
             potentialNewPositions.add(left);
             Position right = new Position(currentRowIndex, currentColumnIndex + i);
             potentialNewPositions.add(right);
+
+            Position upLeft = new Position(currentRowIndex - i, currentColumnIndex - i);
+            potentialNewPositions.add(upLeft);
+            Position upRight = new Position(currentRowIndex - i, currentColumnIndex + i);
+            potentialNewPositions.add(upRight);
+            Position downLeft = new Position(currentRowIndex + i, currentColumnIndex - i);
+            potentialNewPositions.add(downLeft);
+            Position downRight = new Position(currentRowIndex + i, currentColumnIndex + i);
+            potentialNewPositions.add(downRight);
         }
 
         return potentialNewPositions;
