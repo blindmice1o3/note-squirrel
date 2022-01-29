@@ -77,6 +77,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        String successMessage = "note/squirrel (hp edition!!!)";
+        testHpEditionAsContent(successMessage);
+    }
+
+    private void testHpEditionAsContent(String successMessage) {
+        EditText editText = (EditText) findViewById(R.id.text);
+        editText.setText(successMessage);
+    }
+
     private void loadSavedFile() {
         try {
             FileInputStream fis = (FileInputStream) openFileInput(TEXT_FILE);
